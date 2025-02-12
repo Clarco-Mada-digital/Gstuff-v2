@@ -1,2 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import "tailwindcss";
 @source "../views";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-dm: "DM+Sans", sans-serif;
+  --font-dm-serif: "DM+Sans display", serif;
+}
+@layer components {
+  .btn-gs-gradient {
+    background: linear-gradient(244deg, #D0AC2B 0.54%, #F5DC82 30.58%, #FFEDAD 48.71%, #F5DC82 66.85%, #D0AC2B 100%);
+    padding: 10px;
+    border-radius: 20px;
+  }
+}
