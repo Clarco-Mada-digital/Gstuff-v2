@@ -41,16 +41,13 @@
             <div id="mega-menu-full" class="items-center m-auto lg:m-0 justify-between font-medium hidden w-full order-1 xl:flex xl:w-auto">
                 <ul class="flex flex-col p-4 xl:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 xl:bg-white dark:bg-gray-800 xl:dark:bg-gray-900 dark:border-gray-700">
                     <li>
-                      <a href="#" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escorte <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <a href="#" id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escorte <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                         </svg>
                       </a>
                     </li>
                     <li>
-                      <button id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm xl:w-auto hover:bg-gray-100 xl:hover:bg-transparent xl:border-0 xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Salon <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                          </svg>
-                      </button>
+                      <a href="#" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm xl:w-auto hover:bg-gray-100 xl:hover:bg-transparent xl:border-0 xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Salon </a>
                     </li>
                     <li>
                         <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">A propos</a>
@@ -132,48 +129,41 @@
         </div>
 
         {{-- Mega menu items --}}
-        <div id="mega-menu-full-dropdown" class="mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y hidden dark:bg-gray-800 dark:border-gray-600">
-            <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
-                <ul>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Online Stores</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Segmentation</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Marketing CRM</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Online Stores</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Segmentation</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Marketing CRM</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with third-party tools that you're already using.</span>
-                        </a>
-                    </li>
-                </ul>
+        <div id="mega-menu-full-dropdown" class="mt-1 shadow-xs bg-[#05595B] hidden">
+            <div class="flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
+              <div class="flex flex-col">
+                <h2 class="font-dm-serif font-bold text-2xl my-6">Service</h2>
+                <div class="grid grid-cols-2 gap-3 text-black">
+                  @foreach (['Escorte', 'Masseuse', 'Dominatrice', 'Trans'] as $item)
+                  <a href="#" class="flex items-center justify-center gap-1 z-10">
+                    <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md">
+                      <img src="icons/{{$item}}_icon.svg" alt="icon trans presentation" srcset="icon trans">
+                      <span>{{$item}}</span>
+                    </div>
+                  </a>
+                  @endforeach
+                </div>
+              </div>
+              <div class="flex flex-col gap-6">
+                <div class="border-l border-gray-500 px-4">
+                  <h2 class="font-dm-serif font-bold text-2xl my-6">Orientation</h2>
+                  <div class="flex">
+                    <span class="p-2 border border-gray-400 rounded-lg">Homme</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Femme</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Trans</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Gay</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Lesbienne</span>
+                  </div>
+                </div>
+                <div class="px-4">
+                  <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
+                  <div class="flex">
+                    <span class="p-2 border border-gray-400 rounded-lg">Vaud</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Jura</span>
+                    <span class="p-2 border border-gray-400 rounded-lg">Zurich</span>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
       </nav>
@@ -218,11 +208,14 @@
               <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</a>
           </li>
         </ul>
-        <dev class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+        <div class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-800 font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
             @foreach ([1,2,3,4] as $item)
-            <div class="flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+              <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-gray-300 m-2 text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
               <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
                   <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
               </a>
@@ -231,17 +224,27 @@
                       <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
                       <div class="w-2 h-2 rounded-full bg-green-600"></div>
                   </a>
-                  <p class="font-normal text-gray-700 dark:text-gray-400">Suisse Allemanique</p>
+                  <p class="font-normal text-gray-700 dark:text-gray-400">
+                    <span>
+                    Suisse Allemanique
+                    </span>
+                    <span>
+                    | Genève
+                    </span>
+                  </p>
               </div>
             </div>
             @endforeach
           </div>
-        </dev>
-        <dev class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+        </div>
+        <div class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-800 font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
           <div class="w-[90%] grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
             @foreach ([1,2,3,4] as $item)
-            <div class="flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+              <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-gray-300 m-2 text-yellow-600 z-0">
+                <svg class="z-10" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
               <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
                   <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
               </a>
@@ -259,7 +262,7 @@
             <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-blue-800">Tout voir <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
             </a>
           </div>
-        </dev>
+        </div>
 
       </div>
       <div class="relative flex flex-col items-center justify-center py-10 w-full" style="background: url('images/girl_deco_image.jpg') center center /cover">
