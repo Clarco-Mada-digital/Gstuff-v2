@@ -21,11 +21,12 @@
 
     </head>
     <body class="antialiased font-dm text-base font-normal">
+
       {{-- header --}}
       <nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="#" class="flex items-center space-x-3">
-                <img src="images/Logo_lg.svg" alt="Gstuff Logo" />
+                <img class="w-24 lg:w-44" src="images/Logo_lg.svg" alt="Gstuff Logo" />
             </a>
 
             {{-- Btn humberger for mobile --}}
@@ -178,13 +179,13 @@
       </nav>
 
       {{-- Hero content --}}
-      <div class="relative flex items-center justify-center flex-col gap-8 w-full py-20 lg:h-[418px] bg-no-repeat bg-center bg-cover bg-[url('https://s3-alpha-sig.figma.com/img/4535/417b/fbe91fa4c63af1406f9401104fa38771?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=FxBkyJQrJ90VMnabvOtQ0rP3cmgzg~kNBHb8621KVWF2vDP23-2celxa-hwk9KphRKC6lUYMYtwRqOPFy3cXhDzfAlJjtT9y1yvxZLcOR-DNNg-5YUmTZYIux2MJXu3~Yi8QQizQuEC98nqdAx31vYDWZQts-8h9QYVR4vlSbk-W3~LaAxCN1z9TtPkvm0sVFHAsVpGCSY5BtC18fU6Oz4D8~k~zKSOldt8poyGpzczTLRQYoxWlibkp8VgYZJ5MuIWTG4YFoAcN7neinfsad7jufseofSzHQspkLZRjTkdkDYdk3n5q0dtvnwjeoDPXYa2~oxls-Ywwwp5BfqGL3g__')] ">
+      <div class="relative flex items-center justify-center flex-col gap-8 w-full px-3 py-20 lg:h-[418px] bg-no-repeat" style="background: url('images/Hero image.jpeg') center center /cover;">
         <div class="w-full h-full z-0 absolute inset-0 to-0% right-0% bg-[#05595B]/74"></div>
         <div class="flex items-center justify-center flex-col z-10">
           <h2 class="lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-dm-serif">Rencontres élégantes et discrètes en Suisse</h2>
         </div>
         <div class="flex flex-col lg:flex-row gap-2 text-black">
-          @foreach (['Escorte', 'Masseuse', 'Dominatrice BDSM', 'Trans'] as $item)
+          @foreach (['Escorte', 'Masseuse', 'Dominatrice', 'Trans'] as $item)
           <a href="#" class="flex items-center justify-center gap-1 z-10">
             <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md">
               <img src="icons/{{$item}}_icon.svg" alt="icon trans presentation" srcset="icon trans">
@@ -205,40 +206,136 @@
         <div class="sm:hidden m-4">
           <label for="tabs" class="sr-only">Select salon or escorte</label>
           <select id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option>Escorte</option>
-              <option>Salon</option>
+              <option>Top escortes du jour</option>
+              <option>Les Salons</option>
           </select>
         </div>
         <ul class="hidden w-[50%] text-sm font-medium text-center text-gray-500 rounded-lg shadow-sm sm:flex sm:m-auto dark:divide-gray-700 dark:text-gray-400">
           <li class="w-full focus-within:z-10">
-              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base text-gray-900 font-bold rounded-none btn-gs-gradient border-r border-yellow-200 dark:border-gray-700 rounded-s-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">Top escortes du jour</a>
+              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base text-gray-900 font-bold rounded-none btn-gs-gradient border-r border-yellow-200 dark:border-gray-700 rounded-s-lg active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">Top escortes du jour</a>
           </li>
           <li class="w-full focus-within:z-10">
-              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</a>
+              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</a>
           </li>
         </ul>
-        <div class="w-[90%] grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
-          @foreach ([1,2,3,4, 5] as $item)
-          <div class="flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
-                <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
-            </a>
-            <div class="flex flex-col gap-2 mt-4">
-                <a class="flex items-center gap-1" href="#">
-                    <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
-                    <div class="w-2 h-2 rounded-full bg-green-600"></div>
-                </a>
-                <p class="font-normal text-gray-700 dark:text-gray-400">Suisse Allemanique</p>
+        <dev class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+          <h3 class="font-dm-serif text-green-800 font-bold text-4xl text-center">Nos nouvelles escortes</h3>
+          <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
+            @foreach ([1,2,3,4] as $item)
+            <div class="flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+              <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
+                  <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
+              </a>
+              <div class="flex flex-col gap-2 mt-4">
+                  <a class="flex items-center gap-1" href="#">
+                      <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
+                      <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                  </a>
+                  <p class="font-normal text-gray-700 dark:text-gray-400">Suisse Allemanique</p>
+              </div>
             </div>
+            @endforeach
+          </div>
+        </dev>
+        <dev class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+          <h3 class="font-dm-serif text-green-800 font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
+          <div class="w-[90%] grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
+            @foreach ([1,2,3,4] as $item)
+            <div class="flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+              <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
+                  <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
+              </a>
+              <div class="flex flex-col gap-2 mt-4">
+                  <a class="flex items-center gap-1" href="#">
+                      <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
+                      <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                  </a>
+                  <p class="font-normal text-gray-700 dark:text-gray-400">Suisse Allemanique</p>
+              </div>
+            </div>
+            @endforeach
+          </div>
+          <div class="z-10 mb-6">
+            <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-blue-800">Tout voir <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
+            </a>
+          </div>
+        </dev>
+
+      </div>
+      <div class="relative flex flex-col items-center justify-center py-10 w-full" style="background: url('images/girl_deco_image.jpg') center center /cover">
+        <div class="bg-white/70 absolute top-0 right-0 w-full h-full z-0"></div>
+          <h3 class="font-dm-serif text-green-800 text-2xl md:text-3xl lg:text-4xl xl:text-5xl my-4 mx-2 text-center font-bold z-10">Trouver des escortes, masseuses et plus encore sur Gstuff !</h3>
+          <div class="flex flex-col w-full px-4 md:flex-row items-center justify-center gap-2 py-6 z-10">
+          @foreach ([1, 2, 3] as $item)
+          <div class="w-full lg:w-[367px] lg:h-[263px] bg-green-800/80 p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
+            <span class="text-center font-dm-serif w-[70%]">+ de 500 partenaires</span>
+            <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Profils vérifiés pour des rencontres authentiques</span>
           </div>
           @endforeach
         </div>
-        <div class="h-60">
-          prochaine contente
+      </div>
+      <div class="relative py-10 w-full">
+        <div class="bg-green-200/30 absolute top-0 right-0 w-full h-full z-0"></div>
+        <div class="w-full flex items-center justify-center gap-5 flex-nowrap overflow-hidden">
+        @foreach ([1, 2, 3] as $item)
+        <div class=" @if ($item==2) scale-100 @else scale-75 @endif min-w-[300px] lg:w-[625px] h-[250px] p-5 bg-white rounded-lg flex flex-col items-center justify-center gap-4 text-xl lg:text-3xl z-10">
+          <span class="text-center w-[80%] mx-auto">"Amazing experience i love it a lot. Thanks to the team that dreams come true, great!"</span>
+          <div class="flex items-center w-full justify-center gap-4">
+            <img class="w-12 h-12 rounded-full" src="icons/user_icon.svg" alt="user_default icon" srcset="user icon">
+            <div class="flex flex-col font-bold">
+              <span class="font-dm-serif text-base lg:text-2xl text-green-800">Lassy Chester</span>
+              <span class="text-sm lg:text-base">Escort</span>
+            </div>
+          </div>
+        </div>
+        @endforeach
+        </div>
+      </div>
+      <div class="relative flex flex-col items-start justify-center w-full h-[375px]" style="background: url('images/girl_deco_image_001.jpg') center center /cover">
+        <div class="text-white flex flex-col gap-4 container mx-auto px-3">
+          <h3 class="font-dm-serif text-2xl lg:text-5xl font-bold w-full lg:w-[40%]">Inscrivez vous dès aujourd'hui sur Gstuff ...</h3>
+          <span class="font-dm-serif">La meilleure plateforme érotique en Suisse !</span>
+          <div class="z-10 w-45">
+            <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-blue-800">S'inscrire <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
+            </a>
+          </div>
         </div>
 
-
       </div>
+
+      {{-- Footer --}}
+      <div class="w-full min-h-[375px] bg-[#05595B]">
+        <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-20 container mx-auto py-24 text-white">
+          <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
+            <div class="w-full">
+              <img class="mx-auto lg:m-0 w-60" src="images/Logo_lg.svg" alt="Logo gstuff" srcset="Logo gstuff">
+            </div>
+            <p class="w-96 lg:text-start text-center">Votre portail suisse des rencontres érotique sécurisées et inclusives.</p>
+          </div>
+
+          <div class="flex flex-col items-center lg:items-start gap-2">
+            <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
+            <a href="#">Escort girl Appenzell Rh.-Ext</a>
+            <a href="#">Escort girl Vaud</a>
+            <a href="#">Escort girl Zurich</a>
+            <a href="#">Escort girl Jura</a>
+          </div>
+
+          <div class="flex flex-col items-center lg:items-start gap-2">
+            <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
+            <a href="#">Glossaire</a>
+            <a href="#">FAQ</a>
+            <a href="#">Qui sommes-nous ?</a>
+            <a href="#">Conditions générales de vente (GGV)</a>
+            <a href="#">Contact</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7">
+        Copyright 2025 - <span class="text-yellow-500 mx-2"> Gstuff </span> - <span class="text-yellow-500 mx-2"> Politique de confidentialité </span>
+      </div>
+
 
     </body>
 </html>
