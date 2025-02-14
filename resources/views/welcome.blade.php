@@ -12,6 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
 
         {{-- js import --}}
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
 
         <!-- Styles -->
@@ -136,7 +137,7 @@
                 <div class="grid grid-cols-2 gap-3 text-black">
                   @foreach (['Escorte', 'Masseuse', 'Dominatrice', 'Trans'] as $item)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
-                    <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md">
+                    <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md hover:bg-green-800 hover:text-white">
                       <img src="icons/{{$item}}_icon.svg" alt="icon trans presentation" srcset="icon trans">
                       <span>{{$item}}</span>
                     </div>
@@ -147,20 +148,20 @@
               <div class="flex flex-col gap-6">
                 <div class="border-l border-gray-500 px-4">
                   <h2 class="font-dm-serif font-bold text-2xl my-6">Orientation</h2>
-                  <div class="flex">
-                    <span class="p-2 border border-gray-400 rounded-lg">Homme</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Femme</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Trans</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Gay</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Lesbienne</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Homme</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Femme</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Trans</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Gay</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Lesbienne</a>
                   </div>
                 </div>
                 <div class="px-4">
                   <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
-                  <div class="flex">
-                    <span class="p-2 border border-gray-400 rounded-lg">Vaud</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Jura</span>
-                    <span class="p-2 border border-gray-400 rounded-lg">Zurich</span>
+                  <div class="flex gap-2">
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Vaud</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Jura</a>
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Zurich</a>
                   </div>
                 </div>
               </div>
@@ -172,12 +173,12 @@
       <div class="relative flex items-center justify-center flex-col gap-8 w-full px-3 py-20 lg:h-[418px] bg-no-repeat" style="background: url('images/Hero image.jpeg') center center /cover;">
         <div class="w-full h-full z-0 absolute inset-0 to-0% right-0% bg-[#05595B]/74"></div>
         <div class="flex items-center justify-center flex-col z-10">
-          <h2 class="lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-dm-serif">Rencontres élégantes et discrètes en Suisse</h2>
+          <h2 class="[text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-cormorant">Rencontres <span class="text-amber-400">élégantes et discrètes</span>  en Suisse</h2>
         </div>
         <div class="flex flex-col lg:flex-row gap-2 text-black">
           @foreach (['Escorte', 'Masseuse', 'Dominatrice', 'Trans'] as $item)
           <a href="#" class="flex items-center justify-center gap-1 z-10">
-            <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md">
+            <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md hover:bg-green-800 hover:text-white">
               <img src="icons/{{$item}}_icon.svg" alt="icon trans presentation" srcset="icon trans">
               <span>{{$item}}</span>
             </div>
@@ -193,57 +194,97 @@
       {{-- Main content --}}
       <div class="mt-10 container m-auto">
 
-        <div class="sm:hidden m-4">
-          <label for="tabs" class="sr-only">Select salon or escorte</label>
-          <select id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option>Top escortes du jour</option>
-              <option>Les Salons</option>
-          </select>
-        </div>
-        <ul class="hidden w-[50%] text-sm font-medium text-center text-gray-500 rounded-lg shadow-sm sm:flex sm:m-auto dark:divide-gray-700 dark:text-gray-400">
-          <li class="w-full focus-within:z-10">
-              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base text-gray-900 font-bold rounded-none btn-gs-gradient border-r border-yellow-200 dark:border-gray-700 rounded-s-lg active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">Top escortes du jour</a>
-          </li>
-          <li class="w-full focus-within:z-10">
-              <a href="#" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</a>
-          </li>
-        </ul>
-        <div class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
-          <h3 class="font-dm-serif text-green-800 font-bold text-4xl text-center">Nos nouvelles escortes</h3>
-          <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
-            @foreach ([1,2,3,4] as $item)
-            <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-              <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-gray-300 m-2 text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+        <div x-data="{ viewEscorte: true }" x-cloak>
+          <div class="sm:hidden m-4">
+            <label for="tabs" class="sr-only">Select salon or escorte</label>
+            <select id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option>Top escortes du jour</option>
+                <option>Les Salons</option>
+            </select>
+          </div>
+          <ul class="hidden w-[50%] text-sm font-medium text-center text-gray-500 rounded-lg shadow-sm sm:flex sm:m-auto dark:divide-gray-700 dark:text-gray-400">
+            <li class="w-full focus-within:z-10">
+                <button  @click="viewEscorte = true" :class="viewEscorte ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Top escortes du jour</button>
+            </li>
+            <li class="w-full focus-within:z-10">
+                <button @click="viewEscorte = false" :class="viewEscorte ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</button>
+            </li>
+          </ul>
+          <div x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-show="viewEscorte"
+              class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+            <h3 class="font-dm-serif text-green-800 font-bold text-4xl text-center">Nos nouvelles escortes</h3>
+            <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
+              @foreach ([1,2,3,4] as $item)
+              <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28z"/></svg>
+                </div>
+                <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
+                    <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
+                </a>
+                <div class="flex flex-col gap-2 mt-4">
+                    <a class="flex items-center gap-1" href="#">
+                        <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
+                        <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                    </a>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                      <span>
+                      Suisse Allemanique
+                      </span>
+                      <span>
+                      | Genève
+                      </span>
+                    </p>
+                </div>
               </div>
-              <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
-                  <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
-              </a>
-              <div class="flex flex-col gap-2 mt-4">
-                  <a class="flex items-center gap-1" href="#">
-                      <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Carrine</h5>
-                      <div class="w-2 h-2 rounded-full bg-green-600"></div>
-                  </a>
-                  <p class="font-normal text-gray-700 dark:text-gray-400">
-                    <span>
-                    Suisse Allemanique
-                    </span>
-                    <span>
-                    | Genève
-                    </span>
-                  </p>
-              </div>
+              @endforeach
             </div>
-            @endforeach
+          </div>
+          <div x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-show="!viewEscorte"
+              class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
+            <h3 class="font-dm-serif text-green-800 font-bold text-4xl text-center">Nos salons</h3>
+            <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
+              @foreach ([1,2,3,4] as $item)
+              <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28z"/></svg>
+                </div>
+                <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
+                    <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
+                </a>
+                <div class="flex flex-col gap-2 mt-4">
+                    <a class="flex items-center gap-1" href="#">
+                        <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Salon's dream</h5>
+                        <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                    </a>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                      <span>
+                      Suisse Allemanique
+                      </span>
+                      <span>
+                      | Genève
+                      </span>
+                    </p>
+                </div>
+              </div>
+              @endforeach
+            </div>
           </div>
         </div>
+
         <div class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-800 font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
           <div class="w-[90%] grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
             @foreach ([1,2,3,4] as $item)
             <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-              <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-gray-300 m-2 text-yellow-600 z-0">
-                <svg class="z-10" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-yellow-600 z-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"/></svg>
               </div>
               <a class="m-auto w-full rounded-lg overflow-hidden" href="#">
                   <img class="w-full object-cover rounded-t-lg" src="images/girl_001.png" alt="" />
@@ -265,20 +306,22 @@
         </div>
 
       </div>
+
       <div class="relative flex flex-col items-center justify-center py-10 w-full" style="background: url('images/girl_deco_image.jpg') center center /cover">
         <div class="bg-white/70 absolute top-0 right-0 w-full h-full z-0"></div>
           <h3 class="font-dm-serif text-green-800 text-2xl md:text-3xl lg:text-4xl xl:text-5xl my-4 mx-2 text-center font-bold z-10">Trouver des escortes, masseuses et plus encore sur Gstuff !</h3>
           <div class="flex flex-col w-full px-4 md:flex-row items-center justify-center gap-2 py-6 z-10">
           @foreach ([1, 2, 3] as $item)
-          <div class="w-full lg:w-[367px] lg:h-[263px] bg-green-800/80 p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
+          <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
             <span class="text-center font-dm-serif w-[70%]">+ de 500 partenaires</span>
             <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Profils vérifiés pour des rencontres authentiques</span>
           </div>
           @endforeach
         </div>
       </div>
+
       <div class="relative py-10 w-full">
-        <div class="bg-green-200/30 absolute top-0 right-0 w-full h-full z-0"></div>
+        <div class="bg-[#E4F1F1] absolute top-0 right-0 w-full h-full z-0"></div>
         <div class="w-full flex items-center justify-center gap-5 flex-nowrap overflow-hidden">
         @foreach ([1, 2, 3] as $item)
         <div class=" @if ($item==2) scale-100 @else scale-75 @endif min-w-[300px] lg:w-[625px] h-[250px] p-5 bg-white rounded-lg flex flex-col items-center justify-center gap-4 text-xl lg:text-3xl z-10">
@@ -294,6 +337,17 @@
         @endforeach
         </div>
       </div>
+
+      <div class="bg-white py-10 w-full flex items-center justify-center flex-col gap-10">
+        <h3 class="text-2xl md:text-4xl lg:text-5xl font-dm-serif text-green-900 font-bold">Comment devenir escorte sur Gstuff ?</h3>
+        <p>Devenez escorte indépendante en 3 étapes !</p>
+        <div class="grid grid-cols-3 gap-20 text-green-800 text-center text-lg italic font-normal mt-20">
+          <div class="w-52 font-light">Envoyer 5 selfies a <span class="text-amber-500">escort-gstuff@gstuff.ch</span></div>
+          <div class="w-52"> Prenez rendez-vous pour le shooting photo</div>
+          <div class="w-52">Publiez votre profil</div>
+        </div>
+      </div>
+
       <div class="relative flex flex-col items-start justify-center w-full h-[375px]" style="background: url('images/girl_deco_image_001.jpg') center center /cover">
         <div class="text-white flex flex-col gap-4 container mx-auto px-3">
           <h3 class="font-dm-serif text-2xl lg:text-5xl font-bold w-full lg:w-[40%]">Inscrivez vous dès aujourd'hui sur Gstuff ...</h3>
@@ -304,6 +358,18 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="flex flex-col items-center justify-center gap-10 container mx-auto py-20">
+        <div class="flex flex-col justify-center gap-5 w-[1140px] h-[255px] px-20 text-white" style="background: url('images/girl_deco_contact.jpg') center center /cover">
+          <h2 class="text-5xl font-dm-serif font-bold">Nous contacter</h2>
+          <p>Besoin d'information ou de conseils ? Contactez-nous dès maintenat !</p>
+          <div class="z-10 mt-5">
+            <a href="#" type="button" class="w-52 flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-4 py-2 text-center dark:focus:ring-blue-800">Nous écrire <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
+            </a>
+          </div>
+        </div>
+        <h3 class="text-5xl font-dm-serif text-green-900">Questions fréquentes</h3>
       </div>
 
       {{-- Footer --}}

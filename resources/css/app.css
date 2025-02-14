@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import "tailwindcss";
 @source "../views";
 @custom-variant dark (&:where(.dark, .dark *));
@@ -6,11 +6,19 @@
 @theme {
   --font-dm: "DM+Sans", sans-serif;
   --font-dm-serif: "DM+Sans display", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
 }
 @layer components {
+  [x-cloak] {
+    display: none !important;
+  }
   .btn-gs-gradient {
     background: linear-gradient(244deg, #D0AC2B 0.54%, #F5DC82 30.58%, #FFEDAD 48.71%, #F5DC82 66.85%, #D0AC2B 100%);
     padding: 10px;
-    border-radius: 20px;
+    /* border-radius: 20px; */
+    transition: all .25s ease-in-out;
+  }
+  .btn-gs-gradient:hover {
+    background: linear-gradient(244deg, #FFEDAD 0.54%, #F5DC82 30.58%, #D0AC2B 48.71%, #F5DC82 66.85%, #FFEDAD 100%);
   }
 }
