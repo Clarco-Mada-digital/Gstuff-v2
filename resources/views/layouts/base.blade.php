@@ -185,10 +185,12 @@
 
           <div class="flex flex-col items-center lg:items-start gap-2">
             <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-            <a href="#">Escort girl Appenzell Rh.-Ext</a>
-            <a href="#">Escort girl Vaud</a>
+            <a href="#">Escort girl Suisse Alémanique</a>
             <a href="#">Escort girl Zurich</a>
+            <a href="#">Escort girl Berne</a>
+            <a href="#">Escort girl Friboug</a>
             <a href="#">Escort girl Jura</a>
+            <a href="#">Escort girl Neuchâtel</a>
           </div>
 
           <div class="flex flex-col items-center lg:items-start gap-2">
@@ -205,7 +207,6 @@
       <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7">
         Copyright 2025 - <span class="text-yellow-500 mx-2"> Gstuff </span> - <span class="text-yellow-500 mx-2"> Politique de confidentialité </span>
       </div>
-
 
     </body>
 </html>

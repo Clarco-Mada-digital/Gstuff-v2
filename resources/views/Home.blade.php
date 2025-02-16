@@ -196,6 +196,7 @@
 
       </div>
 
+      {{-- FAQ --}}
       <div class="flex flex-col items-center justify-center gap-10 container mx-auto py-20">
         <div class="flex flex-col justify-center gap-5 w-[1140px] h-[255px] px-20 text-white" style="background: url('images/girl_deco_contact.jpg') center center /cover">
           <h2 class="text-5xl font-dm-serif font-bold">Nous contacter</h2>
@@ -206,7 +207,7 @@
           </div>
         </div>
         <h3 class="text-5xl font-dm-serif text-green-900">Questions fréquentes</h3>
-        <div id="accordion-collapse text-wrap" data-accordion="collapse">
+        <div id="accordion-collapse text-wrap w-[1140px] max-w-[1140px]" data-accordion="collapse">
           <h2 id="accordion-collapse-heading-1">
             <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
               <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>What is Flowbite?</span>
@@ -253,6 +254,34 @@
                 <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {{-- Glossaire --}}
+      <div class="container mx-auto my-10" >
+        <div class="flex items-center justify-between my-10 px-20">
+          <h3 class="font-dm-serif text-4xl text-green-800 font-bold">Articles du glossaire</h3>
+          <div class="z-10 w-auto">
+            <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-4 py-2 text-center dark:focus:ring-blue-800">voir plus d'articles <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="relative w-full">
+          <div class="w-full flex items-center flex-nowrap gap-10 px-20 overflow-x-auto scroll-smooth" data-slider-wrapper style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+            @foreach ($glossaire as $item)
+              <div class="bg-[#05595B] min-w-[375px] w-[375px] h-[232px] flex flex-col items-stretch gap-5 p-5 text-white rounded-lg py-10" style="scroll-snap-align: center" data-carousel-item >
+                <h4 class="font-dm-serif text-2xl">{{ $item['title']['rendered'] }}</h4>
+                {!! Str::limit($item['excerpt']['rendered'], 100, '...') !!}
+                <svg class="w-10 my-3 text-amber-400"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.7 17.925q-.35.2-.625-.062T12 17.25L14.425 13H3q-.425 0-.712-.288T2 12t.288-.712T3 11h11.425L12 6.75q-.2-.35.075-.612t.625-.063l7.975 5.075q.475.3.475.85t-.475.85z"/></svg>
+              </div>
+            @endforeach
+          </div>
+          <div class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
+          </div>
+          <div class="absolute top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
           </div>
         </div>
 
