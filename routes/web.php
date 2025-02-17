@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CgvController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GlossaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -15,3 +18,6 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', [HomeController::class, 'home']);
+Route::get('/glossaire', [GlossaireController::class, 'index']);
+Route::get('/cgv', [CgvController::class, 'index']);
+Route::get('/contact', [ContactController::class, 'index']);

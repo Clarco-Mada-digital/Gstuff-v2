@@ -27,7 +27,7 @@
       {{-- header --}}
       <nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
-            <a href="#" class="flex items-center space-x-3">
+            <a href="/" class="flex items-center space-x-3">
                 <img class="w-24 lg:w-44" src="images/Logo_lg.svg" alt="Gstuff Logo" />
             </a>
 
@@ -58,7 +58,7 @@
                         <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Blog</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        <a href="/contact" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
                     </li>
                 </ul>
 
@@ -176,7 +176,7 @@
 
       {{-- Footer --}}
       <div class="w-full min-h-[375px] bg-green-gs transition-all">
-        <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-20 container mx-auto py-24 text-white">
+        <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white">
           <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
             <div class="w-full">
               <img class="mx-auto lg:m-0 w-60" src="images/Logo_lg.svg" alt="Logo gstuff" srcset="Logo gstuff">
@@ -198,11 +198,11 @@
 
           <div class="flex flex-col items-center lg:items-start gap-2">
             <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-            <a href="#">Glossaire</a>
-            <a href="#">FAQ</a>
+            <a href="/glossaire">Glossaire</a>
+            <a href="#FAQ">FAQ</a>
             <a href="#">Qui sommes-nous ?</a>
-            <a href="#">Conditions générales de vente (GGV)</a>
-            <a href="#">Contact</a>
+            <a href="/cgv">Conditions générales de vente (GGV)</a>
+            <a href="/contact">Contact</a>
           </div>
 
         </div>
