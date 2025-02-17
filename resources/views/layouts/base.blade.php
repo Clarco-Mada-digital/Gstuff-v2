@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="icon-logo.png" type="image/x-icon">
 
         <title>Gstuff</title>
 
@@ -21,7 +22,7 @@
         {{-- <link href="resources/css/app.css" rel="stylesheet"> --}}
 
     </head>
-    <body class="antialiased font-dm text-base font-normal">
+    <body class="antialiased font-dm text-base font-normal transition-all">
 
       {{-- header --}}
       <nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
@@ -42,7 +43,7 @@
             <div id="mega-menu-full" class="items-center m-auto lg:m-0 justify-between font-medium hidden w-full order-1 xl:flex xl:w-auto">
                 <ul class="flex flex-col p-4 xl:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 xl:bg-white dark:bg-gray-800 xl:dark:bg-gray-900 dark:border-gray-700">
                     <li>
-                      <a href="#" id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escorte <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <a href="#" id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown#" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escorte <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                         </svg>
                       </a>
@@ -130,16 +131,16 @@
         </div>
 
         {{-- Mega menu items --}}
-        <div id="mega-menu-full-dropdown" class="mt-1 shadow-xs bg-[#05595B] hidden">
+        <div id="mega-menu-full-dropdown" class="mt-1 shadow-xs bg-green-gs hidden transition-all">
             <div class="flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
               <div class="flex flex-col">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Service</h2>
                 <div class="grid grid-cols-2 gap-3 text-black">
-                  @foreach (['Escorte', 'Masseuse', 'Dominatrice', 'Trans'] as $item)
+                  @foreach ($services as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
-                    <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md hover:bg-green-800 hover:text-white">
-                      <img src="icons/{{$item}}_icon.svg" alt="icon trans presentation" srcset="icon trans">
-                      <span>{{$item}}</span>
+                    <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
+                      <img src="icons/{{$service['post_name']}}_icon.svg" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
+                      <span>{{ $service['post_title'] }}</span>
                     </div>
                   </a>
                   @endforeach
@@ -158,10 +159,10 @@
                 </div>
                 <div class="px-4">
                   <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
-                  <div class="flex gap-2">
-                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Vaud</a>
-                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Jura</a>
-                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Zurich</a>
+                  <div class="flex flex-wrap gap-2">
+                    @foreach ($cantons as $canton)
+                    <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['title']['rendered'] }}</a>
+                    @endforeach
                   </div>
                 </div>
               </div>
@@ -174,7 +175,7 @@
 
 
       {{-- Footer --}}
-      <div class="w-full min-h-[375px] bg-[#05595B]">
+      <div class="w-full min-h-[375px] bg-green-gs transition-all">
         <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-20 container mx-auto py-24 text-white">
           <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
             <div class="w-full">
@@ -185,12 +186,14 @@
 
           <div class="flex flex-col items-center lg:items-start gap-2">
             <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-            <a href="#">Escort girl Suisse Alémanique</a>
+            {{-- <a href="#">Escort girl Suisse Alémanique</a>
             <a href="#">Escort girl Zurich</a>
             <a href="#">Escort girl Berne</a>
             <a href="#">Escort girl Friboug</a>
-            <a href="#">Escort girl Jura</a>
-            <a href="#">Escort girl Neuchâtel</a>
+            <a href="#">Escort girl Jura</a> --}}
+            @foreach ($cantonsLim as $canton)
+            <a href="#">{{ $canton['title']['rendered'] }}</a>
+            @endforeach
           </div>
 
           <div class="flex flex-col items-center lg:items-start gap-2">
@@ -204,9 +207,25 @@
 
         </div>
       </div>
-      <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7">
+      <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all">
         Copyright 2025 - <span class="text-yellow-500 mx-2"> Gstuff </span> - <span class="text-yellow-500 mx-2"> Politique de confidentialité </span>
       </div>
+
+      <script>
+        const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
+        const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
+
+
+        mega_menu_link.addEventListener('mouseover', (e)=>{
+          mega_menu_item.classList.remove('hidden');
+        })
+        mega_menu_item.addEventListener('mouseover', (e)=>{
+          mega_menu_item.classList.remove('hidden');
+        })
+        mega_menu_item.addEventListener('mouseleave', (e)=>{
+          mega_menu_item.classList.add('hidden');
+        });
+      </script>
 
     </body>
 </html>
