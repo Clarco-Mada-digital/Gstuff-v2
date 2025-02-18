@@ -1,9 +1,9 @@
 @extends('layouts.base')
   @section('content')
 
-  @foreach ($apiData['users'] as $user)
-     {{ dd($user)}}
-  @endforeach
+  {{-- @foreach ($apiData['users'] as $salon)
+     {{ dd($salon)}}
+  @endforeach --}}
 
       {{-- Hero content --}}
       <div class="relative flex items-center justify-center flex-col gap-8 w-full px-3 py-20 lg:h-[418px] bg-no-repeat" style="background: url('images/Hero image.jpeg') center center /cover;">
@@ -31,13 +31,6 @@
       <div class="mt-10 container m-auto px-5 overflow-hidden">
 
         <div x-data="{ viewEscorte: true }" x-cloak>
-          {{-- <div class="sm:hidden m-4">
-            <label for="tabs" class="sr-only">Select salon or escorte</label>
-            <select x-model='viewEscorte' id="tabs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-gs focus:border-green-gs block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-gs dark:focus:border-green-gs">
-                <option value=true >Top escortes du jour</option>
-                <option value=false>Les Salons</option>
-            </select>
-          </div> --}}
           <ul class=" w-full lg:w-[50%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400">
             <li class="w-full focus-within:z-10">
                 <button  @click="viewEscorte = true" :class="viewEscorte ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Top escortes du jour</button>
@@ -86,7 +79,7 @@
               class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
             <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
             <div class="w-full grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
-              @foreach ([1,2,3,4] as $item)
+              @foreach (array_slice($apiData['salons'], 0, 4) as $salon)
               <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                 <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-700">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28z"/></svg>
@@ -96,7 +89,7 @@
                 </a>
                 <div class="flex flex-col gap-2 mt-4">
                     <a class="flex items-center gap-1" href="#">
-                        <h5 class="text-base tracking-tight text-gray-900 dark:text-white">Salon's dream</h5>
+                        <h5 class="text-base tracking-tight text-gray-900 dark:text-white">{{ $salon['data']['display_name'] }}</h5>
                         <div class="w-2 h-2 rounded-full bg-green-gs"></div>
                     </a>
                     <p class="font-normal text-gray-700 dark:text-gray-400">

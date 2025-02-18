@@ -50,13 +50,19 @@ class ApiDataServiceProvider extends ServiceProvider
 
       // Les services
       $services = Cache::remember('services', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/services/list_service')->json();
+        $response = Http::get('https://gstuff.ch/wp-json/services/list_service');
         return $response->json();
       });
 
       // Les escortes
       $escorts = Cache::remember('escorts', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/escorts/tout-escorts')->json();
+        $response = Http::get('https://gstuff.ch/wp-json/escorts/tout-escorts');
+        return $response->json();
+      });
+
+      // Les salons
+      $salons = Cache::remember('salons', 3600, function(){
+        $response = Http::get('https://gstuff.ch/wp-json/salons/tout-salons');
         return $response->json();
       });
 
@@ -67,7 +73,7 @@ class ApiDataServiceProvider extends ServiceProvider
       });
 
       // Users
-      $users = Http::withToken($this->Myjton)->get('https://gstuff.ch/wp-json/wp/v2/posts')->json();
+      $users = Http::withToken($this->Myjton)->get('https://gstuff.ch/wp-json/wp/v2/users')->json();
       // $users = Http::withHeaders([
       //   'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dzdHVmZi5jaCIsImlhdCI6MTczOTg2ODc4NiwibmJmIjoxNzM5ODY4Nzg2LCJleHAiOjE3NDA0NzM1ODYsImRhdGEiOnsidXNlciI6eyJpZCI6IjEyMzQ3NSJ9fX0._B-LGOQ3-wKgVU5ywKN__TYAeHyAqHwXtAcUJWevbWs',
       // ])->get('http://gstuff.ch/wp-json/wp/v2/posts')->json();
@@ -82,6 +88,7 @@ class ApiDataServiceProvider extends ServiceProvider
         'escorts' => $escorts,
         'cgv' => $cgv,
         'users' => $users,
+        'salons' => $salons,
       ];
 
       // Partager les données avec toutes les vues

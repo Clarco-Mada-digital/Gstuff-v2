@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GlossaireController;
@@ -21,6 +22,8 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/glossaire', [GlossaireController::class, 'index'])->name('glossaire');
 Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/FAQ', [ContactController::class, 'index'])->name('faq');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 
 // {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dzdHVmZi5jaCIsImlhdCI6MTczOTg2ODc4NiwibmJmIjoxNzM5ODY4Nzg2LCJleHAiOjE3NDA0NzM1ODYsImRhdGEiOnsidXNlciI6eyJpZCI6IjEyMzQ3NSJ9fX0._B-LGOQ3-wKgVU5ywKN__TYAeHyAqHwXtAcUJWevbWs",
