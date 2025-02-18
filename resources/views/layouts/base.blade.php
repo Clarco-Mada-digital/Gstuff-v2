@@ -25,7 +25,7 @@
     <body class="antialiased font-dm text-base font-normal transition-all">
 
       {{-- header --}}
-      <nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg shadow-gray-500">
+      <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
                 <img class="w-24 lg:w-44" src="images/Logo_lg.svg" alt="Gstuff Logo" />
