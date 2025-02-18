@@ -1,6 +1,10 @@
 @extends('layouts.base')
   @section('content')
 
+  @foreach ($apiData['users'] as $user)
+     {{ dd($user)}}
+  @endforeach
+
       {{-- Hero content --}}
       <div class="relative flex items-center justify-center flex-col gap-8 w-full px-3 py-20 lg:h-[418px] bg-no-repeat" style="background: url('images/Hero image.jpeg') center center /cover;">
         <div class="w-full h-full z-0 absolute inset-0 to-0% right-0% bg-green-gs/65"></div>
@@ -8,9 +12,9 @@
           <h2 class="[text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-cormorant">Rencontres <span class="text-amber-400">élégantes et discrètes</span>  en Suisse</h2>
         </div>
         <div class="flex flex-col lg:flex-row gap-2 text-black transition-all">
-          @foreach ($services as $service)
+          @foreach ($apiData['services'] as $service)
           <a href="#" class="flex items-center justify-center gap-1 z-10 transition-all">
-            <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md hover:bg-green-gs hover:text-white transition-all">
+            <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
               <img src="icons/{{ $service['post_name'] }}_icon.svg" alt="icon service {{ $service['post_name'] }}" srcset="icon service {{ $service['post_name'] }}">
               <span>{{ $service['post_title'] }}</span>
             </div>
@@ -48,8 +52,8 @@
               x-show="viewEscorte"
               class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
             <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
-            <div class="w-full flex items-center justify-center overflow-hidden mt-5 mb-4 px-10 gap-5">
-              @foreach ($escorts as $escort)
+            <div class="w-full flex items-center justify-center overflow-hidden mt-5 mb-4 px-10 gap-4">
+              @foreach (array_slice($apiData['escorts'], 0, 4) as $escort)
               <div class="relative flex flex-col justify-start min-w-full mx-auto mb-2 p-1 md:min-w-3/4 lg:min-w-1/4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                 <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-gs">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28z"/></svg>
@@ -113,7 +117,7 @@
         <div class="w-[90%] mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
           <div class="w-[90%] grid grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-auto mt-5 mb-4 gap-1">
-            @foreach ($escorts as $escort)
+            @foreach (array_slice($apiData['escorts'], 0, 8) as $escort)
             <div class="relative flex flex-col justify-center w-[90%] mx-auto mb-2 p-1 md:w-72 lg:w-80 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
               <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-yellow-600 z-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"/></svg>
@@ -263,7 +267,7 @@
         </div>
         <div class="relative w-full">
           <div class="w-full flex items-center flex-nowrap gap-10 px-20 overflow-x-auto scroll-smooth" data-slider-wrapper style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($glossaire as $item)
+            @foreach ($apiData['glossaires'] as $item)
               <div class="bg-green-gs min-w-[375px] w-[375px] h-[232px] flex flex-col items-stretch gap-5 p-5 text-white rounded-lg py-10" style="scroll-snap-align: center" data-carousel-item >
                 <h4 class="font-dm-serif text-2xl">{{ $item['title']['rendered'] }}</h4>
                 {!! Str::limit($item['excerpt']['rendered'], 100, '...') !!}

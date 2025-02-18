@@ -30,7 +30,7 @@
   <div class="w-full bg-green-gs/50 py-10 content" style="background: url('images/Fond-page-politique.jpg') center center /cover">
     <div class="w-full lg:w-[70%] lg:mx-auto p-5 bg-white">
       {{-- <h2 class="text-5xl font-dm-serif font-bold text-green-gs text-center py-2">Conditions générales de vente (CGV)</h2> --}}
-      {!! $cgv['content']['rendered'] !!}
+      {!! $apiData['cgv']['content']['rendered'] !!}
     </div>
   </div>
 

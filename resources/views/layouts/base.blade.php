@@ -136,7 +136,7 @@
               <div class="flex flex-col">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Service</h2>
                 <div class="grid grid-cols-2 gap-3 text-black">
-                  @foreach ($services as $service)
+                  @foreach ($apiData['services'] as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
                     <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
                       <img src="icons/{{$service['post_name']}}_icon.svg" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
@@ -160,7 +160,7 @@
                 <div class="px-4">
                   <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
                   <div class="flex flex-wrap gap-2">
-                    @foreach ($cantons as $canton)
+                    @foreach ($apiData['cantons'] as $canton)
                     <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['title']['rendered'] }}</a>
                     @endforeach
                   </div>
@@ -191,7 +191,7 @@
             <a href="#">Escort girl Berne</a>
             <a href="#">Escort girl Friboug</a>
             <a href="#">Escort girl Jura</a> --}}
-            @foreach ($cantonsLim as $canton)
+            @foreach (array_slice($apiData['cantons'], 0, 5) as $canton)
             <a href="#">{{ $canton['title']['rendered'] }}</a>
             @endforeach
           </div>

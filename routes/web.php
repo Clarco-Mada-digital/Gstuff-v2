@@ -17,7 +17,14 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'home']);
-Route::get('/glossaire', [GlossaireController::class, 'index']);
-Route::get('/cgv', [CgvController::class, 'index']);
-Route::get('/contact', [ContactController::class, 'index']);
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/glossaire', [GlossaireController::class, 'index'])->name('glossaire');
+Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
+
+// {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dzdHVmZi5jaCIsImlhdCI6MTczOTg2ODc4NiwibmJmIjoxNzM5ODY4Nzg2LCJleHAiOjE3NDA0NzM1ODYsImRhdGEiOnsidXNlciI6eyJpZCI6IjEyMzQ3NSJ9fX0._B-LGOQ3-wKgVU5ywKN__TYAeHyAqHwXtAcUJWevbWs",
+//   "user_email":"clarco.dev@mada-digital.net",
+//   "user_nicename":"clarco",
+//   "user_display_name":"Bryan Clark"
+// }
