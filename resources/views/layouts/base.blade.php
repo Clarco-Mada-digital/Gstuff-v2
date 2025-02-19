@@ -20,9 +20,61 @@
         <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
         @vite('resources/css/app.css')
         {{-- <link href="resources/css/app.css" rel="stylesheet"> --}}
+        <style>
+          .lettre{
+            animation: flash 1.2s linear infinite;
+          }
+          .lettre:nth-child(1){
+            animation-delay: 0.1s;
+          }
+          .lettre:nth-child(2){
+            animation-delay: 0.2s;
+          }
+          .lettre:nth-child(3){
+            animation-delay: 0.3s;
+          }
+          .lettre:nth-child(4){
+            animation-delay: 0.4s;
+          }
+          .lettre:nth-child(5){
+            animation-delay: 0.5s;
+          }
+          .lettre:nth-child(6){
+            animation-delay: 0.6s;
+          }
+          .fondu-out {
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+          }
+          @keyframes flash {
+            0%{
+              color: #ffd230;
+              text-shadow: 0 0 7px #ffd230;
+            }
+            90%{
+              color: #05595b;
+              text-shadow: none;
+            }
+            100%{
+              color: #ffd230;
+              text-shadow: 0 0 7px #ffd230;
+            }
+          }
+        </style>
 
     </head>
-    <body class="antialiased font-dm text-base font-normal transition-all">
+    <body class="relative antialiased font-dm text-base font-normal transition-all">
+
+      <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
+        <div class="w-full h-screen flex items-center gap-4 justify-center">
+          <span class="font-dm-serif text-green-gs lettre text-6xl">G</span>
+          <span class="font-dm-serif text-[#484848] lettre text-6xl">S</span>
+          <span class="font-dm-serif text-[#484848] lettre text-6xl">T</span>
+          <span class="font-dm-serif text-[#484848] lettre text-6xl">U</span>
+          <span class="font-dm-serif text-[#484848] lettre text-6xl">F</span>
+          <span class="font-dm-serif text-[#484848] lettre text-6xl">F</span>
+        </div>
+      </div>
 
       {{-- header --}}
       <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
@@ -52,10 +104,10 @@
                       <a href="#" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm xl:w-auto hover:bg-gray-100 xl:hover:bg-transparent xl:border-0 xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Salon </a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">A propos</a>
+                        <a href="{{ url('about') }}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">A propos</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Blog</a>
+                        <a href="{{ url('glossaire') }}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Glossaire</a>
                     </li>
                     <li>
                         <a href="{{ route('contact') }}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
@@ -109,7 +161,7 @@
                 <span class="sr-only">Search</span>
               </button>
               <div class="relative hidden md:block">
-                <input type="text" id="search-navbar" class="block w-full p-2 pe-10 text-sm text-gray-950 border border-gray-300 rounded-xl bg-gray-100 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recherche...">
+                <input type="text" id="search-navbar" class="block w-full p-2 pe-10 text-sm text-gray-950 border border-gray-300 rounded-xl bg-gray-100 focus:ring-green-gs focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recherche...">
                 <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.0002 19.0002L14.6572 14.6572M14.6572 14.6572C15.4001 13.9143 15.9894 13.0324 16.3914 12.0618C16.7935 11.0911 17.0004 10.0508 17.0004 9.00021C17.0004 7.9496 16.7935 6.90929 16.3914 5.93866C15.9894 4.96803 15.4001 4.08609 14.6572 3.34321C13.9143 2.60032 13.0324 2.01103 12.0618 1.60898C11.0911 1.20693 10.0508 1 9.00021 1C7.9496 1 6.90929 1.20693 5.93866 1.60898C4.96803 2.01103 4.08609 2.60032 3.34321 3.34321C1.84288 4.84354 1 6.87842 1 9.00021C1 11.122 1.84288 13.1569 3.34321 14.6572C4.84354 16.1575 6.87842 17.0004 9.00021 17.0004C11.122 17.0004 13.1569 16.1575 14.6572 14.6572Z" stroke="#05595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -120,13 +172,13 @@
             </div>
 
             {{-- Btn de connexion --}}
-            <a href="#" type="button" class="hidden xl:block text-black btn-gs-gradient font-bold focus:ring-4 focus:outline-none focus:ring-yellow-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-yellow-800 lg:order-1">
+            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button" class="hidden xl:block text-black btn-gs-gradient font-bold focus:ring-4 focus:outline-none focus:ring-yellow-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-yellow-800 lg:order-1">
               Connexion/Inscription
-            </a>
-            <a href="#" type="button" class="xl:hidden text-yellow-500 hover:bg-yellow-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center dark:border-yellow-500 dark:text-yellow-500 dark:hover:text-white dark:focus:ring-yellow-800 dark:hover:bg-yellow-500 xl:order-1">
+            </button>
+            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"  type="button" class="xl:hidden text-yellow-500 hover:bg-yellow-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-full text-sm p-2 text-center inline-flex items-center dark:border-yellow-500 dark:text-yellow-500 dark:hover:text-white dark:focus:ring-yellow-800 dark:hover:bg-yellow-500 xl:order-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M15 14c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4m-9-4V7H4v3H1v2h3v3h2v-3h3v-2m6 2a4 4 0 0 0 4-4a4 4 0 0 0-4-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4"/></svg>
               <span class="sr-only">Icon description</span>
-            </a>
+            </button>
 
         </div>
 
@@ -173,6 +225,66 @@
       {{-- Content --}}
       @yield('content')
 
+      <!-- Modal toggle -->
+      {{-- <button  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Toggle modal
+      </button> --}}
+
+      <!-- Main modal -->
+      <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+          <div class="relative p-4 w-[95%] lg:w-[60%]  max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                  <!-- Modal header -->
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                      <h3 class="w-full flex items-center justify-center">
+                          <img class="w-[20%]" src="images/Logo_lg.png" alt="" srcset="">
+                      </h3>
+                      <button type="button" class="end-2.5 text-green-gs bg-transparent hover:bg-gray-200 hover:text-amber-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+                          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                          </svg>
+                          <span class="sr-only">Close modal</span>
+                      </button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="p-4 md:p-5">
+                      <form class="space-y-4" action="#">
+                          <div>
+                              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email *</label>
+                              <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+                          </div>
+                          <div>
+                              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe *</label>
+                              <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                          </div>
+                          <div class="flex justify-between">
+                              <div class="flex items-start">
+                                  <div class="flex items-center h-5">
+                                      <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-amber-300 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+                                  </div>
+                                  <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Se souvenir de moi</label>
+                              </div>
+                              <a href="#" class="text-sm text-green-gs hover:underline hover:text-amber-300 dark:text-green-gs">Mot de passe oublié</a>
+                          </div>
+                          <button type="submit" class="w-full text-white bg-green-gs hover:bg-amber-300 hover:text-green-gs focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-gs dark:hover:bg-green-gs/30">Se connecter</button>
+                          <div class="flex items-center justify-center">
+                            <div class="flex-1 bg-black h-1"></div>
+                            <span class="font-dm-serif p-2 text-xl">Ou</span>
+                            <div class="flex-1 bg-black h-1"></div>
+                          </div>
+                          <div class="flex flex-col gap-2 py-5 w-full items-center justify-center transition-all">
+                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire gratuitement</button>
+                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant qu'escorte (Indépendante)</button>
+                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant que professionnel</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
 
       {{-- Footer --}}
       <div class="w-full min-h-[375px] bg-green-gs transition-all">
@@ -208,12 +320,20 @@
         </div>
       </div>
       <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all">
-        Copyright 2025 - <span class="text-yellow-500 mx-2"> Gstuff </span> - <span class="text-yellow-500 mx-2"> Politique de confidentialité </span>
+        Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
       </div>
 
       <script>
         const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
         const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
+        const loader = document.getElementById('loader');
+
+        window.addEventListener('load', ()=>{
+          loader.classList.add('fondu-out');
+          setTimeout(() => {
+            loader.classList.add('hidden');
+          }, 500);
+        })
 
 
         mega_menu_link.addEventListener('mouseover', (e)=>{
@@ -225,6 +345,22 @@
         mega_menu_item.addEventListener('mouseleave', (e)=>{
           mega_menu_item.classList.add('hidden');
         });
+        // Fonction pour faire défiler verticalement ou horizontalement en pourcentage
+        function scrollByPercentage(element, percentageX=0, percentageY=0) {
+            // Si aucun élément n'est fourni, on utilise la fenêtre
+            const target = element || document.documentElement;
+
+            // Calcul des distances de défilement
+            const scrollX = (target.scrollWidth - target.clientWidth) * (percentageX / 100);
+            // const scrollY = (target.scrollHeight - target.clientHeight) * (percentageY / 100);
+
+            // Défilement vers la position calculée
+            target.scrollBy({
+                left: scrollX,
+                top: scrollY,
+                behavior: 'smooth' // Optionnel : pour un défilement fluide
+            });
+        }
       </script>
 
     </body>
