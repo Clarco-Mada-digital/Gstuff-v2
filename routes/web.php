@@ -21,7 +21,8 @@ use App\Http\Controllers\PdcController;
 */
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/glossaire', [GlossaireController::class, 'index'])->name('glossaire');
+Route::get('/glossaires', [GlossaireController::class, 'index'])->name('glossaires');
+Route::get('/glossaire/{id}', [GlossaireController::class, 'item'])->name('glossaire');
 Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');

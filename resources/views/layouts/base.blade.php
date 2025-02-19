@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="icon-logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ url('icon-logo.png')}}" type="image/x-icon">
 
         <title>Gstuff</title>
 
@@ -80,7 +80,7 @@
       <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <img class="w-24 lg:w-44" src="images/Logo_lg.svg" alt="Gstuff Logo" />
+                <img class="w-24 lg:w-44" src="{{ url('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
             </a>
 
             {{-- Btn humberger for mobile --}}
@@ -290,9 +290,9 @@
       <div class="w-full min-h-[375px] bg-green-gs transition-all">
         <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white">
           <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
-            <div class="w-full">
-              <img class="mx-auto lg:m-0 w-60" src="images/Logo_lg.svg" alt="Logo gstuff" srcset="Logo gstuff">
-            </div>
+            <a href="{{ route('home') }}" class="w-full">
+              <img class="mx-auto lg:m-0 w-60" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" srcset="Logo gstuff">
+            </a>
             <p class="w-96 lg:text-start text-center">Votre portail suisse des rencontres érotique sécurisées et inclusives.</p>
           </div>
 
@@ -310,7 +310,7 @@
 
           <div class="flex flex-col items-center lg:items-start gap-2">
             <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-            <a href="{{ route('glossaire') }}">Glossaire</a>
+            <a href="{{ route('glossaires') }}">Glossaire</a>
             <a href="{{ route('faq') }}">FAQ</a>
             <a href="{{ route('about')}}">Qui sommes-nous ?</a>
             <a href="{{ route('cgv') }}">Conditions générales de vente (GGV)</a>

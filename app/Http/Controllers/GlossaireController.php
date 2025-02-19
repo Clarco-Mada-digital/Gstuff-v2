@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class GlossaireController extends Controller
 {
@@ -25,5 +26,20 @@ class GlossaireController extends Controller
       // $limiteCanton = array_slice($cantons, 0, 5);
 
       return view('Glossaire');
+  }
+
+  public function item($id){
+
+    $response = Http::get('https://gstuff.ch/wp-json/wp/v2/posts');
+    $jsonData = $response->json();
+
+    $filteredData = array_filter($jsonData, function ($item) use ($id) {
+      return isset($item['id']) && $item['id'] == $id;
+    });
+
+    $filteredData = array_values($filteredData);
+
+    // $glossaires = response()->json($filteredData);
+    return view('SpGlossaire', ['glossaire' => $filteredData]);
   }
 }
