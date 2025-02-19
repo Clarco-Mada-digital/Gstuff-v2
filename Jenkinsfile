@@ -44,10 +44,10 @@ pipeline {
                             configName: 'PROJET WASSIM',
                             transfers: [
                                 sshTransfer(
-                                    execCommand: '/var/www/html/Gstuff-v2/jenkins-pipeline/giveAuthorisation.sh',
+                                    execCommand: 'chmod +x /var/www/html/Gstuff-v2/jenkins-pipeline/giveAuthorisation.sh && /var/www/html/Gstuff-v2/jenkins-pipeline/giveAuthorisation.sh',
                                     remoteDirectory: '/var/www/html/Gstuff-v2/jenkins-pipeline/',
                                     cleanRemote: false,
-                                    sourceFiles: ''
+                                    sourceFiles: 'giveAuthorisation.sh'
                                 )
                             ],
                             usePromotionTimestamp: false,
