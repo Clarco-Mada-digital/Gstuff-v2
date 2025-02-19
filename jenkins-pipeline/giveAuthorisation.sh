@@ -13,10 +13,12 @@ sudo chmod -R 755 /var/www/html/Gstuff-v2 || { echo "Échec de la modification d
 sudo chmod -R 775 /var/www/html/Gstuff-v2/storage /var/www/html/Gstuff-v2/bootstrap/cache || { echo "Échec de la modification des permissions pour storage et cache"; exit 1; }
 
 # Installer les dépendances Composer (en tant qu'utilisateur www-data pour éviter les avertissements de sécurité)
-sudo -u www-data composer install --no-dev --optimize-autoloader || { echo "Échec de l'installation des dépendances Composer"; exit 1; }
+sudo -u www-data composer install || { echo "Échec de l'installation des dépendances Composer"; exit 1; }
 
-# Installer les dépendances NPM et compiler les assets
-npm install --production || { echo "Échec de l'installation des dépendances NPM"; exit 1; }
+# Installer les dépendances NPM
+npm install || { echo "Échec de l'installation des dépendances NPM"; exit 1; }
+
+# Compiler les assets avec Vite
 npm run build || { echo "Échec de la compilation des assets"; exit 1; }
 
 # Créer le fichier .env et générer la clé d'application
