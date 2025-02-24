@@ -192,11 +192,7 @@
                   @foreach ($apiData['services'] as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
                     <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
-<<<<<<< HEAD
                       <img src="{{ url('icons/'.$service['post_name'].'_icon.svg')}}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
-=======
-                      <img src="{{ asset('icons/'.$service['post_name'].'_icon.svg') }}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
->>>>>>> 7bff7f7351e7d8f2f92ad1f7739da798ac92bfad
                       <span>{{ $service['post_title'] }}</span>
                     </div>
                   </a>
