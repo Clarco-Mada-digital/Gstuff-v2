@@ -66,7 +66,7 @@
     <body class="relative antialiased font-dm text-base font-normal transition-all">
 
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
-        <div class="w-full h-screen flex items-center gap-4 justify-center">
+        <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center">
           <span class="font-dm-serif text-green-gs lettre text-6xl">G</span>
           <span class="font-dm-serif text-[#484848] lettre text-6xl">S</span>
           <span class="font-dm-serif text-[#484848] lettre text-6xl">T</span>
@@ -191,14 +191,14 @@
                   @foreach ($apiData['services'] as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
                     <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
-                      <img src="icons/{{$service['post_name']}}_icon.svg" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
+                      <img src="{{ url('icons/'.$service['post_name'].'_icon.svg')}}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
                       <span>{{ $service['post_title'] }}</span>
                     </div>
                   </a>
                   @endforeach
                 </div>
               </div>
-              <div class="flex flex-col gap-6">
+              <div class="flex flex-col gap-4">
                 <div class="border-l border-gray-500 px-4">
                   <h2 class="font-dm-serif font-bold text-2xl my-6">Orientation</h2>
                   <div class="flex gap-2">
