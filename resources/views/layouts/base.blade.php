@@ -81,7 +81,7 @@
       <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <img class="w-24 lg:w-44" src="{{ url('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
+                <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
             </a>
 
             {{-- Btn humberger for mobile --}}
@@ -192,7 +192,7 @@
                   @foreach ($apiData['services'] as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
                     <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
-                      <img src="icons/{{$service['post_name']}}_icon.svg" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
+                      <img src="{{ asset('icons/'.$service['post_name'].'_icon.svg') }}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
                       <span>{{ $service['post_title'] }}</span>
                     </div>
                   </a>
