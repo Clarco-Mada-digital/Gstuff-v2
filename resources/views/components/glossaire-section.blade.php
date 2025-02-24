@@ -35,7 +35,8 @@
   //   itemPercent = Math.ceil(elementChild / 100) ;
   // }, 1000);
 
-  rightBtn.addEventListener('click', ()=>{scrollByPercentage(container, -10)})
-  leftBtn.addEventListener('click', ()=>{scrollByPercentage(container, 10)})
+  rightBtn.addEventListener('click', ()=>{scrollByPercentage(container, false)})
+  leftBtn.addEventListener('click', ()=>{scrollByPercentage(container)})
 
 </script>
+

@@ -61,9 +61,10 @@
             }
           }
         </style>
+        @yield('extraStyle')
 
     </head>
-    <body class="relative antialiased font-dm text-base font-normal transition-all">
+    <body class="w-full overflow-x-hidden relative antialiased font-dm text-base font-normal transition-all">
 
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
         <div class="w-full h-screen flex items-center gap-4 justify-center">
@@ -183,8 +184,8 @@
         </div>
 
         {{-- Mega menu items --}}
-        <div id="mega-menu-full-dropdown" class="mt-1 shadow-xs bg-green-gs hidden transition-all">
-            <div class="flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
+        <div id="mega-menu-full-dropdown" class="p-0 m-0 shadow-xs bg-green-gs hidden transition-all">
+            <div class="hidden mt-1 xl:flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
               <div class="flex flex-col">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Service</h2>
                 <div class="grid grid-cols-2 gap-3 text-black">
@@ -346,12 +347,20 @@
           mega_menu_item.classList.add('hidden');
         });
         // Fonction pour faire défiler verticalement ou horizontalement en pourcentage
-        function scrollByPercentage(element, percentageX=0, percentageY=0) {
+        function scrollByPercentage(element, ltr=true, percentageX=0, percentageY=0) {
             // Si aucun élément n'est fourni, on utilise la fenêtre
             const target = element || document.documentElement;
 
+            // Nombre d'element dans le container
+            let containerChild = parseInt(element.children.length);
+            itemPercent = Math.ceil(100 / containerChild) ;
+
+            if (percentageX == 0) {
+              percentageX = itemPercent +1;
+            }
+
             // Calcul des distances de défilement
-            const scrollX = (target.scrollWidth - target.clientWidth) * (percentageX / 100);
+            const scrollX = ltr ? (target.scrollWidth - target.clientWidth) * (percentageX / 100) : -(target.scrollWidth - target.clientWidth) * (percentageX / 100);
             // const scrollY = (target.scrollHeight - target.clientHeight) * (percentageY / 100);
 
             // Défilement vers la position calculée
@@ -362,6 +371,7 @@
             });
         }
       </script>
+      @yield('extraScripts')
 
     </body>
 </html>
