@@ -18,9 +18,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+      'pseudo',
+      'prenom',
+      'date_naissance',
+      'genre',
+      'nom_salon',
+      'intitule',
+      'nom_proprietaire',
+      'email',
+      'password',
+      'profile_type',
+      'email_verified_at', // Si vous utilisez la vérification d'email
+      'password_reset_token', // Pour la réinitialisation du mot de passe
+      'password_reset_expiry', // Pour la réinitialisation du mot de passe
     ];
 
     /**
@@ -31,6 +41,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'password_reset_token', // Cacher le token de réinitialisation aussi
     ];
 
     /**
@@ -39,7 +50,8 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+      'email_verified_at' => 'datetime',
+      'date_naissance' => 'date', // Cast date_naissance en tant que date
+      'password_reset_expiry' => 'datetime', // Cast password_reset_expiry en tant que datetime
+  ];
 }

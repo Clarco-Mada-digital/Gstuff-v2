@@ -61,9 +61,10 @@
             }
           }
         </style>
+        @yield('extraStyle')
 
     </head>
-    <body class="relative antialiased font-dm text-base font-normal transition-all">
+    <body class="w-full overflow-x-hidden relative antialiased font-dm text-base font-normal transition-all">
 
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
         <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center">
@@ -80,7 +81,7 @@
       <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
         <div class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <img class="w-24 lg:w-44" src="{{ url('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
+                <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
             </a>
 
             {{-- Btn humberger for mobile --}}
@@ -183,15 +184,19 @@
         </div>
 
         {{-- Mega menu items --}}
-        <div id="mega-menu-full-dropdown" class="mt-1 shadow-xs bg-green-gs hidden transition-all">
-            <div class="flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
+        <div id="mega-menu-full-dropdown" class="p-0 m-0 shadow-xs bg-green-gs hidden transition-all">
+            <div class="hidden mt-1 xl:flex max-w-screen-xl px-4 py-5 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
               <div class="flex flex-col">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Service</h2>
                 <div class="grid grid-cols-2 gap-3 text-black">
                   @foreach ($apiData['services'] as $service)
                   <a href="#" class="flex items-center justify-center gap-1 z-10">
                     <div class="w-72 lg:w-72 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
+<<<<<<< HEAD
                       <img src="{{ url('icons/'.$service['post_name'].'_icon.svg')}}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
+=======
+                      <img src="{{ asset('icons/'.$service['post_name'].'_icon.svg') }}" alt="icon {{ $service['post_name'] }}" srcset="icon {{ $service['post_name'] }}">
+>>>>>>> 7bff7f7351e7d8f2f92ad1f7739da798ac92bfad
                       <span>{{ $service['post_title'] }}</span>
                     </div>
                   </a>
@@ -230,6 +235,7 @@
         Toggle modal
       </button> --}}
 
+
       <!-- Main modal -->
       <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
           <div class="relative p-4 w-[95%] lg:w-[60%]  max-h-full">
@@ -238,7 +244,7 @@
                   <!-- Modal header -->
                   <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                       <h3 class="w-full flex items-center justify-center">
-                          <img class="w-[20%]" src="images/Logo_lg.png" alt="" srcset="">
+                          <img class="w-[20%]" src="{{ asset('images/Logo_lg.png') }}" alt="Logo Gstuff" srcset="logo Gstuff">
                       </h3>
                       <button type="button" class="end-2.5 text-green-gs bg-transparent hover:bg-gray-200 hover:text-amber-400 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
                           <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -249,25 +255,28 @@
                   </div>
                   <!-- Modal body -->
                   <div class="p-4 md:p-5">
-                      <form class="space-y-4" action="#">
+                      <form class="space-y-4" action="{{ route('login') }}" method="POST">
+                        @csrf
                           <div>
-                              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email *</label>
-                              <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+                              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Email') }} *</label>
+                              <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder="name@company.com" required autocomplete="email" autofocus />
                           </div>
                           <div>
-                              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe *</label>
-                              <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{__('Mot de passe')}} *</label>
+                              <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('password') border-red-300 @enderror" required autocomplete="current-password" />
                           </div>
                           <div class="flex justify-between">
                               <div class="flex items-start">
                                   <div class="flex items-center h-5">
-                                      <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-amber-300 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+                                      <input id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-amber-300 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" {{ old('remember') ? 'checked' : ''}} />
                                   </div>
-                                  <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Se souvenir de moi</label>
+                                  <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{__('Se souvenir de moi')}}</label>
                               </div>
-                              <a href="#" class="text-sm text-green-gs hover:underline hover:text-amber-300 dark:text-green-gs">Mot de passe oublié</a>
+                              @if (Route::has('password.request'))
+                                <a href="{{ route('password.request')}}" class="text-sm text-green-gs hover:underline hover:text-amber-300 dark:text-green-gs">{{__('Mot de passe oublié')}}</a>
+                              @endif
                           </div>
-                          <button type="submit" class="w-full text-white bg-green-gs hover:bg-amber-300 hover:text-green-gs focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-gs dark:hover:bg-green-gs/30">Se connecter</button>
+                          <button type="submit" class="w-full text-white bg-green-gs hover:bg-amber-300 hover:text-green-gs focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-gs dark:hover:bg-green-gs/30">{{__('Se connecter')}}</button>
                           <div class="flex items-center justify-center">
                             <div class="flex-1 bg-black h-1"></div>
                             <span class="font-dm-serif p-2 text-xl">Ou</span>
@@ -283,7 +292,6 @@
               </div>
           </div>
       </div>
-
 
 
       {{-- Footer --}}
@@ -346,12 +354,20 @@
           mega_menu_item.classList.add('hidden');
         });
         // Fonction pour faire défiler verticalement ou horizontalement en pourcentage
-        function scrollByPercentage(element, percentageX=0, percentageY=0) {
+        function scrollByPercentage(element, ltr=true, percentageX=0, percentageY=0) {
             // Si aucun élément n'est fourni, on utilise la fenêtre
             const target = element || document.documentElement;
 
+            // Nombre d'element dans le container
+            let containerChild = parseInt(element.children.length);
+            itemPercent = Math.ceil(100 / containerChild) ;
+
+            if (percentageX == 0) {
+              percentageX = itemPercent +1;
+            }
+
             // Calcul des distances de défilement
-            const scrollX = (target.scrollWidth - target.clientWidth) * (percentageX / 100);
+            const scrollX = ltr ? (target.scrollWidth - target.clientWidth) * (percentageX / 100) : -(target.scrollWidth - target.clientWidth) * (percentageX / 100);
             // const scrollY = (target.scrollHeight - target.clientHeight) * (percentageY / 100);
 
             // Défilement vers la position calculée
@@ -362,6 +378,7 @@
             });
         }
       </script>
+      @yield('extraScripts')
 
     </body>
 </html>
