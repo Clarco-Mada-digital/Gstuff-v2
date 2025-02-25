@@ -16,7 +16,11 @@ class AuthController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('auth.register');
+      if (Auth::check()) {
+        $user = Auth::user();
+        return view('auth.profile', ['user' => $user]);
+      }
+      return view('auth.register');
     }
 
     public function register(Request $request)
@@ -71,12 +75,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('profile'))->with('success', 'Connexion réussie !');
+            // return redirect()->intended(route('profile'))->with('success', 'Connexion réussie !');
+            return response()->json(['success' => true, 'message' => 'Authentification réussie']);
         }
 
-        return back()->withErrors([
-            'email' => 'Email ou mot de passe incorrect.',
-        ])->onlyInput('email');
+        // return back()->withErrors([
+        //     'email' => 'Email ou mot de passe incorrect.',
+        // ])->onlyInput('email');
+        return response()->json(['success' => false, 'message' => 'Identifiants incorrects'], 401);
     }
 
     public function logout(Request $request)
@@ -152,6 +158,6 @@ class AuthController extends Controller
             $user = Auth::user();
             return view('auth.profile', ['user' => $user]);
         }
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

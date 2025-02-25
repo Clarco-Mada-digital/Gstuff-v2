@@ -22,6 +22,8 @@ use App\Http\Controllers\PdcController;
 */
 
 // Auth section
+Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/log-out', [AuthController::class, 'logout'])->name('logout');
 

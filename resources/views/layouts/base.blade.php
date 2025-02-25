@@ -3,9 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ url('icon-logo.png')}}" type="image/x-icon">
 
-        <title>Gstuff</title>
+        <title>Gstuff - @yield('pageTitle')</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
 
         {{-- js import --}}
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
 
         <!-- Styles -->
@@ -150,7 +151,7 @@
                     </li>
                     <li>
                       <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                        <div class="inline-flex items-center">                          
+                        <div class="inline-flex items-center">
                           <svg class="h-3.5 w-3.5 rounded-full me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#ffce31" d="M2 32c0 5.9 1.7 11.4 4.6 16h50.7c2.9-4.6 4.6-10.1 4.6-16s-1.7-11.4-4.6-16H6.6C3.7 20.6 2 26.1 2 32"/><path fill="#ed4c5c" d="M57.4 16C52.1 7.6 42.7 2 32 2S11.9 7.6 6.6 16zM6.6 48c5.3 8.4 14.7 14 25.4 14s20.1-5.6 25.4-14z"/><path fill="#c8b100" d="M9.2 28.7h3.2v1.8H9.2zm0 13.2h3.3v1.7H9.2z"/><path fill="#ed4c5c" d="M8.9 39.1c-.3.2-.5.4-.5.5q0 .15.3.3c.2.1.4.3.3.5q.3-.3.3-.6c0-.3-.2-.6-.4-.7"/><path fill="#fff" d="M9.7 30.5H12v11.4H9.7z"/><g fill="#ed4c5c"><path d="M14.4 34.7c-.5-.2-1.4-.4-2.4-.4c-.3 0-.7 0-1.1.1c-1.4.2-2.5.8-2.4 1.2L8 34.5c-.1-.5 1.1-1.1 2.6-1.4c.5-.1 1-.1 1.4-.1c1 0 1.9.1 2.4.3z"/><path d="M9.7 36.2c-.6 0-1.1-.2-1.1-.5c0-.2.2-.5.6-.7h.6zm2.3-.9q.6.15.9.3c.1.1-.3.5-.9.8z"/><path d="M8.2 38.4c-.1-.2.6-.6 1.5-.9c.4-.1.7-.3 1.2-.5c1.2-.5 2.2-1.2 2-1.4l.2 1.2c.1.2-.7.8-1.9 1.4c-.4.2-1.1.5-1.5.6c-.7.2-1.3.6-1.3.7z"/></g><path fill="#c8b100" d="M30.7 28.7h3.2v1.8h-3.2zm-.1 13.2h3.3v1.7h-3.3z"/><path fill="#ed4c5c" d="M34.2 39.1c.3.2.5.4.5.5q0 .15-.3.3c-.2.2-.4.5-.3.6q-.3-.3-.3-.6c0-.4.2-.7.4-.8"/><path fill="#fff" d="M31.1 30.5h2.3v11.4h-2.3z"/><g fill="#ed4c5c"><path d="M28.7 34.7c.5-.2 1.4-.4 2.4-.4c.3 0 .7 0 1.1.1c1.4.2 2.5.8 2.4 1.2l.5-1.2c.1-.5-1.1-1.1-2.6-1.4h-1.4c-1 0-1.9.1-2.4.3z"/><path d="M33.4 36.2c.6 0 1.1-.2 1.1-.5c0-.2-.2-.5-.6-.7h-.6zm-2.3-.9q-.6.15-.9.3c-.1.1.3.5.9.8z"/><path d="M34.9 38.4c.1-.2-.6-.6-1.5-.9c-.4-.1-.7-.3-1.2-.5c-1.2-.5-2.2-1.2-2-1.4l-.2 1.2c-.1.2.7.8 1.9 1.4c.4.2 1.1.5 1.5.6c.7.2 1.3.7 1.2.8zM21.5 22.3c1.9 0 5.8.4 7.2 1.8c-1.5 3.6-3.9 2.1-7.2 2.1c-3.2 0-5.7 1.5-7.2-2.1c1.4-1.4 5.2-1.8 7.2-1.8"/></g><path fill="#c8b100" d="M26.4 26.3c-1.2-.7-3-.8-4.9-.8s-3.7.2-4.9.8L17 28c1.1.3 2.7.5 4.5.5s3.3-.2 4.5-.5zm1.7-4.3c-.4-.3-1.2-.6-1.9-.6c-.3 0-.6 0-.9.1c0 0-.6-.8-2-.8c-.5 0-.9.1-1.3.3v-.1c-.1-.2-.3-.4-.5-.4s-.5.3-.5.5v.1c-.4-.2-.8-.3-1.3-.3c-1.4 0-2 .9-2 .8c-.3-.1-.6-.1-.9-.1c-4.6 0-2.3 3.1-2.3 3.1l.5-.6c-1.1-1.4-.1-2.2 1.9-2.2c.3 0 .5 0 .7.1c-.7 1 .6 1.9.6 1.9l.3-.5c-.7-.5-.8-2.2 1.2-2.2c.5 0 .9.1 1.3.4c0 .1-.1 1.5-.2 1.7l.8.7l.8-.7c-.1-.3-.2-1.6-.2-1.7c.3-.2.8-.4 1.3-.4c2.1 0 2.1 1.7 1.2 2.2l.3.5s1.1-.9.6-1.9c.2 0 .5-.1.7-.1c2.4 0 2.5 1.8 1.9 2.2l.4.6c-.2 0 .9-1.4-.5-2.6"/><path fill="#005bbf" d="M20.9 20.1c0-.3.3-.6.6-.6c.4 0 .6.3.6.6s-.3.6-.6.6s-.6-.3-.6-.6"/><path fill="#c8b100" d="M21.3 18.4v.3H21v.3h.3v1h-.4v.3h1.2l.1-.2l-.1-.1h-.4v-1h.3v-.3h-.3v-.3z"/><path fill="#ed4c5c" d="M21.5 28.3c-1.6 0-3-.2-4.1-.5c1.1-.3 2.5-.5 4.1-.5s3 .2 4.1.5c-1 .3-2.5.5-4.1.5"/><path fill="#fff" d="M21.6 45.6c-1.9 0-3.7-.5-5.3-1.2c-1.2-.6-1.9-1.7-1.9-3v-4.8h14.4v4.8c0 1.3-.8 2.5-1.9 3c-1.6.8-3.4 1.2-5.3 1.2m-.1-17h7.2v8h-7.2z"/><path fill="#ed4c5c" d="M21.6 41.4c0 1.9-1.6 3.4-3.6 3.4s-3.6-1.5-3.6-3.4v-4.8h7.2z"/><path fill="#c8b100" d="M15.9 44.2c.2.1.5.3.9.4v-8.2H16zm-1.6-2.9c0 1 .4 1.8.8 2.2v-7.1h-.8z"/><path fill="#c7b500" d="M17.5 44.8h.8v-8.4h-.8z"/><path fill="#c8b100" d="M19.1 44.6c.3-.1.7-.3.9-.4v-7.8h-.8z"/><path fill="#ed4c5c" d="M14.3 28.6h7.2v8h-7.2z"/><path fill="#c8b100" d="M20.8 43.5c.4-.3.7-1 .8-1.8v-5.2h-.8z"/><path fill="#ed4c5c" d="M28.8 36.6v4.8c0 1.9-1.6 3.4-3.6 3.4s-3.6-1.5-3.6-3.4v-4.8zM26.2 30c.3.6.3 2.1-.6 1.8c.2.1.3.8.6 1.2c.5.6 1.1.1 1-.6c-.2-1.1-.1-1.8.1-2.9c0 .1.5.1.7-.1c-.1.3-.2.7 0 .7c-.2.3-.7.8-.8 1.1c-.1.7 1 2-.2 2.3c-.8.2-.3.8 0 1.1c0 0-.4 1.3-.2 1.2c-.8.3-.6-.4-.6-.4c.4-1.2-.7-1.3-.6-1.5c-1-.1.1.9-.8.9c-.2 0-.6.2-.6.2c-1.1-.1-.5-1.1-.1-1c.3.1.6.6.6-.1c0 0-.5-.8.8-.8c-.5 0-.8-.4-1-.9c-.2.1-.5.6-1.6.7c0 0-.3-1.1 0-.9c.4.2.6.2 1-.2c-.2-.3-1.4-.7-1.2-1.4c0-.2.6-.5.6-.5c-.1.5.2 1 .8 1c.8.1.5-.2.6-.4s.7.1.5-.4c0-.1-.7-.2-.5-.5c.4-.5 1-.1 1.5.4m-4.6 14.6l-.2-.5l.2-.6l.2.6z"/><path fill="#c8b100" d="M16.5 30.3v.5h.2v.4h-.5v1h.3v2.2h-.6v1.1H20v-1.1h-.5v-2.2h.2v-1h-.5v-.4h.3v-.5h-1v.5h.2v.4h-.5V30h.3v-.5h-1.1v.5h.3v1.2h-.5v-.4h.2v-.5zm11.3 12.3v-5h-5.2v5l2.4 1.1h.3zM25 38v1.7L23.3 38zm-2.1.1l2 2l-2 2zm.2 4.4l1.9-1.9v2.8zm2.2.8v-2.8l1.9 1.9zm2.1-1.2l-2-2l2-2zM25.3 38H27l-1.7 1.7z"/><path fill="#ed4c5c" d="M19.2 36.5c0-1.5 1-2.6 2.3-2.6s2.3 1.2 2.3 2.6s-1 2.6-2.3 2.6s-2.3-1.1-2.3-2.6"/><path fill="#005bbf" d="M19.9 36.5c0-1.1.7-1.9 1.6-1.9s1.6.9 1.6 1.9c0 1.1-.7 1.9-1.6 1.9c-.8.1-1.6-.8-1.6-1.9"/><path fill="#c8b100" d="m20.8 35.2l-.4 1.1l.3.1l-.2.4h.6l-.2-.4l.3-.1zm1.5 0l-.4 1.1l.3.1l-.2.4h.6l-.1-.4l.3-.1zm-.7 1.3l-.5 1.1l.3.1l-.1.4h.5l-.1-.4l.3-.1z"/></svg>
                           Spain
                         </div>
@@ -258,21 +259,33 @@
                       </button>
                   </div>
                   <!-- Modal body -->
-                  <div class="p-4 md:p-5">
-                      <form class="space-y-4" action="{{ route('login') }}" method="POST">
+                  <div x-data="loginForm" class="p-4 md:p-5">
+
+                    {{-- Message du formulaire --}}
+                    <div x-show="message" class="flex items-center p-4 mb-4 text-sm  border rounded-lg dark:bg-gray-800" :class="status ? 'text-green-800 border-green-300 bg-green-50 dark:text-green-400 dark:border-green-800' : 'text-red-800 bg-red-50 border-red-300 dark:border-red-800 dark:text-red-400' " role="alert">
+                      <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                      </svg>
+                      <span class="sr-only">Info</span>
+                      <div x-text="message">
+                      </div>
+                    </div>
+
+                    {{-- Content formulaire --}}
+                      <form x-on:submit.prevent="submitForm" id="loginForm" class="space-y-4" action="{{ route('login') }}" method="POST">
                         @csrf
                           <div>
                               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Email') }} *</label>
-                              <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder="name@company.com" required autocomplete="email" autofocus />
+                              <input x-model="email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder="name@company.com" required autocomplete="email" autofocus />
                           </div>
                           <div>
                               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{__('Mot de passe')}} *</label>
-                              <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('password') border-red-300 @enderror" required autocomplete="current-password" />
+                              <input x-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('password') border-red-300 @enderror" required autocomplete="current-password" />
                           </div>
                           <div class="flex justify-between">
                               <div class="flex items-start">
                                   <div class="flex items-center h-5">
-                                      <input id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-amber-300 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" {{ old('remember') ? 'checked' : ''}} />
+                                      <input x-model="remember" id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-amber-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-amber-300 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" {{ old('remember') ? 'checked' : ''}} />
                                   </div>
                                   <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{__('Se souvenir de moi')}}</label>
                               </div>
@@ -287,7 +300,7 @@
                             <div class="flex-1 bg-black h-1"></div>
                           </div>
                           <div class="flex flex-col gap-2 py-5 w-full items-center justify-center transition-all">
-                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire gratuitement</button>
+                            <a href="{{ route('registerForm') }}" class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire gratuitement</a>
                             <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant qu'escorte (Indépendante)</button>
                             <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant que professionnel</button>
                           </div>
@@ -347,7 +360,6 @@
           }, 500);
         })
 
-
         mega_menu_link.addEventListener('mouseover', (e)=>{
           mega_menu_item.classList.remove('hidden');
         })
@@ -380,6 +392,49 @@
                 top: scrollY,
                 behavior: 'smooth' // Optionnel : pour un défilement fluide
             });
+        }
+
+        function loginForm() {
+          return {
+              email: '',
+              password: '',
+              remember: false,
+              message: '',
+              status: true,
+              async submitForm() {
+                form = document.getElementById('loginForm');
+                this.message = "";
+                  try {
+                      const response = await fetch(form.action, {
+                          method: form.method,
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                          },
+                          body: JSON.stringify({
+                              email: this.email,
+                              password: this.password,
+                              remember: this.remember
+                          })
+                      });
+
+                      if (response.ok) {
+                        const data = await response.json();
+                        this.message = data.message;
+                        this.status = data.success;
+                        // Redirige l'utilisateur ou effectue une autre action
+                        // window.location.href = '/dashboard';
+                      } else {
+                        const error = await response.json();
+                        this.message = error.message;
+                        this.status = error.success;
+                      }
+                  } catch (error) {
+                      this.message = 'Une erreur est survenue. Veuillez réessayer.';
+                      this.status = false;
+                  }
+              }
+          };
         }
       </script>
       @yield('extraScripts')
