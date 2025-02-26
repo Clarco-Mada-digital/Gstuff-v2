@@ -193,17 +193,17 @@
     </div> --}}
     <x-FeedbackSection />
 
-    <div class="bg-white py-10 w-full flex items-center justify-center flex-col gap-10">
-      <h3 class="text-2xl md:text-4xl lg:text-5xl font-dm-serif text-green-gs font-bold">Comment devenir escorte sur Gstuff ?</h3>
+    <div class="bg-white py-10 w-full overflow-x-hidden flex items-center justify-center flex-col gap-10">
+      <h3 class="text-xl md:text-4xl lg:text-5xl font-dm-serif text-green-gs font-bold">Comment devenir escorte sur Gstuff ?</h3>
       <p>Devenez escorte indépendante en 3 étapes !</p>
-      <div class="relative grid grid-cols-3 gap-5 text-green-gs text-center text-sm lg:text-lg text-wrap italic font-normal mt-20">
-        <div class="absolute mx-20 top-[18%] col-span-3 w-[75%] h-1 bg-green-gs z-0"></div>
+      <div class="relative grid grid-cols-3 gap-5 text-green-gs  text-xs lg:text-lg text-wrap italic font-normal mt-20 mx-0 px-2">
+        <div class="absolute mx-20 top-[20%] col-span-3 w-[70%] h-1 bg-green-gs z-0"></div>
         @foreach ([1, 2, 3] as $items)
           <img class="w-20 h-20 mx-auto z-10" src="{{ asset('icons/icon_coeur.svg') }}" alt="coeur image" srcset="coeur image">
         @endforeach
-        <div class="lg:w-52 w-44 text-wrap">Envoyer 5 selfies a <span class="text-amber-500">escort-gstuff@gstuff.ch</span></div>
-        <div class="lg:w-52 w-44 text-wrap"> Prenez rendez-vous pour le shooting photo</div>
-        <div class="lg:w-52 w-44 text-wrap">Publiez votre profil</div>
+        <div class="lg:w-52 w-30 text-wrap text-center">Envoyer 5 selfies a <a href="http://escort-gstuff@gstuff.ch" class="text-amber-500">escort-gstuff@gstuff.ch</a></div>
+        <div class="lg:w-52 w-30 text-wrap text-center"> Prenez rendez-vous pour le shooting photo</div>
+        <div class="lg:w-52 w-30 text-wrap text-center">Publiez votre profil</div>
       </div>
     </div>
 

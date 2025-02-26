@@ -4,10 +4,10 @@
   <div class="bg-green-gs/30 flex items-center justify-center min-h-60 py-20">
     <h2 class="font-dm-serif font-bold text-3xl lg:text-5xl text-green-gs text-center">Foires Aux Questions</h2>
   </div>
-  <div class="xl:container px-10 xl:px-60 mx-auto my-10 py-15">
+  <div class="xl:container px-2 xl:px-60 mx-auto my-10 py-15">
     <div id="accordion-collapse text-wrap" data-accordion="collapse">
       <h2 id="accordion-collapse-heading-1" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 rounded-t-xl hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 rounded-t-xl hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Qu'est-ce que Gstuff.ch ?</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -15,7 +15,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
-        <div class="p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm xl:text-base p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <p class="mb-2">Gstuff.ch est un site suisse d’annonces érotiques. Il répertorie des travailleurs et travailleuses du sexe exerçant leur activité en Suisse.
 
             Il permet aux annonceurs de trouver une visibilité certaine auprès d’un public ouvert et respectueux. Il permet à chacun et chacune de naviguer sur le site et de trouver réponse à ses fantasmes. Gstuff se veut inclusif et dans ce sens, seul le plaisir compte.
@@ -24,7 +24,7 @@
         </div>
       </div>
       <h2 id="accordion-collapse-heading-2" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Quels sont les avantages de s'inscrire sur Gstuff ?</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -32,7 +32,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-        <div class="p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm text-base p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <ul class="mb-2">
             <li>• S’assurer une visibilité auprès du public vivant ou de passage en Suisse</li>
             <li>• Une utilisation facile et intuitive</li>
@@ -45,7 +45,7 @@
         </div>
       </div>
       <h2 id="accordion-collapse-heading-3" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Quelles sont les 3 conditions requises pour s'inscrire sur Gstuff ?</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -53,7 +53,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-        <div class="p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm xl:text-base p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <b>Être majeur/e :</b>
 
           <p>Pour visiter le site, vous devez avoir l’âge légal pour le faire. En Suisse, il vous faut avoir 18 ans révolus pour naviguer sur Gstuff. De même donc pour vous créer un profil ou passer une annonce, vous devez être majeur/e. Ceci est la seule condition si vous ne publiez pas d’annonce.</p>
@@ -69,7 +69,7 @@
         </div>
       </div>
       <h2 id="accordion-collapse-heading-4" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Quels sont les moyens de paiement pour valider et publier votre annonce ?</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -77,7 +77,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-        <div class="p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm xl:text-base p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <p>Sur Gstuff, vous pouvez choisir de : </p>
           <p>Payer en ligne, de manière sécurisée ; la validation est alors instantanée.</p>
           <p>Payer en cash ; la validation se fait au moment du rendez-vous en présentiel.</p>
@@ -86,7 +86,7 @@
         </div>
       </div>
       <h2 id="accordion-collapse-heading-5" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-5" aria-expanded="false" aria-controls="accordion-collapse-body-5">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-5" aria-expanded="false" aria-controls="accordion-collapse-body-5">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Comment désactiver mon profil pendant mon absence ?</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -94,7 +94,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-5" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-        <div class="p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm xl:text-base p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <p>Lorsque vous louez un espace sur Gstuff pour y faire figurer votre annonce, vous vous acquittez du montant correspondant au service souhaité. Par exemple, vous louez un espace pour un mois et vous vous payez le service pour un mois.</p>
 
           <p>Mais <b>pourquoi payer lors d’une absence ?</b> Gstuff a à coeur que vous puissiez profiter au maximum des prestations proposées, c’est pourquoi, lorsque vous vous absentez, pour partir en vacances, prendre un peu de repos, ou pour toute autre raison vous appartenant, vous pouvez mettre votre profil en pause et ainsi réellement profiter de tout le temps acheté.</p>
@@ -109,7 +109,7 @@
         </div>
       </div>
       <h2 id="accordion-collapse-heading-6" class="w-full">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-6" aria-expanded="false" aria-controls="accordion-collapse-body-6">
+        <button type="button" class="flex items-center justify-between w-full p-5 font-dm-serif font-bold text-xl xl:text-2xl rtl:text-right text-green-gs border border-b-0 hover:text-white hover:bg-green-gs dark:hover:bg-green-gs gap-3 bg-green-gs/30" data-accordion-target="#accordion-collapse-body-6" aria-expanded="false" aria-controls="accordion-collapse-body-6">
           <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Besoin d'aide ? Contacts utiles</span>
           <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -117,7 +117,7 @@
         </button>
       </h2>
       <div id="accordion-collapse-body-6" class="hidden border-b border-gray-300" aria-labelledby="accordion-collapse-heading-2">
-        <div class="p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <div class="text-sm xl:text-base p-5 border border-b-0 flex flex-col gap-2 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
           <p>Gstuff vous fournit ci-dessous les adresses utiles pour plusieurs types de requêtes, sans que cela soit exhaustif. Si vous avez une requête spécifique et que vous ne trouvez pas la réponse ci-dessous, contactez-nous à info@gstuff.ch et nous nous ferons un plaisir de chercher le bon interlocuteur pour vous.</p>
           <p>La brigade des mœurs traite les délits à caractère sexuel (viol, contrainte sexuelle, acte d’ordre sexuel avec des enfants ou des personnes incapables de discernement ou de résistance, pornographie interdite et exhibitionnisme). En l’absence du lien direct vers ce service, vous pouvez vous adresser au poste de la police cantonale du canton concerné (liste ci-dessous).</p>
           <p>NB : l’indicatif téléphonique pour les appels vers les numéros suisses (mobiles et fixes) est : 0041 ou +41, suivi du numéro de téléphone à 9 chiffres.</p>

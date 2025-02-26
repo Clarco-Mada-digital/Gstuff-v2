@@ -4,18 +4,15 @@
   @endsection
 
   @section('content')
-    <div x-data="{'InviteForm': true}" class="relative w-full overflow-x-hidden flex items-center justify-center gap-10">
+    <div x-data="{'InviteForm': true}" class="relative w-full overflow-x-hidden">
 
       {{-- Button de switch escort/invtée Form --}}
 
       {{-- Invitée section --}}
-      <div x-data="registerForm" class="w-1/2">
-
-        {{-- Image deco --}}
-        <div x-show="!InviteForm" class="relative w-full min-h-[90vh]" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
+      <div x-data="registerForm" x-show="InviteForm" class="w-full h-full flex items-center justify-center gap-10">
 
         {{-- Formulaire --}}
-        <div x-show="InviteForm" class="w-full mx-auto px-30 flex flex-col items-center justify-center gap-20">
+        <div  class="w-full mx-auto px-2 py-5 xl:px-30 flex flex-col items-center justify-center gap-20">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Devenir membre')}}</h2>
 
           {{-- Inscription Invité Formulaire --}}
@@ -67,16 +64,20 @@
             <button type="submit" class="text-white bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-600">Inscription</button>
           </form>
         </div>
+
+        {{-- Image deco --}}
+        <div class="hidden xl:block relative w-full min-h-[90vh]" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
+
       </div>
 
       {{-- Escort section --}}
-      <div class="w-1/2">
+      <div x-show="!InviteForm" class="w-full xl:w-1/2">
 
         {{-- Image deco --}}
-        <div x-show="InviteForm" class="relative w-full min-h-[90vh]" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
+        <div class="hidden xl:block relative w-full min-h-[90vh]" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
 
         {{-- Formulaire --}}
-        <div x-show="!InviteForm" class="w-full mx-auto px-30 flex flex-col items-center justify-center gap-20">
+        <div  class="w-full mx-auto px-30 flex flex-col items-center justify-center gap-20">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Devenir membre')}}</h2>
 
           {{-- Inscription Escort Formulaire --}}
