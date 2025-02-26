@@ -1,6 +1,10 @@
 @extends('layouts.base')
   @section('content')
 
+  @section('pageTitle')
+      CGV
+  @endsection
+
   @section('extraStyle')
     <style>
       h1{

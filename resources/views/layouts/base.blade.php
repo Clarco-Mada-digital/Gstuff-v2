@@ -313,7 +313,7 @@
 
       {{-- Footer --}}
       <div class="w-full min-h-[375px] bg-green-gs transition-all">
-        <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white">
+        <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white text-sm xl:text-base">
           <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
             <a href="{{ route('home') }}" class="w-full">
               <img class="mx-auto lg:m-0 w-60" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" srcset="Logo gstuff">
