@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+    Contact
+  @endsection
+
   @section('content')
 
   <div class="relative w-full py-50" style="background: url('images/girl_deco_image.jpg') center center /cover">

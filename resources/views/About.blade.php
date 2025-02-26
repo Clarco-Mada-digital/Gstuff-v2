@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+    Qui somme nous ?
+  @endsection
+
   @section('content')
 
   <div class="bg-white flex flex-col items-center gap-4 h-30 xl:min-h-60 w-full text-center pt-5 px-2 py-60 z-0">

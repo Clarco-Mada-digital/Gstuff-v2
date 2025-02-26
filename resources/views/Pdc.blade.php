@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+    PDC
+  @endsection
+
   @section('content')
 
   @section('extraStyle')

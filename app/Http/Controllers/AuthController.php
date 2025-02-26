@@ -20,7 +20,7 @@ class AuthController extends Controller
         $user = Auth::user();
         return view('auth.profile', ['user' => $user]);
       }
-      return view('auth.register');
+      return view('auth.Register');
     }
 
     public function register(Request $request)

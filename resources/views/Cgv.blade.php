@@ -2,7 +2,7 @@
   @section('content')
 
   @section('pageTitle')
-      CGV
+    CGV
   @endsection
 
   @section('extraStyle')

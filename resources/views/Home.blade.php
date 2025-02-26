@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+      Home
+  @endsection
+
   @section('content')
 
   {{-- @foreach ($apiData['users'] as $salon)

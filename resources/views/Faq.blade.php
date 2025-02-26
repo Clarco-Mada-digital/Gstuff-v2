@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+    FAQ
+  @endsection
+
   @section('content')
 
   <div class="bg-green-gs/30 flex items-center justify-center min-h-60 py-20">
