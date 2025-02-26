@@ -68,13 +68,13 @@
     <body class="w-full overflow-x-hidden relative antialiased font-dm text-base font-normal transition-all">
 
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
-        <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center">
-          <span class="font-dm-serif text-green-gs lettre text-6xl">G</span>
-          <span class="font-dm-serif text-[#484848] lettre text-6xl">S</span>
-          <span class="font-dm-serif text-[#484848] lettre text-6xl">T</span>
-          <span class="font-dm-serif text-[#484848] lettre text-6xl">U</span>
-          <span class="font-dm-serif text-[#484848] lettre text-6xl">F</span>
-          <span class="font-dm-serif text-[#484848] lettre text-6xl">F</span>
+        <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center text-5xl xl:text-6xl">
+          <span class="font-dm-serif text-green-gs lettre">G</span>
+          <span class="font-dm-serif text-[#484848] lettre">S</span>
+          <span class="font-dm-serif text-[#484848] lettre">T</span>
+          <span class="font-dm-serif text-[#484848] lettre">U</span>
+          <span class="font-dm-serif text-[#484848] lettre">F</span>
+          <span class="font-dm-serif text-[#484848] lettre">F</span>
         </div>
       </div>
 
