@@ -86,13 +86,13 @@
 
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
         <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center text-5xl xl:text-6xl">
-          <img class="h-auto w-fit lettre" src="{{ asset('images/icon_logo.png') }}" alt="logo gstuff" srcset="logo_gstuff">
-          {{-- <span class="font-dm-serif text-green-gs lettre">G</span>
+          {{-- <img class="h-auto w-fit lettre" src="{{ asset('images/icon_logo.png') }}" alt="logo gstuff" srcset="logo_gstuff"> --}}
+          <span class="font-dm-serif text-green-gs lettre">G</span>
           <span class="font-dm-serif text-[#484848] lettre">S</span>
           <span class="font-dm-serif text-[#484848] lettre">T</span>
           <span class="font-dm-serif text-[#484848] lettre">U</span>
           <span class="font-dm-serif text-[#484848] lettre">F</span>
-          <span class="font-dm-serif text-[#484848] lettre">F</span> --}}
+          <span class="font-dm-serif text-[#484848] lettre">F</span>
         </div>
       </div>
 
