@@ -7,17 +7,22 @@
     <div x-data="{'InviteForm': true}" class="relative w-full overflow-x-hidden">
 
       {{-- Button de switch escort/invtée Form --}}
-       <ul class="absolute top-5 left-[50%] -translate-x-[50%] w-[75%] xl:w-[20%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
+       {{-- <ul class="absolute top-5 left-[50%] -translate-x-[50%] w-[75%] xl:w-[20%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
         <li class="w-1/2 focus-within:z-10">
             <button  x-on:click="InviteForm = true" :class="InviteForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Membre</button>
         </li>
         <li class="w-1/2 focus-within:z-10">
             <button x-on:click="InviteForm = false" :class="InviteForm ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Proffessionel</button>
         </li>
-      </ul>
+      </ul> --}}
 
       {{-- Invitée section --}}
-      <div x-data="{'registerForm':''}" x-show="InviteForm" class="w-full h-full flex items-center justify-center">
+      <div x-data="{'registerForm':''}"
+        x-show="InviteForm"
+        x-transition:enter="transition ease-in-out duration-500"
+        x-transition:enter-start="opacity-0 -translate-x-[50%]"
+        x-transition:enter-end="opacity-100"
+        class="w-full h-full flex items-center justify-center">
 
         {{-- Formulaire --}}
         <div  class="w-full xl:w-1/2 mx-auto px-2 pb-5 pt-30 xl:pt-0 xl:px-30 flex flex-col items-center justify-center gap-20">
@@ -67,7 +72,7 @@
             <div class="font-dm-serif font-bold">{{__("Merci de consulter nos conditions générales d'utilisation.")}} <br> Voir les <a class="text-green-gs" href="{{ route('cgv') }}">{{__("condition générales d'utilisation.")}}</a></div>
             <div class="flex items-start mb-5">
               <div class="flex items-center h-5">
-                <input id="cgu_accepted" type="checkbox" name="cgu_accepted" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-green-gs dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-gs dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" value="{{ old('cgu_accepted') }}" autocomplete="cgu_accepted" {{ old('cgu_accepted') ? 'checked' : '' }} required />
+                <input id="cgu_accepted" type="checkbox" name="cgu_accepted" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-green-gs dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-gs dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" autocomplete="cgu_accepted" {{ old('cgu_accepted') ? 'checked' : '' }} required />
               </div>
               <label for="cgu_accepted" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 @error('cgu_accepted') text-red-300 dark:text-red-500 @enderror">{{__("J'ai lu et j'accepte les conditions générales")}}</a></label>
 
@@ -82,16 +87,20 @@
       </div>
 
       {{-- Escort section --}}
-      <div x-show="!InviteForm" class="w-full h-full flex items-center justify-center">
+      {{-- <div x-show="!InviteForm"
+        x-transition:enter="transition ease-in-out duration-500"
+        x-transition:enter-start="opacity-0 translate-x-[50%]"
+        x-transition:enter-end="opacity-100"
+        class="w-full h-full flex items-center justify-center">
 
-        {{-- Image deco --}}
+        {{-- Image deco
         <div class="hidden xl:block relative w-1/2 min-h-[90vh] h-[1000px] py-0 my-0" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
 
-        {{-- Formulaire --}}
+        {{-- Formulaire
         <div x-data="{'escortForm':true}" class="w-full xl:w-1/2 mx-auto px-2 pt-30 xl:pt-20 pb-5 xl:px-30 flex flex-col items-center justify-center gap-15">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Inscription pour devenir pro')}}</h2>
 
-          {{-- Button de switch escort/salon Form --}}
+          {{-- Button de switch escort/salon Form
           <ul class="hidden xl:flex w-[40%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
             <li class="w-1/2 focus-within:z-10">
                 <button  x-on:click="escortForm = true" :class="escortForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Independante</button>
@@ -109,7 +118,7 @@
             </select>
           </div>
 
-          {{-- Inscription Escort Formulaire --}}
+          {{-- Inscription Escort Formulaire -
           <form x-show="escortForm" class="w-full mx-auto flex flex-col gap-5" action="{{ route('register') }}" method="POST">
             @csrf
             <input type="hidden" name="profile_type" value="escorte">
@@ -172,7 +181,7 @@
             <button type="submit" class="text-white bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-600">Inscription</button>
           </form>
 
-          {{-- Inscription Salon Formulaire --}}
+          {{-- Inscription Salon Formulaire
           <form x-show="!escortForm" class="w-full mx-auto flex flex-col gap-3" action="{{ route('register') }}" method="POST">
             @csrf
             <input type="hidden" name="profile_type" value="salon">
@@ -243,7 +252,8 @@
 
         </div>
 
-      </div>
+      </div> --}}
+
     </div>
   @stop
 

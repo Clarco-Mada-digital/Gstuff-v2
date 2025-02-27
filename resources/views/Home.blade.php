@@ -20,7 +20,7 @@
         @foreach ($apiData['services'] as $service)
         <a href="#" class="flex items-center justify-center gap-1 z-10 transition-all">
           <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
-            <img src="{{ asset('icons/'. $service['post_name'] .'_icon.svg') }}" alt="icon service {{ $service['post_name'] }}" srcset="icon service {{ $service['post_name'] }}">
+            <img src="{{ asset('images/icons/'. $service['post_name'] .'_icon.svg') }}" alt="icon service {{ $service['post_name'] }}" srcset="icon service {{ $service['post_name'] }}">
             <span>{{ $service['post_title'] }}</span>
           </div>
         </a>
@@ -170,12 +170,20 @@
       <div class="bg-white/70 absolute top-0 right-0 w-full h-full z-0"></div>
         <h3 class="font-dm-serif text-green-gs text-2xl md:text-3xl lg:text-4xl xl:text-5xl my-4 mx-2 text-center font-bold z-10">Trouver des escortes, masseuses et plus encore sur Gstuff !</h3>
         <div class="flex flex-col w-full px-4 md:flex-row items-center justify-center gap-2 py-6 z-10">
-        @foreach ([1, 2, 3] as $item)
+
         <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
           <span class="text-center font-dm-serif w-[70%]">+ de 500 partenaires</span>
-          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Profils vérifiés pour des rencontres authentiques</span>
+          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Profils vérifiés pour des rencontres authentiques.</span>
         </div>
-        @endforeach
+        <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
+          <span class="text-center font-dm-serif w-[70%]">+ de 300 amateurs</span>
+          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Expériences coquines avec des amateurs dédiés.</span>
+        </div>
+        <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
+          <span class="text-center font-dm-serif w-[70%]">+ de 200 salons professionnels</span>
+          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Offres variées dans des cadres professionnels sécurisés.</span>
+        </div>
+
       </div>
     </div>
 
@@ -204,7 +212,7 @@
       <div class="relative grid grid-cols-3 gap-5 text-green-gs  text-xs lg:text-lg text-wrap italic font-normal mt-20 mx-0 px-2">
         <div class="absolute mx-20 top-[20%] col-span-3 w-[70%] h-1 bg-green-gs z-0"></div>
         @foreach ([1, 2, 3] as $items)
-          <img class="w-20 h-20 mx-auto z-10" src="{{ asset('icons/icon_coeur.svg') }}" alt="coeur image" srcset="coeur image">
+          <img class="w-20 h-20 mx-auto z-10" src="{{ asset('images/icons/icon_coeur.svg') }}" alt="coeur image" srcset="coeur image">
         @endforeach
         <div class="lg:w-52 w-30 text-wrap text-center">Envoyer 5 selfies a <a href="http://escort-gstuff@gstuff.ch" class="text-amber-500">escort-gstuff@gstuff.ch</a></div>
         <div class="lg:w-52 w-30 text-wrap text-center"> Prenez rendez-vous pour le shooting photo</div>
