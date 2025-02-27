@@ -7,12 +7,12 @@
     <div x-data="{'InviteForm': true}" class="relative w-full overflow-x-hidden">
 
       {{-- Button de switch escort/invtée Form --}}
-       <ul class="absolute top-5 left-[50%] -translate-x-[50%] w-[450px] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
+       <ul class="absolute top-5 left-[50%] -translate-x-[50%] w-[75%] xl:w-[20%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
         <li class="w-1/2 focus-within:z-10">
-            <button  x-on:click="InviteForm = true" :class="InviteForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Membre</button>
+            <button  x-on:click="InviteForm = true" :class="InviteForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Membre</button>
         </li>
         <li class="w-1/2 focus-within:z-10">
-            <button x-on:click="InviteForm = false" :class="InviteForm ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Proffessionel</button>
+            <button x-on:click="InviteForm = false" :class="InviteForm ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Proffessionel</button>
         </li>
       </ul>
 
@@ -85,19 +85,19 @@
       <div x-show="!InviteForm" class="w-full h-full flex items-center justify-center">
 
         {{-- Image deco --}}
-        <div class="hidden xl:block relative w-1/2 min-h-[90vh] h-full py-0 my-0" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
+        <div class="hidden xl:block relative w-1/2 min-h-[90vh] h-[1000px] py-0 my-0" style="background: url(images/girl_deco_register.jpg) center center /cover"></div>
 
         {{-- Formulaire --}}
         <div x-data="{'escortForm':true}" class="w-full xl:w-1/2 mx-auto px-2 pt-30 xl:pt-20 pb-5 xl:px-30 flex flex-col items-center justify-center gap-15">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Inscription pour devenir pro')}}</h2>
 
           {{-- Button de switch escort/salon Form --}}
-          <ul class="hidden xl:flex w-[350px] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
+          <ul class="hidden xl:flex w-[40%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm mx-auto dark:divide-gray-700 dark:text-gray-400 z-30">
             <li class="w-1/2 focus-within:z-10">
-                <button  x-on:click="escortForm = true" :class="escortForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Independante</button>
+                <button  x-on:click="escortForm = true" :class="escortForm ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Independante</button>
             </li>
             <li class="w-1/2 focus-within:z-10">
-                <button x-on:click="escortForm = false" :class="escortForm ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Salon</button>
+                <button x-on:click="escortForm = false" :class="escortForm ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Salon</button>
             </li>
           </ul>
 
@@ -108,12 +108,12 @@
               <option value="salon">Salon</option>
             </select>
           </div>
-       
+
           {{-- Inscription Escort Formulaire --}}
           <form x-show="escortForm" class="w-full mx-auto flex flex-col gap-5" action="{{ route('register') }}" method="POST">
             @csrf
             <input type="hidden" name="profile_type" value="escorte">
-            
+
             <div class="relative z-0 w-full mb-5 group">
               <input type="text" name="prenom" id="floating_prenom" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-amber-300 appearance-none dark:text-white dark:border-amber-600 dark:focus:border-green-gs focus:outline-none focus:ring-0 focus:border-green-gs @error('prenom') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror peer" placeholder=" " value="{{ old('prenom') }}" autocomplete="pseudo" required />
               <label for="floating_prenom" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-gs peer-focus:dark:text-green-gs peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 @error('prenom') text-red-700 dark:text-red-500 peer-focus:text-red-700 peer-focus:dark:text-red-500 @enderror">Prenom *</label>
@@ -129,7 +129,7 @@
                 <option value="homme">Homme</option>
                 <option value="non-binaire">non-binaire</option>
                 <option value="autre">autre</option>
-              </select>              
+              </select>
               @error('genre')
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
               @enderror
@@ -198,7 +198,7 @@
                 <option value="madame">madame</option>
                 <option value="mademoiselle">mademoiselle</option>
                 <option value="autre">autre</option>
-              </select>              
+              </select>
               @error('intitule')
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
               @enderror
@@ -242,6 +242,7 @@
           </form>
 
         </div>
+
       </div>
     </div>
   @stop
