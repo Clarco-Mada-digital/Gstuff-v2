@@ -84,6 +84,7 @@
         </div>
       @endif
 
+      {{-- Loader section --}}
       <div id="loader" class="absolute top-0 left-0 w-full h-full bg-white z-50">
         <div class="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-full h-screen flex items-center gap-4 justify-center text-5xl xl:text-6xl">
           {{-- <img class="h-auto w-fit lettre" src="{{ asset('images/icon_logo.png') }}" alt="logo gstuff" srcset="logo_gstuff"> --}}
@@ -97,7 +98,7 @@
       </div>
 
       {{-- header --}}
-      <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-50">
+      <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-30">
         <div x-data="{'showUserDrop':false}" class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
                 <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
@@ -454,8 +455,8 @@
                           </div>
                           <div class="flex flex-col gap-2 py-5 w-full text-sm lg:text-base items-center justify-center transition-all">
                             <a href="{{ route('registerForm') }}" class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire gratuitement</a>
-                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant qu'escorte (Indépendante)</button>
-                            <button class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant que professionnel</button>
+                            <a href="{{ route('escort_register') }}" class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant qu'escorte (Indépendante)</a>
+                            <a href="{{ route('salon_register') }}" class="w-full p-3 text-center border border-amber-300 hover:bg-amber-300 hover:text-green-gs">S'inscrire en tant que professionnel</a>
                           </div>
                       </form>
                   </div>
