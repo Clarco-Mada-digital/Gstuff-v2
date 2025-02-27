@@ -13,7 +13,7 @@
         <div class="hidden xl:block relative w-1/2 min-h-[90vh] py-0 my-0" style="background: url(images/girl_deco_salon.jpg) center center /cover"></div>
 
         {{-- Formulaire --}}
-        <div class="w-full xl:w-1/2 mx-auto px-2 xl:px-30 flex flex-col items-center justify-center gap-15">
+        <div class="w-full xl:w-1/2 mx-auto py-3 px-2 xl:px-30 flex flex-col items-center justify-center gap-15">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Inscription pour les professionels (Salon)')}}</h2>
                     
           {{-- Inscription Salon Formulaire --}}
