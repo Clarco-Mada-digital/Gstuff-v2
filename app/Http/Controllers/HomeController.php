@@ -30,6 +30,6 @@ class HomeController extends Controller
       // $limitedData = array_slice($glossaire, 0, 10);
       // $limiteCanton = array_slice($apiData['cantons'], 0, 5);
 
-      return view('Home');
+      return view('home');
   }
 }

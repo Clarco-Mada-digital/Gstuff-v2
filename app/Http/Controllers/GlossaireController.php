@@ -25,7 +25,7 @@ class GlossaireController extends Controller
 
       // $limiteCanton = array_slice($cantons, 0, 5);
 
-      return view('Glossaire');
+      return view('glossaire');
   }
 
   public function item($id){
@@ -40,6 +40,6 @@ class GlossaireController extends Controller
     $filteredData = array_values($filteredData);
 
     // $glossaires = response()->json($filteredData);
-    return view('SpGlossaire', ['glossaire' => $filteredData]);
+    return view('sp_glossaire', ['glossaire' => $filteredData]);
   }
 }

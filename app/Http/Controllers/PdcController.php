@@ -9,6 +9,6 @@ class PdcController extends Controller
     //
     public function index(){
 
-      return view('Pdc');
+      return view('pdc');
     }
 }

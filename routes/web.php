@@ -31,6 +31,8 @@ Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 
+Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
+
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/glossaires', [GlossaireController::class, 'index'])->name('glossaires');
 Route::get('/glossaire/{id}', [GlossaireController::class, 'item'])->name('glossaire');

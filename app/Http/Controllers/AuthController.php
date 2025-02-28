@@ -20,7 +20,7 @@ class AuthController extends Controller
         $user = Auth::user();
         return view('auth.profile', ['user' => $user]);
       }
-      return view('auth.Register');
+      return view('auth.register');
     }
 
     public function register(Request $request)
@@ -111,7 +111,8 @@ class AuthController extends Controller
         // Envoyer l'email de réinitialisation (vous devrez configurer Mailtrap ou un service d'email réel)
         // Mail::to($user->email)->send(new PasswordResetMail($user, $token));
 
-        return back()->with('success', 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.');
+        // return back()->with('success', 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.');
+        return response()->json(['success' => true, 'message' => 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.']);
     }
 
     public function showPasswordResetForm(string $token)
