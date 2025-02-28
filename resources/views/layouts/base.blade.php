@@ -476,6 +476,7 @@
                           {{__('Reunitialisé mon mot de passe')}}
                         </button>
                       </form>
+                      
                   </div>
               </div>
           </div>
