@@ -394,6 +394,7 @@
           <div class="relative p-4 w-[95%] lg:w-[60%]  max-h-full">
               <!-- Modal content -->
               <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                
                   <!-- Modal header -->
                   <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                       <h3 class="w-full flex items-center justify-center">
@@ -406,6 +407,7 @@
                           <span class="sr-only">Close modal</span>
                       </button>
                   </div>
+
                   <!-- Modal body -->
                   <div x-data="loginForm" class="relative p-4 md:p-5">
 
@@ -427,8 +429,8 @@
                               <input x-model="email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder="name@company.com" required autocomplete="email" autofocus />
                           </div>
                           <div>
-                              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{__('Mot de passe')}} *</label>
-                              <input x-model="password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('password') border-red-300 @enderror" required autocomplete="current-password" />
+                              <label for="conex_pass" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{__('Mot de passe')}} *</label>
+                              <input x-model="password" type="password" name="pass" id="conex_pass" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                           </div>
                           <div class="flex justify-between">
                               <div class="flex items-start">
@@ -464,8 +466,8 @@
                       <form x-show="!showloginForm" x-on:submit.prevent="submitForm(true)" id="resetPwdForm" class="space-y-4" action="{{ route('reset_password') }}" method="POST">
                         @csrf
                         <div>
-                          <label for="emailReset" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Email') }} *</label>
-                          <input x-model="emailReset" type="email" name="email" id="emailReset" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder=" " required autocomplete=" " autofocus />
+                          <label for="res_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Email') }} *</label>
+                          <input x-model="emailReset" type="email" name="res_email" id="res_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder=" " required autofocus />
                         </div>
                         <a href="#" x-on:click="showloginForm = true" class="text-sm text-green-gs hover:underline hover:text-amber-300 dark:text-green-gs">{{__('Retour au formulaire de connexion')}}</a>
                         <button type="submit" class="w-full text-white bg-green-gs hover:bg-amber-300 hover:text-green-gs focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-gs dark:hover:bg-green-gs/30">
@@ -476,7 +478,7 @@
                           {{__('Reunitialisé mon mot de passe')}}
                         </button>
                       </form>
-                      
+
                   </div>
               </div>
           </div>

@@ -18,9 +18,9 @@ class AuthController extends Controller
     {
       if (Auth::check()) {
         $user = Auth::user();
-        return view('auth.profile', ['user' => $user]);
+        return \view('auth.profile', ['user' => $user]);
       }
-      return view('auth.register');
+      return \view('auth.register');
     }
 
     public function register(Request $request)

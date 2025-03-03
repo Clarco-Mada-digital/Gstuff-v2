@@ -24,8 +24,8 @@ use App\Http\Controllers\PdcController;
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/escort-register', function(){return view('auth.EscortRegister');})->name('escort_register');
-Route::get('/salon-register', function(){return view('auth.SalonRegister');})->name('salon_register');
+Route::get('/escort-register', function(){return view('auth.escort_register');})->name('escort_register');
+Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 
