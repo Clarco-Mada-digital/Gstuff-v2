@@ -14,7 +14,10 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
 
         {{-- js import --}}
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js" defer></script>
+        <!-- Alpine Plugins -->
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js" defer></script>
+        <!-- Alpine Core -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
 
         <!-- Styles -->
@@ -213,6 +216,7 @@
 
             @auth
               {{-- Notification icon and user presentation --}}
+              <div x-data="{userType: '{{ Auth::user()->profile_type}}'}" class="flex gap-3 xl:order-1">
               <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" type="button" class="relative bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-2 text-center inline-flex items-center xl:order-1 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 19q-.425 0-.712-.288T4 18t.288-.712T5 17h1v-7q0-2.075 1.25-3.687T10.5 4.2v-.7q0-.625.438-1.062T12 2t1.063.438T13.5 3.5v.7q2 .5 3.25 2.113T18 10v7h1q.425 0 .713.288T20 18t-.288.713T19 19zm7 3q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22"/></svg>
                 <span class="sr-only">Icon description</span>
@@ -317,12 +321,20 @@
               <!-- Dropdown menu -->
               <div id="dropdownUser" class="z-10 hidden bg-gray-300 divide-y divide-gray-400 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                 <ul class="py-2 text-sm text-green-gs font-bold dark:text-gray-200" aria-labelledby="dropdownHoverUser">
+                  
                   <li>
                     <a href="{{route('profile')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mon compte</a>
                   </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mes favoris</a>
-                  </li>
+                  <div x-show="userType=='invite'">
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mes favoris</a>
+                    </li>
+                  </div>
+                  <div x-show="!userType=='invite'">
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mes Galerie</a>
+                    </li>
+                  </div>
                   <li>
                     <a href="#" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Discussion</a>
                   </li>
@@ -336,6 +348,7 @@
                   </form>
                 </ul>
               </div>
+            </div>
             @endauth
 
         </div>
@@ -394,7 +407,7 @@
           <div class="relative p-4 w-[95%] lg:w-[60%]  max-h-full">
               <!-- Modal content -->
               <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                
+
                   <!-- Modal header -->
                   <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                       <h3 class="w-full flex items-center justify-center">
@@ -428,9 +441,30 @@
                               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Email') }} *</label>
                               <input x-model="email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white @error('email') border-red-300 @enderror" placeholder="name@company.com" required autocomplete="email" autofocus />
                           </div>
-                          <div>
+                          <div class="relative" x-data="{ 'pwdShow': true }">
                               <label for="conex_pass" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{__('Mot de passe')}} *</label>
-                              <input x-model="password" type="password" name="pass" id="conex_pass" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                              <input x-model="password" :type="pwdShow ? 'password' : 'text'" name="pass" id="conex_pass" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-amber-300 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+
+                              <div class="absolute bottom-3 right-0 pr-3 flex items-center text-sm leading-5">
+
+                                <svg class="h-4 text-gray-700" fill="none" @click="pwdShow = !pwdShow"
+                                  :class="{'hidden': !pwdShow, 'block':pwdShow }" xmlns="http://www.w3.org/2000/svg"
+                                  viewbox="0 0 576 512">
+                                  <path fill="currentColor"
+                                    d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z">
+                                  </path>
+                                </svg>
+
+                                <svg class="h-4 text-gray-700" fill="none" @click="pwdShow = !pwdShow"
+                                  :class="{'block': !pwdShow, 'hidden':pwdShow }" xmlns="http://www.w3.org/2000/svg"
+                                  viewbox="0 0 640 512">
+                                  <path fill="currentColor"
+                                    d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z">
+                                  </path>
+                                </svg>
+
+                              </div>
+
                           </div>
                           <div class="flex justify-between">
                               <div class="flex items-start">
@@ -654,8 +688,8 @@
           //     this.loadingRequest = true;
 
           // };
+          }
         }
-      }
       </script>
       @yield('extraScripts')
 
