@@ -68,7 +68,7 @@
         @yield('extraStyle')
 
     </head>
-    <body class="w-full overflow-x-hidden relative antialiased font-dm text-base font-normal transition-all">
+    <body class="w-full overflow-x-hidden relative antialiased font-dm text-sm md:text-base font-normal transition-all">
       @if (session('success'))
         <div id="sessionAlert" class="absolute top-3 ring-2 flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
           <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -321,7 +321,7 @@
               <!-- Dropdown menu -->
               <div id="dropdownUser" class="z-10 hidden bg-gray-300 divide-y divide-gray-400 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                 <ul class="py-2 text-sm text-green-gs font-bold dark:text-gray-200" aria-labelledby="dropdownHoverUser">
-                  
+
                   <li>
                     <a href="{{route('profile')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mon compte</a>
                   </li>

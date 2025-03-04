@@ -24,7 +24,7 @@
       </div>
       <hr class="w-full h-2">
 
-      <button class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré mon profile</button>
+      <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf" class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré mon profile</button>
 
       <div x-show="userType=='invite'" class="w-full flex flex-col gap-0 items-center mb-5">
         <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon compte</button>
@@ -44,6 +44,271 @@
 
     </div>
 
+    <div x-data="multiStepForm()" id="addInfoProf" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <!-- Modale -->
+      <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+        <!-- Étapes -->
+        <div class="w-full flex justify-between gap-5 mb-6">
+          <template class="w-full" x-for="(step, index) in steps" :key="index">
+            <div class="w-full flex items-center">
+              <div
+                x-on:click="currentStep=index"
+                class="w-8 h-8 flex mx-2 items-center justify-center rounded-full cursor-pointer"
+                :class="{
+                  'bg-amber-400 text-white': index < currentStep,
+                  'bg-blue-500 text-white animate-bounce': index === currentStep,
+                  'bg-gray-300 text-gray-600': index > currentStep
+                }">
+                <span x-text="index + 1"></span>
+              </div>
+              <span class="hidden xl:block" :class="{'text-amber-400': index < currentStep}" x-text="step"></span>
+              <div x-show="index < steps.length - 1" class="flex-1 w-20 h-1 bg-gray-300 mx-1"></div>
+            </div>
+          </template>
+        </div>
+
+        <!-- Contenu du formulaire -->
+        <form @submit.prevent="submitForm" action="#" method="POST">
+          <!-- Étape 1: Informations personnelles -->
+          <div x-show="currentStep === 0">
+            <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">intitule</label>
+              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+                <option hidden> -- </option>
+                <option value="monsieur">monsieur</option>
+                <option value="madame">madame</option>
+                <option value="mademoiselle">mademoiselle</option>
+                <option value="autre">autre</option>
+              </select>
+            </div>
+            @if (Auth::user()->profile_type=='salon')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
+                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nom_proprietaire }}">
+              </div>
+            @endif
+            @if (Auth::user()->profile_type=='escorte')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Prenom</label>
+                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->prenom }}">
+              </div>
+            @endif
+            @if (Auth::user()->profile_type=='invite')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Pseudo</label>
+                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->pseudo }}">
+              </div>
+            @endif
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->email }}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Numéro téléphone</label>
+              <input type="tel" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Adresse</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">NPA</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Canton</label>
+              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+                @foreach ($apiData['cantons'] as $data)
+                <option value="{{$data['title']['rendered']}}">{{$data['title']['rendered']}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Ville</label>
+              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Étape 2: Informations professionnelles -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5" x-show="currentStep === 1">
+            <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
+            @if (Auth::user()->profile_type=='salon')
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Catégories</label>
+              <select name="categorie" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Recrutement</label>
+              <select name="recrutement" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+                <option hidden> -- </option>
+                <option value="monsieur">Ouvert</option>
+                <option value="madame">Fermer</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
+              <input type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            @endif
+            @if (Auth::user()->profile_type=='escorte')
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Categories</label>
+              <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
+              <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Tailles</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></input>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Origine</label>
+              <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Mensuration</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Poitrine</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Tatouages</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Mobilité</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            @endif
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Tarif</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
+              <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+              </select>
+            </div>
+            <div class="mb-4 col-span-2">
+              <label class="block text-sm font-medium text-gray-700">Apropos</label>
+              <textarea class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+          </div>
+
+          <!-- Étape 3: Informations complémentaires -->
+          <div x-show="currentStep === 2">
+            <h2 class="text-lg font-semibold mb-4">Informations complémentaires</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Autre contact</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Complement d'adresse</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Lien site web</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></input>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">localisation</label>
+              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="h-70 rounded-lg overflow-hidden">
+              <img src="{{ asset('images/map_placeholder.png')}}" alt="map image" srcset="map image" class="w-full object-cover object-center">
+            </div>
+          </div>
+
+          <!-- Boutons de navigation -->
+          <div class="flex justify-between mt-6">
+            <button
+              type="button"
+              @click="prevStep"
+              class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+              x-show="currentStep > 0"
+            >
+              Précédent
+            </button>
+            <button
+              type="button"
+              @click="saveAndQuit"
+              class="px-4 py-2 bg-amber-500 text-white rounded-md"
+              x-show="currentStep < steps.length - 1"
+            >
+              Enregister et quiter
+            </button>
+            <button
+              type="button"
+              @click="nextStep"
+              class="px-4 py-2 bg-blue-500 text-white rounded-md"
+              x-show="currentStep < steps.length - 1"
+            >
+              Suivant
+            </button>
+            <button
+              id="addInfoSubmit"
+              type="submit"
+              class="px-4 py-2 bg-green-500 text-white rounded-md"
+              x-show="currentStep === steps.length - 1"
+            >
+              Soumettre
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="min-w-3/4 px-5 py-5">
       <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
         <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -55,7 +320,7 @@
           <div class="my-1.5">
             Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de compléter vos informations avec des données réelles. Chez Gstuff, nous nous engageons à respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici : <a class="font-bold" href="{{route('pdc')}}">Politique de confidentialité</a>
           </div>
-          <a href="#" class="font-dm-serif font-bold border text-green-gs border-green-600 px-2 py-1 hover:bg-green-gs hover:text-white rounded-lg transition-all">Amelioré mon profile</a>
+          <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf" class="font-dm-serif font-bold border text-green-gs border-green-600 px-2 py-1 hover:bg-green-gs hover:text-white rounded-lg transition-all">Amelioré mon profile</button>
         </div>
       </div>
 
@@ -67,9 +332,9 @@
           {{-- Information --}}
           <div class="flex items-center justify-between py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Mes informations</h2>
-            <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier mes informations</button>
+            <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span> </button>
           </div>
-          <div class="flex items-center gap-10 flex-wrap">
+          <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
             <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg> {{ Auth::user()->pseudo }}</span>
             <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd"/></svg> {{ Carbon::parse(Auth::user()->date_naissance)->age }} ans</span>
             <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/></svg> Homme</span>
@@ -77,27 +342,27 @@
           </div>
 
           {{-- Favoris --}}
-          <div class="flex items-center justify-between py-5">
+          <div class="flex items-center justify-center md:justify-start py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Mes favoris</h2>
           </div>
-          <div class="grid grid-cols- xl:grid-cols-2 w-full">
-            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-10 min-w-full">
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-10 w-full">
+            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-4 min-w-full">
               <h3 class="font-dm-serif text-xl text-green-gs">Mes escortes favoris</h3>
               <div>Aucun favoris escorte pour l'instant</div>
             </div>
-            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-10 min-w-full">
+            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-4 min-w-full">
               <h3 class="font-dm-serif text-xl text-green-gs">Mes salons favoris</h3>
               <div>Aucun favoris salon pour l'instant</div>
             </div>
           </div>
 
           {{-- Filles près de chez toi --}}
-          <div class="flex items-center justify-between py-5">
+          <div class="flex items-center justify-center md:justify-start py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
           </div>
-          <div class="w-full flex items-center flex-wrap mb-4 gap-4">
+          <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
             @foreach (array_slice($apiData['escorts'], 0, 4) as $escort)
-              <div class="relative flex flex-col justify-start min-w-[317px] min-h-[505px] mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
+              <div class="relative mx-auto flex flex-col justify-start min-w-[317px] w-[317px] min-h-[505px] mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
                 <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-gs">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28z"/></svg>
                 </div>
@@ -464,25 +729,29 @@
           </div>
 
           {{-- Escort associé --}}
-          <div class="flex items-center justify-between gap-5 py-5">
+          <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-5">
 
-            <h2 class="font-dm-serif font-bold xl:text-2xl text-green-gs">Escorte du salon</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <h2 class="font-dm-serif font-bold xl:text-2xl text-green-gs">invitée du salon</h2>
+            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Escorte du salon</h2>
+            <div class="hidden xl:block flex-1 h-0.5 bg-green-gs"></div>
+            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">invitée du salon</h2>
 
           </div>
-          <div class="w-full flex items-center gap-2 flex-wrap">
-            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
-            <span class="w-[10%] h-0.5 bg-green-gs"></span>
-            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
+          <div class="mt-10 xl:mt-0 w-full flex items-center flex-col gap-2">
+            <div class="w-full flex flex-col xl:flex-row items-center gap-2">
+              <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
+              <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
+              <span class="hidden xl:block w-[10%] h-0.5 bg-green-gs"></span>
+              <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">invitée du salon</h2>
+              <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
+            </div>
             <div class="w-full flex items-center justify-between pt-10">
               <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer un escort</button>
               <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
             </div>
           </div>
 
-           {{-- Galerie privée --}}
-           <div class="flex items-center justify-between gap-5 py-5">
+          {{-- Galerie privée --}}
+          <div class="flex items-center justify-between gap-5 py-5">
 
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
@@ -500,15 +769,14 @@
         </section>
 
         <section x-show="pageSection=='galerie'">
-          {{-- Storie --}}
           <div class="flex items-center justify-between gap-5 py-5">
 
-          <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-          <div class="flex-1 h-0.5 bg-green-gs"></div>
-          <button class="flex items-center gap-2 text-amber-400">
-            Ajouter/Modifier
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-          </button>
+            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+            <div class="flex-1 h-0.5 bg-green-gs"></div>
+            <button class="flex items-center gap-2 text-amber-400">
+              Ajouter/Modifier
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
+            </button>
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
@@ -531,12 +799,28 @@
   @stop
 
   @section('extraScripts')
-  {{-- <script>
-    function profileData(){
+  <script>
+    function multiStepForm() {
       return {
-        'pageSection': $persist('compte'),
-        'userType': '',
-      }
+        steps: ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
+        currentStep: 0,
+        nextStep() {
+          if (this.currentStep < this.steps.length - 1) {
+            this.currentStep++;
+          }
+        },
+        prevStep() {
+          if (this.currentStep > 0) {
+            this.currentStep--;
+          }
+        },
+        saveAndQuit(){
+          document.getElementById('addInfoSubmit').click();
+        },
+        submitForm() {
+          alert('Formulaire soumis avec succès !');
+        }
+      };
     }
-  </script> --}}
+  </script>
   @endsection
