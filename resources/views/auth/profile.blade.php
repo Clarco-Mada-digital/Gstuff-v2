@@ -141,104 +141,104 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden':''" x-show="currentStep === 1">
             <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
             @if (Auth::user()->profile_type=='salon')
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Catégories</label>
-              <select name="categorie" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+              <select name="categorie" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Recrutement</label>
-              <select name="recrutement" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+              <select name="recrutement" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
                 <option value="monsieur">Ouvert</option>
                 <option value="madame">Fermer</option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
               <input type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
             @endif
             @if (Auth::user()->profile_type=='escorte')
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Categories</label>
               <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
               <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tailles</label>
               <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></input>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Origine</label>
               <select name="origine" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Mensuration</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Poitrine</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tatouages</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Mobilité</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
             @endif
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tarif</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
               </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
               <select id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
