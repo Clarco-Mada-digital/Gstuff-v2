@@ -9,8 +9,8 @@
   @endsection
 
   @section('content')
-    <div class="relative w-full min-h-[30vh]" style="background: url('images/Logo_lg.svg') center center /cover">
-      {{-- <img class="w-full object-center object-cover" src="{{asset('images/girl_deco_image.jpg')}}" alt="Couverture image" srcset="couverture_image"> --}}
+    <div class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
+      <img class="w-[90%] h-auto mx-auto object-center object-contain" src="{{ asset('images/Logo_lg.svg') }}" alt="image couverture" srcset="image couverture">
       <button class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier photo de couverture</button>
     </div>
 
@@ -18,7 +18,8 @@
 
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
-        <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto" style="background: url('{{ asset('images/icon_logo.png') }}') center center /cover">
+        <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+          <img class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" srcset="image profile">
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">Alice</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>Femme</span>
@@ -53,7 +54,6 @@
 
         <div>
 
-          {{-- Section mon compte --}}
           <section x-show="pageSection=='compte'">
 
             {{-- Categorie --}}
@@ -180,71 +180,71 @@
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
             </div>
 
-          </div>
-
-            {{-- Salon associé --}}
-            <div class="flex items-center justify-between gap-5 py-5">
-
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Salon associé</h2>
-              <div class="flex-1 h-0.5 bg-green-gs"></div>
-
-            </div>
-            <div class="w-full flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
             </div>
 
-            {{-- Galerie privée --}}
-            @guest
-            <div class="w-full flex flex-col items-center justify-center font-dm-serif gap-5 text-green-gs my-3">
-              <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M6 7.5a5.5 5.5 0 1 1 11 0a5.5 5.5 0 0 1-11 0M18 14c.69 0 1.25.56 1.25 1.25V16h-2.5v-.75c0-.69.56-1.25 1.25-1.25m3.25 2v-.75a3.25 3.25 0 0 0-6.5 0V16h-1.251v6.5h9V16zm-9.75 6H2v-2a6 6 0 0 1 6-6h3.5z"/></svg>
-              <p class="font-extrabold text-3xl text-center">Connectez-vous pour voir le contenu privée de Daniela</p>
-              <button class="font-dm-serif font-bold btn-gs-gradient rounded-lg">Se connecter / s'inscrire</button>
-            </div>
-            @endguest
-            @auth
-            <div class="flex items-center justify-between gap-5 py-5">
+              {{-- Salon associé --}}
+              <div class="flex items-center justify-between gap-5 py-5">
 
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
-              <div class="flex-1 h-0.5 bg-green-gs"></div>
+                <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Salon associé</h2>
+                <div class="flex-1 h-0.5 bg-green-gs"></div>
 
-            </div>
-            <div class="flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
-            </div>
-            @endauth
-
-            {{-- Feed-back et note --}}
-            <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 gap-10">
-              <div class="flex items-center justify-between">
-                <span class="font-dm-serif text-green-gs font-bold text-xl">Recommandations & Likes + Note attribuée</span>
-                <span class="flex items-center">
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </span>
               </div>
-              <div class="flex items-center gap-5">
-                <img class="w-15 h-15 rounded-full object-center object-cover" src="{{asset('images/icon_logo.png')}}" alt="image profil" srcset="image_profil">
-                <div class="flex flex-col justify-center gap-2">
-                  <div class="flex items-center gap-2 text-green-gs font-bold">
-                    <span>Gerante de salon</span>
-                    <span class="flex items-center">
-                      <svg class="w-5 h-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    </span>
+              <div class="w-full flex items-center gap-10 flex-wrap">
+                <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
+              </div>
+
+              {{-- Galerie privée --}}
+              @guest
+              <div class="w-full flex flex-col items-center justify-center font-dm-serif gap-5 text-green-gs my-3">
+                <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M6 7.5a5.5 5.5 0 1 1 11 0a5.5 5.5 0 0 1-11 0M18 14c.69 0 1.25.56 1.25 1.25V16h-2.5v-.75c0-.69.56-1.25 1.25-1.25m3.25 2v-.75a3.25 3.25 0 0 0-6.5 0V16h-1.251v6.5h9V16zm-9.75 6H2v-2a6 6 0 0 1 6-6h3.5z"/></svg>
+                <p class="font-extrabold text-3xl text-center">Connectez-vous pour voir le contenu privée de Daniela</p>
+                <button class="font-dm-serif font-bold btn-gs-gradient rounded-lg">Se connecter / s'inscrire</button>
+              </div>
+              @endguest
+              @auth
+              <div class="flex items-center justify-between gap-5 py-5">
+
+                <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
+                <div class="flex-1 h-0.5 bg-green-gs"></div>
+
+              </div>
+              <div class="flex items-center gap-10 flex-wrap">
+                <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
+                <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
+              </div>
+              @endauth
+
+              {{-- Feed-back et note --}}
+              <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 gap-10">
+                <div class="flex items-center justify-between">
+                  <span class="font-dm-serif text-green-gs font-bold text-xl">Recommandations & Likes + Note attribuée</span>
+                  <span class="flex items-center">
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </span>
+                </div>
+                <div class="flex items-center gap-5">
+                  <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" srcset="image profile">
+                  <div class="flex flex-col justify-center gap-2">
+                    <div class="flex items-center gap-2 text-green-gs font-bold">
+                      <span>Gerante de salon</span>
+                      <span class="flex items-center">
+                        <svg class="w-5 h-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                      </span>
+                    </div>
+                    <p>Salut, Bonsoir, je teste le tchat</p>
                   </div>
-                  <p>Salut, Bonsoir, je teste le tchat</p>
                 </div>
               </div>
-            </div>
 
-          </section>
+            </section>
 
         </div>
 
