@@ -213,10 +213,10 @@
             @endauth
 
             {{-- Feed-back et note --}}
-            <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 gap-10">
-              <div class="flex items-center justify-between">
-                <span class="font-dm-serif text-green-gs font-bold text-xl">Recommandations & Likes + Note attribuée</span>
-                <span class="flex items-center">
+            <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 mt-5 gap-10">
+              <div class="flex flex-col md:flex-row items-center gap-2 justify-between">
+                <span class="font-dm-serif text-green-gs font-bold text-xl text-center md:text-start">Recommandations & Likes + Note attribuée</span>
+                <span class="items-center hidden md:flex">
                   <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
                   <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
                   <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -227,7 +227,7 @@
               <div class="flex items-center gap-5">
                 <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
                 <div class="flex flex-col justify-center gap-2">
-                  <div class="flex items-center gap-2 text-green-gs font-bold">
+                  <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
                     <span>Gerante de salon</span>
                     <span class="flex items-center">
                       <svg class="w-5 h-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
