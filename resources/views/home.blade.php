@@ -16,7 +16,7 @@
         @foreach ($apiData['services'] as $service)
         <a href="#" class="flex items-center justify-center gap-1 z-10 transition-all">
           <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
-            <img src="{{ asset('images/icons/'. $service['post_name'] .'_icon.svg') }}" alt="icon service {{ $service['post_name'] }}" srcset="icon service {{ $service['post_name'] }}">
+            <img src="{{ asset('images/icons/'. $service['post_name'] .'_icon.svg') }}" alt="icon service {{ $service['post_name'] }}" />
             <span>{{ $service['post_title'] }}</span>
           </div>
         </a>
@@ -52,7 +52,7 @@
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
             @foreach (array_slice($apiData['escorts'], 0, 4) as $escort)
-              <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+            <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
             @endforeach
           </div>
           <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -155,7 +155,7 @@
       <div class="relative grid grid-cols-3 gap-5 text-green-gs  text-xs lg:text-lg text-wrap italic font-normal mt-20 mx-0 px-2">
         <div class="absolute mx-20 top-[20%] col-span-3 w-[70%] h-1 bg-green-gs z-0"></div>
         @foreach ([1, 2, 3] as $items)
-          <img class="w-20 h-20 mx-auto z-10" src="{{ asset('images/icons/icon_coeur.svg') }}" alt="coeur image" srcset="coeur image">
+          <img class="w-20 h-20 mx-auto z-10" src="{{ asset('images/icons/icon_coeur.svg') }}" alt="coeur image" />
         @endforeach
         <div class="lg:w-52 w-30 text-wrap text-center">Envoyer 5 selfies a <a href="http://escort-gstuff@gstuff.ch" class="text-amber-500">escort-gstuff@gstuff.ch</a></div>
         <div class="lg:w-52 w-30 text-wrap text-center"> Prenez rendez-vous pour le shooting photo</div>

@@ -23,8 +23,8 @@
             <input type="text" name="nom" id="nom"  class="border rounded-lg focus:border-amber-400 ring-0" placeholder="Nom">
           </div>
           <div class="flex flex-col w-full gap-2">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email"  class="border rounded-lg focus:border-amber-400 ring-0" placeholder="Email">
+            <label for="contact_email">Email</label>
+            <input type="email" name="email" id="contact_email"  class="border rounded-lg focus:border-amber-400 ring-0" placeholder="Email">
           </div>
         </div>
         <div class="grid grid-cols-1">

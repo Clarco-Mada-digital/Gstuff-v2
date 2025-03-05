@@ -13,7 +13,7 @@
 
   <div class="bg-green-gs min-h-60 pb-4 w-full">
     <div class="w-full xl:w-[70%] mx-auto -translate-y-1/2">
-      <img src="images/image_about_deco.png" alt="Image deco" srcset="image deco">
+      <img src="images/image_about_deco.png" alt="Image deco" />
     </div>
     <div class="grid grid-cols-1 px-10 text-center lg:grid-cols-2 w-full lg:gap-40 xl:w-[65%] mx-auto lg:-mt-20 text-white">
       <div class="text-wrap text-sm xl:text-base">
@@ -30,17 +30,17 @@
 
   <div class="xl:w-[80%] w-full mx-auto bg-white flex flex-col md:flex-row items-center justify-center text-center gap-10 py-20">
     <div class="flex flex-col items-center justify-center gap-5 text-wrap w-full px-2 xl:w-1/3">
-      <img src="images/fi_shield.png" alt="shield icon" srcset="shield icon">
+      <img src="images/fi_shield.png" alt="shield icon" />
       <h3 class="font-dm-serif text-3xl text-green-gs">Divertissement érotique</h3>
       <span>Vivez des expériences uniques avec nos partenaires soigneusement sélectionnés.​</span>
     </div>
     <div class="flex flex-col items-center justify-center gap-5 text-wrap w-full px-2 xl:w-1/3">
-      <img src="images/fi_zap.png" alt="zap icon" srcset="zap icon">
+      <img src="images/fi_zap.png" alt="zap icon" />
       <h3 class="font-dm-serif text-3xl text-green-gs">Divertissement érotique</h3>
       <span>Vivez des expériences uniques avec nos partenaires soigneusement sélectionnés.​</span>
     </div>
     <div class="flex flex-col items-center justify-center gap-5 text-wrap w-full px-2 xl:w-1/3">
-      <img src="images/fi_map-pin.png" alt="map icon" srcset="map icon">
+      <img src="images/fi_map-pin.png" alt="map icon" />
       <h3 class="font-dm-serif text-3xl text-green-gs">Divertissement érotique</h3>
       <span>Vivez des expériences uniques avec nos partenaires soigneusement sélectionnés.​</span>
     </div>
@@ -53,31 +53,48 @@
   <div class="lg:container mx-auto px-5 flex flex-col-reverse gap-10 lg:flex-row justify-center items-center xl:gap-20 my-5">
     <div class="w-full flex flex-col gap-10">
       <h3 class="text-5xl font-bold font-dm-serif text-green-gs text-center">Inscription en une minute.</h3>
-      <form action="#" method="POST" class="flex flex-col gap-4 text-sm xl:text-base">
+      <form action="{{route('register')}}" method="POST" class="flex flex-col gap-4 text-sm xl:text-base">
+        @csrf
+        <input type="hidden" name="profile_type" value="invite">
         <div class="flex flex-col gap-2">
           <label for="pseudo">Pseudo *</label>
-          <input type="text" name="pseudo" id="pseudo" class="border rounded-lg focus:border-amber-400 ring-0">
+          <input type="text" name="pseudo" id="pseudo" class="border rounded-lg focus:border-amber-400 ring-0 @error('pseudo') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('pseudo') }}" autocomplete="pseudo" required>
+          @error('pseudo')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+          @enderror
         </div>
         <div class="flex flex-col gap-2">
-          <label for="email">Adresse email *</label>
-          <input type="email" name="email" id="email" class="border rounded-lg focus:border-amber-400 ring-0">
+          <label for="Insc_email">Adresse email *</label>
+          <input type="email" name="email" id="Insc_email" class="border rounded-lg focus:border-amber-400 ring-0 @error('pseudo') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('pseudo') }}" autocomplete="email" required >
+          @error('email')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+          @enderror
         </div>
         <div class="flex flex-col gap-2">
-          <label for="age">Votre âge</label>
-          <input type="number" name="age" id="age" class="border rounded-lg focus:border-amber-400 ring-0">
+          <label for="date_naissance">Date de naissance</label>
+          <input type="number" name="date_naissance" id="date_naissance" class="border rounded-lg focus:border-amber-400 ring-0 @error('date_naissance') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('date_naissance') }}" autocomplete="date_naissance" required>
+          @error('date_naissance')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+          @enderror
         </div>
         <div class="flex flex-col gap-2">
           <label for="mdp">Mot de passe *</label>
-          <input type="password" name="mdp" id="mdp" class="border rounded-lg focus:border-amber-400 ring-0">
+          <input type="password" name="password" id="mdp" class="border rounded-lg focus:border-amber-400 ring-0 @error('password') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('password') }}" autocomplete="password" required>
+          @error('password')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+          @enderror
         </div>
         <div class="flex flex-col gap-2">
           <label for="cmdp">Confirmer votre mot de passe *</label>
-          <input type="password" name="cmdp" id="cmdp" class="border rounded-lg focus:border-amber-400 ring-0">
+          <input type="password" name="password_confirmation" id="cmdp" class="border rounded-lg focus:border-amber-400 ring-0 @error('password') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('password') }}" autocomplete="password" required>
+          @error('password')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+          @enderror
         </div>
         <div class="flex flex-col gap-2">
           <span class="text-wrap">Merci de consulter nos conditions générales d'utilisation. Voir les <a href="#" class="text-green-gs">condition générales d'utilisation. *</a></span>
           <div class="flex items-center gap-1">
-            <input type="checkbox" name="cgu" id="cgu">
+            <input type="checkbox" name="cgu_accepted" id="cgu" required>
             <label for="cgu">J'ai lu et j'accepte les conditions générales</label>
           </div>
         </div>
