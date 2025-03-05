@@ -30,6 +30,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+Route::get('/escort', function(){return view('sp_escort');})->name('escort');
 
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 
