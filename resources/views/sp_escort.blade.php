@@ -99,7 +99,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/age_icon.svg') }}" alt="age icon" srcset="age icon">
-                  <span>Age : {{ Carbon::parse(Auth::user()->date_naissance)->age }} ans</span>
+                  <span>Age : 22 ans</span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
