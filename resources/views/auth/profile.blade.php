@@ -23,8 +23,8 @@
       <a href="#" class="flex items-center gap-3 md:-mt-[10%] xl:-mt-[25%]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M15.275 12.475L11.525 8.7L14.3 5.95l-.725-.725L8.1 10.7L6.7 9.3l5.45-5.475q.6-.6 1.413-.6t1.412.6l.725.725l1.25-1.25q.3-.3.713-.3t.712.3L20.7 5.625q.3.3.3.713t-.3.712zM6.75 21H3v-3.75l7.1-7.125l3.775 3.75z"/></svg>Modifier photo de profil</a>
       <p class="font-bold">{{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }}</p>
       <div class="flex items-center justify-center gap-2 text-green-gs">
-        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> Suisse Alémanique</a>
-        <a href="tel:0000000" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> 26155489635</a>
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ Auth::user()->canton ?? 'Non renseigner' }}</a>
+        <a href="tel:{{ Auth::user()->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ Auth::user()->telephone ?? 'Non renseigner' }}</a>
       </div>
       <hr class="w-full h-2">
 
@@ -71,6 +71,10 @@
           </template>
         </div>
 
+        <div class="w-full mb-4 bg-gray-200 rounded-full dark:bg-gray-700">
+          <div class="bg-green-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="`width: ${completionPercentage}%`" x-text="`${completionPercentage}% Complete`"> 0% </div>
+        </div>
+
         <!-- Contenu du formulaire -->
         <form @submit.prevent="submitForm" action="#" method="POST">
           <!-- Étape 1: Informations personnelles -->
@@ -78,61 +82,68 @@
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
-              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{Auth::user()->intitule}}">
+              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
-                <option value="monsieur">monsieur</option>
-                <option value="madame">madame</option>
-                <option value="mademoiselle">mademoiselle</option>
-                <option value="autre">autre</option>
+                <option value="monsieur" @if(Auth::user()->intitule == 'monsieur') selected @endif>monsieur</option>
+                  <option value="madame" @if(Auth::user()->intitule == 'madame') selected @endif>madame</option>
+                  <option value="mademoiselle" @if(Auth::user()->intitule == 'mademoiselle') selected @endif>mademoiselle</option>
+                  <option value="autre" @if(Auth::user()->intitule == 'autre') selected @endif>autre</option>
               </select>
             </div>
             @if (Auth::user()->profile_type=='salon')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
-                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nom_proprietaire }}">
+                <input type="text" name="nom_proprietaire" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nom_proprietaire }}">
               </div>
             @endif
             @if (Auth::user()->profile_type=='escorte')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Prenom</label>
-                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->prenom }}">
+                <input type="text" name="prenom" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->prenom }}">
               </div>
             @endif
             @if (Auth::user()->profile_type=='invite')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->pseudo }}">
+                <input type="text" name="pseudo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->pseudo }}">
               </div>
             @endif
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->email }}">
+              <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->email }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Numéro téléphone</label>
-              <input type="tel" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="tel" name="telephone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->telephone }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Adresse</label>
-              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->adresse }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">NPA</label>
-              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="text" name="npa" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->npa }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Canton</label>
-              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="canton" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
-                @foreach ($apiData['cantons'] as $data)
-                <option value="{{$data['title']['rendered']}}">{{$data['title']['rendered']}}</option>
-                @endforeach
+                <template x-if="dropdownData.cantons">
+                  <template x-for="canton in dropdownData.cantons" :key="canton.id">
+                    <option :value="canton.title.rendered" x-text="canton.title.rendered" :selected="canton.title.rendered == '{{ Auth::user()->canton }}'"></option>
+                  </template>
+                </template>
               </select>
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Ville</label>
-              <select name="intitule" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.villes">
+                  <template x-for="ville in dropdownData.villes" :key="ville.id">
+                    <option :value="ville.title.rendered" x-text="ville.title.rendered" :selected="ville.title.rendered == '{{ Auth::user()->ville }}'"></option>
+                  </template>
+                </template>
               </select>
             </div>
           </div>
@@ -144,6 +155,11 @@
               <label class="block text-sm font-medium text-gray-700">Catégories</label>
               <select name="categorie" id="categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.categories">
+                    <template x-for="categorie in dropdownData.categories" :key="categorie">
+                        <option :value="categorie" x-text="categorie" :selected="categorie == '{{ Auth::user()->categorie }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             @if (Auth::user()->profile_type=='salon')
@@ -151,54 +167,91 @@
               <label class="block text-sm font-medium text-gray-700">Recrutement</label>
               <select name="recrutement" id="recrutement" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
-                <option value="monsieur">Ouvert</option>
-                <option value="madame">Fermer</option>
-              </select>
+                <option value="ouvert" @if(Auth::user()->recrutement == 'ouvert') selected @endif>Ouvert</option>
+                <option value="fermé" @if(Auth::user()->recrutement == 'fermé') selected @endif>Fermer</option>
+            </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
-              <input type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="number" name="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nombre_filles }}">
             </div>
             @endif
             @if (Auth::user()->profile_type=='escorte')
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
-              <select name="origine" id="pratique" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.pratiquesSexuelles">
+                    <template x-for="pratique in dropdownData.pratiquesSexuelles" :key="pratique">
+                        <option :value="pratique" x-text="pratique" :selected="pratique == '{{ Auth::user()->pratique_sexuelles }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tailles</label>
-              <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></input>
+              <select name="tailles" id="tailles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden> -- </option>
+                <template x-if="dropdownData.tailles">
+                    <template x-for="taille in dropdownData.tailles" :key="taille">
+                        <option :value="taille" x-text="taille" :selected="taille == '{{ Auth::user()->tailles }}'"></option>
+                    </template>
+                </template>
+            </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Origine</label>
               <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
-              </select>
+                <template x-if="dropdownData.origines">
+                    <template x-for="origine in dropdownData.origines" :key="origine">
+                        <option :value="origine" x-text="origine" :selected="origine == '{{ Auth::user()->origine }}'"></option>
+                    </template>
+                </template>
+            </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
-              <select id="yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.couleursYeux">
+                    <template x-for="couleur in dropdownData.couleursYeux" :key="couleur">
+                        <option :value="couleur" x-text="couleur" :selected="couleur == '{{ Auth::user()->couleur_yeux }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
-              <select id="cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.couleursCheveux">
+                    <template x-for="couleur in dropdownData.couleursCheveux" :key="couleur">
+                        <option :value="couleur" x-text="couleur" :selected="couleur == '{{ Auth::user()->couleur_cheveux }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Mensuration</label>
-              <select id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.mensurations">
+                    <template x-for="mensuration in dropdownData.mensurations" :key="mensuration">
+                        <option :value="mensuration" x-text="mensuration" :selected="mensuration == '{{ Auth::user()->mensuration }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Poitrine</label>
-              <select id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden> -- </option>
+                <template x-if="dropdownData.poitrines">
+                    <template x-for="poitrine in dropdownData.poitrines" :key="poitrine">
+                        <option :value="poitrine" x-text="poitrine" :selected="poitrine == '{{ Auth::user()->poitrine }}'"></option>
+                    </template>
+                </template>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
@@ -318,7 +371,7 @@
         </svg>
         <span class="sr-only">Danger</span>
         <div class="text-dm-serif">
-          <span class="font-bold">Votre profil est actuellement rempli à 10%.</span>
+          <span class="font-bold">Votre profil est actuellement rempli à <span  x-text=`${completionPercentage}%`> 10%.</span> </span>
           <div class="my-1.5">
             Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de compléter vos informations avec des données réelles. Chez Gstuff, nous nous engageons à respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici : <a class="font-bold" href="{{route('pdc')}}">Politique de confidentialité</a>
           </div>

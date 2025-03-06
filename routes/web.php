@@ -9,6 +9,7 @@ use App\Http\Controllers\GlossaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
+use App\Http\Controllers\ProfileCompletionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
+Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
+
 Route::get('/escort', function(){return view('sp_escort');})->name('escort');
+Route::get('/escortes', function(){return view('search_page_escort');})->name('escortes');
+Route::get('/salons', function(){return view('search_page_salon');})->name('salons');
 
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 
@@ -42,3 +48,5 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
+
+Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
