@@ -9,17 +9,16 @@
   @endsection
 
   @section('content')
-    <div class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-      <img class="w-[90%] h-auto mx-auto object-center object-contain" src="{{ asset('images/Logo_lg.svg') }}" alt="image couverture" />
-      <button class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier photo de couverture</button>
+    <div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
+      <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-[90%] h-auto mx-auto object-center object-contain" src="{{ asset('images/Logo_lg.svg') }}" alt="image couverture" />
     </div>
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
 
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
-        <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-          <img class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
+        <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+          <img  @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">Alice</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>Femme</span>
@@ -249,4 +248,5 @@
       </div>
 
     </div>
+
   @stop
