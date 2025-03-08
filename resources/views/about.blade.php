@@ -36,13 +36,13 @@
     </div>
     <div class="flex flex-col items-center justify-center gap-5 text-wrap w-full px-2 xl:w-1/3">
       <img src="images/fi_zap.png" alt="zap icon" />
-      <h3 class="font-dm-serif text-3xl text-green-gs">Divertissement érotique</h3>
-      <span>Vivez des expériences uniques avec nos partenaires soigneusement sélectionnés.​</span>
+      <h3 class="font-dm-serif text-3xl text-green-gs">Sécurité & Confidentialité</h3>
+      <span>Rencontrez en toute confiance grâce à notre système de sécurité avancé.​</span>
     </div>
     <div class="flex flex-col items-center justify-center gap-5 text-wrap w-full px-2 xl:w-1/3">
       <img src="images/fi_map-pin.png" alt="map icon" />
-      <h3 class="font-dm-serif text-3xl text-green-gs">Divertissement érotique</h3>
-      <span>Vivez des expériences uniques avec nos partenaires soigneusement sélectionnés.​</span>
+      <h3 class="font-dm-serif text-3xl text-green-gs">Éducation et Information fiables</h3>
+      <span>Accédez à des conseils sexologiques et des articles éducatifs pour une sexualité épanouie.​</span>
     </div>
   </div>
 
@@ -72,7 +72,7 @@
         </div>
         <div class="flex flex-col gap-2">
           <label for="date_naissance">Date de naissance</label>
-          <input type="number" name="date_naissance" id="date_naissance" class="border rounded-lg focus:border-amber-400 ring-0 @error('date_naissance') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('date_naissance') }}" autocomplete="date_naissance" required>
+          <input type="date" name="date_naissance" id="date_naissance" class="border rounded-lg focus:border-amber-400 ring-0 @error('date_naissance') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('date_naissance') }}" autocomplete="date_naissance" required>
           @error('date_naissance')
             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
           @enderror

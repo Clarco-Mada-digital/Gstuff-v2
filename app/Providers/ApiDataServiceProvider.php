@@ -51,7 +51,10 @@ class ApiDataServiceProvider extends ServiceProvider
       // Les services
       $services = Cache::remember('services', 3600, function(){
         $response = Http::get('https://gstuff.ch/wp-json/services/list_service');
-        return $response->json();
+        $data =  $response->json();
+        usort($data, function($a, $b) {
+          return strcmp($b['post_title'], $a['post_title']);
+        });
       });
 
       // Les escortes
