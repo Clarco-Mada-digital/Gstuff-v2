@@ -195,7 +195,7 @@
             <div class="w-full flex flex-col items-center justify-center font-dm-serif gap-5 text-green-gs my-3">
               <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M6 7.5a5.5 5.5 0 1 1 11 0a5.5 5.5 0 0 1-11 0M18 14c.69 0 1.25.56 1.25 1.25V16h-2.5v-.75c0-.69.56-1.25 1.25-1.25m3.25 2v-.75a3.25 3.25 0 0 0-6.5 0V16h-1.251v6.5h9V16zm-9.75 6H2v-2a6 6 0 0 1 6-6h3.5z"/></svg>
               <p class="font-extrabold text-3xl text-center">Connectez-vous pour voir le contenu privée de Daniela</p>
-              <button class="font-dm-serif font-bold btn-gs-gradient rounded-lg">Se connecter / s'inscrire</button>
+              <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="font-dm-serif font-bold btn-gs-gradient rounded-lg">Se connecter / s'inscrire</button>
             </div>
             @endguest
             @auth
@@ -223,7 +223,7 @@
                   <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
                 </span>
               </div>
-              <div class="flex items-center gap-5">
+              <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
                 <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
                 <div class="flex flex-col justify-center gap-2">
                   <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
@@ -239,6 +239,50 @@
                   <p>Salut, Bonsoir, je teste le tchat</p>
                 </div>
               </div>
+              @auth
+              <form action="#" method="POST" class="flex flex-col gap-3 justify-center">
+                <h1>Note attribuée</h1>
+                <div class="flex items-center gap-1">
+                  @foreach ([1,2,3,4,5] as $item)
+                  <label class="text-[#e7bb1b] peer-checked:text-gray-700" for="note{{$item}}">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </label>
+                  <input class="peer hidden" type="radio" name="note" id="note{{$item}}" value="{{$item}}" required>
+                  @endforeach
+                </div>
+                <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                        <label for="comment" class="sr-only">Your comment</label>
+                        <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ecrire votre commentaire..." required ></textarea>
+                    </div>
+                    <div class="flex items-center justify-end px-3 py-2 border-t dark:border-gray-600 border-gray-200">
+                        <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center btn-gs-gradient rounded-lg focus:ring-0 ">
+                            Envoyer le commentaire
+                        </button>
+                        {{-- <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+                            <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded-sm cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
+                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"/>
+                                </svg>
+                                <span class="sr-only">Attach file</span>
+                            </button>
+                            <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded-sm cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                    <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
+                                </svg>
+                                <span class="sr-only">Set location</span>
+                            </button>
+                            <button type="button" class="inline-flex justify-center items-center p-2 text-gray-500 rounded-sm cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                    <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                </svg>
+                                <span class="sr-only">Upload image</span>
+                            </button>
+                        </div> --}}
+                    </div>
+                </div>
+              </form>
+              @endauth
             </div>
 
           </section>

@@ -147,7 +147,7 @@
           <div id="mega-menu-full" class="items-center m-auto lg:m-0 justify-between font-medium hidden w-full order-1 xl:flex xl:w-auto">
               <ul class="flex flex-col p-4 xl:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 xl:bg-white dark:bg-gray-800 xl:dark:bg-gray-900 dark:border-gray-700">
                   <li>
-                    <a href="{{route('escortes')}}" id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escortes <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <a href="{{route('escortes')}}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu" data-dropdown-trigger="hover" data-dropdown-offset-distance="30" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escortes <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                       </svg>
                     </a>
@@ -338,7 +338,7 @@
                 </a>
               </div>
 
-              <button id="dropdownHoverUser" data-dropdown-toggle="dropdownUser" data-dropdown-trigger="hover" class="bg-gray-200 focus:outline-none font-bold rounded-lg text-center inline-flex items-center py-1.5 px-2 gap-2 xl:order-1 cursor-pointer" type="button">
+              <button id="dropdownHoverUser" data-dropdown-toggle="dropdownUser" class="bg-gray-200 focus:outline-none font-bold rounded-lg text-center inline-flex items-center py-1.5 px-2 gap-2 xl:order-1 cursor-pointer" type="button">
                 <img class="rounded-full w-7 h-7" src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon}}" alt="Image profile" />
                 <span class="hidden xl:inline-flex"> {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }} </span>
                 <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -382,8 +382,8 @@
       </div>
 
       {{-- Mega menu items --}}
-      <div id="mega-menu-full-dropdown" class="absolute p-0 m-0 w-full shadow-xs bg-green-gs hidden transition-all">
-          <div class="hidden mt-1 xl:flex max-w-screen-xl px-4 py-2 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
+      <div id="dropdownMegaMenu" aria-labelledby="dropdownHoverMenu" class="absolute p-0 m-0 w-full shadow-xs bg-green-gs hidden">
+          <div class="hidden xl:flex max-w-screen-xl px-4 py-2 items-start justify-start gap-60 container p-20 mx-auto text-white md:px-6">
             <div class="flex flex-col">
               <h2 class="font-dm-serif font-bold text-2xl my-6">Services</h2>
               <div class="grid grid-cols-2 gap-3 text-black">
@@ -688,15 +688,15 @@
         }, 500);
       })
 
-      mega_menu_link.addEventListener('mouseover', (e)=>{
-        mega_menu_item.classList.remove('hidden');
-      })
-      mega_menu_item.addEventListener('mouseover', (e)=>{
-        mega_menu_item.classList.remove('hidden');
-      })
-      mega_menu_item.addEventListener('mouseleave', (e)=>{
-        mega_menu_item.classList.add('hidden');
-      });
+      // mega_menu_link.addEventListener('mouseover', (e)=>{
+      //   mega_menu_item.classList.remove('hidden');
+      // })
+      // mega_menu_item.addEventListener('mouseover', (e)=>{
+      //   mega_menu_item.classList.remove('hidden');
+      // })
+      // mega_menu_item.addEventListener('mouseleave', (e)=>{
+      //   mega_menu_item.classList.add('hidden');
+      // });
       // Fonction pour faire défiler verticalement ou horizontalement en pourcentage
       function scrollByPercentage(element, ltr=true, percentageX=0, percentageY=0) {
           // Si aucun élément n'est fourni, on utilise la fenêtre
