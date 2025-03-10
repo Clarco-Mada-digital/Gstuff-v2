@@ -525,7 +525,8 @@
                     </button>
                 </div>
 
-                <!-- Modal body -->
+                <!-- Modal body formulaire -->
+                @guest
                 <div x-data="loginForm" class="relative p-4 md:p-5">
 
                   {{-- Message du formulaire --}}
@@ -618,6 +619,14 @@
                     </form>
 
                 </div>
+                @endguest
+
+                {{-- Modal body deja connecter --}}
+                @auth
+                <div class="relative p-4 md:p-5">
+                  Vous êtes déjà connecté en tant que {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }}.
+                </div>
+                @endauth
             </div>
         </div>
     </div>

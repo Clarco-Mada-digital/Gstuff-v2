@@ -4,12 +4,12 @@
     <template x-for="(item, index) in items" :key="index">
       <div
         :class="{
-          ' scale-100 translate-x-0 z-20': currentIndex === index,
-          ' scale-75 translate-x-[-100%] z-10': currentIndex === index - 1,
-          ' scale-75 translate-x-[100%] z-10': currentIndex === index + 1,
-          'opacity-0 scale-75': currentIndex !== index && currentIndex !== index - 1 && currentIndex !== index + 1
+          'scale-75 translate-x-[-100%] z-10': currentIndex === index,
+          'scale-100 translate-x-0 z-20': currentIndex === index - 1,
+          'scale-75 translate-x-[100%] z-10': currentIndex === index - 2,
+          'translate-x-[200%] opacity-0 scale-75': currentIndex !== index && currentIndex !== index - 1 && currentIndex !== index - 2
         }"
-        class="min-w-[300px] lg:w-[625px] h-[250px] p-5 bg-white rounded-lg flex flex-col items-center justify-center gap-4 text-xl lg:text-3xl duration-500 flex-shrink-0 w-1/3 absolute">
+        class="min-w-[300px] lg:w-[625px] h-[250px] p-5 bg-white rounded-lg flex flex-col items-center justify-center gap-4 text-xl lg:text-3xl duration-500 flex-shrink-0 w-1/3 absolute transition-all">
         <span class="text-center w-[80%] mx-auto" x-text="item.content"></span>
         <div class="flex items-center w-full justify-center gap-4">
           <img class="w-12 h-12 rounded-full" src="{{ asset('images/icons/user_icon.svg') }}" alt="user_default icon" srcset="user icon">
@@ -29,10 +29,27 @@
   </button>
 </div>
 
+<style>
+  .transition-all {
+    transition: all 1.5s ease-in-out;
+  }
+</style>
 <script>
   function carousel() {
     return {
       items: [
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
+        { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
         { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
         { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
         { content: "Amazing experience i love it a lot. Thanks to the team that dreams come true, great!", author: "Lassy Chester", post: "Escort"},
@@ -52,7 +69,7 @@
         }, 7000); // Change every 7 seconds
       },
       init() {
-        this.autoSlide();
+        // this.autoSlide();
       }
     }
   }
