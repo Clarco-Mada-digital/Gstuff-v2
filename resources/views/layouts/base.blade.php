@@ -147,7 +147,7 @@
           <div id="mega-menu-full" class="items-center m-auto lg:m-0 justify-between font-medium hidden w-full order-1 xl:flex xl:w-auto">
               <ul class="flex flex-col p-4 xl:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 xl:bg-white dark:bg-gray-800 xl:dark:bg-gray-900 dark:border-gray-700">
                   <li>
-                    <a href="{{route('escortes')}}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu" data-dropdown-trigger="hover" data-dropdown-offset-distance="30" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escortes <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <a href="{{route('escortes')}}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu" data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 xl:hover:bg-transparent xl:hover:text-yellow-500 xl:p-0 dark:text-white xl:dark:hover:text-yellow-500 dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Escortes <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                       </svg>
                     </a>
@@ -388,8 +388,8 @@
               <h2 class="font-dm-serif font-bold text-2xl my-6">Services</h2>
               <div class="grid grid-cols-2 gap-3 text-black">
                 @foreach ($apiData['services'] as $service)
-                <a href="#" class="flex items-center justify-center gap-1 z-10">
-                  <div class="w-72 lg:w-75 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
+                <a href="{{route('escortes')}}?services={{ $service['post_name'] }}" class="flex items-center justify-center gap-1 z-10">
+                  <div class="w-72 lg:w-80 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
                     <img src="{{ url('images/icons/'.$service['post_name'].'_icon.svg')}}" alt="icon {{ $service['post_name'] }}" />
                     <span>{{ $service['post_title'] }}</span>
                   </div>
@@ -401,20 +401,20 @@
               <div class="border-l border-gray-500 px-4">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Orientation</h2>
                 <div class="flex flex-wrap w-full xl:w-[350px] gap-2">
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Homme</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Femme</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Trans</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Gay</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Lesbienne</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Bisex</a>
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Queer</a>
+                  <a href="{{route('escortes')}}?oriantation=Homme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Homme</a>
+                  <a href="{{route('escortes')}}?oriantation=Femme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Femme</a>
+                  <a href="{{route('escortes')}}?oriantation=Trans" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Trans</a>
+                  <a href="{{route('escortes')}}?oriantation=Gay" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Gay</a>
+                  <a href="{{route('escortes')}}?oriantation=Lesbienne" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Lesbienne</a>
+                  <a href="{{route('escortes')}}?oriantation=Bisex" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Bisex</a>
+                  <a href="{{route('escortes')}}?oriantation=Queer" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Queer</a>
                 </div>
               </div>
               <div class="px-4">
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
                 <div class="flex flex-wrap gap-2">
                   @foreach ($apiData['cantons'] as $canton)
-                  <a href="#" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['title']['rendered'] }}</a>
+                  <a href="{{route('escortes')}}?canton={{ $canton['title']['rendered'] }}" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['title']['rendered'] }}</a>
                   @endforeach
                 </div>
               </div>
@@ -473,17 +473,41 @@
                       <option value="DE">Queer</option>
                     </select>
                   </div>
-                  <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Agence d'escort</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Salon erotique</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Institut de massage</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Sauna</span>
+                  <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
+                    <div>
+                      <input type="checkbox" name="escorte" id="agenceEscorte" value="escorte" class="hidden peer">
+                      <label for="agenceEscorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Agence d'escort</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" name="erotique" id="erotique" value="erotique" class="hidden peer">
+                      <label for="erotique" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Salon erotique</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" name="massage" id="massage" value="massage" class="hidden peer">
+                      <label for="massage" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Institut de massage</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" name="sauna" id="sauna" value="sauna" class="hidden peer">
+                      <label for="sauna" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Sauna</label>
+                    </div>
                   </div>
                   <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Trans</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Dominatrice BDSM</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Masseuse (no sex)</span>
-                    <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Escort</span>
+                    <div>
+                      <input class="hidden peer" type="checkbox" id="trans" name="trans" value="trans">
+                      <label for="trans" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">Trans</label>
+                    </div>
+                    <div>
+                      <input class="hidden peer" type="checkbox" id="dominatrice" name="dominatrice" value="dominatrice">
+                      <label for="dominatrice" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Dominatrice BDSM</label>
+                    </div>
+                    <div>
+                      <input class="hidden peer" type="checkbox" id="masseuse" name="masseuse" value="masseuse">
+                      <label for="masseuse" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Masseuse (no sex)</label>          
+                    </div>
+                    <div>
+                      <input class="hidden peer" type="checkbox" id="escorte" name="escorte" value="escorte">
+                      <label for="escorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Escorte</label>
+                    </div>
                   </div>
 
                   {{-- Listing d'escort/salon --}}
@@ -623,7 +647,7 @@
 
                 {{-- Modal body deja connecter --}}
                 @auth
-                <div class="relative p-4 md:p-5">
+                <div class="relative text-center p-4 md:p-5">
                   Vous êtes déjà connecté en tant que {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }}.
                 </div>
                 @endauth

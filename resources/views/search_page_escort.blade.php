@@ -27,10 +27,22 @@
         </select>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Trans</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Dominatrice BDSM</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Masseuse (no sex)</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Escort</span>
+        <div>
+          <input class="hidden peer" type="checkbox" id="trans" name="trans" value="trans">
+          <label for="trans" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">Trans</label>
+        </div>
+        <div>
+          <input class="hidden peer" type="checkbox" id="dominatrice" name="dominatrice" value="dominatrice">
+          <label for="dominatrice" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Dominatrice BDSM</label>
+        </div>
+        <div>
+          <input class="hidden peer" type="checkbox" id="masseuse" name="masseuse" value="masseuse">
+          <label for="masseuse" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Masseuse (no sex)</label>          
+        </div>
+        <div>
+          <input class="hidden peer" type="checkbox" id="escorte" name="escorte" value="escorte">
+          <label for="escorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Escort</label>
+        </div>
       </div>
       <div class="font-dm-serif text-gray-600 flex items-center gap-2 p-2 bg-white border border-gray-400 rounded-lg my-5 hover:bg-green-gs hover:text-white group">
         Plus de filtres

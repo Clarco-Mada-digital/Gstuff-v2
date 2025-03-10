@@ -17,15 +17,36 @@
         </select>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Agence d'escort</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Salon erotique</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Institut de massage</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Sauna</span>
+        <div>
+          <input type="checkbox" name="escorte" id="agenceEscorte" value="escorte" class="hidden peer">
+          <label for="agenceEscorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Agence d'escort</label>
+        </div>
+        <div>
+          <input type="checkbox" name="erotique" id="erotique" value="erotique" class="hidden peer">
+          <label for="erotique" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Salon erotique</label>
+        </div>
+        <div>
+          <input type="checkbox" name="massage" id="massage" value="massage" class="hidden peer">
+          <label for="massage" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Institut de massage</label>
+        </div>
+        <div>
+          <input type="checkbox" name="sauna" id="sauna" value="sauna" class="hidden peer">
+          <label for="sauna" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Sauna</label>
+        </div>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">1 à 5 filles</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">5 à 15 filles</span>
-        <span class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400">Plus de 15 filles</span>
+        <div>
+          <input type="checkbox" name="5fille" id="5fille" value="5fille" class="hidden peer">
+          <label for="5fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">1 à 5 filles</label>
+        </div>
+        <div>
+          <input type="checkbox" name="15fille" id="15fille" value="15fille" class="hidden peer">
+          <label for="15fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">5 à 15 filles</label>          
+        </div>
+        <div>
+          <input type="checkbox" name="plusFille" id="plusFille" value="plusFille" class="hidden peer">
+          <label for="plusFille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Plus de 15 filles</label>
+        </div>
       </div>
     </div>
 
