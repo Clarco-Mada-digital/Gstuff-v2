@@ -52,9 +52,8 @@ class ApiDataServiceProvider extends ServiceProvider
       $services = Cache::remember('services', 3600, function(){
         $response = Http::get('https://gstuff.ch/wp-json/services/list_service');
         $data =  $response->json();
-        usort($data, function($a, $b) {
-          return strcmp($b['post_title'], $a['post_title']);
-        });
+        $res = [['post_title'=>'Escorte','post_name'=>'escort'], ['post_title'=>'Masseuse (no sexe)','post_name'=>'masseuse-no-sex'], ['post_title'=>'Dominatrice BDSM','post_name'=>'dominatrice-bdsm'], ['post_title'=>'Trans','post_name'=>'transsexuel'],];
+        return $res;
       });
 
       // Les escortes
