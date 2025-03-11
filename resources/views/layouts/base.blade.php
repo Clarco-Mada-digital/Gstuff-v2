@@ -440,8 +440,7 @@
 
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                    {{-- <h3 class="w-full flex items-center justify-center">
-                    </h3> --}}
+                  <h1 class="flex-1 font-dm-serif font-bold text-3xl text-green-gs text-center">Rechercer une fille ou un salon</h1>
                     <button type="button" class="end-2.5 text-green-gs bg-transparent hover:bg-gray-200 hover:text-amber-400 rounded-lg text-sm w-4 h-4 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="search-modal">
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -453,7 +452,6 @@
                 <!-- Modal body -->
                 <div class="relative flex flex-col gap-3 items-center justify-center p-4 md:p-5">
 
-                  <h1 class="font-dm-serif font-bold text-3xl text-green-gs text-center">Rechercer une fille ou un salon</h1>
                   <input type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="Recherche escort, salon..." required />
                   <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
                     <select id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
@@ -502,7 +500,7 @@
                     </div>
                     <div>
                       <input class="hidden peer" type="checkbox" id="masseuse" name="masseuse" value="masseuse">
-                      <label for="masseuse" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Masseuse (no sex)</label>          
+                      <label for="masseuse" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Masseuse (no sex)</label>
                     </div>
                     <div>
                       <input class="hidden peer" type="checkbox" id="escorte" name="escorte" value="escorte">

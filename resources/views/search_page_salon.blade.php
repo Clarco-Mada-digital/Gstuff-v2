@@ -41,13 +41,17 @@
         </div>
         <div>
           <input type="checkbox" name="15fille" id="15fille" value="15fille" class="hidden peer">
-          <label for="15fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">5 à 15 filles</label>          
+          <label for="15fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">5 à 15 filles</label>
         </div>
         <div>
           <input type="checkbox" name="plusFille" id="plusFille" value="plusFille" class="hidden peer">
           <label for="plusFille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Plus de 15 filles</label>
         </div>
       </div>
+      <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal" class="font-dm-serif text-gray-600 flex items-center gap-2 p-2 bg-white border border-gray-400 rounded-lg my-2 hover:bg-green-gs hover:text-white group">
+        Réinitialiser les filtres
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z"/></svg>
+      </button>
     </div>
 
     <div class="container mx-auto py-20 px-2">
