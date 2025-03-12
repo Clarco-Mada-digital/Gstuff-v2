@@ -24,7 +24,7 @@
   <button @click="prev()" class="absolute left-1 xl:left-10 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer z-40">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
   </button>
-  <button @click="next()" class="absolute right-1 xk:right-10 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer z-40">
+  <button @click="next()" class="absolute right-1 xl:right-10 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer z-40">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
   </button>
 </div>

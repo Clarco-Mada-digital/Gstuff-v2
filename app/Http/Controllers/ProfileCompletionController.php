@@ -15,6 +15,7 @@ class ProfileCompletionController extends Controller
     public function getDropdownData()
     {
         // Exemple de données statiques, à remplacer par votre logique de récupération de données
+        $intitules = ['monsieur', 'madame', 'mademoiselle', 'autre'];
         $categories = ['Escort', 'Salon de massage', 'Bar', 'Club'];
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
@@ -30,6 +31,7 @@ class ProfileCompletionController extends Controller
         $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
 
         return response()->json([
+            'intitules' => $intitules,
             'categories' => $categories,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
@@ -47,7 +49,7 @@ class ProfileCompletionController extends Controller
     }
 
 
-  
+
     /**
      * Calculates the profile completion percentage for the authenticated user.
      *
