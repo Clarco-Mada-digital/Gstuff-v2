@@ -58,7 +58,7 @@ class AuthController extends Controller
 
         Auth::login($user); // Connecte automatiquement l'utilisateur après l'inscription
 
-        return redirect()->route('profile')->with('success', 'Inscription réussie ! Bienvenue.');
+        return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
     }
 
     public function showLoginForm()

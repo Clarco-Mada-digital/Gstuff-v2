@@ -13,7 +13,7 @@
     <button class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier photo de couverture</button>
   </div>
 
-  <div x-data="{pageSection: $persist('compte'), userType:'{{ Auth::user()->profile_type }}', completionPercentage: 0, dropdownData:'', fetchCompletionPercentage() { fetch('/profile-completion-percentage') .then(response => response.json()) .then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data') .then(response => response.json()) .then(data => { this.dropdownData = data; }); }}"  x-init="fetchCompletionPercentage()"
+  <div x-data="{pageSection: $persist('compte'), userType:'{{ $user->profile_type }}', completionPercentage: 0, dropdownData:'', fetchCompletionPercentage() { fetch('/profile-completion-percentage') .then(response => response.json()) .then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data') .then(response => response.json()) .then(data => { this.dropdownData = data; }); }}"  x-init="fetchCompletionPercentage()"
     class="container flex flex-col xl:flex-row justify-center mx-auto">
 
     {{-- Left section profile --}}
@@ -32,10 +32,10 @@
         </svg>
         Modifier photo de profil
       </a>
-      <p class="font-bold">{{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }}</p>
+      <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
       <div class="flex items-center justify-center gap-2 text-green-gs">
-        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ Auth::user()->canton ?? 'Non renseigner' }}</a>
-        <a href="tel:{{ Auth::user()->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ Auth::user()->telephone ?? 'Non renseigner' }}</a>
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton ?? 'Non renseigner' }}</a>
+        <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
       </div>
       <hr class="w-full h-2">
 
@@ -63,6 +63,7 @@
     <div x-data="multiStepForm()" x-init="fetchDropdownData();" id="addInfoProf" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <!-- Modale -->
       <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+
         <!-- Étapes -->
         <div class="w-full flex justify-between gap-5 mb-6">
           <template class="w-full" x-for="(step, index) in steps" :key="index">
@@ -90,47 +91,47 @@
         <!-- Contenu du formulaire -->
         <form action="{{route('profile.update')}}" method="POST">
           @csrf
+
           <!-- Étape 1: Informations personnelles -->
           <div x-show="currentStep === 0">
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
               <div class="flex">
-                <div id="states-button" data-dropdown-toggle="dropdown-states" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-50 border border-e-0 border-gray-300 rounded-s-lg focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">
+                <div id="states-button" data-dropdown-toggle="dropdown-states" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-50 border border-e-0 border-gray-300 rounded-s-lg focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600" type="button">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/>
                 </svg>
-              </div>
-                <select name="intitule" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <option hidden> -- </option>
-                  <template x-if="dropdownData.intitules">
-                    <template x-for="intitules in dropdownData.intitules" :key="intitules">
-                        <option :value="intitules" x-text="intitules" :selected="intitules == '{{ Auth::user()->intitule }}'"></option>
-                    </template>
-                </template>
+                </div>
+                <select name="intitule" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
+                  <option hidden value=""> -- </option>
+                  <option value="monsieur" @if($user->intitule == 'monsieur') selected @endif>monsieur</option>
+                  <option value="madame" @if($user->intitule == 'madame') selected @endif>madame</option>
+                  <option value="mademoiselle" @if($user->intitule == 'mademoiselle') selected @endif>mademoiselle</option>
+                  <option value="autre" @if($user->intitule == 'autre') selected @endif>autre</option>
                 </select>
               </div>
             </div>
-            @if (Auth::user()->profile_type=='salon')
+            @if ($user->profile_type=='salon')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
-                <input type="text" name="nom_proprietaire" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nom_proprietaire }}">
+                <input type="text" name="nom_proprietaire" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->nom_proprietaire }}">
               </div>
             @endif
-            @if (Auth::user()->profile_type=='escorte')
+            @if ($user->profile_type=='escorte')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Prenom</label>
                 <div class="relative">
                   <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg>
                   </div>
-                  <input type="text" id="prenom" name="prenom" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ Auth::user()->prenom }}" />
+                  <input type="text" id="prenom" name="prenom" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $user->prenom }}" />
                 </div>
               </div>
             @endif
-            @if (Auth::user()->profile_type=='invite')
+            @if ($user->profile_type=='invite')
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" name="pseudo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->pseudo }}">
+                <input type="text" name="pseudo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->pseudo }}">
               </div>
             @endif
             <div class="mb-4">
@@ -140,7 +141,7 @@
                   <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12v1.45q0 1.475-1.012 2.513T18.5 17q-.875 0-1.65-.375t-1.3-1.075q-.725.725-1.638 1.088T12 17q-2.075 0-3.537-1.463T7 12t1.463-3.537T12 7t3.538 1.463T17 12v1.45q0 .65.425 1.1T18.5 15t1.075-.45t.425-1.1V12q0-3.35-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20h4q.425 0 .713.288T17 21t-.288.713T16 22zm0-7q1.25 0 2.125-.875T15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15"/>
                   </svg>
                 </div>
-                <input type="email" id="phone-input" name="email" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ Auth::user()->email }}" />
+                <input type="email" id="phone-input" name="email" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $user->email }}" />
               </div>
             </div>
             <div class="mb-4">
@@ -151,29 +152,24 @@
                       <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
                   </svg>
                 </div>
-                <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="[0-9]{3}.[0-9]{2}.[0-9]{3}.[0-9]{2}" placeholder="000.00.000.00" value="{{ Auth::user()->telephone }}" />
+                <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="[0-9]{3}.[0-9]{2}.[0-9]{3}.[0-9]{2}" placeholder="000.00.000.00" value="{{ $user->telephone }}" />
               </div>
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Adresse</label>
-              <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->adresse }}">
+              <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->adresse }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">NPA</label>
-              <input type="text" name="npa" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->npa }}">
+              <input type="text" name="npa" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->npa }}">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Canton</label>
               <select name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                @foreach ($apiData['cantons'] as $canton)
-                  <option value="{{$canton['title']['rendered']}}" selected="'{{$canton['title']['rendered']}}' == '{{ Auth::user()->canton }}'">{{$canton['title']['rendered']}}</option>
+                <option hidden value=""> -- </option>
+                @foreach ($cantons as $canton)
+                  <option value="{{ $canton->title }}" @if($user->canton == $canton->title) selected @endif>{{ $canton->title }}</option>
                 @endforeach
-                {{-- <template x-if="dropdownData.cantons">
-                  <template x-for="canton in dropdownData.cantons" :key="canton.id">
-                    <option :value="canton.title.rendered" x-text="canton.title.rendered" :selected="canton.title.rendered == '{{ Auth::user()->canton }}'"></option>
-                  </template>
-                </template> --}}
               </select>
             </div>
             <div class="mb-4">
@@ -181,12 +177,10 @@
               <x-selecte_multiple /> --}}
               <label class="block text-sm font-medium text-gray-700">Ville</label>
               <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.villes">
-                  <template x-for="ville in dropdownData.villes" :key="ville.id">
-                    <option :value="ville.title.rendered" x-text="ville.title.rendered" :selected="ville.title.rendered == '{{ Auth::user()->ville }}'"></option>
-                  </template>
-                </template>
+                <option hidden value=""> -- </option>
+                @foreach ($villes as $ville)
+                  <option value="{{ $ville->title }}" @if($user->ville == $ville->title) selected @endif>{{ $ville->title }}</option>
+                @endforeach
               </select>
             </div>
           </div>
@@ -197,188 +191,166 @@
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Catégories</label>
               <select name="categorie" id="categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.categories">
-                    <template x-for="categorie in dropdownData.categories" :key="categorie">
-                        <option :value="categorie" x-text="categorie" :selected="categorie == '{{ Auth::user()->categorie }}'"></option>
-                    </template>
-                </template>
+                <option hidden value=""> -- </option>
+                @foreach ($categories as $categorie)
+                  <option value="{{ $categorie }}" @if($user->categorie == $categorie) selected @endif>{{ $categorie }}</option>
+                @endforeach
               </select>
             </div>
-            @if (Auth::user()->profile_type=='salon')
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Recrutement</label>
-              <select name="recrutement" id="recrutement" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden> -- </option>
-                <option value="ouvert" @if(Auth::user()->recrutement == 'ouvert') selected @endif>Ouvert</option>
-                <option value="fermé" @if(Auth::user()->recrutement == 'fermé') selected @endif>Fermer</option>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
-              <input type="number" name="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nombre_filles }}">
-            </div>
+            @if ($user->profile_type=='salon')
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Recrutement</label>
+                <select name="recrutement" id="recrutement" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  <option value="ouvert" @if ($user->recrutement == 'ouvert') selected @endif >Ouvert</option>
+                  <option value="fermé" @if ($user->recrutement == 'fermé') selected @endif >Fermer</option>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
+                <input type="number" name="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->nombre_filles }}">
+              </div>
             @endif
-            @if (Auth::user()->profile_type=='escorte')
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
-              <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden> -- </option>
-                <template x-if="dropdownData.pratiquesSexuelles">
-                    <template x-for="pratique in dropdownData.pratiquesSexuelles" :key="pratique">
-                        <option :value="pratique" x-text="pratique" :selected="pratique == '{{ Auth::user()->pratique_sexuelles }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Tailles</label>
-              <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{auth::user()->tailles}}">
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Origine</label>
-              <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.origines">
-                    <template x-for="origine in dropdownData.origines" :key="origine">
-                        <option :value="origine" x-text="origine" :selected="origine == '{{ Auth::user()->origine }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
-              <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.couleursYeux">
-                    <template x-for="couleur in dropdownData.couleursYeux" :key="couleur">
-                        <option :value="couleur" x-text="couleur" :selected="couleur == '{{ Auth::user()->couleur_yeux }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
-              <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.couleursCheveux">
-                    <template x-for="couleur in dropdownData.couleursCheveux" :key="couleur">
-                        <option :value="couleur" x-text="couleur" :selected="couleur == '{{ Auth::user()->couleur_cheveux }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Mensuration</label>
-              <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.mensurations">
-                    <template x-for="mensuration in dropdownData.mensurations" :key="mensuration">
-                        <option :value="mensuration" x-text="mensuration" :selected="mensuration == '{{ Auth::user()->mensuration }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Poitrine</label>
-              <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.poitrines">
-                    <template x-for="poitrine in dropdownData.poitrines" :key="poitrine">
-                        <option :value="poitrine" x-text="poitrine" :selected="poitrine == '{{ Auth::user()->poitrine }}'"></option>
-                    </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
-              <select id="taille_poitrine" name="taille_poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.taillesPoitrine">
-                  <template x-for="tailles_poitrine in dropdownData.taillesPoitrine" :key="tailles_poitrine">
-                    <option :value="tailles_poitrine" x-text="tailles_poitrine" :selected="tailles_poitrine == '{{ Auth::user()->taille_poitrine }}'">
-                    </option>
+            @if ($user->profile_type=='escorte')
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
+                <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($pratiquesSexuelles as $pratique)
+                    <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Tailles</label>
+                <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{$user->tailles}}">
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Origine</label>
+                <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($origines as $origine)
+                    <option value="{{ $origine }}" @if($user->origine == $origine) selected @endif>{{ $origine }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
+                <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($couleursYeux as $yeux)
+                    <option value="{{ $yeux }}" @if($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
+                <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($couleursCheveux as $cheveux)
+                    <option value="{{ $cheveux }}" @if($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Mensuration</label>
+                <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($mensurations as $mensuration)
+                    <option value="{{ $mensuration }}" @if($user->mensuration == $mensuration) selected @endif>{{ $mensuration }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Poitrine</label>
+                <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($poitrines as $poitrine)
+                    <option value="{{ $poitrine }}" @if($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
+                <select id="taille_poitrine" name="taille_poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($taillesPoitrine as $taillePoitrine)
+                    <option value="{{ $taillePoitrine }}" @if($user->taille_poitrine == $taillePoitrine) selected @endif>{{ $taillePoitrine }}</option>
+                  @endforeach
+                </select>
                   </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
-              <select id="pubis" name="pubis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.pubis">
-                  <template x-for="pubis in dropdownData.pubis" :key="pubis">
-                      <option :value="pubis" x-text="pubis" :selected="pubis == '{{ Auth::user()->pubis }}'"></option>
-                  </template>
-                </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Tatouages</label>
-              <select id="tatouages" name="tatouages" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.tatouages">
-                  <template x-for="tatouages in dropdownData.tatouages" :key="tatouages">
-                      <option :value="tatouages" x-text="tatouages" :selected="tatouages == '{{ Auth::user()->tatouages }}'"></option>
-                  </template>
-              </template>
-              </select>
-            </div>
-            <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Mobilité</label>
-              <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.mobilites">
-                  <template x-for="mobilite in dropdownData.mobilites" :key="mobilite">
-                      <option :value="mobilite" x-text="mobilite" :selected="mobilite == '{{ Auth::user()->mobilite }}'"></option>
-                  </template>
-              </template>
-              </select>
-            </div>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
+                <select id="pubis" name="pubis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($pubis as $pubi)
+                    <option value="{{ $pubi }}" @if($user->pubis == $pubi) selected @endif>{{ $pubi }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Tatouages</label>
+                <select id="tatouages" name="tatouages" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($tatouages as $tatou)
+                    <option value="{{ $tatou }}" @if($user->tatouages == $tatou) selected @endif>{{ $tatou }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Mobilité</label>
+                <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden > -- </option>
+                  @foreach ($mobilites as $mobilite)
+                    <option value="{{ $mobilite }}" @if($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
             @endif
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tarif</label>
               <select id="tarif" name="tarif" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden > -- </option>
-                <template x-if="dropdownData.tarifs">
-                  <template x-for="tarifs in dropdownData.tarifs" :key="tarifs">
-                      <option :value="tarifs" x-text="tarifs" :selected="tarifs == '{{ Auth::user()->tarif }}'"></option>
-                  </template>
-              </template>
+                @foreach ($tarifs as $tarif)
+                  <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>{{ $tarif }}</option>
+                @endforeach
+              </select>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
               <select x-cloak class="hidden" id="paiement">
-                {{-- <option value="Euro" selected=true>Euro</option>
-                <option value="Dolars" selected=false>Dolars</option>
-                <option value="CHF" selected=true>CHF</option> --}}
-                <template x-for="paiements in dropdownData.paiements" :key="paiements">
-                  <option :value="paiements" x-text="paiements" ></option>
-                </template>
+                @foreach ($paiements as $paiement)
+                  <option value="{{ $paiement }}"
+                    @if (in_array($paiement, explode(',',$user->paiement) ?? [])) 
+                      selected=true 
+                    @else 
+                      selected=false 
+                    @endif>
+                    {{$paiement}}
+                  </option>
+                @endforeach
               </select>
-              <x-select_multiple value='{{Auth::user()->paiment}}' name="paiement" selectId="paiement" placeholder="Paiment" />
-              {{-- <select id="paiement" name="paiement" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option hidden > -- </option>
-                <template x-if="dropdownData.paiements">
-                  <template x-for="paiements in dropdownData.paiements" :key="paiements">
-                      <option :value="paiements" x-text="paiements" :selected="paiements == '{{ Auth::user()->paiements }}'"></option>
-                  </template>
-                </template>
-              </select> --}}
+              <x-select_multiple name="paiement" selectId="paiement" placeholder="Paiment" />
             </div>
             <div class="mb-4 col-span-2">
               <label class="block text-sm font-medium text-gray-700">Apropos</label>
-              <textarea rows="4" name="apropos" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">{{ Auth::user()->apropos ?? '' }}</textarea>
+              <textarea rows="4" name="apropos" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">{{ $user->apropos ?? '' }}</textarea>
             </div>
           </div>
 
           <!-- Étape 3: Informations complémentaires -->
-          <div @if (Auth::user()->profile_type == 'invite')
-              x-show="currentStep === 1"
-              @else
-              x-show="currentStep === 2"
-              @endif >
+          <div @if ($user->profile_type == 'invite') x-show="currentStep === 1" @else x-show="currentStep === 2" @endif>
             <h2 class="text-lg font-semibold mb-4">Informations complémentaires</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Autre contact</label>
@@ -470,8 +442,8 @@
             <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span> </button>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
-            <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg> {{ Auth::user()->pseudo }}</span>
-            <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd"/></svg> {{ Carbon::parse(Auth::user()->date_naissance)->age }} ans</span>
+            <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg> {{ $user->pseudo }}</span>
+            <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd"/></svg> {{ Carbon::parse($user->date_naissance)->age }} ans</span>
             <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/></svg> Homme</span>
             <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M4.35 20.7q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v8.425q-.875-1.275-2.187-1.975T16 10q-.5 0-1 .088t-1 .262v-3.5l-4-1.4v13.075zM20.6 22l-2.55-2.55q-.45.275-.962.413T16 20q-1.65 0-2.825-1.175T12 16t1.175-2.825T16 12t2.825 1.175T20 16q0 .575-.137 1.088t-.413.962L22 20.6zM16 18q.85 0 1.413-.5T18 16q.025-.85-.562-1.425T16 14t-1.425.575T14 16t.575 1.425T16 18"/></svg> Vaud - Bex</span>
           </div>
@@ -582,11 +554,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/age_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Age : {{ Carbon::parse(Auth::user()->date_naissance)->age }} ans</span>
+                <span>Age : {{ Carbon::parse($user->date_naissance)->age }} ans</span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Origine : {{ Auth::user()->origine ?? '-' }} </span>
+                <span>Origine : {{ $user->origine ?? '-' }} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
@@ -595,11 +567,11 @@
 
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Couleur des yeux : {{Auth::user()->couleur_yeux ?? '-'}} </span>
+                <span>Couleur des yeux : {{$user->couleur_yeux ?? '-'}} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Couleur des cheveux : {{Auth::user()->couleur_cheveux ?? '-'}} </span>
+                <span>Couleur des cheveux : {{$user->couleur_cheveux ?? '-'}} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
@@ -608,28 +580,28 @@
 
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/taille_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Taille : +/- {{Auth::user()->tailles ?? '-'}}cm </span>
+                <span>Taille : +/- {{$user->tailles ?? '-'}}cm </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/poitrine_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Poitrine : {{Auth::user()->poitrine ?? '-'}} </span>
+                <span>Poitrine : {{$user->poitrine ?? '-'}} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon" srcset="age icon">
-                <span>Mobilité : {{Auth::user()->mobilite ?? '-'}}</span>
+                <span>Mobilité : {{$user->mobilite ?? '-'}}</span>
               </div>
 
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/mensuration.svg') }}" alt="age icon" srcset="age icon">
-                <span>Mensurations : {{Auth::user()->mensuration ?? '-'}}</span>
+                <span>Mensurations : {{$user->mensuration ?? '-'}}</span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/taill_poit.svg') }}" alt="age icon" srcset="age icon">
-                <span>Taille de poitrine :  {{'Bonnet '. Auth::user()->taille_poitrine ?? '-'}} </span>
+                <span>Taille de poitrine :  {{'Bonnet '. $user->taille_poitrine ?? '-'}} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Moyen de paiement : CHF, Euros, Dollars</span>
+                <span>Moyen de paiement : {{$user->paiement}}</span>
               </div>
 
             </div>
@@ -637,25 +609,17 @@
 
           {{-- Description --}}
           <div class="flex items-center justify-between gap-5 py-5">
-
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Description</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
-            {{-- <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button> --}}
-
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <p class="text-justify">{{Auth::user()->apropos ?? '-'}} </p>
+            <p class="text-justify">{{$user->apropos ?? '-'}} </p>
           </div>
 
           {{-- Service --}}
           <div class="flex items-center justify-between gap-5 py-5">
-
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Services proposés</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
-
           </div>
           <div class="flex flex-col justify-center gap-5 flex-wrap">
             <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
@@ -771,10 +735,6 @@
 
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Description</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
-            {{-- <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button> --}}
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
@@ -783,14 +743,8 @@
 
           {{-- A propos de moi --}}
           <div class="flex items-center justify-between gap-5 py-5">
-
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
-            {{-- <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button> --}}
-
           </div>
           <div class="flex items-center gap-10 flex-wrap">
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
@@ -876,15 +830,13 @@
 
           {{-- Galerie privée --}}
           <div class="flex items-center justify-between gap-5 py-5">
-
             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
             <div class="flex-1 h-0.5 bg-green-gs"></div>
             <button class="flex items-center gap-2 text-amber-400">
               Modifier
               <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
             </button>
-
-          </div>
+          </div>          
           <div class="flex items-center gap-10 flex-wrap">
             <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
             <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
@@ -892,6 +844,7 @@
 
         </section>
 
+        {{-- section gallerie --}}
         <section x-show="pageSection=='galerie'">
           <div class="flex items-center justify-between gap-5 py-5">
 
@@ -908,6 +861,7 @@
           </div>
         </section>
 
+        {{-- section discussion --}}
         <section x-show="pageSection=='discussion'">
           <div class="py-5">
             <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
@@ -927,7 +881,7 @@
   <script>
     function multiStepForm() {
       return {
-        steps: "{{ Auth::user()->profile_type }}"=='invite' ? ['Informations personnelles', 'Informations complémentaires'] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
+        steps: "{{ $user->profile_type }}"=='invite' ? ['Informations personnelles', 'Informations complémentaires'] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
         currentStep: 0,
         nextStep() {
           if (this.currentStep < this.steps.length - 1) {

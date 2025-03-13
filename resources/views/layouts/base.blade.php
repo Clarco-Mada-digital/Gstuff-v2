@@ -130,7 +130,7 @@
 
     {{-- header --}}
     <nav class="relative bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900 shadow-lg z-30">
-      <div x-data="{'showUserDrop':false}" class="flex flex-wrap lg:justify-between items-center mx-auto max-w-screen-xl p-4 gap-3">
+      <div x-data="{'showUserDrop':false}" class="flex flex-wrap lg:justify-between items-center mx-auto container p-4 gap-3">
           <a href="{{ route('home') }}" class="flex items-center space-x-3">
               <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
           </a>
@@ -351,7 +351,7 @@
                 <ul class="py-2 text-sm text-green-gs font-bold dark:text-gray-200" aria-labelledby="dropdownHoverUser">
 
                   <li>
-                    <a href="{{route('profile')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mon compte</a>
+                    <a href="{{route('profile.index')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mon compte</a>
                   </li>
                   <div x-show="userType=='invite'">
                     <li>
@@ -666,11 +666,6 @@
 
         <div class="flex flex-col items-center lg:items-start gap-2">
           <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-          {{-- <a href="#">Escort girl Suisse Alémanique</a>
-          <a href="#">Escort girl Zurich</a>
-          <a href="#">Escort girl Berne</a>
-          <a href="#">Escort girl Friboug</a>
-          <a href="#">Escort girl Jura</a> --}}
           @foreach (array_slice($apiData['cantons'], 0, 5) as $canton)
           <a href="#">Escort girl {{ $canton['title']['rendered'] }}</a>
           @endforeach
@@ -777,7 +772,7 @@
                   this.message = data.message;
                   this.status = data.success;
                   // Redirige l'utilisateur ou effectue une autre action
-                  // window.location.href = '{{ route('profile') }}';
+                  // window.location.href = '{{ route('profile.index') }}';
                 } else {
                   const error = await response.json();
                   this.loadingRequest = false;
@@ -811,7 +806,7 @@
                     this.message = data.message;
                     this.status = data.success;
                     // Redirige l'utilisateur ou effectue une autre action
-                    window.location.href = '{{ route('profile') }}';
+                    window.location.href = '{{ route('profile.index') }}';
                   } else {
                     const error = await response.json();
                     this.loadingRequest = false;

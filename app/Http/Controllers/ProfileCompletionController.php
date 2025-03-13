@@ -2,12 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Canton; // Assuming you have a Canton model
+use App\Models\Ville;   // Assuming you have a Ville model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileCompletionController extends Controller
 {
+    public function index()
+    {
+        $user = Auth::user();
+
+        // Fetch dropdown data from database (adjust models and queries as needed)
+        $cantons = Canton::all(); // Example: Fetch all cantons
+        $villes = Ville::all();   // Example: Fetch all villes
+
+        // You might need to fetch other dropdown data similarly
+        $categories = ['Category 1', 'Category 2', 'Category 3']; // Example - replace with actual data source
+        $pratiquesSexuelles = ['Pratique 1', 'Pratique 2', 'Pratique 3']; // Example
+        $tailles = ['Taille 1', 'Taille 2', 'Taille 3']; // Example
+        $origines = ['Origine 1', 'Origine 2', 'Origine 3']; // Example
+        $couleursYeux = ['Yeux 1', 'Yeux 2', 'Yeux 3']; // Example
+        $couleursCheveux = ['Cheveux 1', 'Cheveux 2', 'Cheveux 3']; // Example
+        $mensurations = ['Mensuration 1', 'Mensuration 2', 'Mensuration 3']; // Example
+        $poitrines = ['Poitrine 1', 'Poitrine 2', 'Poitrine 3']; // Example
+        $taillesPoitrine = ['Taille Poitrine 1', 'Taille Poitrine 2', 'Taille Poitrine 3']; // Example
+        $pubis = ['Pubis 1', 'Pubis 2', 'Pubis 3']; // Example
+        $tatouages = ['Tatouage 1', 'Tatouage 2', 'Tatouage 3']; // Example
+        $mobilites = ['Mobile 1', 'Mobile 2', 'Mobile 3']; // Example
+        $tarifs = ['Tarif 1', 'Tarif 2', 'Tarif 3']; // Example
+        $paiements = ['Paiement 1', 'Paiement 2', 'Paiement 3']; // Example
+
+
+        return view('auth.profile', [
+            'user' => $user,
+            'cantons' => $cantons,
+            'villes' => $villes,
+            'categories' => $categories,
+            'pratiquesSexuelles' => $pratiquesSexuelles,
+            'tailles' => $tailles,
+            'origines' => $origines,
+            'couleursYeux' => $couleursYeux,
+            'couleursCheveux' => $couleursCheveux,
+            'mensurations' => $mensurations,
+            'poitrines' => $poitrines,
+            'taillesPoitrine' => $taillesPoitrine,
+            'pubis' => $pubis,
+            'tatouages' => $tatouages,
+            'mobilites' => $mobilites,
+            'tarifs' => $tarifs,
+            'paiements' => $paiements,
+        ]);
+    }
     /**
      * Affiche les données nécessaires pour les selects du formulaire.
      * (Vous devrez adapter ceci pour récupérer vos données dynamiquement)
@@ -15,7 +61,6 @@ class ProfileCompletionController extends Controller
     public function getDropdownData()
     {
         // Exemple de données statiques, à remplacer par votre logique de récupération de données
-        $intitules = ['monsieur', 'madame', 'mademoiselle', 'autre'];
         $categories = ['Escort', 'Salon de massage', 'Bar', 'Club'];
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
@@ -31,7 +76,6 @@ class ProfileCompletionController extends Controller
         $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
 
         return response()->json([
-            'intitules' => $intitules,
             'categories' => $categories,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
@@ -49,12 +93,6 @@ class ProfileCompletionController extends Controller
     }
 
 
-
-    /**
-     * Calculates the profile completion percentage for the authenticated user.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getProfileCompletionPercentage()
     {
         $user = Auth::user();
@@ -160,6 +198,6 @@ class ProfileCompletionController extends Controller
         $percentage = $percentageResponse->getData()->percentage;
 
 
-        return redirect()->route('profile')->with('success', 'Profil mis à jour avec succès!')->with('completionPercentage', $percentage);
+        return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès!')->with('completionPercentage', $percentage);
     }
 }

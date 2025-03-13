@@ -35,7 +35,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('tatouages')->nullable();
             $table->string('mobilite')->nullable();
             $table->string('tarif')->nullable();
-            $table->string('paiement')->nullable();
+            $table->json('paiement')->nullable();
             $table->text('apropos')->nullable();
             $table->string('autre_contact')->nullable();
             $table->string('complement_adresse')->nullable();

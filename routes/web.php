@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,4 +50,9 @@ Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 
-Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
+
+
+Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
+Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
+Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
+Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
