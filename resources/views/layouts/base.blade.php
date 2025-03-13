@@ -835,6 +835,7 @@
 
     </script>
     @yield('extraScripts')
+    @yield('specialScripts')
 
   </body>
 </html>

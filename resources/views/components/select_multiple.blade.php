@@ -15,7 +15,7 @@
         <div class="mt-1 p-1 flex border border-gray-200 bg-white rounded-md shadow">
           <div class="flex flex-auto flex-wrap">
             <template x-for="(option,index) in selected" :key="options[option].value">
-              <div class="flex justify-center items-center m-1 font-medium py-1 px-1 bg-white rounded bg-gray-100 border">
+              <div class="flex justify-center items-center m-1 font-medium py-1 px-1 text-white rounded-md bg-green-gs border border-green-gs">
                 <div class="text-xs font-normal leading-none max-w-full flex-initial x-model=" options[option] x-text="options[option].text"></div>
                 <div class="flex flex-auto flex-row-reverse">
                   <div x-on:click.stop="remove(index,option)">
@@ -81,51 +81,53 @@
   </div>
 </div>
 
+@section('specialScripts')
+  <script>
+    function dropdown() {
+      return {
+          options: [],
+          selected: [],
+          show: false,
+          open() { this.show = true },
+          close() { this.show = false },
+          isOpen() { return this.show === true },
+          select(index, event=null) {
 
-<script>
-  function dropdown() {
-    return {
-        options: [],
-        selected: [],
-        show: false,
-        open() { this.show = true },
-        close() { this.show = false },
-        isOpen() { return this.show === true },
-        select(index, event=null) {
+              if (!this.options[index].selected) {
 
-            if (!this.options[index].selected) {
+                  this.options[index].selected = true;
+                  // this.options[index].element = event.target;
+                  this.selected.push(index);
 
-                this.options[index].selected = true;
-                // this.options[index].element = event.target;
-                this.selected.push(index);
-
-            } else {
-                this.selected.splice(this.selected.lastIndexOf(index), 1);
-                this.options[index].selected = false
-            }
-        },
-        remove(index, option) {
-            this.options[option].selected = false;
-            this.selected.splice(index, 1);
-        },
-        loadOptions() {
-            const options = document.getElementById('{{$selectId}}').options;
-            for (let i = 0; i < options.length; i++) {
-                this.options.push({
-                    value: options[i].value,
-                    text: options[i].innerText,
-                    selected: options[i].getAttribute('selected') != null ? options[i].getAttribute('selected') : false
-                });
-              if (options[i].getAttribute('selected') != 'false'){
-               this.selected.push(i);
+              } else {
+                  this.selected.splice(this.selected.lastIndexOf(index), 1);
+                  this.options[index].selected = false
               }
-            }
-        },
-        selectedValues(){
-            return this.selected.map((option)=>{
-                return this.options[option].value;
-            })
-        }
+          },
+          remove(index, option) {
+              this.options[option].selected = false;
+              this.selected.splice(index, 1);
+          },
+          loadOptions() {
+              const options = document.getElementById('{{$selectId}}').options;
+              console.log(document.getElementById('{{$selectId}}'));
+              for (let i = 0; i < options.length; i++) {
+                  this.options.push({
+                      value: options[i].value,
+                      text: options[i].innerText,
+                      selected: options[i].getAttribute('selected') != null ? options[i].getAttribute('selected') : false
+                  });
+                if (options[i].getAttribute('selected') != 'false'){
+                this.selected.push(i);
+                }
+              }
+          },
+          selectedValues(){
+              return this.selected.map((option)=>{
+                  return this.options[option].value;
+              })
+          }
+      }
     }
-  }
-</script>
+  </script>
+@endsection
