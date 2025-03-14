@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Events\NewMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\NewChatMessageNotification;
 
 class ChatController extends Controller
 {
@@ -20,6 +21,9 @@ class ChatController extends Controller
 
         $sender = Auth::user();
         broadcast(new NewMessage($message, $sender))->toOthers();
+
+        // Notification Email et In-App
+        $receiver->notify(new NewChatMessageNotification($message, Auth::user()));
 
         return response()->json(['status' => 'Message Sent!', 'message' => $message]); // Retourner le message pour l'afficher immédiatement dans l'UI
     }

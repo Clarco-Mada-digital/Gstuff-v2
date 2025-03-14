@@ -11,7 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
 use App\Http\Controllers\ChatController;
-
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,9 +50,10 @@ Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('pro
 //***************************************************************************************** */
 
 
+
 Route::middleware('auth')->group(function () {
     Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
     Route::get('/messages/{receiver_id}', [ChatController::class, 'getMessages'])->name('get.messages');
     Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
-ChatComponent.vue
