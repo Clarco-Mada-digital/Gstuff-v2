@@ -4,25 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Canton extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'cantons'; // You can specify the table name if it's not 'cantons'
+    protected $table = 'cantons'; // Spécifiez le nom de la table si ce n'est pas 'cantons' au pluriel
+    protected $primaryKey = 'id'; // Spécifiez la clé primaire si ce n'est pas 'id'
+    public $timestamps = true; // Indique si vous voulez les colonnes created_at et updated_at
+
+    protected $fillable = [
+        'nom', // Colonne que vous voulez pouvoir remplir massivement
+    ];
 
     /**
-     * The attributes that are mass assignable.
+     * Get all of the villes for the Canton
      *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $fillable = [
-        'title', // Assuming your cantons table has a 'title' column
-        // Add other fillable columns if necessary
-    ];
+    public function villes(): HasMany
+    {
+        return $this->hasMany(Ville::class);
+    }
 }

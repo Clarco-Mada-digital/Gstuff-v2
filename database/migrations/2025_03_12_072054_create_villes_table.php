@@ -12,9 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('villes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title'); // Add a 'title' column to store ville names
-            $table->timestamps();
+            $table->id(); // Clé primaire auto-incrémentée
+            $table->string('nom'); // Colonne pour le nom de la ville
+            $table->foreignId('canton_id')->constrained('cantons')->nullable(); // Clé étrangère vers la table 'cantons'
+            $table->timestamps(); // Colonnes created_at et updated_at
+
+            // Index pour la clé étrangère (optionnel, mais recommandé pour la performance)
+            // $table->index('canton_id'); // Déjà créé par foreignId, pas nécessaire de le répéter ici
         });
     }
 
