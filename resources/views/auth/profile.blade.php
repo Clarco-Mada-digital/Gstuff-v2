@@ -98,7 +98,7 @@
           @csrf
 
           <!-- Étape 1: Informations personnelles -->
-          <div x-show="currentStep === 0">
+          <div x-data="{cantons:{{$cantons}}, villes:[], availableVilles:{{$villes}}}" x-show="currentStep === 0">
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
@@ -170,22 +170,26 @@
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Canton</label>
-              <select name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select x-model="selectedCanton" @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
-                @foreach ($cantons as $canton)
-                  <option value="{{ $canton->title }}" @if($user->canton == $canton->title) selected @endif>{{ $canton->title }}</option>
-                @endforeach
+                <template x-for="canton in cantons" :key="canton.id">
+                  <option :value="canton.id" x-text="canton.nom"></option>
+                </template>
+                {{-- @foreach ($cantons as $canton)
+                  <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
+                @endforeach --}}
               </select>
             </div>
             <div class="mb-4">
-              {{-- <label class="block text-sm font-medium text-gray-700">Ville</label>
-              <x-selecte_multiple /> --}}
               <label class="block text-sm font-medium text-gray-700">Ville</label>
-              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select x-model="selectedVille" name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
-                @foreach ($villes as $ville)
-                  <option value="{{ $ville->title }}" @if($user->ville == $ville->title) selected @endif>{{ $ville->title }}</option>
-                @endforeach
+                <template x-for="ville in villes" :key="ville.id">
+                  <option :value="ville.id" x-text="ville.nom"></option>
+                </template>
+                {{-- @foreach ($villes as $ville)
+                  <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}</option>
+                @endforeach --}}
               </select>
             </div>
           </div>
