@@ -80,4 +80,10 @@
       'date_naissance' => 'date', // Cast date_naissance en tant que date
       'password_reset_expiry' => 'datetime', // Cast password_reset_expiry en tant que datetime
   ];
+
+  public function canton(): BelongsTo
+  {
+      return $this->belongsTo(Canton::class);
+  }
 }
+

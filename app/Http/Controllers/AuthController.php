@@ -156,7 +156,7 @@ class AuthController extends Controller
     public function profile()
     {
         if (Auth::check()) {
-            $user = Auth::user();
+            $user = Auth::user()->load('canton');
             return view('auth.profile', ['user' => $user]);
         }
         return redirect()->route('home');

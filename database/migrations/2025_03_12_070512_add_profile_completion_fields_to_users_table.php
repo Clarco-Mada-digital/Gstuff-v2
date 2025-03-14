@@ -20,6 +20,8 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('npa')->nullable();
             $table->string('canton')->nullable();
             $table->string('ville')->nullable();
+            // $table->foreignId('canton_id')->constrained('cantons')->nullable();
+            // $table->foreignId('ville_id')->constrained('villes')->nullable();
             $table->string('categorie')->nullable();
             $table->string('recrutement')->nullable();
             $table->integer('nombre_filles')->nullable();
