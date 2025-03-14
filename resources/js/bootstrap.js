@@ -30,3 +30,20 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    wsHost: window.location.hostname, // Utilisez le hostname actuel pour Soketi en local
+    wsPort: 6001,                     // Port de Soketi
+    wssPort: 6001,                    // Port SSL de Soketi (si HTTPS)
+    forceTLS: false,                  // Mettez à true si vous utilisez HTTPS pour Soketi
+    disableStats: true,               // Optionnel, désactive les statistiques de Pusher (non pertinentes pour Soketi)
+    authEndpoint: '/broadcasting/auth', // Route d'authentification Laravel
+});

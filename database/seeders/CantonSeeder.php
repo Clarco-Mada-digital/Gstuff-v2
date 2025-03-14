@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Canton;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // Importez la classe DB
 
 class CantonSeeder extends Seeder
 {
@@ -13,37 +13,34 @@ class CantonSeeder extends Seeder
      */
     public function run(): void
     {
-        $cantons = [
-            ['title' => 'Zurich'],
-            ['title' => 'Berne'],
-            ['title' => 'Lucerne'],
-            ['title' => 'Uri'],
-            ['title' => 'Schwytz'],
-            ['title' => 'Obwald'],
-            ['title' => 'Nidwald'],
-            ['title' => 'Glaris'],
-            ['title' => 'Zoug'],
-            ['title' => 'Fribourg'],
-            ['title' => 'Soleure'],
-            ['title' => 'Bâle-Ville'],
-            ['title' => 'Bâle-Campagne'],
-            ['title' => 'Schaffhouse'],
-            ['title' => 'Appenzell Rhodes-Extérieures'],
-            ['title' => 'Appenzell Rhodes-Intérieures'],
-            ['title' => 'Saint-Gall'],
-            ['title' => 'Grisons'],
-            ['title' => 'Argovie'],
-            ['title' => 'Thurgovie'],
-            ['title' => 'Tessin'],
-            ['title' => 'Vaud'],
-            ['title' => 'Valais'],
-            ['title' => 'Neuchâtel'],
-            ['title' => 'Genève'],
-            ['title' => 'Jura'],
-        ];
-
-        foreach ($cantons as $canton) {
-            Canton::create($canton);
-        }
+        DB::table('cantons')->insert([ // Assurez-vous que 'cantons' est le nom de votre table
+            [ 'nom' => 'Zurich' ],
+            [ 'nom' => 'Berne' ],
+            [ 'nom' => 'Lucerne' ],
+            [ 'nom' => 'Uri' ],
+            [ 'nom' => 'Schwytz' ],
+            [ 'nom' => 'Obwald' ],
+            [ 'nom' => 'Nidwald' ],
+            [ 'nom' => 'Glaris' ],
+            [ 'nom' => 'Zoug' ],
+            [ 'nom' => 'Fribourg' ],
+            [ 'nom' => 'Soleure' ],
+            [ 'nom' => 'Bâle-Ville' ],
+            [ 'nom' => 'Bâle-Campagne' ],
+            [ 'nom' => 'Schaffhouse' ],
+            [ 'nom' => 'Appenzell Rhodes-Extérieures' ],
+            [ 'nom' => 'Appenzell Rhodes-Intérieures' ],
+            [ 'nom' => 'Saint-Gall' ],
+            [ 'nom' => 'Grisons' ],
+            [ 'nom' => 'Argovie' ],
+            [ 'nom' => 'Thurgovie' ],
+            [ 'nom' => 'Tessin' ],
+            [ 'nom' => 'Vaud' ],
+            [ 'nom' => 'Valais' ],
+            [ 'nom' => 'Neuchâtel' ],
+            [ 'nom' => 'Genève' ],
+            [ 'nom' => 'Jura' ],
+            // Ajoutez d'autres cantons ici
+        ]);
     }
 }

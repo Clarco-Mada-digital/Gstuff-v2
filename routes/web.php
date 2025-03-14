@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
-
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,15 @@ Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfi
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
 Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
+
+
+//***************************************************************************************** */
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
+    Route::get('/messages/{receiver_id}', [ChatController::class, 'getMessages'])->name('get.messages');
+    Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+});

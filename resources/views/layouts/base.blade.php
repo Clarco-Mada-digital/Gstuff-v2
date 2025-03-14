@@ -244,11 +244,14 @@
 
           @auth
             {{-- Notification icon and user presentation --}}
+            {{-- {{ $notifications = Auth::user()->notifications; }} --}}
             <div x-data="{userType: '{{ Auth::user()->profile_type}}'}" class="flex gap-3 xl:order-1">
               <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" type="button" class="relative bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-2 text-center inline-flex items-center xl:order-1 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 19q-.425 0-.712-.288T4 18t.288-.712T5 17h1v-7q0-2.075 1.25-3.687T10.5 4.2v-.7q0-.625.438-1.062T12 2t1.063.438T13.5 3.5v.7q2 .5 3.25 2.113T18 10v7h1q.425 0 .713.288T20 18t-.288.713T19 19zm7 3q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22"/></svg>
                 <span class="sr-only">Icon description</span>
+                {{-- @if ($apiData['notifications']->count() > 0) --}}
                 <div class="absolute block w-3 h-3 bg-red-500 border-2 border-white rounded-full top-1 start-5.5 dark:border-gray-900"></div>
+                {{-- @endif --}}
               </button>
               <!-- Dropdown menu -->
               <div id="dropdownNotification" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">

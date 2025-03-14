@@ -4,25 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ville extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'villes'; // You can specify the table name if it's not 'villes'
+    protected $table = 'villes'; // Spécifiez le nom de la table si ce n'est pas 'villes' au pluriel
+    protected $primaryKey = 'id'; // Spécifiez la clé primaire si ce n'est pas 'id'
+    public $timestamps = true; // Indique si vous voulez les colonnes created_at et updated_at
+
+    protected $fillable = [
+        'nom',
+        'canton_id', // Colonne de clé étrangère
+    ];
 
     /**
-     * The attributes that are mass assignable.
+     * Get the canton that owns the Ville
      *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected $fillable = [
-        'title', // Assuming your villes table has a 'title' column
-        // Add other fillable columns if necessary
-    ];
+    public function canton(): BelongsTo
+    {
+        return $this->belongsTo(Canton::class);
+    }
 }

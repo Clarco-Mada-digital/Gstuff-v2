@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ville;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // Importez la classe DB
 
 class VilleSeeder extends Seeder
 {
@@ -13,17 +13,27 @@ class VilleSeeder extends Seeder
      */
     public function run(): void
     {
-        $villes = [
-            ['title' => 'Geneva'],
-            ['title' => 'Lausanne'],
-            ['title' => 'Bern'],
-            ['title' => 'Zurich'],
-            ['title' => 'Basel'],
-            // Add more villes as needed
-        ];
+        // Exemple simple sans relation canton_id (si vous n'avez pas de relation)
+        /*
+        DB::table('villes')->insert([ // Assurez-vous que 'villes' est le nom de votre table
+            [ 'nom' => 'Zurich' ],
+            [ 'nom' => 'Genève' ],
+            [ 'nom' => 'Lausanne' ],
+            // Ajoutez d'autres villes ici
+        ]);
+        */
 
-        foreach ($villes as $ville) {
-            Ville::create($ville);
-        }
+        // Exemple avec relation canton_id (si vous avez une relation avec la table 'cantons')
+        $cantons = DB::table('cantons')->pluck('id', 'nom')->toArray(); // Récupérer les IDs des cantons
+
+        DB::table('villes')->insert([ // Assurez-vous que 'villes' est le nom de votre table
+            [ 'nom' => 'Zurich', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
+            [ 'nom' => 'Winterthour', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
+            [ 'nom' => 'Genève', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
+            [ 'nom' => 'Vernier', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
+            [ 'nom' => 'Lausanne', 'canton_id' => $cantons['Vaud'] ?? null ], // Utilisez l'ID du canton de Vaud
+            [ 'nom' => 'Yverdon-les-Bains', 'canton_id' => $cantons['Vaud'] ?? null ], // Utilisez l'ID du canton de Vaud
+            // Ajoutez d'autres villes ici et associez-les à leur canton_id approprié
+        ]);
     }
 }

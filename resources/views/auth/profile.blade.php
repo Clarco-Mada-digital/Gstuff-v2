@@ -40,7 +40,7 @@
       @if ($user->profile_type == 'salon')
       <div class="flex items-center justify-center gap-2 text-green-gs">
         <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><!-- Icon from All by undefined - undefined --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5"/><circle cx="24" cy="20.206" r="4.299" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0"/></svg> Récrutement : {{ $user->recrutement }}</a>
-      </div>          
+      </div>
       @endif
       <hr class="w-full h-2">
 
@@ -337,10 +337,10 @@
               <select x-cloak class="hidden" id="paiement">
                 @foreach ($paiements as $paiement)
                   <option value="{{ $paiement }}"
-                    @if (in_array($paiement, explode(',',$user->paiement) ?? [])) 
-                      selected=true 
-                    @else 
-                      selected=false 
+                    @if (in_array($paiement, explode(',',$user->paiement) ?? []))
+                      selected=true
+                    @else
+                      selected=false
                     @endif>
                     {{$paiement}}
                   </option>
@@ -710,6 +710,18 @@
             <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
             <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
           </div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="card">
+                  <div class="card-header">Chat avec Jhone</div>
+                  <div class="card-body">
+                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
       </div>
@@ -841,7 +853,7 @@
               Modifier
               <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
             </button>
-          </div>          
+          </div>
           <div class="flex items-center gap-10 flex-wrap">
             <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
             <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cantons', function (Blueprint $table) {
-            $table->id();
-            $table->string('title'); // Add a 'title' column to store canton names
-            $table->timestamps();
+            $table->id(); // Clé primaire auto-incrémentée (bigint unsigned)
+            $table->string('nom'); // Colonne pour le nom du canton (varchar)
+            $table->timestamps(); // Colonnes created_at et updated_at (timestamp)
         });
     }
 
