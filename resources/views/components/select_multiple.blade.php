@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="w-full px-4">
-        <div x-show.transition.origin.top="isOpen()" class="shadow bg-white z-40 w-full left-0 rounded max-h-select" x-on:click.away="close">
+        <div x-show.transition.origin.top="isOpen()" class="absolute shadow bg-white z-40 w-full left-0 rounded max-h-select" x-on:click.away="close">
           <div class="flex flex-col w-full overflow-y-auto h-auto">
             <template x-for="(option,index) in options" :key="index" class="overflow-auto">
               <div class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-gray-100" x-on:click="select(index)">

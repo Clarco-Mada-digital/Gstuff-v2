@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Canton; // Assuming you have a Canton model
 use App\Models\Ville;   // Assuming you have a Ville model
+use App\Models\Categorie;   // Assuming you have a Categorie model
+use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,15 +15,20 @@ class ProfileCompletionController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $user['canton'] = Canton::where('id', $user->canton)->first();
+        $user['categorie'] = Categorie::where('id', $user->categorie)->first();
+        $user['service'] = Service::where('id', $user->service)->first();
 
         // Fetch dropdown data from database (adjust models and queries as needed)
+        $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch
         $cantons = Canton::all(); // Example: Fetch all cantons
         $villes = Ville::all();   // Example: Fetch all villes
         //$categories = Categorie::all();   // Example: Fetch all categories
         //$services = Service::all();   // Example: Fetch all services
 
         // You might need to fetch other dropdown data similarly
-        $categories = ['Escort', 'Salon de massage', 'Bar', 'Club'];
+        $categories = Categorie::all();
+        $services = Service::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
         $couleursYeux = ['Marrons', 'Bleus', 'Verts', 'Noirs'];
@@ -31,14 +39,17 @@ class ProfileCompletionController extends Controller
         $pubis = ['Rasé', 'Naturel', 'Entretenu'];
         $tatouages = ['Oui', 'Non', 'Quelques-uns'];
         $mobilites = ['Je reçois', 'Je me déplace', 'Les deux'];
-        $tarifs = ['CHF', 'EUR', 'USD'];
+        $tarifs = [150, 200, 250, 300];
         $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
+        $langues = ['Français', 'English', 'Italien', 'Espagnol'];
 
         return view('auth.profile', [
+            'escorts' => $escorts,
             'user' => $user,
             'cantons' => $cantons,
             'villes' => $villes,
             'categories' => $categories,
+            'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
             'couleursYeux' => $couleursYeux,
@@ -51,6 +62,7 @@ class ProfileCompletionController extends Controller
             'mobilites' => $mobilites,
             'tarifs' => $tarifs,
             'paiements' => $paiements,
+            'langues' => $langues,
         ]);
     }
     /**
@@ -60,7 +72,7 @@ class ProfileCompletionController extends Controller
     public function getDropdownData()
     {
         // Exemple de données statiques, à remplacer par votre logique de récupération de données
-        $categories = ['Escort', 'Salon de massage', 'Bar', 'Club'];
+        $categories = Categorie::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
         $couleursYeux = ['Marrons', 'Bleus', 'Verts', 'Noirs'];

@@ -60,13 +60,18 @@ class ApiDataServiceProvider extends ServiceProvider
       });
 
       // les categories
-      $categories = Categorie::all();     
+      /* The line `       = Categorie::all();     ` is fetching all records from the
+      `Categorie` model. It is retrieving all categories stored in the database table associated
+      with the `Categorie` model and storing them in the variable ``. These categories
+      can then be used within the application for various purposes, such as displaying them in
+      dropdown menus, filtering data, or any other functionality related to categories. */
+      // $categories = Categorie::all();  
 
       // Les escortes
-      $escorts = Cache::remember('escorts', 3600, function(){
-        $response = User::where('profile_type', 'escorte')->get();
-        return $response;
-      });
+      // $escorts = Cache::remember('escorts', 3600, function(){
+      //   $response = User::where('profile_type', 'escorte')->get();
+      //   return $response;
+      // });
 
       // Les salons
       $salons = Cache::remember('salons', 3600, function(){
@@ -93,8 +98,11 @@ class ApiDataServiceProvider extends ServiceProvider
         'glossaires' => $glossaires,
         'cantons' => $cantons,
         'villes' => $villes,
-        'categories' => $categories,
-        'escorts' => $escorts,
+        // 'categories' => $categories,
+        /* The line ` 'escorts' => ,` is attempting to retrieve data related to escorts from
+        the cache. However, it seems that the code for fetching escorts data is currently commented
+        out in the `boot()` method of the `ApiDataServiceProvider` class. */
+        // 'escorts' => $escorts,
         'cgv' => $cgv,
         'salons' => $salons,
       ];

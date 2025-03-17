@@ -13,7 +13,7 @@
         <h2 class="[text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-cormorant">Rencontres <span class="text-amber-400">élégantes et discrètes</span>  en Suisse</h2>
       </div>
       <div class="flex flex-col lg:flex-row gap-2 text-black transition-all">
-        @foreach ($apiData['categories'] as $categorie)
+        @foreach ($categories as $categorie)
         <a href="{{route('escortes')}}" class="flex items-center justify-center gap-1 z-10 transition-all">
           <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
             <img src="{{ asset('images/icons/'. $categorie['display_name'] .'_icon.svg') }}" alt="icon service {{ $categorie['display_name'] }}" />
@@ -51,7 +51,7 @@
             class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($apiData['escorts']->slice(0,4) as $escort)
+            @foreach ($escorts->slice(0,4) as $escort)
             <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}" escortId='{{$escort->id}}' />
             @endforeach
           </div>
@@ -88,7 +88,7 @@
       <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
         <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-          @foreach ($apiData['escorts']->slice(0,8) as $escort)
+          @foreach ($escorts->slice(0,8) as $escort)
           <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}"  escortId='{{$escort->id}}' />
           @endforeach
         </div>

@@ -161,7 +161,9 @@ class AuthController extends Controller
             $user = Auth::user();
             $user['canton'] = Canton::find($user->canton);
 
-            return view('auth.profile', ['user' => $user]);
+            $escorts = User::where('profile_type', 'escorte')->get();
+
+            return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
         }
         return redirect()->route('home');
     }

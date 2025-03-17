@@ -34,7 +34,7 @@
       </a>
       <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
       <div class="flex items-center justify-center gap-2 text-green-gs">
-        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton ?? 'Non renseigner' }}</a>
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton->nom ?? 'Non renseigner' }}</a>
         <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
       </div>
       @if ($user->profile_type == 'salon')
@@ -173,7 +173,7 @@
               <select x-model="selectedCanton" @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
-                  <option :value="canton.id" :selected="'{{$user->canton}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                  <option :value="canton.id" :selected="'{{$user->canton->id}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
                 {{-- @foreach ($cantons as $canton)
                   <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
@@ -202,7 +202,7 @@
               <select name="categorie" id="categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 @foreach ($categories as $categorie)
-                  <option value="{{ $categorie }}" @if($user->categorie == $categorie) selected @endif>{{ $categorie }}</option>
+                  <option value="{{ $categorie->id }}" @if($user->categorie->id == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
                 @endforeach
               </select>
             </div>
@@ -229,6 +229,22 @@
                     <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}</option>
                   @endforeach
                 </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Services</label>
+                <select x-cloak class="hidden" id="services">
+                  @foreach ($services as $service)
+                    <option value="{{ $service->id }}"
+                      @if (in_array($service->id, explode(',',$user->service) ?? []))
+                        selected=true
+                      @else
+                        selected=false
+                      @endif>
+                      {{$service->nom}}
+                    </option>
+                  @endforeach
+                </select>
+                <x-select_multiple name="service" selectId="langue" placeholder="Service proposé" />
               </div>
               <div class="mb-4 col-span-2 md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Tailles</label>
@@ -327,11 +343,27 @@
               </div>
             @endif
             <div class="mb-4 col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700">Langue</label>
+              <select x-cloak class="hidden" id="langue">
+                @foreach ($langues as $langue)
+                  <option value="{{ $langue }}"
+                    @if (in_array($langue, explode(',',$user->langue) ?? []))
+                      selected=true
+                    @else
+                      selected=false
+                    @endif>
+                    {{$langue}}
+                  </option>
+                @endforeach
+              </select>
+              <x-select_multiple name="langue" selectId="langue" placeholder="Langue parlée" />
+            </div>
+            <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tarif</label>
               <select id="tarif" name="tarif" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden > -- </option>
                 @foreach ($tarifs as $tarif)
-                  <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>{{ $tarif }}</option>
+                  <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF</option>
                 @endforeach
               </select>
               </select>
@@ -477,7 +509,7 @@
             <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
           </div>
           <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
-            @foreach ($apiData['escorts']->slice(0,3) as $escort)
+            @foreach ($escorts->slice(0,3) as $escort)
             <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="Genève" escortId="{{$escort->id}}" />
             @endforeach
           </div>
@@ -584,7 +616,11 @@
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Tarifs à partir de 250.-CHF </span>
+                @if($user->tarif == null)
+                <span>Contacter moi pour connaitre mes tarifs </span>
+                @else
+                <span>Tarifs à partir de {{$user->tarif}}.-CHF </span>
+                @endif
               </div>
 
               <div class="w-full flex items-center gap-3 font-dm-serif">
@@ -639,7 +675,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->categorie}}</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->categorie->nom}}</span>
             </div>
 
             <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
@@ -650,7 +686,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->service}}</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->service->nom}}</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
             </div>
