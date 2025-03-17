@@ -22,7 +22,8 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('ville')->nullable();
             // $table->foreignId('canton_id')->constrained('cantons')->nullable();
             // $table->foreignId('ville_id')->constrained('villes')->nullable();
-            $table->string('categorie')->nullable();
+            $table->json('categorie')->nullable();
+            $table->json('service')->nullable();
             $table->string('recrutement')->nullable();
             $table->integer('nombre_filles')->nullable();
             $table->string('pratique_sexuelles')->nullable();
@@ -38,6 +39,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('mobilite')->nullable();
             $table->string('tarif')->nullable();
             $table->json('paiement')->nullable();
+            $table->json('langues')->nullable();
             $table->text('apropos')->nullable();
             $table->string('autre_contact')->nullable();
             $table->string('complement_adresse')->nullable();

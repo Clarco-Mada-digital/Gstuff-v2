@@ -34,7 +34,7 @@
       </a>
       <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
       <div class="flex items-center justify-center gap-2 text-green-gs">
-        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton->nom ?? 'Non renseigner' }}</a>
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton ?? 'Non renseigner' }}</a>
         <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
       </div>
       @if ($user->profile_type == 'salon')
@@ -98,20 +98,20 @@
           @csrf
 
           <!-- Étape 1: Informations personnelles -->
-          <div x-data="{cantons:{{$cantons}}, villes:[], availableVilles:{{$villes}}}" x-show="currentStep === 0">
+          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
               <div class="flex">
                 <div id="states-button" data-dropdown-toggle="dropdown-states" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-50 border border-e-0 border-gray-300 rounded-s-lg focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600" type="button">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/>
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/>
                 </svg>
                 </div>
                 <select name="genre" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
                   <option hidden value=""> -- </option>
                   <option value="femme"  @if($user->genre == 'femme') selected @endif>Femme</option>
                   <option value="homme"  @if($user->genre == 'homme') selected @endif>Homme</option>
-                  <option value="non-binaire"  @if($user->genre == 'nom-binaire') selected @endif>non-binaire</option>
+                  <option value="non-binaire"  @if($user->genre == 'nom-binaire') selected @endif>Non-binaire</option>
                   <option value="autre"  @if($user->genre == 'autre') selected @endif>autre</option>
                 </select>
               </div>
@@ -173,7 +173,7 @@
               <select x-model="selectedCanton" @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
-                  <option :value="canton.id" selected="'{{$user->canton}}' === 'canton.id'" x-text="canton.nom"></option>
+                  <option :value="canton.id" :selected="'{{$user->canton}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
                 {{-- @foreach ($cantons as $canton)
                   <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
@@ -185,7 +185,7 @@
               <select x-model="selectedVille" name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="ville in villes" :key="ville.id">
-                  <option :value="ville.id" selected="{{$user->vile}} === 'ville.id'" x-text="ville.nom"></option>
+                  <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
                 </template>
                 {{-- @foreach ($villes as $ville)
                   <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}</option>
@@ -477,8 +477,8 @@
             <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
           </div>
           <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
-            @foreach (array_slice($apiData['escorts'], 0, 4) as $escort)
-            <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+            @foreach ($apiData['escorts']->slice(0,3) as $escort)
+            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="Genève" escortId="{{$escort->id}}" />
             @endforeach
           </div>
 
@@ -639,7 +639,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Escort</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->categorie}}</span>
             </div>
 
             <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
@@ -650,7 +650,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Gorge Profonde</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->service}}</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
             </div>

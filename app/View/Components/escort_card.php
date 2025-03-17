@@ -5,8 +5,9 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Ramsey\Uuid\Type\Integer;
 
-class escort-card extends Component
+class escort_card extends Component
 {
     /**
      * Create a new component instance.
@@ -15,6 +16,7 @@ class escort-card extends Component
       public string $name,
       public string $canton,
       public string $ville,
+      public float $escortId,
     )
     {
         //
@@ -25,6 +27,6 @@ class escort-card extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.escort-card');
+        return view('components.escort_card');
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\EscortController;
 use App\Http\Controllers\NotificationController;
 
 /*
@@ -36,7 +37,7 @@ Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 
-Route::get('/escort', function(){return view('sp_escort');})->name('escort');
+Route::get('/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
 Route::get('/escortes', function(){return view('search_page_escort');})->name('escortes');
 Route::get('/salons', function(){return view('search_page_salon');})->name('salons');
 

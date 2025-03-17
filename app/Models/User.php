@@ -36,6 +36,7 @@
             'npa',
             'canton',
             'ville',
+            'langues',
             'categorie',
             'recrutement',
             'nombre_filles',

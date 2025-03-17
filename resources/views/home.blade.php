@@ -13,11 +13,11 @@
         <h2 class="[text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-cormorant">Rencontres <span class="text-amber-400">élégantes et discrètes</span>  en Suisse</h2>
       </div>
       <div class="flex flex-col lg:flex-row gap-2 text-black transition-all">
-        @foreach ($apiData['services'] as $service)
+        @foreach ($apiData['categories'] as $categorie)
         <a href="{{route('escortes')}}" class="flex items-center justify-center gap-1 z-10 transition-all">
           <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
-            <img src="{{ asset('images/icons/'. $service['post_name'] .'_icon.svg') }}" alt="icon service {{ $service['post_name'] }}" />
-            <span>{{ $service['post_title'] }}</span>
+            <img src="{{ asset('images/icons/'. $categorie['display_name'] .'_icon.svg') }}" alt="icon service {{ $categorie['display_name'] }}" />
+            <span>{{ $categorie['nom'] }}</span>
           </div>
         </a>
         @endforeach
@@ -51,8 +51,8 @@
             class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach (array_slice($apiData['escorts'], 0, 4) as $escort)
-            <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+            @foreach ($apiData['escorts']->slice(0,4) as $escort)
+            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}" escortId='{{$escort->id}}' />
             @endforeach
           </div>
           <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -72,7 +72,7 @@
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
           <div id="OurSalonContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
             @foreach (array_slice($apiData['salons'], 0, 4) as $salon)
-            <x-escort-card name="{{ $salon['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+            <x-escort_card name="{{ $salon['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" escortId=1 />
             @endforeach
           </div>
           <div id="arrowSalonScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -88,8 +88,8 @@
       <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
         <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-          @foreach (array_slice($apiData['escorts'], 0, 8) as $escort)
-          <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+          @foreach ($apiData['escorts']->slice(0,8) as $escort)
+          <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}"  escortId='{{$escort->id}}' />
           @endforeach
         </div>
         <div id="arrowListScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -225,4 +225,5 @@
         ListleftBtn.addEventListener('click', ()=>{scrollByPercentage(Listcontainer)})
       </script>
     @endsection
+    
   @stop

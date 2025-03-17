@@ -13,33 +13,16 @@ class CantonSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('cantons')->insert([ // Assurez-vous que 'cantons' est le nom de votre table
+        DB::table('cantons')->insert([ 
+            ['nom' => 'Suisse Alémanique'],
             [ 'nom' => 'Zurich' ],
             [ 'nom' => 'Berne' ],
-            [ 'nom' => 'Lucerne' ],
-            [ 'nom' => 'Uri' ],
-            [ 'nom' => 'Schwytz' ],
-            [ 'nom' => 'Obwald' ],
-            [ 'nom' => 'Nidwald' ],
-            [ 'nom' => 'Glaris' ],
-            [ 'nom' => 'Zoug' ],
-            [ 'nom' => 'Fribourg' ],
-            [ 'nom' => 'Soleure' ],
-            [ 'nom' => 'Bâle-Ville' ],
-            [ 'nom' => 'Bâle-Campagne' ],
-            [ 'nom' => 'Schaffhouse' ],
-            [ 'nom' => 'Appenzell Rhodes-Extérieures' ],
-            [ 'nom' => 'Appenzell Rhodes-Intérieures' ],
-            [ 'nom' => 'Saint-Gall' ],
-            [ 'nom' => 'Grisons' ],
-            [ 'nom' => 'Argovie' ],
-            [ 'nom' => 'Thurgovie' ],
-            [ 'nom' => 'Tessin' ],
-            [ 'nom' => 'Vaud' ],
-            [ 'nom' => 'Valais' ],
+            [ 'nom' => 'Friboug' ],
+            [ 'nom' => 'Jura' ],
             [ 'nom' => 'Neuchâtel' ],
             [ 'nom' => 'Genève' ],
-            [ 'nom' => 'Jura' ],
+            [ 'nom' => 'Valais' ],
+            [ 'nom' => 'Vaud' ],
             // Ajoutez d'autres cantons ici
         ]);
     }

@@ -390,11 +390,11 @@
             <div class="flex flex-col">
               <h2 class="font-dm-serif font-bold text-2xl my-6">Services</h2>
               <div class="grid grid-cols-2 gap-3 text-black">
-                @foreach ($apiData['services'] as $service)
-                <a href="{{route('escortes')}}?services={{ $service['post_name'] }}" class="flex items-center justify-center gap-1 z-10">
+                @foreach ($apiData['categories'] as $categorie)
+                <a href="{{route('escortes')}}?categorie={{ $categorie['display_name'] }}" class="flex items-center justify-center gap-1 z-10">
                   <div class="w-72 lg:w-80 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
-                    <img src="{{ url('images/icons/'.$service['post_name'].'_icon.svg')}}" alt="icon {{ $service['post_name'] }}" />
-                    <span>{{ $service['post_title'] }}</span>
+                    <img src="{{ url('images/icons/'.$categorie['display_name'].'_icon.svg')}}" alt="icon {{ $categorie['display_name'] }}" />
+                    <span>{{ $categorie['nom'] }}</span>
                   </div>
                 </a>
                 @endforeach
@@ -417,7 +417,7 @@
                 <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
                 <div class="flex flex-wrap gap-2">
                   @foreach ($apiData['cantons'] as $canton)
-                  <a href="{{route('escortes')}}?canton={{ $canton['title']['rendered'] }}" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['title']['rendered'] }}</a>
+                  <a href="{{route('escortes')}}?canton={{ $canton['id'] }}" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['nom'] }}</a>
                   @endforeach
                 </div>
               </div>
@@ -459,6 +459,9 @@
                   <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
                     <select id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
                       <option selected hidden>Cantons</option>
+                      @foreach($apiData['cantons'] as $canton)
+                      <option value="{{$canton->id}}">{{$canton->nom}}</option>
+                      @endforeach
                     </select>
                     <select id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
                       <option selected hidden>Villes</option>
@@ -515,7 +518,7 @@
                   <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
                     <div id="ESContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                       @foreach ($apiData['escorts'] as $escort)
-                      <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+                      <x-escort_card name="{{ $escort->prenom}}" canton="{{$escort->canton}}" ville="{{$escort->ville}}" escortId='{{$escort->id}}' />
                       @endforeach
                     </div>
                     <div id="arrowESScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -669,8 +672,8 @@
 
         <div class="flex flex-col items-center lg:items-start gap-2">
           <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-          @foreach (array_slice($apiData['cantons'], 0, 5) as $canton)
-          <a href="#">Escort girl {{ $canton['title']['rendered'] }}</a>
+          @foreach ($apiData['cantons']->slice(0, 5) as $canton)
+          <a href="#">Escort girl {{ $canton->nom }}</a>
           @endforeach
         </div>
 

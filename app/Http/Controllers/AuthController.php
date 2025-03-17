@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Canton;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -156,7 +157,10 @@ class AuthController extends Controller
     public function profile()
     {
         if (Auth::check()) {
-            $user = Auth::user()->load('canton');
+            // $user = Auth::user()->load('canton');
+            $user = Auth::user();
+            $user['canton'] = Canton::find($user->canton);
+
             return view('auth.profile', ['user' => $user]);
         }
         return redirect()->route('home');

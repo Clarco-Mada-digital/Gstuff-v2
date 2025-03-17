@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Categorie;
+use App\Models\Canton;
+use App\Models\Ville;
+use App\Models\User;
 
 class ApiDataServiceProvider extends ServiceProvider
 {
@@ -43,24 +47,25 @@ class ApiDataServiceProvider extends ServiceProvider
         return $response->json();
       });
 
-      // Canton
+      // Cantons
       $cantons = Cache::remember('cantons', 3600, function(){
-        $response = Http::get( 'https://gstuff.ch/wp-json/wp/v2/canton');
-        return $response->json();
+        $response = Canton::all();
+        return $response;
       });
 
-      // Les services
-      $services = Cache::remember('services', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/services/list_service');
-        $data =  $response->json();
-        $res = [['post_title'=>'Escorte','post_name'=>'escort'], ['post_title'=>'Masseuse (no sexe)','post_name'=>'masseuse-no-sex'], ['post_title'=>'Dominatrice BDSM','post_name'=>'dominatrice-bdsm'], ['post_title'=>'Trans','post_name'=>'transsexuel'],];
-        return $res;
+      // Villes
+      $villes = Cache::remember('cantons', 3600, function(){
+        $response = Ville::all();
+        return $response;
       });
+
+      // les categories
+      $categories = Categorie::all();     
 
       // Les escortes
       $escorts = Cache::remember('escorts', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/escorts/tout-escorts');
-        return $response->json();
+        $response = User::where('profile_type', 'escorte')->get();
+        return $response;
       });
 
       // Les salons
@@ -87,7 +92,8 @@ class ApiDataServiceProvider extends ServiceProvider
       $apiData = [
         'glossaires' => $glossaires,
         'cantons' => $cantons,
-        'services' => $services,
+        'villes' => $villes,
+        'categories' => $categories,
         'escorts' => $escorts,
         'cgv' => $cgv,
         'salons' => $salons,

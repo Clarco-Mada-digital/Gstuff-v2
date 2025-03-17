@@ -16,23 +16,23 @@ class ProfileCompletionController extends Controller
         // Fetch dropdown data from database (adjust models and queries as needed)
         $cantons = Canton::all(); // Example: Fetch all cantons
         $villes = Ville::all();   // Example: Fetch all villes
+        //$categories = Categorie::all();   // Example: Fetch all categories
+        //$services = Service::all();   // Example: Fetch all services
 
         // You might need to fetch other dropdown data similarly
-        $categories = ['Category 1', 'Category 2', 'Category 3']; // Example - replace with actual data source
-        $pratiquesSexuelles = ['Pratique 1', 'Pratique 2', 'Pratique 3']; // Example
-        $tailles = ['Taille 1', 'Taille 2', 'Taille 3']; // Example
-        $origines = ['Origine 1', 'Origine 2', 'Origine 3']; // Example
-        $couleursYeux = ['Yeux 1', 'Yeux 2', 'Yeux 3']; // Example
-        $couleursCheveux = ['Cheveux 1', 'Cheveux 2', 'Cheveux 3']; // Example
-        $mensurations = ['Mensuration 1', 'Mensuration 2', 'Mensuration 3']; // Example
-        $poitrines = ['Poitrine 1', 'Poitrine 2', 'Poitrine 3']; // Example
-        $taillesPoitrine = ['Taille Poitrine 1', 'Taille Poitrine 2', 'Taille Poitrine 3']; // Example
-        $pubis = ['Pubis 1', 'Pubis 2', 'Pubis 3']; // Example
-        $tatouages = ['Tatouage 1', 'Tatouage 2', 'Tatouage 3']; // Example
-        $mobilites = ['Mobile 1', 'Mobile 2', 'Mobile 3']; // Example
-        $tarifs = ['Tarif 1', 'Tarif 2', 'Tarif 3']; // Example
-        $paiements = ['Paiement 1', 'Paiement 2', 'Paiement 3']; // Example
-
+        $categories = ['Escort', 'Salon de massage', 'Bar', 'Club'];
+        $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
+        $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
+        $couleursYeux = ['Marrons', 'Bleus', 'Verts', 'Noirs'];
+        $couleursCheveux = ['Blonds', 'Bruns', 'Roux', 'Noirs'];
+        $mensurations = ['Fine', 'Normale', 'Ronde', 'Athlétique'];
+        $poitrines = ['Naturelle', 'Améliorée', 'Généreuse'];
+        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F'];
+        $pubis = ['Rasé', 'Naturel', 'Entretenu'];
+        $tatouages = ['Oui', 'Non', 'Quelques-uns'];
+        $mobilites = ['Je reçois', 'Je me déplace', 'Les deux'];
+        $tarifs = ['CHF', 'EUR', 'USD'];
+        $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
 
         return view('auth.profile', [
             'user' => $user,
@@ -40,7 +40,6 @@ class ProfileCompletionController extends Controller
             'villes' => $villes,
             'categories' => $categories,
             'pratiquesSexuelles' => $pratiquesSexuelles,
-            'tailles' => $tailles,
             'origines' => $origines,
             'couleursYeux' => $couleursYeux,
             'couleursCheveux' => $couleursCheveux,
