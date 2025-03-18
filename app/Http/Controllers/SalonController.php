@@ -21,11 +21,29 @@ class SalonController extends Controller
     $salon['canton'] = Canton::find($salon->canton);
     $salon['ville'] = Ville::find($salon->ville);
 
-    $salon['categories'] = Categorie::find($salon->categorie);
+    $salon['categorie'] = Categorie::find($salon->categorie);
     $salon['service'] = Service::find($salon->service);
 
     return view('Sp_salon', [
         'salon' => $salon,
     ]);
+  }
+
+  public function search_salon()
+  {
+    $categories = Categorie::all();
+    $services = Service::all();
+    $cantons = Canton::all();
+    $villes = Ville::all();
+    $salons = User::where('profile_type', 'salon')->get();
+
+    foreach ($salons as $salon) {
+      $salon['canton'] = Canton::find($salon->canton);
+      $salon['ville'] = Ville::find($salon->ville);
+      $salon['categorie'] = Categorie::find($salon->categorie);
+      $salon['service'] = Service::find($salon->service);
+    }
+
+    return view('search_page_salon', ['cantons'=> $cantons, 'categories'=> $categories, 'salons' => $salons]);
   }
 }

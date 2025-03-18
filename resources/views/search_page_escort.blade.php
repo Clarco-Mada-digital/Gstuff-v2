@@ -145,6 +145,9 @@
       <div class="w-full px-4 flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
         <select id="small" class="block w-full xl:w-55 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option selected hidden>Cantons</option>
+          @foreach($cantons as $canton)
+          <option value="{{$canton->id}}">{{$canton->nom}}</option>
+          @endforeach
         </select>
         <select id="small" class="block w-full xl:w-55 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option selected hidden>Villes</option>
@@ -161,11 +164,13 @@
         </select>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm my-2 xl:text-base">
+        @foreach($categories as $categorie)
         <div>
-          <input class="hidden peer" type="checkbox" id="trans" name="trans" value="trans">
-          <label for="trans" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">Trans</label>
+          <input class="hidden peer" type="checkbox" id="{{$categorie->id}}" name="trans" value="{{$categorie->id}}">
+          <label for="{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">{{$categorie->nom}}</label>
         </div>
-        <div>
+        @endforeach
+        {{-- <div>
           <input class="hidden peer" type="checkbox" id="dominatrice" name="dominatrice" value="dominatrice">
           <label for="dominatrice" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Dominatrice BDSM</label>
         </div>
@@ -176,7 +181,7 @@
         <div>
           <input class="hidden peer" type="checkbox" id="escorte" name="escorte" value="escorte">
           <label for="escorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Escort</label>
-        </div>
+        </div> --}}
       </div>
       <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal" class="font-dm-serif text-gray-600 flex items-center gap-2 p-2 bg-white border border-gray-400 rounded-lg mt-5 hover:bg-green-gs hover:text-white group">
         Plus de filtres
@@ -191,8 +196,8 @@
     <div class="container mx-auto py-20 px-2">
       <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">16 Résultats</div>
       <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
-        @foreach (array_slice($apiData['escorts'], 0, 8) as $escort)
-          <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+        @foreach ($escorts->slice(0, 8) as $escort)
+          <x-escort_card name="{{ $escort->nom }}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}" escortId="{{$escort->id}}" />
         @endforeach
       </div>
     </div>

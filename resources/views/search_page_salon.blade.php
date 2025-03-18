@@ -57,8 +57,8 @@
     <div class="container mx-auto py-20 px-2">
       <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">16 Résultats</div>
       <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
-        @foreach (array_slice($apiData['escorts'], 0, 8) as $escort)
-          <x-escort-card name="{{ $escort['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" />
+        @foreach ($salons->slice(0,8) as $salon)
+          <x-salon_card name="{{ $salon->prenom }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId="{{$salon->id}}" />
         @endforeach
       </div>
     </div>

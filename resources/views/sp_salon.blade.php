@@ -21,14 +21,22 @@
           <img  @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($salon->nom_salon)}}</p>
-        <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>{{Str::ucfirst($salon->genre)}}</span>
+        <span class="flex items-center gap-2 font-bold font-dm-serif">({{Str::ucfirst($salon->categorie->nom ?? '')}})</span>
         <a href="tel:0000000" class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11"/></svg>{{$salon->telephone ?? 'Pas de téléphone'}}</a>
         <div class="flex items-center justify-center gap-2 text-green-gs">
           <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{$salon->canton->nom ?? ''}}</a>
           <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.5m3 0H10m3 0h6m-6 6l6-6m-6-6l6 6"/></svg></svg> {{$salon->ville->nom ?? ''}}</a>
         </div>
+        <div class="flex items-center justify-center gap-2 text-green-gs">
+          <span class="flex items-center gap-1">Recrutement : {{$salon->recrutement ?? ''}}</span>
+        </div>
         <hr class="w-full h-2">
 
+        <button class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" fill-rule="evenodd" d="M5.624 4.424C3.965 5.182 2.75 6.986 2.75 9.137c0 2.197.9 3.891 2.188 5.343c1.063 1.196 2.349 2.188 3.603 3.154q.448.345.885.688c.526.415.995.778 1.448 1.043s.816.385 1.126.385s.674-.12 1.126-.385c.453-.265.922-.628 1.448-1.043q.437-.344.885-.687c1.254-.968 2.54-1.959 3.603-3.155c1.289-1.452 2.188-3.146 2.188-5.343c0-2.15-1.215-3.955-2.874-4.713c-1.474-.673-3.41-.568-5.304 1.088L14.53 6.97a.75.75 0 1 1-1.06 1.061l-2-1.999l-.01-.01c-2.058-2.14-4.224-2.335-5.836-1.598M12 4.46C9.688 2.39 7.099 2.1 5 3.059C2.786 4.074 1.25 6.426 1.25 9.138c0 2.665 1.11 4.699 2.567 6.339c1.166 1.313 2.593 2.412 3.854 3.382q.43.33.826.642c.513.404 1.063.834 1.62 1.16s1.193.59 1.883.59s1.326-.265 1.883-.59c.558-.326 1.107-.756 1.62-1.16q.396-.312.826-.642c1.26-.97 2.688-2.07 3.854-3.382c1.457-1.64 2.567-3.674 2.567-6.339c0-2.712-1.535-5.064-3.75-6.077c-2.099-.96-4.688-.67-7 1.399" clip-rule="evenodd"/></svg>
+          {{-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M2 9.137C2 14 6.02 16.591 8.962 18.911C10 19.729 11 20.5 12 20.5s2-.77 3.038-1.59C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501C7.5.825 2 4.274 2 9.137"/></svg> --}}
+          Ajouter au favoris
+        </button>
         <button class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z"/></svg>
           Ecrire un message
@@ -49,32 +57,11 @@
       </div>
 
       <div class="min-w-3/4 px-5 py-5">
-        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="#">{{Str::ucfirst($salon->genre ?? '')}}</a>  / <a href="#">{{Str::ucfirst($salon->canton->nom ?? '')}}</a> / Escorte / {{Str::ucfirst($salon->prenom)}}</div>
+        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="#">{{Str::ucfirst($salon->categorie->nom ?? '')}}</a>  / <a href="#">{{Str::ucfirst($salon->canton->nom ?? '')}}</a> / {{Str::ucfirst($salon->profile_type ?? '')}} / {{Str::ucfirst($salon->nom_salon)}}</div>
 
         <div>
 
           <section>
-
-            {{-- Categorie --}}
-            <div class="flex items-center gap-5 py-5">
-
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Categorie : </h2>
-              <div class="flex items-center gap-5">
-                <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$salon->categories->nom}}</span>
-              </div>
-
-            </div>
-
-            {{-- Storie --}}
-            <div class="flex items-center justify-between gap-5 py-5">
-
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Stories</h2>
-              <div class="flex-1 h-0.5 bg-green-gs"></div>
-
-            </div>
-            <div class="flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
-            </div>
 
             {{-- Galerie --}}
             <div class="flex items-center justify-between gap-5 py-5">
@@ -96,60 +83,30 @@
             </div>
             <div class="flex items-center gap-10 flex-wrap">
               <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 w-full">
+                
                 <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/age_icon.svg') }}" alt="age icon" />
-                  <span>Age : {{ Carbon::parse($salon->date_naissance)->age }} ans</span>
-                </div>
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" />
-                  <span>Origine : {{$salon->origine ?? "-"}} </span>
+                  <img src="{{ asset('images/icons/escort_icon.svg') }}" alt="age icon" />
+                  <span>Nombre des filles : {{$salon->nombre_filles ?? '-'}} filles</span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" />
                   <span>Langue : {{$salon->langue ?? '-'}}</span>
-                </div>
-
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" />
-                  <span>Couleur des yeux : {{$salon->couleur_yeux ?? '-'}} </span>
-                </div>
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" />
-                  <span>Couleur des cheveux : {{$salon->couleur_cheveux ?? '-'}} </span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" />
                   @if($salon->tarif)
                   <span>Tarifs à partir de {{$salon->tarif ?? '-'}}.-CHF </span>
                   @else
-                  <span>Contacter moi pour connaitre mes tarifs</span>
+                  <span>Contacter-nous pour connaitre nos tarifs</span>
                   @endif
-                </div>
-
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/taille_icon.svg') }}" alt="age icon" />
-                  <span>Taille : {{$salon->tailles ?? '-'}} cm </span>
-                </div>
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/poitrine_icon.svg') }}" alt="age icon" />
-                  <span>Poitrine : {{$salon->poitrine ?? '-'}} </span>
-                </div>
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon" />
-                  <span>Mobilité : {{$salon->mobilite ?? '-'}}</span>
-                </div>
-
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/mensuration.svg') }}" alt="age icon" />
-                  <span>Mensurations : {{$salon->mensuration ?? '-'}}</span>
-                </div>
-                <div class="w-full flex items-center gap-3 font-dm-serif">
-                  <img src="{{ asset('images/icons/taill_poit.svg') }}" alt="age icon" />
-                  <span>Taille de poitrine : Bonnet {{$salon->poitrine ?? '-'}} </span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" />
                   <span>Moyen de paiement : {{$salon->paiement ?? '-'}}</span>
+                </div>
+                <div class="w-full flex items-center gap-3 font-dm-serif">
+                  <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" />
+                  <span>Autre contact : {{$salon->autre_contact ?? '-'}}</span>
                 </div>
 
               </div>
@@ -170,28 +127,15 @@
               <p class="text-justify">{{$salon->apropos ?? '-'}}</p>
             </div>
 
-            {{-- Service --}}
+            {{-- Escort associé --}}
             <div class="flex items-center justify-between gap-5 py-5">
 
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Services proposés</h2>
-              <div class="flex-1 h-0.5 bg-green-gs"></div>
-
-            </div>
-            <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$salon->service->nom}}</span>
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
-            </div>
-
-            {{-- Salon associé --}}
-            <div class="flex items-center justify-between gap-5 py-5">
-
-              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Salon associé</h2>
+              <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Nos professionels</h2>
               <div class="flex-1 h-0.5 bg-green-gs"></div>
 
             </div>
             <div class="w-full flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
+              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
             </div>
 
             {{-- Galerie privée --}}

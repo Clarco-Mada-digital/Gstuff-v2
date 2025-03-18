@@ -6,7 +6,7 @@
   @section('content')
     <div class="relative w-full overflow-x-hidden">
 
-      {{-- Escort section --}}
+      {{-- Salon section --}}
       <div class="w-full h-full flex items-center justify-center">
 
         {{-- Image deco --}}

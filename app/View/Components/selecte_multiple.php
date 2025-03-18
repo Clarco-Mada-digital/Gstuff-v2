@@ -12,12 +12,10 @@ class selecte_multiple extends Component
      * Create a new component instance.
      */
     public function __construct(
-      public string $selectedItem,
-      public string $placeholder,
-      public array $options,
-      public string $selectId,
+      public string $label,
+      public string $options,
       public string $name,
-      public array $value,
+      public string $value,
     )
     {
        //

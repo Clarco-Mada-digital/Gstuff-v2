@@ -24,4 +24,22 @@ class EscortController extends Controller
             'escort' => $escort,
         ]);
     }
+
+    public function search_escort()
+  {
+    $categories = Categorie::all();
+    $services = Service::all();
+    $cantons = Canton::all();
+    $villes = Ville::all();
+    $escorts = User::where('profile_type', 'escorte')->get();
+
+    foreach ($escorts as $escort) {
+      $escort['canton'] = Canton::find($escort->canton);
+      $escort['ville'] = Ville::find($escort->ville);
+      $escort['categorie'] = Categorie::find($escort->categorie);
+      $escort['service'] = Service::find($escort->service);
+    }
+
+    return view('search_page_escort', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts' => $escorts]);
+  }
 }

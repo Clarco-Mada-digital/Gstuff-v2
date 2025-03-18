@@ -23,11 +23,10 @@ class ProfileCompletionController extends Controller
         $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch
         $cantons = Canton::all(); // Example: Fetch all cantons
         $villes = Ville::all();   // Example: Fetch all villes
-        //$categories = Categorie::all();   // Example: Fetch all categories
-        //$services = Service::all();   // Example: Fetch all services
 
         // You might need to fetch other dropdown data similarly
         $categories = Categorie::all();
+        $salon_categories = ["Agence d'escort", "Salon erotique", "Institut de massage", "Sauna"];
         $services = Service::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
@@ -42,6 +41,7 @@ class ProfileCompletionController extends Controller
         $tarifs = [150, 200, 250, 300];
         $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
         $langues = ['Français', 'English', 'Italien', 'Espagnol'];
+        $nombre_filles = ['1 à 5', '5 à 15', 'plus de 15'];
 
         return view('auth.profile', [
             'escorts' => $escorts,
@@ -49,6 +49,7 @@ class ProfileCompletionController extends Controller
             'cantons' => $cantons,
             'villes' => $villes,
             'categories' => $categories,
+            'salon_categories' => $salon_categories,
             'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
@@ -63,6 +64,7 @@ class ProfileCompletionController extends Controller
             'tarifs' => $tarifs,
             'paiements' => $paiements,
             'langues' => $langues,
+            'nombre_filles' => $nombre_filles,
         ]);
     }
     /**
@@ -181,7 +183,7 @@ class ProfileCompletionController extends Controller
             'ville' => 'nullable|string|max:255',
             'categorie' => 'nullable|string|max:255',
             'recrutement' => 'nullable|string|max:255',
-            'nombre_filles' => 'nullable|integer|min:0',
+            'nombre_filles' => 'nullable|string|max:255',
             'pratique_sexuelles' => 'nullable|string|max:255',
             'tailles' => 'nullable|string|max:255',
             'origine' => 'nullable|string|max:255',
