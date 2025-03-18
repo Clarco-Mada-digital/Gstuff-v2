@@ -52,7 +52,7 @@
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
             @foreach ($escorts->slice(0,4) as $escort)
-            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}" escortId='{{$escort->id}}' />
+            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}" escortId='{{$escort->id}}' />
             @endforeach
           </div>
           <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -70,10 +70,13 @@
             x-show="!viewEscorte"
             class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
-          <div id="OurSalonContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach (array_slice($apiData['salons'], 0, 4) as $salon)
-            <x-escort_card name="{{ $salon['data']['display_name'] }}" canton="Suisse Allemanique" ville="Genève" escortId=1 />
+          <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+            @foreach ($salons->slice(0,4) as $salon)
+            <x-salon_card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId='{{$salon->id}}' />
             @endforeach
+            @if($salons == '[]')
+              <h3 class="w-full font-dm-serif text-3xl text-center text-green-gs">Aucun salon pour l'instant !</h3>
+            @endif
           </div>
           <div id="arrowSalonScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
@@ -89,7 +92,7 @@
         <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
           @foreach ($escorts->slice(0,8) as $escort)
-          <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="{{$escort->ville}}"  escortId='{{$escort->id}}' />
+          <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}"  escortId='{{$escort->id}}' />
           @endforeach
         </div>
         <div id="arrowListScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -225,5 +228,5 @@
         ListleftBtn.addEventListener('click', ()=>{scrollByPercentage(Listcontainer)})
       </script>
     @endsection
-    
+
   @stop

@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileCompletionController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EscortController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SalonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfi
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 
 Route::get('/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
+Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
 Route::get('/escortes', function(){return view('search_page_escort');})->name('escortes');
 Route::get('/salons', function(){return view('search_page_salon');})->name('salons');
 

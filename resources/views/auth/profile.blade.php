@@ -173,7 +173,7 @@
               <select x-model="selectedCanton" @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
-                  <option :value="canton.id" :selected="'{{$user->canton->id}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                  <option :value="canton.id" :selected="'{{$user->canton->id ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
                 {{-- @foreach ($cantons as $canton)
                   <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
@@ -182,7 +182,7 @@
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Ville</label>
-              <select x-model="selectedVille" name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="ville in villes" :key="ville.id">
                   <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
@@ -202,7 +202,7 @@
               <select name="categorie" id="categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 @foreach ($categories as $categorie)
-                  <option value="{{ $categorie->id }}" @if($user->categorie->id == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
+                  <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
                 @endforeach
               </select>
             </div>
@@ -232,22 +232,15 @@
               </div>
               <div class="mb-4 col-span-2 md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Services</label>
-                <select x-cloak class="hidden" id="services">
+                <select name="service" id="service" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
                   @foreach ($services as $service)
-                    <option value="{{ $service->id }}"
-                      @if (in_array($service->id, explode(',',$user->service) ?? []))
-                        selected=true
-                      @else
-                        selected=false
-                      @endif>
-                      {{$service->nom}}
-                    </option>
+                    <option value="{{ $service->id }}" @if($user->service->id == $service->id) selected @endif>{{ $service->nom }}</option>
                   @endforeach
                 </select>
-                <x-select_multiple name="service" selectId="langue" placeholder="Service proposé" />
               </div>
               <div class="mb-4 col-span-2 md:col-span-1">
-                <label class="block text-sm font-medium text-gray-700">Tailles</label>
+                <label class="block text-sm font-medium text-gray-700">Tailles en cm</label>
                 <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{$user->tailles}}">
               </div>
               <div class="mb-4 col-span-2 md:col-span-1">
@@ -257,7 +250,6 @@
                   @foreach ($origines as $origine)
                     <option value="{{ $origine }}" @if($user->origine == $origine) selected @endif>{{ $origine }}</option>
                   @endforeach
-                </select>
                 </select>
               </div>
               <div class="mb-4 col-span-2 md:col-span-1">
@@ -334,7 +326,7 @@
               <div class="mb-4 col-span-2 md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Mobilité</label>
                 <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                  <option hidden > -- </option>
+                  <option hidden value=""> -- </option>
                   @foreach ($mobilites as $mobilite)
                     <option value="{{ $mobilite }}" @if($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}</option>
                   @endforeach
@@ -344,19 +336,12 @@
             @endif
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Langue</label>
-              <select x-cloak class="hidden" id="langue">
+              <select id="langues" name="langues" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden > -- </option>
                 @foreach ($langues as $langue)
-                  <option value="{{ $langue }}"
-                    @if (in_array($langue, explode(',',$user->langue) ?? []))
-                      selected=true
-                    @else
-                      selected=false
-                    @endif>
-                    {{$langue}}
-                  </option>
+                  <option value="{{ $langue }}" @if($user->langues == $langue) selected @endif>{{ $langue }}</option>
                 @endforeach
               </select>
-              <x-select_multiple name="langue" selectId="langue" placeholder="Langue parlée" />
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
               <label class="block text-sm font-medium text-gray-700">Tarif</label>
@@ -365,7 +350,6 @@
                 @foreach ($tarifs as $tarif)
                   <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF</option>
                 @endforeach
-              </select>
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
@@ -395,19 +379,19 @@
             <h2 class="text-lg font-semibold mb-4">Informations complémentaires</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Autre contact</label>
-              <input type="text" name="autreContact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="text" name="autre_contact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->autre_contact}}" />
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Complement d'adresse</label>
-              <input type="text" name="complementAdress" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="text" name="complement_adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->complement_adresse}}" />
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Lien site web</label>
-              <input type="text" name="site" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></input>
+              <input type="url" name="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->lien_site_web }}" />
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">localisation</label>
-              <input type="text" name="localisation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <input type="text" name="localisation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->localisation}}" />
             </div>
             <div class="h-70 rounded-lg overflow-hidden">
               <img src="{{ asset('images/map_placeholder.png')}}" alt="map image" class="w-full object-cover object-center">
@@ -603,7 +587,7 @@
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Langue : Française, Anglais</span>
+                <span>Langue : {{$user->langues}}</span>
               </div>
 
               <div class="w-full flex items-center gap-3 font-dm-serif">
@@ -616,10 +600,10 @@
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-                @if($user->tarif == null)
-                <span>Contacter moi pour connaitre mes tarifs </span>
+                @if($user->tarif)
+                <span>Tarifs à partir de {{$user->tarif}}.-CHF</span>
                 @else
-                <span>Tarifs à partir de {{$user->tarif}}.-CHF </span>
+                <span>Contacter moi pour connaitre mes tarifs </span>
                 @endif
               </div>
 
@@ -675,7 +659,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->categorie->nom}}</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->categorie->nom ?? ''}}</span>
             </div>
 
             <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
@@ -686,7 +670,7 @@
               </button>
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->service->nom}}</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->service->nom ?? ''}}</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
               <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
             </div>

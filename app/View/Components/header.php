@@ -29,6 +29,11 @@ class header extends Component
         $cantons = Canton::all();
         $villes = Ville::all();
         $escorts = User::where('profile_type', 'escorte')->get();
+        foreach ($escorts as $escort) {
+          $escort['categorie'] = Categorie::find($escort->categorie);
+          $escort['ville'] = Ville::find($escort->ville);
+          $escort['canton'] = Canton::find($escort->canton);
+        }
 
         return view('components.header', ['categories' => $categories, 'cantons' => $cantons, 'escorts' => $escorts, 'villes'=> $villes]);
     }

@@ -24,7 +24,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             // $table->foreignId('ville_id')->constrained('villes')->nullable();
             $table->json('categorie')->nullable();
             $table->json('service')->nullable();
-            $table->string('recrutement')->nullable();
+            $table->string('recrutement')->nullable()->default('Ouvert');
             $table->integer('nombre_filles')->nullable();
             $table->string('pratique_sexuelles')->nullable();
             $table->string('tailles')->nullable();
