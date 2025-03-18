@@ -36,6 +36,7 @@ Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
+Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 
 Route::get('/escort/{id}', [EscortController::class, 'show'])->name('show_escort');

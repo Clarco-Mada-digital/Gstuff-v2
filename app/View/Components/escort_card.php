@@ -5,7 +5,6 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Ramsey\Uuid\Type\Integer;
 
 class escort_card extends Component
 {
@@ -16,6 +15,7 @@ class escort_card extends Component
       public string $name,
       public string $canton,
       public string $ville,
+      public string $avatar,
       public float $escortId,
     )
     {

@@ -10,7 +10,13 @@
 
   @section('content')
     <div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-      <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-[90%] h-auto mx-auto object-center object-contain" src="{{ asset('images/Logo_lg.svg') }}" alt="image couverture" />
+      <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full object-center object-cover"
+      @if($couverture_image = $escort->couverture_image)
+      src="{{ asset('storage/couvertures/'.$couverture_image) }}"
+      @else
+      src="{{ asset('images/Logo_lg.svg') }}" 
+      @endif
+      alt="image couverture" />
     </div>
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
@@ -18,7 +24,14 @@
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
         <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-          <img  @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
+          <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" 
+          @if($avatar = $escort->avatar)
+          src="{{ asset('storage/avatars/'.$avatar) }}" 
+          @else
+          src="{{ asset('images/icon_logo.png') }}"
+          @endif
+          alt="image profile"
+          />
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($escort->prenom)}}</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>{{Str::ucfirst($escort->genre)}}</span>
