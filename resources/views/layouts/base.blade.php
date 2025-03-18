@@ -20,9 +20,17 @@
       <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
       <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
 
+      {{-- leaflet --}}
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+
       <!-- Styles -->
       <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
       @vite('resources/css/app.css')
+     
+
       {{-- <link href="resources/css/app.css" rel="stylesheet"> --}}
       <style>
         .lettre{

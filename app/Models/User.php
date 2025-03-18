@@ -58,6 +58,9 @@
             'complement_adresse',
             'lien_site_web',
             'localisation',
+            'lat',
+            'lon',
+            
         ];
 
     /**
