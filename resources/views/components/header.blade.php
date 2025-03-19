@@ -212,7 +212,13 @@
             </div>
 
             <button id="dropdownHoverUser" data-dropdown-toggle="dropdownUser" class="bg-gray-200 focus:outline-none font-bold rounded-lg text-center inline-flex items-center py-1.5 px-2 gap-2 xl:order-1 cursor-pointer" type="button">
-              <img class="rounded-full w-7 h-7" src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon}}" alt="Image profile" />
+              <img class="rounded-full w-7 h-7" 
+              @if($avatar = auth()->user()->avatar)
+              src="{{ asset('storage/avatars/'.$avatar) }}"
+              @else
+              src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon}}"
+              @endif
+              alt="Image profile" />
               <span class="hidden xl:inline-flex"> {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }} </span>
               <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
@@ -314,7 +320,7 @@
           </div>
 
           <!-- Modal body -->
-          <div x-data="{villes:'', cantons:{{$cantons}}, availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center p-4 md:p-5">
+          <div x-data="{villes:'', cantons:{{$cantons}},selectedCanton:'', availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center p-4 md:p-5">
 
             <input type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="Recherche escort, salon..." required />
             <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
@@ -382,7 +388,7 @@
             <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
               <div id="ESContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($escorts as $escort)
-                <x-escort_card name="{{ $escort->prenom}}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}" escortId='{{$escort->id}}' />
+                <x-escort_card name="{{ $escort->prenom}}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}" avatar={{$escort->avatar}} escortId='{{$escort->id}}' />
                 @endforeach
               </div>
               <div id="arrowESScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>

@@ -32,6 +32,12 @@ class HomeController extends Controller
       }
       // Les salons
       $salons = User::where('profile_type', 'salon')->get();
+      foreach ($salons as $salon) {
+        $salon['canton'] = Canton::find($salon->canton);
+        $salon['ville'] = Ville::find($salon->ville);
+        $salon['categorie'] = Categorie::find($salon->categorie);
+        $salon['service'] = Service::find($salon->service);
+      }
 
 
       // Limiter le résultat à 4 éléments
@@ -40,4 +46,5 @@ class HomeController extends Controller
 
       return view('home', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts'=> $escorts, 'salons' => $salons]);
   }
+  
 }

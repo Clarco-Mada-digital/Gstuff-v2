@@ -18,6 +18,8 @@
          * @var array<int, string>
          */
         protected $fillable = [
+            'avatar',
+            'couverture_image',
             'pseudo',
             'prenom',
             'date_naissance',

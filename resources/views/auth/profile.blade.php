@@ -7,74 +7,43 @@ use Carbon\Carbon;
 Profile page
 @endsection
 
-@section('content')
-<div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-  <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/Logo_lg.svg', imgModalDesc: '' })"
-    class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/Logo_lg.svg') }}"
-    alt="image profile" />
-  <button
-    class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg
-      class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path fill="currentColor"
-        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
-    </svg> Modifier photo de couverture</button>
-</div>
+  @section('content')
+  <div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
+    <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/Logo_lg.svg') }}" alt="image profile" />
+    <button class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier photo de couverture</button>
+  </div>
 
 <div
   x-data="{pageSection: $persist('compte'), userType:'{{ $user->profile_type }}', completionPercentage: 0, dropdownData:'', fetchCompletionPercentage() { fetch('/profile-completion-percentage') .then(response => response.json()) .then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data') .then(response => response.json()) .then(data => { this.dropdownData = data; }); }}"
   x-init="fetchCompletionPercentage()" class="container flex flex-col xl:flex-row justify-center mx-auto">
 
-  {{-- Left section profile --}}
-  <div class="min-w-1/4 flex flex-col items-center gap-3">
+    {{-- Left section profile --}}
+    <div class="min-w-1/4 flex flex-col items-center gap-3">
 
-    <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-      <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })"
-        class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}"
-        alt="image profile" />
-    </div>
-    <a href="#" class="flex md:hidden items-center gap-3 -mt-[25%] ">
-      <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
-      </svg>
-      Modifier photo de couverture
-    </a>
-    <a href="#" class="flex items-center gap-3 md:-mt-[10%] xl:-mt-[25%]">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M15.275 12.475L11.525 8.7L14.3 5.95l-.725-.725L8.1 10.7L6.7 9.3l5.45-5.475q.6-.6 1.413-.6t1.412.6l.725.725l1.25-1.25q.3-.3.713-.3t.712.3L20.7 5.625q.3.3.3.713t-.3.712zM6.75 21H3v-3.75l7.1-7.125l3.775 3.75z" />
-      </svg>
-      Modifier photo de profil
-    </a>
-    <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
-    <div class="flex items-center justify-center gap-2 text-green-gs">
-      <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 22 22" fill="none">
-          <path
-            d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg> {{ $user->canton->nom ?? 'Non renseigner' }}</a>
-      <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5"
-          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path fill="currentColor"
-            d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z" />
-        </svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
-    </div>
-    @if ($user->profile_type == 'salon')
-    <div class="flex items-center justify-center gap-2 text-green-gs">
-      <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48">
-          <!-- Icon from All by undefined - undefined -->
-          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-            d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5" />
-          <circle cx="24" cy="20.206" r="4.299" fill="none" stroke="currentColor" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-            d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
-        </svg> Récrutement : {{ $user->recrutement }}</a>
-    </div>
-    @endif
-    <hr class="w-full h-2">
+      <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+        <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
+      </div>
+      <a href="#" class="flex md:hidden items-center gap-3 -mt-[25%] ">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/>
+        </svg>
+        Modifier photo de couverture
+      </a>
+      <a href="#" class="flex items-center gap-3 md:-mt-[10%] xl:-mt-[25%]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M15.275 12.475L11.525 8.7L14.3 5.95l-.725-.725L8.1 10.7L6.7 9.3l5.45-5.475q.6-.6 1.413-.6t1.412.6l.725.725l1.25-1.25q.3-.3.713-.3t.712.3L20.7 5.625q.3.3.3.713t-.3.712zM6.75 21H3v-3.75l7.1-7.125l3.775 3.75z"/>
+        </svg>
+        Modifier photo de profil
+      </a>
+      <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
+      <div class="flex items-center justify-center gap-2 text-green-gs">
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{ $user->canton->nom ?? 'Non renseigner' }}</a>
+        <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z"/></svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
+      </div>
+      @if ($user->profile_type == 'salon')
+      <div class="flex items-center justify-center gap-2 text-green-gs">
+        <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><!-- Icon from All by undefined - undefined --><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5"/><circle cx="24" cy="20.206" r="4.299" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0"/></svg> Récrutement : {{ $user->recrutement }}</a>
+      </div>
+      @endif
+      <hr class="w-full h-2">
 
     <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
       class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré
@@ -154,351 +123,282 @@ Profile page
       <form action="{{route('profile.update')}}" method="POST">
         @csrf
 
-        <!-- Étape 1: Informations personnelles -->
-        <div
-          x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton}}, villes:{{$villes}}, availableVilles:{{$villes}}}"
-          x-show="currentStep === 0">
-          <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">intitule</label>
-            <div class="flex">
-              <div id="states-button" data-dropdown-toggle="dropdown-states"
-                class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-50 border border-e-0 border-gray-300 rounded-s-lg focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                type="button">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 256 256">
-                  <path fill="currentColor"
-                    d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
+          <!-- Étape 1: Informations personnelles -->
+          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
+            <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">intitule</label>
+              <div class="flex">
+                <div id="states-button" data-dropdown-toggle="dropdown-states" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-50 border border-e-0 border-gray-300 rounded-s-lg focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600" type="button">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"/>
                 </svg>
+                </div>
+                <select name="genre" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
+                  <option hidden value=""> -- </option>
+                  <option value="femme"  @if($user->genre == 'femme') selected @endif>Femme</option>
+                  <option value="homme"  @if($user->genre == 'homme') selected @endif>Homme</option>
+                  <option value="non-binaire"  @if($user->genre == 'nom-binaire') selected @endif>Non-binaire</option>
+                  <option value="autre"  @if($user->genre == 'autre') selected @endif>autre</option>
+                </select>
               </div>
-              <select name="genre" id="intitule"
-                class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
+            </div>
+            @if ($user->profile_type=='salon')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
+                <input type="text" name="nom_proprietaire" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->nom_proprietaire }}">
+              </div>
+            @endif
+            @if ($user->profile_type=='escorte')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Prenom</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg>
+                  </div>
+                  <input type="text" id="prenom" name="prenom" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $user->prenom }}" />
+                </div>
+              </div>
+            @endif
+            @if ($user->profile_type=='invite')
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Pseudo</label>
+                <input type="text" name="pseudo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->pseudo }}">
+              </div>
+            @endif
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12v1.45q0 1.475-1.012 2.513T18.5 17q-.875 0-1.65-.375t-1.3-1.075q-.725.725-1.638 1.088T12 17q-2.075 0-3.537-1.463T7 12t1.463-3.537T12 7t3.538 1.463T17 12v1.45q0 .65.425 1.1T18.5 15t1.075-.45t.425-1.1V12q0-3.35-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20h4q.425 0 .713.288T17 21t-.288.713T16 22zm0-7q1.25 0 2.125-.875T15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15"/>
+                  </svg>
+                </div>
+                <input type="email" id="phone-input" name="email" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $user->email }}" />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Numéro téléphone</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                      <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                  </svg>
+                </div>
+                <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="[0-9]{3}.[0-9]{2}.[0-9]{3}.[0-9]{2}" placeholder="000.00.000.00" value="{{ $user->telephone }}" />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Adresse</label>
+              <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->adresse }}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">NPA</label>
+              <input type="text" name="npa" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->npa }}">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Canton</label>
+              <select x-model="selectedCanton" @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
-                <option value="femme" @if($user->genre == 'femme') selected @endif>Femme</option>
-                <option value="homme" @if($user->genre == 'homme') selected @endif>Homme</option>
-                <option value="non-binaire" @if($user->genre == 'nom-binaire') selected @endif>Non-binaire</option>
-                <option value="autre" @if($user->genre == 'autre') selected @endif>autre</option>
+                <template x-for="canton in cantons" :key="canton.id">
+                  <option :value="canton.id" :selected="'{{$user->canton->id ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                </template>
+                {{-- @foreach ($cantons as $canton)
+                  <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
+                @endforeach --}}
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Ville</label>
+              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden value=""> -- </option>
+                <template x-for="ville in villes" :key="ville.id">
+                  <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
+                </template>
+                {{-- @foreach ($villes as $ville)
+                  <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}</option>
+                @endforeach --}}
               </select>
             </div>
           </div>
-          @if ($user->profile_type=='salon')
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
-            <input type="text" name="nom_proprietaire"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              value="{{ $user->nom_proprietaire }}">
-          </div>
-          @endif
-          @if ($user->profile_type=='escorte')
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Prenom</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24">
-                  <!-- Icon from All by undefined - undefined -->
-                  <path fill="currentColor"
-                    d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
-                </svg>
-              </div>
-              <input type="text" id="prenom" name="prenom" aria-describedby="helper-text-explanation"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{{ $user->prenom }}" />
-            </div>
-          </div>
-          @endif
-          @if ($user->profile_type=='invite')
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-            <input type="text" name="pseudo"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              value="{{ $user->pseudo }}">
-          </div>
-          @endif
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Email</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24">
-                  <!-- Icon from All by undefined - undefined -->
-                  <path fill="currentColor"
-                    d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12v1.45q0 1.475-1.012 2.513T18.5 17q-.875 0-1.65-.375t-1.3-1.075q-.725.725-1.638 1.088T12 17q-2.075 0-3.537-1.463T7 12t1.463-3.537T12 7t3.538 1.463T17 12v1.45q0 .65.425 1.1T18.5 15t1.075-.45t.425-1.1V12q0-3.35-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20h4q.425 0 .713.288T17 21t-.288.713T16 22zm0-7q1.25 0 2.125-.875T15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15" />
-                </svg>
-              </div>
-              <input type="email" id="phone-input" name="email" aria-describedby="helper-text-explanation"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{{ $user->email }}" />
-            </div>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Numéro téléphone</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
-                  <path
-                    d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
-                </svg>
-              </div>
-              <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                pattern="[0-9]{3}.[0-9]{2}.[0-9]{3}.[0-9]{2}" placeholder="000.00.000.00"
-                value="{{ $user->telephone }}" />
-            </div>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Adresse</label>
-            <input type="text" name="adresse"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              value="{{ $user->adresse }}">
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">NPA</label>
-            <input type="text" name="npa"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              value="{{ $user->npa }}">
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Canton</label>
-            <select x-model="selectedCanton"
-              @change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton"
-              id="canton"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              <template x-for="canton in cantons" :key="canton.id">
-                <option :value="canton.id" :selected="'{{$user->canton->id ?? ''}}' == canton.id ? true : false"
-                  x-text="canton.nom"></option>
-              </template>
-              {{-- @foreach ($cantons as $canton)
-              <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}
-              </option>
-              @endforeach --}}
-            </select>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Ville</label>
-            <select name="ville" id="ville"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              <template x-for="ville in villes" :key="ville.id">
-                <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom">
-                </option>
-              </template>
-              {{-- @foreach ($villes as $ville)
-              <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}
-              </option>
-              @endforeach --}}
-            </select>
-          </div>
-        </div>
 
-        <!-- Étape 2: Informations professionnelles -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden':''"
-          x-show="currentStep === 1">
-          <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Catégories</label>
-            <select name="categorie" id="categorie"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($categories as $categorie)
-              <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie->id) selected @endif>{{
-                $categorie->nom }}</option>
-              @endforeach
-            </select>
+          <!-- Étape 2: Informations professionnelles -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden':''" x-show="currentStep === 1">
+            <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
+            <div class="mb-4 col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700">Catégories</label>
+              <select name="categorie" id="categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden value=""> -- </option>
+                @foreach ($categories as $categorie)
+                  <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
+                @endforeach
+              </select>
+            </div>
+            @if ($user->profile_type=='salon')
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Recrutement</label>
+                <select name="recrutement" id="recrutement" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  <option value="ouvert" @if ($user->recrutement == 'ouvert') selected @endif >Ouvert</option>
+                  <option value="fermé" @if ($user->recrutement == 'fermé') selected @endif >Fermer</option>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
+                <input type="number" name="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->nombre_filles }}">
+              </div>
+            @endif
+            @if ($user->profile_type=='escorte')
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
+                <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($pratiquesSexuelles as $pratique)
+                    <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Services</label>
+                <select name="service" id="service" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($services as $service)
+                    <option value="{{ $service->id }}" @if($user->service->id == $service->id) selected @endif>{{ $service->nom }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Tailles en cm</label>
+                <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{$user->tailles}}">
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Origine</label>
+                <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($origines as $origine)
+                    <option value="{{ $origine }}" @if($user->origine == $origine) selected @endif>{{ $origine }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
+                <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($couleursYeux as $yeux)
+                    <option value="{{ $yeux }}" @if($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
+                <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($couleursCheveux as $cheveux)
+                    <option value="{{ $cheveux }}" @if($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Mensuration</label>
+                <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($mensurations as $mensuration)
+                    <option value="{{ $mensuration }}" @if($user->mensuration == $mensuration) selected @endif>{{ $mensuration }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Poitrine</label>
+                <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($poitrines as $poitrine)
+                    <option value="{{ $poitrine }}" @if($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
+                <select id="taille_poitrine" name="taille_poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($taillesPoitrine as $taillePoitrine)
+                    <option value="{{ $taillePoitrine }}" @if($user->taille_poitrine == $taillePoitrine) selected @endif>{{ $taillePoitrine }}</option>
+                  @endforeach
+                </select>
+                  </template>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
+                <select id="pubis" name="pubis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($pubis as $pubi)
+                    <option value="{{ $pubi }}" @if($user->pubis == $pubi) selected @endif>{{ $pubi }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Tatouages</label>
+                <select id="tatouages" name="tatouages" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($tatouages as $tatou)
+                    <option value="{{ $tatou }}" @if($user->tatouages == $tatou) selected @endif>{{ $tatou }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Mobilité</label>
+                <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($mobilites as $mobilite)
+                    <option value="{{ $mobilite }}" @if($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}</option>
+                  @endforeach
+                </select>
+                </select>
+              </div>
+            @endif
+            <div class="mb-4 col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700">Langue</label>
+              <select id="langues" name="langues" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden > -- </option>
+                @foreach ($langues as $langue)
+                  <option value="{{ $langue }}" @if($user->langues == $langue) selected @endif>{{ $langue }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="mb-4 col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700">Tarif</label>
+              <select id="tarif" name="tarif" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option hidden > -- </option>
+                @foreach ($tarifs as $tarif)
+                  <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="mb-4 col-span-2 md:col-span-1">
+              <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
+              <select x-cloak class="hidden" id="paiement">
+                @foreach ($paiements as $paiement)
+                  <option value="{{ $paiement }}"
+                    @if (in_array($paiement, explode(',',$user->paiement) ?? []))
+                      selected=true
+                    @else
+                      selected=false
+                    @endif>
+                    {{$paiement}}
+                  </option>
+                @endforeach
+              </select>
+              <x-select_multiple name="paiement" selectId="paiement" placeholder="Paiment" />
+            </div>
+            <div class="mb-4 col-span-2">
+              <label class="block text-sm font-medium text-gray-700">Apropos</label>
+              <textarea rows="4" name="apropos" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">{{ $user->apropos ?? '' }}</textarea>
+            </div>
           </div>
-          @if ($user->profile_type=='salon')
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Recrutement</label>
-            <select name="recrutement" id="recrutement"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              <option value="ouvert" @if ($user->recrutement == 'ouvert') selected @endif >Ouvert</option>
-              <option value="fermé" @if ($user->recrutement == 'fermé') selected @endif >Fermer</option>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Numbre des filles</label>
-            <input type="number" name="nombre_filles"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              value="{{ $user->nombre_filles }}">
-          </div>
-          @endif
-          @if ($user->profile_type=='escorte')
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Pratique sexuels</label>
-            <select name="pratique_sexuelles" id="pratique_sexuelles"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($pratiquesSexuelles as $pratique)
-              <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique
-                }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Services</label>
-            <select name="service" id="service"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($services as $service)
-              <option value="{{ $service->id }}" @if($user->service->id == $service->id) selected @endif>{{
-                $service->nom }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Tailles en cm</label>
-            <input
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{$user->tailles}}">
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Origine</label>
-            <select name="origine" id="origine"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($origines as $origine)
-              <option value="{{ $origine }}" @if($user->origine == $origine) selected @endif>{{ $origine }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Couleur des yeux</label>
-            <select name="couleur_yeux" id="couleur_yeux"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($couleursYeux as $yeux)
-              <option value="{{ $yeux }}" @if($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Couleur des cheveux</label>
-            <select name="couleur_cheveux" id="couleur_cheveux"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($couleursCheveux as $cheveux)
-              <option value="{{ $cheveux }}" @if($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}
-              </option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Mensuration</label>
-            <select name="mensuration" id="mensuration"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($mensurations as $mensuration)
-              <option value="{{ $mensuration }}" @if($user->mensuration == $mensuration) selected @endif>{{ $mensuration
-                }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Poitrine</label>
-            <select name="poitrine" id="poitrine"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($poitrines as $poitrine)
-              <option value="{{ $poitrine }}" @if($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Taille de poitrine</label>
-            <select id="taille_poitrine" name="taille_poitrine"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($taillesPoitrine as $taillePoitrine)
-              <option value="{{ $taillePoitrine }}" @if($user->taille_poitrine == $taillePoitrine) selected @endif>{{
-                $taillePoitrine }}</option>
-              @endforeach
-            </select>
-            </template>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Poils du pubis</label>
-            <select id="pubis" name="pubis"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($pubis as $pubi)
-              <option value="{{ $pubi }}" @if($user->pubis == $pubi) selected @endif>{{ $pubi }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Tatouages</label>
-            <select id="tatouages" name="tatouages"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($tatouages as $tatou)
-              <option value="{{ $tatou }}" @if($user->tatouages == $tatou) selected @endif>{{ $tatou }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Mobilité</label>
-            <select id="mobilete" name="mobilite"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden value=""> -- </option>
-              @foreach ($mobilites as $mobilite)
-              <option value="{{ $mobilite }}" @if($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}</option>
-              @endforeach
-            </select>
-            </select>
-          </div>
-          @endif
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Langue</label>
-            <select id="langues" name="langues"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden>  </option>
-              @foreach ($langues as $langue)
-              <option value="{{ $langue }}" @if($user->langues == $langue) selected @endif>{{ $langue }}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Tarif</label>
-            <select id="tarif" name="tarif"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden>  </option>
-              @foreach ($tarifs as $tarif)
-              <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF
-              </option>
-              @endforeach
-            </select>
-          </div>
-          <div class="mb-4 col-span-2 md:col-span-1">
-            <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
-            <select x-cloak class="hidden" id="paiement">
-              @foreach ($paiements as $paiement)
-              <option value="{{ $paiement }}" @if (in_array($paiement, explode(',',$user->paiement) ?? []))
-                selected=true
-                @else
-                selected=false
-                @endif>
-                {{$paiement}}
-              </option>
-              @endforeach
-            </select>
-            <x-select_multiple name="paiement" selectId="paiement" placeholder="Paiment" />
-          </div>
-          <div class="mb-4 col-span-2">
-            <label class="block text-sm font-medium text-gray-700">Apropos</label>
-            <textarea rows="4" name="apropos"
-              class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">{{ $user->apropos ?? '' }}</textarea>
-          </div>
-        </div>
 
         <!-- Étape 3: Informations complémentaires -->
         <div @if ($user->profile_type == 'invite') x-show="currentStep === 1" @else x-show="currentStep === 2" @endif  id="three">
@@ -549,8 +449,8 @@ Profile page
     </div>
   </div>
 
-  {{-- Right section profile --}}
-  <div class="min-w-3/4 px-5 py-5">
+    {{-- Right section profile --}}
+    <div class="min-w-3/4 px-5 py-5">
 
     {{-- Message --}}
     <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -631,16 +531,15 @@ Profile page
           </div>
         </div>
 
-        {{-- Filles près de chez toi --}}
-        <div class="flex items-center justify-center md:justify-start py-5">
-          <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
-        </div>
-        <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
-          @foreach ($escorts->slice(0,3) as $escort)
-          <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="Genève"
-            escortId="{{$escort->id}}" />
-          @endforeach
-        </div>
+          {{-- Filles près de chez toi --}}
+          <div class="flex items-center justify-center md:justify-start py-5">
+            <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
+          </div>
+          <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
+            @foreach ($escorts->slice(0,3) as $escort)
+            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton}}" ville="Genève" escortId="{{$escort->id}}" />
+            @endforeach
+          </div>
 
       </section>
 
@@ -956,76 +855,70 @@ Profile page
           <p class="text-justify text-sm xl:text-base"> {{$user->description ?? '-'}} </p>
         </div>
 
-        {{-- A propos de moi --}}
-        <div class="flex items-center justify-between gap-5 py-5">
-          <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
-          <div class="flex-1 h-0.5 bg-green-gs"></div>
-        </div>
-        <div class="flex items-center gap-10 flex-wrap">
-          <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
-            <div class="w-full flex items-center gap-3 font-dm-serif">
-              <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
-              <span>Catégorie : Salon Erotique </span>
+          {{-- A propos de moi --}}
+          <div class="flex items-center justify-between gap-5 py-5">
+            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
+            <div class="flex-1 h-0.5 bg-green-gs"></div>
+          </div>
+          <div class="flex items-center gap-10 flex-wrap">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Catégorie : Salon Erotique </span>
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Nombre des filles : 5 à 15 filles</span>
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Autre contact : Whatsapp </span>
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Adresse : {{$user->adresse ?? '-'}} </span>
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Tarifs à partir de 250.-CHF </span>
+              </div>
+
             </div>
-            <div class="w-full flex items-center gap-3 font-dm-serif">
-              <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-              <span>Nombre des filles : 5 à 15 filles</span>
+          </div>
+
+          {{-- Service --}}
+          <div class="flex items-center justify-between gap-5 py-5">
+
+            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Nos services</h2>
+            <div class="flex-1 h-0.5 bg-green-gs"></div>
+
+          </div>
+          <div class="flex flex-col justify-center gap-5 flex-wrap">
+            <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
+              Catégories
+              <button class="flex items-center gap-2 text-amber-400">
+                Modifier
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
+              </button>
             </div>
-            <div class="w-full flex items-center gap-3 font-dm-serif">
-              <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
-              <span>Autre contact : Whatsapp </span>
+            <div class="flex items-center gap-5">
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Escort</span>
             </div>
-            <div class="w-full flex items-center gap-3 font-dm-serif">
-              <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
-              <span>Adresse : {{$user->adresse ?? '-'}} </span>
+
+            <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
+              Services fournies
+              <button class="flex items-center gap-2 text-amber-400">
+                Modifier
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
+              </button>
             </div>
-            <div class="w-full flex items-center gap-3 font-dm-serif">
-              <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-              <span>Tarifs à partir de 250.-CHF </span>
+            <div class="flex items-center gap-5">
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Gorge Profonde</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
             </div>
 
           </div>
-        </div>
-
-        {{-- Service --}}
-        <div class="flex items-center justify-between gap-5 py-5">
-
-          <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Nos services</h2>
-          <div class="flex-1 h-0.5 bg-green-gs"></div>
-
-        </div>
-        <div class="flex flex-col justify-center gap-5 flex-wrap">
-          <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
-            Catégories
-            <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                  d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
-              </svg>
-            </button>
-          </div>
-          <div class="flex items-center gap-5">
-            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Escort</span>
-          </div>
-
-          <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
-            Services fournies
-            <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                  d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
-              </svg>
-            </button>
-          </div>
-          <div class="flex items-center gap-5">
-            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Gorge Profonde</span>
-            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
-            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
-          </div>
-
-        </div>
 
         {{-- Escort associé --}}
         <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-5">
@@ -1107,7 +1000,7 @@ Profile page
 
   </div>
 
-</div>
+  </div>
 
 @stop
 
@@ -1137,6 +1030,5 @@ Profile page
       
       };
     }
-
-</script>
-@endsection
+  </script>
+  @endsection

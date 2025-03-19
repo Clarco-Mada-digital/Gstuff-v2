@@ -9,9 +9,12 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 class ProfileCompletionController extends Controller
 {
+
     public function index()
     {
         $user = Auth::user();
@@ -23,11 +26,10 @@ class ProfileCompletionController extends Controller
         $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch
         $cantons = Canton::all(); // Example: Fetch all cantons
         $villes = Ville::all();   // Example: Fetch all villes
-        //$categories = Categorie::all();   // Example: Fetch all categories
-        //$services = Service::all();   // Example: Fetch all services
 
         // You might need to fetch other dropdown data similarly
         $categories = Categorie::all();
+        $salon_categories = ["Agence d'escort", "Salon erotique", "Institut de massage", "Sauna"];
         $services = Service::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
@@ -42,6 +44,7 @@ class ProfileCompletionController extends Controller
         $tarifs = [150, 200, 250, 300];
         $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
         $langues = ['Français', 'English', 'Italien', 'Espagnol'];
+        $nombre_filles = ['1 à 5', '5 à 15', 'plus de 15'];
 
         return view('auth.profile', [
             'escorts' => $escorts,
@@ -49,6 +52,7 @@ class ProfileCompletionController extends Controller
             'cantons' => $cantons,
             'villes' => $villes,
             'categories' => $categories,
+            'salon_categories' => $salon_categories,
             'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
@@ -63,6 +67,7 @@ class ProfileCompletionController extends Controller
             'tarifs' => $tarifs,
             'paiements' => $paiements,
             'langues' => $langues,
+            'nombre_filles' => $nombre_filles,
         ]);
     }
     /**
@@ -181,7 +186,7 @@ class ProfileCompletionController extends Controller
             'ville' => 'nullable|string|max:255',
             'categorie' => 'nullable|string|max:255',
             'recrutement' => 'nullable|string|max:255',
-            'nombre_filles' => 'nullable|integer|min:0',
+            'nombre_filles' => 'nullable|string|max:255',
             'pratique_sexuelles' => 'nullable|string|max:255',
             'tailles' => 'nullable|string|max:255',
             'origine' => 'nullable|string|max:255',
@@ -213,5 +218,49 @@ class ProfileCompletionController extends Controller
 
 
         return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès!')->with('completionPercentage', $percentage);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'photo_profil' => ['sometimes', 'nullable', 'file', 'image', 'mimes:jpeg,png,jpg'],
+            'photo_couverture' => ['sometimes', 'nullable', 'file', 'image', 'mimes:jpeg,png,jpg'],
+        ]);
+        if ($request->hasFile('photo_profil') && $request->file('photo_profil')->isValid()) {
+            // Supprimer l'ancienne photo si elle existe
+            if ($user->avatar) {
+                Storage::delete('public/avatars/' . $user->avatar);
+            }
+
+            // Générer un nom unique pour la nouvelle photo
+            $filename = Str::slug($user->pseudo ?? $user->nom_salon ?? $user->prenom) . '-' . time() . '.' . $request->file('photo_profil')->extension();
+            // Stocker la photo
+            $request->file('photo_profil')->storeAs('public/avatars', $filename);
+
+            // Mettre à jour la photo de profil de l'utilisateur
+            $user->update(['avatar' => $filename]);
+
+            return redirect()->back()->with('success', 'Photo de profil mise à jour avec succès.');
+        }
+        if ($request->hasFile('photo_couverture') && $request->file('photo_couverture')->isValid()) {
+            // Supprimer l'ancienne photo si elle existe
+            if ($user->avatar) {
+                Storage::delete('public/couvertures/' . $user->couverture_image);
+            }
+
+            // Générer un nom unique pour la nouvelle photo
+            $filename = Str::slug($user->pseudo ?? $user->nom_salon ?? $user->prenom) . '-' . time() . '.' . $request->file('photo_couverture')->extension();
+            // Stocker la photo
+            $request->file('photo_couverture')->storeAs('public/couvertures', $filename);
+
+            // Mettre à jour la photo de profil de l'utilisateur
+            $user->update(['couverture_image' => $filename]);
+
+            return redirect()->back()->with('success', 'Photo de profil mise à jour avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la photo de profil.');
     }
 }
