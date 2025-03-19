@@ -121,7 +121,7 @@ Profile page
   </div>
 
   {{-- Modale pour l'amelioration du profile --}}
-  <div x-data="multiStepForm()" x-init="fetchDropdownData();" id="addInfoProf" tabindex="-1" aria-hidden="true"
+  <div x-data="multiStepForm()" x-init="fetchDropdownData();" id="addInfoProf" tabindex="-1" aria-hidden="true"  
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <!-- Modale -->
     <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
@@ -461,7 +461,7 @@ Profile page
             <label class="block text-sm font-medium text-gray-700">Langue</label>
             <select id="langues" name="langues"
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden> -- </option>
+              <option hidden>  </option>
               @foreach ($langues as $langue)
               <option value="{{ $langue }}" @if($user->langues == $langue) selected @endif>{{ $langue }}</option>
               @endforeach
@@ -471,7 +471,7 @@ Profile page
             <label class="block text-sm font-medium text-gray-700">Tarif</label>
             <select id="tarif" name="tarif"
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-              <option hidden> -- </option>
+              <option hidden>  </option>
               @foreach ($tarifs as $tarif)
               <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF
               </option>
@@ -501,7 +501,7 @@ Profile page
         </div>
 
         <!-- Étape 3: Informations complémentaires -->
-        <div @if ($user->profile_type == 'invite') x-show="currentStep === 1" @else x-show="currentStep === 2" @endif>
+        <div @if ($user->profile_type == 'invite') x-show="currentStep === 1" @else x-show="currentStep === 2" @endif  id="three">
           <h2 class="text-lg font-semibold mb-4">Informations complémentaires</h2>
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Autre contact</label>
@@ -521,26 +521,9 @@ Profile page
               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               value="{{ $user->lien_site_web }}" />
           </div>
+          
 
-          {{-- <div class="mb-4 relative">
-            <label class="block text-sm font-medium text-gray-700">Localisation</label>
-            <input type="text" id="location-search" name="localisation"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Rechercher une ville...">
-              <input type="hidden" name="lat" id="latitude" value="">
-              <input type="hidden" name="lon" id="longitude" value="">
-
-            <div id="suggestions" class="mt-2 absolute z-50  "></div>
-          </div>
-
-          <div class="h-[400px] z-1" id="map">
-           
-            <img src="{{ asset('images/map_placeholder.png')}}" alt="map image"
-              class="w-full object-cover object-center">
-          </div> --}}
-
-          <x-location-selector />
-
+          <x-location-selector :user="$user"  />
         </div>
 
         <!-- Boutons de navigation -->
@@ -1151,64 +1134,9 @@ Profile page
         // submitForm() {
         //   alert('Formulaire soumis avec succès !');
         // }
+      
       };
     }
 
-
-    var map;
-    var marker;
-
-        // Ajouter l'écouteur d'événements pour la recherche
-        document.getElementById('location-search').addEventListener('input', function() {
-          console.log('kiii');
-           
-          var query = this.value;
-            if (query.length < 3) return;
-
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                  console.log('data', data);
-                  
-                    var suggestions = document.getElementById('suggestions');
-                    suggestions.innerHTML = '';
-                    data.forEach(place => {
-                        var option = document.createElement('div');
-                        option.className = 'suggestion-item text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white';
-                        option.innerHTML = `
-                            <button type="button" class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
-                                ${place.display_name}
-                            </button>
-                        `;
-                        option.addEventListener('click', function() {
-                            document.getElementById('location-search').value = place.name;
-                            document.getElementById('longitude').value = place.lon;
-                            document.getElementById('latitude').value = place.lat;
-                            suggestions.innerHTML = '';
-                            // Initialiser la carte avec la localisation sélectionnée
-                            initializeMap(place.lat, place.lon, place.display_name);
-                        });
-                        suggestions.appendChild(option);
-                    });
-                });
-        });
-
-        function initializeMap(lat, lon, cityName) {
-            if (map) {
-                map.remove();
-            }
-            map = L.map('map').setView([lat, lon], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            if (marker) {
-                map.removeLayer(marker);
-            }
-            marker = L.marker([lat, lon]).addTo(map)
-                .bindPopup(cityName)
-                .openPopup();
-        }
 </script>
 @endsection
