@@ -9,14 +9,14 @@
   @endsection
 
   @section('content')
-    <div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-      <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full object-center object-cover"
+    <div x-data="{}" x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $escort->couverture_image ? asset('storage/couvertures/'.$escort->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
+      {{-- <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full object-center object-cover"
       @if($couverture_image = $escort->couverture_image)
       src="{{ asset('storage/couvertures/'.$couverture_image) }}"
       @else
-      src="{{ asset('images/Logo_lg.svg') }}" 
+      src="{{ asset('images/Logo_lg.svg') }}"
       @endif
-      alt="image couverture" />
+      alt="image couverture" /> --}}
     </div>
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
@@ -24,9 +24,9 @@
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
         <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-          <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" 
+          <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : '{{asset('images/icon_logo.png')}}', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover"
           @if($avatar = $escort->avatar)
-          src="{{ asset('storage/avatars/'.$avatar) }}" 
+          src="{{ asset('storage/avatars/'.$avatar) }}"
           @else
           src="{{ asset('images/icon_logo.png') }}"
           @endif

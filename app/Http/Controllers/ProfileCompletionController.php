@@ -10,17 +10,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
 class ProfileCompletionController extends Controller
 {
 
     public function index()
     {
         $user = Auth::user();
-        $user['canton'] = Canton::where('id', $user->canton)->first();
-        $user['categorie'] = Categorie::where('id', $user->categorie)->first();
-        $user['service'] = Service::where('id', $user->service)->first();
+        $user['canton'] = Canton::where('id', $user->canton)->first() ?? "";
+        $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? "";
+        $user['service'] = Service::where('id', $user->service)->first() ?? "";
 
         // Fetch dropdown data from database (adjust models and queries as needed)
         $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch

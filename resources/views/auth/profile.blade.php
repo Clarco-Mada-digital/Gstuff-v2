@@ -9,14 +9,15 @@
 
   @section('content')
   <div x-data="{couvertureForm:false}">
-  <div class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-    <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = auth()->user()->couverture_image}}' ? '{{ asset('storage/couvertures/'.$couverture_image) }}' : 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full object-center object-cover"
+  <div x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $user->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $user->couverture_image ? asset('storage/couvertures/'.$escort->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
+    {{-- <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = auth()->user()->couverture_image}}' ? '{{ asset('storage/couvertures/'.$couverture_image) }}' : 'images/Logo_lg.svg', imgModalDesc: '' })"
+    class="w-full h-full object-top object-cover"
     @if($couverture_image = auth()->user()->couverture_image)
     src="{{ asset('storage/couvertures/'.$couverture_image) }}"
     @else
-    src="{{ asset('images/Logo_lg.svg') }}" 
-    @endif 
-    alt="image profile" />
+    src="{{ asset('images/Logo_lg.svg') }}"
+    @endif
+    alt="image profile" /> --}}
     <button x-on:click="couvertureForm = !couvertureForm" class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> Modifier photo de couverture</button>
   </div>
 
@@ -27,9 +28,9 @@
     <div x-data="{profileForm:false}" class="min-w-1/4 flex flex-col items-center gap-3">
 
       <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-        <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$avatar = auth()->user()->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" 
+        <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$avatar = auth()->user()->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover"
         @if($avatar = auth()->user()->avatar)
-        src="{{ asset('storage/avatars/'.$avatar) }}" 
+        src="{{ asset('storage/avatars/'.$avatar) }}"
         @else
         src="{{ asset('images/icon_logo.png') }}"
         @endif
@@ -194,7 +195,7 @@
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Canton</label>
-              <select x-model="selectedCanton" 
+              <select x-model="selectedCanton"
               x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
@@ -221,7 +222,7 @@
 
           <!-- Étape 2: Informations professionnelles -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden':''" x-show="currentStep === 1">
-            <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>            
+            <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
             @if ($user->profile_type=='salon')
               <div class="mb-4 col-span-2 md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Catégories</label>
@@ -245,10 +246,10 @@
                 <select name="nombre_filles" id="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($nombre_filles as $nb_fille)
-                    <option value="{{$nb_fille}}" @if($user->nombre_filles == $nb_fille) selected @endif > {{$nb_fille}} </option>                    
+                    <option value="{{$nb_fille}}" @if($user->nombre_filles == $nb_fille) selected @endif > {{$nb_fille}} </option>
                   @endforeach
                 </select>
-              </div>              
+              </div>
             @endif
             @if ($user->profile_type=='escorte')
               <div class="mb-4 col-span-2 md:col-span-1">
@@ -383,7 +384,7 @@
               </select>
             </div>
             <div class="mb-4 col-span-2 md:col-span-1">
-              <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>              
+              <label class="block text-sm font-medium text-gray-700">Moyen de paiement</label>
               <x-select_multiple name="paiement" :options="$paiements" :value="explode(',', $user->paiement)" label="Paiment" />
             </div>
             <div class="mb-4 col-span-2">
@@ -953,5 +954,5 @@
           }
       }
     }
-  </script>  
+  </script>
   @endsection

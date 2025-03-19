@@ -51,7 +51,7 @@
             class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
           <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($escorts->slice(0,4) as $escort)
+            @foreach ($escorts->slice(0,5) as $escort)
             <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton->nom}}" ville="{{$escort->ville->nom}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
             @endforeach
           </div>
@@ -71,7 +71,7 @@
             class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
           <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($salons->slice(0,4) as $salon)
+            @foreach ($salons->slice(0,5) as $salon)
             <x-salon_card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId='{{$salon->id}}' />
             @endforeach
             @if($salons == '[]')

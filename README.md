@@ -27,7 +27,7 @@ cd projet-g-plus
 composer install
 ```
 
-### Installer les dépandance node
+### Installer les dépendance node
 ```bash
 npm install
 ```
@@ -35,6 +35,11 @@ npm install
 ```bash
 php artisan serve
 npm run dev
+```
+
+## Au déploiements n'oublie pas de charger les dossiers uploade
+```bash
+php artisan storage:link
 ```
 
 ## Utilisation

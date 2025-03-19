@@ -52,7 +52,7 @@
   function multiSelect(options, value) {
       return {
           options: options,
-          selectedOptions: value ? value : [],
+          selectedOptions: value != "" ? value : [],
           search: '',
           filteredOptions: [],
           isOpen: false,
