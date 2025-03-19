@@ -11,14 +11,17 @@ use App\Models\Ville;
 class UsersSearch extends Component
 {
     public string $search = '';
-    public string $category = '';
-    public string $language = '';
+    public string $selectedCanton = '';
+    public string $selectedVille = '';
     public $cantons = '';
     public $villes = '';
-
+ 
     public function render()
     {
-        $query = User::query();
+        $query = User::query()->where(function ($q) {
+            $q->where('profile_type', 'escorte')
+              ->orWhere('profile_type', 'salon');
+        });        
         $this->cantons = Canton::all();
         $this->villes = Ville::all();
 
@@ -32,12 +35,12 @@ class UsersSearch extends Component
         }
 
         // Filtres supplémentaires
-        if ($this->category) {
-            $query->where('category', $this->category);
+        if ($this->selectedCanton) {
+            $query->where('canton', $this->selectedCanton);
         }
 
-        if ($this->language) {
-            $query->where('language', $this->language);
+        if ($this->selectedVille) {
+            $query->where('ville', $this->selectedVille);
         }
 
         $users = $query->paginate(10);
