@@ -13,15 +13,21 @@ class UsersSearch extends Component
     public string $search = '';
     public string $selectedCanton = '';
     public string $selectedVille = '';
+    public string $selectedGenre = '';
+    public array $selectedCategories = [];
+    public $escortCategories;
+    public $salonCategories;
     public $cantons = '';
     public $villes = '';
- 
+
     public function render()
     {
         $query = User::query()->where(function ($q) {
             $q->where('profile_type', 'escorte')
               ->orWhere('profile_type', 'salon');
-        });        
+        });
+        $this->escortCategories = Categorie::where('type', 'escort')->get();
+        $this->salonCategories = Categorie::where('type', 'salon')->get();
         $this->cantons = Canton::all();
         $this->villes = Ville::all();
 
@@ -41,6 +47,18 @@ class UsersSearch extends Component
 
         if ($this->selectedVille) {
             $query->where('ville', $this->selectedVille);
+        }
+
+        if ($this->selectedGenre) {
+            $query->where('genre', $this->selectedGenre);
+        }
+
+        if ($this->selectedCategories){
+          $query->where(function ($q) {
+            foreach($this->selectedCategories as $categorie){
+              $q->orwhere('categorie', 'LIKE', $categorie);
+            }
+          });
         }
 
         $users = $query->paginate(10);

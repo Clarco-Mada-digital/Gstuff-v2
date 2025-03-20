@@ -40,6 +40,7 @@
             'ville',
             'langues',
             'categorie',
+            'service',
             'recrutement',
             'nombre_filles',
             'pratique_sexuelles',

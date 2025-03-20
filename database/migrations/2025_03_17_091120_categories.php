@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // Clé primaire auto-incrémentée (bigint unsigned)
             $table->string('nom'); // Colonne pour le nom du canton (varchar)
             $table->string('display_name'); // Colonne pour le nom du canton (varchar)
+            $table->string('type'); // Colonne pour le nom du canton (varchar)
             $table->timestamps(); // Colonnes created_at et updated_at (timestamp)
         });
     }

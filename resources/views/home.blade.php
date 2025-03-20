@@ -72,7 +72,7 @@
           <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
           <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
             @foreach ($salons->slice(0,5) as $salon)
-            <x-salon_card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId='{{$salon->id}}' />
+            <x-salon_card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId='{{$salon->id}}' avatar='{{$escort->avatar}}' />
             @endforeach
             @if($salons == '[]')
               <h3 class="w-full font-dm-serif text-3xl text-center text-green-gs">Aucun salon pour l'instant !</h3>

@@ -56,7 +56,7 @@
           </div>
 
           <!-- Modal body -->
-          <div x-data="{villes:'', cantons:{{$cantons}}, availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center p-4 md:p-5">
+          <div x-data="{villes:'', cantons:{{$cantons}}, selectedCanton:'', availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center p-4 md:p-5">
             
             <input wire:model.live.debounce.500ms="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="Recherche escort, salon..." required />
             <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
@@ -72,52 +72,32 @@
                   <option :value="ville.id" x-text="ville.nom"></option>
                 </template>
               </select>
-              <select id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
-                <option selected hidden>Sexe</option>
-                <option value="US">Femme</option>
-                <option value="CA">Homme</option>
-                <option value="FR">Trans</option>
-                <option value="DE">Gay</option>
-                <option value="DE">Lesbienne</option>
-                <option value="DE">Bisexuelle</option>
-                <option value="DE">Queer</option>
+              <select wire:model.live='selectedGenre' id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+                <option selected value=''>Sexe</option>
+                <option value="femme">Femme</option>
+                <option value="homme">Homme</option>
+                <option value="trans">Trans</option>
+                <option value="gay">Gay</option>
+                <option value="lesbienne">Lesbienne</option>
+                <option value="bisexuelle">Bisexuelle</option>
+                <option value="queer">Queer</option>
               </select>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
-              <div>
-                <input type="checkbox" name="escorte" id="agenceEscorte" value="escorte" class="hidden peer">
-                <label for="agenceEscorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Agence d'escort</label>
-              </div>
-              <div>
-                <input type="checkbox" name="erotique" id="erotique" value="erotique" class="hidden peer">
-                <label for="erotique" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Salon erotique</label>
-              </div>
-              <div>
-                <input type="checkbox" name="massage" id="massage" value="massage" class="hidden peer">
-                <label for="massage" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Institut de massage</label>
-              </div>
-              <div>
-                <input type="checkbox" name="sauna" id="sauna" value="sauna" class="hidden peer">
-                <label for="sauna" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Sauna</label>
-              </div>
+              @foreach ($salonCategories as $categorie)
+                <div>
+                  <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
+                  <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
+                </div>                
+              @endforeach
             </div>
             <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-              <div>
-                <input class="hidden peer" type="checkbox" id="trans" name="trans" value="trans">
-                <label for="trans" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">Trans</label>
-              </div>
-              <div>
-                <input class="hidden peer" type="checkbox" id="dominatrice" name="dominatrice" value="dominatrice">
-                <label for="dominatrice" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Dominatrice BDSM</label>
-              </div>
-              <div>
-                <input class="hidden peer" type="checkbox" id="masseuse" name="masseuse" value="masseuse">
-                <label for="masseuse" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Masseuse (no sex)</label>
-              </div>
-              <div>
-                <input class="hidden peer" type="checkbox" id="escorte" name="escorte" value="escorte">
-                <label for="escorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Escorte</label>
-              </div>
+              @foreach ($escortCategories as $categorie)
+                <div>
+                  <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
+                  <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
+                </div>                
+              @endforeach
             </div>
 
             {{-- Listing d'escort/salon --}}

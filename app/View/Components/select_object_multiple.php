@@ -6,17 +6,16 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class salon_card extends Component
+class select_object_multiple extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-      public string $name,
-      public string $canton,
-      public string $ville,
-      public float $salonId,
-      public float $avatar,
+        public string $label,
+        public string $options,
+        public string $name,
+        public string $value,
     )
     {
         //
@@ -27,6 +26,6 @@ class salon_card extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.salon_card');
+        return view('components.select_object_multiple');
     }
 }

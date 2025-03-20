@@ -25,7 +25,7 @@ class header extends Component
      */
     public function render(): View|Closure|string
     {
-        $categories = Categorie::all();
+        $categories = Categorie::where('type', 'escort')->get();
         $cantons = Canton::all();
         $villes = Ville::all();
         $escorts = User::where('profile_type', 'escorte')->get();

@@ -20,7 +20,15 @@ class ProfileCompletionController extends Controller
         $user = Auth::user();
         $user['canton'] = Canton::where('id', $user->canton)->first() ?? "";
         $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? "";
-        $user['service'] = Service::where('id', $user->service)->first() ?? "";
+        $userService = [];
+        $serviceIds = explode(',', $user->service);
+
+        // Vérifier si les IDs existent
+        // $existingServices = Service::whereIn('id', $serviceIds)->pluck('id')->toArray();
+
+        $user['service'] = Service::whereIn('id', $serviceIds)->get();
+
+        // $user['service'] = $userService;
 
         // Fetch dropdown data from database (adjust models and queries as needed)
         $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch
@@ -185,6 +193,7 @@ class ProfileCompletionController extends Controller
             'canton' => 'nullable|string|max:255',
             'ville' => 'nullable|string|max:255',
             'categorie' => 'nullable|string|max:255',
+            'service' => 'nullable|string|max:255',
             'recrutement' => 'nullable|string|max:255',
             'nombre_filles' => 'nullable|string|max:255',
             'pratique_sexuelles' => 'nullable|string|max:255',

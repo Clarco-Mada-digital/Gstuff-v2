@@ -13,7 +13,7 @@ class HomeController extends Controller
   public function home()
   {
       // categorie
-      $categories = Categorie::all();
+      $categories = Categorie::where('type', 'escort')->get();
 
       // Canton
       $cantons = Canton::all();

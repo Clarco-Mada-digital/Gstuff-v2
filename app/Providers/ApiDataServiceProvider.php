@@ -59,52 +59,18 @@ class ApiDataServiceProvider extends ServiceProvider
         return $response;
       });
 
-      // les categories
-      /* The line `       = Categorie::all();     ` is fetching all records from the
-      `Categorie` model. It is retrieving all categories stored in the database table associated
-      with the `Categorie` model and storing them in the variable ``. These categories
-      can then be used within the application for various purposes, such as displaying them in
-      dropdown menus, filtering data, or any other functionality related to categories. */
-      // $categories = Categorie::all();  
-
-      // Les escortes
-      // $escorts = Cache::remember('escorts', 3600, function(){
-      //   $response = User::where('profile_type', 'escorte')->get();
-      //   return $response;
-      // });
-
-      // Les salons
-      $salons = Cache::remember('salons', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/salons/tout-salons');
-        return $response->json();
-      });
-
       // cgv content
       $cgv = Cache::rememberForever('cgv', function () {
         $response = Http::get('https://gstuff.ch/wp-json/wp/v2/pages/1663');
         return $response->json();
       });
 
-      // Users
-      // $users = Http::withToken($this->Myjton)->get('https://gstuff.ch/wp-json/wp/v2/users')->json();
-      // $users = Http::withHeaders([
-      //   'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dzdHVmZi5jaCIsImlhdCI6MTczOTg2ODc4NiwibmJmIjoxNzM5ODY4Nzg2LCJleHAiOjE3NDA0NzM1ODYsImRhdGEiOnsidXNlciI6eyJpZCI6IjEyMzQ3NSJ9fX0._B-LGOQ3-wKgVU5ywKN__TYAeHyAqHwXtAcUJWevbWs',
-      // ])->get('http://gstuff.ch/wp-json/wp/v2/posts')->json();
-
-      // $users = $response->json();
-
       // Organiser les données dans un tableau associatif
       $apiData = [
         'glossaires' => $glossaires,
         'cantons' => $cantons,
         'villes' => $villes,
-        // 'categories' => $categories,
-        /* The line ` 'escorts' => ,` is attempting to retrieve data related to escorts from
-        the cache. However, it seems that the code for fetching escorts data is currently commented
-        out in the `boot()` method of the `ApiDataServiceProvider` class. */
-        // 'escorts' => $escorts,
         'cgv' => $cgv,
-        'salons' => $salons,
       ];
 
       // Partager les données avec toutes les vues

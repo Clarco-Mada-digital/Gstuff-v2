@@ -16,6 +16,7 @@ class Categorie extends Model
     protected $fillable = [
         'nom', // Colonne que vous voulez pouvoir remplir massivement
         'display_name', // Colonne que vous voulez pouvoir remplir massivement
+        'type',
     ];
 
     /**
