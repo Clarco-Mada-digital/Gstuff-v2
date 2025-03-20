@@ -7,7 +7,6 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class EscortController extends Controller
 {
@@ -18,7 +17,9 @@ class EscortController extends Controller
         $escort['ville'] = Ville::find($escort->ville);
 
         $escort['categories'] = Categorie::find($escort->categorie);
-        $escort['service'] = Service::find($escort->service);
+        $serviceIds = explode(',', $escort->service);
+        $escort['service'] = Service::whereIn('id', $serviceIds)->get();
+        // $escort['service'] = Service::find($escort->service);
 
         return view('Sp_escort', [
             'escort' => $escort,

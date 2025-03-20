@@ -20,12 +20,8 @@ class ProfileCompletionController extends Controller
         $user = Auth::user();
         $user['canton'] = Canton::where('id', $user->canton)->first() ?? "";
         $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? "";
-        $userService = [];
+
         $serviceIds = explode(',', $user->service);
-
-        // Vérifier si les IDs existent
-        // $existingServices = Service::whereIn('id', $serviceIds)->pluck('id')->toArray();
-
         $user['service'] = Service::whereIn('id', $serviceIds)->get();
 
         // $user['service'] = $userService;

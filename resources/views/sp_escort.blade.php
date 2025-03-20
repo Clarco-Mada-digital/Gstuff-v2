@@ -10,13 +10,6 @@
 
   @section('content')
     <div x-data="{}" x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $escort->couverture_image ? asset('storage/couvertures/'.$escort->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
-      {{-- <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-full h-full object-center object-cover"
-      @if($couverture_image = $escort->couverture_image)
-      src="{{ asset('storage/couvertures/'.$couverture_image) }}"
-      @else
-      src="{{ asset('images/Logo_lg.svg') }}"
-      @endif
-      alt="image couverture" /> --}}
     </div>
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
@@ -35,7 +28,7 @@
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($escort->prenom)}}</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>{{Str::ucfirst($escort->genre)}}</span>
-        <a href="tel:0000000" class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11"/></svg>{{$escort->telephone ?? 'Pas de téléphone'}}</a>
+        <a href="tel:{{$escort->telephone ?? ''}}" class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11"/></svg>{{$escort->telephone ?? 'Pas de téléphone'}}</a>
         <div class="flex items-center justify-center gap-2 text-green-gs">
           <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{$escort->canton->nom ?? ''}}</a>
           <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.5m3 0H10m3 0h6m-6 6l6-6m-6-6l6 6"/></svg></svg> {{$escort->ville->nom ?? ''}}</a>
@@ -119,7 +112,7 @@
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" />
-                  <span>Langue : {{$escort->langue ?? '-'}}</span>
+                  <span>Langue : {{$escort->langues ?? '-'}}</span>
                 </div>
 
                 <div class="w-full flex items-center gap-3 font-dm-serif">
@@ -173,10 +166,6 @@
 
               <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Description</h2>
               <div class="flex-1 h-0.5 bg-green-gs"></div>
-              {{-- <button class="flex items-center gap-2 text-amber-400">
-                Modifier
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-              </button> --}}
 
             </div>
             <div class="flex items-center gap-10 flex-wrap">
@@ -191,9 +180,9 @@
 
             </div>
             <div class="flex items-center gap-5">
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->service->nom}}</span>
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Café Pipe</span>
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">Duo</span>
+              @foreach ($escort->service as $service)
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service->nom}}</span>                
+              @endforeach
             </div>
 
             {{-- Salon associé --}}
@@ -228,59 +217,8 @@
             </div>
             @endauth
 
-            {{-- Feed-back et note --}}
-            <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 mt-5 gap-10">
-              <div class="flex flex-col md:flex-row items-center gap-2 justify-between">
-                <span class="font-dm-serif text-green-gs font-bold text-xl text-center md:text-start">Recommandations & Likes + Note attribuée</span>
-                <span class="items-center hidden md:flex">
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </span>
-              </div>
-              <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
-                <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
-                <div class="flex flex-col justify-center gap-2">
-                  <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
-                    <span>Gerante de salon</span>
-                    <span class="flex items-center">
-                      <svg class="w-5 h-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    </span>
-                  </div>
-                  <p>Salut, Bonsoir, je teste le tchat</p>
-                </div>
-              </div>
-              @auth
-              <form action="#" method="POST" class="flex flex-col gap-3 justify-center">
-                <h1>Note attribuée</h1>
-                <div class="flex items-center gap-1">
-                  @foreach ([1,2,3,4,5] as $item)
-                  <label class="text-[#e7bb1b] peer-checked:text-gray-700" for="note{{$item}}">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  </label>
-                  <input class="peer hidden" type="radio" name="note" id="note{{$item}}" value="{{$item}}" required>
-                  @endforeach
-                </div>
-                <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                    <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                        <label for="comment" class="sr-only">Your comment</label>
-                        <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ecrire votre commentaire..." required ></textarea>
-                    </div>
-                    <div class="flex items-center justify-end px-3 py-2 border-t dark:border-gray-600 border-gray-200">
-                        <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center btn-gs-gradient rounded-lg focus:ring-0 ">
-                            Envoyer le commentaire
-                        </button>
-                    </div>
-                </div>
-              </form>
-              @endauth
-            </div>
+            {{-- Feed-back et note --}}            
+            <livewire:feedback :userToId=$escort />
 
           </section>
 
