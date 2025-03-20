@@ -159,59 +159,8 @@
             </div>
             @endauth
 
-            {{-- Feed-back et note --}}
-            <div class="rounded-lg bg-gray-200 w-full flex flex-col p-4 mt-5 gap-10">
-              <div class="flex flex-col md:flex-row items-center gap-2 justify-between">
-                <span class="font-dm-serif text-green-gs font-bold text-xl text-center md:text-start">Recommandations & Likes + Note attribuée</span>
-                <span class="items-center hidden md:flex">
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </span>
-              </div>
-              <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
-                <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
-                <div class="flex flex-col justify-center gap-2">
-                  <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
-                    <span>Gerante de salon</span>
-                    <span class="flex items-center">
-                      <svg class="w-5 h-5 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    </span>
-                  </div>
-                  <p>Salut, Bonsoir, je teste le tchat</p>
-                </div>
-              </div>
-              @auth
-              <form action="#" method="POST" class="flex flex-col gap-3 justify-center">
-                <h1>Note attribuée</h1>
-                <div class="flex items-center gap-1">
-                  @foreach ([1,2,3,4,5] as $item)
-                  <label class="text-[#e7bb1b] peer-checked:text-gray-700" for="note{{$item}}">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  </label>
-                  <input class="peer hidden" type="radio" name="note" id="note{{$item}}" value="{{$item}}" required>
-                  @endforeach
-                </div>
-                <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                    <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                        <label for="comment" class="sr-only">Your comment</label>
-                        <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ecrire votre commentaire..." required ></textarea>
-                    </div>
-                    <div class="flex items-center justify-end px-3 py-2 border-t dark:border-gray-600 border-gray-200">
-                        <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center btn-gs-gradient rounded-lg focus:ring-0 ">
-                            Envoyer le commentaire
-                        </button>
-                    </div>
-                </div>
-              </form>
-              @endauth
-            </div>
+            {{-- Feed-back et note --}}            
+            <livewire:feedback :userToId=$salon />
 
           </section>
 

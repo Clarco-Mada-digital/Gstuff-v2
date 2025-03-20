@@ -221,7 +221,7 @@
                 <select name="categorie" id="salon_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($salon_categories as $categorie)
-                    <option value="{{ $categorie }}" @if($user->categorie->id ?? '' == $categorie) selected @endif>{{ $categorie }}</option>
+                    <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
                   @endforeach
                 </select>
               </div>
@@ -248,7 +248,7 @@
                 <label class="block text-sm font-medium text-gray-700">Catégories</label>
                 <select name="categorie" id="escort_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
-                  @foreach ($categories as $categorie)
+                  @foreach ($escort_categories as $categorie)
                     <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie->id) selected @endif>{{ $categorie->nom }}</option>
                   @endforeach
                 </select>
@@ -813,11 +813,15 @@
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Catégorie : {{$user->categorie ?? '-'}} </span>
+                <span>Catégorie : {{$user->categorie->nom ?? '-'}} </span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
                 <span>Nombre des filles : {{$user->nombre_filles}} filles</span>
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Langue : {{$user->langues}}</span>
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
@@ -829,7 +833,15 @@
               </div>
               <div class="w-full flex items-center gap-3 font-dm-serif">
                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-                <span>Tarifs à partir de {{$user->tarif}}.-CHF </span>
+                @if($user->tarif)
+                <span>Tarifs à partir de {{$user->tarif}}.-CHF</span>
+                @else
+                <span>Contacter moi pour connaitre mes tarifs </span>
+                @endif
+              </div>
+              <div class="w-full flex items-center gap-3 font-dm-serif">
+                <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
+                <span>Moyen de paiement : {{$user->paiement}}</span>
               </div>
 
             </div>

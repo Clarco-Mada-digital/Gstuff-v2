@@ -32,8 +32,8 @@ class ProfileCompletionController extends Controller
         $villes = Ville::all();   // Example: Fetch all villes
 
         // You might need to fetch other dropdown data similarly
-        $categories = Categorie::all();
-        $salon_categories = ["Agence d'escort", "Salon erotique", "Institut de massage", "Sauna"];
+        $escort_categories = Categorie::where('type', 'escorte')->get();
+        $salon_categories = Categorie::where('type', 'salon')->get();
         $services = Service::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
         $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
@@ -55,7 +55,7 @@ class ProfileCompletionController extends Controller
             'user' => $user,
             'cantons' => $cantons,
             'villes' => $villes,
-            'categories' => $categories,
+            'categories' => $escort_categories,
             'salon_categories' => $salon_categories,
             'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,

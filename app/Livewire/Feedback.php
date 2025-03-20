@@ -18,6 +18,7 @@ class Feedback extends Component
     public $comment = ''; // Commentaire par défaut
     public $feedbacks;
 
+    protected $listeners = ['feedbackSubmitted' => '$refresh'];
     protected $rules = [
         'rating' => 'required|integer|min:1|max:5',
         'comment' => 'nullable|string|max:500',
@@ -54,6 +55,8 @@ class Feedback extends Component
 
         // Réinitialiser les champs après soumission
         $this->reset(['rating', 'comment']);
+
+        $this->loadFeedbacks(); // Rafraîchit la liste
 
         session()->flash('success', 'Votre feedback a été soumis avec succès.');
     }

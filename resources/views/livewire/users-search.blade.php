@@ -103,8 +103,12 @@
             {{-- Listing d'escort/salon --}}
             <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
               <div id="ESContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                @foreach ($users as $user)                
-                <x-escort_card name="{{ $user->prenom}}" canton="{{$user->canton->nom}}" ville="{{$user->ville->nom}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' />                
+                @foreach ($users as $user)
+                  @if ($user->profile_type == 'escorte')
+                  <x-escort_card name="{{ $user->prenom}}" canton="{{$user->canton->nom}}" ville="{{$user->ville->nom}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' />                  
+                  @else
+                  <x-salon_card name="{{ $user->prenom}}" canton="{{$user->canton->nom}}" ville="{{$user->ville->nom}}" avatar='{{$user->avatar}}' salonId='{{$user->id}}' />
+                  @endif         
                 @endforeach
               </div>
               <div id="arrowESScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>

@@ -12,10 +12,29 @@
   {{-- List des commentaire --}}
   @foreach ($feedbacks as $feedback)    
   <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
-    <img class="w-15 h-15 rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
+    <a 
+    @if ($feedback->userFromId->profile_type == 'salon')
+    href="{{route('show_salon', $feedback->userFromId->id)}}"      
+    @else
+    href="{{route('show_escort', $feedback->userFromId->id)}}"  
+    @endif >
+    <img class="w-15 h-15 rounded-full object-center object-cover" 
+      @if($avatar = $feedback->userFromId->avatar)
+      src="{{ asset('storage/avatars/'.$avatar) }}"
+      @else
+      src="{{ asset('images/icon_logo.png') }}"
+      @endif
+      alt="image profile" />
+    </a>
     <div class="flex flex-col justify-center gap-2">
       <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
-        <span>{{$feedback->userFromId->pseudo ?? $feedback->userFromId->prenom ?? $feedback->userFromId->nom_salon}}</span>
+        <a  @if ($feedback->userFromId->profile_type == 'salon')
+          href="{{route('show_salon', $feedback->userFromId->id)}}"      
+          @else
+          href="{{route('show_escort', $feedback->userFromId->id)}}"  
+          @endif >
+          {{$feedback->userFromId->pseudo ?? $feedback->userFromId->prenom ?? $feedback->userFromId->nom_salon ?? ''}}
+        </a>
         <span class="flex items-center">
           @for ($i = 1; $i <= 5; $i++)
         <button type="button" class="text-xl">
