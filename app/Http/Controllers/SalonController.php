@@ -24,9 +24,17 @@ class SalonController extends Controller
     $salon['categorie'] = Categorie::find($salon->categorie);
     $salon['service'] = Service::find($salon->service);
 
-    return view('Sp_salon', [
-        'salon' => $salon,
-    ]);
+    if ($salon->id == auth()->user()->id)
+    {
+      return redirect()->route('profile.index');
+    }
+    else
+    {
+      return view('Sp_salon', [
+          'salon' => $salon,
+      ]);
+    }
+
   }
 
   public function search_salon()
