@@ -36,7 +36,8 @@ class UsersSearch extends Component
             $query->where(function ($q) {
                 $q->where('prenom', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('nom', 'LIKE', '%' . $this->search . '%')
-                  ->orWhere('nom_salon', 'LIKE', '%' . $this->search . '%');
+                  ->orWhere('nom_salon', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('apropos', 'LIKE', '%' . $this->search . '%');
             });
         }
 

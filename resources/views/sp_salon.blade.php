@@ -9,8 +9,7 @@
   @endsection
 
   @section('content')
-    <div x-data="{}" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden">
-      <img @click="$dispatch('img-modal', {  imgModalSrc: 'images/Logo_lg.svg', imgModalDesc: '' })" class="w-[90%] h-auto mx-auto object-center object-contain" src="{{ asset('images/Logo_lg.svg') }}" alt="image couverture" />
+    <div x-data="{}" x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $salon->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $salon->couverture_image ? asset('storage/couvertures/'.$salon->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
     </div>
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
@@ -18,7 +17,14 @@
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
         <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-          <img  @click="$dispatch('img-modal', {  imgModalSrc: 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" src="{{ asset('images/icon_logo.png') }}" alt="image profile" />
+          <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $salon->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : '{{asset('images/icon_logo.png')}}', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover"
+          @if($avatar = $salon->avatar)
+          src="{{ asset('storage/avatars/'.$avatar) }}"
+          @else
+          src="{{ asset('images/icon_logo.png') }}"
+          @endif
+          alt="image profile"
+          />
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($salon->nom_salon)}}</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif">({{Str::ucfirst($salon->categorie->nom ?? '')}})</span>
