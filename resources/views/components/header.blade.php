@@ -267,7 +267,7 @@
             <h2 class="font-dm-serif font-bold text-2xl my-6">Services</h2>
             <div class="grid grid-cols-2 gap-3 text-black">
               @foreach ($categories as $categorie)
-              <a href="{{route('escortes')}}?categorie={{ $categorie['display_name'] }}" class="flex items-center justify-center gap-1 z-10">
+              <a href="{{route('escortes')}}?selectedCategories=[{{ $categorie->id }}]" class="flex items-center justify-center gap-1 z-10">
                 <div class="w-72 lg:w-80 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
                   <img src="{{ url('images/icons/'.$categorie['display_name'].'_icon.svg')}}" alt="icon {{ $categorie['display_name'] }}" />
                   <span>{{ $categorie['nom'] }}</span>
@@ -280,20 +280,20 @@
             <div class="border-l border-gray-500 px-4">
               <h2 class="font-dm-serif font-bold text-2xl my-6">Orientation</h2>
               <div class="flex flex-wrap w-full xl:w-[350px] gap-2">
-                <a href="{{route('escortes')}}?oriantation=Homme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Homme</a>
-                <a href="{{route('escortes')}}?oriantation=Femme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Femme</a>
-                <a href="{{route('escortes')}}?oriantation=Trans" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Trans</a>
-                <a href="{{route('escortes')}}?oriantation=Gay" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Gay</a>
-                <a href="{{route('escortes')}}?oriantation=Lesbienne" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Lesbienne</a>
-                <a href="{{route('escortes')}}?oriantation=Bisex" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Bisex</a>
-                <a href="{{route('escortes')}}?oriantation=Queer" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Queer</a>
+                <a href="{{route('escortes')}}?selectedGenre=homme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Homme</a>
+                <a href="{{route('escortes')}}?selectedGenre=Femme" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Femme</a>
+                <a href="{{route('escortes')}}?selectedGenre=trans" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Trans</a>
+                <a href="{{route('escortes')}}?selectedGenre=gay" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Gay</a>
+                <a href="{{route('escortes')}}?selectedGenre=lesbienne" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Lesbienne</a>
+                <a href="{{route('escortes')}}?selectedGenre=bisexuelle" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Bisex</a>
+                <a href="{{route('escortes')}}?selectedGenre=queer" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">Queer</a>
               </div>
             </div>
             <div class="px-4">
               <h2 class="font-dm-serif font-bold text-2xl my-6">Localisation</h2>
               <div class="flex flex-wrap gap-2">
                 @foreach ($cantons as $canton)
-                <a href="{{route('escortes')}}?canton={{ $canton['id'] }}" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['nom'] }}</a>
+                <a href="{{route('escortes')}}?selectedCanton={{ $canton['id'] }}" class="p-2 border border-gray-400 rounded-lg hover:text-amber-300 hover:border-amber-300">{{ $canton['nom'] }}</a>
                 @endforeach
               </div>
             </div>
