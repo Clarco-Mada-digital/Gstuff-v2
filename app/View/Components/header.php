@@ -14,19 +14,10 @@ class header extends Component
 {
     /**
      * Create a new component instance.
-     */    
-    public $categories;
-    public $cantons;
-    public $villes;
-    public $escorts;
-
+     */
     public function __construct()
     {
-
-        $this->categories = Categorie::where('type', 'escort')->get();
-        $this->cantons = Canton::all();
-        $this->villes = Ville::all();
-        $this->escorts = User::where('profile_type', 'escorte')->get();
+        //
     }
 
     /**
@@ -34,12 +25,17 @@ class header extends Component
      */
     public function render(): View|Closure|string
     {
-        foreach ($this->escorts as $escort) {
+        $categories = Categorie::where('type', 'escort')->get();
+        $cantons = Canton::all();
+        $villes = Ville::all();
+        $escorts = User::where('profile_type', 'escorte')->get();
+        
+        foreach ($escorts as $escort) {
           $escort['categorie'] = Categorie::find($escort->categorie);
           $escort['ville'] = Ville::find($escort->ville);
           $escort['canton'] = Canton::find($escort->canton);
         }
 
-        return view('components.header', ['categories' => $this->categories, 'cantons' => $this->cantons, 'escorts' => $this->escorts, 'villes'=> $this->villes]);
+        return view('components.header', ['categories' => $categories, 'cantons' => $cantons, 'escorts' => $escorts, 'villes'=> $villes]);
     }
 }

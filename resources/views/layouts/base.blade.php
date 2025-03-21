@@ -132,7 +132,8 @@
     </div>
 
     {{-- header --}}
-    <x-header />
+    {{-- <x-header /> --}}
+    @livewire('header')
 
     {{-- Content --}}
     @yield('content')

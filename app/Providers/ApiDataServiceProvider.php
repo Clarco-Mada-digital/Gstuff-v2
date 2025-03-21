@@ -53,6 +53,9 @@ class ApiDataServiceProvider extends ServiceProvider
         return $response;
       });
 
+      $escorts = User::where('profile_type', 'escorte')->get();
+      $escort_categories = Categorie::where('type', 'escort')->get();
+
       // Villes
       $villes = Cache::remember('cantons', 3600, function(){
         $response = Ville::all();
@@ -67,6 +70,8 @@ class ApiDataServiceProvider extends ServiceProvider
 
       // Organiser les données dans un tableau associatif
       $apiData = [
+        'escorts' => $escorts,
+        'escort_categories' => $escort_categories,
         'glossaires' => $glossaires,
         'cantons' => $cantons,
         'villes' => $villes,
