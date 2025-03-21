@@ -132,7 +132,6 @@
     </div>
 
     {{-- header --}}
-    {{-- <x-header /> --}}
     @livewire('header')
 
     {{-- Content --}}

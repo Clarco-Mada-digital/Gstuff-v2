@@ -6,7 +6,7 @@ use App\Models\Canton;
 use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
-
+use Illuminate\Support\Facades\Auth;
 
 class SalonController extends Controller
 {
@@ -24,9 +24,13 @@ class SalonController extends Controller
     $salon['categorie'] = Categorie::find($salon->categorie);
     $salon['service'] = Service::find($salon->service);
 
-    if ($salon->id == auth()->user()->id)
-    {
+    if (Auth::check()) {
+      // $user = Auth::user()->load('canton');
+      $user = Auth::user();
+      if ($salon->id == $user->id)
+      {
       return redirect()->route('profile.index');
+      }
     }
     else
     {

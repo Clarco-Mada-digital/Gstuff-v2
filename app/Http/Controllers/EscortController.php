@@ -7,6 +7,7 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class EscortController extends Controller
 {
@@ -21,16 +22,20 @@ class EscortController extends Controller
         $escort['service'] = Service::whereIn('id', $serviceIds)->get();
         // $escort['service'] = Service::find($escort->service);
 
-      if ($escort->id == auth()->user()->id)
-      {
-        return redirect()->route('profile.index');
-      }
-      else
-      {
-        return view('Sp_escort', [
-            'escort' => $escort,
-        ]);
-      }
+        if (Auth::check()) {
+          // $user = Auth::user()->load('canton');
+          $user = Auth::user();
+          if ($escort->id == $user->id)
+          {
+          return redirect()->route('profile.index');
+          }
+        }
+        else
+        {
+          return view('Sp_escort', [
+              'escort' => $escort,
+          ]);
+        }
 
     }
 
