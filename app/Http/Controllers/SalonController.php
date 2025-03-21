@@ -30,6 +30,10 @@ class SalonController extends Controller
       if ($salon->id == $user->id)
       {
       return redirect()->route('profile.index');
+      }else{
+        return view('sp_salon', [
+          'salon' => $salon,
+      ]);
       }
     }
     else

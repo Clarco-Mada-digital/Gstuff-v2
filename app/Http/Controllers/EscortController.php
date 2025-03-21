@@ -28,6 +28,10 @@ class EscortController extends Controller
           if ($escort->id == $user->id)
           {
           return redirect()->route('profile.index');
+          }else{
+            return view('sp_escort', [
+              'escort' => $escort,
+          ]);
           }
         }
         else
