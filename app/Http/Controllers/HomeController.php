@@ -29,6 +29,7 @@ class HomeController extends Controller
         $escort['ville'] = Ville::find($escort->ville);
         $escort['categorie'] = Categorie::find($escort->categorie);
         $escort['service'] = Service::find($escort->service);
+        // dd($escort->service);
       }
       // Les salons
       $salons = User::where('profile_type', 'salon')->get();
@@ -38,6 +39,8 @@ class HomeController extends Controller
         $salon['categorie'] = Categorie::find($salon->categorie);
         $salon['service'] = Service::find($salon->service);
       }
+
+      // dd($escorts);
 
 
       // Limiter le résultat à 4 éléments

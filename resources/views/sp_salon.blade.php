@@ -27,7 +27,7 @@
           />
         </div>
         <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($salon->nom_salon)}}</p>
-        <span class="flex items-center gap-2 font-bold font-dm-serif">({{Str::ucfirst($salon->categorie->nom ?? '')}})</span>
+        <span class="flex items-center gap-2 font-bold font-dm-serif">({{Str::ucfirst($salon->categorie['nom'] ?? '')}})</span>
         <a href="tel:0000000" class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11"/></svg>{{$salon->telephone ?? 'Pas de téléphone'}}</a>
         <div class="flex items-center justify-center gap-2 text-green-gs">
           <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none"><path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> {{$salon->canton->nom ?? ''}}</a>

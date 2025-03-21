@@ -181,7 +181,7 @@
             </div>
             <div class="flex items-center gap-5">
               @foreach ($escort->service as $service)
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service->nom}}</span>                
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service['nom']}}</span>                
               @endforeach
             </div>
 

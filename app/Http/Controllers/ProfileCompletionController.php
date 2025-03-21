@@ -26,13 +26,20 @@ class ProfileCompletionController extends Controller
 
         // $user['service'] = $userService;
 
-        // Fetch dropdown data from database (adjust models and queries as needed)
-        $escorts = User::where('profile_type', 'escorte')->get(); // Example: Fetch
+         // Les escortes
+        $escorts = User::where('profile_type', 'escorte')->get();
+        foreach ($escorts as $escort) {
+            $escort['canton'] = Canton::find($escort->canton);
+            $escort['ville'] = Ville::find($escort->ville);
+            $escort['categorie'] = Categorie::find($escort->categorie);
+            $escort['service'] = Service::find($escort->service);
+            // dd($escort->service);
+        }
         $cantons = Canton::all(); // Example: Fetch all cantons
         $villes = Ville::all();   // Example: Fetch all villes
 
         // You might need to fetch other dropdown data similarly
-        $escort_categories = Categorie::where('type', 'escorte')->get();
+        $escort_categories = Categorie::where('type', 'escort')->get();
         $salon_categories = Categorie::where('type', 'salon')->get();
         $services = Service::all();
         $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
@@ -55,7 +62,7 @@ class ProfileCompletionController extends Controller
             'user' => $user,
             'cantons' => $cantons,
             'villes' => $villes,
-            'categories' => $escort_categories,
+            'escort_categories' => $escort_categories,
             'salon_categories' => $salon_categories,
             'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,

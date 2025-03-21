@@ -83,6 +83,10 @@
       'email_verified_at' => 'datetime',
       'date_naissance' => 'date', // Cast date_naissance en tant que date
       'password_reset_expiry' => 'datetime', // Cast password_reset_expiry en tant que datetime
+      'categorie' => 'array',
+      'service' => 'array',
+      'canton' => 'array',
+      'ville' => 'array',
   ];
 
   public function canton(): BelongsTo

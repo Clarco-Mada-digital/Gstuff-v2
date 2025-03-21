@@ -58,7 +58,7 @@
       <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">16 Résultats</div>
       <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
         @foreach ($salons->slice(0,8) as $salon)
-          <x-salon_card name="{{ $salon->prenom }}" canton="{{$salon->canton->nom}}" ville="{{$salon->ville->nom}}" salonId="{{$salon->id}}" avatar="{{$salon->avatar}}" />
+          <x-salon_card name="{{ $salon->prenom }}" canton="{{$salon->canton['nom']}}" ville="{{$salon->ville['nom']}}" salonId="{{$salon->id}}" avatar="{{$salon->avatar}}" />
         @endforeach
       </div>
     </div>
