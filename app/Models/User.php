@@ -87,6 +87,8 @@
       'service' => 'array',
       'canton' => 'array',
       'ville' => 'array',
+      'paiement' => 'array',
+      'langues' => 'array',
   ];
 
   public function canton(): BelongsTo
