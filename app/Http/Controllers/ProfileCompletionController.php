@@ -7,6 +7,7 @@ use App\Models\Ville;   // Assuming you have a Ville model
 use App\Models\Categorie;   // Assuming you have a Categorie model
 use App\Models\Service;
 use App\Models\User;
+use App\Notifications\ComplementationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -229,6 +230,7 @@ class ProfileCompletionController extends Controller
         $percentageResponse = $this->getProfileCompletionPercentage();
         $percentage = $percentageResponse->getData()->percentage;
 
+        $user->notify(new ComplementationNotification($percentage));
 
         return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès!')->with('completionPercentage', $percentage);
     }
