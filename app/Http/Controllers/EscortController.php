@@ -32,7 +32,7 @@ class EscortController extends Controller
         }
         else
         {
-          return view('Sp_escort', [
+          return view('sp_escort', [
               'escort' => $escort,
           ]);
         }

@@ -34,7 +34,7 @@ class SalonController extends Controller
     }
     else
     {
-      return view('Sp_salon', [
+      return view('sp_salon', [
           'salon' => $salon,
       ]);
     }
