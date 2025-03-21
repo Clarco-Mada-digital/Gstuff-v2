@@ -266,14 +266,14 @@
           <div class="flex flex-col">
             <h2 class="font-dm-serif font-bold text-2xl my-6">Services</h2>
             <div class="grid grid-cols-2 gap-3 text-black">
-              {{-- @foreach ($categories as $categorie)
+              @foreach ($categories as $categorie)
               <a href="{{route('escortes')}}?selectedCategories=[{{ $categorie->id }}]" class="flex items-center justify-center gap-1 z-10">
                 <div class="w-72 lg:w-80 flex items-center justify-center gap-1.5 p-2.5 bg-white rounded-md shadow border border-gray-300 hover:bg-green-gs hover:text-white transition-all">
                   <img src="{{ url('images/icons/'.$categorie['display_name'].'_icon.svg')}}" alt="icon {{ $categorie['display_name'] }}" />
                   <span>{{ $categorie['nom'] }}</span>
                 </div>
               </a>
-              @endforeach --}}
+              @endforeach
             </div>
           </div>
           <div class="flex flex-col gap-4">
