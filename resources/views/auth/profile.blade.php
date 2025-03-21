@@ -400,13 +400,15 @@
               <label class="block text-sm font-medium text-gray-700">Lien site web</label>
               <input type="url" name="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->lien_site_web }}" />
             </div>
-            <div class="mb-4">
+            {{-- <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">localisation</label>
               <input type="text" name="localisation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->localisation}}" />
             </div>
             <div class="h-70 rounded-lg overflow-hidden">
               <img src="{{ asset('images/map_placeholder.png')}}" alt="map image" class="w-full object-cover object-center">
-            </div>
+            </div> --}}
+            <x-location-selector user='{{$user->id}}' />
+
           </div>
 
           <!-- Boutons de navigation -->
