@@ -15,7 +15,9 @@ class header extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(
+        public $categories = '',
+    )
     {
         //
     }
@@ -25,7 +27,7 @@ class header extends Component
      */
     public function render(): View|Closure|string
     {
-        $categories = Categorie::where('type', 'escort')->get();
+        $this->categories = Categorie::where('type', 'escort')->get();
         $cantons = Canton::all();
         $villes = Ville::all();
         $escorts = User::where('profile_type', 'escorte')->get();
@@ -36,6 +38,6 @@ class header extends Component
           $escort['canton'] = Canton::find($escort->canton);
         }
 
-        return view('components.header', ['categories' => $categories, 'cantons' => $cantons, 'escorts' => $escorts, 'villes'=> $villes]);
+        return view('components.header', ['categories' => $this->categories, 'cantons' => $cantons, 'escorts' => $escorts, 'villes'=> $villes]);
     }
 }
