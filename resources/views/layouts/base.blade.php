@@ -466,7 +466,7 @@
                       this.selectedOptions.push(option);
                   }
                   this.search = '';
-                  this.filterOptions();
+                  //this.filterOptions();
                   this.isOpen = false;
               },
     
