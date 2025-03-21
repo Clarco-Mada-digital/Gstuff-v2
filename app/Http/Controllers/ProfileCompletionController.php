@@ -219,7 +219,7 @@ class ProfileCompletionController extends Controller
             'lien_site_web' => 'nullable|url|max:255',
             'localisation' => 'nullable|string|max:255',
             'lat' => 'nullable|string|max:255',
-            'lng' => 'nullable|string|max:255',
+            'lon' => 'nullable|string|max:255',
             // Ajoutez les règles de validation pour les autres champs
         ]);
 
