@@ -37,6 +37,17 @@ class NewChatMessageNotification extends Notification
         return ['database', 'mail', 'broadcast']; // Ajout de 'broadcast' pour les notifications in-app en temps réel
     }
 
+
+    public function toDatabase($notifiable)
+    {
+        return [
+            'title' => 'Nouvelle notification',
+            'message' => 'Votre action a été réussie.',
+            'url' => '/home',
+        ];
+    }
+
+
     /**
      * Get the mail representation of the notification.
      */
