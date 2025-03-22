@@ -4,7 +4,7 @@
             {{-- <span><img src="{{ asset('assets/images/chat_list_icon.png') }}" alt="Chat" class="img-fluid"></span> --}}
 
             <a href="{{ route('home') }}">
-                <img class="mx-auto lg:m-0 w-60 cursor-pointer" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" />
+                <img class="mx-auto lg:m-0 w-60 cursor-pointer" src="{{ asset('images/Logo_lg.svg') }}" alt="Logo gstuff">
             </a>
 
 
