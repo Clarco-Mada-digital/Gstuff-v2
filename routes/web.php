@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
     Route::get('messenger', [MessengerController::class, 'index'])->name('home-messenger');
-    Route::post('profile', [UserProfileController::class, 'update'])->name('profile.update');
+    // Route::post('profile', [UserProfileController::class, 'update'])->name('profile.update');
     // search route
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');
     // fetch user by id
