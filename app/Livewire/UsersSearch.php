@@ -34,8 +34,8 @@ class UsersSearch extends Component
         // Recherche principale (OR sur nom, prénom et salon)
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('prenom', 'LIKE', '%' . $this->search . '%')
-                  ->orWhere('pseudo', 'LIKE', '%' . $this->search . '%')
+                $q->where('name', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('user_name', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('nom_salon', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('apropos', 'LIKE', '%' . $this->search . '%');
             });

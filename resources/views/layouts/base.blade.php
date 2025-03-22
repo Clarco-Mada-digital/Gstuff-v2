@@ -266,7 +266,7 @@
                 {{-- Modal body deja connecter --}}
                 @auth
                 <div class="relative text-center p-4 md:p-5">
-                  Vous êtes déjà connecté en tant que {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }}.
+                  Vous êtes déjà connecté en tant que {{ Auth::user()->user_name ?? Auth::user()->name ?? Auth::user()->nom_salon }}.
                 </div>
                 @endauth
             </div>
@@ -456,17 +456,17 @@
               search: '',
               filteredOptions: [],
               isOpen: false,
-    
+
               init() {
                   this.filteredOptions = this.options;
               },
-    
+
               filterOptions() {
                   this.filteredOptions = this.options.filter(option =>
                       option.toLowerCase().includes(this.search.toLowerCase())
                   );
               },
-    
+
               selectOption(option) {
                   if (!this.selectedOptions.includes(option)) {
                       this.selectedOptions.push(option);
@@ -475,11 +475,11 @@
                   //this.filterOptions();
                   this.isOpen = false;
               },
-    
+
               removeOption(index) {
                   this.selectedOptions.splice(index, 1);
               },
-    
+
               closeDropdown() {
                   setTimeout(() => {
                       this.isOpen = false;
@@ -496,7 +496,7 @@
       }
 
       // Script for multi-select
-      function multiSelect(options, value) {    
+      function multiSelect(options, value) {
         return {
             options: options,
             selectedOptions: value != "" ? value : [],

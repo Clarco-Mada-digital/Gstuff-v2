@@ -14,7 +14,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             // $table->string('intitule')->nullable();
             // $table->string('nom_proprietaire')->nullable();
-            // $table->string('pseudo')->nullable();
+            // $table->string('user_name')->nullable();
             $table->string('telephone')->nullable();
             $table->string('adresse')->nullable();
             $table->string('npa')->nullable();
@@ -58,7 +58,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->dropColumn([
                 'intitule',
                 'nom_proprietaire',
-                'pseudo',
+                'user_name',
                 'telephone',
                 'adresse',
                 'npa',

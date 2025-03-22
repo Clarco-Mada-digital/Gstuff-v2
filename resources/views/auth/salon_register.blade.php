@@ -15,20 +15,20 @@
         {{-- Formulaire --}}
         <div class="w-full xl:w-1/2 mx-auto py-3 px-2 xl:px-30 flex flex-col items-center justify-center gap-15">
           <h2 class="font-dm-serif text-2xl font-bold text-center">{{__('Inscription pour les professionels (Salon)')}}</h2>
-                    
+
           {{-- Inscription Salon Formulaire --}}
           <form x-show="!escortForm" class="w-full mx-auto flex flex-col gap-3" action="{{ route('register') }}" method="POST">
             @csrf
             <input type="hidden" name="profile_type" value="salon">
             <div class="relative z-0 w-full mb-5 group">
-              <input type="text" name="nom_salon" id="floating_nom_salon" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-amber-300 appearance-none dark:text-white dark:border-amber-600 dark:focus:border-green-gs focus:outline-none focus:ring-0 focus:border-green-gs @error('nom_salon') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror peer" placeholder=" " value="{{ old('nom_salon') }}" autocomplete="pseudo" required />
+              <input type="text" name="nom_salon" id="floating_nom_salon" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-amber-300 appearance-none dark:text-white dark:border-amber-600 dark:focus:border-green-gs focus:outline-none focus:ring-0 focus:border-green-gs @error('nom_salon') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror peer" placeholder=" " value="{{ old('nom_salon') }}" autocomplete="user_name" required />
               <label for="floating_nom_salon" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-gs peer-focus:dark:text-green-gs peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 @error('nom_salon') text-red-700 dark:text-red-500 peer-focus:text-red-700 peer-focus:dark:text-red-500 @enderror">nom salon *</label>
               @error('nom_salon')
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
               @enderror
             </div>
             <div class="relative z-0 w-full mb-5 group">
-              <input type="text" name="nom_proprietaire" id="floating_nom_proprietaire" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-amber-300 appearance-none dark:text-white dark:border-amber-600 dark:focus:border-green-gs focus:outline-none focus:ring-0 focus:border-green-gs @error('nom_proprietaire') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror peer" placeholder=" " value="{{ old('nom_proprietaire') }}" autocomplete="pseudo" required />
+              <input type="text" name="nom_proprietaire" id="floating_nom_proprietaire" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-amber-300 appearance-none dark:text-white dark:border-amber-600 dark:focus:border-green-gs focus:outline-none focus:ring-0 focus:border-green-gs @error('nom_proprietaire') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror peer" placeholder=" " value="{{ old('nom_proprietaire') }}" autocomplete="user_name" required />
               <label for="floating_nom_proprietaire" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-gs peer-focus:dark:text-green-gs peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 @error('nom_proprietaire') text-red-700 dark:text-red-500 peer-focus:text-red-700 peer-focus:dark:text-red-500 @enderror">nom_proprietaire *</label>
               @error('nom_proprietaire')
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>

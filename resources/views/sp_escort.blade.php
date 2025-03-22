@@ -5,7 +5,7 @@
   @endphp
 
   @section('pageTitle')
-    {{$escort->prenom}}
+    {{$escort->name}}
   @endsection
 
   @section('content')
@@ -26,7 +26,7 @@
           alt="image profile"
           />
         </div>
-        <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($escort->prenom)}}</p>
+        <p class="font-bold -mt-[25%] md:-mt-[10%] xl:-mt-[25%]">{{Str::ucfirst($escort->name)}}</p>
         <span class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18"/></svg>{{Str::ucfirst($escort->genre)}}</span>
         <a href="tel:{{$escort->telephone ?? ''}}" class="flex items-center gap-2 font-bold font-dm-serif"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11"/></svg>{{$escort->telephone ?? 'Pas de téléphone'}}</a>
         <div class="flex items-center justify-center gap-2 text-green-gs">
@@ -55,7 +55,7 @@
       </div>
 
       <div class="min-w-3/4 px-5 py-5">
-        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="#">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="#">{{Str::ucfirst($escort->canton->nom ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->prenom)}}</div>
+        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="#">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="#">{{Str::ucfirst($escort->canton->nom ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->name)}}</div>
 
         <div>
 
@@ -181,7 +181,7 @@
             </div>
             <div class="flex items-center gap-5">
               @foreach ($escort->service as $service)
-              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service['nom']}}</span>                
+              <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service['nom']}}</span>
               @endforeach
             </div>
 
@@ -217,7 +217,7 @@
             </div>
             @endauth
 
-            {{-- Feed-back et note --}}            
+            {{-- Feed-back et note --}}
             <livewire:feedback :userToId=$escort />
 
           </section>

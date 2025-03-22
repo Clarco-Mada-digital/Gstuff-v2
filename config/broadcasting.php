@@ -37,7 +37,7 @@ return [
     'options' => [
         'cluster' => env('PUSHER_APP_CLUSTER'),
         'host' => env('PUSHER_HOST', '127.0.0.1'),
-        'port' => env('PUSHER_PORT', 6001),
+        'port' => env('PUSHER_PORT', 443),
         'scheme' => env('PUSHER_SCHEME', 'http'),
         'encrypted' => false, // Mettez à true si vous utilisez HTTPS pour Soketi
         'curl_options' => [

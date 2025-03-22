@@ -20,8 +20,8 @@
         protected $fillable = [
             'avatar',
             'couverture_image',
-            'pseudo',
-            'prenom',
+            'user_name',
+            'name',
             'date_naissance',
             'genre',
             'nom_salon',
