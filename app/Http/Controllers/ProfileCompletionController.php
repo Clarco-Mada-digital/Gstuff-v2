@@ -131,7 +131,7 @@ class ProfileCompletionController extends Controller
         $fieldsToCheck = [
             'intitule',
             'nom_proprietaire',
-            'pseudo',
+            'user_name',
             'telephone',
             'adresse',
             'npa',
@@ -190,7 +190,7 @@ class ProfileCompletionController extends Controller
         $request->validate([
             'intitule' => 'nullable|string|max:255',
             'nom_proprietaire' => 'nullable|string|max:255',
-            'pseudo' => 'nullable|string|max:255',
+            'user_name' => 'nullable|string|max:255',
             'telephone' => 'nullable|string|max:20',
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
@@ -250,7 +250,7 @@ class ProfileCompletionController extends Controller
             }
 
             // Générer un nom unique pour la nouvelle photo
-            $filename = Str::slug($user->pseudo ?? $user->nom_salon ?? $user->prenom) . '-' . time() . '.' . $request->file('photo_profil')->extension();
+            $filename = Str::slug($user->user_name ?? $user->nom_salon ?? $user->name) . '-' . time() . '.' . $request->file('photo_profil')->extension();
             // Stocker la photo
             $request->file('photo_profil')->storeAs('public/avatars', $filename);
 
@@ -266,7 +266,7 @@ class ProfileCompletionController extends Controller
             }
 
             // Générer un nom unique pour la nouvelle photo
-            $filename = Str::slug($user->pseudo ?? $user->nom_salon ?? $user->prenom) . '-' . time() . '.' . $request->file('photo_couverture')->extension();
+            $filename = Str::slug($user->user_name ?? $user->nom_salon ?? $user->name) . '-' . time() . '.' . $request->file('photo_couverture')->extension();
             // Stocker la photo
             $request->file('photo_couverture')->storeAs('public/couvertures', $filename);
 

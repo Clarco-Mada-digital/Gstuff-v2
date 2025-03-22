@@ -54,7 +54,7 @@ class NewChatMessageNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Vous avez reçu un nouveau message de ' . $this->sender->pseudo)
+                    ->line('Vous avez reçu un nouveau message de ' . $this->sender->user_name)
                     ->action('Voir le message', url('/chat/' . $this->message->sender_id)) // Ajustez l'URL selon votre application
                     ->line('Merci d\'utiliser notre application!');
     }
@@ -69,7 +69,7 @@ class NewChatMessageNotification extends Notification
     {
         return [
             'sender_id' => $this->sender->id,
-            'sender_name' => $this->sender->pseudo,
+            'sender_name' => $this->sender->user_name,
             'message' => $this->message->message,
             // Ajoutez d'autres données nécessaires pour l'affichage in-app
         ];

@@ -57,15 +57,15 @@
         @csrf
         <input type="hidden" name="profile_type" value="invite">
         <div class="flex flex-col gap-2">
-          <label for="pseudo">Pseudo *</label>
-          <input type="text" name="pseudo" id="pseudo" class="border rounded-lg focus:border-amber-400 ring-0 @error('pseudo') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('pseudo') }}" autocomplete="pseudo" required>
-          @error('pseudo')
+          <label for="user_name">user_name *</label>
+          <input type="text" name="user_name" id="user_name" class="border rounded-lg focus:border-amber-400 ring-0 @error('user_name') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('user_name') }}" autocomplete="user_name" required>
+          @error('user_name')
             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
           @enderror
         </div>
         <div class="flex flex-col gap-2">
           <label for="Insc_email">Adresse email *</label>
-          <input type="email" name="email" id="Insc_email" class="border rounded-lg focus:border-amber-400 ring-0 @error('pseudo') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('pseudo') }}" autocomplete="email" required >
+          <input type="email" name="email" id="Insc_email" class="border rounded-lg focus:border-amber-400 ring-0 @error('user_name') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror" value="{{ old('user_name') }}" autocomplete="email" required >
           @error('email')
             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
           @enderror

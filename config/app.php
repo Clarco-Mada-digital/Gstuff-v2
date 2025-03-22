@@ -165,7 +165,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        //App\Providers\BroadcastServiceProvider::class, // a ete decomenter
+        App\Providers\BroadcastServiceProvider::class, // a ete decomenter
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ApiDataServiceProvider::class,

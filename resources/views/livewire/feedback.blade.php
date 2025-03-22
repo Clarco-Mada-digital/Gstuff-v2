@@ -10,15 +10,15 @@
     </span>
   </div>
   {{-- List des commentaire --}}
-  @foreach ($feedbacks as $feedback)    
+  @foreach ($feedbacks as $feedback)
   <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
-    <a 
+    <a
     @if ($feedback->userFromId->profile_type == 'salon')
-    href="{{route('show_salon', $feedback->userFromId->id)}}"      
+    href="{{route('show_salon', $feedback->userFromId->id)}}"
     @else
-    href="{{route('show_escort', $feedback->userFromId->id)}}"  
+    href="{{route('show_escort', $feedback->userFromId->id)}}"
     @endif >
-    <img class="w-15 h-15 rounded-full object-center object-cover" 
+    <img class="w-15 h-15 rounded-full object-center object-cover"
       @if($avatar = $feedback->userFromId->avatar)
       src="{{ asset('storage/avatars/'.$avatar) }}"
       @else
@@ -29,11 +29,11 @@
     <div class="flex flex-col justify-center gap-2">
       <div class="flex flex-col  md:flex-row justify-center md:justify-start md:items-center gap-2 text-green-gs font-bold">
         <a  @if ($feedback->userFromId->profile_type == 'salon')
-          href="{{route('show_salon', $feedback->userFromId->id)}}"      
+          href="{{route('show_salon', $feedback->userFromId->id)}}"
           @else
-          href="{{route('show_escort', $feedback->userFromId->id)}}"  
+          href="{{route('show_escort', $feedback->userFromId->id)}}"
           @endif >
-          {{$feedback->userFromId->pseudo ?? $feedback->userFromId->prenom ?? $feedback->userFromId->nom_salon ?? ''}}
+          {{$feedback->userFromId->user_name ?? $feedback->userFromId->name ?? $feedback->userFromId->nom_salon ?? ''}}
         </a>
         <span class="flex items-center">
           @for ($i = 1; $i <= 5; $i++)
@@ -50,7 +50,7 @@
     </div>
   </div>
   @endforeach
-  @auth    
+  @auth
     <div class="flex flex-col gap-3 justify-center">
       <h1>Note attribuée</h1>
 

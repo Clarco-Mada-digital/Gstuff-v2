@@ -42,12 +42,12 @@
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z"/></svg>
         </button>
       </div>
-  
+
       <div class="container mx-auto py-20 px-2">
         <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">{{$escorts->count()}} {{$escorts->count() > 1 ? 'Résultats' : 'Résultat'}}</div>
         <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
           @foreach ($escorts as $escort)
-            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
+            <x-escort_card name="{{ $escort->name }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
           @endforeach
         </div>
       </div>
@@ -191,7 +191,7 @@
               </div>
 
           </div>
-          
+
         </div>
       </div>
     </div>

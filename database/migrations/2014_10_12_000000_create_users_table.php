@@ -15,8 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('pseudo')->nullable(); // Pour Invité
-            $table->string('prenom')->nullable(); // Pour Escorte
+            $table->string('user_name')->nullable(); // Pour Invité
+            $table->string('name')->nullable(); // Pour Escorte
             $table->date('date_naissance');
             $table->string('genre')->nullable(); // Pour Escorte
             $table->string('nom_salon')->nullable(); // Pour Salon
@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('avatar')->default('default/avatar.png');
             $table->enum('profile_type', ['invite', 'escorte', 'salon'])->default('invite'); // Type de profil
             $table->rememberToken();
             $table->timestamps();
