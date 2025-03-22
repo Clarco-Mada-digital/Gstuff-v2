@@ -33,4 +33,4 @@
   </div>
   @endsection
 
-@stop
+{{-- @stop --}}
