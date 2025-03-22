@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat
     // Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
-    Route::get('messenger', [MessengerController::class, 'index'])->name('home');
+    Route::get('messenger', [MessengerController::class, 'index'])->name('home-messenger');
     Route::post('profile', [UserProfileController::class, 'update'])->name('profile.update');
     // search route
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');

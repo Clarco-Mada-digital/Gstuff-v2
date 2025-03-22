@@ -9,7 +9,7 @@
 
         <div class="wsus__message_paceholder d-none"></div>
         <div class="wsus__message_paceholder_black d-flex justify-content-center align-items-center">
-            <span class="select_a_user">Select a user for start convercetion</span>
+            <span class="select_a_user">Sélectionnez un utilisateur pour commencer la conversation</span>
         </div>
 
 
@@ -18,7 +18,7 @@
                 <span class="back_to_list">
                     <i class="fas fa-arrow-left"></i>
                 </span>
-                <img src="" alt="User" class="img-fluid">
+                <img src="" alt="Utilisateur" class="img-fluid">
                 <h4></h4>
             </div>
             <div class="header_right">
@@ -34,7 +34,7 @@
         <div class="wsus__chat_area_footer">
             <div class="footer_message">
                 <div class="img d-none attachment-block">
-                    <img src="" alt="User" class="img-fluid attachment-preview">
+                    <img src="" alt="Utilisateur" class="img-fluid attachment-preview">
                     <span class="cancel-attachment"><i class="far fa-times"></i></span>
                 </div>
                 <form action="#" class="message-form" enctype="multipart/form-data">
@@ -42,7 +42,7 @@
                         <label for="file"><i class="far fa-plus"></i></label>
                         <input id="file" type="file" hidden class="attachment-input" name="attachment" accept="image/*">
                     </div>
-                    <textarea id="example1" rows="1" placeholder="Type a message.." name="message" class="message-input"></textarea>
+                    <textarea id="example1" rows="1" placeholder="Tapez un message.." name="message" class="message-input"></textarea>
                     <button type="submit"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>

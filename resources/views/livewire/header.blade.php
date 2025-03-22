@@ -130,11 +130,11 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
               </svg>
             </button>
-        
+
             <!-- Dropdown menu -->
             <div id="dropdownUser" class="z-10 hidden bg-gray-300 divide-y divide-gray-400 rounded-lg shadow-sm w-44 dark:bg-gray-700">
               <ul class="py-2 text-sm text-green-gs font-bold dark:text-gray-200" aria-labelledby="dropdownHoverUser">
-        
+
                 <li>
                   <a href="{{route('profile.index')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Mon compte</a>
                 </li>
@@ -149,7 +149,7 @@
                   </li>
                 </div>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Discussion</a>
+                  <a href="{{ route('home-messenger') }}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Discussion</a>
                 </li>
                 <li>
                   <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">
@@ -160,7 +160,7 @@
                   @csrf
                 </form>
               </ul>
-            </div>      
+            </div>
           </div>
         @endauth
 
