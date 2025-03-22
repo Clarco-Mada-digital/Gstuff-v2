@@ -33,7 +33,7 @@ class MessengerController extends Controller
             ->paginate(10);
 
         if ($records->total() < 1) {
-            $getRecords .= "<p class='text-center'>Noting to show.</p>";
+            $getRecords .= "<p class='text-center'>Rien à afficher.</p>";
         }
 
         foreach ($records as $record) {
@@ -114,7 +114,9 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='d-flex justify-content-center no_messages align-items-center h-100'><p>Say 'hi' and start messaging.</p></div>";
+            $response['messages'] = "<div class='d-flex justify-content-center no_messages align-items-center h-100'><p>Dis 'salut' et commence à envoyer des messages.
+
+</p></div>";
             return response()->json($response);
         }
 
@@ -153,7 +155,7 @@ class MessengerController extends Controller
             }
 
         }else {
-            $contacts = "<p class='text-center no_contact'>Your contact list in empty!</p>";
+            $contacts = "<p class='text-center no_contact'>Votre liste de contacts est vide !</p>";
         }
 
         return response()->json([

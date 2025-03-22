@@ -6,7 +6,7 @@
     <div class="text">
         <h5>{{ $user->name }}</h5>
         @if ($lastMessage->from_id == auth()->user()->id)
-        <p><span>You</span> {{ truncate($lastMessage->body) }}</p>
+        <p><span>Vous</span> {{ truncate($lastMessage->body) }}</p>
         @else
         <p>{{ truncate($lastMessage->body) }}</p>
 

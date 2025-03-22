@@ -22,7 +22,7 @@
                 <h4></h4>
             </div>
             <div class="header_right">
-                <a href="" class="favourite"><i class="fas fa-star"></i></a>
+                <a href="" class="favourite"><i class="fas fa-star text-green-gs"></i></a>
                 <a href="javascript:;" class="info"><i class="fas fa-info-circle"></i></a>
             </div>
         </div>
