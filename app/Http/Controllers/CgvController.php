@@ -24,6 +24,6 @@ class CgvController extends Controller
 
       // $limiteCanton = array_slice($cantons, 0, 5);
 
-      return view('Cgv');
+      return view('cgv');
   }
 }

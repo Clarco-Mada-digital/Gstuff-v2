@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+  @section('pageTitle')
+    {{ $glossaire[0]['title']['rendered'] }}
+  @endsection
+  
   @section('content')
 
   <div class="w-full min-h-72 flex items-center justify-center" style="background: url('../images/girl_deco_sp.jpg') center center /cover">
@@ -23,7 +28,7 @@
           <div class="p-5 border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
             <ul class="mb-2 text-gray-500 flex flex-col justify-center gap-3 dark:text-gray-400">
               @foreach ($apiData['glossaires'] as $glossaire)
-                  <li> {{ $glossaire['title']['rendered'] }} </li>
+                  <li> <a href="{{ route('glossaire', $glossaire['id']) }}"> {{ $glossaire['title']['rendered'] }} </a> </li>
               @endforeach
             </ul>
           </div>

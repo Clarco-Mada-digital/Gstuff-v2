@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Canton;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,11 @@ class AuthController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('auth.register');
+      if (Auth::check()) {
+        $user = Auth::user();
+        return view('auth.profile', ['user' => $user]);
+      }
+      return view('auth.register');
     }
 
     public function register(Request $request)
@@ -54,7 +59,7 @@ class AuthController extends Controller
 
         Auth::login($user); // Connecte automatiquement l'utilisateur après l'inscription
 
-        return redirect()->route('profile')->with('success', 'Inscription réussie ! Bienvenue.');
+        return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
     }
 
     public function showLoginForm()
@@ -71,12 +76,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('profile'))->with('success', 'Connexion réussie !');
+            // return redirect()->intended(route('profile'))->with('success', 'Connexion réussie !');
+            return response()->json(['success' => true, 'message' => 'Authentification réussie']);
         }
 
-        return back()->withErrors([
-            'email' => 'Email ou mot de passe incorrect.',
-        ])->onlyInput('email');
+        // return back()->withErrors([
+        //     'email' => 'Email ou mot de passe incorrect.',
+        // ])->onlyInput('email');
+        return response()->json(['success' => false, 'message' => 'Identifiants incorrects'], 401);
     }
 
     public function logout(Request $request)
@@ -105,7 +112,8 @@ class AuthController extends Controller
         // Envoyer l'email de réinitialisation (vous devrez configurer Mailtrap ou un service d'email réel)
         // Mail::to($user->email)->send(new PasswordResetMail($user, $token));
 
-        return back()->with('success', 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.');
+        // return back()->with('success', 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.');
+        return response()->json(['success' => true, 'message' => 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.']);
     }
 
     public function showPasswordResetForm(string $token)
@@ -149,9 +157,14 @@ class AuthController extends Controller
     public function profile()
     {
         if (Auth::check()) {
+            // $user = Auth::user()->load('canton');
             $user = Auth::user();
-            return view('auth.profile', ['user' => $user]);
+            $user['canton'] = Canton::find($user->canton);
+
+            $escorts = User::where('profile_type', 'escorte')->get();
+
+            return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
         }
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

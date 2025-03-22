@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Categorie;
+use App\Models\Canton;
+use App\Models\Ville;
+use App\Models\User;
 
 class ApiDataServiceProvider extends ServiceProvider
 {
@@ -42,28 +47,19 @@ class ApiDataServiceProvider extends ServiceProvider
         return $response->json();
       });
 
-      // Canton
+      // Cantons
       $cantons = Cache::remember('cantons', 3600, function(){
-        $response = Http::get( 'https://gstuff.ch/wp-json/wp/v2/canton');
-        return $response->json();
+        $response = Canton::all();
+        return $response;
       });
 
-      // Les services
-      $services = Cache::remember('services', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/services/list_service');
-        return $response->json();
-      });
+      $escorts = User::where('profile_type', 'escorte')->get();
+      $escort_categories = Categorie::where('type', 'escort')->get();
 
-      // Les escortes
-      $escorts = Cache::remember('escorts', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/escorts/tout-escorts');
-        return $response->json();
-      });
-
-      // Les salons
-      $salons = Cache::remember('salons', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/salons/tout-salons');
-        return $response->json();
+      // Villes
+      $villes = Cache::remember('cantons', 3600, function(){
+        $response = Ville::all();
+        return $response;
       });
 
       // cgv content
@@ -72,22 +68,14 @@ class ApiDataServiceProvider extends ServiceProvider
         return $response->json();
       });
 
-      // Users
-      // $users = Http::withToken($this->Myjton)->get('https://gstuff.ch/wp-json/wp/v2/users')->json();
-      // $users = Http::withHeaders([
-      //   'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dzdHVmZi5jaCIsImlhdCI6MTczOTg2ODc4NiwibmJmIjoxNzM5ODY4Nzg2LCJleHAiOjE3NDA0NzM1ODYsImRhdGEiOnsidXNlciI6eyJpZCI6IjEyMzQ3NSJ9fX0._B-LGOQ3-wKgVU5ywKN__TYAeHyAqHwXtAcUJWevbWs',
-      // ])->get('http://gstuff.ch/wp-json/wp/v2/posts')->json();
-
-      // $users = $response->json();
-
       // Organiser les données dans un tableau associatif
       $apiData = [
+        'escorts' => $escorts,
+        'escort_categories' => $escort_categories,
         'glossaires' => $glossaires,
         'cantons' => $cantons,
-        'services' => $services,
-        'escorts' => $escorts,
+        'villes' => $villes,
         'cgv' => $cgv,
-        'salons' => $salons,
       ];
 
       // Partager les données avec toutes les vues

@@ -22,6 +22,6 @@ class ContactController extends Controller
 
       // $limiteCanton = array_slice($cantons, 0, 5);
 
-      return view('Contact');
+      return view('contact');
   }
 }
