@@ -12,7 +12,7 @@
           Notifications
       </div>
       <div class="divide-y divide-gray-100 dark:divide-gray-700">
-        @forelse($notifications as $notification)
+        @forelse($unreadNotifications as $notification)
         <a href="{{$notification->data['url'] ?? '#'}}" 
             wire:key="{{ $notification->id }}" 
             class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"

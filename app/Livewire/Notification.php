@@ -8,6 +8,7 @@ use Livewire\Component;
 class Notification extends Component
 {
     public $unreadCount;
+    public $unreadNotifications;
     public $notifications;
     
     protected $listeners = ['refreshNotifications' => 'refresh'];
@@ -20,6 +21,7 @@ class Notification extends Component
     public function refresh()
     {
         $this->unreadCount = Auth::user()->unreadNotifications->count();
+        $this->unreadNotifications = Auth::user()->unreadNotifications->take(5);
         $this->notifications = Auth::user()->notifications->take(5);
     }
 
