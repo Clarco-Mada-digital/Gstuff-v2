@@ -546,14 +546,44 @@
             <h2 class="font-dm-serif font-bold text-2xl">Mes favoris</h2>
             <div class="flex-1 w-full h-1 bg-green-gs"></div>
           </div>
-          <div class="grid grid-cols- xl:grid-cols-2 w-full">
-            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-10 min-w-full">
+          <div class="grid grid-cols-1 w-full">
+            <div class="relative xl:w-1/2 flex flex-col items-center justify-center gap-5 min-w-full">
               <h3 class="font-dm-serif text-xl text-green-gs">Mes escortes favoris</h3>
+              @if ($escortFavorites != '[]')
+              <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                @foreach ($escortFavorites as $escort)
+                <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                @endforeach
+              </div>
+              <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
+              </div>
+              <div id="arrowEscortScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
+              </div>                  
+              </div>
+              @else
               <div>Aucun favoris escorte pour l'instant</div>
+              @endif
             </div>
-            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-10 min-w-full">
+            <div class="xl:w-1/2 flex flex-col items-center justify-center gap-5 min-w-full">
               <h3 class="font-dm-serif text-xl text-green-gs">Mes salons favoris</h3>
-              <div>Aucun favoris salon pour l'instant</div>
+              @if ($salonFavorites != '[]')
+              <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                @foreach ($salonFavorites as $escort)
+                <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                @endforeach
+              </div>
+              <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
+              </div>
+              <div id="arrowEscortScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
+              </div>                  
+              </div>
+              @else
+              <div>Aucun favoris escorte pour l'instant</div>
+              @endif
             </div>
           </div>
         </section>
