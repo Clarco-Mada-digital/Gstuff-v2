@@ -122,10 +122,10 @@
               @if($avatar = auth()->user()->avatar)
               src="{{ asset('storage/avatars/'.$avatar) }}"
               @else
-              src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->user_name ?? Auth::user()->name ?? Auth::user()->nom_salon}}"
+              src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon}}"
               @endif
               alt="Image profile" />
-              <span class="hidden xl:inline-flex"> {{ Auth::user()->user_name ?? Auth::user()->name ?? Auth::user()->nom_salon }} </span>
+              <span class="hidden xl:inline-flex"> {{ Auth::user()->pseudo ?? Auth::user()->prenom ?? Auth::user()->nom_salon }} </span>
               <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
               </svg>

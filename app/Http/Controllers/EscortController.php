@@ -16,7 +16,7 @@ class EscortController extends Controller
         $escort = User::find($id);
         $escort['canton'] = Canton::find($escort->canton);
         $escort['ville'] = Ville::find($escort->ville);
-
+      
         $escort['categories'] = Categorie::find($escort->categorie);
         $serviceIds = explode(',', $escort->service);
         $escort['service'] = Service::whereIn('id', $serviceIds)->get();

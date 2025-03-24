@@ -32,8 +32,8 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)],
             'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérification de l'âge (18 ans minimum)
             'cgu_accepted' => 'accepted', // Pour le profil Invité
-            'user_name' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
-            'name' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
+            'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
+            'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
             'genre' => 'required_if:profile_type,escorte|nullable|in:homme,femme,non-binaire,autre', // Pour Escorte
             'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
             'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre', // Pour Salon
@@ -49,8 +49,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'date_naissance' => $request->date_naissance,
-            'user_name' => $request->user_name,
-            'name' => $request->name,
+            'pseudo' => $request->user_name,
+            'prenom' => $request->name,
             'genre' => $request->genre,
             'nom_salon' => $request->nom_salon,
             'intitule' => $request->intitule,

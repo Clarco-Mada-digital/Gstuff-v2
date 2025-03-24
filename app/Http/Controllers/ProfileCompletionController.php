@@ -58,6 +58,26 @@ class ProfileCompletionController extends Controller
         $langues = ['Français', 'English', 'Italien', 'Espagnol'];
         $nombre_filles = ['1 à 5', '5 à 15', 'plus de 15'];
 
+
+        // Récupérer les favoris de type "escort"
+        $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
+        foreach ($escortFavorites as $escort) {
+            $escort['canton'] = Canton::find($escort->canton);
+            $escort['ville'] = Ville::find($escort->ville);
+            $escort['categorie'] = Categorie::find($escort->categorie);
+            $escort['service'] = Service::find($escort->service);
+            // dd($escort->service);
+        }
+        // Récupérer les favoris de type "salon"
+        $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
+        foreach ($salonFavorites as $escort) {
+            $escort['canton'] = Canton::find($escort->canton);
+            $escort['ville'] = Ville::find($escort->ville);
+            $escort['categorie'] = Categorie::find($escort->categorie);
+            $escort['service'] = Service::find($escort->service);
+            // dd($escort->service);
+        }
+
         return view('auth.profile', [
             'escorts' => $escorts,
             'user' => $user,
@@ -80,6 +100,8 @@ class ProfileCompletionController extends Controller
             'paiements' => $paiements,
             'langues' => $langues,
             'nombre_filles' => $nombre_filles,
+            'escortFavorites' => $escortFavorites,
+            'salonFavorites' => $salonFavorites,
         ]);
     }
     /**

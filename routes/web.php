@@ -41,9 +41,9 @@ Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfi
 Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 
-Route::get('/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
+Route::match(['get', 'post'], '/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
 Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
-Route::get('/escortes', [EscortController::class, 'search_escort'])->name('escortes');
+Route::match(['get', 'post'], '/escortes', [EscortController::class, 'search_escort'])->name('escortes');
 Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');

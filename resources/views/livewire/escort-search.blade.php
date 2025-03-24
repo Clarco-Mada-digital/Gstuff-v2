@@ -1,20 +1,26 @@
-<div x-data="{villes:'', cantons:{{$cantons}}, selectedCanton:'', availableVilles:{{$villes}}}">
+<div>
     <div class="w-full min-h-72 flex flex-col items-center justify-center bg-[#E4F1F1] py-15">
         <h1 class="font-dm-serif font-bold text-green-gs text-xl xl:text-4xl text-center mb-5">Découvrez les escortes de votre région</h1>
         <div class="w-full px-4 flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
-          <select wire:model.live="selectedCanton" x-model="selectedCanton" x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" id="small" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <select wire:model.live="selectedCanton" wire:change="chargeVille" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected value="">Cantons</option>
-            <template x-for="canton in cantons" :key="canton.id">
-              <option :value="canton.id" x-text="canton.nom"></option>
-            </template>
+            @foreach ($cantons as $canton)
+            <option value="{{$canton->id}}"> {{$canton->nom}} </option>              
+            @endforeach
           </select>
-          <select wire:model.live="selectedVille" id="small" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="villes == '' ? true : false" >
-            <option selected value="" x-text="villes == '' ? 'Choisier un canton pour voir les villes' : 'Villes' ">Villes</option>
-            <template x-for="ville in villes" :key="ville.id">
-              <option :value="ville.id" x-text="ville.nom"></option>
-            </template>
+          <select wire:model.live="selectedVille" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="villes == '' ? true : false" >
+            <option selected value="">
+              @if ($villes)
+                Villes
+              @else
+              Choisier un canton pour voir les villes
+              @endif
+            </option>
+            @foreach ($villes as $ville)
+            <option value="{{$ville->id}}"> {{$ville->nom}} </option>              
+            @endforeach
           </select>
-          <select wire:model.live='selectedGenre' id="small" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <select wire:model.live='selectedGenre' class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected value=''>Sexe</option>
             <option value="femme">Femme</option>
             <option value="homme">Homme</option>
@@ -45,11 +51,13 @@
 
       <div class="container mx-auto py-20 px-2">
         <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">{{$escorts->count()}} {{$escorts->count() > 1 ? 'Résultats' : 'Résultat'}}</div>
-        <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
+        <div class="grid xl:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-2">
           @foreach ($escorts as $escort)
-            <x-escort_card name="{{ $escort->name }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
+            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
           @endforeach
         </div>
+        <div class="mt-10">{{$escorts->links('pagination::simple-tailwind')}}</div>
+        {{-- @livewire('favorite-button', ['userId' => $escort->id], key($escort->id)) --}}
       </div>
 
       <!-- Recherche modal -->
@@ -79,7 +87,8 @@
                   <label for="services{{$service->id}}" class="p-2 text-center border border-gray-400 rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$service->nom}}</label>
                 </div>
                   @endforeach
-              </div>
+                </div>
+              {{-- <div>{{$services->links('pagination::simple-tailwind')}}</div> --}}
               <h3 class="text-green-gs text-3xl font-dm-serif">Autres filtres</h3>
               <div class="grid grid-cols-1 xl:grid-cols-3 w-full gap-3 justify-between items-center">
                 <select id="small" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">

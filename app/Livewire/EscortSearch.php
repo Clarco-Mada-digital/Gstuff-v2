@@ -9,9 +9,12 @@ use App\Models\Service;
 use App\Models\User;
 use App\Models\Ville;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class EscortSearch extends Component
 {
+  use WithPagination;
+  
   #[Url]
   public string $selectedCanton = '';
   #[Url]
@@ -24,7 +27,8 @@ class EscortSearch extends Component
   public array $selectedServices = [];
   public $categories;
   public $cantons;
-  public $villes;
+  public $availableVilles;
+  public $villes = [];
 
   public function resetFilter()
   {      
@@ -35,10 +39,19 @@ class EscortSearch extends Component
     $this->selectedServices = [];
   }
 
+  public function chargeVille()
+  {
+    if(!empty($this->selectedCanton)){
+      $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
+    }else{
+      $this->villes = collect();
+    }
+  }
+
     public function render()
     {
         $this->cantons = Canton::all();
-        $this->villes = Ville::all();
+        $this->availableVilles = Ville::all();
         $this->categories = Categorie::where('type', 'escort')->get();
         $serviceQuery = Service::query();
         // $this->escorts = User::where('profile_type', 'escorte')->get();
@@ -48,14 +61,17 @@ class EscortSearch extends Component
         // Filtres supplémentaires
         if ($this->selectedCanton) {
             $query->where('canton', $this->selectedCanton);
+            $this->resetPage();
         }
 
         if ($this->selectedVille) {
             $query->where('ville', $this->selectedVille);
+            $this->resetPage();
         }
 
         if ($this->selectedGenre) {
             $query->where('genre', $this->selectedGenre);
+            $this->resetPage();
         }
 
         if ($this->selectedCategories){
@@ -64,13 +80,15 @@ class EscortSearch extends Component
               $q->orwhere('categorie', 'LIKE', $categorie);
             }
           });
+          $this->resetPage();
         }
         if ($this->selectedServices){
           $query->where(function ($q) {
             foreach($this->selectedServices as $service){
-              $q->where('categorie', 'LIKE', $service);
+              $q->where('service', 'LIKE', $service);
             }
           });
+          $this->resetPage();
         }
 
         $escorts = $query->paginate(10);

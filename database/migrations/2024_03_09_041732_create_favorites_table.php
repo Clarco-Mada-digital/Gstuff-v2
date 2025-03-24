@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('favorite_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // L'utilisateur qui ajoute en favori
+            $table->foreignId('favorite_user_id')->constrained('users')->onDelete('cascade'); // L'utilisateur favori
             $table->timestamps();
+            
+            // Empêche les doublons dans la table favorites (un utilisateur peut avoir un favori unique)
+            $table->unique(['user_id', 'favorite_user_id']);
         });
     }
 

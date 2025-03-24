@@ -20,8 +20,8 @@
         protected $fillable = [
             'avatar',
             'couverture_image',
-            'user_name',
-            'name',
+            'pseudo',
+            'prenom',
             'date_naissance',
             'genre',
             'nom_salon',
@@ -97,5 +97,17 @@
   {
       return $this->belongsTo(Canton::class);
   }
+
+   // Relation avec les utilisateurs favoris
+   public function favorites()
+   {
+       return $this->belongsToMany(User::class, 'favorites', 'user_id', 'favorite_user_id');
+   }
+
+   // Relation pour récupérer les utilisateurs qui ont ajouté un utilisateur dans leurs favoris
+   public function favoritedBy()
+   {
+       return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id');
+   }
 }
 
