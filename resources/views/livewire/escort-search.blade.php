@@ -5,10 +5,10 @@
           <select wire:model.live="selectedCanton" wire:change="chargeVille" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected value="">Cantons</option>
             @foreach ($cantons as $canton)
-            <option value="{{$canton->id}}"> {{$canton->nom}} </option>              
+            <option wire:key='{{$canton->id}}' value="{{$canton->id}}"> {{$canton->nom}} </option>              
             @endforeach
           </select>
-          <select wire:model.live="selectedVille" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="villes == '' ? true : false" >
+          <select wire:model.live="selectedVille" class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" @if(!$villes) disabled @endif >
             <option selected value="">
               @if ($villes)
                 Villes
@@ -17,7 +17,7 @@
               @endif
             </option>
             @foreach ($villes as $ville)
-            <option value="{{$ville->id}}"> {{$ville->nom}} </option>              
+            <option wire:key='{{$ville->id}}' value="{{$ville->id}}"> {{$ville->nom}} </option>              
             @endforeach
           </select>
           <select wire:model.live='selectedGenre' class="block w-full xl:w-80 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -34,8 +34,8 @@
         <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm my-2 xl:text-base">
           @foreach($categories as $categorie)
           <div>
-            <input wire:model.live='selectedCategories' class="hidden peer" type="checkbox" id="{{$categorie->id}}" name="{{$categorie->nom}}" value="{{$categorie->id}}">
-            <label for="{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">{{$categorie->nom}}</label>
+            <input wire:model.live='selectedCategories' class="hidden peer" type="checkbox" id="escortCategorie{{$categorie->id}}" name="{{$categorie->nom}}" value="{{$categorie->id}}">
+            <label for="escortCategorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:text-amber-400 peer-checked:bg-green-gs">{{$categorie->nom}}</label>
           </div>
           @endforeach
         </div>

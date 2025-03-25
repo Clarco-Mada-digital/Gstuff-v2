@@ -37,6 +37,8 @@ class EscortSearch extends Component
     $this->selectedGenre = '';
     $this->selectedCategories = [];
     $this->selectedServices = [];
+    $this->resetPage();
+    $this->render();
   }
 
   public function chargeVille()
@@ -61,17 +63,14 @@ class EscortSearch extends Component
         // Filtres supplémentaires
         if ($this->selectedCanton) {
             $query->where('canton', $this->selectedCanton);
-            $this->resetPage();
         }
 
         if ($this->selectedVille) {
             $query->where('ville', $this->selectedVille);
-            $this->resetPage();
         }
 
         if ($this->selectedGenre) {
             $query->where('genre', $this->selectedGenre);
-            $this->resetPage();
         }
 
         if ($this->selectedCategories){
@@ -80,7 +79,6 @@ class EscortSearch extends Component
               $q->orwhere('categorie', 'LIKE', $categorie);
             }
           });
-          $this->resetPage();
         }
         if ($this->selectedServices){
           $query->where(function ($q) {
@@ -88,7 +86,6 @@ class EscortSearch extends Component
               $q->where('service', 'LIKE', $service);
             }
           });
-          $this->resetPage();
         }
 
         $escorts = $query->paginate(10);

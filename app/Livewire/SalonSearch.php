@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Canton;
 use App\Models\Categorie;
-use App\Models\Service;
 use App\Models\User;
 use App\Models\Ville;
 use Livewire\Attributes\Url;
@@ -15,12 +14,9 @@ class SalonSearch extends Component
 {
     use WithPagination;
   
-  #[Url]
-  public string $selectedCanton = '';
-  #[Url]
-  public string $selectedVille = '';
-  #[Url]
-  public array $selectedCategories = [];
+  public $selectedSalonCanton = '';
+  public string $selectedSalonVille = '';
+  public array $selectedSalonCategories = [];
   public $categories;
   public $cantons;
   public $availableVilles;
@@ -28,17 +24,17 @@ class SalonSearch extends Component
 
   public function resetFilter()
   {      
-    $this->selectedCanton = '';
-    $this->selectedVille = '';
-    $this->selectedCategories = [];
+    $this->selectedSalonCanton = '';
+    $this->selectedSalonVille = '';
+    $this->selectedSalonCategories = [];
     $this->villes = [];
-
+    $this->render();
   }
 
   public function chargeVille()
   {
-    if(!empty($this->selectedCanton)){
-      $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
+    if(!empty($this->selectedSalonCanton)){
+      $this->villes = Ville::where('canton_id', $this->selectedSalonCanton)->get();
     }else{
       $this->villes = collect();
     }
@@ -54,34 +50,34 @@ class SalonSearch extends Component
         $query = User::query()->where('profile_type', 'salon');
                 
         // Filtres supplémentaires
-        if ($this->selectedCanton) {
-            $query->where('canton', $this->selectedCanton);
+        if ($this->selectedSalonCanton) {
+            $query->where('canton', $this->selectedSalonCanton);
             $this->resetPage();
         }
 
-        if ($this->selectedVille) {
-            $query->where('ville', $this->selectedVille);
+        if ($this->selectedSalonVille) {
+            $query->where('ville', $this->selectedSalonVille);
             $this->resetPage();
         }
 
-        if ($this->selectedCategories){
+        if ($this->selectedSalonCategories){
           $query->where(function ($q) {
-            foreach($this->selectedCategories as $categorie){
+            foreach($this->selectedSalonCategories as $categorie){
               $q->orwhere('categorie', 'LIKE', $categorie);
             }
           });
           $this->resetPage();
         }
 
-        $escorts = $query->paginate(10);
-        foreach ($escorts as $escort) {
-          $escort['categorie'] = Categorie::find($escort->categorie);
-          $escort['canton'] = Canton::find($escort->canton);
-          $escort['ville'] = Ville::find($escort->ville);
+        $salons = $query->paginate(10);
+        foreach ($salons as $salon) {
+          $salon['categorie'] = Categorie::find($salon->categorie);
+          $salon['canton'] = Canton::find($salon->canton);
+          $salon['ville'] = Ville::find($salon->ville);
         }
         
         return view('livewire.salon-search', [
-            'salons' => $escorts,
+            'salons' => $salons,
         ]);
     }
 }
