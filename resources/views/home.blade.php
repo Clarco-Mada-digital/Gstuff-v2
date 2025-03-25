@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-col lg:flex-row gap-2 text-black transition-all">
         @foreach ($categories as $categorie)
-        <a href="{{route('escortes')}}" class="flex items-center justify-center gap-1 z-10 transition-all">
+        <a href="{{route('escortes')}}?selectedCategories=[{{$categorie->id}}]" class="flex items-center justify-center gap-1 z-10 transition-all">
           <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
             <img src="{{ asset('images/icons/'. $categorie['display_name'] .'_icon.svg') }}" alt="icon service {{ $categorie['display_name'] }}" />
             <span>{{ $categorie['nom'] }}</span>
