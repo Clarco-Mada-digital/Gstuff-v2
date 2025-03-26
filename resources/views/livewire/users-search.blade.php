@@ -104,8 +104,8 @@
             <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
               <div id="ESContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($users as $user)
+                <x-escort_card name="{{ $user->prenom}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' />
                   @if ($user->profile_type == 'escorte')
-                  <x-escort_card name="{{ $user->prenom}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' />
                   @else
                   <x-salon_card name="{{ $user->nom_salon}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' salonId='{{$user->id}}' />
                   @endif
