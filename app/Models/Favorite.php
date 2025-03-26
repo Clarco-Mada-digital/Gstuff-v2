@@ -10,6 +10,6 @@ class Favorite extends Model
     use HasFactory;
 
     function user() {
-        return $this->belongsTo(User::class, 'favorite_id', 'id');
+        return $this->belongsTo(User::class, 'favorite_user_id', 'id');
     }
 }

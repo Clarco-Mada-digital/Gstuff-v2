@@ -11,8 +11,8 @@ aria-hidden="true">
                     <input id="select_file" type="file" hidden name="avatar">
                 </div>
                 <p>Edit information</p>
-                <input type="text" placeholder="Name" value="{{ auth()->user()->name }}" name="name">
-                <input type="text" placeholder="User Id" value="{{ auth()->user()->user_name }}" name="user_id">
+                <input type="text" placeholder="Name" value="{{ auth()->user()->pseudo ?? auth()->user()->prenom ?? auth()->user()->nom_salon }}" name="name">
+                <input type="text" placeholder="User Id" value="{{ auth()->user()->pseudo ?? auth()->user()->prenom ?? auth()->user()->nom_salon }}" name="user_id">
                 <input type="email" placeholder="Email" value="{{ auth()->user()->email }}" name="email">
                 <p>Change password</p>
                 <div class="row">

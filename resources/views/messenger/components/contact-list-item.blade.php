@@ -1,12 +1,16 @@
 <div class="wsus__user_list_item messenger-list-item" data-id="{{ $user->id }}">
     <div class="img">
-        <img src="{{ asset($user->avatar) }}" alt="User" class="img-fluid">
+        <img src="@if ($user->avatar)
+            {{ asset('storage/avatars/'.$user->avatar) }}
+        @else
+            {{ asset('icon-logo.png')}}
+        @endif" alt="User" class="img-fluid">
         <span class="inactive"></span>
     </div>
     <div class="text">
-        <h5>{{ $user->name }}</h5>
+        <h5>{{ $user->pseudo?? $user->prenom?? $user->nom_salon }}</h5>
         @if ($lastMessage->from_id == auth()->user()->id)
-        <p><span>You</span> {{ truncate($lastMessage->body) }}</p>
+        <p><span>Vous : </span> {{ truncate($lastMessage->body) }}</p>
         @else
         <p>{{ truncate($lastMessage->body) }}</p>
 

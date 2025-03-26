@@ -85,7 +85,7 @@
             </div>
             <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
               @foreach ($salonCategories as $categorie)
-                <div>
+                <div wire:key="{{$categorie->id}}">
                   <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
                   <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
                 </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
               @foreach ($escortCategories as $categorie)
-                <div>
+                <div wire:key="{{$categorie->id}}">
                   <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
                   <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
                 </div>
@@ -104,11 +104,11 @@
             <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
               <div id="ESContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($users as $user)
-                <x-escort_card name="{{ $user->prenom}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' />
-                  @if ($user->profile_type == 'escorte')
-                  @else
-                  <x-salon_card name="{{ $user->nom_salon}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' salonId='{{$user->id}}' />
-                  @endif
+                @if ($user->profile_type == 'escorte')
+                <livewire:escort-card name="{{ $user->prenom}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' escortId='{{$user->id}}' wire:key="{{$user->id}}"/>
+                @else
+                <livewire:salon-card name="{{ $user->nom_salon}}" canton="{{$user->canton['nom']}}" ville="{{$user->ville['nom']}}" avatar='{{$user->avatar}}' salonId='{{$user->id}}' wire:key="{{$user->id}}"/>
+                @endif
                 @endforeach
               </div>
               <div id="arrowESScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>

@@ -157,12 +157,12 @@ function IDinfo(id) {
                 ? $('.favourite').addClass('active')
                 : $('.favourite').removeClass('active');
 
-            $(".messenger-header").find("img").attr("src", data.fetch.avatar);
-            $(".messenger-header").find("h4").text(data.fetch.name);
+            $(".messenger-header").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon_logo.png');
+            $(".messenger-header").find("h4").text(data.fetch.pseudo ? data.fetch.pseudo : data.fetch.prenom ? data.fetch.prenom : data.fetch.nom_salon);
 
-            $(".messenger-info-view .user_photo").find("img").attr("src", data.fetch.avatar);
-            $(".messenger-info-view").find(".user_name").text(data.fetch.name);
-            $(".messenger-info-view").find(".user_unique_name").text(data.fetch.user_name);
+            $(".messenger-info-view .user_photo").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon_logo.png');
+            $(".messenger-info-view").find(".user_name").text(data.fetch.pseudo ? data.fetch.pseudo : data.fetch.prenom ? data.fetch.prenom : data.fetch.nom_salon);
+            $(".messenger-info-view").find(".user_unique_name").text(data.fetch.profile_type);
             NProgress.done();
         },
         error: function (xhr, status, error) {

@@ -18,7 +18,7 @@ class MessengerController extends Controller
 
     function index(): View
     {
-        $favoriteList = Favorite::with('user:id,name,avatar')->where('user_id', Auth::user()->id)->get();
+        $favoriteList = Favorite::with('user:id,pseudo,prenom,nom_salon,avatar')->where('user_id', Auth::user()->id)->get();
         return view('messenger.index', compact('favoriteList'));
     }
 
@@ -28,12 +28,13 @@ class MessengerController extends Controller
         $getRecords = null;
         $input = $request['query'];
         $records = User::where('id', '!=', Auth::user()->id)
-            ->where('name', 'LIKE', "%{$input}%")
-            ->orWhere('user_name', 'LIKE', "%{$input}%")
+            ->where('pseudo', 'LIKE', "%{$input}%")
+            ->orWhere('prenom', 'LIKE', "%{$input}%")
+            ->orWhere('nom_salon', 'LIKE', "%{$input}%")
             ->paginate(10);
 
         if ($records->total() < 1) {
-            $getRecords .= "<p class='text-center'>Noting to show.</p>";
+            $getRecords .= "<p class='text-center'>Rien a voir - Aucun resultat.</p>";
         }
 
         foreach ($records as $record) {
@@ -114,7 +115,7 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='d-flex justify-content-center no_messages align-items-center h-100'><p>Say 'hi' and start messaging.</p></div>";
+            $response['messages'] = "<div class='d-flex justify-content-center no_messages align-items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
             return response()->json($response);
         }
 
@@ -153,7 +154,7 @@ class MessengerController extends Controller
             }
 
         }else {
-            $contacts = "<p class='text-center no_contact'>Your contact list in empty!</p>";
+            $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
         }
 
         return response()->json([
@@ -180,7 +181,7 @@ class MessengerController extends Controller
 
         if(!$user) {
             return response()->json([
-                'message' => 'user not found'
+                'message' => 'Utilisateur introuvable!'
             ], 401);
         }
         $contactItem = $this->getContactItem($user);
@@ -199,13 +200,13 @@ class MessengerController extends Controller
 
     // add/remove to favorite list
     function favorite(Request $request) {
-        $query = Favorite::where(['user_id' => Auth::user()->id, 'favorite_id' => $request->id]);
+        $query = Favorite::where(['user_id' => Auth::user()->id, 'favorite_user_id' => $request->id]);
         $favoriteStatus = $query->exists();
 
         if(!$favoriteStatus) {
             $star = new Favorite();
             $star->user_id = Auth::user()->id;
-            $star->favorite_id = $request->id;
+            $star->favorite_user_id = $request->id;
             $star->save();
             return response(['status' => 'added']);
         }else {

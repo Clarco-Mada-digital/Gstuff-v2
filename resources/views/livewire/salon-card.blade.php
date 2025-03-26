@@ -1,6 +1,7 @@
 <div class="relative flex flex-col justify-start  w-full min-w-[270px] min-h-[405px] max-w-[330px] mx-auto mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
     <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-gs">
-      @livewire('favorite-button', ['userId' => $salonId], key($salonId))
+      {{-- @livewire('favorite-button', ['userId' => $salonId], key($salonId)) --}}
+      <livewire:favorite-button :userId='$salonId' wire:key='{{$salonId}}'/>
     </div>
     <a class="m-auto w-full rounded-lg overflow-hidden" href="{{route('show_salon', $salonId)}}" >
       <img class="w-full h-[405px] object-cover rounded-t-lg"

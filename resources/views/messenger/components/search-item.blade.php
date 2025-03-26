@@ -1,9 +1,13 @@
 <div class="wsus__user_list_item messenger-list-item" data-id="{{ $record->id }}">
     <div class="img">
-        <img src="{{ asset($record->avatar) }}" alt="User" class="img-fluid">
+        <img src="@if ($record->avatar)
+            {{ asset('storage/avatars/'.$record->avatar) }}
+        @else
+            {{ asset('icon-logo.png')}}
+        @endif" alt="User" class="img-fluid">
     </div>
     <div class="text">
-        <h5>{{ $record->name }}</h5>
-        <p>{{ $record->user_name }}</p>
+        <h5>{{ $record->pseudo?? $record->prenom?? $record->nom_salon }}</h5>
+        <p>{{ $record->profile_type }}</p>
     </div>
 </div>

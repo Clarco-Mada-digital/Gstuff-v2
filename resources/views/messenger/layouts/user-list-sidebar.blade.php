@@ -40,10 +40,14 @@
                 <div class="col-xl-3 messenger-list-item" role="button" data-id="{{ $item->user?->id }}">
                     <div class="wsus__favourite_item">
                         <div class="img">
-                            <img src="{{ asset($item->user?->avatar) }}" alt="Utilisateur" class="img-fluid">
+                            <img src="@if ($item->user?->avatar)
+                                {{ asset('storage/avatar/'.$item->user?->avatar) }}
+                            @else
+                                {{asset('icon-logo.png')}}
+                            @endif" alt="Utilisateur" class="img-fluid">
                             <span class="inactive"></span>
                         </div>
-                        <p>{{ $item->user->name }}</p>
+                        <p>{{ $item->user?->pseudo ?? $item->user?->prenom ?? $item->user?->nom_salon }}</p>
                     </div>
                 </div>
             @endforeach

@@ -12,15 +12,21 @@ use Livewire\WithPagination;
 
 class SalonSearch extends Component
 {
-    use WithPagination;
+  use WithPagination;
   
+  #[Url]
   public $selectedSalonCanton = '';
+  #[Url]
   public string $selectedSalonVille = '';
+  #[Url]
   public array $selectedSalonCategories = [];
+  #[Url]
+  public $villes = [];
+  #[Url]
+  public array $nbFilles = [];
   public $categories;
   public $cantons;
   public $availableVilles;
-  public $villes = [];
 
   public function resetFilter()
   {      
@@ -28,6 +34,7 @@ class SalonSearch extends Component
     $this->selectedSalonVille = '';
     $this->selectedSalonCategories = [];
     $this->villes = [];
+    $this->nbFilles = [];
     $this->render();
   }
 
@@ -51,19 +58,28 @@ class SalonSearch extends Component
                 
         // Filtres supplémentaires
         if ($this->selectedSalonCanton) {
-            $query->where('canton', $this->selectedSalonCanton);
+            $query->where('canton', 'LIKE', '%'.$this->selectedSalonCanton.'%');
             $this->resetPage();
         }
 
-        if ($this->selectedSalonVille) {
-            $query->where('ville', $this->selectedSalonVille);
+        if ($this->selectedSalonVille != '') {
+            $query->where('ville', 'LIKE', '%'.$this->selectedSalonVille.'%');
             $this->resetPage();
+        }
+
+        if ($this->nbFilles) {
+          $query->where(function ($q) {
+            foreach($this->nbFilles as $nbFilles){
+              $q->orwhere('nombre_filles', $nbFilles);
+            }
+          });
+          $this->resetPage();
         }
 
         if ($this->selectedSalonCategories){
           $query->where(function ($q) {
             foreach($this->selectedSalonCategories as $categorie){
-              $q->orwhere('categorie', 'LIKE', $categorie);
+              $q->orwhere('categorie', 'LIKE', '%'.$categorie.'%');
             }
           });
           $this->resetPage();

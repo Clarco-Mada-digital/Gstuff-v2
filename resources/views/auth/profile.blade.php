@@ -451,7 +451,8 @@
     </div>
 
     {{-- Right section profile --}}
-    <div class="min-w-3/4 px-5 py-5">
+    <div class="flex flex-col gap-5 min-w-3/4 px-5 py-5">
+
       <div x-show="couvertureForm" x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
         <form action="{{route('profile.update-photo')}}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
           @csrf()
@@ -488,7 +489,7 @@
           {{-- Information --}}
           <div class="flex items-center justify-between py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Mes informations</h2>
-            <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span> </button>
+            <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span></button>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
             <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg> {{ $user->pseudo }}</span>
@@ -507,7 +508,7 @@
               @if ($escortFavorites != '[]')
               <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
               @foreach ($escortFavorites as $favorie)
-              <x-escort_card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
+              <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
                 @endforeach                  
               </div>
               @else
@@ -519,7 +520,7 @@
               @if ($salonFavorites != '[]')
               <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
               @foreach ($salonFavorites as $favorie)
-              <x-escort_card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
+              <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
               @endforeach  
               </div>                
               @else
@@ -534,7 +535,7 @@
           </div>
           <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
             @foreach ($escorts->slice(0,3) as $escort)
-            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
+            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
             @endforeach
           </div>
 
@@ -552,7 +553,7 @@
               @if ($escortFavorites != '[]')
               <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($escortFavorites as $escort)
-                <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
                 @endforeach
               </div>
               <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -560,8 +561,7 @@
               </div>
               <div id="arrowEscortScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-              </div>                  
-              </div>
+              </div>  
               @else
               <div>Aucun favoris escorte pour l'instant</div>
               @endif
@@ -571,7 +571,7 @@
               @if ($salonFavorites != '[]')
               <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($salonFavorites as $escort)
-                <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
                 @endforeach
               </div>
               <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -579,8 +579,7 @@
               </div>
               <div id="arrowEscortScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-              </div>                  
-              </div>
+              </div> 
               @else
               <div>Aucun favoris escorte pour l'instant</div>
               @endif
@@ -594,6 +593,7 @@
             <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
             <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
           </div>
+          <div></div>
         </section>
 
       </div>

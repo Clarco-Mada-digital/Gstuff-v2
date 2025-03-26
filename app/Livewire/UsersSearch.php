@@ -19,6 +19,7 @@ class UsersSearch extends Component
     public $salonCategories;
     public $cantons = '';
     public $villes = '';
+    public $users;
 
     public function render()
     {
@@ -33,6 +34,7 @@ class UsersSearch extends Component
 
         // Recherche principale (OR sur nom, prénom et salon)
         if ($this->search) {
+          // dd($this->search);
             $query->where(function ($q) {
                 $q->where('pseudo', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('prenom', 'LIKE', '%' . $this->search . '%')
@@ -62,15 +64,13 @@ class UsersSearch extends Component
           });
         }
 
-        $users = $query->get();
-        foreach ($users as $user) {
+        $this->users = $query->get();
+        foreach ($this->users as $user) {
           $user['categorie'] = Categorie::find($user->categorie);
           $user['canton'] = Canton::find($user->canton);
           $user['ville'] = Ville::find($user->ville);
         }
 
-        return view('livewire.users-search', [
-            'users' => $users
-        ]);
+        return view('livewire.users-search');
     }
 }
