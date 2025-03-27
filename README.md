@@ -19,7 +19,7 @@ Gstuff s’écrit avec un G majuscule, en référence à la zone de plaisir appe
 ### Cloner le dépôt
 ```bash
 git clone https://github.com/votre-utilisateur/projet-g-plus.git
-cd projet-g-plus
+cd projet-gstuff-v2
 ```
 
 ### Installer les dépendances

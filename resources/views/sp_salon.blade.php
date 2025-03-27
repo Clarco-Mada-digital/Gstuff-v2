@@ -14,9 +14,9 @@
 
     <div class="container flex flex-col xl:flex-row justify-center mx-auto">
 
-      <div class="min-w-1/4 flex flex-col items-center gap-3">
+      <div x-data="{}" class="min-w-1/4 flex flex-col items-center gap-3">
 
-        <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+        <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
           <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $salon->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : '{{asset('images/icon_logo.png')}}', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover"
           @if($avatar = $salon->avatar)
           src="{{ asset('storage/avatars/'.$avatar) }}"
@@ -43,7 +43,7 @@
           {{-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M2 9.137C2 14 6.02 16.591 8.962 18.911C10 19.729 11 20.5 12 20.5s2-.77 3.038-1.59C17.981 16.592 22 14 22 9.138S16.5.825 12 5.501C7.5.825 2 4.274 2 9.137"/></svg> --}}
           Ajouter au favoris
         </button>
-        <button class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
+        <button x-on:click="$dispatch('loadForSender', [{{$salon->id}}])" class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z"/></svg>
           Ecrire un message
         </button>

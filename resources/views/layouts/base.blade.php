@@ -307,6 +307,8 @@
       Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div>
 
+    @livewire('chat')
+
     <script>
       const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
       const mega_menu_item = document.getElementById('mega-menu-full-dropdown');

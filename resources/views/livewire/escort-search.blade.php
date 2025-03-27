@@ -51,7 +51,7 @@
 
       <div class="container mx-auto py-20 px-2">
         <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">{{$escorts->count()}} {{$escorts->count() > 1 ? 'Résultats' : 'Résultat'}}</div>
-        <div class="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
+        <div class="grid 2xl:grid-cols-4 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
           @foreach ($escorts as $escort)
             <livewire:escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" wire:key='{{$escort->id}}'/>
           @endforeach

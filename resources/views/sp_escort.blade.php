@@ -12,11 +12,11 @@
     <div x-data="{}" x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $escort->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $escort->couverture_image ? asset('storage/couvertures/'.$escort->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
     </div>
 
-    <div class="container flex flex-col xl:flex-row justify-center mx-auto">
+    <div x-data="{}" class="container flex flex-col xl:flex-row justify-center mx-auto">
 
       <div class="min-w-1/4 flex flex-col items-center gap-3">
 
-        <div x-data="{}" class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+        <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
           <img  x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : '{{asset('images/icon_logo.png')}}', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover"
           @if($avatar = $escort->avatar)
           src="{{ asset('storage/avatars/'.$avatar) }}"
@@ -35,7 +35,7 @@
         </div>
         <hr class="w-full h-2">
 
-        <button class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
+        <button x-on:click="$dispatch('loadForSender', [{{$escort->id}}])" class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z"/></svg>
           Ecrire un message
         </button>
