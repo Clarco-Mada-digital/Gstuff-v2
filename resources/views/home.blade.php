@@ -91,7 +91,7 @@
       <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
         <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-          @foreach ($escorts->slice(0,8) as $escort)
+          @foreach ($escorts as $escort)
           <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
           @endforeach
         </div>

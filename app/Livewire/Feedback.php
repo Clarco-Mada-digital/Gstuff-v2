@@ -56,13 +56,15 @@ class Feedback extends Component
         // Réinitialiser les champs après soumission
         $this->reset(['rating', 'comment']);
 
-        $this->loadFeedbacks(); // Rafraîchit la liste
+        // $this->loadFeedbacks(); // Rafraîchit la liste
 
         session()->flash('success', 'Votre feedback a été soumis avec succès.');
     }
 
     public function render()
     {
+        $this->loadFeedbacks(); // Rafraîchit la liste
+
         return view('livewire.feedback');
     }
 }

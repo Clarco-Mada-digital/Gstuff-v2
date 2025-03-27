@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Canton; // Assuming you have a Canton model
 use App\Models\Ville;   // Assuming you have a Ville model
 use App\Models\Categorie;   // Assuming you have a Categorie model
+use App\Models\Message;
 use App\Models\Service;
 use App\Models\User;
 use App\Notifications\ComplementationNotification;
@@ -43,20 +44,23 @@ class ProfileCompletionController extends Controller
         $escort_categories = Categorie::where('type', 'escort')->get();
         $salon_categories = Categorie::where('type', 'salon')->get();
         $services = Service::all();
-        $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
-        $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
-        $couleursYeux = ['Marrons', 'Bleus', 'Verts', 'Noirs'];
-        $couleursCheveux = ['Blonds', 'Bruns', 'Roux', 'Noirs'];
-        $mensurations = ['Fine', 'Normale', 'Ronde', 'Athlétique'];
-        $poitrines = ['Naturelle', 'Améliorée', 'Généreuse'];
-        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F'];
-        $pubis = ['Rasé', 'Naturel', 'Entretenu'];
-        $tatouages = ['Oui', 'Non', 'Quelques-uns'];
-        $mobilites = ['Je reçois', 'Je me déplace', 'Les deux'];
-        $tarifs = [150, 200, 250, 300];
-        $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
-        $langues = ['Français', 'English', 'Italien', 'Espagnol'];
-        $nombre_filles = ['1 à 5', '5 à 15', 'plus de 15'];
+        $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
+        $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
+        $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
+        $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
+        $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
+        $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
+        $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
+        $poitrines = ['Naturelle', 'Améliorée'];
+        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
+        $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
+        $tatouages = ['Avec tattos', 'Sans tatto'];
+        $mobilites = ['Je reçois', 'Je me déplace'];
+        $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
+        $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
+        $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+        $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
 
         // Récupérer les favoris de type "escort"
@@ -77,8 +81,12 @@ class ProfileCompletionController extends Controller
             $escort['service'] = Service::find($escort->service);
             // dd($escort->service);
         }
+        
+        $messageNoSeen = Message::where('to_id', Auth::user()->id)
+            ->where('seen', 0)->count();    
 
         return view('auth.profile', [
+            'genres' => $genres,
             'escorts' => $escorts,
             'user' => $user,
             'cantons' => $cantons,
@@ -87,6 +95,7 @@ class ProfileCompletionController extends Controller
             'salon_categories' => $salon_categories,
             'services' => $services,
             'pratiquesSexuelles' => $pratiquesSexuelles,
+            'oriantationSexuelles' => $oriantationSexuelles,
             'origines' => $origines,
             'couleursYeux' => $couleursYeux,
             'couleursCheveux' => $couleursCheveux,
@@ -94,14 +103,16 @@ class ProfileCompletionController extends Controller
             'poitrines' => $poitrines,
             'taillesPoitrine' => $taillesPoitrine,
             'pubis' => $pubis,
+            'silhouette' => $silhouette,
             'tatouages' => $tatouages,
             'mobilites' => $mobilites,
             'tarifs' => $tarifs,
             'paiements' => $paiements,
             'langues' => $langues,
-            'nombre_filles' => $nombre_filles,
+            'nombre_filles' => $nombreFilles,
             'escortFavorites' => $escortFavorites,
             'salonFavorites' => $salonFavorites,
+            'messageNoSeen' => $messageNoSeen,
         ]);
     }
     /**
@@ -112,23 +123,33 @@ class ProfileCompletionController extends Controller
     {
         // Exemple de données statiques, à remplacer par votre logique de récupération de données
         $categories = Categorie::all();
-        $pratiquesSexuelles = ['Gorge Profonde', 'Levrette', '69', 'BDSM'];
-        $origines = ['Française', 'Suisse', 'Italienne', 'Africaine'];
-        $couleursYeux = ['Marrons', 'Bleus', 'Verts', 'Noirs'];
-        $couleursCheveux = ['Blonds', 'Bruns', 'Roux', 'Noirs'];
-        $mensurations = ['Fine', 'Normale', 'Ronde', 'Athlétique'];
-        $poitrines = ['Naturelle', 'Améliorée', 'Généreuse'];
-        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F'];
-        $pubis = ['Rasé', 'Naturel', 'Entretenu'];
-        $tatouages = ['Oui', 'Non', 'Quelques-uns'];
-        $mobilites = ['Je reçois', 'Je me déplace', 'Les deux'];
-        $tarifs = ['CHF', 'EUR', 'USD'];
-        $paiements = ['Cash', 'Carte', 'Twint', 'Virement'];
+        $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
+        $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
+        $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
+        $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
+        $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
+        $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
+        $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
+        $poitrines = ['Naturelle', 'Améliorée'];
+        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
+        $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
+        $tatouages = ['Avec tattos', 'Sans tatto'];
+        $mobilites = ['Je reçois', 'Je me déplace'];
+        $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
+        $nombreFilles = ['1 à 5', '5 à 15', 'plus 15'];
+        $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+        $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
         return response()->json([
+            'genres' => $genres,
+            'oriantationSexuelles' => $oriantationSexuelles,
+            'silhouette' => $silhouette,
             'categories' => $categories,
+            'nombreFilles' => $nombreFilles,
             'pratiquesSexuelles' => $pratiquesSexuelles,
             'origines' => $origines,
+            'langues' => $langues,
             'couleursYeux' => $couleursYeux,
             'couleursCheveux' => $couleursCheveux,
             'mensurations' => $mensurations,
@@ -150,38 +171,76 @@ class ProfileCompletionController extends Controller
         $completedFields = 0;
 
         // Fields to consider for profile completion
-        $fieldsToCheck = [
-            'intitule',
-            'nom_proprietaire',
-            'user_name',
-            'telephone',
-            'adresse',
-            'npa',
-            'canton',
-            'ville',
-            'categorie',
-            'recrutement',
-            'nombre_filles',
-            'pratique_sexuelles',
-            'tailles',
-            'origine',
-            'couleur_yeux',
-            'couleur_cheveux',
-            'mensuration',
-            'poitrine',
-            'taille_poitrine',
-            'pubis',
-            'tatouages',
-            'mobilite',
-            'tarif',
-            'langues',
-            'paiement',
-            'apropos',
-            'autre_contact',
-            'complement_adresse',
-            'lien_site_web',
-            'localisation',
-        ];
+        if($user->profile_type == 'escorte')
+        {
+            $fieldsToCheck = [
+                'intitule',
+                'prenom',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                'categorie',
+                'pratique_sexuelles',
+                'tailles',
+                'origine',
+                'couleur_yeux',
+                'couleur_cheveux',
+                'mensuration',
+                'poitrine',
+                'taille_poitrine',
+                'pubis',
+                'tatouages',
+                'mobilite',
+                'tarif',
+                'langues',
+                'paiement',
+                'apropos',
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+            ];
+        }elseif($user->profile_type == 'salon')
+        {
+            $fieldsToCheck = [
+                'intitule',
+                'nom_proprietaire',
+                'nom_salon',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                'categorie',
+                'recrutement',
+                'nombre_filles',               
+                'tarif',
+                'langues',
+                'paiement',
+                'apropos',
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+            ];
+        }else
+        {
+            $fieldsToCheck = [
+                'intitule',
+                'pseudo',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+            ];
+        }
 
         foreach ($fieldsToCheck as $field) {
             if (!empty($user->$field)) {
@@ -189,8 +248,9 @@ class ProfileCompletionController extends Controller
             }
         }
 
-        if ($totalFields > 0) {
-            $percentage = ($completedFields / $totalFields) * 100;
+        if ($fieldsToCheck > 0) {
+            $length = count($fieldsToCheck);
+            $percentage = ($completedFields / $length) * 100;
         } else {
             $percentage = 0; // Avoid division by zero if no fields are considered
         }

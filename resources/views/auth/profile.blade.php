@@ -63,20 +63,11 @@
 
       <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf" class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré mon profile</button>
 
-      <div x-show="userType=='invite'" class="w-full flex flex-col gap-0 items-center mb-5">
+      <div class="w-full flex flex-col gap-0 items-center mb-5">
         <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon compte</button>
-        <button x-on:click="pageSection='favoris'" :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mes favoris</button>
-        <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion</button>
-      </div>
-      <div x-show="userType=='escorte'" class="w-full flex flex-col gap-0 items-center mb-5">
-        <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon compte</button>
-        <button x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
-        <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion</button>
-      </div>
-      <div x-show="userType=='salon'" class="w-full flex flex-col gap-0 items-center mb-5">
-        <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon compte</button>
-        <button x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
-        <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion</button>
+        <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'" :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mes favoris</button>
+        <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
+        <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : '' " class="flex items-center w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion @if ($messageNoSeen > 0)<span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{$messageNoSeen}}</span> @endif</button>        
       </div>
 
     </div>
@@ -126,10 +117,9 @@
                 </div>
                 <select name="genre" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
                   <option hidden value=""> -- </option>
-                  <option value="femme"  @if($user->genre == 'femme') selected @endif>Femme</option>
-                  <option value="homme"  @if($user->genre == 'homme') selected @endif>Homme</option>
-                  <option value="non-binaire"  @if($user->genre == 'nom-binaire') selected @endif>Non-binaire</option>
-                  <option value="autre"  @if($user->genre == 'autre') selected @endif>autre</option>
+                  @foreach ($genres as $genre)
+                  <option value="{{$genre}}"  @if($user->genre == $genre) selected @endif>{{$genre}}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -466,7 +456,7 @@
       </div>
 
       {{-- Message --}}
-      <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <div x-show="completionPercentage != 100" class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
         <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
         </svg>
@@ -489,7 +479,7 @@
           {{-- Information --}}
           <div class="flex items-center justify-between py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Mes informations</h2>
-            <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span></button>
+            {{-- <button class="flex items-center gap-2 text-amber-400"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg> <span class="hidden md:block">Modifier mes informations</span></button> --}}
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
             <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg> {{ $user->pseudo }}</span>
@@ -593,7 +583,19 @@
             <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
             <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
           </div>
-          <div></div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="card">
+                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
+                  <div class="card-body">
+                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
       </div>
@@ -808,9 +810,10 @@
             <div class="row justify-content-center">
               <div class="col-md-8">
                 <div class="card">
-                  <div class="card-header">Chat avec Jhone</div>
+                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
                   <div class="card-body">
                     {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
                   </div>
                 </div>
               </div>
@@ -955,6 +958,19 @@
           <div class="py-5">
             <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
             <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
+          </div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="card">
+                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
+                  <div class="card-body">
+                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

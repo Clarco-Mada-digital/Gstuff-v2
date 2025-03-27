@@ -30,7 +30,7 @@ function enableChatBoxLoader() {
 }
 
 function disableChatBoxLoader() {
-    $(".wsus__chat_app").removeClass('show_info');
+    // $(".wsus__chat_app").removeClass('show_info');
     $(".wsus__message_paceholder").addClass('d-none');
     $(".wsus__message_paceholder_black").addClass('d-none');
 
@@ -157,10 +157,10 @@ function IDinfo(id) {
                 ? $('.favourite').addClass('active')
                 : $('.favourite').removeClass('active');
 
-            $(".messenger-header").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon_logo.png');
+            $(".messenger-header").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon-logo.png');
             $(".messenger-header").find("h4").text(data.fetch.pseudo ? data.fetch.pseudo : data.fetch.prenom ? data.fetch.prenom : data.fetch.nom_salon);
 
-            $(".messenger-info-view .user_photo").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon_logo.png');
+            $(".messenger-info-view .user_photo").find("img").attr("src", data.fetch.avatar ? 'storage/avatars/' + data.fetch.avatar : 'icon-logo.png');
             $(".messenger-info-view").find(".user_name").text(data.fetch.pseudo ? data.fetch.pseudo : data.fetch.prenom ? data.fetch.prenom : data.fetch.nom_salon);
             $(".messenger-info-view").find(".user_unique_name").text(data.fetch.profile_type);
             NProgress.done();
@@ -731,7 +731,7 @@ $(document).ready(function () {
     function adjustHeight() {
         var windowHeight = $(window).height();
         $('.wsus__chat_area_body').css('height', (windowHeight - 120) + 'px');
-        $('.messenger-contacts').css('max-height', (windowHeight - 393) + 'px');
+        $('.messenger-contacts').css('max-height', (windowHeight) + 'px');
         $('.wsus__chat_info_gallery').css('max-height', (windowHeight - 400) + 'px');
         $('.user_search_list_result').css({
             'height': (windowHeight - 130) + 'px',

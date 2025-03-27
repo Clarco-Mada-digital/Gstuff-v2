@@ -13,7 +13,7 @@
   @foreach ($feedbacks as $feedback)
   <div class="flex items-center gap-5 pb-2 border-b border-gray-400">
     <a
-    @if ($feedback->userFromId->profile_type == 'salon')
+    @if ($feedback->userFromId?->profile_type == 'salon')
     href="{{route('show_salon', $feedback->userFromId->id)}}"
     @else
     href="{{route('show_escort', $feedback->userFromId->id)}}"

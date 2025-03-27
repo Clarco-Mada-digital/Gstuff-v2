@@ -3,14 +3,14 @@
         <h3>
             {{-- <span><img src="{{ asset('assets/images/chat_list_icon.png') }}" alt="Chat" class="img-fluid"></span> --}}
 
-            <a href="{{ route('home') }}">
+            {{-- <a href="{{ route('home') }}">
                 <img class="mx-auto lg:m-0 w-60 cursor-pointer" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" />
-            </a>
+            </a> --}}
 
 
             {{-- MESSAGERIE --}}
         </h3>
-        <div class="d-flex">
+        <div class="flex">
             {{-- <form method="POST" action="{{ route('logout') }}">
               @csrf
 
@@ -27,35 +27,38 @@
               <i class="fas fa-user-cog"></i>
           </span> --}}
         </div>
-        @include('messenger.layouts.profile-modal')
+        {{-- @include('messenger.layouts.profile-modal') --}}
     </div>
 
     {{-- Formulaire de recherche  --}}
     @include('messenger.layouts.search-form')
 
-    <div class="wsus__favourite_user">
+    <div class="wsus__favourite_user my-5">
         <div class="top">Favoris</div>
-        <div class="row favourite_user_slider">
+        @if ($favoriteList->count() > 0)
+        <div class="row w-[100%] mx-0 px-0 gap-5 favourite_user_slider">
             @foreach ($favoriteList as $item)
-                <div class="col-xl-3 messenger-list-item" role="button" data-id="{{ $item->user?->id }}">
+                <div class="w-full messenger-list-item cursor-pointer" role="button" data-id="{{ $item->user?->id }}">
                     <div class="wsus__favourite_item">
                         <div class="img">
                             <img src="@if ($item->user?->avatar)
-                                {{ asset('storage/avatar/'.$item->user?->avatar) }}
+                                {{ asset('storage/avatars/'.$item->user?->avatar) }}
                             @else
                                 {{asset('icon-logo.png')}}
                             @endif" alt="Utilisateur" class="img-fluid">
                             <span class="inactive"></span>
                         </div>
-                        <p>{{ $item->user?->pseudo ?? $item->user?->prenom ?? $item->user?->nom_salon }}</p>
+                        <p class="w-full text-center">{{ $item->user?->pseudo ?? $item->user?->prenom ?? $item->user?->nom_salon  }}</p>
                     </div>
-                </div>
+                </div>           
             @endforeach
-
         </div>
+        @else
+        <p class="W-full text-center text-sm">Aucun favoris pour l'instant !</p>
+        @endif
     </div>
 
-    <div class="wsus__save_message">
+    {{-- <div class="wsus__save_message">
         <div class="top">Votre espace</div>
         <div class="wsus__save_message_center messenger-list-item" data-id="{{ auth()->user()->id }}">
             <div class="icon">
@@ -67,7 +70,7 @@
             </div>
             <span>vous</span>
         </div>
-    </div>
+    </div> --}}
 
     <div class="wsus__user_list_area">
         <div class="top">Tous les messages</div>
