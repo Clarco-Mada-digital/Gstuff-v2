@@ -5,7 +5,7 @@
   @endphp
 
   @section('pageTitle')
-    {{$escort->name}}
+    {{$escort->prenom}}
   @endsection
 
   @section('content')
