@@ -27,14 +27,14 @@ window.Echo = new Echo({
     // wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
     // wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
+    encrypted: true,
     // enabledTransports: ['ws', 'wss'],
 });
 
 
 Echo.channel('message.' + userId)
-    .listen('Message', (event) => {
+    .listen('message.sent', (event) => {
         // Ici, tu peux mettre à jour ton chat en temps réel
-        Livewire.emit('messageReceived');
         console.log(event.message);
     });
 

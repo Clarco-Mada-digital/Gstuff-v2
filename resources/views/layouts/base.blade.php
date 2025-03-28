@@ -28,7 +28,7 @@
 
       <!-- Styles -->
       <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-      @vite('resources/css/app.css', 'resources/js/app.js', 'resources/js/messenger.js')     
+      @vite('resources/css/app.css', 'resources/js/app.js')     
      
       {{-- <link href="resources/css/app.css" rel="stylesheet"> --}}
       @livewireStyles    

@@ -10,7 +10,7 @@ use App\Models\User;
         </button>
     </div>
 
-    <div x-show="open" @keydown.window.escape="open = false" class="flex flex-col items-center justify-between w-96 min-h-80 bg-white shadow-lg rounded-lg mb-5">
+    <div x-show="open" @keydown.window.escape="open = false" class="flex flex-col items-center justify-between w-96 h-100 bg-white shadow-lg rounded-lg mb-5">
         <div class="flex justify-between items-center w-full p-4 bg-blue-500 text-white">
             <div class="flex items-center gap-2">
                 @if ($userReceved)
@@ -24,7 +24,10 @@ use App\Models\User;
             </div>                
             <button x-on:click="open = false" class="text-2xl cursor-pointer">&times;</button>
         </div>
-        <div class="flex-1 w-full h-3/4 p-4 overflow-auto">
+        <div  x-data="{scrollToBottom() {setTimeout(() => {this.$el.scrollTop = this.$el.scrollHeight;}, 100);}}"
+            x-init="$wire.on('messages-loaded', () => scrollToBottom())"
+            @updated.window="scrollToBottom()" 
+            class="flex-1 w-full h-3/4 p-4 overflow-y-auto">
             @forelse($messages as $message)
             @if ($message->attachment)
             @php
