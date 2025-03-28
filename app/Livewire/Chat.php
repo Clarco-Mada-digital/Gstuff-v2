@@ -47,7 +47,7 @@ class Chat extends Component
 
             // broadcast event
             broadcast(new MessageSend($message));
-            $this->loadMessages($this->userReceved->id); // Charger les messages du chat
+            //$this->loadMessages($this->userReceved->id); // Charger les messages du chat
             // MessageEvent::dispatch($message);
         }else{
             $this->message = '';
@@ -75,6 +75,7 @@ class Chat extends Component
         if($message->from_id == Auth::user()->id) {
             $message->delete();
         }
+        $this->loadMessages($this->userReceved->id); // Charger les messages du chat
         return;
     }
 
