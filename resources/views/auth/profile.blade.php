@@ -519,7 +519,7 @@
             </div>
           </div>
 
-          {{-- Filles près de chez toi --}}
+          {{-- Filles près de chez toi
           <div class="flex items-center justify-center md:justify-start py-5">
             <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
           </div>
@@ -527,7 +527,13 @@
             @foreach ($escorts->slice(0,3) as $escort)
             <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
             @endforeach
+          </div> --}}
+          @if ($user && $user->id)
+          <div>
+              <livewire:approximate userId="{{ $user->id }}" />
           </div>
+      @endif
+
 
         </section>
 

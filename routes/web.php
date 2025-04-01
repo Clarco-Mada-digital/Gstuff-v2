@@ -94,3 +94,10 @@ Route::middleware('auth')->group(function () {
     Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
 });
+
+
+
+Route::get('/approximiter1/{id}', [ApproximiterController::class, 'show'])->name('approximiter');
+Route::get('/approximiter/{id}', function ($id) {
+    return view('components.approximate', ['userId' => $id]);
+})->name('approximiter');
