@@ -36,6 +36,15 @@
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
               @enderror
           </div>
+
+          <!-- excerpt -->
+          <div class="mb-6">
+              <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">Extrait*</label>
+              <textarea name="excerpt" id="excerpt" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" required></textarea>
+              @error('excerpt')
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+              @enderror
+          </div>
           
           <!-- Contenu -->
           <div x-data="app()" x-init="init($refs.wysiwyg)" class="mb-6">
@@ -96,7 +105,7 @@
           <!-- Catégorie -->
           <div class="mb-6">
               <label for="article_category_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie*</label>
-              <select name="category_id" id="article_category_id"
+              <select name="article_category_id" id="article_category_id"
                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                       required>
                   <option value="">Sélectionnez une catégorie</option>

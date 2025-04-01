@@ -75,7 +75,7 @@
     <div class="wsus__user_list_area">
         <div class="top">Tous les messages</div>
 
-        <div class="wsus__user_list_area_height messenger-contacts">
+        <div class="wsus__user_list_area_height messenger-contacts overflow-y-auto">
 
 
         </div>

@@ -41,7 +41,8 @@ class ArticleController extends Controller
             'title' => 'required|max:255|unique:articles',
             'slug' => 'required|max:255|unique:articles',
             'content' => 'required',
-            'category_id' => 'required|exists:article_categories,id',
+            'excerpt' => 'nullable',
+            'article_category_id' => 'required|exists:article_categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
             'is_published' => 'boolean',
@@ -57,9 +58,10 @@ class ArticleController extends Controller
                 'title' => $request->title,
                 'slug' => $request->slug,
                 'content' => $request->content,
-                'category_id' => $request->category_id,
-                // 'is_published' => $request->is_published,
-                // 'published_at' => $request->published_at,
+                'excerpt' => $request->excerpt,
+                'article_category_id' => $request->article_category_id,
+                'is_published' => $request->is_published,
+                'published_at' => $request->published_at,
             ]);
             
             // Synchronisation des tags, si fournis

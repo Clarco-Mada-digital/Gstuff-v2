@@ -123,79 +123,10 @@
                 <select id="small" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
                   <option selected hidden>Mobilité de l'escorte</option>
                 </select>
-              </div>
-
-              <div class="grid grid-cols-1 xl:grid-cols-3 items-center justify-center gap-3 w-full">
-                <div class="Quiz--component SliderRange" x-data="{ ageMin: 18, ageMax: 54 }">
-                  <!-- Age Slider -->
-                  <div class="range-container">
-                    <h3 class="Quiz--description SliderRange--description">Age</h3>
-                    <div class="multi-range-slider" wire:ignore data-min="18" data-max="54"
-                         x-bind:style="'height: '+ (parseInt($refs.ageHeight.offsetHeight) + parseInt(getComputedStyle($refs.ageHeight).marginTop) + parseInt(getComputedStyle($refs.ageHeight).marginBottom)) +'px;'">
-                      <style x-text="'.range::-webkit-slider-runnable-track { background: linear-gradient(90deg, #dee4ec calc('+ Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) +'% + '+ Number(16 - (Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) * 0.32)) +'px), green calc('+ Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) +'% + '+ Number(16 - (Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) * 0.32)) +'px), green calc('+ Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) +'% + '+ Number(16 - (Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) * 0.32)) +'px), #dee4ec calc('+ Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) +'% + '+ Number(16 - (Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) * 0.32)) +'px)) !important; }'">
-                      </style>
-                      <div class="range-slider" x-ref="ageHeight" id="age-min">
-                        <div class="tooltip" x-html="parseInt(ageMin)"
-                             x-bind:style="'left: calc('+ Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) +'% + '+ Number(16 - (Number((ageMin - $refs.ageMin.min) * 100 / ($refs.ageMin.max - $refs.ageMin.min)) * 0.32)) +'px)'">
-                        </div>
-                        <input class="range" type="range" id="ageMin"
-                               x-ref="ageMin"
-                               x-on:input="if(Number(ageMax) <= Number($event.target.value) + 18) { $event.target.value = Number(ageMax) - 18; }"
-                               x-model="ageMin"
-                               step="1"
-                               min="18"
-                               max="54">
-                      </div>
-                      <div class="range-slider" id="age-max">
-                        <div class="tooltip" x-html="parseInt(ageMax)"
-                             x-bind:style="'left: calc('+ Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) +'% + '+ Number(16 - (Number((ageMax - $refs.ageMax.min) * 100 / ($refs.ageMax.max - $refs.ageMax.min)) * 0.32)) +'px)'">
-                        </div>
-                        <input class="range" type="range"
-                               x-ref="ageMax"
-                               x-on:input.prevent="if(Number(ageMin) >= Number($event.target.value) - 18) { $event.target.value = Number(ageMin) + 18; } else { return false; }"
-                               x-model="ageMax"
-                               step="1"
-                               min="18"
-                               max="54">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {{-- <div class="Quiz--component SliderRange" x-data="{ salaryMin: 0, salaryMax: 800 }">
-                  <!-- Salary Slider -->
-                  <div class="range-container">
-                    <h3 class="Quiz--description SliderRange--description">Paiement</h3>
-                    <div class="multi-range-slider" wire:ignore data-min="0" data-max="800"
-                         x-bind:style="'height: '+ (parseInt($refs.salaryHeight.offsetHeight) + parseInt(getComputedStyle($refs.salaryHeight).marginTop) + parseInt(getComputedStyle($refs.salaryHeight).marginBottom)) +'px;'">
-                      <style x-text="'.range::-webkit-slider-runnable-track { background: linear-gradient(90deg, #dee4ec calc('+ Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) +'% + '+ Number(16 - (Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) * 0.32)) +'px), green calc('+ Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) +'% + '+ Number(16 - (Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) * 0.32)) +'px), green calc('+ Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) +'% + '+ Number(16 - (Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) * 0.32)) +'px), #dee4ec calc('+ Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) +'% + '+ Number(16 - (Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) * 0.32)) +'px)) !important; }'">
-                      </style>
-                      <div class="range-slider" x-ref="salaryHeight" id="salary-min">
-                        <div class="tooltip" x-html="parseInt(salaryMin)"
-                             x-bind:style="'left: calc('+ Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) +'% + '+ Number(16 - (Number((salaryMin - $refs.salaryMin.min) * 100 / ($refs.salaryMin.max - $refs.salaryMin.min)) * 0.32)) +'px)'">
-                        </div>
-                        <input class="range" type="range" id="salaryMin"
-                               x-ref="salaryMin"
-                               x-on:input="if(Number(salaryMax) <= Number($event.target.value)) { $event.target.value = Number(salaryMax); }"
-                               x-model="salaryMin"
-                               step="50"
-                               min="0"
-                               max="800">
-                      </div>
-                      <div class="range-slider" id="salary-max">
-                        <div class="tooltip" x-html="parseInt(salaryMax)"
-                             x-bind:style="'left: calc('+ Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) +'% + '+ Number(16 - (Number((salaryMax - $refs.salaryMax.min) * 100 / ($refs.salaryMax.max - $refs.salaryMax.min)) * 0.32)) +'px)'">
-                        </div>
-                        <input class="range" type="range"
-                               x-ref="salaryMax"
-                               x-on:input.prevent="if(Number(salaryMin) >= Number($event.target.value)) { $event.target.value = Number(salaryMin); } else { return false; }"
-                               x-model="salaryMax"
-                               step="50"
-                               min="0"
-                               max="800">
-                      </div>
-                    </div>
-                  </div>
-                </div> --}}
+                <div></div>
+                <x-multi-range :min="18" :max="100" :minvalue="25" :maxvalue="75" step="1" name='age' label='Age' />
+                <x-multi-range :min="90" :max="200" :minvalue="120" :maxvalue="175" step="1" name='tailles' label='Tailles (en cm)' />
+                <x-multi-range :min="100" :max="1000" :minvalue="150" :maxvalue="550" step="50" name='tarifs' label='Tarifs (.CHF)' />
               </div>
 
           </div>

@@ -15,7 +15,8 @@ class Article extends Model
         'title', 
         'slug', 
         'content', 
-        'category_id',
+        'excerpt', 
+        'article_category_id',
         'is_published',
         'published_at'
     ];
