@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleCategoryController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\EscortController;
 use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SalonController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 
 /*
@@ -64,6 +67,16 @@ Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownDa
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
 Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
 
+// Routes publiques articles
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/new-article', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/store-article', [ArticleController::class, 'store'])->name('articles.store');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
+
+Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+
 
 //***************************************************************************************** */
 
@@ -93,4 +106,11 @@ Route::middleware('auth')->group(function () {
     Route::post('messenger/favorite', [MessengerController::class, 'favorite'])->name('messenger.favorite');
     Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
+});
+
+// Routes admin protégées
+Route::middleware(['auth'])->prefix('admin')->group(function() {
+    // Route::resource('articles', AdminArticleController::class)->except(['show']);
+    // Route::resource('article-categories', ArticleCategoryController::class)->except(['show']);
+    // Route::resource('tags', TagController::class)->except(['show']);
 });

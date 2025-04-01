@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             CategorieSeeder::class,  // Puis exécute CategorieSeeder
             ServiceSeeder::class,  // Puis exécute ServiceSeeder
             UserSeeder::class,  // Puis exécute UserSeeder
+            ArticleCategorySeeder::class, //Pour exécute ArticleSeeder
         ]);
     }
 
