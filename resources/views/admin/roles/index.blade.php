@@ -1,11 +1,11 @@
-@extends('layouts.base')
+@extends('layouts.admin')
 
 @section('pageTitle')
     Role
 @endsection
 
-@section('content')
-<div x-data="{ openModal: false, form: { name: '', permissions: [] } }" class="container mx-auto px-4 py-8" x-cloak>
+@section('admin-content')
+<div x-data="{ openModal: false, form: { name: '', permissions: [] } }" class="md:ml-64 pt-16 min-h-[100vh] container mx-auto px-4 py-8" x-cloak>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Gestion des rôles</h1>
         <button @click="openModal = true" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">

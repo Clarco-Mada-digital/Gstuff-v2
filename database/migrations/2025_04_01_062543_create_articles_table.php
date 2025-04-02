@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('content');
             $table->string('excerpt');
             $table->foreignId('article_category_id')->constrained('article_categories')->onDelete('cascade');
+            $table->foreignId('article_user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_published')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

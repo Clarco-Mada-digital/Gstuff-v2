@@ -63,7 +63,7 @@ Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
-Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
+
 
 // Routes publiques articles
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
@@ -86,6 +86,7 @@ Route::post('/roles-destroy', [RoleController::class, 'destroy'])->name('roles.d
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
     // Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
     // Route::get('/messages/{receiver_id}', [ChatController::class, 'getMessages'])->name('get.messages');
     // Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat

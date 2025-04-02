@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('admin/api')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin/api')->group(function () {
     Route::get('/stats', function () {
         return response()->json([
             'articles' => \App\Models\Article::count(),
@@ -38,12 +38,13 @@ Route::prefix('admin/api')->middleware(['auth', 'role:admin'])->group(function (
                 return [
                     'id' => $article->id,
                     'title' => $article->title,
-                    'excerpt' => Str::limit(strip_tags($article->content), 100),
-                    'status' => $article->status,
+                    'excerpt' => Str::limit(strip_tags($article->excerpt), 100),
+                    // 'excerpt' => Str::limit(strip_tags($article->content), 100),
+                    'is_published' => $article->is_published,
                     'created_at' => $article->created_at,
                     'user' => [
-                        'name' => $article->user->name,
-                        'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($article->user->name).'&background=random'
+                        'pseudo' => $article->user->pseudo,
+                        'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($article->user->pseudo).'&background=random'
                     ]
                 ];
             });

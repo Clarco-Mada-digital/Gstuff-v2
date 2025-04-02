@@ -52,6 +52,7 @@ class ArticleController extends Controller
             'content' => 'required',
             'excerpt' => 'nullable',
             'article_category_id' => 'required|exists:article_categories,id',
+            'article_user_id' => 'required|exists:users,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
             'is_published' => 'boolean',
@@ -69,6 +70,7 @@ class ArticleController extends Controller
                 'content' => $request->content,
                 'excerpt' => $request->excerpt,
                 'article_category_id' => $request->article_category_id,
+                'article_user_id' => $request->article_user_id,
                 'is_published' => $request->is_published ? $request->is_published : false,
                 'published_at' => $request->published_at,
             ]);

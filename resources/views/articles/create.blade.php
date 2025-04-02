@@ -10,6 +10,8 @@
       
       <form action="{{ route('articles.store') }}" method="POST" class="bg-white rounded-lg shadow-md p-6">
           @csrf
+
+          <input type="hidden" name="article_user_id" value="{{ auth()->user()->id }}">
           
           <!-- Titre -->
           <div class="mb-6">

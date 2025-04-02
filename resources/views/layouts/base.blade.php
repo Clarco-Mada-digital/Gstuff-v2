@@ -276,7 +276,7 @@
 
 
     {{-- Footer --}}
-    <div class="w-full min-h-[375px] bg-green-gs transition-all">
+    <div class="relative w-full min-h-[375px] bg-green-gs transition-all z-30">
       <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white text-sm xl:text-base">
         <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
           <a href="{{ route('home') }}" class="w-full">
@@ -303,12 +303,12 @@
 
       </div>
     </div>
-    <div class="flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all">
+    <div class="relative flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all z-30">
       Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div>
 
     @livewire('chat')
-
+    
     <script>
       const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
       const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
@@ -548,6 +548,7 @@
     </script>
     @yield('extraScripts')
     @yield('specialScripts')
+    @stack('scripts')
 
   </body>  
 </html>

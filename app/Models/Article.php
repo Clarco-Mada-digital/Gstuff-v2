@@ -17,6 +17,7 @@ class Article extends Model
         'content', 
         'excerpt', 
         'article_category_id',
+        'article_user_id',
         'is_published',
         'published_at'
     ];
@@ -28,7 +29,12 @@ class Article extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(ArticleCategory::class, 'category_id');
+        return $this->belongsTo(ArticleCategory::class, 'article_category_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'article_user_id');
     }
     
     public function tags(): BelongsToMany
