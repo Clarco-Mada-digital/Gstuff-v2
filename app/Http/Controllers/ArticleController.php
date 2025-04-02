@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view articles')->only('index', 'show');
+        $this->middleware('permission:create articles')->only('create', 'store');
+        $this->middleware('permission:edit articles')->only('edit', 'update');
+        $this->middleware('permission:delete articles')->only('destroy');
+        $this->middleware('permission:publish articles')->only('publish');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -60,7 +69,7 @@ class ArticleController extends Controller
                 'content' => $request->content,
                 'excerpt' => $request->excerpt,
                 'article_category_id' => $request->article_category_id,
-                'is_published' => $request->is_published,
+                'is_published' => $request->is_published ? $request->is_published : false,
                 'published_at' => $request->published_at,
             ]);
             
@@ -82,9 +91,13 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $glossaires = Article::all();
+
+        $glossaire = Article::where('slug', '=', $slug)->first();
+        
+        return view('sp_glossaire', ['glossaire' => $glossaire, 'glossaires'=>$glossaires]);
     }
 
     /**

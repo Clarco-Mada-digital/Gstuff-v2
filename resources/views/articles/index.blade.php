@@ -18,7 +18,7 @@
   <div class="lg:container mx-auto px-5 lg:p-10">
     @foreach ($articles as $glossaire)
     <div class="flex flex-col justify-center gap-1 my-5 text-sm xl:text-base">
-      <h3 class="text-2xl xl:text-4xl font-dm-serif text-green-gs font-bold">{{ $glossaire->title }}</h3>
+      <a href="{{route('glossaires.show', $glossaire->slug)}}" class="text-2xl xl:text-4xl font-dm-serif text-green-gs font-bold">{{ $glossaire->title }}</a>
       @if ($glossaire->excerpt)
       <p>{{$glossaire->excerpt}}</p>
       @else

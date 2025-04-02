@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
@@ -12,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EscortController;
 use App\Http\Controllers\MessengerController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +50,8 @@ Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/glossaires', [GlossaireController::class, 'index'])->name('glossaires');
-Route::get('/glossaire/{id}', [GlossaireController::class, 'item'])->name('glossaire');
+Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
+Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->name('glossaires.show');
 Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
@@ -76,6 +74,11 @@ Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name
 Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
 
 Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+
+Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
+Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
+Route::post('/roles-destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
 
 
 //***************************************************************************************** */

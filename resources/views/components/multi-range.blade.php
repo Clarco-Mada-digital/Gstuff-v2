@@ -1,7 +1,7 @@
-<div class="flex justify-center items-center py-3">
-    <div x-data="range()" x-init="mintrigger(); maxtrigger()" class="relative max-w-xl w-full">
-        <span for="{{$id}}" class="text-center">{{$label}}</span>
-      <div class="my-5">
+<div class="flex justify-center items-center py-3 @if($class!= '') {{$class}} @endif">
+    <div x-data="{{"range".$id."()"}}" x-init="mintrigger(); maxtrigger()" class="relative max-w-xl w-full">
+        @if($label != '')<span for="{{$id}}" class="text-center">{{$label}}</span>@endif
+      <div class="my-3">
         <input type="range"
                step="{{$step}}"
                x-bind:min="min" x-bind:max="max"
@@ -22,27 +22,27 @@
   
           <div class="absolute z-20 top-0 bottom-0 rounded-md bg-green-gs" x-bind:style="'right:'+maxthumb+'%; left:'+minthumb+'%'"></div>
   
-          <div class="absolute z-30 w-6 h-6 top-0 left-0 bg-green-gs rounded-full -mt-2 -ml-1" x-bind:style="'left: '+minthumb+'%'"></div>
+          <div class="absolute z-30 w-4 h-4 top-0 left-0 bg-green-gs rounded-full -translate-y-[30%]  -ml-1" x-bind:style="'left: '+minthumb+'%'"></div>
   
-          <div class="absolute z-30 w-6 h-6 top-0 right-0 bg-green-gs rounded-full -mt-2 -mr-3" x-bind:style="'right: '+maxthumb+'%'"></div>
+          <div class="absolute z-30 w-4 h-4 top-0 right-0 bg-green-gs rounded-full -translate-y-[30%]  -mr-3" x-bind:style="'right: '+maxthumb+'%'"></div>
    
         </div>
   
       </div>
       
-      <div class="flex justify-between items-center py-5">
+      <div class="flex justify-between items-center">
         <div>
-          <input type="text" maxlength="5" x-on:input="mintrigger" x-model="minvalue" class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
+          <input type="text" maxlength="5" x-on:input="mintrigger" x-model="minvalue" class="px-3 py-2 border border-gray-200 rounded w-20 text-center">
         </div>
         <div>
-          <input type="text" maxlength="5" x-on:input="maxtrigger" x-model="maxvalue" class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
+          <input type="text" maxlength="5" x-on:input="maxtrigger" x-model="maxvalue" class="px-3 py-2 border border-gray-200 rounded w-20 text-center">
         </div>
       </div>
       
     </div>
   
   <script>
-      function range() {
+      function {{"range".$id}}() {
           return {
             minvalue: {{$minvalue}}, 
             maxvalue: {{$maxvalue}},

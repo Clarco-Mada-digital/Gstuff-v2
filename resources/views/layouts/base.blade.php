@@ -78,7 +78,7 @@
       @yield('extraStyle')
 
   </head>
-  <body class="w-full overflow-x-hidden relative antialiased font-dm text-sm md:text-base font-normal transition-all">
+  <body class="w-full min-h-[100vh] overflow-x-hidden relative antialiased font-dm text-sm md:text-base font-normal transition-all">
     @if (session('success'))
       <div id="sessionAlert" class="absolute top-3 ring-2 flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
         <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -294,7 +294,7 @@
 
         <div class="flex flex-col items-center lg:items-start gap-2">
           <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-          <a href="{{ route('glossaires') }}">Glossaire</a>
+          <a href="{{ route('glossaires.index') }}">Glossaire</a>
           <a href="{{ route('faq') }}">FAQ</a>
           <a href="{{ route('about')}}">Qui sommes-nous ?</a>
           <a href="{{ route('cgv') }}">Conditions générales de vente (GGV)</a>

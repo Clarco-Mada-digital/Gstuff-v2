@@ -18,8 +18,8 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('adresse')->nullable();
             $table->string('npa')->nullable();
-            $table->string('canton')->nullable();
-            $table->string('ville')->nullable();
+            $table->integer('canton')->nullable();
+            $table->integer('ville')->nullable();
             // $table->foreignId('canton_id')->constrained('cantons')->nullable();
             // $table->foreignId('ville_id')->constrained('villes')->nullable();
             $table->json('categorie')->nullable();
@@ -27,6 +27,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('recrutement')->nullable()->default('Ouvert');
             $table->integer('nombre_filles')->nullable();
             $table->string('pratique_sexuelles')->nullable();
+            $table->string('oriantation_sexuelles')->nullable();
             $table->string('tailles')->nullable();
             $table->string('origine')->nullable();
             $table->string('couleur_yeux')->nullable();

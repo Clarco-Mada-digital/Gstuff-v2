@@ -1,11 +1,11 @@
 {{-- Glossaire --}}
 <div class="relative w-full">
   <div id="glossaire-container" class="w-full flex items-center flex-nowrap gap-10 px-20 overflow-x-auto scroll-smooth" data-slider-wrapper style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-    @foreach ($apiData['glossaires'] as $item)
-      <a href="{{ route('glossaire', $item['id']) }}">
+    @foreach ($glossaires as $item)
+      <a href="{{ route('glossaires.show', $item->slug) }}">
         <div class="bg-green-gs min-w-[375px] w-[375px] h-[232px] flex flex-col items-stretch gap-5 p-5 text-white rounded-lg py-10" style="scroll-snap-align: center" data-carousel-item >
-          <h4 class="font-dm-serif text-2xl">{{ $item['title']['rendered'] }}</h4>
-          <span class="flex-1">{!! Str::limit($item['excerpt']['rendered'], 100, '...') !!}</span>
+          <h4 class="font-dm-serif text-2xl">{{ $item->title }}</h4>
+          <span class="flex-1">{!! Str::limit($item->excerpt, 100, ' [...]') !!}</span>
           <svg class="w-10 my-3 text-amber-400"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12.7 17.925q-.35.2-.625-.062T12 17.25L14.425 13H3q-.425 0-.712-.288T2 12t.288-.712T3 11h11.425L12 6.75q-.2-.35.075-.612t.625-.063l7.975 5.075q.475.3.475.85t-.475.85z"/></svg>
         </div>
       </a>

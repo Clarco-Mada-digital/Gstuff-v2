@@ -7,16 +7,22 @@
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
     use Laravel\Sanctum\HasApiTokens;
+    use Spatie\Permission\Traits\HasRoles;
 
     class User extends Authenticatable
     {
-        use HasApiTokens, HasFactory, Notifiable;
+        use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
         /**
          * The attributes that are mass assignable.
          *
          * @var array<int, string>
          */
+        const ROLE_ADMIN = 'admin';
+        const ROLE_EDITOR = 'editor';
+        const ROLE_WRITE = 'write';
+        const ROLE_USER = 'user';
+
         protected $fillable = [
             'avatar',
             'couverture_image',
@@ -41,6 +47,7 @@
             'langues',
             'categorie',
             'service',
+            'oriantation_sexuelles',
             'recrutement',
             'nombre_filles',
             'pratique_sexuelles',

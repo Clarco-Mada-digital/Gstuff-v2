@@ -106,7 +106,7 @@
           @csrf
 
           <!-- Étape 1: Informations personnelles -->
-          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton->id ?? 1}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
+          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton?->id ?? 1}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
@@ -181,7 +181,7 @@
               x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
-                  <option :value="canton.id" :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                  <option :value=canton.id :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
                 {{-- @foreach ($cantons as $canton)
                   <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
@@ -193,7 +193,7 @@
               <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="ville in villes" :key="ville.id">
-                  <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
+                  <option :value=ville.id :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
                 </template>
                 {{-- @foreach ($villes as $ville)
                   <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}</option>
@@ -211,7 +211,7 @@
                 <select name="categorie" id="salon_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($salon_categories as $categorie)
-                    <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}</option>
+                    <option value={{ $categorie->id }} @if($user->categorie?->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}</option>
                   @endforeach
                 </select>
               </div>
@@ -239,7 +239,7 @@
                 <select name="categorie" id="escort_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($escort_categories as $categorie)
-                    <option value="{{ $categorie['id'] }}" @if($user->categorie['id'] == $categorie->id) selected @endif>{{ $categorie['nom'] }}</option>
+                    <option value={{ $categorie['id'] }} @if($user->categorie ?  $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}</option>
                   @endforeach
                 </select>
               </div>
@@ -249,6 +249,15 @@
                   <option hidden value=""> -- </option>
                   @foreach ($pratiquesSexuelles as $pratique)
                     <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Oriantation sexuels</label>
+                <select name="oriantation_sexuelles" id="oriantation_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($oriantationSexuelles as $oriantation)
+                    <option value="{{ $oriantation }}" @if($user->oriantation_sexuelles == $oriantation) selected @endif>{{ $oriantation }}</option>
                   @endforeach
                 </select>
               </div>
@@ -577,27 +586,6 @@
           </div>
         </section>
 
-        {{-- Section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
       </div>
 
       {{-- Pour l'escort --}}
@@ -890,28 +878,7 @@
               </div>
             </div>
           </div>
-        </section>
-
-        {{-- Section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        </section>        
 
       </div>
 
@@ -1135,30 +1102,30 @@
               </div>
             </div>
           </div>
-        </section>
+        </section>        
 
-        {{-- section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
-                  </div>
+      </div>
+
+      {{-- Section discussion --}}
+      <section x-show="pageSection=='discussion'">
+        <div class="py-5">
+          <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
+          <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
+        </div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card">
+                {{-- <div class="card-header">Chat avec Jhone</div> --}}
+                <div class="card-body">
+                  {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                  <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
 
     </div>
 
