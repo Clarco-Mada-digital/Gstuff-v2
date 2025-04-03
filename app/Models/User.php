@@ -95,7 +95,7 @@
       'categorie' => 'array',
       'service' => 'array',
     //   'canton' => 'array',
-      'ville' => 'array',
+    //   'ville' => 'array',
       'paiement' => 'array',
       'langues' => 'array',
   ];
