@@ -25,7 +25,7 @@ Route::prefix('admin/api')->group(function () {
             'articles' => \App\Models\Article::count(),
             'users' => \App\Models\User::count(),
             'comments' => \App\Models\Feedback::count(),
-            'views' => \App\Models\Article::sum('views')
+            // 'views' => \App\Models\Article::sum('views')
         ]);
     });
 
