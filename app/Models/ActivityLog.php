@@ -25,9 +25,9 @@ class ActivityLog extends Model
 
     protected static function booted()
     {
-        static::created(function (ActivityLog $activity) {
-            Cache::tags(['activity-feed'])->forget("user-{$activity->causer_id}-activities");
-        });
+        // static::created(function (ActivityLog $activity) {
+        //     Cache::tags(['activity-feed'])->forget("user-{$activity->causer_id}-activities");
+        // });
     }
 
     public function scopeForUser($query, $userId)
