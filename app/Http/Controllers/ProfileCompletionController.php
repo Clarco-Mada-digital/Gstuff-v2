@@ -285,7 +285,7 @@ class ProfileCompletionController extends Controller
             'telephone' => 'nullable|string|max:20',
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
-            'canton' => 'nullable|numeric',
+            'canton' => 'nullable',
             'ville' => 'nullable',
             'categorie' => 'nullable',
             'service' => 'nullable',
