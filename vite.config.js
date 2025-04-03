@@ -10,11 +10,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        outDir: 'public/resources', // Change ce répertoire si nécessaire
-        manifest: true,              // Génère un manifest.json
-        // rollupOptions: {
-        //   input: '/resources/js/app.js', // Le fichier d'entrée principal
-        // },
-      },
 });
