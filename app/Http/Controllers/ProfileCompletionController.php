@@ -370,4 +370,25 @@ class ProfileCompletionController extends Controller
 
         return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la photo de profil.');
     }
+
+    public function updateVerification($id, Request $request)
+    {
+        // Trouver l'utilisateur ou renvoyer une erreur 404 s'il n'existe pas
+        $user = User::findOrFail($id);
+    
+        // Valider les données de la requête
+        $request->validate([
+            'profile_verifie' => 'required|string|in:verifier,non verifier,en cours', // Assurez-vous que la valeur est valide
+        ]);
+    
+        // Mettre à jour uniquement le champ 'profile_verifie'
+        $user->update([
+            'profile_verifie' => $request->input('profile_verifie'),
+        ]);
+    
+        // Rediriger avec un message de succès
+        return redirect()->route('profile.index')
+            ->with('success', 'Profil mis à jour avec succès!');
+    }
+    
 }

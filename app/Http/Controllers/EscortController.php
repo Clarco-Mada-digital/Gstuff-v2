@@ -60,4 +60,6 @@ class EscortController extends Controller
 
     return view('search_page_escort', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts' => $escorts]);
   }
+
+  
 }

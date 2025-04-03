@@ -62,4 +62,8 @@ class SalonController extends Controller
 
     return view('search_page_salon', ['cantons'=> $cantons, 'categories'=> $categories, 'salons' => $salons]);
   }
+
+
+
+  
 }

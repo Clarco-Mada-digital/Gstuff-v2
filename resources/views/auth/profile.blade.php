@@ -578,11 +578,32 @@
 
       {{-- Pour l'escort --}}
       <div x-show="userType=='escorte'">
-        <div class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
-          <p>Votre profil n'est pas vérifié, envoyé une demande de vérification</p>
-          <button class="btn-gs-gradient text-black">Envoyer une demande</button>
-        </div>
 
+      {{-- Pour la vérification --}}
+      @if($user->profile_verifie === 'verifier')
+      <div class="w-full p-5 rounded-xl flex items-center justify-between border border-blue-gs text-blue-gs">
+          <p class="flex items-center">
+              <i class="fas fa-check-circle text-blue-gs mr-2"></i>
+              Votre profil est vérifié. Félicitations !
+          </p>
+      </div>
+      @elseif($user->profile_verifie === 'non verifier')
+      <div class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
+          <p>Votre profil n'est pas vérifié. Envoyez une demande de vérification.</p>
+          <form method="POST" action="{{ route('profile.updateVerification', $user->id) }}">
+              @csrf
+              <input type="hidden" name="profile_verifie" value="en cours">
+              <button type="submit" class="btn-gs-gradient text-black">Envoyer une demande</button>
+          </form>
+      </div>
+      @elseif($user->profile_verifie === 'en cours')
+      <div class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
+          <p>Votre profil est en cours de validation.</p>
+      </div>
+      @endif
+
+
+    
         {{-- Section mon compte --}}
         <section x-show="pageSection=='compte'">
 
@@ -1124,6 +1145,11 @@
 
   @section('extraScripts')
   <script>
+
+    var user = @json($user)
+
+    console.log('ok' , user);
+    
     function multiStepForm() {
       return {
         steps: "{{ $user->profile_type }}"=='invite' ? ['Informations personnelles', 'Informations complémentaires'] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],

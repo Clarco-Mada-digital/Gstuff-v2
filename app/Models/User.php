@@ -70,6 +70,7 @@
             'localisation',
             'lat',
             'lon',
+            'profile_verifie', // Ajout du nouveau champ
         ];
 
     /**
@@ -98,6 +99,7 @@
       'ville' => 'array',
       'paiement' => 'array',
       'langues' => 'array',
+      'profile_verifie' => 'string',
   ];
 
   public function canton(): BelongsTo
