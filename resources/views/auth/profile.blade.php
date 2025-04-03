@@ -106,7 +106,7 @@
           @csrf
 
           <!-- Étape 1: Informations personnelles -->
-          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton->id ?? 1}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
+          <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton?->id ?? 1}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
             <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">intitule</label>
@@ -164,7 +164,7 @@
                       <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
                   </svg>
                 </div>
-                <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="[0-9]{3}.[0-9]{2}.[0-9]{3}.[0-9]{2}" placeholder="000.00.000.00" value="{{ $user->telephone }}" />
+                <input type="text" id="phone-input" name="telephone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $user->telephone }}" />
               </div>
             </div>
             <div class="mb-4">
@@ -181,7 +181,7 @@
               x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 <option hidden value=""> -- </option>
                 <template x-for="canton in cantons" :key="canton.id">
-                  <option :value="canton.id" :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                  <option :value=canton.id :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
     
               </select>
@@ -193,7 +193,7 @@
               >
                 <option hidden value=""> -- </option>
                 <template x-for="ville in villes" :key="ville.id">
-                  <option :value="ville.id" :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
+                  <option :value=ville.id :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
                 </template>
       
               </select>
@@ -209,7 +209,7 @@
                 <select name="categorie" id="salon_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($salon_categories as $categorie)
-                    <option value="{{ $categorie->id }}" @if($user->categorie->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}</option>
+                    <option value={{ $categorie->id }} @if($user->categorie?->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}</option>
                   @endforeach
                 </select>
               </div>
@@ -237,7 +237,7 @@
                 <select name="categorie" id="escort_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                   <option hidden value=""> -- </option>
                   @foreach ($escort_categories as $categorie)
-                    <option value="{{ $categorie['id'] }}" @if($user->categorie['id'] == $categorie->id) selected @endif>{{ $categorie['nom'] }}</option>
+                    <option value={{ $categorie['id'] }} @if($user->categorie ?  $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}</option>
                   @endforeach
                 </select>
               </div>
@@ -247,6 +247,15 @@
                   <option hidden value=""> -- </option>
                   @foreach ($pratiquesSexuelles as $pratique)
                     <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="mb-4 col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Oriantation sexuels</label>
+                <select name="oriantation_sexuelles" id="oriantation_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option hidden value=""> -- </option>
+                  @foreach ($oriantationSexuelles as $oriantation)
+                    <option value="{{ $oriantation }}" @if($user->oriantation_sexuelles == $oriantation) selected @endif>{{ $oriantation }}</option>
                   @endforeach
                 </select>
               </div>
@@ -565,27 +574,6 @@
           </div>
         </section>
 
-        {{-- Section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
       </div>
 
       {{-- Pour l'escort --}}
@@ -625,7 +613,53 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
+            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                  </div>
+              </div>
+            </div>
           </div>
 
           {{-- A propos de moi --}}
@@ -784,30 +818,55 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span>
-          </div>
-        </section>
-
-        {{-- Section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span> --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
                   </div>
-                </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                  </div>
               </div>
             </div>
           </div>
-        </section>
+        </section>        
 
       </div>
 
@@ -829,7 +888,53 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
+            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                  </div>
+              </div>
+            </div>
           </div>
 
           {{-- Description --}}
@@ -937,32 +1042,78 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span>
-          </div>
-        </section>
-
-        {{-- section discussion --}}
-        <section x-show="pageSection=='discussion'">
-          <div class="py-5">
-            <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
-            <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card">
-                  {{-- <div class="card-header">Chat avec Jhone</div> --}}
-                  <div class="card-body">
-                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span> --}}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
                   </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                  </div>
+              </div>
+              <div class="grid gap-4">
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                  </div>
+                  <div>
+                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </section>        
+
+      </div>
+
+      {{-- Section discussion --}}
+      <section x-show="pageSection=='discussion'">
+        <div class="py-5">
+          <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
+          <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
+        </div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card">
+                {{-- <div class="card-header">Chat avec Jhone</div> --}}
+                <div class="card-body">
+                  {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                  <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
 
     </div>
 

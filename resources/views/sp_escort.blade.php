@@ -55,7 +55,7 @@
       </div>
 
       <div class="min-w-3/4 px-5 py-5">
-        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="#">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="#">{{Str::ucfirst($escort->canton['nom'] ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->prenom)}}</div>
+        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="{{route('escortes').'?selectedGenre='.$escort->genre}}">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="{{route('escortes').'?selectedCanton='.$escort->canton['id']}}">{{Str::ucfirst($escort->canton['nom'] ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->prenom)}}</div>
 
         <div>
 
@@ -86,11 +86,57 @@
             <div class="flex items-center justify-between gap-5 py-5">
 
               <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-              <div class="flex-1 h-0.5 bg-green-gs"></div>
+              <div class="flex-1 h-0.5 bg-green-gs"></div> 
 
             </div>
             <div class="flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
+              {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                    </div>
+                </div>
+                <div class="grid gap-4">
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                    </div>
+                    <div>
+                        <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                    </div>
+                </div>
+              </div>
             </div>
 
             {{-- A propos de moi --}}

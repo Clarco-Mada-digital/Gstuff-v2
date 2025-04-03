@@ -1,18 +1,18 @@
 @extends('layouts.base')
 
   @section('pageTitle')
-    {{ $glossaire[0]['title']['rendered'] }}
+    {{ $glossaire->title }}
   @endsection
   
   @section('content')
 
   <div class="w-full min-h-72 flex items-center justify-center" style="background: url('../images/girl_deco_sp.jpg') center center /cover">
-    <h1 class="font-dm-serif font-bold text-white text-6xl text-center">{{ $glossaire[0]['title']['rendered'] }}</h1>
+    <h1 class="font-dm-serif font-bold text-white text-6xl text-center">{{ $glossaire->title }}</h1>
   </div>
 
   <div class="container mx-auto px-60 flex justify-center gap-5 my-20">
     <div class="w-2/3 text-justify">
-      {!! $glossaire[0]['content']['rendered'] !!}
+      {!! $glossaire->content !!}
     </div>
     <div class="w-1/3">
       <div id="accordion-collapse text-wrap w-full" data-accordion="collapse">
@@ -27,8 +27,8 @@
         <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
           <div class="p-5 border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
             <ul class="mb-2 text-gray-500 flex flex-col justify-center gap-3 dark:text-gray-400">
-              @foreach ($apiData['glossaires'] as $glossaire)
-                  <li> <a href="{{ route('glossaire', $glossaire['id']) }}"> {{ $glossaire['title']['rendered'] }} </a> </li>
+              @foreach ($glossaires as $glossaire)
+                  <li> <a href="{{ route('glossaires.show', $glossaire->slug) }}"> {{ $glossaire->title }} </a> </li>
               @endforeach
             </ul>
           </div>

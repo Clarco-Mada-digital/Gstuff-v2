@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\ArticleCategoryController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
@@ -10,12 +13,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EscortController;
 use App\Http\Controllers\MessengerController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SalonController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,8 +50,8 @@ Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/glossaires', [GlossaireController::class, 'index'])->name('glossaires');
-Route::get('/glossaire/{id}', [GlossaireController::class, 'item'])->name('glossaire');
+Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
+Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->name('glossaires.show');
 Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
@@ -62,7 +63,22 @@ Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
-Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
+
+
+// Routes publiques articles
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/new-article', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/store-article', [ArticleController::class, 'store'])->name('articles.store');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
+Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
+
+Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+
+Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
+Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
+Route::post('/roles-destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
 
 
 //***************************************************************************************** */
@@ -70,6 +86,7 @@ Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('pro
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
     // Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
     // Route::get('/messages/{receiver_id}', [ChatController::class, 'getMessages'])->name('get.messages');
     // Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat
@@ -95,9 +112,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
 });
 
+// Routes admin protégées
+Route::middleware(['auth'])->prefix('admin')->group(function() {
+    // Route::resource('articles', AdminArticleController::class)->except(['show']);
+    // Route::resource('article-categories', ArticleCategoryController::class)->except(['show']);
+    // Route::resource('tags', TagController::class)->except(['show']);
+});
 
 
-Route::get('/approximiter1/{id}', [ApproximiterController::class, 'show'])->name('approximiter');
 Route::get('/approximiter/{id}', function ($id) {
     return view('components.approximate', ['userId' => $id]);
 })->name('approximiter');

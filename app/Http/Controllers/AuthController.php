@@ -41,7 +41,8 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput()->with('error', 'Problème de validation');
+            dd($validator);
         }
 
         $user = User::create([
@@ -162,8 +163,14 @@ class AuthController extends Controller
             $user['canton'] = Canton::find($user->canton);
 
             $escorts = User::where('profile_type', 'escorte')->get();
+            dd($user);
 
-            return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
+            if ($user->profile_type == 'admin') {
+                return view('admin.dashboard', ['user'=>$user]);
+            }else{
+                return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
+            }
+
         }
         return redirect()->route('home');
     }

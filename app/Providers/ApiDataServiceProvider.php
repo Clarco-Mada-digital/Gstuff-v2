@@ -12,6 +12,7 @@ use App\Models\Categorie;
 use App\Models\Canton;
 use App\Models\Ville;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class ApiDataServiceProvider extends ServiceProvider
 {
@@ -48,18 +49,25 @@ class ApiDataServiceProvider extends ServiceProvider
       });
 
       // Cantons
-      $cantons = Cache::remember('cantons', 3600, function(){
-        $response = Canton::all();
-        return $response;
-      });
-
-      $escorts = User::where('profile_type', 'escorte')->get();
-      $escort_categories = Categorie::where('type', 'escort')->get();
+      $cantons = Cache::remember('cantons', 3600, function() {
+        try {
+            return Canton::all();
+        } catch (\Exception $e) {
+            // Gérer l'exception si la base de données n'est pas accessible
+            Log::error('Erreur lors de la récupération des cantons : ' . $e->getMessage());
+            return []; // Retourner un tableau vide ou une valeur par défaut
+        }
+    });      
 
       // Villes
       $villes = Cache::remember('cantons', 3600, function(){
-        $response = Ville::all();
-        return $response;
+        try {
+          return Ville::all();
+        } catch (\Exception $e) {
+          // Gérer l'exception si la base de données n'est pas accessible
+          Log::error('Erreur lors de la récupération des cantons : ' . $e->getMessage());
+          return []; // Retourner un tableau vide ou une valeur par défaut
+        }
       });
 
       // cgv content
@@ -70,8 +78,6 @@ class ApiDataServiceProvider extends ServiceProvider
 
       // Organiser les données dans un tableau associatif
       $apiData = [
-        'escorts' => $escorts,
-        'escort_categories' => $escort_categories,
         'glossaires' => $glossaires,
         'cantons' => $cantons,
         'villes' => $villes,

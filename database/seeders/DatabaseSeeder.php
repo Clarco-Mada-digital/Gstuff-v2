@@ -24,7 +24,9 @@ class DatabaseSeeder extends Seeder
             VilleSeeder::class,  // Puis exécute VilleSeeder
             CategorieSeeder::class,  // Puis exécute CategorieSeeder
             ServiceSeeder::class,  // Puis exécute ServiceSeeder
+            RolePermissionSeeder::class,  // Puis exécute RolePermissionSeeder
             UserSeeder::class,  // Puis exécute UserSeeder
+            ArticleCategorySeeder::class, //Pour exécute ArticleSeeder
         ]);
     }
 

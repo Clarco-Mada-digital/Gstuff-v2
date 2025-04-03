@@ -19,101 +19,110 @@ class ProfileCompletionController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $user['canton'] = Canton::where('id', $user->canton)->first() ?? "";
-        $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? "";
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user['canton'] = Canton::where('id', $user->canton)->first() ?? '';
+            $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? null;
 
-        $serviceIds = explode(',', $user->service);
-        $user['service'] = Service::whereIn('id', $serviceIds)->get();
+            $serviceIds = explode(',', $user->service);
+            $user['service'] = Service::whereIn('id', $serviceIds)->get();
 
-        // $user['service'] = $userService;
+            // $user['service'] = $userService;
 
-         // Les escortes
-        $escorts = User::where('profile_type', 'escorte')->get();
-        foreach ($escorts as $escort) {
-            $escort['canton'] = Canton::find($escort->canton);
-            $escort['ville'] = Ville::find($escort->ville);
-            $escort['categorie'] = Categorie::find($escort->categorie);
-            $escort['service'] = Service::find($escort->service);
-            // dd($escort->service);
+            // Les escortes
+            $escorts = User::where('profile_type', 'escorte')->get();
+            foreach ($escorts as $escort) {
+                $escort['canton'] = Canton::find($escort->canton);
+                $escort['ville'] = Ville::find($escort->ville);
+                $escort['categorie'] = Categorie::find($escort->categorie);
+                $escort['service'] = Service::find($escort->service);
+                // dd($escort->service);
+            }
+            $cantons = Canton::all(); // Example: Fetch all cantons
+            $villes = Ville::all();   // Example: Fetch all villes
+
+            // You might need to fetch other dropdown data similarly
+            $escort_categories = Categorie::where('type', 'escort')->get();
+            $salon_categories = Categorie::where('type', 'salon')->get();
+            $services = Service::all();
+            $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
+            $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
+            $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
+            $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
+            $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
+            $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
+            $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
+            $poitrines = ['Naturelle', 'Améliorée'];
+            $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
+            $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
+            $tatouages = ['Avec tattos', 'Sans tatto'];
+            $mobilites = ['Je reçois', 'Je me déplace'];
+            $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
+            $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
+            $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+            $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
+
+
+            // Récupérer les favoris de type "escort"
+            $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
+            foreach ($escortFavorites as $escort) {
+                $escort['canton'] = Canton::find($escort->canton);
+                $escort['ville'] = Ville::find($escort->ville);
+                $escort['categorie'] = Categorie::find($escort->categorie);
+                $escort['service'] = Service::find($escort->service);
+                // dd($escort->service);
+            }
+            // Récupérer les favoris de type "salon"
+            $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
+            foreach ($salonFavorites as $escort) {
+                $escort['canton'] = Canton::find($escort->canton);
+                $escort['ville'] = Ville::find($escort->ville);
+                $escort['categorie'] = Categorie::find($escort->categorie);
+                $escort['service'] = Service::find($escort->service);
+                // dd($escort->service);
+            }
+            
+            $messageNoSeen = Message::where('to_id', Auth::user()->id)
+                ->where('seen', 0)->count();   
+                
+            if ($user->profile_type == 'admin') {
+                return view('admin.dashboard', ['user'=>$user]);
+            }else{
+                return view('auth.profile', [
+                    'genres' => $genres,
+                    'escorts' => $escorts,
+                    'user' => $user,
+                    'cantons' => $cantons,
+                    'villes' => $villes,
+                    'escort_categories' => $escort_categories,
+                    'salon_categories' => $salon_categories,
+                    'services' => $services,
+                    'pratiquesSexuelles' => $pratiquesSexuelles,
+                    'oriantationSexuelles' => $oriantationSexuelles,
+                    'origines' => $origines,
+                    'couleursYeux' => $couleursYeux,
+                    'couleursCheveux' => $couleursCheveux,
+                    'mensurations' => $mensurations,
+                    'poitrines' => $poitrines,
+                    'taillesPoitrine' => $taillesPoitrine,
+                    'pubis' => $pubis,
+                    'silhouette' => $silhouette,
+                    'tatouages' => $tatouages,
+                    'mobilites' => $mobilites,
+                    'tarifs' => $tarifs,
+                    'paiements' => $paiements,
+                    'langues' => $langues,
+                    'nombre_filles' => $nombreFilles,
+                    'escortFavorites' => $escortFavorites,
+                    'salonFavorites' => $salonFavorites,
+                    'messageNoSeen' => $messageNoSeen,
+                ]);            
+            }
+        }else{
+            return redirect()->route('home');
         }
-        $cantons = Canton::all(); // Example: Fetch all cantons
-        $villes = Ville::all();   // Example: Fetch all villes
 
-        // You might need to fetch other dropdown data similarly
-        $escort_categories = Categorie::where('type', 'escort')->get();
-        $salon_categories = Categorie::where('type', 'salon')->get();
-        $services = Service::all();
-        $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
-        $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
-        $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
-        $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
-        $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
-        $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
-        $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
-        $poitrines = ['Naturelle', 'Améliorée'];
-        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
-        $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
-        $tatouages = ['Avec tattos', 'Sans tatto'];
-        $mobilites = ['Je reçois', 'Je me déplace'];
-        $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
-        $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
-        $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
-        $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
-
-
-        // Récupérer les favoris de type "escort"
-        $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
-        foreach ($escortFavorites as $escort) {
-            $escort['canton'] = Canton::find($escort->canton);
-            $escort['ville'] = Ville::find($escort->ville);
-            $escort['categorie'] = Categorie::find($escort->categorie);
-            $escort['service'] = Service::find($escort->service);
-            // dd($escort->service);
-        }
-        // Récupérer les favoris de type "salon"
-        $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
-        foreach ($salonFavorites as $escort) {
-            $escort['canton'] = Canton::find($escort->canton);
-            $escort['ville'] = Ville::find($escort->ville);
-            $escort['categorie'] = Categorie::find($escort->categorie);
-            $escort['service'] = Service::find($escort->service);
-            // dd($escort->service);
-        }
-        
-        $messageNoSeen = Message::where('to_id', Auth::user()->id)
-            ->where('seen', 0)->count();    
-
-        return view('auth.profile', [
-            'genres' => $genres,
-            'escorts' => $escorts,
-            'user' => $user,
-            'cantons' => $cantons,
-            'villes' => $villes,
-            'escort_categories' => $escort_categories,
-            'salon_categories' => $salon_categories,
-            'services' => $services,
-            'pratiquesSexuelles' => $pratiquesSexuelles,
-            'oriantationSexuelles' => $oriantationSexuelles,
-            'origines' => $origines,
-            'couleursYeux' => $couleursYeux,
-            'couleursCheveux' => $couleursCheveux,
-            'mensurations' => $mensurations,
-            'poitrines' => $poitrines,
-            'taillesPoitrine' => $taillesPoitrine,
-            'pubis' => $pubis,
-            'silhouette' => $silhouette,
-            'tatouages' => $tatouages,
-            'mobilites' => $mobilites,
-            'tarifs' => $tarifs,
-            'paiements' => $paiements,
-            'langues' => $langues,
-            'nombre_filles' => $nombreFilles,
-            'escortFavorites' => $escortFavorites,
-            'salonFavorites' => $salonFavorites,
-            'messageNoSeen' => $messageNoSeen,
-        ]);
     }
     /**
      * Affiche les données nécessaires pour les selects du formulaire.
@@ -137,7 +146,7 @@ class ProfileCompletionController extends Controller
         $tatouages = ['Avec tattos', 'Sans tatto'];
         $mobilites = ['Je reçois', 'Je me déplace'];
         $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
-        $nombreFilles = ['1 à 5', '5 à 15', 'plus 15'];
+        $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
         $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
         $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
@@ -276,10 +285,11 @@ class ProfileCompletionController extends Controller
             'telephone' => 'nullable|string|max:20',
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
-            'canton' => 'nullable|string|max:255',
-            'ville' => 'nullable|string|max:255',
-            'categorie' => 'nullable|string|max:255',
-            'service' => 'nullable|string|max:255',
+            'canton' => 'nullable|numeric',
+            'ville' => 'nullable',
+            'categorie' => 'nullable',
+            'service' => 'nullable',
+            'oriantation_sexuelles' => 'nullable|string|max:255',
             'recrutement' => 'nullable|string|max:255',
             'nombre_filles' => 'nullable|string|max:255',
             'pratique_sexuelles' => 'nullable|string|max:255',

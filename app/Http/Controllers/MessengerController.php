@@ -28,6 +28,8 @@ class MessengerController extends Controller
         $getRecords = null;
         $input = $request['query'];
         $records = User::where('id', '!=', Auth::user()->id)
+            ->where('profile_type', '=', 'escorte')
+            ->orWhere('profile_type', '=', 'salon')
             ->where('pseudo', 'LIKE', "%{$input}%")
             ->orWhere('prenom', 'LIKE', "%{$input}%")
             ->orWhere('nom_salon', 'LIKE', "%{$input}%")

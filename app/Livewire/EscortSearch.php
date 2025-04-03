@@ -25,6 +25,8 @@ class EscortSearch extends Component
   public array $selectedCategories = [];
   #[Url]
   public array $selectedServices = [];
+
+  public array $autreFiltres = [];
   public $categories;
   public $cantons;
   public $availableVilles;
@@ -37,6 +39,7 @@ class EscortSearch extends Component
     $this->selectedGenre = '';
     $this->selectedCategories = [];
     $this->selectedServices = [];
+    $this->autreFiltres = [];
     $this->resetPage();
     $this->render();
   }
@@ -76,14 +79,21 @@ class EscortSearch extends Component
         if ($this->selectedCategories){
           $query->where(function ($q) {
             foreach($this->selectedCategories as $categorie){
-              $q->orwhere('categorie', 'LIKE', $categorie);
+              $q->orwhere('categorie', 'LIKE', '%'.$categorie.'%');
             }
           });
         }
         if ($this->selectedServices){
           $query->where(function ($q) {
             foreach($this->selectedServices as $service){
-              $q->where('service', 'LIKE', $service);
+              $q->where('service', 'LIKE', '%'.$service.'%');
+            }
+          });
+        }
+        if ($this->autreFiltres){
+          $query->where(function ($q) {
+            foreach($this->autreFiltres as $key => $value){
+              $q->where($key, 'LIKE', '%'.$value.'%');
             }
           });
         }
