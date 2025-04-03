@@ -12,7 +12,7 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view articles')->only('index', 'show');
+        // $this->middleware('permission:view articles')->only('index', 'show');
         $this->middleware('permission:create articles')->only('create', 'store');
         $this->middleware('permission:edit articles')->only('edit', 'update');
         $this->middleware('permission:delete articles')->only('destroy');
@@ -23,12 +23,8 @@ class ArticleController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $articles = Article::with(['category', 'tags'])
-                         ->latest()
-                         ->paginate(10);
-        
-        return view('articles.index', compact('articles'));
+    {       
+        return view('articles.index');
     }
 
     /**

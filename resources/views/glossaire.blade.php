@@ -16,10 +16,10 @@
   </div>
 
   <div class="lg:container mx-auto px-5 lg:p-10">
-    @foreach ($apiData['glossaires'] as $glossaire)
+    @foreach ($glossaires as $glossaire)
     <div class="flex flex-col justify-center gap-1 my-5 text-sm xl:text-base">
-      <h3 class="text-2xl xl:text-4xl font-dm-serif text-green-gs font-bold">{{ $glossaire['title']['rendered'] }}</h3>
-      <p>{!! $glossaire['excerpt']['rendered'] !!}</p>
+      <h3 class="text-2xl xl:text-4xl font-dm-serif text-green-gs font-bold">{{ $glossaire->title }}</h3>
+      {!! $glossaire->excerpt !!}
     </div>
     @endforeach
   </div>

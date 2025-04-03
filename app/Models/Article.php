@@ -43,9 +43,9 @@ class Article extends Model
     }
     
     // Scope pour les articles publiés
-    // public function scopePublished($query)
-    // {
-    //     return $query->where('is_published', true)
-    //                 ->where('published_at', '<=', now());
-    // }
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true)
+                    ->where('published_at', '<=', now());
+    }
 }
