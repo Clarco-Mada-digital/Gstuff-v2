@@ -72,14 +72,39 @@
 
         <!-- Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center space-x-4 mb-4">
-              <select x-model="filterStatus" class="border-gray-300 rounded-md shadow-sm">
-                  <option value="">Tous les statuts</option>
-                  <option value="published">Publié</option>
-                  <option value="draft">Brouillon</option>
-              </select>
-              <input type="text" x-model="searchQuery" placeholder="Rechercher..." class="border-gray-300 rounded-md shadow-sm">
+
+            <div class="flex sm:flex-row items-start items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
+                <!-- Filtre par statut -->
+                <div class="relative w-full sm:w-48">
+                    <select x-model="filters.status" 
+                            class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md shadow-sm">
+                        <option value="">Tous les statuts</option>
+                        <option value='true'>Publié</option>
+                        <option value='false'>Brouillon</option>
+                        {{-- <option value="archived">Archivé</option> --}}
+                    </select>
+                </div>
+                
+                <!-- Barre de recherche -->
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input x-model="filters.search" 
+                           type="text" 
+                           class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                           placeholder="Rechercher articles...">
+                </div>
+                
+                <!-- Bouton reset -->
+                <button @click="resetFilters()" 
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition">
+                    Réinitialiser
+                </button>
             </div>
+
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white rounded-lg shadow p-6">
@@ -121,11 +146,14 @@
             <!-- Derniers articles -->
             <div class="bg-white shadow rounded-lg overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-lg font-semibold text-gray-900">Derniers articles</h2>
+                    <div class="flex items-center gap-3">
+                        <h2 @click="sort.field = 'title'; sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'"  class="text-lg font-semibold text-gray-900">Derniers articles</h2>
+                        <span x-show="sort.field === 'title'" x-text="sort.direction === 'asc' ? '↑' : '↓'" class="ml-1"></span>
+                    </div>
                     <a href="{{ route('articles.create') }}" class="text-sm text-blue-600 hover:text-blue-800">+ Nouvel article</a>
                 </div>
                 <div class="divide-y divide-gray-200">
-                    <template x-for="article in recentArticles" :key="article.id">
+                    <template x-for="article in filteredArticles()" :key="article.id">
                         <div class="px-6 py-4 hover:bg-gray-50 transition">
                             <div class="flex items-center justify-between">
                                 <div>
@@ -145,28 +173,75 @@
                             </div>
                         </div>
                     </template>
+                    <!-- Message quand aucun résultat -->
+                    <div x-show="filteredArticles().length === 0" class="px-6 py-4 text-center text-gray-500">
+                        Aucun article ne correspond à vos critères de recherche.
+                    </div>
                 </div>
             </div>
 
             <!-- Activité récente -->
+            <div class="px-6 py-2 bg-gray-50 border-b">
+                <select x-model="activityFilter" class="text-sm border-gray-300 rounded">
+                    <option value="">Toutes les activités</option>
+                    <option value="article">Articles</option>
+                    <option value="user">Utilisateurs</option>
+                    <option value="system">Système</option>
+                </select>
+            </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white shadow rounded-lg overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                         <h2 class="text-lg font-semibold text-gray-900">Activité récente</h2>
+                        <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir tout</a>
                     </div>
                     <div class="divide-y divide-gray-200">
+                        <!-- Exemple d'activités - À remplacer par vos données réelles -->
                         <template x-for="activity in recentActivity" :key="activity.id">
                             <div class="px-6 py-4">
                                 <div class="flex items-start">
-                                    <img class="h-10 w-10 rounded-full mr-3" :src="activity.user.avatar" :alt="activity.user.name">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-900" x-text="activity.user.name"></p>
+                                    <img class="h-10 w-10 rounded-full mr-3" 
+                                         :src="activity.causer.avatar" 
+                                         :alt="activity.causer.name">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm font-medium text-gray-900 truncate" x-text="activity.causer.name"></p>
+                                                <span x-show="activity.type" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
+                                                    'bg-green-100 text-green-800': activity.type.includes('created'),
+                                                    'bg-blue-100 text-blue-800': activity.type.includes('updated'),
+                                                    'bg-yellow-100 text-yellow-800': activity.type.includes('deleted')
+                                                    }">
+                                                    <span class="flex-shrink-0" x-html="getActivityIcon(activity.type)"></span>
+                                                    <span x-text="activity.type.split('_')[0]"></span>
+                                                </span>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-2" x-text="formatTimeAgo(activity.created_at)"></span>
+                                        </div>
                                         <p class="text-sm text-gray-500" x-text="activity.description"></p>
-                                        <p class="text-xs text-gray-400 mt-1" x-text="formatTimeAgo(activity.created_at)"></p>
+                                        
+                                        <!-- Détails supplémentaires selon le type d'activité -->
+                                        <template x-if="activity.type === 'article_created'">
+                                            <a :href="`/admin/articles/${activity.item.id}/edit`" 
+                                               class="mt-1 text-sm text-blue-600 hover:text-blue-800 block truncate"
+                                               x-text="`Article: ${activity.item.title}`"></a>
+                                        </template>
+                                        
+                                        <template x-if="activity.type === 'user_updated'">
+                                            <div class="mt-1 text-xs text-gray-500">
+                                                <span x-text="`Champs modifiés: ${activity.changed_fields.join(', ')}`"></span>
+                                            </div>
+                                        </template>
+                                        
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
                         </template>
+                        
+                        <!-- État vide -->
+                        <div x-show="recentActivity.length === 0" class="px-6 py-4 text-center text-gray-500">
+                            Aucune activité récente à afficher
+                        </div>
                     </div>
                 </div>
 

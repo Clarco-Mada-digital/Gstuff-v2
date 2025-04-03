@@ -39,12 +39,22 @@
 <script>
 function dashboard() {
     return {
+        currentPage: 1,
+        perPage: 5,
         searchQuery: '',
         filterStatus: '',
         notifications: [],
         unreadCount: 0,
         sidebarOpen: window.innerWidth >= 768,
         currentPageTitle: 'Tableau de bord',
+        sort: {
+            field: 'created_at',
+            direction: 'desc'
+        },
+        filters: {
+            status: '',
+            search: ''
+        },
         user: {
             pseudo: '{{ auth()->user()->pseudo }}',
             email: '{{ auth()->user()->email }}',
@@ -60,6 +70,44 @@ function dashboard() {
             { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
+        recentActivity:[],
+        // recentActivity: [
+        //     {
+        //         id: 1,
+        //         type: 'article_created',
+        //         description: 'a créé un nouvel article',
+        //         created_at: new Date(Date.now() - 3600000).toISOString(),
+        //         user: {
+        //             name: 'Jean Dupont',
+        //             avatar: 'https://ui-avatars.com/api/?name=Jean+Dupont&background=random'
+        //         },
+        //         item: {
+        //             id: 42,
+        //             title: 'Comment utiliser le nouveau dashboard'
+        //         }
+        //     },
+        //     {
+        //         id: 2,
+        //         type: 'user_updated',
+        //         description: 'a mis à jour un utilisateur',
+        //         created_at: new Date(Date.now() - 86400000).toISOString(),
+        //         user: {
+        //             name: 'Marie Martin',
+        //             avatar: 'https://ui-avatars.com/api/?name=Marie+Martin&background=random'
+        //         },
+        //         changed_fields: ['email', 'rôle']
+        //     },
+        //     {
+        //         id: 3,
+        //         type: 'settings_updated',
+        //         description: 'a modifié les paramètres du site',
+        //         created_at: new Date(Date.now() - 172800000).toISOString(),
+        //         user: {
+        //             name: 'Admin Système',
+        //             avatar: 'https://ui-avatars.com/api/?name=Admin+System&background=random'
+        //         }
+        //     }
+        // ],
         stats: {
             articles: 0,
             users: 0,
@@ -67,13 +115,67 @@ function dashboard() {
             views: 0
         },
         recentArticles: [],
-        recentActivity: [],
         chart: null,
+
+        // Fonction de filtrage
+        filteredArticles() {
+            return this.recentArticles.filter(article => {
+                // Filtre par statut
+                const statusMatch = this.filters.status === '' || 
+                                  article.is_published == this.filters.status;
+                
+                // Filtre par recherche
+                const searchMatch = this.filters.search === '' ||
+                                  article.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                                  article.excerpt.toLowerCase().includes(this.filters.search.toLowerCase());
+                
+                return statusMatch && searchMatch;
+            });
+        },
+        
+        // Réinitialisation des filtres
+        resetFilters() {
+            this.filters = {
+                status: '',
+                search: ''
+            };
+        },
+        // Méthode de tri
+        sortedArticles() {
+            return [...this.filteredArticles()].sort((a, b) => {
+                let modifier = 1;
+                if (this.sort.direction === 'desc') modifier = -1;
+                
+                if (a[this.sort.field] < b[this.sort.field]) return -1 * modifier;
+                if (a[this.sort.field] > b[this.sort.field]) return 1 * modifier;
+                return 0;
+            });
+        },
+        getActivityIcon(type) {
+            const icons = {
+                'article': '📝',
+                'user': '👤',
+                'settings': '⚙️',
+                'system': '🖥️'
+            };
+            const prefix = type.split('_')[0];
+            return icons[prefix] || '🔔';
+        },
 
         init() {
             this.fetchStats();
             this.fetchRecentArticles();
             this.fetchRecentActivity();
+
+            // Restaurer les filtres depuis localStorage si disponible
+            if (localStorage.getItem('dashboardFilters')) {
+                this.filters = JSON.parse(localStorage.getItem('dashboardFilters'));
+            }
+
+            // Sauvegarder les filtres lorsqu'ils changent
+            this.$watch('filters', (value) => {
+                localStorage.setItem('dashboardFilters', JSON.stringify(value));
+            }, { deep: true });
             
             // Initialiser le graphique après le rendu
             this.$nextTick(() => {
@@ -191,12 +293,19 @@ function dashboard() {
             return this.formatDate(dateString);
         },
 
-        paginatedItems() {
-            return this.items.slice(
-                (this.currentPage - 1) * this.perPage,
-                this.currentPage * this.perPage
-            );
-        }
+        // Méthode paginée
+        paginatedArticles() {
+            const start = (this.currentPage - 1) * this.perPage;
+            const end = start + this.perPage;
+            return this.filteredArticles().slice(start, end);
+        },
+        // Nombre total de pages
+        totalPages() {
+            return Math.ceil(this.filteredArticles().length / this.perPage);
+        },
+
+
+
     }
 };
 

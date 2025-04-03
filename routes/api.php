@@ -52,6 +52,22 @@ Route::prefix('admin/api')->group(function () {
 
     Route::get('/activity', function () {
         // Implémentez votre logique d'activité récente ici
-        return [];
+        return \App\Models\ActivityLog::with('causer')
+        ->latest()
+        ->take(10)
+        ->get()
+        ->map(function ($log) {
+            return [
+                'id' => $log->id,
+                'type' => $log->type,
+                'description' => $log->description,
+                'created_at' => $log->created_at,
+                'causer' => [
+                    'name' => $log->causer->pseudo,
+                    'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($log->causer->pseudo)
+                ],
+                'item' => $log->data // Données supplémentaires
+            ];
+        });
     });
 });
