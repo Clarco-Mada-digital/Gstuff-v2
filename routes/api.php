@@ -60,6 +60,8 @@ Route::prefix('admin/api')->group(function () {
             return [
                 'id' => $log->id,
                 'type' => $log->type,
+                'event' => $log->event,
+                'subject_type' => $log->subject_type,
                 'description' => $log->description,
                 'created_at' => $log->created_at,
                 'causer' => [

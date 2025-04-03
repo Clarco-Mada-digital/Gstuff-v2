@@ -32,7 +32,20 @@ trait LogsActivity
             'causer_id' => auth()->id(),
             'properties' => $this->getActivityProperties($event),
             'description' => $this->getActivityDescription($event),
+            // 'type' => $this->getActivityType($event),
         ]);
+    }
+
+    protected function getActivityType(string $event): string
+    {
+        $modelName = class_basename($this);
+        
+        return match ($event) {
+            'created' => "{$modelName}_created",
+            'updated' => "{$modelName}_updated",
+            'deleted' => "{$modelName}_deleted",
+            default => "{$modelName}_activity",
+        };
     }
 
     protected function getActivityDescription(string $event): string

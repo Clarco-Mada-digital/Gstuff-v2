@@ -2,7 +2,7 @@
 use App\Models\User;
 @endphp
 
-<div x-data="{ open: @entangle('open') }" class="fixed bottom-10 right-10" x-cloak>
+<div x-data="{ open: @entangle('open') }" class="fixed bottom-10 right-10 z-40" x-cloak>
     @auth
     <div x-show="!open">
         <button wire:click="toggleChat" class="bg-blue-500 text-white p-3 rounded-full shadow-lg cursor-pointer">

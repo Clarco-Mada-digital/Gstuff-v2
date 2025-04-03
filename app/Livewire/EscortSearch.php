@@ -79,7 +79,7 @@ class EscortSearch extends Component
         if ($this->selectedCategories){
           $query->where(function ($q) {
             foreach($this->selectedCategories as $categorie){
-              $q->orwhere('categorie', 'LIKE', '%'.$categorie.'%');
+              $q->where('categorie', 'LIKE', '%'.$categorie.'%');
             }
           });
         }

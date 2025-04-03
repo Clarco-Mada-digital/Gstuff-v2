@@ -79,8 +79,8 @@
                     <select x-model="filters.status" 
                             class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md shadow-sm">
                         <option value="">Tous les statuts</option>
-                        <option value='true'>Publié</option>
-                        <option value='false'>Brouillon</option>
+                        <option value='published'>Publié</option>
+                        <option value='unpublished'>Brouillon</option>
                         {{-- <option value="archived">Archivé</option> --}}
                     </select>
                 </div>
@@ -130,13 +130,11 @@
                             <p class="text-2xl font-semibold" x-text="stats.users"></p>
                         </div>
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-                            </svg>
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m4 8v-6.4q.625.2 1.225.425t1.175.525q.75.375 1.175 1.088T20 17.2v.8q0 .825-.587 1.413T18 20zm-6-3.5v-3.35q.5-.075 1-.112T12 13t1 .038t1 .112v3.35zM4 18v-.8q0-.85.425-1.562T5.6 14.55q.575-.3 1.175-.525T8 13.6V20H6q-.825 0-1.412-.587T4 18"/></svg>
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="{{ route('articles.index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
                     </div>
                 </div>
                 
@@ -147,7 +145,7 @@
             <div class="bg-white shadow rounded-lg overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <div class="flex items-center gap-3">
-                        <h2 @click="sort.field = 'title'; sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'"  class="text-lg font-semibold text-gray-900">Derniers articles</h2>
+                        <h2 @click="sort.field = 'title'; sort.direction = sort.direction === 'asc' ? 'desc' : 'asc'; sortedArticles()"  class="text-lg font-semibold text-gray-900">Derniers articles</h2>
                         <span x-show="sort.field === 'title'" x-text="sort.direction === 'asc' ? '↑' : '↓'" class="ml-1"></span>
                     </div>
                     <a href="{{ route('articles.create') }}" class="text-sm text-blue-600 hover:text-blue-800">+ Nouvel article</a>
@@ -157,7 +155,7 @@
                         <div class="px-6 py-4 hover:bg-gray-50 transition">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <a :href="`/admin/articles/${article.id}/edit`" class="font-medium text-gray-900 hover:text-blue-600" x-text="article.title"></a>
+                                    <a :href="`{{route('articles.index')}}/${article.id}`" class="font-medium text-gray-900 hover:text-blue-600" x-text="article.title"></a>
                                     <p class="text-sm text-gray-500 mt-1" x-text="article.excerpt"></p>
                                 </div>
                                 <div class="flex items-center space-x-2">
@@ -207,13 +205,13 @@
                                         <div class="flex justify-between">
                                             <div class="flex items-center gap-2">
                                                 <p class="text-sm font-medium text-gray-900 truncate" x-text="activity.causer.name"></p>
-                                                <span x-show="activity.type" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
-                                                    'bg-green-100 text-green-800': activity.type.includes('created'),
-                                                    'bg-blue-100 text-blue-800': activity.type.includes('updated'),
-                                                    'bg-yellow-100 text-yellow-800': activity.type.includes('deleted')
+                                                <span  class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
+                                                    'bg-green-100 text-green-800': activity.event.includes('created'),
+                                                    'bg-blue-100 text-blue-800': activity.event.includes('updated'),
+                                                    'bg-yellow-100 text-yellow-800': activity.event.includes('deleted')
                                                     }">
-                                                    <span class="flex-shrink-0" x-html="getActivityIcon(activity.type)"></span>
-                                                    <span x-text="activity.type.split('_')[0]"></span>
+                                                    <span class="flex-shrink-0" x-html="getActivityIcon(activity.subject_type)"></span>
+                                                    <span x-text="activity.event"></span>
                                                 </span>
                                             </div>
                                             <span class="text-xs text-gray-500 ml-2" x-text="formatTimeAgo(activity.created_at)"></span>

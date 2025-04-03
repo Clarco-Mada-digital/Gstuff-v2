@@ -43,6 +43,7 @@ function dashboard() {
         perPage: 5,
         searchQuery: '',
         filterStatus: '',
+        activityFilter: '',
         notifications: [],
         unreadCount: 0,
         sidebarOpen: window.innerWidth >= 768,
@@ -71,43 +72,6 @@ function dashboard() {
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
         recentActivity:[],
-        // recentActivity: [
-        //     {
-        //         id: 1,
-        //         type: 'article_created',
-        //         description: 'a créé un nouvel article',
-        //         created_at: new Date(Date.now() - 3600000).toISOString(),
-        //         user: {
-        //             name: 'Jean Dupont',
-        //             avatar: 'https://ui-avatars.com/api/?name=Jean+Dupont&background=random'
-        //         },
-        //         item: {
-        //             id: 42,
-        //             title: 'Comment utiliser le nouveau dashboard'
-        //         }
-        //     },
-        //     {
-        //         id: 2,
-        //         type: 'user_updated',
-        //         description: 'a mis à jour un utilisateur',
-        //         created_at: new Date(Date.now() - 86400000).toISOString(),
-        //         user: {
-        //             name: 'Marie Martin',
-        //             avatar: 'https://ui-avatars.com/api/?name=Marie+Martin&background=random'
-        //         },
-        //         changed_fields: ['email', 'rôle']
-        //     },
-        //     {
-        //         id: 3,
-        //         type: 'settings_updated',
-        //         description: 'a modifié les paramètres du site',
-        //         created_at: new Date(Date.now() - 172800000).toISOString(),
-        //         user: {
-        //             name: 'Admin Système',
-        //             avatar: 'https://ui-avatars.com/api/?name=Admin+System&background=random'
-        //         }
-        //     }
-        // ],
         stats: {
             articles: 0,
             users: 0,
@@ -121,8 +85,12 @@ function dashboard() {
         filteredArticles() {
             return this.recentArticles.filter(article => {
                 // Filtre par statut
-                const statusMatch = this.filters.status === '' || 
-                                  article.is_published == this.filters.status;
+                let statusMatch = true;
+                if(this.filters.status === 'published') {
+                    statusMatch = article.is_published;
+                } else if(this.filters.status === 'unpublished') {
+                    statusMatch = !article.is_published;
+                }               
                 
                 // Filtre par recherche
                 const searchMatch = this.filters.search === '' ||
@@ -153,12 +121,12 @@ function dashboard() {
         },
         getActivityIcon(type) {
             const icons = {
-                'article': '📝',
-                'user': '👤',
-                'settings': '⚙️',
-                'system': '🖥️'
+                'Article': '📝',
+                'User': '👤',
+                'Settings': '⚙️',
+                'System': '🖥️'
             };
-            const prefix = type.split('_')[0];
+            const prefix = type.split("\\")[2];
             return icons[prefix] || '🔔';
         },
 
@@ -238,17 +206,24 @@ function dashboard() {
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Visiteurs',
+                        label: 'Invités',
                         data: [65, 59, 80, 81, 56, 72],
                         borderColor: '#3B82F6',
                         backgroundColor: 'rgba(59, 130, 246, 0.05)',
                         tension: 0.4,
                         fill: true
                     }, {
-                        label: 'Articles',
+                        label: 'Escortes',
                         data: [28, 48, 40, 19, 86, 27],
                         borderColor: '#10B981',
                         backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Salons',
+                        data: [18, 48, 77, 9, 100, 27],
+                        borderColor: '#FBBF24',
+                        backgroundColor: 'rgba(251, 191, 36, 0.05)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -303,8 +278,6 @@ function dashboard() {
         totalPages() {
             return Math.ceil(this.filteredArticles().length / this.perPage);
         },
-
-
 
     }
 };
