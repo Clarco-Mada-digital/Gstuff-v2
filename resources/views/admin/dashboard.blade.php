@@ -126,7 +126,7 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500">Utilisateur</p>
+                            <p class="text-gray-500">Utilisateurs</p>
                             <p class="text-2xl font-semibold" x-text="stats.users"></p>
                         </div>
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
