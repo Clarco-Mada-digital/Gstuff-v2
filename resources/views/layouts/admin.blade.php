@@ -30,7 +30,8 @@
         </nav>
     </div>
 
-        @yield('admin-content')
+    @yield('admin-content')
+    
 </div>
     <!-- Main Content -->
 
@@ -166,7 +167,9 @@ function dashboard() {
         },
 
         isActive(route) {
-            return window.location.pathname === route;
+            return route.includes(window.location.href);
+            // let pathname = window.location.pathname;
+            // return route.includes(pathname);
         },
 
         async fetchStats() {

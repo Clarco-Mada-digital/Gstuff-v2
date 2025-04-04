@@ -67,9 +67,9 @@ Route::get('/profile-completion-percentage', [ProfileCompletionController::class
 
 // Routes publiques articles
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/new-article', [ArticleController::class, 'create'])->name('articles.create');
-Route::post('/store-article', [ArticleController::class, 'store'])->name('articles.store');
-Route::post('/update-article/{article:id}', [ArticleController::class, 'update'])->name('articles.update');
+Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+Route::post('/articles/update/{article:id}', [ArticleController::class, 'update'])->name('articles.update');
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
 
