@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Service;
 use App\Models\User;
 use App\Notifications\ComplementationNotification;
+use App\Notifications\ProfileVerificationRequestNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -371,24 +372,51 @@ class ProfileCompletionController extends Controller
         return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la photo de profil.');
     }
 
-    public function updateVerification($id, Request $request)
+    public function updateVerification(Request $request)
     {
-        // Trouver l'utilisateur ou renvoyer une erreur 404 s'il n'existe pas
-        $user = User::findOrFail($id);
+
+        $user = auth()->user();
     
         // Valider les données de la requête
         $request->validate([
-            'profile_verifie' => 'required|string|in:verifier,non verifier,en cours', // Assurez-vous que la valeur est valide
+            'profile_verifie' => 'required|string|in:verifier,non verifier,en cours',
+            'image_verification' => ['sometimes', 'nullable', 'file', 'image', 'mimes:jpeg,png,jpg'],
         ]);
     
         // Mettre à jour uniquement le champ 'profile_verifie'
-        $user->update([
-            'profile_verifie' => $request->input('profile_verifie'),
-        ]);
-    
-        // Rediriger avec un message de succès
-        return redirect()->route('profile.index')
-            ->with('success', 'Profil mis à jour avec succès!');
+       
+
+        if ($request->hasFile('image_verification') && $request->file('image_verification')->isValid()) {
+            // Supprimer l'ancienne photo si elle existe
+            if ($user->avatar) {
+                Storage::delete('public/verificationImage/' . $user->avatar);
+            }
+
+            // Générer un nom unique pour la nouvelle photo
+            $filename = Str::slug($user->user_name ?? $user->nom_salon ?? $user->name) . '-' . time() . '.' . $request->file('image_verification')->extension();
+            // Stocker la photo
+            $request->file('image_verification')->storeAs('public/verificationImage', $filename);
+
+            // Mettre à jour la photo de profil de l'utilisateur
+            $user->update(['image_verification' => $filename]);
+            $user->update([
+                'profile_verifie' => $request->input('profile_verifie'),
+            ]);
+
+            // Envoyer une notification à l'administrateur
+            $admin = User::where('profile_type', 'admin')->first(); // Assurez-vous que l'admin existe
+            if ($admin) {
+                $admin->notify(new ProfileVerificationRequestNotification($user));
+            }
+        
+            // Rediriger avec un message de succès
+            return redirect()->route('profile.index')
+                ->with('success', 'Votre demande de vérification a été envoyée avec succès!');
+
+            }
+
+        
+
     }
     
 }

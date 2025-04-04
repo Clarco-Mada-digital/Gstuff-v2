@@ -71,6 +71,7 @@
             'lat',
             'lon',
             'profile_verifie', // Ajout du nouveau champ
+            'image_verification',
         ];
 
     /**

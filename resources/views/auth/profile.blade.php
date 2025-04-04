@@ -590,11 +590,9 @@
       @elseif($user->profile_verifie === 'non verifier')
       <div class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
           <p>Votre profil n'est pas vérifié. Envoyez une demande de vérification.</p>
-          <form method="POST" action="{{ route('profile.updateVerification', $user->id) }}">
-              @csrf
-              <input type="hidden" name="profile_verifie" value="en cours">
-              <button type="submit" class="btn-gs-gradient text-black">Envoyer une demande</button>
-          </form>
+          <button data-modal-target="requestModal" data-modal-toggle="requestModal" class="btn-gs-gradient text-black">
+            Envoyer une demande
+          </button>
       </div>
       @elseif($user->profile_verifie === 'en cours')
       <div class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
@@ -602,8 +600,31 @@
       </div>
       @endif
 
-
     
+
+      {{-- copie profile.update-photo --}}
+
+      <!-- Modal Structure -->
+      <div id="requestModal" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-[50vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+          <h2 class="font-dm-serif font-bold text-2xl text-green-gs  mb-5">Envoyer votre photo de vérification </h2>
+          <h2 class="font-dm-serif  text-sm   mb-2">Envoyez-nous une photo de vous en tenant un papier écrit << Gstuff >> et la date du jour à la quelle vous avez pris la photo</h2>
+          <div x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
+            <form action="{{route('profile.updateVerification')}}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
+              @csrf()
+              <h3 class="font-dm-serif text-sm text-green-gs text-center">Image de vérification</h3>
+              <template x-if="imageUrl">
+                  <img :src="imageUrl" class="object-cover rounded-md border border-gray-200 mx-auto" style="width: 100px; height: 100px;">
+              </template>
+              <input name="image_verification" type="file" accept="image/*" x-on:change="fileChosen($event)" class="mt-2" />
+              <input type="hidden" name="profile_verifie" value="en cours">
+              <button type="submit" class="btn-gs-gradient font-bold py-2 px-4 rounded">Envoyer</button>
+          </form>
+          
+          </div>
+        </div>
+      </div>
+      
         {{-- Section mon compte --}}
         <section x-show="pageSection=='compte'">
 
