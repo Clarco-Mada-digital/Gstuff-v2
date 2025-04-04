@@ -13,7 +13,8 @@
     </div>
     <input type="hidden" name="lat" id="latitude" value="{{ $user->lat ?? '' }}">
     <input type="hidden" name="lon" id="longitude" value="{{ $user->lon ?? '' }}">
-    <div id="suggestions" class="mt-2 absolute z-50 bg-white w-full rounded-lg shadow-lg max-h-[200px] overflow-y-scroll"></div>
+    <div id="suggestions"
+        class="mt-2 absolute z-50 bg-white w-full rounded-lg shadow-lg max-h-[200px] overflow-y-scroll"></div>
 </div>
 
 <div class="relative">
@@ -22,8 +23,9 @@
         <i class="fas fa-expand text-gray-600 hover:text-gray-800"></i>
     </div>
     <div class="h-[300px] z-1" id="map">
-        @if(!$user->lat)
-            <img src="{{ asset('images/map_placeholder.png') }}" alt="map image" class="w-full h-full object-cover object-center">
+        @if (!$user->lat)
+            <img src="{{ asset('images/map_placeholder.png') }}" alt="map image"
+                class="w-full h-full object-cover object-center">
         @endif
     </div>
 </div>
@@ -53,7 +55,7 @@
         marker = L.marker([lat, lon]).addTo(map).bindPopup(cityName).openPopup();
     }
 
-    window.onload = function () {
+    window.onload = function() {
         var lat = document.getElementById('latitude').value;
         var lon = document.getElementById('longitude').value;
         var name = document.getElementById('location-search').value;
@@ -75,42 +77,76 @@
 
     document.getElementById('mapModal').addEventListener('mouseenter', reloadActionMapModal);
 
-    function performSearch() {
-        var query = document.getElementById('location-search').value;
-        if (query.length < 3) return;
 
+    function performSearch() {
+        var query = document.getElementById('location-search').value.trim();
+
+        var cityName = localStorage.getItem("villeNom"); // Nom de la ville à limiter
+
+        // Affiche le spinner de chargement
         document.getElementById('loading-spinner').classList.remove('hidden');
 
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        // Étape 1 : Récupérer la bounding box de la ville
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&city=${cityName}`)
             .then(response => response.json())
             .then(data => {
-                var suggestions = document.getElementById('suggestions');
-                suggestions.innerHTML = '';
-                document.getElementById('loading-spinner').classList.add('hidden');
+                if (data.length > 0) {
+                    // Récupère la bounding box à partir des données de la ville
+                    var boundingBox = data[0].boundingbox;
+                    console.log(boundingBox);
 
-                if (data.length === 0) {
-                    suggestions.innerHTML = '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">Aucun résultat trouvé. Veuillez vérifier votre adresse.</div>';
-                } else {
-                    data.forEach(place => {
-                        var option = document.createElement('div');
-                        option.className = 'suggestion-item my-1 text-gray-900 bg-white border-b border-gray-200 rounded-lg hover:bg-gray-200 cursor-pointer';
-                        option.innerHTML = `<button type="button" class="relative inline-flex items-center w-full px-4 py-2 text-sm">${place.display_name}</button>`;
-                        option.addEventListener('click', function () {
-                            document.getElementById('location-search').value = place.display_name;
-                            document.getElementById('longitude').value = place.lon;
-                            document.getElementById('latitude').value = place.lat;
+                    var viewBox = `${boundingBox[2]},${boundingBox[1]},${boundingBox[3]},${boundingBox[0]}`;
+
+                    // Étape 2 : Effectuer la recherche avec la bounding box
+                    fetch(
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${query}&bounded=1&viewbox=${viewBox}`)
+                        .then(response => response.json())
+                        .then(results => {
+                            var suggestions = document.getElementById('suggestions');
                             suggestions.innerHTML = '';
-                            initializeMap(place.lat, place.lon, place.display_name);
+                            document.getElementById('loading-spinner').classList.add('hidden');
+
+                            if (results.length === 0) {
+                                suggestions.innerHTML =
+                                    '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
+                                    `Aucun résultat trouvé dans la zone définie pour ${ cityName}.</div>`;
+                            } else {
+                                results.forEach(place => {
+                                    var option = document.createElement('div');
+                                    option.className =
+                                        'suggestion-item my-1 text-gray-900 bg-white border-b border-gray-200 rounded-lg hover:bg-gray-200 cursor-pointer';
+                                    option.innerHTML =
+                                        `<button type="button" class="relative inline-flex items-center w-full px-4 py-2 text-sm">${place.display_name}</button>`;
+                                    option.addEventListener('click', function() {
+                                        document.getElementById('location-search').value = place
+                                            .display_name;
+                                        document.getElementById('longitude').value = place.lon;
+                                        document.getElementById('latitude').value = place.lat;
+                                        suggestions.innerHTML = '';
+                                        initializeMap(place.lat, place.lon, place.display_name);
+                                    });
+                                    suggestions.appendChild(option);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById('loading-spinner').classList.add('hidden');
+                            console.error('Erreur lors de la recherche :', error);
                         });
-                        suggestions.appendChild(option);
-                    });
+                } else {
+                    document.getElementById('loading-spinner').classList.add('hidden');
+                    console.log("Aucune information trouvée pour la ville !");
+                    document.getElementById('suggestions').innerHTML =
+                        '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
+                        'Ville non trouvée ou erreur dans le nom de la ville.</div>';
                 }
             })
             .catch(error => {
                 document.getElementById('loading-spinner').classList.add('hidden');
-                console.error('Error fetching data:', error);
+                console.error("Erreur lors de la récupération des coordonnées de la ville :", error);
             });
     }
+
 
     function openMapModal() {
         var lat = document.getElementById('latitude').value;

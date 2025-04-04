@@ -120,3 +120,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     // Route::resource('article-categories', ArticleCategoryController::class)->except(['show']);
     // Route::resource('tags', TagController::class)->except(['show']);
 });
+
+
+Route::get('/approximiter1/{id}', [ApproximiterController::class, 'show'])->name('approximiter');
+Route::get('/approximiter/{id}', function ($id) {
+    return view('components.approximate', ['userId' => $id]);
+})->name('approximiter');

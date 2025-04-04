@@ -183,21 +183,19 @@
                 <template x-for="canton in cantons" :key="canton.id">
                   <option :value=canton.id :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
                 </template>
-                {{-- @foreach ($cantons as $canton)
-                  <option value="{{ $canton->nom }}" @if($user->canton == $canton->nom) selected @endif>{{ $canton->nom }}</option>
-                @endforeach --}}
+    
               </select>
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700">Ville</label>
-              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+              <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              onchange="localStorage.setItem('villeNom', this.options[this.selectedIndex].text);"  
+              >
                 <option hidden value=""> -- </option>
                 <template x-for="ville in villes" :key="ville.id">
                   <option :value=ville.id :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom"></option>
                 </template>
-                {{-- @foreach ($villes as $ville)
-                  <option value="{{ $ville->nom }}" @if($user->ville == $ville->nom) selected @endif>{{ $ville->nom }}</option>
-                @endforeach --}}
+      
               </select>
             </div>
           </div>
@@ -399,13 +397,7 @@
               <label class="block text-sm font-medium text-gray-700">Lien site web</label>
               <input type="url" name="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->lien_site_web }}" />
             </div>
-            {{-- <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">localisation</label>
-              <input type="text" name="localisation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->localisation}}" />
-            </div>
-            <div class="h-70 rounded-lg overflow-hidden">
-              <img src="{{ asset('images/map_placeholder.png')}}" alt="map image" class="w-full object-cover object-center">
-            </div> --}}
+    
             <x-location-selector user='{{$user->id}}' />
 
           </div>
@@ -527,16 +519,12 @@
               @endif
             </div>
           </div>
+          @if ($user && $user->id)
+          <div>
+              <livewire:approximate userId="{{ $user->id }}" />
+          </div>
+      @endif
 
-          {{-- Filles près de chez toi --}}
-          <div class="flex items-center justify-center md:justify-start py-5">
-            <h2 class="font-dm-serif font-bold text-2xl">Les filles hot près de chez toi</h2>
-          </div>
-          <div class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 items-center mb-4 gap-4">
-            @foreach ($escorts->slice(0,3) as $escort)
-            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId="{{$escort->id}}" />
-            @endforeach
-          </div>
 
         </section>
 
