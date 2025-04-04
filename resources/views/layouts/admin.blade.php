@@ -39,12 +39,23 @@
 <script>
 function dashboard() {
     return {
+        currentPage: 1,
+        perPage: 5,
         searchQuery: '',
         filterStatus: '',
+        activityFilter: '',
         notifications: [],
         unreadCount: 0,
         sidebarOpen: window.innerWidth >= 768,
         currentPageTitle: 'Tableau de bord',
+        sort: {
+            field: 'created_at',
+            direction: 'desc'
+        },
+        filters: {
+            status: '',
+            search: ''
+        },
         user: {
             pseudo: '{{ auth()->user()->pseudo }}',
             email: '{{ auth()->user()->email }}',
@@ -60,6 +71,7 @@ function dashboard() {
             { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
+        recentActivity:[],
         stats: {
             articles: 0,
             users: 0,
@@ -67,13 +79,71 @@ function dashboard() {
             views: 0
         },
         recentArticles: [],
-        recentActivity: [],
         chart: null,
+
+        // Fonction de filtrage
+        filteredArticles() {
+            return this.recentArticles.filter(article => {
+                // Filtre par statut
+                let statusMatch = true;
+                if(this.filters.status === 'published') {
+                    statusMatch = article.is_published;
+                } else if(this.filters.status === 'unpublished') {
+                    statusMatch = !article.is_published;
+                }               
+                
+                // Filtre par recherche
+                const searchMatch = this.filters.search === '' ||
+                                  article.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                                  article.excerpt.toLowerCase().includes(this.filters.search.toLowerCase());
+                
+                return statusMatch && searchMatch;
+            });
+        },
+        
+        // Réinitialisation des filtres
+        resetFilters() {
+            this.filters = {
+                status: '',
+                search: ''
+            };
+        },
+        // Méthode de tri
+        sortedArticles() {
+            return [...this.filteredArticles()].sort((a, b) => {
+                let modifier = 1;
+                if (this.sort.direction === 'desc') modifier = -1;
+                
+                if (a[this.sort.field] < b[this.sort.field]) return -1 * modifier;
+                if (a[this.sort.field] > b[this.sort.field]) return 1 * modifier;
+                return 0;
+            });
+        },
+        getActivityIcon(type) {
+            const icons = {
+                'Article': '📝',
+                'User': '👤',
+                'Settings': '⚙️',
+                'System': '🖥️'
+            };
+            const prefix = type.split("\\")[2];
+            return icons[prefix] || '🔔';
+        },
 
         init() {
             this.fetchStats();
             this.fetchRecentArticles();
             this.fetchRecentActivity();
+
+            // Restaurer les filtres depuis localStorage si disponible
+            if (localStorage.getItem('dashboardFilters')) {
+                this.filters = JSON.parse(localStorage.getItem('dashboardFilters'));
+            }
+
+            // Sauvegarder les filtres lorsqu'ils changent
+            this.$watch('filters', (value) => {
+                localStorage.setItem('dashboardFilters', JSON.stringify(value));
+            }, { deep: true });
             
             // Initialiser le graphique après le rendu
             this.$nextTick(() => {
@@ -136,17 +206,24 @@ function dashboard() {
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Visiteurs',
+                        label: 'Invités',
                         data: [65, 59, 80, 81, 56, 72],
                         borderColor: '#3B82F6',
                         backgroundColor: 'rgba(59, 130, 246, 0.05)',
                         tension: 0.4,
                         fill: true
                     }, {
-                        label: 'Articles',
+                        label: 'Escortes',
                         data: [28, 48, 40, 19, 86, 27],
                         borderColor: '#10B981',
                         backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Salons',
+                        data: [18, 48, 77, 9, 100, 27],
+                        borderColor: '#FBBF24',
+                        backgroundColor: 'rgba(251, 191, 36, 0.05)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -191,12 +268,17 @@ function dashboard() {
             return this.formatDate(dateString);
         },
 
-        paginatedItems() {
-            return this.items.slice(
-                (this.currentPage - 1) * this.perPage,
-                this.currentPage * this.perPage
-            );
-        }
+        // Méthode paginée
+        paginatedArticles() {
+            const start = (this.currentPage - 1) * this.perPage;
+            const end = start + this.perPage;
+            return this.filteredArticles().slice(start, end);
+        },
+        // Nombre total de pages
+        totalPages() {
+            return Math.ceil(this.filteredArticles().length / this.perPage);
+        },
+
     }
 };
 

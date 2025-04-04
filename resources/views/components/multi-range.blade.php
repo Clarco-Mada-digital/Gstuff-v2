@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center py-3 @if($class!= '') {{$class}} @endif">
+<div class="flex justify-center items-center py-3">
     <div x-data="{{"range".$id."()"}}" x-init="mintrigger(); maxtrigger()" class="relative max-w-xl w-full">
         @if($label != '')<span for="{{$id}}" class="text-center">{{$label}}</span>@endif
       <div class="my-3">

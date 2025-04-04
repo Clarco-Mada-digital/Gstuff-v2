@@ -25,7 +25,7 @@ Route::prefix('admin/api')->group(function () {
             'articles' => \App\Models\Article::count(),
             'users' => \App\Models\User::count(),
             'comments' => \App\Models\Feedback::count(),
-            'views' => \App\Models\Article::sum('views')
+            // 'views' => \App\Models\Article::sum('views')
         ]);
     });
 
@@ -52,6 +52,24 @@ Route::prefix('admin/api')->group(function () {
 
     Route::get('/activity', function () {
         // Implémentez votre logique d'activité récente ici
-        return [];
+        return \App\Models\ActivityLog::with('causer')
+        ->latest()
+        ->take(10)
+        ->get()
+        ->map(function ($log) {
+            return [
+                'id' => $log->id,
+                'type' => $log->type,
+                'event' => $log->event,
+                'subject_type' => $log->subject_type,
+                'description' => $log->description,
+                'created_at' => $log->created_at,
+                'causer' => [
+                    'name' => $log->causer->pseudo,
+                    'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($log->causer->pseudo)
+                ],
+                'item' => $log->data // Données supplémentaires
+            ];
+        });
     });
 });

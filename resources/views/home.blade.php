@@ -196,6 +196,7 @@
     </div>
 
     {{-- Glossaire --}}
+    @if ($glossaires != '[]')
     <div class="lg:container mx-auto my-10" >
       <div class="flex items-center justify-between my-10 px-5 lg:px-20">
         <h3 class="font-dm-serif text-2xl lg:text-4xl text-green-800 font-bold">Articles du glossaire</h3>
@@ -205,8 +206,10 @@
         </div>
       </div>
       <x-GlossaireSection />
-
     </div>
+      
+    @endif
+
 
     @section('extraScripts')
       <script>

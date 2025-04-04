@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,  // Puis exécute ServiceSeeder
             RolePermissionSeeder::class,  // Puis exécute RolePermissionSeeder
             UserSeeder::class,  // Puis exécute UserSeeder
-            ArticleCategorySeeder::class, //Pour exécute ArticleSeeder
+            ArticleCategorySeeder::class, //Pour exécute ArticleCategorySeeder
+            ArticleSeeder::class, //Pour exécute ArticleSeeder
         ]);
     }
 

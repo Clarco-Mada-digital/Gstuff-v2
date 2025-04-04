@@ -42,7 +42,7 @@
     <div class="flex items-center justify-between px-60">
       <h3 class="font-dm-serif text-green-gs text-5xl font-bold">Glossaire</h3>
       <div class="z-10 w-auto">
-        <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:outline-none rounded-lg text-sm px-4 py-2 text-center ">Retour au glossaire <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
+        <a href="{{route('glossaires.index')}}" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:outline-none rounded-lg text-sm px-4 py-2 text-center ">Retour au glossaire <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
         </a>
       </div>
     </div>

@@ -12,7 +12,7 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view articles')->only('index', 'show');
+        // $this->middleware('permission:view articles')->only('index', 'show');
         $this->middleware('permission:create articles')->only('create', 'store');
         $this->middleware('permission:edit articles')->only('edit', 'update');
         $this->middleware('permission:delete articles')->only('destroy');
@@ -23,12 +23,8 @@ class ArticleController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $articles = Article::with(['category', 'tags'])
-                         ->latest()
-                         ->paginate(10);
-        
-        return view('articles.index', compact('articles'));
+    {       
+        return view('articles.index');
     }
 
     /**
@@ -107,7 +103,14 @@ class ArticleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $article = Article::with('tags', 'category', 'user')->findOrFail($id);
+        if (!$article) {
+            return redirect()->route('articles.index')->with('error', 'Article non trouvé');
+        }
+        // Récupération des catégories et des tags
+        $categories = ArticleCategory::all();
+        $tags = Tag::all();
+        return view('articles.edit', compact('article', 'categories', 'tags'));
     }
 
     /**
@@ -115,7 +118,59 @@ class ArticleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255|unique:articles,title,' . $id,
+            'slug' => 'required|max:255|unique:articles,slug,' . $id,
+            'content' => 'required',
+            'excerpt' => 'nullable',
+            'article_category_id' => 'required|exists:article_categories,id',
+            // 'article_user_id' => 'required|exists:users,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
+            'is_published' => 'boolean',
+            // 'published_at' => 'nullable|date|after_or_equal:today'
+        ]);
+        
+        if ($validator->fails()) {
+            dd($validator->errors());
+            return back()->withErrors($validator)->withInput();
+        }
+        
+        // Mise à jour de l'article avec les données validées
+        try {
+            $article = Article::findOrFail($id);
+            if (!$article) {
+                return redirect()->route('articles.index')->with('error', 'Article non trouvé');
+            }
+            // Vérification de l'utilisateur
+            // if ($article->article_user_id !== $request->article_user_id) {
+            //     return redirect()->route('articles.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cet article');
+            // }
+            // Mise à jour de l'article
+            $article->update([
+                'title' => $request->title,
+                'slug' => $request->slug,
+                'content' => $request->content,
+                'excerpt' => $request->excerpt,
+                'article_user_id' => $article->article_user_id,
+                'article_category_id' => $request->article_category_id,
+                'is_published' => $request->is_published ? $request->is_published : false,
+                // 'published_at' => $request->published_at,
+            ]);
+            
+            // Synchronisation des tags, si fournis
+            if ($request->has('tags')) {
+                $article->tags()->sync($request->tags);
+            }
+
+            // Retour à la liste des articles avec succès
+            return redirect()->route('glossaires.show', ['article' => $article->slug])
+                            ->with('success', 'Article mis à jour avec succès');
+        } catch (\Exception $e) {
+            // Gestion des erreurs en cas de problème lors de la mise à jour
+            die('Une erreur est survenue lors de la mise à jour de l\'article.'. $e);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour de l\'article.']);
+        }
     }
 
     /**

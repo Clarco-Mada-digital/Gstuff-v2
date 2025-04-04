@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+use App\Models\ArticleCategory;
 use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\Service;
@@ -17,6 +19,9 @@ class HomeController extends Controller
 
       // Canton
       $cantons = Canton::all();
+      $glossaire_category_id = ArticleCategory::where('name', 'LIKE', 'glossaires')->first();
+      $glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();        
+
 
       // Les services
       // $servicesResp = $client->get('https://gstuff.ch/wp-json/services/list_service/');
@@ -47,7 +52,7 @@ class HomeController extends Controller
       // $limitedData = array_slice($glossaire, 0, 10);
       // $limiteCanton = array_slice($apiData['cantons'], 0, 5);
 
-      return view('home', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts'=> $escorts, 'salons' => $salons]);
+      return view('home', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts'=> $escorts, 'salons' => $salons, 'glossaires' => $glossaires]);
   }
   
 }

@@ -95,8 +95,8 @@
       'password_reset_expiry' => 'datetime', // Cast password_reset_expiry en tant que datetime
       'categorie' => 'array',
       'service' => 'array',
-      'canton' => 'array',
-      'ville' => 'array',
+    //   'canton' => 'array',
+    //   'ville' => 'array',
       'paiement' => 'array',
       'langues' => 'array',
       'profile_verifie' => 'string',

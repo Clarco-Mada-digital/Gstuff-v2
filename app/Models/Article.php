@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Article extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'title', 
@@ -43,9 +45,9 @@ class Article extends Model
     }
     
     // Scope pour les articles publiés
-    // public function scopePublished($query)
-    // {
-    //     return $query->where('is_published', true)
-    //                 ->where('published_at', '<=', now());
-    // }
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true)
+                    ->where('published_at', '<=', now());
+    }
 }
