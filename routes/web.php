@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\GlossaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
@@ -82,6 +82,11 @@ Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit')
 Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
 Route::post('/roles-destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
 
+Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
+Route::get('/activity/edit', [ActivityController::class, 'update'])->name('activity.edit');
+Route::post('/activity/store', [ActivityController::class, 'store'])->name('activity.store');
+Route::post('/activity/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
+
 
 //***************************************************************************************** */
 
@@ -116,13 +121,14 @@ Route::middleware('auth')->group(function () {
 
 // Routes admin protégées
 Route::middleware(['auth'])->prefix('admin')->group(function() {
+    route::resource('activity', ActivityController::class);
+    route::resource('roles', RoleController::class);
     // Route::resource('articles', AdminArticleController::class)->except(['show']);
     // Route::resource('article-categories', ArticleCategoryController::class)->except(['show']);
     // Route::resource('tags', TagController::class)->except(['show']);
 });
 
 
-Route::get('/approximiter1/{id}', [ApproximiterController::class, 'show'])->name('approximiter');
 Route::get('/approximiter/{id}', function ($id) {
     return view('components.approximate', ['userId' => $id]);
 })->name('approximiter');

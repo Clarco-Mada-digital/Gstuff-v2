@@ -65,10 +65,10 @@ function dashboard() {
         menuItems: [
             { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
             { label: 'Utilisateurs', route: '#', icon: '👥', badge: 'Nouveaux' },
-            { label: 'Rôles', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
+            { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
             { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },            
-            { label: 'Catégories', route: '#', icon: '🗂️', badge: null },            
-            { label: 'Tags', route: '#', icon: '🏷️', badge: null },
+            { label: 'Catégories / Tags', route: '#', icon: '🗂️', badge: null },            
+            // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
             { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
