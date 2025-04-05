@@ -128,31 +128,31 @@ Route::get('/approximiter/{id}', function ($id) {
     return view('components.approximate', ['userId' => $id]);
 })->name('approximiter');
 
-// Test sans authentification
-Route::post('test/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-    // Routes CRUD pour les utilisateurs
-    Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Liste des utilisateurs
-    Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Ajout d'un utilisateur
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Formulaire de modification
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Mise à jour d'un utilisateur
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Suppression d'un utilisateur
 
-    // // Routes CRUD pour les salons
-    // Route::get('/salons', [SalonController::class, 'index'])->name('salons.index');
-    // Route::get('/salons/create', [SalonController::class, 'create'])->name('salons.create');
-    // Route::post('/salons', [SalonController::class, 'store'])->name('salons.store');
-    // Route::get('/salons/{id}/edit', [SalonController::class, 'edit'])->name('salons.edit');
-    // Route::put('/salons/{id}', [SalonController::class, 'update'])->name('salons.update');
-    // Route::delete('/salons/{id}', [SalonController::class, 'destroy'])->name('salons.destroy');
+// Route::middleware(['auth'])->prefix('admin')->group(function () {
+//     // Routes CRUD pour les utilisateurs
+//     Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Liste des utilisateurs
+//     Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Ajout d'un utilisateur
+//     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Formulaire de modification
+//     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Mise à jour d'un utilisateur
+//     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Suppression d'un utilisateur
 
-    // // // Routes CRUD pour les escortes
-    // // Route::get('/escortes', [EscortController::class, 'index'])->name('escortes.index');
-    // // Route::get('/escortes/create', [EscortController::class, 'create'])->name('escortes.create');
-    // // Route::post('/escortes', [EscortController::class, 'store'])->name('escortes.store');
-    // // Route::get('/escortes/{id}/edit', [EscortController::class, 'edit'])->name('escortes.edit');
-    // // Route::put('/escortes/{id}', [EscortController::class, 'update'])->name('escortes.update');
-    // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
-});
+//     // // Routes CRUD pour les salons
+//     // Route::get('/salons', [SalonController::class, 'index'])->name('salons.index');
+//     // Route::get('/salons/create', [SalonController::class, 'create'])->name('salons.create');
+//     // Route::post('/salons', [SalonController::class, 'store'])->name('salons.store');
+//     // Route::get('/salons/{id}/edit', [SalonController::class, 'edit'])->name('salons.edit');
+//     // Route::put('/salons/{id}', [SalonController::class, 'update'])->name('salons.update');
+//     // Route::delete('/salons/{id}', [SalonController::class, 'destroy'])->name('salons.destroy');
+
+//     // // // Routes CRUD pour les escortes
+//     // // Route::get('/escortes', [EscortController::class, 'index'])->name('escortes.index');
+//     // // Route::get('/escortes/create', [EscortController::class, 'create'])->name('escortes.create');
+//     // // Route::post('/escortes', [EscortController::class, 'store'])->name('escortes.store');
+//     // // Route::get('/escortes/{id}/edit', [EscortController::class, 'edit'])->name('escortes.edit');
+//     // // Route::put('/escortes/{id}', [EscortController::class, 'update'])->name('escortes.update');
+//     // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
+// });
 

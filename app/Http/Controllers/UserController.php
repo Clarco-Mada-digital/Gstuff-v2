@@ -4,18 +4,59 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\Notification;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        // Récupérer uniquement les utilisateurs avec un profile_type différent de 'salon'
-        $users = User::where('profile_type', '!=', 'salon')->get();
-        
-        // Renvoie les données filtrées à la vue
-        return view('admin.users.index', compact('users'));
-    }
+
+
+public function index()
+{
+    // Vérification des permissions
+    $this->authorize('manage roles');
+
+    // Récupération des rôles et des permissions
+    $roles = Role::with('permissions')->get();
+    $permissions = Permission::all();
+
+    // Récupération des utilisateurs selon leur type de profil
+    $usersEscortes = User::where('profile_type', 'escorte')->get();
+    $usersSalons = User::where('profile_type', 'salon')->get();
+    $usersInvites = User::where('profile_type', 'invite')->get();
+    $usersEscorteEnCoursVerification = User::where('profile_verifie', 'en cours')
+        ->where('profile_type', 'escorte')
+        ->get();
+
+    // Récupération des notifications avec les utilisateurs associés
+    $notifications = Notification::with('notifiable')->get();
+
+    // Filtrer et structurer les notifications avec les utilisateurs liés
+    $notificationsWithUsers = $notifications->filter(function ($notification) {
+        return isset($notification->data['user_id']) && !empty($notification->data['user_id']);
+    })->map(function ($notification) {
+        return [
+            'notification' => $notification, // Ajout de l'objet notification complet
+            'user' => User::find($notification->data['user_id'])
+        ];
+    })->values(); // Réindexation pour une liste propre
+
+    // Retourner la vue avec toutes les données compactées
+    return view('admin.users.index', compact(
+        'roles', 
+        'permissions', 
+        'usersEscortes', 
+        'usersSalons', 
+        'usersInvites',
+        'usersEscorteEnCoursVerification',
+        'notificationsWithUsers' // Liste formatée des notifications avec utilisateurs
+    ));
+}
+
+
+    
+    
     
 
    // Enregistrer un nouvel utilisateur dans la base de données
