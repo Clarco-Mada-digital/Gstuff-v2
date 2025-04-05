@@ -18,6 +18,8 @@ use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentaireController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +138,12 @@ Route::get('/approximiter/{id}', function ($id) {
 })->name('approximiter');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+
+Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
+
+
+// Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
 
 
 // Route::middleware(['auth'])->prefix('admin')->group(function () {

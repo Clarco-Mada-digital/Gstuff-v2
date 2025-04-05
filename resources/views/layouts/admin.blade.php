@@ -38,7 +38,9 @@
 @section('extraScripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
 function dashboard() {
+
     return {
         currentPage: 1,
         perPage: 5,
@@ -69,7 +71,7 @@ function dashboard() {
             { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },            
             { label: 'Catégories / Tags', route: '#', icon: '🗂️', badge: null },            
             // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
-            { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
+            { label: 'Commentaires', route: '{{ route("commentaires.index") }}', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
         recentActivity:[],

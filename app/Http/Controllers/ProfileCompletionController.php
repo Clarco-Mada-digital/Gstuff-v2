@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Commentaire;
+
 
 class ProfileCompletionController extends Controller
 {
@@ -83,12 +85,15 @@ class ProfileCompletionController extends Controller
                 $escort['service'] = Service::find($escort->service);
                 // dd($escort->service);
             }
+
+            $commentairesCount = Commentaire::where('is_approved', false)->count();
+
             
             $messageNoSeen = Message::where('to_id', Auth::user()->id)
                 ->where('seen', 0)->count();   
                 
             if ($user->profile_type == 'admin') {
-                return view('admin.dashboard', ['user'=>$user]);
+                return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
             }else{
                 return view('auth.profile', [
                     'genres' => $genres,
@@ -118,6 +123,7 @@ class ProfileCompletionController extends Controller
                     'escortFavorites' => $escortFavorites,
                     'salonFavorites' => $salonFavorites,
                     'messageNoSeen' => $messageNoSeen,
+                    
                 ]);            
             }
         }else{

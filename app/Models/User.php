@@ -119,5 +119,10 @@
    {
        return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id');
    }
+   public function commentaires()
+{
+    return $this->hasMany(Commentaire::class);
+}
+
 }
 
