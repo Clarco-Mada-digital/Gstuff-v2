@@ -126,7 +126,7 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500">Utilisateur</p>
+                            <p class="text-gray-500">Utilisateurs</p>
                             <p class="text-2xl font-semibold" x-text="stats.users"></p>
                         </div>
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
@@ -191,7 +191,7 @@
                 <div class="bg-white shadow rounded-lg overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                         <h2 class="text-lg font-semibold text-gray-900">Activité récente</h2>
-                        <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir tout</a>
+                        <a href="{{route('activity.index')}}" class="text-sm text-blue-600 hover:text-blue-800">Voir tout</a>
                     </div>
                     <div class="divide-y divide-gray-200">
                         <!-- Exemple d'activités - À remplacer par vos données réelles -->

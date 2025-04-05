@@ -1,11 +1,14 @@
-@extends('layout:admin')
+@extends('layouts.admin')
 
 @section('page_title')
   Log Acivity
 @endsection
 
-@section('content')
+@section('admin-content')
+<div class="md:ml-64 px-5">
+    <h2 class="font-dm-serif text-4xl font-bold text-center w-full">Activity</h2>
   @foreach($activities as $activity)
+  <hr class="my-3 text-green-gs" />
   <div class="activity-item">
       <div class="activity-icon">
           @switch($activity->event)
@@ -17,7 +20,7 @@
       </div>
       <div class="activity-content">
           <p>
-              <strong>{{ $activity->causer->name ?? 'System' }}</strong>
+              <strong>{{ $activity->causer->pseudo ?? 'System' }}</strong>
               {{ $activity->description }}
           </p>
           <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
@@ -25,9 +28,11 @@
           @if($activity->event === 'updated')
           <div class="activity-changes">
               @foreach($activity->properties['attributes'] as $key => $value)
-                  <div>
+                  <div class="my-3">
                       <strong>{{ $key }}:</strong>
-                      {{ $value }} (était: {{ $activity->properties['old'][$key] ?? 'null' }})
+                      <p>{!! $value !!}</p> 
+                      <strong class="text-red-500 italic">était: </strong>
+                      <p>{!! $activity->properties['old'][$key] ?? 'null' !!}</p>
                   </div>
               @endforeach
           </div>
@@ -35,4 +40,6 @@
       </div>
   </div>
   @endforeach
+  <hr class="my-3 text-green-gs" />
+</div>
 @endsection

@@ -30,7 +30,8 @@
         </nav>
     </div>
 
-        @yield('admin-content')
+    @yield('admin-content')
+    
 </div>
     <!-- Main Content -->
 
@@ -64,10 +65,10 @@ function dashboard() {
         menuItems: [
             { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
             { label: 'Utilisateurs', route:  '{{ route("users.index") }}', icon: '👥', badge: 'Nouveaux' },
-            { label: 'Rôles', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
+            { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
             { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },            
-            { label: 'Catégories', route: '#', icon: '🗂️', badge: null },            
-            { label: 'Tags', route: '#', icon: '🏷️', badge: null },
+            { label: 'Catégories / Tags', route: '#', icon: '🗂️', badge: null },            
+            // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
             { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
@@ -166,7 +167,9 @@ function dashboard() {
         },
 
         isActive(route) {
-            return window.location.pathname === route;
+            return route.includes(window.location.href);
+            // let pathname = window.location.pathname;
+            // return route.includes(pathname);
         },
 
         async fetchStats() {

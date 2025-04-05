@@ -1,10 +1,10 @@
-@extends('layouts.base')
+@extends('layouts.admin')
 
   @section('pageTitle')
-    Nouveau article
+    Modification du glossaire
   @endsection
 
-  @section('content')
+  @section('admin-content')
   <div x-data="articleForm()" x-init="init()" class="max-w-4xl mx-auto px-4 py-8" x-cloak>
       <h1 class="text-3xl font-bold text-gray-800 mb-6">Editer l'article ({{$article->title}})</h1>
       
@@ -242,7 +242,7 @@
       </div>
   </div>
   
-  @section('extraScripts')
+  @section('specialScripts')
     <script>      
       function articleForm() {
         return {
