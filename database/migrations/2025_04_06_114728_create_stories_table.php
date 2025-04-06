@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('media_path');
             $table->enum('media_type', ['image', 'video']);
             $table->timestamp('expires_at');
+            $table->numeric('likes_count')->default(0);
             $table->timestamps();
         });
     }

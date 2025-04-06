@@ -18,6 +18,7 @@ class StoriesViewer extends Component
     public function mount()
     {
         $this->stories = Story::with('user')
+            ->where('user_id', '=', auth()->id())
             ->where('expires_at', '>', now())
             ->get()
             ->groupBy('user_id')
@@ -58,6 +59,23 @@ class StoriesViewer extends Component
     public function resetProgress()
     {
         $this->progress = 0;
+    }
+
+    public function likeStory($storyId)
+    {
+        $story = Story::find($storyId);
+        $story->increment('likes_count');
+        
+        // Diffusion via Pusher
+        // broadcast(new StoryLiked($storyId, auth()->id()))->toOthers();
+    }
+
+    public function getListeners()
+    {
+        return [
+            "echo:stories-channel,new-story" => 'refreshStories',
+            "echo:stories-channel,story-viewed" => 'notifyStoryViewed',
+        ];
     }
 
     public function render()
