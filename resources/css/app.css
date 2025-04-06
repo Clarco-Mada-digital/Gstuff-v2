@@ -27,6 +27,15 @@
     color: #D0AC2B;
   }
 
+  @keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+  
+  .animation-progress {
+    animation: progress 24s linear forwards;
+  }
+
 
   /* * {
       margin: 0;

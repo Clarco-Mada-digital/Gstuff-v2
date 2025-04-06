@@ -19,6 +19,7 @@ use App\Http\Controllers\EscortController;
 use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
+use App\Livewire\StoriesViewer;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,8 @@ Route::get('/users/create', [UserController::class, 'create'])->name('users.crea
 Route::get('/users/edit', [UserController::class, 'update'])->name('users.edit');
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+
+Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
 
 
 

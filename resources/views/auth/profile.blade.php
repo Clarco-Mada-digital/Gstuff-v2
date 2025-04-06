@@ -523,7 +523,7 @@
           <div>
               <livewire:approximate userId="{{ $user->id }}" />
           </div>
-      @endif
+          @endif
 
 
         </section>
@@ -598,7 +598,8 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
+            @livewire('create-story')
+            @livewire('stories-viewer')            
           </div>
 
           {{-- Galerie --}}
@@ -1161,5 +1162,33 @@
           }
       }
     }
+    function storyPlayer(){
+      isModalOpen: false,
+      currentStory: 0,
+      progress: 0,
+
+      init() {
+          this.$wire.$on('openStory', () => {
+              this.isModalOpen = true;
+              this.startProgress();
+          });
+
+          this.$wire.$on('closeStory', () => {
+              this.isModalOpen = false;
+              this.progress = 0;
+          });
+      },
+
+      startProgress() {
+          const interval = setInterval(() => {
+              if (this.progress < 100) {
+                  this.progress++;
+              } else {
+                  clearInterval(interval);
+                  this.$wire.nextStory();
+              }
+          }, 50);
+      }
+    };
   </script>
   @endsection
