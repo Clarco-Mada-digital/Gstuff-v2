@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
@@ -87,6 +89,13 @@ Route::get('/activity/edit', [ActivityController::class, 'update'])->name('activ
 Route::post('/activity/store', [ActivityController::class, 'store'])->name('activity.store');
 Route::post('/activity/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
 
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/edit', [UserController::class, 'update'])->name('users.edit');
+Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+
+
 
 //***************************************************************************************** */
 
@@ -123,9 +132,22 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     route::resource('activity', ActivityController::class);
     route::resource('roles', RoleController::class);
-    // Route::resource('articles', AdminArticleController::class)->except(['show']);
-    // Route::resource('article-categories', ArticleCategoryController::class)->except(['show']);
-    // Route::resource('tags', TagController::class)->except(['show']);
+    Route::resource('articles', ArticleController::class)->except(['show']);
+    Route::resource('article-categories', ArticleCategoryController::class);
+    Route::resource('tags', TagController::class);
+
+    // Gestion des utilisateurs
+    Route::resource('users', UserController::class);
+    
+    // Rôles et permissions
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class)->only(['index']);
+    
+    // Assignation des permissions aux rôles
+    Route::post('roles/{role}/permissions', [RoleController::class, 'assignPermissions'])
+        ->name('roles.permissions.store');
+    Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
+        ->name('roles.permissions.destroy');
 });
 
 
