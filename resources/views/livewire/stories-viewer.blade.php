@@ -1,4 +1,5 @@
 <div x-data="{
+    openViewStorie:false,
     touchStartX: 0,
     touchEndX: 0,
     handleTouchStart(e) {
@@ -18,43 +19,57 @@
     }
 }">
 <div x-data="storyPlayer()" x-init="init()">
-    <!-- Liste des stories -->
+   <!-- Liste des stories -->
     <div class="flex space-x-4 p-4 overflow-x-auto">
-        @if ($stories->isEmpty())
-            <div class="text-gray-500">Aucune story disponible</div>            
-        @else
+        @php
+            $hasStories = false;
+        @endphp
+
         @foreach($stories as $userId => $userStories)
-            <div 
-                class="relative w-24 h-24 rounded-full border-2 border-blue-500 cursor-pointer"
-                @click="$wire.openStory({{ $userId }})">
-                
-                @if($userStories->first()->media_type === 'image')
-                <img 
-                     src="{{ asset('storage/' . $userStories->first()->media_path) }}"
-                    class="w-full h-full rounded-full object-cover" />
-                @elseif($userStories->first()->media_type === 'video') 
-                <video 
-                    class="w-full h-full rounded-full object-cover"
-                    muted
-                    pause=true
-                    >
-                    <source src="{{ asset('storage/' . $userStories->first()->media_path) }}">
-                </video>
-                @endif
-            </div>
+            @if($userStories->isNotEmpty() && $userId == $userViewStorie)
+                @php $hasStories = true; @endphp
+                <div class="relative w-24 h-24 rounded-full border-2 border-blue-500 cursor-pointer"
+                    @click="$wire.openStory({{ $userId }}); openViewStorie=true">
+                     
+                    @if($userStories->first()->media_type === 'image')
+                        <img src="{{ asset('storage/' . $userStories->first()->media_path) }}"
+                            class="w-full h-full rounded-full object-cover" 
+                            alt="Story image">
+                    @elseif($userStories->first()->media_type === 'video')
+                        <video class="w-full h-full rounded-full object-cover"
+                            muted 
+                            playsinline>
+                            <source src="{{ asset('storage/' . $userStories->first()->media_path) }}">
+                        </video>
+                    @endif
+                </div>
+            @endif
         @endforeach
+
+        @if(!$hasStories)
+            <div class="text-gray-500 text-center flex items-center justify-center w-full">
+                Aucun story disponible
+            </div>
         @endif
     </div>
 
     <!-- Modal de visualisation -->
     @if($activeUser)    
-        <div class="fixed inset-0 bg-black bg-opacity-90 z-50" x-show="isModalOpen">
+        <div x-show='openViewStorie' class="fixed inset-0 bg-black bg-opacity-90 z-50" x-show="isModalOpen">
             <div class="relative h-screen flex items-center justify-center">
                 <!-- Contenu de la story -->
-                <div @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="relative w-full max-w-2xl h-5/6">
+                <div x-data="{'muted':true}" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="relative w-full max-w-2xl h-5/6">
                     
                     <!-- Media -->
-                    @if($selectedUserStories[$currentIndex]['media_type'] === 'image')
+                    @if($selectedUserStories[$currentIndex]['media_type'] != 'image')                       
+                        <video
+                            class="w-full h-full object-contain rounded-lg" 
+                            controls
+                            autoplay
+                            onended="window.Livewire.dispatch('nextStory')">
+                            <source src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}">
+                        </video>
+                    @else
                         <!-- Barre de progression -->
                         <div class="absolute top-4 left-4 right-4 flex space-x-1">
                             @foreach($selectedUserStories as $index => $story)
@@ -69,15 +84,6 @@
                         <img 
                             src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}" 
                             class="w-full h-full object-contain rounded-lg">
-                    @else
-                        <video
-                            class="w-full h-full object-contain rounded-lg" 
-                            controls
-                            autoplay
-                            muted
-                            onended="window.Livewire.dispatch('nextStory')">
-                            <source src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}">
-                        </video>
                     @endif
 
                     <!-- Contrôles -->
@@ -99,15 +105,15 @@
                 </div>
 
                 {{-- Like button --}}
-                <div x-data="{ isLiked: false, likeCount: 0 }">
+                <div x-data="{ likeCount: {{$selectedUserStories[$currentIndex]['likes_count']}} }">
                     <div class="absolute bottom-4 text-4xl left-4 flex items-center justify-end space-x-2">
-                        <button 
+                        <button
+                            @if ($userViewStorie != Auth()->user()->id)
                             @click="
-                                isLiked = !isLiked;
-                                likeCount += isLiked ? 1 : -1;
+                                likeCount += 1;
                                 @this.call('likeStory', {{ $selectedUserStories[$currentIndex]['id'] }});
-                            "
-                            :class="isLiked ? 'text-red-500' : 'text-white'"
+                            "                                
+                            @endif
                             class="transition-colors duration-200">
                             ❤️
                         </button>

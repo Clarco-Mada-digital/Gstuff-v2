@@ -10,18 +10,17 @@ use Illuminate\Support\Facades\Cache;
 
 class ActivityLog extends Model
 {
-    use HasFactory;
-    use Prunable;
+    use HasFactory, Prunable;
 
     protected $guarded = [];
     protected $casts = [
         'properties' => 'collection',
     ];
-    protected $hiddenForActivities = [
-        'password',
-        'remember_token',
-        'credit_card'
-    ];
+    // protected $hiddenForActivities = [
+    //     'password',
+    //     'remember_token',
+    //     'credit_card'
+    // ];
 
     protected static function booted()
     {

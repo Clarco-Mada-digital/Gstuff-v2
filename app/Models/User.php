@@ -16,6 +16,13 @@
     {
         use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
 
+        // Spécifiez les attributs à logger
+        protected static $logAttributes = ['pseudo', 'email', 'prenom', 'nom_salon', 'nom_proprietaire', 'telephone', 'adresse'];
+
+        // Ne logger que les champs modifiés
+        protected static $logOnlyDirty = true;
+
+        
         /**
          * The attributes that are mass assignable.
          *
@@ -25,6 +32,12 @@
         const ROLE_EDITOR = 'editor';
         const ROLE_WRITE = 'write';
         const ROLE_USER = 'user';
+
+        protected $hiddenForActivities = [
+            'password',
+            'remember_token',
+            'credit_card'
+        ];
 
         protected $fillable = [
             'avatar',

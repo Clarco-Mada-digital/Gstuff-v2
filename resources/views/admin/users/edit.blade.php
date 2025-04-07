@@ -18,8 +18,8 @@
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Pseudo *</label>
-                    <input type="text" name="pseudo" id="name" value="{{ old('name', $user->pseudo) }}"
+                    <label for="pseudo" class="block text-sm font-medium text-gray-700 mb-1">Pseudo *</label>
+                    <input type="text" name="pseudo" id="pseudo" value="{{ old('pseudo', $user->pseudo) }}"
                            class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                            required>
                     @error('pseudo')

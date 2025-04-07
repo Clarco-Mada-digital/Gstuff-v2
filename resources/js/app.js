@@ -18,7 +18,7 @@ document.addEventListener('alpine:init', () => {
 
           // Écoute des événements
           channel.bind('new-story', (data) => {
-              @this.call('refreshStories');
+              this.call('refreshStories');
           });
 
           channel.bind('story-viewed', (data) => {

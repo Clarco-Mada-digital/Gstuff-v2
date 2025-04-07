@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 trait LogsActivity
 {
+    // Ne logger que les champs modifiés
+    protected static $logOnlyDirty = true;
+
     public static function bootLogsActivity()
     {
         static::created(function (Model $model) {
@@ -54,8 +57,8 @@ trait LogsActivity
         
         return match ($event) {
             'created' => "Un nouveau {$modelName} a été créé",
-            'updated' => "Le {$modelName} a été modifié",
-            'deleted' => "Le {$modelName} a été supprimé",
+            'updated' => "L' {$modelName} a été modifié",
+            'deleted' => "L' {$modelName} a été supprimé",
             default => "Activité sur {$modelName}",
         };
     }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Categorie extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'categories'; // Spécifiez le nom de la table si ce n'est pas 'cantons' au pluriel
     protected $primaryKey = 'id'; // Spécifiez la clé primaire si ce n'est pas 'id'

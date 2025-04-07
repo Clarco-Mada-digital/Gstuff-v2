@@ -135,9 +135,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     route::resource('activity', ActivityController::class);
     route::resource('roles', RoleController::class);
-    Route::resource('articles', ArticleController::class)->except(['show']);
-    Route::resource('article-categories', ArticleCategoryController::class);
-    Route::resource('tags', TagController::class);
+    // Route::resource('articles', ArticleController::class)->except(['show']);
+    // Route::resource('article-categories', ArticleCategoryController::class);
+    // Route::resource('tags', TagController::class);
 
     // Gestion des utilisateurs
     Route::resource('users', UserController::class);

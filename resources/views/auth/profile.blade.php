@@ -598,8 +598,8 @@
 
           </div>
           <div class="flex items-center gap-10 flex-wrap">
-            @livewire('create-story')
-            @livewire('stories-viewer')            
+            @livewire('create-story')  
+            @livewire('stories-viewer', ['userViewStorie' => $user->id], key($user->id))    
           </div>
 
           {{-- Galerie --}}

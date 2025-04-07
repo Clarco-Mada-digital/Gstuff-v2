@@ -31,8 +31,7 @@
 
       {{-- @vite('resources/css/app.css', 'resources/js/app.js') --}}
       {{ Vite::useBuildDirectory('build')->withEntryPoints(['resources/js/app.js', 'resources/css/app.css']) }}
-     
-      {{-- <link href="resources/css/app.css" rel="stylesheet"> --}}
+           
       @livewireStyles    
       @livewireScripts
 

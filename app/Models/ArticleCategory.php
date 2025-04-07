@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ArticleCategory extends Model
 {
-    use HasFactory;
-    use LogsActivity;
+    use HasFactory, LogsActivity;
     
     protected $table = 'article_categories';
     

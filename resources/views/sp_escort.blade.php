@@ -79,7 +79,7 @@
 
             </div>
             <div class="flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
+              @livewire('stories-viewer', ['userViewStorie' => $escort->id], key($escort->id))
             </div>
 
             {{-- Galerie --}}

@@ -15,13 +15,25 @@
         @csrf
         
         <div class="bg-white shadow rounded-lg p-6 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}"
+                    <label for="pseudo" class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
+                    <input type="text" name="pseudo" id="pseudo" value="{{ old('pseudo') }}"
                            class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                            required>
-                    @error('name')
+                    @error('pseudo')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="profile_type" class="block text-sm font-medium text-gray-700 mb-1">Type de profile *</label>
+                    <select name="profile_type" id="profile_type" class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="admin">Admin</option>
+                        <option value="escorte">Escorte</option>
+                        <option value="salon">Salon</option>
+                        <option value="invite">Invité</option>
+                    </select>                 
+                    @error('profile_type')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
@@ -35,8 +47,17 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-
                 <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Date de naissance *</label>
+                    <input type="date" name="date_naissance" id="date_naissance" value="{{ old('date_naissance') }}"
+                           class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           required>
+                    @error('date_naissance')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="col-span-2">
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe *</label>
                     <input type="password" name="password" id="password"
                            class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -46,7 +67,7 @@
                     @enderror
                 </div>
 
-                <div>
+                <div class="col-span-2">
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe *</label>
                     <input type="password" name="password_confirmation" id="password_confirmation"
                            class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"

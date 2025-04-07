@@ -12,13 +12,15 @@ class StoriesViewer extends Component
     public $activeUser = null;
     public $currentIndex = 0;
     public $progress = 0;
+    public $userViewStorie;
 
     protected $listeners = ['openStory', 'closeStory'];
 
-    public function mount()
+    public function mount($userViewStorie)
     {
+        $this->userViewStorie = $userViewStorie;
         $this->stories = Story::with('user')
-            ->where('user_id', '=', auth()->id())
+            // ->where('user_id', '=', auth()->id())
             ->where('expires_at', '>', now())
             ->get()
             ->groupBy('user_id')

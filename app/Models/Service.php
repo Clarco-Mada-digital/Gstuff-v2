@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Service extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'services'; // Spécifiez le nom de la table si ce n'est pas 'villes' au pluriel
     protected $primaryKey = 'id'; // Spécifiez la clé primaire si ce n'est pas 'id'
