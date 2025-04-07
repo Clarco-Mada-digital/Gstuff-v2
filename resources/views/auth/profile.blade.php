@@ -1184,8 +1184,8 @@
               if (this.progress < 100) {
                   this.progress++;
               } else {
-                  clearInterval(interval);
-                  this.$wire.nextStory();
+                this.$wire.nextStory();
+                clearInterval(interval);
               }
           }, 50);
       }

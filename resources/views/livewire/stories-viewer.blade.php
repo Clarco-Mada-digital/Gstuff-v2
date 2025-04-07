@@ -105,6 +105,7 @@
                 </div>
 
                 {{-- Like button --}}
+                @auth
                 <div x-data="{ likeCount: {{$selectedUserStories[$currentIndex]['likes_count']}} }">
                     <div class="absolute bottom-4 text-4xl left-4 flex items-center justify-end space-x-2">
                         <button
@@ -119,7 +120,8 @@
                         </button>
                         <span x-text="likeCount" class="text-white"></span>
                     </div>
-                </div>
+                </div>                    
+                @endauth
                 
             </div>
         </div>
