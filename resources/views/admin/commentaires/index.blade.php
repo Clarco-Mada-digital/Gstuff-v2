@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('pageTitle')
-Commentaire
+Commentaires
 @endsection
 
 @section('admin-content')
