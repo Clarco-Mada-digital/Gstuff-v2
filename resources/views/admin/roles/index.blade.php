@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-<div x-data="{ openModal: false, form: { name: '', permissions: [] } }" class="md:ml-64 pt-16 min-h-[100vh] container mx-auto px-4 py-8" x-cloak>
+<div x-data="roleForm()" class="md:ml-64 pt-16 min-h-[100vh] container mx-auto px-4 py-8" x-cloak>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Gestion des rôles</h1>
         <button @click="openModal = true" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -44,7 +44,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <a href="{{ route('roles.edit', $role) }}" class="text-blue-600 hover:text-blue-900 mr-3">Éditer</a>
                         @if($role->name !== 'admin')
-                        <form action="{{ route('roles.destroy', $role) }}" method="POST" class="inline">
+                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
@@ -63,9 +63,10 @@
             <h3 class="text-lg font-medium text-gray-900 mb-4">Créer un nouveau rôle</h3>
             
             <form @submit.prevent="submitForm">
+                @csrf()
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom du rôle*</label>
-                    <input type="text" id="name" x-model="form.name" 
+                    <input type="text" id="name" x-model="form.name" required
                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
@@ -74,7 +75,7 @@
                     <div class="space-y-2">
                         @foreach($permissions as $permission)
                         <label class="flex items-center">
-                            <input type="checkbox" x-model="form.permissions" value="{{ $permission->name }}"
+                            <input type="checkbox" x-model="form.permissions" value="{{ $permission->id }}"
                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                             <span class="ml-2 text-sm text-gray-700">{{ $permission->name }}</span>
                         </label>
@@ -97,35 +98,4 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('alpine:initialized', () => {
-        Alpine.data('roleForm', () => ({
-            form: {
-                name: '',
-                permissions: []
-            },
-            
-            submitForm() {
-                fetch('{{ route("roles.store") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(this.form)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-        }));
-    });
-</script>
 @endsection

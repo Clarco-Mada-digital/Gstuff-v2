@@ -36,10 +36,11 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->authorize('manage roles');
-        
+
         $request->validate([
-            'name' => 'required|string|unique:roles',
+            'name' => 'required|unique:roles|max:255',
             'permissions' => 'array',
+            'permissions.*' => 'exists:permissions,id'
         ]);
         
         $role = Role::create(['name' => $request->name]);
@@ -48,8 +49,10 @@ class RoleController extends Controller
             $role->syncPermissions($request->permissions);
         }
         
-        return redirect()->route('admin.roles.index')
-                         ->with('success', 'Rôle créé avec succès');
+        return response()->json([
+            'role' => $role,
+            'message' => 'Role creer avec success !'
+        ]);
     }
 
     /**
@@ -86,7 +89,15 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        //
+    {    
+        // Méthode 2 - Avec findOrFail (recommandée)
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->route('roles.index')->with('success', 'Rôle supprimé');
+        
+        // Méthode 3 - Avec suppression statique
+    //     Role::destroy($id);
+    //     return redirect()->route('roles.index')->with('success', 'Rôle supprimé');
+    // }
     }
 }

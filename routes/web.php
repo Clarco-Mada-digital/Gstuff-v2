@@ -83,7 +83,7 @@ Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
 Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
-Route::post('/roles-destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+Route::delete('/roles-destroy/{role:id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
 Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
 Route::get('/activity/edit', [ActivityController::class, 'update'])->name('activity.edit');
@@ -134,7 +134,7 @@ Route::middleware('auth')->group(function () {
 // Routes admin protégées
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     route::resource('activity', ActivityController::class);
-    route::resource('roles', RoleController::class);
+    // route::resource('roles', RoleController::class);
     // Route::resource('articles', ArticleController::class)->except(['show']);
     // Route::resource('article-categories', ArticleCategoryController::class);
     // Route::resource('tags', TagController::class);
@@ -143,7 +143,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::resource('users', UserController::class);
     
     // Rôles et permissions
-    Route::resource('roles', RoleController::class);
+    // Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class)->only(['index']);
     
     // Assignation des permissions aux rôles

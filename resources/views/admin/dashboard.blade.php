@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <div class="mt-4">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
+                        <a href="{{route('users.index')}}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
                     </div>
                 </div>
                 

@@ -79,6 +79,7 @@ function dashboard() {
             comments: 0,
             views: 0
         },
+        userSatats:[],
         recentArticles: [],
         chart: null,
 
@@ -135,6 +136,7 @@ function dashboard() {
             this.fetchStats();
             this.fetchRecentArticles();
             this.fetchRecentActivity();
+            // this.fetchUserStats();
 
             // Restaurer les filtres depuis localStorage si disponible
             if (localStorage.getItem('dashboardFilters')) {
@@ -182,6 +184,18 @@ function dashboard() {
             }
         },
 
+        async fetchUserStats() {
+            try{
+                const response = await fetch('/api/admin/api/user-stats');
+                const data = await response.json();
+                this.userSatats = data;
+                this.initChart();                
+
+            } catch (error) {
+                console.error('Error fetching user stats:', error);
+            }
+        },
+
         async fetchRecentArticles() {
             try {
                 const response = await fetch('/api/admin/api/articles/recent');
@@ -202,34 +216,29 @@ function dashboard() {
             }
         },
 
-        initChart() {
+        async initChart() {
+            const response = await fetch('/api/admin/api/user-stats');
+            function getRandomColor() {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                return `rgb(${r},${g},${b})`;
+            }
+            const data = await response.json();
+            this.userSatats = data;
+
             const ctx = this.$refs.chartCanvas.getContext('2d');
             this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Invités',
-                        data: [65, 59, 80, 81, 56, 72],
-                        borderColor: '#3B82F6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                    labels: this.userSatats.labels,
+                    datasets: Object.keys(this.userSatats.datasets).map(type => ({
+                        label: type,
+                        data: this.userSatats.datasets[type],
+                        backgroundColor: getRandomColor(),
                         tension: 0.4,
                         fill: true
-                    }, {
-                        label: 'Escortes',
-                        data: [28, 48, 40, 19, 86, 27],
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Salons',
-                        data: [18, 48, 77, 9, 100, 27],
-                        borderColor: '#FBBF24',
-                        backgroundColor: 'rgba(251, 191, 36, 0.05)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    }))
                 },
                 options: {
                     responsive: true,
@@ -284,6 +293,50 @@ function dashboard() {
 
     }
 };
+
+function roleForm() {
+    return {
+    openModal: false,
+    form: {
+        name: '',
+        permissions: []
+    },
+    errors: {}, // Ajoutez ceci pour gérer les erreurs
+    
+    submitForm() {
+        // Formatage pour Laravel
+        const formData = {
+            name: this.form.name,
+            permissions: this.form.permissions.map(Number) // Conversion en integers si nécessaire
+        };
+
+        fetch("{{ route('roles.store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.location.reload();
+        })
+        .catch(error => {
+            if (error.errors) {
+                this.errors = error.errors; // Affichage des erreurs
+            }
+            console.error('Error:', error);
+        });
+    }
+}
+}
 
 </script>
 @endsection

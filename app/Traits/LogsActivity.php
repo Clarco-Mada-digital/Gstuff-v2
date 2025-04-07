@@ -54,11 +54,15 @@ trait LogsActivity
     protected function getActivityDescription(string $event): string
     {
         $modelName = class_basename($this);
+
+        if($modelName == 'User') {
+            $modelName = 'Utililisateur';
+        };
         
         return match ($event) {
             'created' => "Un nouveau {$modelName} a été créé",
-            'updated' => "L' {$modelName} a été modifié",
-            'deleted' => "L' {$modelName} a été supprimé",
+            'updated' => "Un {$modelName} a été modifié",
+            'deleted' => "Un {$modelName} a été supprimé",
             default => "Activité sur {$modelName}",
         };
     }

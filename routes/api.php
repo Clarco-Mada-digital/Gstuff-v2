@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 /*
@@ -71,5 +72,29 @@ Route::prefix('admin/api')->group(function () {
                 'item' => $log->data // Données supplémentaires
             ];
         });
+    });
+
+    Route::get('/user-stats', function () {
+        $months = collect(range(0, 4))->map(function ($i) {
+            return now()->subMonths($i)->format('M');
+        });
+
+        $stats = DB::table('users')
+            ->select('profile_type', DB::raw('count(*) as total'))
+            ->whereIn('profile_type', ['invite', 'escorte', 'salon'])
+            ->where('created_at', '>=', now()->subMonths(5)->startOfMonth())
+            ->groupBy('profile_type')
+            ->get()
+            ->groupBy('profile_type');
+
+        $result = [];
+        foreach (['invite', 'escorte', 'salon'] as $type) {
+            $result[$type] = $stats->has($type) ? $stats[$type]->pluck('total')->toArray() : array_fill(0, 5, 0);
+        }
+
+        return response()->json([
+            'labels' => $months,
+            'datasets' => $result
+        ]);
     });
 });

@@ -6,7 +6,7 @@
 <div x-data="userManagement()" class="md:ml-64 py-6 px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Gestion des utilisateurs</h1>
-        <a href="{{ route('users.create') }}" class="btn-primary">
+        <a href="{{ route('users.create') }}" class="btn-gs-gradient rounded-md shadow-md font-bold">
             <i class="fas fa-plus mr-2"></i> Nouvel utilisateur
         </a>
     </div>
@@ -19,7 +19,7 @@
                            class="pl-10 pr-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
-                <select x-model="roleFilter" class="border rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                <select x-model="roleFilter" class="border rounded-lg px-3 py-2 w-36 focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Tous les rôles</option>
                     @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -34,6 +34,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type de profile</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôles</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -52,6 +53,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $user->profile_type }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex flex-wrap gap-1">
                                 @foreach($user->roles as $role)
@@ -66,11 +68,11 @@
                             <a href="{{ route('users.edit', $user) }}" class="text-blue-600 hover:text-blue-900 mr-3">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
+                            <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900" 
-                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                                <button type="button" class="text-red-600 hover:text-red-900" 
+                                        onclick="confirmDelete({{ $user->id }})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -87,6 +89,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 function userManagement() {
     return {
@@ -102,6 +105,22 @@ function userManagement() {
             return userRoles.includes(parseInt(this.roleFilter));
         }
     }
+}                      
+function confirmDelete(userId) {
+    Swal.fire({
+        title: ' Êtes-vous sûr de vouloir supprimer cet utilisateur ?',
+        text: "Cette action est irréversible !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, supprimer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(`delete-form-${userId}`).submit();
+        }
+    });
 }
 </script>
 @endsection
