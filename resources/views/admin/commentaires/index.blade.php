@@ -32,129 +32,212 @@ Commentaires
     {{-- Pour les commentaires approuvés --}}
     <div x-show="selectedTab === 'approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Approuvés</h2>
-        <div class="bg-white shadow rounded-lg overflow-hidden w-full p-4">
-            <div class="grid grid-cols-4 gap-4 bg-gray-50 p-2 font-medium text-gray-500 uppercase text-xs">
-                <div>Contenu</div>
-                <div>Utilisateur</div>
-                <div>Date</div>
-                <div>Actions</div>
-            </div>
 
-            <div id="approved-list">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions</th>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($commentairesApproved as $commentaire)
-                <div class="grid grid-cols-4 gap-4 p-2 border-b border-gray-200 approved-item">
-                    <div class="px-4 py-2">{{ $commentaire->content }}</div>
-                    <div class="px-4 py-2">{{ $commentaire->user->prenom ?? 'Utilisateur inconnu' }}</div>
-                    <div class="px-4 py-2">{{ $commentaire->created_at->format('d/m/Y H:i') }}</div>
-                    <div class="px-4 py-2 text-gray-500">
-                        <a href="#" class="text-blue-500 underline">Voir</a>
-                    </div>
-                </div>
+                <tr class="approved-item">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div
+                                class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ??
+                                $commentaire->user->nom_salon, 0, 1) }}
+                            </div>
+                            <div class="ml-4">
+                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ??
+                                    $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $commentaire->user->email }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-wrap gap-1">
+                            {{ $commentaire->content }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium">
+                        <a 
+                        href="{{ route('commentaires.show', $commentaire->id) }}"
+                         class="text-green-600 hover:text-green-900 mr-3">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {{-- <a href="{{ route('users.edit', $commentaire->user) }}" class="text-blue-600 hover:text-blue-900 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </a> --}}
+                       
+                        <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet Commentaire ?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
                 @endforeach
-            </div>
-
+            </tbody>
             <!-- Contrôles de pagination -->
-            <div class="flex justify-center mt-4 space-x-4">
-                <button onclick="prevPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
 
-                <span id="page-info-approved" class="px-4 py-2 font-semibold"></span>
+        </table>
+        <div class="flex justify-center mt-4 space-x-4">
+            <button onclick="prevPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
 
-                <button onclick="nextPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
+            <span id="page-info-approved" class="px-4 py-2 font-semibold"></span>
+
+            <button onclick="nextPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
         </div>
+
     </div>
 
     {{-- Pour les commentaires non approuvés --}}
     <div x-show="selectedTab === 'non-approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Non Approuvés</h2>
-        <div class="bg-white shadow rounded-lg overflow-hidden w-full p-4">
-            <div class="grid grid-cols-4 gap-4 bg-gray-50 p-2 font-medium text-gray-500 uppercase text-xs">
-                <div>Contenu</div>
-                <div>Utilisateur</div>
-                <div>Date</div>
-                <div>Actions</div>
-            </div>
 
-            <div id="non-approved-list">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions</th>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($commentairesNotApproved as $commentaire)
-                <div class="grid grid-cols-4 gap-4 p-2 border-b border-gray-200 non-approved-item">
-                    <div class="px-4 py-2">{{ $commentaire->content }}</div>
-                    <div class="px-4 py-2">{{ $commentaire->user->prenom ?? 'Utilisateur inconnu' }}</div>
-                    <div class="px-4 py-2">{{ $commentaire->created_at->format('d/m/Y H:i') }}</div>
-                    <div class="px-4 py-2 text-gray-500">
-                        <a href="#" class="text-blue-500 underline">Voir</a>
-                    </div>
-                </div>
+                <tr class="non-approved-item">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div
+                                class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ??
+                                $commentaire->user->nom_salon, 0, 1) }}
+                            </div>
+                            <div class="ml-4">
+                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ??
+                                    $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $commentaire->user->email }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-wrap gap-1">
+                            {{ $commentaire->content }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap font-medium">
+                        <a 
+                        href="{{ route('commentaires.show', $commentaire->id) }}"
+                         class="text-green-600 hover:text-green-900 mr-3">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {{-- <a href="{{ route('users.edit', $commentaire->user) }}" class="text-blue-600 hover:text-blue-900 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </a> --}}
+                       
+                        <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet Commentaire ?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                    
+                </tr>
+
                 @endforeach
-            </div>
+            </tbody>
 
-            <!-- Contrôles de pagination -->
-            <div class="flex justify-center mt-4 space-x-4">
-                <button onclick="prevPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
 
-                <span id="page-info-non-approved" class="px-4 py-2 font-semibold"></span>
 
-                <button onclick="nextPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
+        </table>
+        <div class="flex justify-center mt-4 space-x-4">
+            <button onclick="prevPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <span id="page-info-non-approved" class="px-4 py-2 font-semibold"></span>
+
+            <button onclick="nextPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
         </div>
+
     </div>
 </div>
 @endsection
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let itemsPerPageApproved = 4;
-        let currentPageApproved = 1;
-        let approvedComments = document.querySelectorAll(".approved-item");
-        let totalPagesApproved = Math.ceil(approvedComments.length / itemsPerPageApproved);
+    let itemsPerPageApproved = 4;
+    let currentPageApproved = 1;
+    let approvedComments = document.querySelectorAll(".approved-item");
+    let totalPagesApproved = Math.ceil(approvedComments.length / itemsPerPageApproved);
 
-        function showPageApproved(page) {
-            let start = (page - 1) * itemsPerPageApproved;
-            let end = start + itemsPerPageApproved;
+    function showPageApproved(page) {
+        let start = (page - 1) * itemsPerPageApproved;
+        let end = start + itemsPerPageApproved;
 
-            approvedComments.forEach((item, index) => {
-                item.style.display = index >= start && index < end ? "grid" : "none";
-            });
+        approvedComments.forEach((item, index) => {
+            item.style.display = index >= start && index < end ? "table-row" : "none";
+        });
 
-            document.getElementById("page-info-approved").innerText = `Page ${currentPageApproved} / ${totalPagesApproved}`;
+        document.getElementById("page-info-approved").innerText = `Page ${currentPageApproved} / ${totalPagesApproved}`;
+    }
+
+    window.nextPageApproved = function () {
+        if (currentPageApproved < totalPagesApproved) {
+            currentPageApproved++;
+            showPageApproved(currentPageApproved);
         }
+    };
 
-        window.nextPageApproved = function () {
-            if (currentPageApproved < totalPagesApproved) {
-                currentPageApproved++;
-                showPageApproved(currentPageApproved);
-            }
-        };
+    window.prevPageApproved = function () {
+        if (currentPageApproved > 1) {
+            currentPageApproved--;
+            showPageApproved(currentPageApproved);
+        }
+    };
 
-        window.prevPageApproved = function () {
-            if (currentPageApproved > 1) {
-                currentPageApproved--;
-                showPageApproved(currentPageApproved);
-            }
-        };
+    showPageApproved(currentPageApproved);
+});
 
-        showPageApproved(currentPageApproved);
-    });
 
     document.addEventListener("DOMContentLoaded", function () {
         let itemsPerPageNonApproved = 4;
@@ -167,7 +250,7 @@ Commentaires
             let end = start + itemsPerPageNonApproved;
 
             nonApprovedComments.forEach((item, index) => {
-                item.style.display = index >= start && index < end ? "grid" : "none";
+                item.style.display = index >= start && index < end ? "table-row" : "none";
             });
 
             document.getElementById("page-info-non-approved").innerText = `Page ${currentPageNonApproved} / ${totalPagesNonApproved}`;

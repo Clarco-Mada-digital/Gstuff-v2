@@ -165,6 +165,10 @@ Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
 Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
 Route::get('/commentaires/approved', [CommentaireController::class, 'getCommentApproved'])->name('commentaires.approved');
+Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('commentaires.show');
+Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
+Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
+
 
 
 // Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
