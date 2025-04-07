@@ -41,10 +41,10 @@ class RolePermissionSeeder extends Seeder
         }
 
         // Roles
-        $adminRole = Role::updateOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $editorRole = Role::updateOrCreate(['name' => 'editor', 'guard_name' => 'web']);
-        $writerRole = Role::updateOrCreate(['name' => 'writer', 'guard_name' => 'web']);
-        $userRole = Role::updateOrCreate(['name' => 'user', 'guard_name' => 'web']);
+        $adminRole = Role::updateOrCreate(['name' => 'admin', 'guard_name' => 'web', 'color' => 'purple']);
+        $editorRole = Role::updateOrCreate(['name' => 'editor', 'guard_name' => 'web', 'color' => 'green']);
+        $writerRole = Role::updateOrCreate(['name' => 'writer', 'guard_name' => 'web', 'color' => 'amber']);
+        $userRole = Role::updateOrCreate(['name' => 'user', 'guard_name' => 'web', 'color' => 'blue']);
 
         // Assign permissions
         $adminRole->givePermissionTo(Permission::all());

@@ -7,7 +7,7 @@ use App\Models\Article;
 use App\Models\ArticleCategory;
 
 class ActivityLogObserver
-{
+{ 
     /**
      * Handle the Article "created" event.
      */

@@ -141,7 +141,7 @@
   @section('content')
 
     @livewire('salon-search')    
-
+    
     <x-feedback-section />
 
     <x-call-to-action-inscription />

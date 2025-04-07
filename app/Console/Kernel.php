@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('model:prune', [
             '--model' => [ActivityLog::class],
         ])->daily();
+
+        $schedule->command('stories:clean')->everyMinute();
     }
 
     /**
