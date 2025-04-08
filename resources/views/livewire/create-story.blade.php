@@ -1,8 +1,8 @@
 <div class="relative bg-gray-100 p-4 rounded-lg">
-    <input type="file" wire:model="media" class="hidden" id="mediaUpload">
+    <input type="file" wire:model="media" class="hidden" id="storiesUpload">
     
     @if(!$media)
-        <label for="mediaUpload" class="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded">
+        <label for="storiesUpload" class="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded">
             📷 Ajouter une story
         </label>
     @else

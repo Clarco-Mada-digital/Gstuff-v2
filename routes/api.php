@@ -66,8 +66,8 @@ Route::prefix('admin/api')->group(function () {
                 'description' => $log->description,
                 'created_at' => $log->created_at,
                 'causer' => [
-                    'name' => $log->causer->pseudo,
-                    'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($log->causer->pseudo)
+                    'name' => $log->causer ? $log->causer->pseudo ?? $log->causer->prenom ?? $log->causer->nom_salon : 'System',
+                    'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($log->causer ? $log->causer->pseudo ?? $log->causer->prenom ?? $log->causer->nom_salon : 'System')
                 ],
                 'item' => $log->data // Données supplémentaires
             ];

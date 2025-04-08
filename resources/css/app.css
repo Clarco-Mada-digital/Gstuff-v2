@@ -36,6 +36,25 @@
     animation: progress 24s linear forwards;
   }
 
+  /* Animation pour le drag and drop */
+  .drag-active {
+      transform: scale(1.02);
+      transition: all 0.2s ease;
+  }
+
+  /* Style pour les prévisualisations */
+  .file-preview {
+      transition: opacity 0.3s ease;
+  }
+  .file-preview-enter {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  .file-preview-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
 
   /* * {
       margin: 0;

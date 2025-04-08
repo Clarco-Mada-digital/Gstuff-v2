@@ -603,64 +603,9 @@
           </div>
 
           {{-- Galerie --}}
-          <div class="flex items-center justify-between gap-5 py-5">
-
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <button class="flex items-center gap-2 text-amber-400">
-              Ajouter
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button>
-
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
+          <div class="w-full flex items-center gap-10 flex-wrap">
             {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-                  </div>
-              </div>
-            </div>
+            @livewire('gallery-manager', ['user' => $user], key($user->id))
           </div>
 
           {{-- A propos de moi --}}
@@ -787,86 +732,14 @@
             <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
           </div>
 
-           {{-- Galerie privée --}}
-           <div class="flex items-center justify-between gap-5 py-5">
-
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button>
-
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
-          </div>
+          {{-- Galerie privée --}}
+          @livewire('gallery-manager', ['user' => $user, 'isPublic' => false], key($user->id))
 
         </section>
 
         {{-- Section galerie --}}
         <section x-show="pageSection=='galerie'">
-          {{-- Storie --}}
-          <div class="flex items-center justify-between gap-5 py-5">
-
-          <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-          <div class="flex-1 h-0.5 bg-green-gs"></div>
-          <button class="flex items-center gap-2 text-amber-400">
-            Ajouter/Modifier
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-          </button>
-
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
-            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span> --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-                  </div>
-              </div>
-            </div>
-          </div>
+          @livewire('gallery-manager', ['user' => $user], key($user->id))
         </section>        
 
       </div>
@@ -878,65 +751,7 @@
         <section x-show="pageSection=='compte'">
 
           {{-- Galerie --}}
-          <div class="flex items-center justify-between gap-5 py-5">
-
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <button class="flex items-center gap-2 text-amber-400">
-              Ajouter
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button>
-
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
-            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-                  </div>
-              </div>
-            </div>
-          </div>
+          @livewire('gallery-manager', ['user' => $user], key($user->id))
 
           {{-- Description --}}
           <div class="flex items-center justify-between gap-5 py-5">
@@ -1015,82 +830,13 @@
           </div>
 
           {{-- Galerie privée --}}
-          <div class="flex items-center justify-between gap-5 py-5">
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <button class="flex items-center gap-2 text-amber-400">
-              Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button>
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5 vidéos</span>
-            <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
-          </div>
+          @livewire('gallery-manager', ['user' => $user, 'isPublic' => false], key($user->id))
 
         </section>
 
         {{-- section gallerie --}}
         <section x-show="pageSection=='galerie'">
-          <div class="flex items-center justify-between gap-5 py-5">
-
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
-            <div class="flex-1 h-0.5 bg-green-gs"></div>
-            <button class="flex items-center gap-2 text-amber-400">
-              Ajouter/Modifier
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z"/></svg>
-            </button>
-
-          </div>
-          <div class="flex items-center gap-10 flex-wrap">
-            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span> --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-                  </div>
-              </div>
-              <div class="grid gap-4">
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                  </div>
-                  <div>
-                      <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-                  </div>
-              </div>
-            </div>
-          </div>
+          @livewire('gallery-manager', ['user' => $user, 'isPublic' => true], key($user->id))
         </section>        
 
       </div>

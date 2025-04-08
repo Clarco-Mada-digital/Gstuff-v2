@@ -7,7 +7,8 @@
     use App\Traits\LogsActivity;
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
-    use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
     use Laravel\Sanctum\HasApiTokens;
     use Spatie\Permission\Traits\HasRoles;
@@ -132,5 +133,10 @@
    {
        return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id');
    }
+
+   public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class);
+    }
 }
 

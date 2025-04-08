@@ -546,6 +546,49 @@
         };
       }
 
+      // Pour le gallerie
+      function gallery() {
+        return {
+          viewMode: 'grid', 
+          fullscreen: false, 
+          currentMedia: null, 
+          showDeleteModal: false,
+          mediaToDelete: null, 
+          deleteModalTitle: '',
+          currentMediaIndex:0,
+
+          get mediaCount() { return this.$wire.gallerieItem.length; },
+
+          navigateMedia(direction) {
+            let newIndex = this.currentMediaIndex + direction;
+            if (newIndex >= 0 && newIndex < this.mediaCount) {
+              this.currentMediaIndex = newIndex;
+              this.updateCurrentMedia();
+            }
+          },
+          updateCurrentMedia() {
+            let media = this.$wire.gallerieItem[this.currentMediaIndex];
+            this.currentMedia = {
+              type: media.type,
+              url: media.url,
+              title: media.title,
+              description: media.description
+            };
+          },
+          // Modifier les clics initiaux pour mettre à jour l'index
+          initGallery() {
+            this.$watch('fullscreen', (value) => {
+              if (value) {
+                // Trouver l'index du média actuel
+                this.currentMediaIndex = this.$wire.gallerieItem.findIndex(
+                  m => m.url === this.currentMedia.url
+                );
+              }
+            });
+          }
+        }
+      }
+
     </script>
     @yield('extraScripts')
     @yield('specialScripts')
