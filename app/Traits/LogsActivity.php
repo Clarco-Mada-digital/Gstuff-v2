@@ -82,6 +82,6 @@ trait LogsActivity
                 'old' => $this->getOriginal(),
                 'attributes' => $this->getChanges(),
             ]
-            : ['attributes' => $this->toArray()];
+            : ['attributes' => $attributes];
     }
 }

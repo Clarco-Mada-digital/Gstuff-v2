@@ -37,6 +37,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         protected $hiddenForActivities = [
             'password',
             'remember_token',
+            'password_reset_token',
             'credit_card'
         ];
 
