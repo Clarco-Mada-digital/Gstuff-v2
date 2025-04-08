@@ -1052,8 +1052,24 @@
             </div>
             <div class="w-full flex items-center justify-between pt-10">
               <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer un escort</button>
-              <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
+
+
+
+              {{-- Todo --}}
+              <button 
+               data-modal-target="sendInvitationEscort"
+               data-modal-toggle="sendInvitationEscort"
+               class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
             </div>
+
+              {{-- Modale pour l'invitation escort --}}
+              <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <!-- Modale -->
+                <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+
+                <h2>test modal</h2>
+                </div>
+              </div>
           </div>
 
           {{-- Galerie privée --}}

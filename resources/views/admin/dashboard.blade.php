@@ -137,6 +137,23 @@
                         <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
                     </div>
                 </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-lg font-medium flex items-center">
+                                Escorts Approuvés
+                            </p>
+                            <p class="text-2xl font-semibold" x-text="stats.escorteApproved"></p>
+                        </div>
+                        <div class=" w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                            <i class="fas fa-user-check  text-blue-500"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
+                    </div>
+                </div>
+                
                 
                 <!-- Ajoutez d'autres cartes de statistiques ici -->
             </div>

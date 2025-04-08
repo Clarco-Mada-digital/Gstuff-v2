@@ -79,7 +79,9 @@ function dashboard() {
             articles: 0,
             users: 0,
             comments: 0,
-            views: 0
+            views: 0,
+            escorteApproved: 0
+
         },
         recentArticles: [],
         chart: null,
@@ -179,6 +181,7 @@ function dashboard() {
                 const response = await fetch('/api/admin/api/stats');
                 const data = await response.json();
                 this.stats = data;
+                
             } catch (error) {
                 console.error('Error fetching stats:', error);
             }
