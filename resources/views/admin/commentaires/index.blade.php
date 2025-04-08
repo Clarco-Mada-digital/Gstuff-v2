@@ -17,18 +17,22 @@ Commentaires
                     <li>
                         <a href="#" @click="selectedTab = 'approved'"
                             :class="{ 'bg-blue-500 text-white': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
-                            class="hover:bg-blue-300 px-4 py-2 rounded">Approuvés</a>
+                            class="hover:bg-blue-300 px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i> Approuvés
+                        </a>
                     </li>
                     <li>
                         <a href="#" @click="selectedTab = 'non-approved'"
                             :class="{ 'bg-blue-500 text-white': selectedTab === 'non-approved', 'text-gray-900 dark:text-white': selectedTab !== 'non-approved' }"
-                            class="hover:bg-blue-300 px-4 py-2 rounded">Non Approuvés</a>
+                            class="hover:bg-blue-300 px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-times-circle mr-2"></i> Non Approuvés
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
+    
     {{-- Pour les commentaires approuvés --}}
     <div x-show="selectedTab === 'approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Approuvés</h2>
