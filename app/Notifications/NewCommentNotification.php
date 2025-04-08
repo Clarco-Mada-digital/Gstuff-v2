@@ -62,7 +62,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
         return [
             'title' => 'Nouveau commentaire ajouté',
             'message' => 'L\'utilisateur ' . $this->commentaire->user->name . ' a posté un commentaire.',
-            'url' => '/admin/commentaires',
+            'url' => '/commentaires',
             'user_id' => $this->commentaire->user->id,
             'comment_id' => $this->commentaire->id,
         ];

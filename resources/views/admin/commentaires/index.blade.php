@@ -36,7 +36,6 @@ Commentaires
     {{-- Pour les commentaires approuvés --}}
     <div x-show="selectedTab === 'approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Approuvés</h2>
-
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -46,6 +45,8 @@ Commentaires
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
                     </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions</th>
                 </tr>
@@ -53,6 +54,7 @@ Commentaires
 
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($commentairesApproved as $commentaire)
+
                 <tr class="approved-item">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
@@ -73,6 +75,12 @@ Commentaires
                             {{ $commentaire->content }}
                         </div>
                     </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-wrap gap-1">
+                            {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
+                        </div>
+                    </td>
+                    
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
                         <a 
                         href="{{ route('commentaires.show', $commentaire->id) }}"
@@ -131,6 +139,8 @@ Commentaires
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
                     </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions</th>
                 </tr>
@@ -156,6 +166,11 @@ Commentaires
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex flex-wrap gap-1">
                             {{ $commentaire->content }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex flex-wrap gap-1">
+                            {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
