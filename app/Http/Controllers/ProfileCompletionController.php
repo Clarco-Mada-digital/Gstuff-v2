@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Commentaire;
+use App\Models\Invitation;
 
+use App\Models\Notification;
 
 class ProfileCompletionController extends Controller
 {
@@ -91,6 +93,21 @@ class ProfileCompletionController extends Controller
             
             $messageNoSeen = Message::where('to_id', Auth::user()->id)
                 ->where('seen', 0)->count();   
+                $user = Auth::user();
+                $listInvitation = []; // Initialise un tableau pour les invitations
+
+                // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                $invitations = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', false)
+                ->get();
+
+                // Préparer la liste des invitations
+                foreach ($invitations as $invitation) {
+                $listInvitation[] = [
+                'dateNotification' => $invitation->created_at, // Date de création de l'invitation
+                'userInvited' => User::find($invitation->invited_id), // Détails de l'utilisateur invité
+                ];
+                }
                 
             if ($user->profile_type == 'admin') {
                 return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
@@ -123,6 +140,7 @@ class ProfileCompletionController extends Controller
                     'escortFavorites' => $escortFavorites,
                     'salonFavorites' => $salonFavorites,
                     'messageNoSeen' => $messageNoSeen,
+                    'listInvitation' => $listInvitation,
                     
                 ]);            
             }

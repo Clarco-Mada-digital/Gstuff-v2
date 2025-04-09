@@ -7,7 +7,10 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\Invitation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Notifications\EscortInvitationNotification;
 
 class EscortController extends Controller
 {
@@ -60,6 +63,57 @@ class EscortController extends Controller
 
     return view('search_page_escort', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts' => $escorts]);
   }
+
+  /**
+ * Permet à un utilisateur d'inviter des escorts.
+ *
+ * @param \Illuminate\Http\Request $request
+ * @return \Illuminate\Http\Response
+ */
+public function inviterEscorte(Request $request)
+{
+    // Validation des données entrantes
+    $validated = $request->validate([
+        'escort_ids' => 'required|array', // `escort_ids` doit être un tableau
+        'escort_ids.*' => 'integer|exists:users,id', // Chaque élément du tableau doit être un ID valide d'utilisateur
+    ]);
+
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour inviter des escorts.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $authUser = Auth::user();
+
+    // Récupérer les utilisateurs avec le profile_type "escorte" à partir des IDs validés
+    $escorts = User::whereIn('id', $validated['escort_ids'])
+                   ->where('profile_type', 'escorte')
+                   ->get();
+
+    // Vérifier si tous les IDs correspondent à des escorts
+    if ($escorts->count() !== count($validated['escort_ids'])) {
+        return redirect()->back()->with('error', 'Certains utilisateurs sélectionnés ne sont pas des escorts.');
+    }
+
+    // Envoyer une invitation et une notification à chaque escort
+    foreach ($escorts as $escort) {
+        // Enregistrer une invitation dans la base de données
+        Invitation::create([
+            'inviter_id' => $authUser->id, // ID de l'utilisateur qui envoie l'invitation
+            'invited_id' => $escort->id,  // ID de l'escort invité
+            'accepted' => false,          // Par défaut, l'invitation est en attente
+        ]);
+
+        // Envoyer une notification à l'escort
+        $escort->notify(new EscortInvitationNotification($authUser));
+    }
+
+    return redirect()->route('profile.index')
+    ->with('success', 'Votre demande d\'invitation a été envoyée avec succès!');
+}
+
+
 
   
 }

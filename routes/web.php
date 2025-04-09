@@ -169,6 +169,7 @@ Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('
 Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
 Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
 
+Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
 
 
 // Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
