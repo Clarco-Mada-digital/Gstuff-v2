@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Canton; // Assuming you have a Canton model
 use App\Models\Ville;   // Assuming you have a Ville model
 use App\Models\Categorie;   // Assuming you have a Categorie model
+use App\Models\Favorite;
 use App\Models\Message;
 use App\Models\Service;
 use App\Models\User;
@@ -63,6 +64,8 @@ class ProfileCompletionController extends Controller
             $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
             $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
+            // Récupérer les favoris de l'utilisateur
+            $favoriteList = Favorite::with('user:id,pseudo,prenom,nom_salon,avatar')->where('user_id', Auth::user()->id)->get();
 
             // Récupérer les favoris de type "escort"
             $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
@@ -95,6 +98,7 @@ class ProfileCompletionController extends Controller
                     'user' => $user,
                     'cantons' => $cantons,
                     'villes' => $villes,
+                    'favoriteList' => $favoriteList,
                     'escort_categories' => $escort_categories,
                     'salon_categories' => $salon_categories,
                     'services' => $services,

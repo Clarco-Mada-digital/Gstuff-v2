@@ -19,7 +19,7 @@ class MessengerController extends Controller
     function index(): View
     {
         $favoriteList = Favorite::with('user:id,pseudo,prenom,nom_salon,avatar')->where('user_id', Auth::user()->id)->get();
-        return view('messenger.index', compact('favoriteList'));
+        return view('components.messenger', compact('favoriteList'));
     }
 
     /** Search user profiles */
