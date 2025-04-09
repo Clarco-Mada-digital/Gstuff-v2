@@ -854,7 +854,7 @@
                 {{-- <div class="card-header">Chat avec Jhone</div> --}}
                 <div class="card-body">
                   {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
-                  <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+                  <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="700"></iframe>
                 </div>
               </div>
             </div>
@@ -909,31 +909,33 @@
       }
     }
     function storyPlayer(){
-      isModalOpen: false,
-      currentStory: 0,
-      progress: 0,
+      return {
+        isModalOpen: false,
+        currentStory: 0,
+        progress: 0,
 
-      init() {
-          this.$wire.$on('openStory', () => {
-              this.isModalOpen = true;
-              this.startProgress();
-          });
+        init() {
+            this.$wire.$on('openStory', () => {
+                this.isModalOpen = true;
+                this.startProgress();
+            });
 
-          this.$wire.$on('closeStory', () => {
-              this.isModalOpen = false;
-              this.progress = 0;
-          });
-      },
+            this.$wire.$on('closeStory', () => {
+                this.isModalOpen = false;
+                this.progress = 0;
+            });
+        },
 
-      startProgress() {
-          const interval = setInterval(() => {
-              if (this.progress < 100) {
-                  this.progress++;
-              } else {
-                this.$wire.nextStory();
-                clearInterval(interval);
-              }
-          }, 50);
+        startProgress() {
+            const interval = setInterval(() => {
+                if (this.progress < 100) {
+                    this.progress++;
+                } else {
+                  this.$wire.nextStory();
+                  clearInterval(interval);
+                }
+            }, 50);
+        }
       }
     };
   </script>

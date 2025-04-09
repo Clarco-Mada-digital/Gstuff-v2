@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Message as MessageEvent;
+use App\Events\MessageSent as MessageEvent;
 use App\Models\Favorite;
 use App\Models\Message;
 use App\Models\User;
@@ -74,7 +74,7 @@ class MessengerController extends Controller
     function sendMessage(Request $request)
     {
         $request->validate([
-            // 'message' => ['required'],
+            'message' => ['required'],
             'id' => ['required', 'integer'],
             'temporaryMsgId' => ['required'],
             'attachment' => ['nullable', 'max:1024', 'image']
@@ -117,7 +117,7 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='d-flex justify-content-center no_messages align-items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
+            $response['messages'] = "<div class='flex justify-center font-bold font-dm-serif text-3xl items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
             return response()->json($response);
         }
 
@@ -223,7 +223,9 @@ class MessengerController extends Controller
         if($message->from_id == Auth::user()->id) {
             $message->delete();
             return response()->json([
-                'id' => $request->message_id
+                'id' => $request->message_id,
+                'status' => 'success',
+                'message' => 'Message supprimé avec succès'
             ], 200);
         }
         return;

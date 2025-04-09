@@ -55,6 +55,36 @@
       transform: translateY(0);
   }
 
+  .emojionearea {
+        @apply border-none shadow-none;
+    }
+
+    .emojionearea .emojionearea-editor {
+        @apply min-h-0 p-0;
+    }
+
+    .emojionearea .emojionearea-button {
+        @apply hidden;
+    }
+
+    .emojionearea.emojionearea-inline .emojionearea-editor {
+        @apply h-auto;
+    }
+
+    .emojionearea .emojionearea-picker {
+        @apply border border-gray-200 shadow-lg rounded-lg;
+    }
+
+    .emojionearea .emojionearea-picker .emojionearea-wrapper:after {
+        @apply hidden;
+    }
+
+    .emojionearea .emojionearea-picker .emojionearea-category-title {
+        @apply bg-white text-gray-700;
+    }
+
+  
+
 
   /* * {
       margin: 0;
