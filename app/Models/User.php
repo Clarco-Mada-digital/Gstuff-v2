@@ -110,6 +110,16 @@
   {
       return $this->belongsTo(Canton::class);
   }
+    public function cantonget()
+    {
+        return $this->belongsTo(Canton::class, 'canton'); 
+    }
+
+    public function villeget()
+    {
+        return $this->belongsTo(Ville::class, 'ville'); 
+    }
+
 
    // Relation avec les utilisateurs favoris
    public function favorites()

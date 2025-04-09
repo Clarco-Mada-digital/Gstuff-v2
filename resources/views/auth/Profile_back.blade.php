@@ -1013,7 +1013,7 @@
               <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
               <span class="hidden xl:block w-[10%] h-0.5 bg-green-gs"></span>
               <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">invitée du salon</h2>
-              <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
+              <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">zzzzzzzzzzzzzzAucun escort associé pour l'instant</span>
             </div>
             <div class="w-full flex items-center justify-between pt-10">
               <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer un escort</button>

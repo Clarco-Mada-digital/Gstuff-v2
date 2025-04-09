@@ -1104,10 +1104,27 @@ Mon compte
                             <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
                             <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort
                                 créer pour l'instant</span>
-                            <span class="hidden xl:block w-[10%] h-0.5 bg-green-gs"></span>
-                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">invitée du salon</h2>
-                            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort
-                                associé pour l'instant</span>
+                            {{-- <span class="hidden xl:block w-[10%] h-0.5 bg-green-gs"></span> --}}
+                            <div class="bg-red-200 w-xl h-xl">
+                                <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden ">invitée du salon</h2>
+                            </div>
+                            @if($acceptedInvitations->isNotEmpty())
+                            @foreach ($acceptedInvitations as $acceptedInvitation)
+                                <livewire:escort_card 
+                                    name="{{ $acceptedInvitation->invited->prenom }}" 
+                                    canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" 
+                                    ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" 
+                                    avatar="{{ $acceptedInvitation->invited->avatar }}" 
+                                    escortId="{{ $acceptedInvitation->invited->id }}" 
+                                    wire:key="{{ $acceptedInvitation->invited->id }}" 
+                                />
+                            @endforeach
+                        @else
+                            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">
+                                Aucun escort associé pour l'instant
+                            </span>
+                        @endif
+                        
                         </div>
                         <div class="w-full flex items-center justify-between pt-10">
                             <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer
@@ -1115,145 +1132,157 @@ Mon compte
 
 
 
-                            {{-- Todo --}}
-                            {{-- @foreach($listInvitation as $invitation)
-                            {{ $invitation['userInvited'] }}
-                           
-                            @endforeach --}}
                             <button data-modal-target="sendInvitationEscort" data-modal-toggle="sendInvitationEscort" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Invité
                                 un escort</button>
                         </div>
 
-                        {{-- Modale pour l'invitation escort --}}
-                        <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                            <!-- Modale -->
-                            <div class="bg-white rounded-lg shadow-lg p-6 w-[40vw] h-[60vh] xl:max-w-7xl ">
+                     
+                    </div>
+   {{-- Modale pour l'invitation escort --}}
+   <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <!-- Modale -->
+    <div class="bg-white rounded-lg shadow-lg p-6 w-[40vw] h-[60vh] xl:max-w-7xl ">
 
 
-                            
-                                <!-- Onglets Flowbite -->
-                                <ul class="text-sm mb-5 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400" data-tabs-toggle="#tabs-content" role="tablist">
-                                  <li class="flex-1">
-                                    <button id="new-invitation-tab" data-tabs-target="#new-invitation" type="button" role="tab" aria-controls="new-invitation" aria-selected="true"
-                                      class="w-full p-4 text-blue-700 bg-gray-100 rounded-l-lg dark:bg-gray-800 dark:text-blue-500">
-                                      Nouvelle invitation
-                                    </button>
-                                  </li>
-                                  <li class="flex-1">
-                                    <button id="pending-invitation-tab" data-tabs-target="#pending-invitation" type="button" role="tab" aria-controls="pending-invitation" aria-selected="false"
-                                      class="w-full p-4 bg-white hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700">
-                                      Invitation en attente
-                                    </button>
-                                  </li>
-                                </ul>
-                              
-                                <!-- Contenu des onglets -->
-                                <div id="tabs-content">
-                                  <!-- Nouvelle invitation -->
-                                  <form id="new-invitation" role="tabpanel" aria-labelledby="new-invitation-tab"  action="{{ route('inviter.escorte') }}" method="POST" class="h-[50vh]">
-                                    @csrf
-                                    <!-- Sécurité pour les formulaires dans Laravel -->
-                                    <div class="flex items-center mx-auto">
-                                        <label for="simple-search" class="sr-only">Search</label>
-                                        <div class="relative w-full">
-                                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
-                                                </svg>
-                                            </div>
-                                            <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ..." oninput="filterEscorts(this.value)">
-                                        </div>
-
-                                    </div>
-
-                                    <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[70%] overflow-y-auto" id="escort-list">
-                                        @foreach($escorts as $escort)
-                                        <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $escort->prenom }}">
-                                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                                                <div class="shrink-0">
-                                                    <img class="w-8 h-8 rounded-full" src="{{ $escort->avatar ? asset('storage/avatars/'.$escort->avatar) : asset('images/icon_logo.png') }}" alt="{{ $escort->prenom }}">
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                        {{ $escort->prenom }}
-                                                    </p>
-                                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                        {{ $escort->email }}
-                                                    </p>
-                                                </div>
-                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                    <input id="escort-{{ $escort->id }}" name="escort_ids[]" type="checkbox" value="{{ $escort->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                                </div>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                    <div class="flex justify-center">
-                                        <button type="submit" class="p-2.5 my-2 w-sm text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            Envoyer la demande
-                                        </button>
-                                    </div>
-
-
-                                </form>
-                              
-                                       {{-- Pour les invitations en attentes --}}
-                                       <div id="pending-invitation" role="tabpanel" aria-labelledby="pending-invitation-tab"  class="h-[50vh]">
-                                        <!-- Sécurité pour les formulaires dans Laravel -->
-                                        <div class="flex items-center mx-auto">
-                                            <label for="simple-search" class="sr-only">Search</label>
-                                            <div class="relative w-full">
-                                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
-                                                    </svg>
-                                                </div>
-                                                <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ..." oninput="filterEscorts(this.value)">
-                                            </div>
     
-                                        </div>
-    
-                                        <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[70%] overflow-y-auto" id="escort-list">
-                                            @foreach($listInvitation as $invitation)
-                                           
-                                            <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation['userInvited']->prenom }}">
-                                                <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                                                    <div class="shrink-0">
-                                                        <img class="w-8 h-8 rounded-full" src="{{ $invitation['userInvited']->avatar ? asset('storage/avatars/'.$invitation['userInvited']->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation['userInvited']->prenom }}">
-                                                    </div>
-                                                    <div class="flex-1 min-w-0">
-                                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                            {{ $invitation['userInvited']->prenom }}
-                                                        </p>
-                                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                            {{ $invitation['userInvited']->email }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                            {{ \Carbon\Carbon::parse($invitation['dateNotification'])->translatedFormat('d F Y') }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                               
-                                          
-                                            @endforeach
-                                        </ul>
-                                        {{-- <div class="flex justify-center">
-                                            <button type="submit" class="p-2.5 my-2 w-sm text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                Envoyer la demande
-                                            </button>
-                                        </div> --}}
-    
-    
-                                    </div>
-                                </div>
-                            
+        <!-- Onglets Flowbite -->
+        <ul class="text-sm mb-5 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400" data-tabs-toggle="#tabs-content" role="tablist">
+          <li class="flex-1">
+            <button id="new-invitation-tab" data-tabs-target="#new-invitation" type="button" role="tab" aria-controls="new-invitation" aria-selected="true"
+              class="w-full p-4 text-blue-700 bg-gray-100 rounded-l-lg dark:bg-gray-800 dark:text-blue-500">
+              Nouvelle invitation
+            </button>
+          </li>
+          <li class="flex-1">
+            <button id="pending-invitation-tab" data-tabs-target="#pending-invitation" type="button" role="tab" aria-controls="pending-invitation" aria-selected="false"
+              class="w-full p-4 bg-white hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700">
+              Invitation en attente
+            </button>
+          </li>
+        </ul>
+      
+        <!-- Contenu des onglets -->
+        <div id="tabs-content">
+          <!-- Nouvelle invitation -->
+          <form id="new-invitation" role="tabpanel" aria-labelledby="new-invitation-tab"  action="{{ route('inviter.escorte') }}" method="POST" class="h-[50vh]">
+            @csrf
+            <!-- Sécurité pour les formulaires dans Laravel -->
+            <div class="flex items-center mx-auto">
+                <label for="simple-search" class="sr-only">Search</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                        </svg>
+                    </div>
+                    <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ..." oninput="filterEscorts(this.value)">
+                </div>
 
-                            </div>
+            </div>
+
+            <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[70%] overflow-y-auto" id="escort-list">
+                @foreach($escorts as $escort)
+                <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $escort->prenom }}">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <div class="shrink-0">
+                            <img class="w-8 h-8 rounded-full" src="{{ $escort->avatar ? asset('storage/avatars/'.$escort->avatar) : asset('images/icon_logo.png') }}" alt="{{ $escort->prenom }}">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                {{ $escort->prenom }}
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{ $escort->email }}
+                            </p>
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                            <input id="escort-{{ $escort->id }}" name="escort_ids[]" type="checkbox" value="{{ $escort->id }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         </div>
                     </div>
+                </li>
+                @endforeach
+            </ul>
+            <div class="flex justify-center">
+                <button type="submit" class="p-2.5 my-2 w-sm text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Envoyer la demande
+                </button>
+            </div>
+
+
+        </form>
+      
+               {{-- Pour les invitations en attentes --}}
+               <div id="pending-invitation" role="tabpanel" aria-labelledby="pending-invitation-tab"  class="h-[50vh]">
+                <!-- Sécurité pour les formulaires dans Laravel -->
+                <div class="flex items-center mx-auto">
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                            </svg>
+                        </div>
+                        <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ..." oninput="filterEscorts(this.value)">
+                    </div>
+
+                </div>
+
+                <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[70%] overflow-y-auto" id="escort-list">
+                    @foreach($listInvitation as $invitation)
+                   
+                    <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation['userInvited']->prenom }}">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="shrink-0">
+                                <img class="w-8 h-8 rounded-full" src="{{ $invitation['userInvited']->avatar ? asset('storage/avatars/'.$invitation['userInvited']->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation['userInvited']->prenom }}">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    {{ $invitation['userInvited']->prenom }}
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    {{ $invitation['userInvited']->email }}
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    {{ \Carbon\Carbon::parse($invitation['dateNotification'])->translatedFormat('d F Y') }}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+       
+                  
+                    @endforeach
+                </ul>
+                {{-- <div class="flex justify-center">
+                    <button type="submit" class="p-2.5 my-2 w-sm text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Envoyer la demande
+                    </button>
+                </div> --}}
+
+
+            </div>
+        </div>
+    
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     {{-- Galerie privée --}}
                     <div class="flex items-center justify-between gap-5 py-5">

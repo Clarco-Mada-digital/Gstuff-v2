@@ -186,7 +186,7 @@
 
             </div>
             <div class="w-full flex items-center gap-10 flex-wrap">
-              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
+              <span class="w-full text-center text-green-gs font-bold font-dm-serif">aaaaaaaaaAucun escort associé pour l'instant</span>
             </div>
 
             {{-- Galerie privée --}}

@@ -158,45 +158,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Mot de passe réinitialisé avec succès. Veuillez vous connecter avec votre nouveau mot de passe.');
     }
 
-    // public function profile()
-    // {
-    //     if (Auth::check()) {
-    //         // $user = Auth::user()->load('canton');
-    //         $user = Auth::user();
-    //         $user['canton'] = Canton::find($user->canton);
-
-    //         $escorts = User::where('profile_type', 'escorte')->get();
-    //         dd($user);
-
-    //         if ($user) {
-    //             // Lister les invitations envoyées par le user
-    //             $notifications = Notification::where('type', 'App\Notifications\EscortInvitationNotification')->get();
-    //             $listInvitation = []; // Déclaration du tableau
-    
-    //             foreach ($notifications as $notification) {
-    //                 if (isset($notification->data['inviter_id']) && $notification->data['inviter_id'] === $user->id) {
-    //                     $listInvitation[] = [
-    //                         'dateNotification' => $notification->created_at,
-    //                         'readAt' => $notification->read_at,
-    //                         'userInvited' => User::findOrFail($notification->data['inviter_id']) // Corrigé pour récupérer le bon utilisateur
-    //                     ];
-    //                 }
-    //             }
-    //         }
-    //         if ($user->profile_type == 'salon') {
-    //             return view('auth.profile', ['user' => $user, 'escorts' => $escorts , 'listInvitation'=>$listInvitation]);
-    //         }
-            
-
-    //         if ($user->profile_type == 'admin') {
-    //             return view('admin.dashboard', ['user'=>$user,'user'=>$user]);
-    //         }else{
-    //             return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
-    //         }
-
-    //     }
-    //     return redirect()->route('home');
-    // }
+ 
     /**
  
  * Handle the user's profile view based on their profile type.
@@ -227,6 +189,13 @@ public function profile()
                               ->where('accepted', false)
                               ->get();
 
+    // Récupérer les invitations acceptées envoyées par l'utilisateur
+    $acceptedInvitations = Invitation::where('inviter_id',$user->id)
+                                  ->where('accepted', true)
+                                  ->with(['invited.cantonget'])// Charge les informations de l'utilisateur invité
+                                  ->with(['invited.villeget'])// Charge les informations de l'utilisateur invité
+                                  ->get();
+
     // Préparer la liste des invitations
     foreach ($invitations as $invitation) {
         $listInvitation[] = [
@@ -239,7 +208,7 @@ public function profile()
     switch ($user->profile_type) {
         case 'salon':
             // Vue pour les utilisateurs de type "salon" avec les invitations
-            return view('auth.profile', compact('user', 'escorts', 'listInvitation'));
+            return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations'));
 
         case 'admin':
             // Vue pour les administrateurs

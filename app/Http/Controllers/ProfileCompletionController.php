@@ -101,6 +101,13 @@ class ProfileCompletionController extends Controller
                 ->where('accepted', false)
                 ->get();
 
+                // Récupérer les invitations acceptées envoyées par l'utilisateur
+                $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', true)
+                ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
+                ->with(['invited.villeget'])
+                ->get();
+
                 // Préparer la liste des invitations
                 foreach ($invitations as $invitation) {
                 $listInvitation[] = [
@@ -141,6 +148,7 @@ class ProfileCompletionController extends Controller
                     'salonFavorites' => $salonFavorites,
                     'messageNoSeen' => $messageNoSeen,
                     'listInvitation' => $listInvitation,
+                    'acceptedInvitations' => $acceptedInvitations,
                     
                 ]);            
             }
