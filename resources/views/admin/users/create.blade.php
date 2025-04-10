@@ -3,7 +3,7 @@
 @section('title_page', 'Créer un utilisateur')
 
 @section('admin-content')
-<div class="md:ml-64 py-6 px-4 sm:px-6 lg:px-8">
+<div class="py-6 px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Créer un nouvel utilisateur</h1>
         <a href="{{ route('users.index') }}" class="btn-secondary">

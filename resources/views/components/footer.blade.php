@@ -23,7 +23,7 @@
                 <a href="{{ route('glossaires.index') }}">Glossaire</a>
                 <a href="{{ route('faq') }}">FAQ</a>
                 <a href="{{ route('about') }}">Qui sommes-nous ?</a>
-                <a href="{{ route('cgv') }}">Conditions générales de vente (GGV)</a>
+                <a href="{{ route('static.cgv') }}">Conditions générales de vente (GGV)</a>
                 <a href="{{ route('contact') }}">Contact</a>
             </div>
 
@@ -32,6 +32,6 @@
     <div
         class="relative flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all z-30">
         Copyright {{ now()->year }} - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> -
-        <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
+        <a href="{{ route('static.pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div>
 </div>

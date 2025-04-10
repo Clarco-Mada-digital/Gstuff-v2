@@ -44,7 +44,7 @@
     </div> --}}
 
     <!-- Main content -->
-    <div class="md:ml-64 pt-16">
+    <div class="pt-16">
         <!-- Header -->
         {{-- <header class="bg-white shadow-sm">
             <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">

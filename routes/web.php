@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StaticPageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
@@ -55,11 +56,33 @@ Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
 Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->name('glossaires.show');
-Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
+// Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
+// Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
+
+
+Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
+Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
+Route::post('/static-store', [StaticPageController::class, 'store'])->name('static.store');
+Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
+Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
+
+Route::get('/cgv', function () {
+    $page = \App\Models\StaticPage::findBySlug('cgv');
+    return view('cgv', compact('page'));
+})->name('static.cgv');
+
+Route::get('/pdc', function () {
+    $page = \App\Models\StaticPage::findBySlug('pdc');
+    return view('pdc', compact('page'));
+})->name('static.pdc');
+
+Route::get('/cgu', function () {
+    $page = \App\Models\StaticPage::findBySlug('cgu');
+    return view('admin.static-pages.show', compact('page'));
+})->name('static.cgu');
 
 
 
@@ -133,6 +156,8 @@ Route::middleware('auth')->group(function () {
 
 // Routes admin protégées
 Route::middleware(['auth'])->prefix('admin')->group(function() {
+    Route::resource('static-pages', \App\Http\Controllers\Admin\StaticPageController::class)
+    ->except(['destroy']);
     route::resource('activity', ActivityController::class);
     // route::resource('roles', RoleController::class);
     // Route::resource('articles', ArticleController::class)->except(['show']);

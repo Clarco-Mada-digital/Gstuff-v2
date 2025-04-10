@@ -30,7 +30,9 @@
         </nav>
     </div>
 
-    @yield('admin-content')
+    <div class="min-h-[80vh] bg-gray-100 md:ml-64">
+        @yield('admin-content')
+    </div>
     
 </div>
     <!-- Main Content -->
@@ -66,7 +68,8 @@ function dashboard() {
             { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
             { label: 'Utilisateurs', route: '{{route("users.index")}}', icon: '👥', badge: 'Nouveaux' },
             { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
-            { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },            
+            { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },          
+            { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },          
             { label: 'Catégories / Tags', route: '#', icon: '🗂️', badge: null },            
             // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
             { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },

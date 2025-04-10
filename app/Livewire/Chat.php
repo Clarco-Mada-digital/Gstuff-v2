@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Mailer\Event\MessageEvent;
 
 class Chat extends Component
@@ -15,6 +16,7 @@ class Chat extends Component
     public $messages =[];
     public $open = false;  // Variable pour suivre si le chat est ouvert ou non
     public $user;
+    public $contacts;
     public $userReceved;
 
     protected $listeners = ['loadForSender', 'messageReceived'];
@@ -96,6 +98,22 @@ class Chat extends Component
     {
         //$this->loadMessages(); // Charger les messages du chat
         $this->user = auth()->user(); // Charger l'utilisateur authentifié
+
+        $this->contacts = Message::join('users', function($join) {
+            $join->on('messages.from_id', '=', 'users.id')
+             ->orOn('messages.to_id', '=', 'users.id');
+         })
+         ->where(function($q) {
+             $q->where('messages.from_id', Auth::user()->id)
+             ->orWhere('messages.to_id', Auth::user()->id);
+         })
+         ->where('users.id', '!=', Auth::user()->id)
+         ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+         ->orderBy('max_created_at', 'desc')
+         ->groupBy('users.id')
+         ->get();
+
+        
         return view('livewire.chat');
     }
 }

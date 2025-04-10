@@ -85,6 +85,60 @@
         background: #a1a1a1;
     }
 
+    .ck-editor__editable {
+        min-height: 300px;
+        padding: 1rem;
+    }
+
+    .ck-content h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 1em 0;
+    }
+
+    .ck-content ul, .ck-content ol {
+        padding-left: 2em;
+        margin: 1em 0;
+    }
+
+    /* Validation */
+    input:invalid, textarea:invalid {
+        border-color: #f87171;
+    }
+
+    .prose {
+        color: #374151;
+        max-width: 65ch;
+    }
+
+    .prose h1, .prose h2, .prose h3 {
+        color: #111827;
+        font-weight: 600;
+    }
+
+    .prose h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .prose p {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .prose ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .prose a {
+        color: #4f46e5;
+        text-decoration: underline;
+    }
+
 
 
 

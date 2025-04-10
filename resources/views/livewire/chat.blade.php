@@ -19,11 +19,23 @@ use App\Models\User;
                 @else
                     {{ asset('images/icon_logo.png') }}
                 @endif" alt="Logo" class="w-10 h-10 rounded-full">
-                @endif
                 <span><strong>{{ $userReceved?->pseudo ?? $userReceved?->prenom ?? $userReceved?->nom_salon ??  'chat' }}</strong></span>
+                @else
+                @foreach ($contacts as $contact)
+                <div class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
+                    <img src="{{$contact->avatar ?  asset('avatars/') . $contact->avatar : asset('images/icon_logo.png')}}"
+                        alt="{{$contact->pseudo ?? $contact->prenom ?? $contact->nom_salon}}"
+                        class="w-12 h-12 rounded-full object-cover">
+                    <span
+                        x-text="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"></span>
+                </div>
+                @endforeach
+                @endif
+                
             </div>                
             <button x-on:click="open = false" class="text-2xl cursor-pointer">&times;</button>
         </div>
+        @if ($userReceved)
         <div  x-data="{scrollToBottom() {setTimeout(() => {this.$el.scrollTop = this.$el.scrollHeight;}, 100);}}"
             x-init="$wire.on('messages-loaded', () => scrollToBottom())"
             @updated.window="scrollToBottom()" 
@@ -68,6 +80,7 @@ use App\Models\User;
             <input type="text" wire:model="message" class="w-full p-2 border rounded" placeholder="Votre message..." />
             <button wire:click="sendMessage" class="bg-blue-500 text-white p-2 rounded">Envoyer</button>
         </div>
+        @endif
     </div>
     @endauth
 </div>    
