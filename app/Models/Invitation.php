@@ -17,6 +17,7 @@ class Invitation extends Model
         'inviter_id',
         'invited_id',
         'accepted',
+        'type' // qui peut être nulle , invite par salon ,associe au salon , creer par salon
     ];
 
     /**

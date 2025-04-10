@@ -170,6 +170,11 @@ Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->
 Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
 
 Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
+Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
+Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
+Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
+
+
 
 
 // Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');

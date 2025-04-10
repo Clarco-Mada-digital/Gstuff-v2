@@ -98,20 +98,125 @@ public function inviterEscorte(Request $request)
 
     // Envoyer une invitation et une notification à chaque escort
     foreach ($escorts as $escort) {
-        // Enregistrer une invitation dans la base de données
-        Invitation::create([
-            'inviter_id' => $authUser->id, // ID de l'utilisateur qui envoie l'invitation
-            'invited_id' => $escort->id,  // ID de l'escort invité
-            'accepted' => false,          // Par défaut, l'invitation est en attente
-        ]);
-
-        // Envoyer une notification à l'escort
-        $escort->notify(new EscortInvitationNotification($authUser));
-    }
-
+      // Vérifier si une invitation existe déjà entre inviter_id et invited_id
+      $existingInvitation = Invitation::where('inviter_id', $authUser->id)
+          ->where('invited_id', $escort->id)
+          ->first();
+  
+      if (!$existingInvitation) {
+          // Enregistrer une invitation dans la base de données
+          Invitation::create([
+              'inviter_id' => $authUser->id, // ID de l'utilisateur qui envoie l'invitation
+              'invited_id' => $escort->id,  // ID de l'escort invité
+              'accepted' => false,          // Par défaut, l'invitation est en attente
+              'type' => 'invite par salon'
+          ]);
+  
+          // Envoyer une notification à l'escort
+          $escort->notify(new EscortInvitationNotification($authUser));
+      } else {
+          // Optionnel : Log ou message indiquant que l'invitation existe déjà
+         
+      }
+  }
+  
     return redirect()->route('profile.index')
     ->with('success', 'Votre demande d\'invitation a été envoyée avec succès!');
 }
+
+public function accepter($id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $authUser = Auth::user();
+
+    // Vérifier si l'utilisateur est de type "escorte"
+    if ($authUser->profile_type !== 'escorte') {
+        return back()->with('error', 'Seuls les utilisateurs avec un profil "escorte" peuvent accepter des invitations.');
+    }
+
+    // Rechercher l'invitation par son ID
+    $invitation = Invitation::find($id);
+
+    // Vérifier si l'invitation existe
+    if (!$invitation) {
+        return back()->with('error', 'Invitation non trouvée.');
+    }
+
+    // Marquer l'invitation comme acceptée
+    $invitation->accepted = true;
+    $invitation->save();
+
+    // Retourner avec un message de succès
+    return back()->with('success', 'Invitation acceptée avec succès.');
+}
+
+
+public function refuser($id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $authUser = Auth::user();
+
+    // Vérifier si l'utilisateur est de type "escorte"
+    if ($authUser->profile_type !== 'escorte') {
+        return back()->with('error', 'Seuls les utilisateurs avec un profil "escorte" peuvent accepter des invitations.');
+    }
+
+    // Rechercher l'invitation par son ID
+    $invitation = Invitation::find($id);
+
+    // Vérifier si l'invitation existe
+    if (!$invitation) {
+        return back()->with('error', 'Invitation non trouvée.');
+    }
+
+    // Marquer l'invitation comme acceptée
+    $invitation->accepted = false;
+    $invitation->save();
+
+    // Retourner avec un message de succès
+    return back()->with('success', 'Invitation refusée avec succès.');
+}
+
+
+public function cancel($id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $authUser = Auth::user();
+
+    // Vérifier si l'utilisateur est de type "escorte"
+    if ($authUser->profile_type !== 'salon') {
+        return back()->with('error', 'Seuls les utilisateurs avec un profil "escorte" peuvent accepter ou gérer des invitations.');
+    }
+
+    // Récupérer l'invitation et vérifier son existence
+    $invitation = Invitation::find($id);
+    if (!$invitation) {
+        return back()->with('error', 'Invitation non trouvée.');
+    }
+
+    // Supprimer l'invitation
+    $invitation->delete();
+
+    return back()->with('success', 'Invitation annulée avec succès.');
+}
+
+
+
 
 
 

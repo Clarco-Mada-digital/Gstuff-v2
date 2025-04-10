@@ -93,28 +93,52 @@ class ProfileCompletionController extends Controller
             
             $messageNoSeen = Message::where('to_id', Auth::user()->id)
                 ->where('seen', 0)->count();   
-                $user = Auth::user();
+                $user = Auth::user();   
                 $listInvitation = []; // Initialise un tableau pour les invitations
 
                 // Récupérer les invitations non acceptées envoyées par l'utilisateur
                 $invitations = Invitation::where('inviter_id', $user->id)
                 ->where('accepted', false)
+                ->where('type', 'invite par salon')
+                ->orderBy('created_at', 'desc')
+                ->with(['invited'])
                 ->get();
+
+                  // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                  $invitationsRecus = Invitation::where('invited_id', $user->id)
+                  ->where('accepted', false)
+                  ->where('type', 'invite par salon')
+                   ->whereColumn('created_at', 'updated_at') 
+                  ->with(['inviter'])
+                  ->get();
 
                 // Récupérer les invitations acceptées envoyées par l'utilisateur
                 $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                ->where('type', 'invite par salon')
                 ->where('accepted', true)
                 ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
                 ->with(['invited.villeget'])
                 ->get();
 
-                // Préparer la liste des invitations
-                foreach ($invitations as $invitation) {
-                $listInvitation[] = [
-                'dateNotification' => $invitation->created_at, // Date de création de l'invitation
-                'userInvited' => User::find($invitation->invited_id), // Détails de l'utilisateur invité
-                ];
-                }
+                // Étape 1 : Récupérer les `invited_id` en fonction des conditions
+                $invitedIds = Invitation::where('inviter_id', $user->id)
+                ->where(function ($query) {
+                    $query->where('accepted', true)
+                        ->orWhere(function ($subQuery) {
+                            $subQuery->where('accepted', false)
+                                    ->whereColumn('created_at', 'updated_at');
+                        });
+                })
+                ->pluck('invited_id');
+
+                // Étape 2 : Récupérer les utilisateurs "escorte" non invités
+                $escortsNoInvited = User::where('profile_type', 'escorte')
+                ->whereNotIn('id', $invitedIds)
+                ->get();
+
+
+
+
                 
             if ($user->profile_type == 'admin') {
                 return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
@@ -147,8 +171,11 @@ class ProfileCompletionController extends Controller
                     'escortFavorites' => $escortFavorites,
                     'salonFavorites' => $salonFavorites,
                     'messageNoSeen' => $messageNoSeen,
-                    'listInvitation' => $listInvitation,
+                    'listInvitation' => $invitations,
                     'acceptedInvitations' => $acceptedInvitations,
+                    'invitationsRecus' => $invitationsRecus,
+                    'escortsNoInvited' => $escortsNoInvited,
+
                     
                 ]);            
             }

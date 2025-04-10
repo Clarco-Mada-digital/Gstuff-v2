@@ -165,6 +165,86 @@ class AuthController extends Controller
  *
  * @return \Illuminate\Http\Response|\Illuminate\Routing\Redirector
  */
+// public function profile()
+// {
+//     // Vérification : l'utilisateur doit être connecté
+//     if (!Auth::check()) {
+//         return redirect()->route('home'); // Redirige vers la page d'accueil si non authentifié
+//     }
+
+//     // Récupérer l'utilisateur authentifié
+//     $user = Auth::user();
+
+//     // Associer le canton à l'utilisateur
+//     $user->canton = Canton::find($user->canton);
+
+//     // Récupérer les utilisateurs avec le type de profil "escorte"
+//     $escorts = User::where('profile_type', 'escorte')->get();
+
+//     // Initialiser le tableau des invitations
+//     $listInvitation = [];
+
+//     // Récupérer les invitations non acceptées envoyées par l'utilisateur
+//     $invitations = Invitation::where('inviter_id', $user->id)
+//                             ->where('type', 'invite par salon')
+//                               ->where('accepted', false)
+//                               ->get();
+//      // Récupérer les invitations non acceptées envoyées par l'utilisateur
+//      $invitationsRecus = Invitation::where('invited_id', $user->id)
+//      ->where('accepted', false)
+//      ->where('type', 'invite par salon')
+//      ->with(['inviter'])
+//      ->get();
+
+//     // Récupérer les invitations acceptées envoyées par l'utilisateur
+//     $acceptedInvitations = Invitation::where('inviter_id',$user->id)
+//                                  ->where('type', 'invite par salon')
+//                                   ->where('accepted', true)
+                                
+//                                   ->with(['invited.cantonget'])// Charge les informations de l'utilisateur invité
+//                                   ->with(['invited.villeget'])// Charge les informations de l'utilisateur invité
+//                                   ->get();
+
+//     // Préparer la liste des invitations
+//     foreach ($invitations as $invitation) {
+//         $listInvitation[] = [
+//             'dateNotification' => $invitation->created_at, // Date de création de l'invitation
+//             'userInvited' => User::find($invitation->invited_id), // Détails de l'utilisateur invité
+//         ];
+//     }
+
+//     // Afficher une vue basée sur le type de profil de l'utilisateur
+//     switch ($user->profile_type) {
+//         case 'salon':
+//             // Vue pour les utilisateurs de type "salon" avec les invitations
+//             return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations','invitationsRecus'));
+
+//         case 'admin':
+//             // Vue pour les administrateurs
+//             return view('admin.dashboard', compact('user'));
+
+//         default:
+//             // Vue par défaut pour les autres types de profils
+//             return view('auth.profile', compact('user', 'escorts'));
+//     }
+// }
+
+
+
+
+/**
+ * Gère l'affichage du profil de l'utilisateur connecté en fonction de son type de profil.
+ *
+ * - Si l'utilisateur n'est pas connecté, il sera redirigé vers la page d'accueil.
+ * - Charge les informations spécifiques en fonction du type de profil de l'utilisateur :
+ *   - Pour un utilisateur de type "salon", les invitations envoyées et reçues sont incluses.
+ *   - Pour un administrateur, la vue du tableau de bord est chargée.
+ *   - Par défaut, pour les autres profils, seules les informations de base sont affichées.
+ * 
+ * @return \Illuminate\Http\Response|\Illuminate\Routing\Redirector
+ * - Une vue contenant les informations du profil.
+ * - Ou une redirection si l'utilisateur n'est pas connecté.
+ */
 public function profile()
 {
     // Vérification : l'utilisateur doit être connecté
@@ -186,15 +266,24 @@ public function profile()
 
     // Récupérer les invitations non acceptées envoyées par l'utilisateur
     $invitations = Invitation::where('inviter_id', $user->id)
-                              ->where('accepted', false)
-                              ->get();
+                            ->where('type', 'invite par salon')
+                            ->where('accepted', false)
+                            ->get();
+
+    // Récupérer les invitations non acceptées reçues par l'utilisateur
+    $invitationsRecus = Invitation::where('invited_id', $user->id)
+                                  ->where('accepted', false)
+                                  ->where('type', 'invite par salon')
+                                  ->with(['inviter'])
+                                  ->get();
 
     // Récupérer les invitations acceptées envoyées par l'utilisateur
-    $acceptedInvitations = Invitation::where('inviter_id',$user->id)
-                                  ->where('accepted', true)
-                                  ->with(['invited.cantonget'])// Charge les informations de l'utilisateur invité
-                                  ->with(['invited.villeget'])// Charge les informations de l'utilisateur invité
-                                  ->get();
+    $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                                     ->where('type', 'invite par salon')
+                                     ->where('accepted', true)
+                                     ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
+                                     ->with(['invited.villeget'])  // Charge les informations de l'utilisateur invité
+                                     ->get();
 
     // Préparer la liste des invitations
     foreach ($invitations as $invitation) {
@@ -208,7 +297,7 @@ public function profile()
     switch ($user->profile_type) {
         case 'salon':
             // Vue pour les utilisateurs de type "salon" avec les invitations
-            return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations'));
+            return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations', 'invitationsRecus'));
 
         case 'admin':
             // Vue pour les administrateurs
@@ -219,6 +308,5 @@ public function profile()
             return view('auth.profile', compact('user', 'escorts'));
     }
 }
-
 
 }
