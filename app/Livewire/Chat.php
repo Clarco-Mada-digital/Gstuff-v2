@@ -16,7 +16,10 @@ class Chat extends Component
     public $messages =[];
     public $open = false;  // Variable pour suivre si le chat est ouvert ou non
     public $user;
+    public $users;
     public $contacts;
+    public $lastMessage;
+    public $unseenCounter;
     public $userReceved;
 
     protected $listeners = ['loadForSender', 'messageReceived'];
@@ -30,6 +33,12 @@ class Chat extends Component
     {
         $this->open = true;
         $this->userReceved = User::findOrFail($idUser);
+        $this->loadMessages();
+    }
+
+    public function resetSender()
+    {
+        $this->userReceved = null;
         $this->loadMessages();
     }
 
@@ -84,7 +93,8 @@ class Chat extends Component
     }
 
     // delete message
-    function deleteMessage($id) {
+    function deleteMessage($id) 
+    {
         $message = Message::findOrFail($id);
         if($message->from_id == Auth::user()->id) {
             $message->delete();
@@ -94,24 +104,56 @@ class Chat extends Component
         return;
     }
 
+    function getContactItem($user) 
+    {
+        $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
+        ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
+        ->latest()->first();
+        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+
+        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
+
+    }
+
     public function render()
     {
         //$this->loadMessages(); // Charger les messages du chat
         $this->user = auth()->user(); // Charger l'utilisateur authentifié
 
-        $this->contacts = Message::join('users', function($join) {
+        if($this->user)
+        {
+            $this->users = Message::join('users', function($join) {
             $join->on('messages.from_id', '=', 'users.id')
              ->orOn('messages.to_id', '=', 'users.id');
-         })
-         ->where(function($q) {
-             $q->where('messages.from_id', Auth::user()->id)
-             ->orWhere('messages.to_id', Auth::user()->id);
-         })
-         ->where('users.id', '!=', Auth::user()->id)
-         ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-         ->orderBy('max_created_at', 'desc')
-         ->groupBy('users.id')
-         ->get();
+            })
+            ->where(function($q) {
+                $q->where('messages.from_id', Auth::user()->id)
+                ->orWhere('messages.to_id', Auth::user()->id);
+            })
+            ->where('users.id', '!=', Auth::user()->id)
+            ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+            ->orderBy('max_created_at', 'desc')
+            ->groupBy('users.id')
+            ->get();
+
+            if(count($this->users) > 0) {
+                $this->contacts = '';
+                foreach($this->users as $user) {
+                    $this->contacts .= $this->getContactItem($user);
+                }
+    
+            }else {
+                $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+            }
+
+            $this->lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $this->user->id)
+            ->orWhere('from_id', $this->user->id)->where('to_id', Auth::user()->id)
+            ->latest()->first();
+            $this->unseenCounter = Message::where('from_id', $this->user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+        }else{
+            $this->contacts = [];
+        }
+        
 
         
         return view('livewire.chat');
