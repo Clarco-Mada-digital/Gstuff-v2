@@ -136,49 +136,67 @@ class ProfileCompletionController extends Controller
                 ->whereNotIn('id', $invitedIds)
                 ->get();
 
+            
+                $salonAssociers = Invitation::where('invited_id', $user->id)
+                ->where('accepted', true)
+                // ->where('type', 'invite par salon')
+                ->with(['inviter.cantonget'])
+                ->with(['inviter.villeget'])
+                ->get();
+
+                $escorteCreateBySalons = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', true)
+                ->where('type', 'creer par salon')
+                ->with(['inviter.cantonget'])
+                ->with(['inviter.villeget'])
+                ->get();
+
+
+              
 
 
 
-                
-            if ($user->profile_type == 'admin') {
-                return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
-            }else{
-                return view('auth.profile', [
-                    'genres' => $genres,
-                    'escorts' => $escorts,
-                    'user' => $user,
-                    'cantons' => $cantons,
-                    'villes' => $villes,
-                    'escort_categories' => $escort_categories,
-                    'salon_categories' => $salon_categories,
-                    'services' => $services,
-                    'pratiquesSexuelles' => $pratiquesSexuelles,
-                    'oriantationSexuelles' => $oriantationSexuelles,
-                    'origines' => $origines,
-                    'couleursYeux' => $couleursYeux,
-                    'couleursCheveux' => $couleursCheveux,
-                    'mensurations' => $mensurations,
-                    'poitrines' => $poitrines,
-                    'taillesPoitrine' => $taillesPoitrine,
-                    'pubis' => $pubis,
-                    'silhouette' => $silhouette,
-                    'tatouages' => $tatouages,
-                    'mobilites' => $mobilites,
-                    'tarifs' => $tarifs,
-                    'paiements' => $paiements,
-                    'langues' => $langues,
-                    'nombre_filles' => $nombreFilles,
-                    'escortFavorites' => $escortFavorites,
-                    'salonFavorites' => $salonFavorites,
-                    'messageNoSeen' => $messageNoSeen,
-                    'listInvitation' => $invitations,
-                    'acceptedInvitations' => $acceptedInvitations,
-                    'invitationsRecus' => $invitationsRecus,
-                    'escortsNoInvited' => $escortsNoInvited,
-
-                    
-                ]);            
-            }
+                switch ($user->profile_type) {
+                    case 'admin':
+                        return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
+                   
+                    default:
+                        return view('auth.profile', [
+                            'genres' => $genres,
+                            'escorts' => $escorts,
+                            'user' => $user,
+                            'cantons' => $cantons,
+                            'villes' => $villes,
+                            'escort_categories' => $escort_categories,
+                            'salon_categories' => $salon_categories,
+                            'services' => $services,
+                            'pratiquesSexuelles' => $pratiquesSexuelles,
+                            'oriantationSexuelles' => $oriantationSexuelles,
+                            'origines' => $origines,
+                            'couleursYeux' => $couleursYeux,
+                            'couleursCheveux' => $couleursCheveux,
+                            'mensurations' => $mensurations,
+                            'poitrines' => $poitrines,
+                            'taillesPoitrine' => $taillesPoitrine,
+                            'pubis' => $pubis,
+                            'silhouette' => $silhouette,
+                            'tatouages' => $tatouages,
+                            'mobilites' => $mobilites,
+                            'tarifs' => $tarifs,
+                            'paiements' => $paiements,
+                            'langues' => $langues,
+                            'nombre_filles' => $nombreFilles,
+                            'escortFavorites' => $escortFavorites,
+                            'salonFavorites' => $salonFavorites,
+                            'messageNoSeen' => $messageNoSeen,
+                            'listInvitation' => $invitations,
+                            'acceptedInvitations' => $acceptedInvitations,
+                            'invitationsRecus' => $invitationsRecus,
+                            'escortsNoInvited' => $escortsNoInvited,
+                            'salonAssociers' => $salonAssociers,
+                            'escorteCreateBySalons' => $escorteCreateBySalons,
+                        ]);       
+                }
         }else{
             return redirect()->route('home');
         }

@@ -8,24 +8,22 @@ Mon compte
 @endsection
 
 @section('content')
-<div x-data="{couvertureForm:false}">
-    <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{$couverture_image = $user->couverture_image}}' ? '{{asset('storage/couvertures/'.$couverture_image)}}' : '{{asset('images/Logo_lg.svg')}}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $user->couverture_image ? asset('storage/couvertures/'.$user->couverture_image) : asset('images/Logo_lg.svg')}}) center center /cover;">
+<div x-data="{ couvertureForm: false }">
+    <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
         <button x-on:click.stop="couvertureForm = !couvertureForm" class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
             </svg> Modifier photo de couverture</button>
     </div>
 
-    <div x-data="{pageSection: $persist('compte'), userType:'{{ $user->profile_type }}', completionPercentage: 0, dropdownData:'', fetchCompletionPercentage() { fetch('/profile-completion-percentage') .then(response => response.json()) .then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data') .then(response => response.json()) .then(data => { this.dropdownData = data; }); }}" x-init="fetchCompletionPercentage()" class="container flex flex-col xl:flex-row justify-center mx-auto">
+    <div x-data="{ pageSection: $persist('compte'), userType: '{{ $user->profile_type }}', completionPercentage: 0, dropdownData: '', fetchCompletionPercentage() { fetch('/profile-completion-percentage').then(response => response.json()).then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data').then(response => response.json()).then(data => { this.dropdownData = data; }); } }" x-init="fetchCompletionPercentage()" class="container flex flex-col xl:flex-row justify-center mx-auto">
 
         {{-- Left section profile --}}
-        <div x-data="{profileForm:false}" class="min-w-1/4 flex flex-col items-center gap-3">
+        <div x-data="{ profileForm: false }" class="min-w-1/4 flex flex-col items-center gap-3">
 
             <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
-                <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{$avatar = auth()->user()->avatar}}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if($avatar=auth()->user()->avatar)
-                src="{{ asset('storage/avatars/'.$avatar) }}"
+                <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $avatar = auth()->user()->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=auth()->user()->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
                 @else
-                src="{{ asset('images/icon_logo.png') }}"
-                @endif
+                src="{{ asset('images/icon_logo.png') }}" @endif
                 alt="image profile" />
             </div>
             <a href="#" class="flex md:hidden items-center gap-3 -mt-[25%] ">
@@ -41,7 +39,7 @@ Mon compte
                 Modifier photo de profil
             </button>
             <div x-show="profileForm" x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
-                <form action="{{route('profile.update-photo')}}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
+                <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
                     @csrf()
                     <h3 class="font-dm-serif text-sm text-green-gs text-center">Modifier photo de profile</h3>
                     <template x-if="imageUrl">
@@ -51,10 +49,11 @@ Mon compte
                     <button type="submit" class="btn-gs-gradient font-bold py-2 px-4 rounded">Mettre à jour</button>
                 </form>
             </div>
-            <p class="font-bold">{{ $user->pseudo ?? $user->prenom ?? $user->nom_salon }}</p>
+            <p class="font-bold">{{ $user->pseudo ?? ($user->prenom ?? $user->nom_salon) }}</p>
             <div class="flex items-center justify-center gap-2 text-green-gs">
                 <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none">
-                        <path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        </path>
                     </svg> {{ $user->canton['nom'] ?? 'Non renseigner' }}</a>
                 <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z" />
@@ -76,14 +75,16 @@ Mon compte
                 mon profile</button>
 
             <div class="w-full flex flex-col gap-0 items-center mb-5">
-                <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon
+                <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon
                     compte</button>
-                <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'" :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mes
+                <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'" :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mes
                     favoris</button>
-                <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : '' " class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
-                <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : '' " class="flex items-center w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion
-                    @if ($messageNoSeen > 0)<span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{$messageNoSeen}}</span>
-                    @endif</button>
+                <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
+                <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : ''" class="flex items-center w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion
+                    @if ($messageNoSeen > 0)
+                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{ $messageNoSeen }}</span>
+                    @endif
+                </button>
             </div>
 
         </div>
@@ -96,16 +97,16 @@ Mon compte
                 <!-- Étapes -->
                 <div class="w-full flex justify-between gap-5 mb-6">
                     <template class="w-full" x-for="(step, index) in steps" :key="index">
-                        <div :class="index < steps.length - 1 ? 'w-full':'w-auto xl:w-full'" class="flex items-center justify-start">
+                        <div :class="index < steps.length - 1 ? 'w-full' : 'w-auto xl:w-full'" class="flex items-center justify-start">
                             <div x-on:click="currentStep=index" class="w-8 h-8 flex mx-2 items-center justify-center rounded-full cursor-pointer" :class="{
-                  'bg-amber-400 text-white': index < currentStep,
-                  'bg-blue-500 text-white animate-bounce': index === currentStep,
-                  'bg-gray-300 text-gray-600': index > currentStep
-                }">
+                                        'bg-amber-400 text-white': index < currentStep,
+                                        'bg-blue-500 text-white animate-bounce': index === currentStep,
+                                        'bg-gray-300 text-gray-600': index > currentStep
+                                    }">
                                 <span x-text="index + 1"></span>
                             </div>
-                            <span class="hidden xl:block" :class="{'text-amber-400': index < currentStep}" x-text="step"></span>
-                            <span :class="index < steps.length - 1 ? 'flex':'hidden'" class="flex-1 w-16 h-1 bg-gray-300 md:mx-1"></span>
+                            <span class="hidden xl:block" :class="{ 'text-amber-400': index < currentStep }" x-text="step"></span>
+                            <span :class="index < steps.length - 1 ? 'flex' : 'hidden'" class="flex-1 w-16 h-1 bg-gray-300 md:mx-1"></span>
                         </div>
                     </template>
                 </div>
@@ -115,11 +116,11 @@ Mon compte
                 </div>
 
                 <!-- Contenu du formulaire -->
-                <form action="{{route('profile.update')}}" method="POST">
+                <form action="{{ route('profile.update') }}" method="POST">
                     @csrf
 
                     <!-- Étape 1: Informations personnelles -->
-                    <div x-data="{cantons:{{$cantons}}, selectedCanton:{{$user->canton?->id ?? 1}}, villes:{{$villes}}, availableVilles:{{$villes}}}" x-show="currentStep === 0">
+                    <div x-data="{ cantons: {{ $cantons }}, selectedCanton: {{ $user->canton?->id ?? 1 }}, villes: {{ $villes }}, availableVilles: {{ $villes }} }" x-show="currentStep === 0">
                         <h2 class="text-lg font-semibold mb-4">Informations personnelles</h2>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">intitule</label>
@@ -132,18 +133,19 @@ Mon compte
                                 <select name="genre" id="intitule" class="bg-gray-50 border border-s-0 border-gray-300 text-gray-900 text-sm rounded-e-lg border-s-gray-100 dark:border-s-gray-700 block w-full p-2.5 ps-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ">
                                     <option hidden value=""> -- </option>
                                     @foreach ($genres as $genre)
-                                    <option value="{{$genre}}" @if($user->genre == $genre) selected @endif>{{$genre}}</option>
+                                    <option value="{{ $genre }}" @if ($user->genre == $genre) selected @endif>{{ $genre }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        @if ($user->profile_type=='salon')
+                        @if ($user->profile_type == 'salon')
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Nom du proprietaire</label>
                             <input type="text" name="nom_proprietaire" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->nom_proprietaire }}">
                         </div>
                         @endif
-                        @if ($user->profile_type=='escorte')
+                        @if ($user->profile_type == 'escorte')
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">name</label>
                             <div class="relative">
@@ -157,7 +159,7 @@ Mon compte
                             </div>
                         </div>
                         @endif
-                        @if ($user->profile_type=='invite')
+                        @if ($user->profile_type == 'invite')
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Pseudo</label>
                             <input type="text" name="pseudo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->pseudo }}">
@@ -199,7 +201,7 @@ Mon compte
                             <select x-model="selectedCanton" x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" name="canton" id="canton" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 <template x-for="canton in cantons" :key="canton.id">
-                                    <option :value=canton.id :selected="'{{$user->canton['id'] ?? ''}}' == canton.id ? true : false" x-text="canton.nom"></option>
+                                    <option :value=canton.id :selected="'{{ $user->canton['id'] ?? '' }}' == canton.id ? true : false" x-text="canton.nom"></option>
                                 </template>
 
                             </select>
@@ -209,7 +211,7 @@ Mon compte
                             <select name="ville" id="ville" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" onchange="localStorage.setItem('villeNom', this.options[this.selectedIndex].text);">
                                 <option hidden value=""> -- </option>
                                 <template x-for="ville in villes" :key="ville.id">
-                                    <option :value=ville.id :selected="'{{$user->ville}}' == ville.id ? true : false" x-text="ville.nom">
+                                    <option :value=ville.id :selected="'{{ $user->ville }}' == ville.id ? true : false" x-text="ville.nom">
                                     </option>
                                 </template>
 
@@ -218,16 +220,16 @@ Mon compte
                     </div>
 
                     <!-- Étape 2: Informations professionnelles -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden':''" x-show="currentStep === 1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" :class="userType == 'invite' ? 'hidden' : ''" x-show="currentStep === 1">
                         <h2 class="text-lg font-semibold mb-4 col-span-2">Informations professionnelles</h2>
-                        @if ($user->profile_type=='salon')
+                        @if ($user->profile_type == 'salon')
                         <div class="mb-4 col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">Catégories</label>
                             <select name="categorie" id="salon_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($salon_categories as $categorie)
-                                <option value={{ $categorie->id }} @if($user->categorie?->id ?? '' == $categorie['id']) selected
-                                    @endif>{{ $categorie->nom }}</option>
+                                <option value={{ $categorie->id }} @if ($user->categorie?->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -235,8 +237,10 @@ Mon compte
                             <label class="block text-sm font-medium text-gray-700">Recrutement</label>
                             <select name="recrutement" id="recrutement" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
-                                <option value="Ouvert" @if ($user->recrutement == 'Ouvert') selected @endif >Ouvert</option>
-                                <option value="Fermé" @if ($user->recrutement == 'Fermé') selected @endif >Fermer</option>
+                                <option value="Ouvert" @if ($user->recrutement == 'Ouvert') selected @endif>Ouvert
+                                </option>
+                                <option value="Fermé" @if ($user->recrutement == 'Fermé') selected @endif>Fermer
+                                </option>
                             </select>
                         </div>
                         <div class="mb-4 col-span-2 md:col-span-1">
@@ -244,20 +248,20 @@ Mon compte
                             <select name="nombre_filles" id="nombre_filles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($nombre_filles as $nb_fille)
-                                <option value="{{$nb_fille}}" @if($user->nombre_filles == $nb_fille) selected @endif > {{$nb_fille}}
+                                <option value="{{ $nb_fille }}" @if ($user->nombre_filles == $nb_fille) selected @endif> {{ $nb_fille }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
                         @endif
-                        @if ($user->profile_type=='escorte')
+                        @if ($user->profile_type == 'escorte')
                         <div class="mb-4 col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">Catégories</label>
                             <select name="categorie" id="escort_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($escort_categories as $categorie)
-                                <option value={{ $categorie['id'] }} @if($user->categorie ? $user->categorie['id'] == $categorie->id :
-                                    false) selected @endif>{{ $categorie['nom'] }}</option>
+                                <option value={{ $categorie['id'] }} @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -266,8 +270,8 @@ Mon compte
                             <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($pratiquesSexuelles as $pratique)
-                                <option value="{{ $pratique }}" @if($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique
-                  }}</option>
+                                <option value="{{ $pratique }}" @if ($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -276,8 +280,8 @@ Mon compte
                             <select name="oriantation_sexuelles" id="oriantation_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($oriantationSexuelles as $oriantation)
-                                <option value="{{ $oriantation }}" @if($user->oriantation_sexuelles == $oriantation) selected @endif>{{
-                  $oriantation }}</option>
+                                <option value="{{ $oriantation }}" @if ($user->oriantation_sexuelles == $oriantation) selected @endif>{{ $oriantation }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -288,14 +292,15 @@ Mon compte
                         </div>
                         <div class="mb-4 col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">Tailles en cm</label>
-                            <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{$user->tailles}}">
+                            <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{ $user->tailles }}">
                         </div>
                         <div class="mb-4 col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700">Origine</label>
                             <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($origines as $origine)
-                                <option value="{{ $origine }}" @if($user->origine == $origine) selected @endif>{{ $origine }}</option>
+                                <option value="{{ $origine }}" @if ($user->origine == $origine) selected @endif>{{ $origine }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -304,7 +309,8 @@ Mon compte
                             <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($couleursYeux as $yeux)
-                                <option value="{{ $yeux }}" @if($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}</option>
+                                <option value="{{ $yeux }}" @if ($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}
+                                </option>
                                 @endforeach
                             </select>
                             </select>
@@ -314,7 +320,7 @@ Mon compte
                             <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($couleursCheveux as $cheveux)
-                                <option value="{{ $cheveux }}" @if($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}
+                                <option value="{{ $cheveux }}" @if ($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}
                                 </option>
                                 @endforeach
                             </select>
@@ -325,8 +331,8 @@ Mon compte
                             <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($mensurations as $mensuration)
-                                <option value="{{ $mensuration }}" @if($user->mensuration == $mensuration) selected @endif>{{
-                  $mensuration }}</option>
+                                <option value="{{ $mensuration }}" @if ($user->mensuration == $mensuration) selected @endif>{{ $mensuration }}
+                                </option>
                                 @endforeach
                             </select>
                             </select>
@@ -336,7 +342,7 @@ Mon compte
                             <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($poitrines as $poitrine)
-                                <option value="{{ $poitrine }}" @if($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}
+                                <option value="{{ $poitrine }}" @if ($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}
                                 </option>
                                 @endforeach
                             </select>
@@ -347,8 +353,8 @@ Mon compte
                             <select id="taille_poitrine" name="taille_poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($taillesPoitrine as $taillePoitrine)
-                                <option value="{{ $taillePoitrine }}" @if($user->taille_poitrine == $taillePoitrine) selected @endif>{{
-                  $taillePoitrine }}</option>
+                                <option value="{{ $taillePoitrine }}" @if ($user->taille_poitrine == $taillePoitrine) selected @endif>{{ $taillePoitrine }}
+                                </option>
                                 @endforeach
                             </select>
                             </template>
@@ -359,7 +365,8 @@ Mon compte
                             <select id="pubis" name="pubis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($pubis as $pubi)
-                                <option value="{{ $pubi }}" @if($user->pubis == $pubi) selected @endif>{{ $pubi }}</option>
+                                <option value="{{ $pubi }}" @if ($user->pubis == $pubi) selected @endif>{{ $pubi }}
+                                </option>
                                 @endforeach
                             </select>
                             </select>
@@ -369,7 +376,8 @@ Mon compte
                             <select id="tatouages" name="tatouages" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($tatouages as $tatou)
-                                <option value="{{ $tatou }}" @if($user->tatouages == $tatou) selected @endif>{{ $tatou }}</option>
+                                <option value="{{ $tatou }}" @if ($user->tatouages == $tatou) selected @endif>{{ $tatou }}
+                                </option>
                                 @endforeach
                             </select>
                             </select>
@@ -379,7 +387,7 @@ Mon compte
                             <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($mobilites as $mobilite)
-                                <option value="{{ $mobilite }}" @if($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}
+                                <option value="{{ $mobilite }}" @if ($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}
                                 </option>
                                 @endforeach
                             </select>
@@ -395,7 +403,8 @@ Mon compte
                             <select id="tarif" name="tarif" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option hidden> -- </option>
                                 @foreach ($tarifs as $tarif)
-                                <option value="{{ $tarif }}" @if($user->tarif == $tarif) selected @endif>A partir de {{ $tarif }}.-CHF
+                                <option value="{{ $tarif }}" @if ($user->tarif == $tarif) selected @endif>A partir de
+                                    {{ $tarif }}.-CHF
                                 </option>
                                 @endforeach
                             </select>
@@ -415,18 +424,18 @@ Mon compte
                         <h2 class="text-lg font-semibold mb-4">Informations complémentaires</h2>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Autre contact</label>
-                            <input type="text" name="autre_contact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->autre_contact}}" />
+                            <input type="text" name="autre_contact" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->autre_contact }}" />
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Complement d'adresse</label>
-                            <input type="text" name="complement_adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{$user->complement_adresse}}" />
+                            <input type="text" name="complement_adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->complement_adresse }}" />
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Lien site web</label>
                             <input type="url" name="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ $user->lien_site_web }}" />
                         </div>
 
-                        <x-location-selector user='{{$user->id}}' />
+                        <x-location-selector user='{{ $user->id }}' />
 
                     </div>
 
@@ -453,7 +462,7 @@ Mon compte
         <div class="flex flex-col gap-5 min-w-3/4 px-5 py-5">
 
             <div x-show="couvertureForm" x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
-                <form action="{{route('profile.update-photo')}}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
+                <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
                     @csrf()
                     <h3 class="font-dm-serif text-sm text-green-gs text-center">Modifier photo de couverture</h3>
                     <template x-if="imageUrl">
@@ -474,10 +483,13 @@ Mon compte
                     <span class="font-bold">Votre profil est actuellement rempli à <span x-text=`${completionPercentage}%`></span>
                     </span>
                     <div class="my-1.5">
-                        Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de compléter vos
-                        informations avec des données réelles. Chez Gstuff, nous nous engageons à respecter votre vie privée. Toutes
-                        les données collectées sont utilisées pour vous offrir une expérience optimale sur la plateforme. Consultez
-                        notre politique de confidentialité ici : <a class="font-bold" href="{{route('pdc')}}">Politique de
+                        Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de
+                        compléter vos
+                        informations avec des données réelles. Chez Gstuff, nous nous engageons à respecter votre vie
+                        privée. Toutes
+                        les données collectées sont utilisées pour vous offrir une expérience optimale sur la
+                        plateforme. Consultez
+                        notre politique de confidentialité ici : <a class="font-bold" href="{{ route('pdc') }}">Politique de
                             confidentialité</a>
                     </div>
                     <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf" class="font-dm-serif font-bold border text-green-gs border-green-600 px-2 py-1 hover:bg-green-gs hover:text-white rounded-lg transition-all">Amelioré
@@ -522,10 +534,10 @@ Mon compte
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 w-full">
                         <div class="xl:w-1/2 flex flex-col items-center justify-center gap-4 min-w-full">
                             <h3 class="font-dm-serif text-xl text-green-gs">Mes escortes favoris</h3>
-                            @if ($escortFavorites != '[]')
+                            @if ($escortFavorites->isNotEmpty())
                             <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
                                 @foreach ($escortFavorites as $favorie)
-                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
+                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" />
                                 @endforeach
                             </div>
                             @else
@@ -537,7 +549,7 @@ Mon compte
                             @if ($salonFavorites != '[]')
                             <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
                                 @foreach ($salonFavorites as $favorie)
-                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{$favorie->canton['nom']}}" ville="{{$favorie->ville['nom']}}" avatar='{{$favorie->avatar}}' escortId="{{$favorie->id}}" />
+                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" />
                                 @endforeach
                             </div>
                             @else
@@ -563,10 +575,10 @@ Mon compte
                     <div class="grid grid-cols-1 w-full">
                         <div class="relative xl:w-1/2 flex flex-col items-center justify-center gap-5 min-w-full">
                             <h3 class="font-dm-serif text-xl text-green-gs">Mes escortes favoris</h3>
-                            @if ($escortFavorites != '[]')
+                            @if ($escortFavorites->isNotEmpty())
                             <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                                 @foreach ($escortFavorites as $escort)
-                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
                                 @endforeach
                             </div>
                             <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -588,7 +600,7 @@ Mon compte
                             @if ($salonFavorites != '[]')
                             <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                                 @foreach ($salonFavorites as $escort)
-                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
                                 @endforeach
                             </div>
                             <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -614,7 +626,7 @@ Mon compte
             <div x-show="userType=='escorte'">
 
                 {{-- Pour la vérification --}}
-                @if($user->profile_verifie === 'verifier')
+                @if ($user->profile_verifie === 'verifier')
                 <div class="w-full p-5 rounded-xl flex items-center justify-between border border-blue-gs text-blue-gs">
                     <p class="flex items-center">
                         <i class="fas fa-check-circle text-blue-gs mr-2"></i>
@@ -635,9 +647,9 @@ Mon compte
                 @endif
 
 
-                {{-- Todo  --}}
 
-                @if($invitationsRecus->isNotEmpty())
+
+                @if ($invitationsRecus->isNotEmpty())
                 <div class="flex items-center justify-between gap-5 py-5">
 
                     <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Invitation</h2>
@@ -652,16 +664,15 @@ Mon compte
                             <a href="#" class="flex items-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 justify-between">
                                 <div class="flex items-center">
                                     <div class="me-3 rounded-full w-11 h-11">
-                                        <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/'.$avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if($avatar=$invitationsRecu->inviter->avatar)
-                                        src="{{ asset('storage/avatars/'.$avatar) }}"
+                                        <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=$invitationsRecu->inviter->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
                                         @else
-                                        src="{{ asset('images/icon_logo.png') }}"
-                                        @endif
+                                        src="{{ asset('images/icon_logo.png') }}" @endif
                                         alt="image profile" />
                                     </div>
                                     <div>
                                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                                            Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span> vient d'envoyer une invitation pour rejoindre son salon.
+                                            Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
+                                            vient d'envoyer une invitation pour rejoindre son salon.
                                         </p>
                                         <span class="text-xs text-blue-600 dark:text-blue-500">
                                             {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
@@ -670,12 +681,12 @@ Mon compte
                                 </div>
                                 <!-- Bouton pour ouvrir le modal et afficher les détails de l'invitation -->
                                 <button class="py-2 px-3 w-32 flex items-center justify-center rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800" data-modal-target="detailInvitation" data-modal-toggle="detailInvitation" x-on:click="$dispatch('invitation-detail', {
-                                    id: '{{ $invitationsRecu->id}}',
+                                    id: '{{ $invitationsRecu->id }}',
                                     avatar: '{{ $invitationsRecu->inviter->avatar }}',
                                     nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
                                     date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
-                                    type: '{{ $invitationsRecu->type ?? "Non spécifié" }}',
-                                    email: '{{ $invitationsRecu->inviter->email ?? "Non spécifié" }}'
+                                    type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
+                                    email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
                                 })">
                                     Détail
                                     <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -696,13 +707,17 @@ Mon compte
 
                         <div class="flex items-center mt-4 justify-between">
                             <div class="me-3 rounded-xl w-32 h-32">
-                                <img :src="avatar ? `{{ asset('storage/avatars') }}/${avatar}` : `{{ asset('images/icon_logo.png') }}`" class="w-full h-full rounded-full object-center object-cover" alt="Avatar salon">
+                                <img :src="avatar ? `{{ asset('storage/avatars') }}/${avatar}` :
+                                            `{{ asset('images/icon_logo.png') }}`" class="w-full h-full rounded-full object-center object-cover" alt="Avatar salon">
                             </div>
                             <div class="w-[50%]">
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Nom du salon : <span class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span class="font-medium text-gray-900 dark:text-white" x-text="email"></span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span class="font-medium text-gray-900 dark:text-white" x-text="date"></span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span class="font-medium text-gray-900 dark:text-white" x-text="type"></span></p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span class="font-medium text-gray-900 dark:text-white" x-text="email"></span>
+                                </p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span class="font-medium text-gray-900 dark:text-white" x-text="date"></span>
+                                </p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span class="font-medium text-gray-900 dark:text-white" x-text="type"></span>
+                                </p>
                             </div>
                         </div>
                         <div class="flex justify-end items-center gap-4">
@@ -729,10 +744,12 @@ Mon compte
                 <!-- Modal Structure -->
                 <div id="requestModal" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="bg-white rounded-lg shadow-lg p-6 w-[50vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
-                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs  mb-5">Envoyer votre photo de vérification </h2>
-                        <h2 class="font-dm-serif  text-sm   mb-2">Envoyez-nous une photo de vous en tenant un papier écrit << Gstuff>> et la date du jour à la quelle vous avez pris la photo</h2>
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs  mb-5">Envoyer votre photo de
+                            vérification </h2>
+                        <h2 class="font-dm-serif  text-sm   mb-2">Envoyez-nous une photo de vous en tenant un papier
+                            écrit << Gstuff>> et la date du jour à la quelle vous avez pris la photo</h2>
                         <div x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
-                            <form action="{{route('profile.updateVerification')}}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
+                            <form action="{{ route('profile.updateVerification') }}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
                                 @csrf()
                                 <h3 class="font-dm-serif text-sm text-green-gs text-center">Image de vérification</h3>
                                 <template x-if="imageUrl">
@@ -772,6 +789,7 @@ Mon compte
                     <div class="flex items-center justify-between gap-5 py-5">
 
                         <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+                   
                         <div class="flex-1 h-0.5 bg-green-gs"></div>
                         <button class="flex items-center gap-2 text-amber-400">
                             Ajouter
@@ -782,8 +800,7 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
-            --}}
+                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>--}}
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="grid gap-4">
                                 <div>
@@ -851,21 +868,21 @@ Mon compte
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Langue : {{$user->langues}}</span>
+                                <span>Langue : {{ $user->langues }}</span>
                             </div>
 
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Couleur des yeux : {{$user->couleur_yeux ?? '-'}} </span>
+                                <span>Couleur des yeux : {{ $user->couleur_yeux ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Couleur des cheveux : {{$user->couleur_cheveux ?? '-'}} </span>
+                                <span>Couleur des cheveux : {{ $user->couleur_cheveux ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-                                @if($user->tarif)
-                                <span>Tarifs à partir de {{$user->tarif}}.-CHF</span>
+                                @if ($user->tarif)
+                                <span>Tarifs à partir de {{ $user->tarif }}.-CHF</span>
                                 @else
                                 <span>Contacter moi pour connaitre mes tarifs </span>
                                 @endif
@@ -873,28 +890,28 @@ Mon compte
 
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/taille_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Taille : +/- {{$user->tailles ?? '-'}}cm </span>
+                                <span>Taille : +/- {{ $user->tailles ?? '-' }}cm </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/poitrine_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Poitrine : {{$user->poitrine ?? '-'}} </span>
+                                <span>Poitrine : {{ $user->poitrine ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Mobilité : {{$user->mobilite ?? '-'}}</span>
+                                <span>Mobilité : {{ $user->mobilite ?? '-' }}</span>
                             </div>
 
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/mensuration.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Mensurations : {{$user->mensuration ?? '-'}}</span>
+                                <span>Mensurations : {{ $user->mensuration ?? '-' }}</span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/taill_poit.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Taille de poitrine : {{'Bonnet '. $user->taille_poitrine ?? '?'}} </span>
+                                <span>Taille de poitrine : {{ 'Bonnet ' . $user->taille_poitrine ?? '?' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Moyen de paiement : {{$user->paiement}}</span>
+                                <span>Moyen de paiement : {{ $user->paiement }}</span>
                             </div>
 
                         </div>
@@ -906,7 +923,7 @@ Mon compte
                         <div class="flex-1 h-0.5 bg-green-gs"></div>
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        <p class="text-justify">{{$user->apropos ?? '-'}} </p>
+                        <p class="text-justify">{{ $user->apropos ?? '-' }} </p>
                     </div>
 
                     {{-- Service --}}
@@ -925,8 +942,7 @@ Mon compte
                             </button>
                         </div>
                         <div class="flex items-center gap-5">
-                            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$user->categorie['nom']
-                ?? ''}}</span>
+                            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{ $user->categorie['nom'] ?? '' }}</span>
                         </div>
 
                         <div class="flex items-center gap-5 font-dm-serif font-bold text-green-gs">
@@ -939,9 +955,8 @@ Mon compte
                             </button>
                         </div>
                         <div class="flex items-center gap-5">
-                            @foreach($user->service as $service)
-                            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$service['nom'] ??
-                ''}}</span>
+                            @foreach ($user->service as $service)
+                            <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{ $service['nom'] ?? '' }}</span>
                             @endforeach
                         </div>
 
@@ -961,8 +976,20 @@ Mon compte
 
                     </div>
                     <div class="w-full flex items-center gap-10 flex-wrap">
-                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour
-                            l'instant</span>
+
+
+
+
+                        @if($salonAssociers->isNotEmpty())
+                        @foreach ($salonAssociers as $salonAssocier)
+                        <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon}}" canton="{{$salonAssocier->inviter->cantonget->nom ?? 'Inconue'}}" ville="{{$salonAssocier->inviter->villeget->nom  ?? 'Inconue'}}" avatar='{{$salonAssocier->inviter->avatar}}' salonId='{{$salonAssocier->inviter->id}}' wire:key="{{$salonAssocier->inviter->id}}" />
+                        @endforeach
+                        @else
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
+                        @endif
+
+
+
                     </div>
 
                     {{-- Galerie privée --}}
@@ -979,9 +1006,11 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez
+                            droit qu'à 5
                             vidéos</span>
-                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour
+                            l'instant</span>
                     </div>
 
                 </section>
@@ -1002,8 +1031,7 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span>
-            --}}
+                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span> --}}
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="grid gap-4">
                                 <div>
@@ -1075,8 +1103,7 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span>
-            --}}
+
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="grid gap-4">
                                 <div>
@@ -1133,7 +1160,7 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        <p class="text-justify text-sm xl:text-base"> {{$user->apropos ?? '-'}} </p>
+                        <p class="text-justify text-sm xl:text-base"> {{ $user->apropos ?? '-' }} </p>
                     </div>
 
                     {{-- A propos de moi --}}
@@ -1145,35 +1172,35 @@ Mon compte
                         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Catégorie : {{$user->categorie['nom'] ?? '-'}} </span>
+                                <span>Catégorie : {{ $user->categorie['nom'] ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Nombre des filles : {{$user->nombre_filles}} filles</span>
+                                <span>Nombre des filles : {{ $user->nombre_filles }} filles</span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Langue : {{$user->langues}}</span>
+                                <span>Langue : {{ $user->langues }}</span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Autre contact : {{$user->autre_contact ?? '-'}} </span>
+                                <span>Autre contact : {{ $user->autre_contact ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Adresse : {{$user->adresse ?? '-'}} </span>
+                                <span>Adresse : {{ $user->adresse ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
-                                @if($user->tarif)
-                                <span>Tarifs à partir de {{$user->tarif}}.-CHF</span>
+                                @if ($user->tarif)
+                                <span>Tarifs à partir de {{ $user->tarif }}.-CHF</span>
                                 @else
                                 <span>Contacter moi pour connaitre mes tarifs </span>
                                 @endif
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Moyen de paiement : {{$user->paiement}}</span>
+                                <span>Moyen de paiement : {{ $user->paiement }}</span>
                             </div>
 
                         </div>
@@ -1184,19 +1211,45 @@ Mon compte
 
                         <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Escorte du salon</h2>
                         <div class="hidden xl:block flex-1 h-0.5 bg-green-gs"></div>
-                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">invitée du salon</h2>
+                     
 
                     </div>
-                    <div class="mt-10 xl:mt-0 w-full flex items-center flex-col gap-2">
-                        <div class="w-full flex flex-col xl:flex-row items-center gap-2">
-                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
-                            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort
-                                créer pour l'instant</span>
-                            {{-- <span class="hidden xl:block w-[10%] h-0.5 bg-green-gs"></span> --}}
-                            <div class="bg-red-200 w-xl h-xl">
-                                <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden ">invitée du salon</h2>
+                    <div class="mt-10 xl:mt-0 w-full flex items-center flex-col">
+                       
+                        <div class="w-full   items-center ">
+                    
+                            <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
+                                <div class="xl:ml-auto">
+                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Escorte créée</h2>
+                                </div>
                             </div>
-                            @if($acceptedInvitations->isNotEmpty())
+                            
+                          <div class="">
+                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
+                           <div class="flex items-center flex-wrap">
+                            @if ($escorteCreateBySalons->isNotEmpty())
+                            @foreach ($escorteCreateBySalons as $acceptedInvitation)
+                            <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
+                            @endforeach
+                            @else
+                            <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun
+                                escort
+                                créer pour l'instant</span>
+                            @endif
+                           </div>
+                          </div>
+                           
+    
+                            <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
+                                <div class="xl:ml-auto">
+                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Invitée du salon</h2>
+                                </div>
+                            </div>
+                            
+                          <div class="">
+                       
+                            <div class="flex items-center justify-around flex-wrap gap-4">
+                            @if ($acceptedInvitations->isNotEmpty())
                             @foreach ($acceptedInvitations as $acceptedInvitation)
                             <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
                             @endforeach
@@ -1205,11 +1258,15 @@ Mon compte
                                 Aucun escort associé pour l'instant
                             </span>
                             @endif
+                          </div>
+                          </div>
 
                         </div>
                         <div class="w-full flex items-center justify-between pt-10">
-                            <button class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer
+                     
+                            <button data-modal-target="createEscorte" data-modal-toggle="createEscorte" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer
                                 un escort</button>
+
 
 
 
@@ -1223,6 +1280,12 @@ Mon compte
                     <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <!-- Modale -->
                         <x-invitation-tabs :escortsNoInvited="$escortsNoInvited" :listInvitation="$listInvitation" />
+                    </div>
+{{-- Todo --}}
+                    {{-- Modale pour créer un escort --}}
+                    <div x-data="" x-init="" id="createEscorte" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <!-- Modale -->
+                        <x-escort-form :user="$user->id"/>
                     </div>
 
 
@@ -1253,9 +1316,11 @@ Mon compte
                         </button>
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez droit qu'à 5
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez
+                            droit qu'à 5
                             vidéos</span>
-                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour l'instant</span>
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour
+                            l'instant</span>
                     </div>
 
                 </section>
@@ -1275,8 +1340,7 @@ Mon compte
 
                     </div>
                     <div class="flex items-center gap-10 flex-wrap">
-                        {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun galerie trovée !</span>
-            --}}
+
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="grid gap-4">
                                 <div>
@@ -1340,9 +1404,8 @@ Mon compte
                             <div class="card">
                                 {{-- <div class="card-header">Chat avec Jhone</div> --}}
                                 <div class="card-body">
-                                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component>
-                                    --}}
-                                    <iframe src="{{route('home-messenger')}}" frameborder="0" width="100%" height="500"></iframe>
+                                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                                    <iframe src="{{ route('home-messenger') }}" frameborder="0" width="100%" height="500"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -1365,7 +1428,9 @@ Mon compte
 
     function multiStepForm() {
         return {
-            steps: "{{ $user->profile_type }}" == 'invite' ? ['Informations personnelles', 'Informations complémentaires'] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires']
+            steps: "{{ $user->profile_type }}" == 'invite' ? ['Informations personnelles'
+                , 'Informations complémentaires'
+            ] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires']
             , currentStep: 0
             , nextStep() {
                 if (this.currentStep < this.steps.length - 1) {

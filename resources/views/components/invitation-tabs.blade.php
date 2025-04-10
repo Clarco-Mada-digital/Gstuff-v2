@@ -72,47 +72,54 @@
                 </div>
             </div>
             <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[70%] overflow-y-auto" id="escort-list-pending">
-                @foreach($listInvitation as $invitation)
-                    <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation->invited->prenom }}" data-email="{{ $invitation->invited->email }}">
-                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                            <div class="shrink-0">
-                                <img class="w-8 h-8 rounded-full" src="{{ $invitation->invited->avatar ? asset('storage/avatars/'.$invitation->invited->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation->invited->prenom }}">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                    {{ $invitation->invited->prenom }}
-                                </p>
-                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    {{ $invitation->invited->email }}
-                                </p>
-                            </div>
-                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    {{ \Carbon\Carbon::parse($invitation->created_at)->translatedFormat('d F Y') }}
-                                </p>
-                            </div>
-                            <div>
-                                @if($invitation->created_at->ne($invitation->updated_at))
-                                    <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
-                                        Refusée
-                                    </span>
-                                @else
-                                    <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
-                                        En attente
-                                    </span>
-                                @endif
-                                <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                        Annuler
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                @if($listInvitation->isEmpty())
+                    <li class="text-center text-gray-500 py-4">
+                        Aucune invitation en attente.
                     </li>
-                @endforeach
+                @else
+                    @foreach($listInvitation as $invitation)
+                        <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation->invited->prenom }}" data-email="{{ $invitation->invited->email }}">
+                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                <div class="shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="{{ $invitation->invited->avatar ? asset('storage/avatars/'.$invitation->invited->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation->invited->prenom }}">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                        {{ $invitation->invited->prenom }}
+                                    </p>
+                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                        {{ $invitation->invited->email }}
+                                    </p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                        {{ \Carbon\Carbon::parse($invitation->created_at)->translatedFormat('d F Y') }}
+                                    </p>
+                                </div>
+                                <div>
+                                    @if($invitation->created_at->ne($invitation->updated_at))
+                                        <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
+                                            Refusée
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
+                                            En attente
+                                        </span>
+                                    @endif
+                                    <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                            Annuler
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
             </ul>
+            
         </div>
     </div>
 </div>

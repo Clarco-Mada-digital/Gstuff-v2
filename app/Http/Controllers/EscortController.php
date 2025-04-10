@@ -25,6 +25,15 @@ class EscortController extends Controller
         $escort['service'] = Service::whereIn('id', $serviceIds)->get();
         // $escort['service'] = Service::find($escort->service);
 
+
+        $salonAssociers = Invitation::where('invited_id', $escort->id)
+        ->where('accepted', true)
+        // ->where('type', 'invite par salon')
+        ->with(['inviter.cantonget'])
+        ->with(['inviter.villeget'])
+        ->get();
+
+
         if (Auth::check()) {
           // $user = Auth::user()->load('canton');
           $user = Auth::user();
@@ -34,6 +43,7 @@ class EscortController extends Controller
           }else{
             return view('sp_escort', [
               'escort' => $escort,
+              'salonAssociers' => $salonAssociers,
           ]);
           }
         }
@@ -41,6 +51,7 @@ class EscortController extends Controller
         {
           return view('sp_escort', [
               'escort' => $escort,
+
           ]);
         }
 
@@ -214,6 +225,10 @@ public function cancel($id)
 
     return back()->with('success', 'Invitation annulée avec succès.');
 }
+
+
+
+
 
 
 
