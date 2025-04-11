@@ -133,7 +133,7 @@ class Chat extends Component
             ->where('users.id', '!=', Auth::user()->id)
             ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
             ->orderBy('max_created_at', 'desc')
-            ->groupBy('users.id')
+            ->groupBy('users.id', 'users.pseudo', 'users.email', 'users.profile_type', 'users.avatar', 'users.created_at', 'users.updated_at')
             ->get();
 
             if(count($this->users) > 0) {
