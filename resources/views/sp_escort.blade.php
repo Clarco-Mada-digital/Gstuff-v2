@@ -241,9 +241,6 @@
             </div>
             <div class="w-full flex items-center gap-10 flex-wrap">
 
-
-
-
               @if($salonAssociers->isNotEmpty())
               @foreach ($salonAssociers as $salonAssocier)
               <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon}}" canton="{{$salonAssocier->inviter->cantonget->nom ?? 'Inconue'}}" ville="{{$salonAssocier->inviter->villeget->nom  ?? 'Inconue'}}" avatar='{{$salonAssocier->inviter->avatar}}' salonId='{{$salonAssocier->inviter->id}}' wire:key="{{$salonAssocier->inviter->id}}" />
@@ -251,8 +248,6 @@
               @else
               <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
               @endif
-
-
 
           </div>
             {{-- <div class="w-full flex items-center gap-10 flex-wrap">

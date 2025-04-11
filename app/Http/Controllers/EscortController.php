@@ -51,7 +51,7 @@ class EscortController extends Controller
         {
           return view('sp_escort', [
               'escort' => $escort,
-
+'salonAssociers' => $salonAssociers,
           ]);
         }
 

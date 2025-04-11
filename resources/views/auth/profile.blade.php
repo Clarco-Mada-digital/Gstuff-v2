@@ -1220,7 +1220,7 @@ Mon compte
                     
                             <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
                                 <div class="xl:ml-auto">
-                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Escorte créée</h2>
+                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Escortes créées</h2>
                                 </div>
                             </div>
                             
