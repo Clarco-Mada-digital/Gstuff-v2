@@ -226,14 +226,4 @@ public function cancel($id)
     return back()->with('success', 'Invitation annulée avec succès.');
 }
 
-
-
-
-
-
-
-
-
-
-  
 }

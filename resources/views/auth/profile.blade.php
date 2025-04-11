@@ -1233,8 +1233,7 @@ Mon compte
                             @endforeach
                             @else
                             <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun
-                                escort
-                                créer pour l'instant</span>
+                                escort créer pour l'instant</span>
                             @endif
                            </div>
                           </div>

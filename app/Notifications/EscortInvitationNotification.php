@@ -45,7 +45,7 @@ class EscortInvitationNotification extends Notification implements ShouldQueue
             ->subject('Invitation reçue')
             ->greeting('Bonjour ' . $notifiable->name . ',')
             ->line('Vous avez été invité par ' . $this->inviter->name . '.')
-            ->action('Voir l\'invitation', url('/invitations'))
+            ->action('Voir l\'invitation', url('/profile'))
             ->line('Merci de vérifier et de répondre.');
     }
 
