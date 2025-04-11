@@ -27,7 +27,7 @@ class footer extends Component
      */
     public function render(): View|Closure|string
     {
-        $this->cantons = Canton::all();
+        // $this->cantons = Canton::all();
         return view('components.footer', ['cantons' => $this->cantons]);
     }
 }
