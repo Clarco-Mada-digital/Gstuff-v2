@@ -626,7 +626,7 @@
                             compléter vos informations avec des données réelles. Chez Gstuff, nous nous engageons à
                             respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une
                             expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici : <a
-                                class="font-bold" href="{{ route('pdc') }}">Politique de confidentialité</a>
+                                class="font-bold" href="{{ route('static.pdc') }}">Politique de confidentialité</a>
                         </div>
                         <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
                             class="font-dm-serif font-bold border text-green-gs border-green-600 px-2 py-1 hover:bg-green-gs hover:text-white rounded-lg transition-all">Amelioré
