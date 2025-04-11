@@ -19,7 +19,7 @@ class Chat extends Component
     public $users;
     public $contacts;
     public $lastMessage;
-    public $unseenCounter;
+    public $unseenCounter = 0;
     public $userReceved;
 
     protected $listeners = ['loadForSender', 'messageReceived'];
@@ -109,7 +109,7 @@ class Chat extends Component
         $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
         ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
         ->latest()->first();
-        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();        
 
         return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
 
@@ -140,16 +140,13 @@ class Chat extends Component
                 $this->contacts = '';
                 foreach($this->users as $user) {
                     $this->contacts .= $this->getContactItem($user);
+                    $item = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+                    $this->unseenCounter += $item;
                 }
     
             }else {
                 $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
             }
-
-            $this->lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $this->user->id)
-            ->orWhere('from_id', $this->user->id)->where('to_id', Auth::user()->id)
-            ->latest()->first();
-            $this->unseenCounter = Message::where('from_id', $this->user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
         }else{
             $this->contacts = [];
         }
