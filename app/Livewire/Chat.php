@@ -175,6 +175,9 @@ class Chat extends Component
             'users.localisation',
             'users.email_verified_at',
             'users.password',
+            'users.lat',
+            'users.lon',
+            'users.couverture_image',
             'users.remember_token', 
             'users.created_at', 
             'users.updated_at')
