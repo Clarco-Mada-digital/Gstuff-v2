@@ -55,9 +55,10 @@
       </div>
 
       <div class="min-w-3/4 px-5 py-5">
-        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="{{route('escortes').'?selectedGenre='.$escort->genre}}">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="{{route('escortes').'?selectedCanton='.$escort->canton['id']}}">{{Str::ucfirst($escort->canton['nom'] ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->prenom)}}</div>
+        {{-- <div class="text-right w-full text-green-gs font-dm-serif font-bold">
+           <a href="{{route('escortes').'?selectedGenre='.$escort->genre}}">{{Str::ucfirst($escort->genre ?? '')}}</a>  / <a href="{{route('escortes').'?selectedCanton='.$escort->canton['id']}}">{{Str::ucfirst($escort->canton['nom'] ?? '')}}</a> / Escorte / {{Str::ucfirst($escort->prenom)}}</div>
 
-        <div>
+        <div> --}}
 
           <section>
 
@@ -66,7 +67,7 @@
 
               <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Categorie : </h2>
               <div class="flex items-center gap-5">
-                <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->categories->nom}}</span>
+                {{-- <span class="px-2 border border-green-gs text-green-gs rounded-lg hover:bg-amber-300">{{$escort->categories->nom}}</span> --}}
               </div>
 
             </div>
@@ -185,8 +186,19 @@
 
             </div>
             <div class="w-full flex items-center gap-10 flex-wrap">
+
+              @if($salonAssociers->isNotEmpty())
+              @foreach ($salonAssociers as $salonAssocier)
+              <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon}}" canton="{{$salonAssocier->inviter->cantonget->nom ?? 'Inconue'}}" ville="{{$salonAssocier->inviter->villeget->nom  ?? 'Inconue'}}" avatar='{{$salonAssocier->inviter->avatar}}' salonId='{{$salonAssocier->inviter->id}}' wire:key="{{$salonAssocier->inviter->id}}" />
+              @endforeach
+              @else
               <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
-            </div>
+              @endif
+
+          </div>
+            {{-- <div class="w-full flex items-center gap-10 flex-wrap">
+              <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
+            </div> --}}
 
             {{-- Galerie privée --}}
             @guest

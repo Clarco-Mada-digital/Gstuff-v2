@@ -12,6 +12,11 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetMail; // Vous devrez créer ce Mail plus tard
+use App\Models\Categorie;
+use App\Models\Notification;
+use App\Models\Invitation;
+use App\Models\Service;
+use App\Models\Ville;
 
 class AuthController extends Controller
 {
@@ -155,23 +160,160 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Mot de passe réinitialisé avec succès. Veuillez vous connecter avec votre nouveau mot de passe.');
     }
 
-    public function profile()
-    {
-        if (Auth::check()) {
-            // $user = Auth::user()->load('canton');
-            $user = Auth::user();
-            $user['canton'] = Canton::find($user->canton);
 
-            $escorts = User::where('profile_type', 'escorte')->get();
-            dd($user);
-
-            if ($user->profile_type == 'admin') {
-                return view('admin.dashboard', ['user'=>$user]);
-            }else{
-                return view('auth.profile', ['user' => $user, 'escorts' => $escorts]);
-            }
-
-        }
-        return redirect()->route('home');
+/**
+ * Gère l'affichage du profil de l'utilisateur connecté en fonction de son type de profil.
+ *
+ * - Si l'utilisateur n'est pas connecté, il sera redirigé vers la page d'accueil.
+ * - Charge les informations spécifiques en fonction du type de profil de l'utilisateur :
+ *   - Pour un utilisateur de type "salon", les invitations envoyées et reçues sont incluses.
+ *   - Pour un administrateur, la vue du tableau de bord est chargée.
+ *   - Par défaut, pour les autres profils, seules les informations de base sont affichées.
+ * 
+ * @return \Illuminate\Http\Response|\Illuminate\Routing\Redirector
+ * - Une vue contenant les informations du profil.
+ * - Ou une redirection si l'utilisateur n'est pas connecté.
+ */
+public function profile()
+{
+    // Vérification : l'utilisateur doit être connecté
+    if (!Auth::check()) {
+        return redirect()->route('home'); // Redirige vers la page d'accueil si non authentifié
     }
+
+    // Récupérer l'utilisateur authentifié
+    $user = Auth::user();
+
+    // Associer le canton à l'utilisateur
+    $user->canton = Canton::find($user->canton);
+
+    // Récupérer les utilisateurs avec le type de profil "escorte"
+    $escorts = User::where('profile_type', 'escorte')->get();
+
+    // Initialiser le tableau des invitations
+    $listInvitation = [];
+
+    // Récupérer les invitations non acceptées envoyées par l'utilisateur
+    $invitations = Invitation::where('inviter_id', $user->id)
+                            ->where('type', 'invite par salon')
+                            ->where('accepted', false)
+                            ->get();
+
+    // Récupérer les invitations non acceptées reçues par l'utilisateur
+    $invitationsRecus = Invitation::where('invited_id', $user->id)
+                                  ->where('accepted', false)
+                                  ->where('type', 'invite par salon')
+                                  ->with(['inviter'])
+                                  ->get();
+
+    // Récupérer les invitations acceptées envoyées par l'utilisateur
+    $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                                     ->where('type', 'invite par salon')
+                                     ->where('accepted', true)
+                                     ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
+                                     ->with(['invited.villeget'])  // Charge les informations de l'utilisateur invité
+                                     ->get();
+
+    // Préparer la liste des invitations
+    foreach ($invitations as $invitation) {
+        $listInvitation[] = [
+            'dateNotification' => $invitation->created_at, // Date de création de l'invitation
+            'userInvited' => User::find($invitation->invited_id), // Détails de l'utilisateur invité
+        ];
+    }
+
+      // Récupérer les favoris de type "escort"
+      $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
+      foreach ($escortFavorites as $escort) {
+          $escort['canton'] = Canton::find($escort->canton);
+          $escort['ville'] = Ville::find($escort->ville);
+          $escort['categorie'] = Categorie::find($escort->categorie);
+          $escort['service'] = Service::find($escort->service);
+          // dd($escort->service);
+      }
+      // Récupérer les favoris de type "salon"
+      $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
+      foreach ($salonFavorites as $escort) {
+          $escort['canton'] = Canton::find($escort->canton);
+          $escort['ville'] = Ville::find($escort->ville);
+          $escort['categorie'] = Categorie::find($escort->categorie);
+          $escort['service'] = Service::find($escort->service);
+          // dd($escort->service);
+      }
+
+    // Afficher une vue basée sur le type de profil de l'utilisateur
+    switch ($user->profile_type) {
+        case 'salon':
+            // Vue pour les utilisateurs de type "salon" avec les invitations
+            return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations', 'invitationsRecus','escortFavorites','salonFavorites' ));
+
+        case 'admin':
+            // Vue pour les administrateurs
+            return view('admin.dashboard', compact('user'));
+
+        default:
+            // Vue par défaut pour les autres types de profils
+            return view('auth.profile', compact('user', 'escorts','escortFavorites','salonFavorites' ));
+    }
+}
+
+
+public function createEscorteBySalon(Request $request)
+{
+    // Validation des données
+    $validator = Validator::make($request->all(), [
+        'id_salon' => 'required|exists:users,id', // Vérifie que le salon existe
+        'profile_type' => 'required|in:invite,escorte,salon',
+        'email' => 'required|email|unique:users',
+        'password' => ['required', 'confirmed', Password::min(8)],
+        'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
+        'cgu_accepted' => 'accepted', // Obligatoire pour le profil invité
+        'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
+        'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
+        'genre' => 'required_if:profile_type,escorte|nullable|in:homme,femme,non-binaire,autre', // Pour Escorte
+        'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
+        'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre', // Pour Salon
+        'nom_proprietaire' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
+    ]);
+
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput()->with('error', 'Problème de validation');
+    }
+
+    // Récupérer le salon
+    $salon = User::find($request->id_salon);
+
+    if (!$salon) {
+        return back()->with('error', 'Salon non trouvé.');
+    }
+
+    // Création de l'utilisateur
+    $user = User::create([
+        'profile_type' => $request->profile_type,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'date_naissance' => $request->date_naissance,
+        'pseudo' => $request->pseudo,
+        'prenom' => $request->prenom,
+        'genre' => $request->genre,
+        'nom_salon' => $salon->nom_salon,
+        'intitule' => $request->intitule,
+        'nom_proprietaire' => $request->nom_proprietaire,
+    ]);
+
+    // Création de l'invitation
+    Invitation::create([
+        'inviter_id' => $salon->id, // ID du salon qui invite
+        'invited_id' => $user->id,  // ID de l'utilisateur invité
+        'accepted' => true,         // Invitation acceptée par défaut
+        'type' => 'creer par salon',
+    ]);
+
+    // Connexion automatique de l'utilisateur
+    Auth::login($user);
+
+    return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
+}
+
+
 }

@@ -26,9 +26,12 @@ Route::prefix('admin/api')->group(function () {
             'articles' => \App\Models\Article::count(),
             'users' => \App\Models\User::count(),
             'comments' => \App\Models\Feedback::count(),
+            'escorteApproved' => \App\Models\User::where('profile_verifie', 'verifier')->count(),
             // 'views' => \App\Models\Article::sum('views')
         ]);
     });
+
+
 
     Route::get('/articles/recent', function () {
         return \App\Models\Article::with('user')

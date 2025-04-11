@@ -88,6 +88,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             'localisation',
             'lat',
             'lon',
+            'profile_verifie', // Ajout du nouveau champ
+            'image_verification',
         ];
 
     /**
@@ -116,12 +118,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
     //   'ville' => 'array',
       'paiement' => 'array',
       'langues' => 'array',
+      'profile_verifie' => 'string',
   ];
 
   public function canton(): BelongsTo
   {
       return $this->belongsTo(Canton::class);
   }
+    public function cantonget()
+    {
+        return $this->belongsTo(Canton::class, 'canton'); 
+    }
+
+    public function villeget()
+    {
+        return $this->belongsTo(Ville::class, 'ville'); 
+    }
+
 
    // Relation avec les utilisateurs favoris
    public function favorites()
@@ -139,5 +152,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
     {
         return $this->hasMany(Gallery::class);
     }
+    
+   public function commentaires()
+    {
+        return $this->hasMany(Commentaire::class);
+    }
+
 }
 

@@ -10,10 +10,14 @@ use App\Models\Message;
 use App\Models\Service;
 use App\Models\User;
 use App\Notifications\ComplementationNotification;
+use App\Notifications\ProfileVerificationRequestNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Commentaire;
+use App\Models\Invitation;
+
 
 class ProfileCompletionController extends Controller
 {
@@ -85,44 +89,117 @@ class ProfileCompletionController extends Controller
                 $escort['service'] = Service::find($escort->service);
                 // dd($escort->service);
             }
+
+            $commentairesCount = Commentaire::where('is_approved', false)->count();
+
             
             $messageNoSeen = Message::where('to_id', Auth::user()->id)
                 ->where('seen', 0)->count();   
-                
-            if ($user->profile_type == 'admin') {
-                return view('admin.dashboard', ['user'=>$user]);
-            }else{
-                return view('auth.profile', [
-                    'genres' => $genres,
-                    'escorts' => $escorts,
-                    'user' => $user,
-                    'cantons' => $cantons,
-                    'villes' => $villes,
+                $user = Auth::user();   
+                $listInvitation = []; // Initialise un tableau pour les invitations
+
+                // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                $invitations = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', false)
+                ->where('type', 'invite par salon')
+                ->orderBy('created_at', 'desc')
+                ->with(['invited'])
+                ->get();
+
+                  // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                  $invitationsRecus = Invitation::where('invited_id', $user->id)
+                  ->where('accepted', false)
+                  ->where('type', 'invite par salon')
+                   ->whereColumn('created_at', 'updated_at') 
+                  ->with(['inviter'])
+                  ->get();
+
+                // Récupérer les invitations acceptées envoyées par l'utilisateur
+                $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                ->where('type', 'invite par salon')
+                ->where('accepted', true)
+                ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
+                ->with(['invited.villeget'])
+                ->get();
+
+                // Étape 1 : Récupérer les `invited_id` en fonction des conditions
+                $invitedIds = Invitation::where('inviter_id', $user->id)
+                ->where(function ($query) {
+                    $query->where('accepted', true)
+                        ->orWhere(function ($subQuery) {
+                            $subQuery->where('accepted', false)
+                                    ->whereColumn('created_at', 'updated_at');
+                        });
+                })
+                ->pluck('invited_id');
+
+                // Étape 2 : Récupérer les utilisateurs "escorte" non invités
+                $escortsNoInvited = User::where('profile_type', 'escorte')
+                ->whereNotIn('id', $invitedIds)
+                ->get();
+
+            
+                $salonAssociers = Invitation::where('invited_id', $user->id)
+                ->where('accepted', true)
+                // ->where('type', 'invite par salon')
+                ->with(['inviter.cantonget'])
+                ->with(['inviter.villeget'])
+                ->get();
+
+                $escorteCreateBySalons = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', true)
+                ->where('type', 'creer par salon')
+                ->with(['inviter.cantonget'])
+                ->with(['inviter.villeget'])
+                ->get();
+
+
+              
+
+
+
+                switch ($user->profile_type) {
+                    case 'admin':
+                        return view('admin.dashboard', ['user'=>$user , 'newCommentsCount' => $commentairesCount,]);
+                   
+                    default:
+                        return view('auth.profile', [
+                            'genres' => $genres,
+                            'escorts' => $escorts,
+                            'user' => $user,
+                            'cantons' => $cantons,
+                            'villes' => $villes,
                     'favoriteList' => $favoriteList,
-                    'escort_categories' => $escort_categories,
-                    'salon_categories' => $salon_categories,
-                    'services' => $services,
-                    'pratiquesSexuelles' => $pratiquesSexuelles,
-                    'oriantationSexuelles' => $oriantationSexuelles,
-                    'origines' => $origines,
-                    'couleursYeux' => $couleursYeux,
-                    'couleursCheveux' => $couleursCheveux,
-                    'mensurations' => $mensurations,
-                    'poitrines' => $poitrines,
-                    'taillesPoitrine' => $taillesPoitrine,
-                    'pubis' => $pubis,
-                    'silhouette' => $silhouette,
-                    'tatouages' => $tatouages,
-                    'mobilites' => $mobilites,
-                    'tarifs' => $tarifs,
-                    'paiements' => $paiements,
-                    'langues' => $langues,
-                    'nombre_filles' => $nombreFilles,
-                    'escortFavorites' => $escortFavorites,
-                    'salonFavorites' => $salonFavorites,
-                    'messageNoSeen' => $messageNoSeen,
-                ]);            
-            }
+                            'escort_categories' => $escort_categories,
+                            'salon_categories' => $salon_categories,
+                            'services' => $services,
+                            'pratiquesSexuelles' => $pratiquesSexuelles,
+                            'oriantationSexuelles' => $oriantationSexuelles,
+                            'origines' => $origines,
+                            'couleursYeux' => $couleursYeux,
+                            'couleursCheveux' => $couleursCheveux,
+                            'mensurations' => $mensurations,
+                            'poitrines' => $poitrines,
+                            'taillesPoitrine' => $taillesPoitrine,
+                            'pubis' => $pubis,
+                            'silhouette' => $silhouette,
+                            'tatouages' => $tatouages,
+                            'mobilites' => $mobilites,
+                            'tarifs' => $tarifs,
+                            'paiements' => $paiements,
+                            'langues' => $langues,
+                            'nombre_filles' => $nombreFilles,
+                            'escortFavorites' => $escortFavorites,
+                            'salonFavorites' => $salonFavorites,
+                            'messageNoSeen' => $messageNoSeen,
+                            'listInvitation' => $invitations,
+                            'acceptedInvitations' => $acceptedInvitations,
+                            'invitationsRecus' => $invitationsRecus,
+                            'escortsNoInvited' => $escortsNoInvited,
+                            'salonAssociers' => $salonAssociers,
+                            'escorteCreateBySalons' => $escorteCreateBySalons,
+                        ]);       
+                }
         }else{
             return redirect()->route('home');
         }
@@ -374,4 +451,52 @@ class ProfileCompletionController extends Controller
 
         return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la photo de profil.');
     }
+
+    public function updateVerification(Request $request)
+    {
+
+        $user = auth()->user();
+    
+        // Valider les données de la requête
+        $request->validate([
+            'profile_verifie' => 'required|string|in:verifier,non verifier,en cours',
+            'image_verification' => ['sometimes', 'nullable', 'file', 'image', 'mimes:jpeg,png,jpg'],
+        ]);
+    
+        // Mettre à jour uniquement le champ 'profile_verifie'
+       
+
+        if ($request->hasFile('image_verification') && $request->file('image_verification')->isValid()) {
+            // Supprimer l'ancienne photo si elle existe
+            if ($user->avatar) {
+                Storage::delete('public/verificationImage/' . $user->avatar);
+            }
+
+            // Générer un nom unique pour la nouvelle photo
+            $filename = Str::slug($user->user_name ?? $user->nom_salon ?? $user->name) . '-' . time() . '.' . $request->file('image_verification')->extension();
+            // Stocker la photo
+            $request->file('image_verification')->storeAs('public/verificationImage', $filename);
+
+            // Mettre à jour la photo de profil de l'utilisateur
+            $user->update(['image_verification' => $filename]);
+            $user->update([
+                'profile_verifie' => $request->input('profile_verifie'),
+            ]);
+
+            // Envoyer une notification à l'administrateur
+            $admin = User::where('profile_type', 'admin')->first(); // Assurez-vous que l'admin existe
+            if ($admin) {
+                $admin->notify(new ProfileVerificationRequestNotification($user));
+            }
+        
+            // Rediriger avec un message de succès
+            return redirect()->route('profile.index')
+                ->with('success', 'Votre demande de vérification a été envoyée avec succès!');
+
+            }
+
+        
+
+    }
+    
 }

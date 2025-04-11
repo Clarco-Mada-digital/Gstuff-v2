@@ -40,7 +40,9 @@
 @section('extraScripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
 function dashboard() {
+
     return {
         currentPage: 1,
         perPage: 5,
@@ -72,7 +74,7 @@ function dashboard() {
             { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },          
             { label: 'Catégories / Tags', route: '#', icon: '🗂️', badge: null },            
             // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
-            { label: 'Commentaires', route: '#', icon: '💬', badge: '3' },
+            { label: 'Commentaires', route: '{{ route("commentaires.index") }}', icon: '💬', badge: '3' },
             { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
         ],
         recentActivity:[],
@@ -80,7 +82,9 @@ function dashboard() {
             articles: 0,
             users: 0,
             comments: 0,
-            views: 0
+            views: 0,
+            escorteApproved: 0
+
         },
         userSatats:[],
         recentArticles: [],
@@ -182,6 +186,7 @@ function dashboard() {
                 const response = await fetch('/api/admin/api/stats');
                 const data = await response.json();
                 this.stats = data;
+                
             } catch (error) {
                 console.error('Error fetching stats:', error);
             }
