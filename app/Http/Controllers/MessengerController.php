@@ -194,6 +194,7 @@ class MessengerController extends Controller
         'users.remember_token', 
         'users.created_at', 
         '.profile_verifie',
+        '.image_verification',
         'users.updated_at')
         ->paginate(10);
 
