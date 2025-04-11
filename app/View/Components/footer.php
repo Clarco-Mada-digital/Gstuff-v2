@@ -28,6 +28,6 @@ class footer extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.footer', ['canton' => $this->cantons]);
+        return view('components.footer', ['cantons' => $this->cantons]);
     }
 }
