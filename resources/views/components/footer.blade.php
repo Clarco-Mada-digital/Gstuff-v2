@@ -12,10 +12,10 @@
 
             <div class="flex flex-col items-center lg:items-start gap-2">
                 <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-                {{-- @foreach ($cantons->slice(0, 5) as $canton)
+                @foreach ($cantons->slice(0, 5) as $canton)
                     <a href="{{ route('escortes') . '?selectedCanton=' . $canton->id }}">Escort girl
                         {{ $canton->nom }}</a>
-                @endforeach --}}
+                @endforeach
             </div>
 
             <div class="flex flex-col items-center lg:items-start gap-2">

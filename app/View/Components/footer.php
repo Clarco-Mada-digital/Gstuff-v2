@@ -15,8 +15,7 @@ class footer extends Component
      * Create a new component instance.
      */
     public function __construct()
-    {
-        $this->cantons = Canton::all();
+    {       
         // $this->categories = Categorie::where('type', 'escort')->get();
         // $this->glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();        
         // $this->escorts = User::where('profile_type', 'escorte')->get();
@@ -28,6 +27,7 @@ class footer extends Component
      */
     public function render(): View|Closure|string
     {
+        $this->cantons = Canton::all();
         return view('components.footer', ['cantons' => $this->cantons]);
     }
 }
