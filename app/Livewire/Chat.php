@@ -39,6 +39,7 @@ class Chat extends Component
     public function resetSender()
     {
         $this->userReceved = null;
+        $this->unseenCounter = 0;
         $this->loadMessages();
     }
 
