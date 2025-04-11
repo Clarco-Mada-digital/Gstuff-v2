@@ -399,7 +399,7 @@
       Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div> --}}
 
-    <div x-data="{ loadChat(userId) { $dispatch('loadForSender', [userId]) } }">
+    <div x-data="{ async loadChat(userId) { $dispatch('loadForSender', [userId]); await axios.post('/messenger/make-seen', {id: userId}); } }">
         @livewire('chat')
     </div>
 
