@@ -181,7 +181,8 @@ class Chat extends Component
             'users.couverture_image',
             'users.remember_token', 
             'users.created_at',
-            '.profile_verifie', 
+            'users.profile_verifie', 
+            'users.image_verification', 
             'users.updated_at')
             ->get();
 
