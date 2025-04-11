@@ -22,7 +22,7 @@ class StaticPageController extends Controller
      */
     public function create()
     {
-        return view('Admin.static-pages.create');
+        return view('admin.static-pages.create');
     }
 
 
