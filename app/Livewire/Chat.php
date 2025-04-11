@@ -172,7 +172,10 @@ class Chat extends Component
             'users.autre_contact',
             'users.complement_adresse',
             'users.lien_site_web',
-            'users.localisation', 
+            'users.localisation',
+            'users.email_verified_at',
+            'users.password',
+            'users.remember_token', 
             'users.created_at', 
             'users.updated_at')
             ->get();
