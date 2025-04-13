@@ -96,13 +96,15 @@
         margin: 1em 0;
     }
 
-    .ck-content ul, .ck-content ol {
+    .ck-content ul,
+    .ck-content ol {
         padding-left: 2em;
         margin: 1em 0;
     }
 
     /* Validation */
-    input:invalid, textarea:invalid {
+    input:invalid,
+    textarea:invalid {
         border-color: #f87171;
     }
 
@@ -111,7 +113,9 @@
         max-width: 65ch;
     }
 
-    .prose h1, .prose h2, .prose h3 {
+    .prose h1,
+    .prose h2,
+    .prose h3 {
         color: #111827;
         font-weight: 600;
     }
@@ -227,7 +231,7 @@
     /*================================
       Chatting Application Start
   ================================*/
-    .wsus__chat_app {
+    /* .wsus__chat_app {
         width: 100%;
         height: auto;
         display: flex;
@@ -237,7 +241,6 @@
 
     .wsus__user_list {
         width: 25%;
-        /* height: 100%; */
         border-right: 1px solid #ddd;
         position: relative;
         overflow: hidden;
@@ -1016,7 +1019,6 @@
 
     .wsus__chat_area_footer .footer_message .img {
         max-width: 220px;
-        /* overflow: hidden; */
         margin: 20px;
         padding-top: 20px;
         position: relative;
@@ -1250,7 +1252,6 @@
     }
 
     .favourite_user_slider {
-        /* margin: 0; */
     }
 
     .nextArrow,
@@ -1325,12 +1326,12 @@
 
     .wsus__single_chat.chat_right .clock i {
         font-size: 11px;
-    }
+    } */
 
 
     /** Custom Css*/
 
-    .img-fluid.profile-image-preview {
+    /* .img-fluid.profile-image-preview {
         height: 135px !important;
         width: 135px !important;
         object-fit: cover !important;
@@ -1347,7 +1348,7 @@
 
     .favourite.active i {
         color: var(--colorWhite) !important;
-    }
+    } */
 
 
     /*================================

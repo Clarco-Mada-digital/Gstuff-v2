@@ -15,6 +15,7 @@ class Chat extends Component
     public $message;
     public $messages =[];
     public $open = false;  // Variable pour suivre si le chat est ouvert ou non
+    public $sending = false;  
     public $user;
     public $users;
     public $contacts;
@@ -58,8 +59,15 @@ class Chat extends Component
 
     public function sendMessage()
     {
-        if ($this->userReceved)
-        {
+        $this->sending = true;
+        // Validation du message
+        if ($this->message == '') {
+            $this->sending = false;
+            return null;
+        }
+
+        // Envoi du message
+        if ($this->userReceved) {
             $message = new Message();
             $message->from_id = Auth::user()->id;
             $message->to_id = $this->userReceved->id;
@@ -76,6 +84,8 @@ class Chat extends Component
         }
 
         $this->message = '';
+        $this->sending = false;
+
     }
 
     public function loadMessages()

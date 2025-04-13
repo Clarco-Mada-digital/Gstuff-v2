@@ -45,7 +45,7 @@
     </div>
 
     <!-- Zone de chat principale -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col relative">
         <!-- En-tête du chat -->
         <div x-show="currentChat" class="p-4 border-b bg-white flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -59,18 +59,106 @@
             </div>
             <div class="flex items-center space-x-2">
                 <button @click="toggleFavorite(currentChatUser.id)"
-                    class="p-2 text-gray-500 hover:text-yellow-500 cursor-pointer">
+                    class="p-2 text-gray-500 hover:text-yellow-500 cursor-pointer" aria-label="Ajouter aux favoris">
                     <i
                         :class="{
                             'fas fa-star text-yellow-500': isFavorite(currentChatUser.id),
-                            'fas fa-star': !isFavorite(currentChatUser.id)
-                        }">
-                    </i>
+                            'far fa-star': !isFavorite(currentChatUser.id)
+                        }"></i>
                 </button>
-                <button class="p-1 bg-gray-200 rounded-full w-7 h-7 text-gray-500 hover:text-yellow-500 cursor-pointer">
-                    <i class="fas fa-info text-yellow-500">
-                    </i>
+                <button @click="toggleInfoPanel()" class="p-2 text-gray-500 hover:text-blue-500 cursor-pointer"
+                    aria-label="Afficher les informations">
+                    <i class="fas fa-info-circle"></i>
                 </button>
+            </div>
+        </div>
+
+        <!-- Panneau d'informations utilisateur -->
+        <div x-show="showInfoPanel" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-x-0"
+            x-transition:leave-end="opacity-0 translate-x-full"
+            class="absolute top-0 right-0 bottom-0 w-80 bg-white border-l z-10 shadow-lg overflow-y-auto">
+            <div class="p-6">
+                <!-- Bouton de fermeture -->
+                <button @click="showInfoPanel = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                    aria-label="Fermer le panneau">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <!-- Avatar et nom -->
+                <div class="text-center mb-6">
+                    <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars/') }}${currentChatUser.avatar}` :
+                        '/icon-logo.png'"
+                        :alt="currentChatUser.pseudo"
+                        class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-blue-100">
+                    <h3 class="text-xl font-bold text-gray-800"
+                        x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon">
+                    </h3>
+                    <p class="text-sm text-gray-500" x-text="currentChatUser.status"></p>
+                </div>
+
+                <!-- Statistiques de conversation -->
+                <div class="mb-6">
+                    <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-chart-bar mr-2 text-blue-500"></i>
+                        Statistiques de la conversation
+                    </h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-3 rounded-lg text-center">
+                            <div class="text-blue-600 font-bold text-xl" x-text="messageCount"></div>
+                            <div class="text-xs text-gray-600">Messages</div>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg text-center">
+                            <div class="text-purple-600 font-bold text-xl" x-text="mediaCount"></div>
+                            <div class="text-xs text-gray-600">Médias</div>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg text-center">
+                            <div class="text-green-600 font-bold text-xl" x-text="sharedLinksCount"></div>
+                            <div class="text-xs text-gray-600">Liens</div>
+                        </div>
+                        <div class="bg-yellow-50 p-3 rounded-lg text-center">
+                            <div class="text-yellow-600 font-bold text-xl" x-text="currentChatUser.last_seen"></div>
+                            <div class="text-xs text-gray-600">Dernière activité</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Médias partagés -->
+                <div class="mb-6" x-show="mediaCount > 0">
+                    <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-images mr-2 text-blue-500"></i>
+                        Médias partagés
+                    </h4>
+                    <div class="grid grid-cols-3 gap-2 info_gallery">
+
+                    </div>
+                </div>
+
+                <!-- Liens partagés -->
+                <div x-show="sharedLinksCount > 0">
+                    <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-link mr-2 text-blue-500"></i>
+                        Liens partagés
+                    </h4>
+                    <div class="space-y-2">
+                        <template
+                            x-for="(message, index) in sharedLinks"
+                            :key="index">
+                        <template
+                            x-for="(url, idx) in message.urls"
+                            :key="idx">
+                            <div class="p-2 bg-gray-50 rounded border border-gray-200">
+                                <a :href="url" target="_blank"
+                                    rel="noopener noreferrer" class="text-blue-600 hover:underline text-sm break-all">
+                                    <span x-text="url"></span>
+                                </a>
+                                <div class="text-xs text-gray-500 mt-1" x-text="formatDate(message.created_at)"></div>
+                            </div>
+                        </template>
+                        </template>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -102,7 +190,8 @@
                 <!-- Bouton pièce jointe -->
                 <label class="cursor-pointer text-gray-500 hover:text-primary p-2">
                     <i class="fas fa-paperclip"></i>
-                    <input type="file" @change="handleFileUpload" class="hidden attachment-input" accept="image/*">
+                    <input type="file" @change="handleFileUpload" class="hidden attachment-input"
+                        accept="image/*">
                 </label>
 
                 <!-- Champ de message -->

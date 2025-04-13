@@ -18,6 +18,9 @@
 
     {{-- js import --}}
     <!-- Alpine Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-focus/3.14.9/cdn.min.js"
         integrity="sha512-cbnb6RLeH6MQInYpFTaBZhIvqoV1SQMCT7gS/lcz5U5EbifRo1yHOlDHZOP0i/2oo7G9rSNpSGuqHdK3jByq2Q=="
@@ -399,7 +402,8 @@
       Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div> --}}
 
-    <div x-data="{ async loadChat(userId) { $dispatch('loadForSender', [userId]); await axios.post('/messenger/make-seen', {id: userId}); } }">
+    <div x-data="{ async loadChat(userId) { $dispatch('loadForSender', [userId]);
+            await axios.post('/messenger/make-seen', { id: userId }); } }">
         @livewire('chat')
     </div>
 

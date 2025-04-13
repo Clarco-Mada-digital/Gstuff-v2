@@ -30,9 +30,10 @@ class MessengerController extends Controller
         $records = User::where('id', '!=', Auth::user()->id)
             ->where('profile_type', '=', 'escorte')
             ->orWhere('profile_type', '=', 'salon')
-            ->where('pseudo', 'LIKE', "%{$input}%")
-            ->orWhere('prenom', 'LIKE', "%{$input}%")
-            ->orWhere('nom_salon', 'LIKE', "%{$input}%")
+            ->where('pseudo', 'LIKE', "%" .$input. "%")
+            ->orWhere('prenom', 'LIKE', "%". $input. "%")
+            ->orWhere('nom_salon', 'LIKE', "%".$input."%")
+            ->orWhere('profile_type', 'LIKE', "%".$input."%")
             ->paginate(10);
 
         if ($records->total() < 1) {
@@ -52,23 +53,74 @@ class MessengerController extends Controller
     // fetch user by id
     function fetchIdInfo(Request $request)
     {
-        $fetch = User::where('id', $request['id'])->first();
-        $favorite = Favorite::where(['user_id' => Auth::user()->id, 'favorite_user_id' => $fetch->id])->exists();
-        $sharedPhotos = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)->whereNotNull('attachment')
-            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)->whereNotNull('attachment')
-            ->latest()->get();
+        $userId = Auth::id();
+        $contactId = $request->id;
 
-        $content = '';
+        // Récupération des informations de base
+        $fetch = User::where('id', $contactId)->firstOrFail();
+        $favorite = Favorite::where([
+            'user_id' => $userId,
+            'favorite_user_id' => $contactId
+        ])->exists();
 
-        foreach($sharedPhotos as $photo) {
-            $content .= view('messenger.components.gallery-item', compact('photo'))->render();
-        }
+        // Récupération des médias partagés
+        $sharedPhotos = Message::where(function($query) use ($userId, $contactId) {
+            $query->where([
+                'from_id' => $userId,
+                'to_id' => $contactId
+            ])->orWhere([
+                'from_id' => $contactId,
+                'to_id' => $userId
+            ]);
+        })
+        ->whereNotNull('attachment')
+        ->latest()
+        ->get();
 
-        return response()->json([
-            'fetch' => $fetch,
-            'favorite' => $favorite,
-            'shared_photos' => $content
-        ]);
+        $photosContent = $sharedPhotos->map(function($photo) {
+            return view('messenger.components.gallery-item', compact('photo'))->render();
+        })->implode('');
+
+        // Récupération des liens partagés
+        $sharedLinks = Message::betweenUsers($userId, $contactId)
+        ->whereNotNull('body')
+        ->where(function($query) {
+            $query->where('body', 'like', '%http://%')
+                ->orWhere('body', 'like', '%https://%');
+        })
+        ->latest()
+        ->get()
+        ->map(function($message) {
+            preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message->body, $matches);
+            
+            return [
+                'id' => $message->id,
+                'urls' => $matches[0] ?? [],
+                'body' => $message->body,
+                'created_at' => $message->created_at->format('d/m/Y H:i'),
+                // 'sender' => [
+                //     'id' => $message->sender->id,
+                //     'name' => $message->sender->pseudo ?? $message->sender->prenom ?? $message->sender->nom_salon,
+                //     'avatar' => $message->sender->avatar
+                // ]
+            ];
+        })
+        ->filter(fn($item) => !empty($item['urls']));
+
+    // Comptage des messages avec la scope
+    $totalMessages = Message::betweenUsers($userId, $contactId)->count();
+
+    return response()->json([
+        'fetch' => $fetch,
+        'favorite' => $favorite,
+        'shared_photos' => $photosContent,
+        'shared_links' => $sharedLinks->values()->all(),
+        'stats' => [
+            'photos_count' => $sharedPhotos->count(),
+            'links_count' => $sharedLinks->count(),
+            'total_messages' => $totalMessages
+        ]
+    ]);
     }
 
     function sendMessage(Request $request)
@@ -215,7 +267,8 @@ class MessengerController extends Controller
 
     }
 
-    function getContactItem($user) {
+    function getContactItem($user) 
+    {
         $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
         ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
         ->latest()->first();
@@ -226,7 +279,8 @@ class MessengerController extends Controller
     }
 
     // update contact item
-    function updateContactItem(Request $request) {
+    function updateContactItem(Request $request) 
+    {
         // get user data
         $user = User::where('id', $request->user_id)->first();
 
@@ -241,7 +295,8 @@ class MessengerController extends Controller
         ], 200);
     }
 
-    function makeSeen(Request $request) {
+    function makeSeen(Request $request) 
+    {
         Message::where('from_id', $request->id)
             ->where('to_id', Auth::user()->id)
             ->where('seen', 0)->update(['seen' => 1]);
@@ -250,7 +305,8 @@ class MessengerController extends Controller
     }
 
     // add/remove to favorite list
-    function favorite(Request $request) {
+    function favorite(Request $request) 
+    {
         $query = Favorite::where(['user_id' => Auth::user()->id, 'favorite_user_id' => $request->id]);
         $favoriteStatus = $query->exists();
 
@@ -267,7 +323,8 @@ class MessengerController extends Controller
     }
 
     // delete message
-    function deleteMessage(Request $request) {
+    function deleteMessage(Request $request) 
+    {
         $message = Message::findOrFail($request->message_id);
         if($message->from_id == Auth::user()->id) {
             $message->delete();
