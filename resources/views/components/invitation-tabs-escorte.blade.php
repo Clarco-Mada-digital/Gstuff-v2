@@ -138,4 +138,33 @@
             }
         });
     }
+
+    function filterSalonsAccepter(query, type) {
+    const salonItems = document.querySelectorAll(`#salon-list-${type} li`);
+
+    salonItems.forEach(item => {
+        const name = item.getAttribute('data-nameSalon')?.toLowerCase() || '';
+        const email = item.getAttribute('data-emailSalon')?.toLowerCase() || '';
+        if (name.includes(query.toLowerCase()) || email.includes(query.toLowerCase())) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+function filterInvitationsRecus(query) {
+    const invitationItems = document.querySelectorAll('#invitation-list-recus li');
+
+    invitationItems.forEach(item => {
+        const name = item.getAttribute('data-nameSalon')?.toLowerCase() || '';
+        const email = item.getAttribute('data-emailSalon')?.toLowerCase() || '';
+        if (name.includes(query.toLowerCase()) || email.includes(query.toLowerCase())) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+
 </script>
