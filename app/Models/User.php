@@ -137,5 +137,17 @@
     return $this->hasMany(Commentaire::class);
 }
 
+    // Relation avec les invitations envoyées
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class, 'inviter_id');
+    }
+
+    // Relation avec les invitations reçues
+    public function receivedInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'invited_id');
+    }
+
 }
 
