@@ -13,7 +13,9 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.tags.index', [
+            'tags' => Tag::withCount('articles')->latest()->paginate(20)
+        ]);
     }
 
     /**
@@ -69,8 +71,9 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+        return back()->with('success', 'Tag supprimé');
     }
 }

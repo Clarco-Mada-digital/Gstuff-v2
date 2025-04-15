@@ -407,6 +407,8 @@
         @livewire('chat')
     </div>
 
+    <div id="toast-container" class="fixed bottom-4 right-4 space-y-3 z-50"></div>
+
     <script>
         const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
         const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
@@ -683,6 +685,38 @@
                     });
                 }
             }
+        }
+
+        // Gestion des toasts
+        window.addEventListener('show-toast', (event) => {
+            const { type, message } = event.detail;
+            showToast(type, message);
+        });
+
+        function showToast(type, message) {
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-yellow-500',
+                info: 'bg-blue-500'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center justify-between max-w-xs animate-fade-in-up`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()" class="ml-4">
+                    &times;
+                </button>
+            `;
+            
+            const container = document.getElementById('toast-container');
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('animate-fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
         }
     </script>
     @yield('extraScripts')

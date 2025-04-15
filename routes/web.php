@@ -101,6 +101,10 @@ Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name
 Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
 
 Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
+// Route::get('/categories', [ArticleCategoryController::class, 'index'])->name('article-categories.index');
+// Route::get('/categories/new', [ArticleCategoryController::class, 'create'])->name('article-categories.create');
+// Route::get('/categories/edit', [ArticleCategoryController::class, 'edit'])->name('article-categories.edit');
+// Route::get('/categories/destroy', [ArticleCategoryController::class, 'destroy'])->name('article-categories.destroy');
 
 Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
 
@@ -164,6 +168,22 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     // Route::resource('articles', ArticleController::class)->except(['show']);
     // Route::resource('article-categories', ArticleCategoryController::class);
     // Route::resource('tags', TagController::class);
+    Route::get('taxonomy', [\App\Http\Controllers\Admin\TaxonomyController::class, 'index'])
+         ->name('taxonomy');
+
+    // Catégories
+    Route::post('categories', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeCategory'])->name('categories.store');
+    Route::put('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
+    Route::post('categories/{category}/toggle', [\App\Http\Controllers\Admin\TaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
+    
+    // Tags
+    Route::post('tags', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeTag'])->name('tags.store');
+    Route::put('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateTag'])->name('tags.update');
+    Route::delete('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyTag'])->name('tags.destroy');
+    
+    // Recherche taxonomy
+    Route::get('taxonomy/search', [\App\Http\Controllers\Admin\TaxonomyController::class, 'search'])->name('taxonomy.search');
 
     // Gestion des utilisateurs
     Route::resource('users', UserController::class);

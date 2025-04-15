@@ -2,16 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticleCategory;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticleCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)	
     {
-        //
+        if ($request->has('json')) {
+            return response()->json([
+                'categories' => ArticleCategory::withCount('articles')->get(),
+                'tags' => Tag::withCount('articles')->get()
+            ]);
+        }
+
+        return view('admin.taxonomy.index', [
+            'categories' => ArticleCategory::withCount('articles')->get(),
+            'tags' => Tag::withCount('articles')->get()
+        ]);
     }
 
     /**
@@ -19,7 +32,7 @@ class ArticleCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -27,7 +40,17 @@ class ArticleCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+            'description' => 'nullable|string'
+        ]);
+
+        ArticleCategory::create([
+            ...$validated,
+            'slug' => Str::slug($validated['name']),
+        ]);
+
+        return redirect()->route('admin.categories.index')->with('success', 'Catégorie créée');
     }
 
     /**
@@ -43,22 +66,34 @@ class ArticleCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, ArticleCategory $category)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
+            'description' => 'nullable|string'
+        ]);
+
+        $category->update([
+            ...$validated,
+            'slug' => Str::slug($validated['name']),
+            'is_active' => $request->has('is_active')
+        ]);
+
+        return redirect()->route('admin.categories.index')->with('success', 'Catégorie mise à jour');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(ArticleCategory $category)
     {
-        //
+        $category->delete();
+        return back()->with('success', 'Catégorie supprimée');
     }
 }
