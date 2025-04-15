@@ -26,7 +26,10 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                         </svg>
                     </div>
-                    <input type="text" id="simple-search-new-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'new')">
+                    <input type="text" id="simple-search-new-salon"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+                      block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'new')">
                 </div>
             </div>
 
@@ -138,33 +141,6 @@
             }
         });
     }
-
-    function filterSalonsAccepter(query, type) {
-    const salonItems = document.querySelectorAll(`#salon-list-${type} li`);
-
-    salonItems.forEach(item => {
-        const name = item.getAttribute('data-nameSalon')?.toLowerCase() || '';
-        const email = item.getAttribute('data-emailSalon')?.toLowerCase() || '';
-        if (name.includes(query.toLowerCase()) || email.includes(query.toLowerCase())) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
-function filterInvitationsRecus(query) {
-    const invitationItems = document.querySelectorAll('#invitation-list-recus li');
-
-    invitationItems.forEach(item => {
-        const name = item.getAttribute('data-nameSalon')?.toLowerCase() || '';
-        const email = item.getAttribute('data-emailSalon')?.toLowerCase() || '';
-        if (name.includes(query.toLowerCase()) || email.includes(query.toLowerCase())) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-}
 
 
 </script>

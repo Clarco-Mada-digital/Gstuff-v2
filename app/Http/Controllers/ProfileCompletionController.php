@@ -181,15 +181,22 @@ class ProfileCompletionController extends Controller
                 })
                 ->whereIn('type', ['associe au salon', 'invite par salon']) // Types d'invitation
                 ->where('accepted', true) // Invitations acceptées
+                ->with([
+                    'inviter.cantonget', 'inviter.villeget',
+                    'invited.cantonget', 'invited.villeget'
+                ]) // Chargement des relations pour éviter les requêtes supplémentaires
                 ->get()
-                ->map(function ($invitation) {
-                    if ($invitation->type === 'associe au salon') {
-                        $invitation->load('invited.cantonget', 'inviter.villeget'); // Chargement des relations pour "associe au salon"
-                    } elseif ($invitation->type === 'invite par salon') {
-                        $invitation->load('inviter.cantonget', 'invited.villeget'); // Chargement des relations pour "invite par salon"
-                    }
+                ->map(function ($invitation) use ($user) {
+                    $target = ($user->profile_type === 'salon')
+                        ? ($invitation->type === 'associe au salon' ? 'inviter' : 'invited')
+                        : ($invitation->type === 'associe au salon' ? 'invited' : 'inviter');
+            
+                    // Vérifie si la relation est bien chargée avant d'accéder aux propriétés
+                    $invitation->load("{$target}.cantonget", "{$target}.villeget");
+            
                     return $invitation;
                 });
+            
 
 
                 $inviterIds = Invitation::where('inviter_id', $user->id)
