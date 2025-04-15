@@ -103,7 +103,7 @@
                         <ul id="invitation-list-recus" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
                             @if($invitationsRecus->isNotEmpty())
                                 @foreach ($invitationsRecus as $invitationsRecu)
-                                    <li class="border-b border-gray-100 dark:border-gray-600" data-nameSalon="{{ $invitationsRecu->inviter->nom_salon }}" data-emailSalon="{{ $invitationsRecu->inviter->email }}">
+                                    <li class="border-b border-gray-100 dark:border-gray-600" data-nameSalon="{{ $invitationsRecu->inviter->prenom }}" data-emailSalon="{{ $invitationsRecu->inviter->email }}">
                                         <div class="relative w-full overflow-y-auto bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 m-h-50">
                                             <a href="#" class="flex items-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 justify-between">
                                                 <div class="flex items-center">
@@ -112,8 +112,8 @@
                                                     </div>
                                                     <div>
                                                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                            Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
-                                                            vient d'envoyer une invitation pour rejoindre son salon.
+                                                            L'escorte <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->prenom }}</span>
+                                                            vient d'envoyer une invitation pour rejoindre vos salon.
                                                         </p>
                                                         <span class="text-xs text-blue-600 dark:text-blue-500">
                                                             {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
@@ -123,7 +123,7 @@
                                                 <button class="py-2 px-3 w-32 flex items-center justify-center rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800" data-modal-target="detailInvitation" data-modal-toggle="detailInvitation" x-on:click="$dispatch('invitation-detail', {
                                                     id: '{{ $invitationsRecu->id }}',
                                                     avatar: '{{ $invitationsRecu->inviter->avatar }}',
-                                                    nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
+                                                    nomSalon: '{{ $invitationsRecu->inviter->prenom }}',
                                                     date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
                                                     type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
                                                     email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'

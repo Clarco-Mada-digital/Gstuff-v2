@@ -55,42 +55,45 @@
         </ul>
     </div>
 
-    <div x-data="{ id: '', avatar: '', nomSalon: '', date: '', type: '', email: '' }" x-on:invitation-detail.window="id = $event.detail.id; avatar = $event.detail.avatar; nomSalon = $event.detail.nomSalon; date = $event.detail.date; type = $event.detail.type; email = $event.detail.email" id="detailInvitation" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <!-- Modale -->
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[30vh] md:w-[70vw] xl:w-[40vw] mx-auto md:h-[30vh] xl:h-[30vh] overflow-y-auto">
-            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Détails de l'invitation</h2>
+    <div x-data="{ id: '', avatar: '', nomSalon: '', date: '', type: '', email: '' }" 
+    x-on:invitation-detail.window="id = $event.detail.id; avatar = $event.detail.avatar; nomSalon = $event.detail.nomSalon; date = $event.detail.date; type = $event.detail.type; email = $event.detail.email" 
+    id="detailInvitation" 
+    tabindex="-1" 
+    aria-hidden="true" 
+    class="hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full backdrop-blur-sm">
+   <!-- Modal -->
+   <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[30vh] md:w-[70vw] xl:w-[40vw] mx-auto overflow-y-auto">
+       <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Détails de l'invitation</h2>
 
-            <div class="flex flex-wrap items-center mt-4 justify-between">
-                <div class="me-3 rounded-xl w-32 h-32">
-                    <img :src="avatar ? `{{ asset('storage/avatars') }}/${avatar}` :
-                                `{{ asset('images/icon_logo.png') }}`" class="w-full h-full rounded-full object-center object-cover" alt="Avatar salon">
-                </div>
-                <div class="w-[50%]">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Nom du salon : <span class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span class="font-medium text-gray-900 dark:text-white" x-text="email"></span>
-                    </p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span class="font-medium text-gray-900 dark:text-white" x-text="date"></span>
-                    </p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span class="font-medium text-gray-900 dark:text-white" x-text="type"></span>
-                    </p>
-                </div>
-            </div>
-            <div class="flex justify-end items-center gap-4">
-                <!-- Bouton pour refuser l'invitation -->
-                <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
-                    @csrf
-                    <button class="bg-gray-300 rounded-sm text-black px-4 py-2 hover:bg-gray-400">
-                        Refuser
-                    </button>
-                </form>
-                <!-- Bouton pour accepter l'invitation -->
-                <form :action="`{{ route('accepter.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
-                    @csrf
-                    <button class="btn-gs-gradient text-black rounded-sm px-4 py-2 hover:bg-green-700">
-                        Accepter
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
+       <div class="flex flex-wrap items-center mt-4 justify-between">
+           <div class="me-3 rounded-xl w-32 h-32">
+               <img :src="avatar ? `{{ asset('storage/avatars') }}/${avatar}` :
+                           `{{ asset('images/icon_logo.png') }}`" class="w-full h-full rounded-full object-center object-cover" alt="Avatar salon">
+           </div>
+           <div class="w-[50%]">
+               <p class="text-sm text-gray-500 dark:text-gray-400">Nom du salon : <span class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
+               <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span class="font-medium text-gray-900 dark:text-white" x-text="email"></span></p>
+               <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span class="font-medium text-gray-900 dark:text-white" x-text="date"></span></p>
+               <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span class="font-medium text-gray-900 dark:text-white" x-text="type"></span></p>
+           </div>
+       </div>
+       <div class="flex justify-end items-center gap-4">
+           <!-- Bouton pour refuser l'invitation -->
+           <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
+               @csrf
+               <button class="bg-gray-300 rounded-sm text-black px-4 py-2 hover:bg-gray-400">
+                   Refuser
+               </button>
+           </form>
+           <!-- Bouton pour accepter l'invitation -->
+           <form :action="`{{ route('accepter.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
+               @csrf
+               <button class="btn-gs-gradient text-black rounded-sm px-4 py-2 hover:bg-green-700">
+                   Accepter
+               </button>
+           </form>
+       </div>
+   </div>
+</div>
+
 @endif
