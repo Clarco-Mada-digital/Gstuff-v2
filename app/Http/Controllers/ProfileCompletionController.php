@@ -95,8 +95,10 @@ class ProfileCompletionController extends Controller
             
             $messageNoSeen = Message::where('to_id', Auth::user()->id)
                 ->where('seen', 0)->count();   
-                $user = Auth::user();   
+             
                 $listInvitation = []; // Initialise un tableau pour les invitations
+                $acceptedInvitations = collect(); // Initialise une collection vide
+                $invitationsRecus = collect(); // Initialise une collection vide
 
                 // Récupérer les invitations non acceptées envoyées par l'utilisateur
                 $invitations = Invitation::where('inviter_id', $user->id)
@@ -106,7 +108,37 @@ class ProfileCompletionController extends Controller
                 ->with(['invited'])
                 ->get();
 
-                  // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                if ($user->profile_type === "salon") {
+                    // Récupérer les invitations non acceptées envoyées par l'utilisateur
+                  $invitationsRecus = Invitation::where('invited_id', $user->id)
+                  ->where('accepted', false)
+                  ->where('type', 'associe au salon')
+                   ->whereColumn('created_at', 'updated_at') 
+                  ->with(['inviter'])
+                  ->get();
+
+                    $acceptedInvitations = Invitation::where(function ($query) use ($user) {
+                        $query->where('inviter_id', $user->id)
+                              ->orWhere('invited_id', $user->id); // Condition "OU" sur inviter_id et invited_id
+                    })
+                    ->whereIn('type', ['associe au salon', 'invite par salon']) // Types d'invitation
+                    ->where('accepted', true) // Invitations acceptées
+                    ->get()
+                    ->map(function ($invitation) {
+                        if ($invitation->type === 'associe au salon') {
+                            $invitation->load('inviter.cantonget', 'inviter.villeget'); // Chargement des relations pour "associe au salon"
+                        } elseif ($invitation->type === 'invite par salon') {
+                            $invitation->load('invited.cantonget', 'invited.villeget'); // Chargement des relations pour "invite par salon"
+                        }
+                        return $invitation;
+                    });
+                    
+                
+                
+                }
+
+                if ($user->profile_type === "escorte") {
+                    // Récupérer les invitations non acceptées envoyées par l'utilisateur
                   $invitationsRecus = Invitation::where('invited_id', $user->id)
                   ->where('accepted', false)
                   ->where('type', 'invite par salon')
@@ -114,13 +146,14 @@ class ProfileCompletionController extends Controller
                   ->with(['inviter'])
                   ->get();
 
-                // Récupérer les invitations acceptées envoyées par l'utilisateur
-                $acceptedInvitations = Invitation::where('inviter_id', $user->id)
-                ->where('type', 'invite par salon')
-                ->where('accepted', true)
-                ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
-                ->with(['invited.villeget'])
-                ->get();
+                  // Récupérer les invitations acceptées envoyées par l'utilisateur
+                    $acceptedInvitations = Invitation::where('inviter_id', $user->id)
+                    ->where('type', 'invite par salon')
+                    ->where('accepted', true)
+                    ->with(['invited.cantonget']) // Charge les informations de l'utilisateur invité
+                    ->with(['invited.villeget'])
+                    ->get();
+                }
 
                 // Étape 1 : Récupérer les `invited_id` en fonction des conditions
                 $invitedIds = Invitation::where('inviter_id', $user->id)
@@ -136,14 +169,56 @@ class ProfileCompletionController extends Controller
                 // Étape 2 : Récupérer les utilisateurs "escorte" non invités
                 $escortsNoInvited = User::where('profile_type', 'escorte')
                 ->whereNotIn('id', $invitedIds)
+                ->whereDoesntHave('invitations', function ($query) use ($user) {
+                    $query->where('inviter_id', $user->id)
+                        ->orWhere('invited_id', $user->id);
+                })
                 ->get();
 
+                $salonAssociers = Invitation::where(function ($query) use ($user) {
+                    $query->where('inviter_id', $user->id)
+                          ->orWhere('invited_id', $user->id); // Condition "OU" sur inviter_id et invited_id
+                })
+                ->whereIn('type', ['associe au salon', 'invite par salon']) // Types d'invitation
+                ->where('accepted', true) // Invitations acceptées
+                ->get()
+                ->map(function ($invitation) {
+                    if ($invitation->type === 'associe au salon') {
+                        $invitation->load('invited.cantonget', 'inviter.villeget'); // Chargement des relations pour "associe au salon"
+                    } elseif ($invitation->type === 'invite par salon') {
+                        $invitation->load('inviter.cantonget', 'invited.villeget'); // Chargement des relations pour "invite par salon"
+                    }
+                    return $invitation;
+                });
+
+
+                $inviterIds = Invitation::where('inviter_id', $user->id)
+                ->where(function ($query) {
+                    $query->where('accepted', true)
+                        ->orWhere(function ($subQuery) {
+                            $subQuery->where('accepted', false)
+                                    ->whereColumn('created_at', 'updated_at');
+                        });
+                })
+                ->pluck('invited_id');
+                
+                $salonsNoInvited = User::where('profile_type', 'salon')
+                    ->whereNotIn('id', $invitedIds)
+                    ->whereDoesntHave('invitations', function ($query) use ($user) {
+                        $query->where('inviter_id', $user->id)
+                            ->orWhere('invited_id', $user->id);
+                    })
+                    ->get();
+
+
             
-                $salonAssociers = Invitation::where('invited_id', $user->id)
-                ->where('accepted', true)
-                // ->where('type', 'invite par salon')
-                ->with(['inviter.cantonget'])
-                ->with(['inviter.villeget'])
+                
+
+                $invitationSalons = Invitation::where('inviter_id', $user->id)
+                ->where('accepted', false)
+                ->where('type', 'associe au salon')
+                ->orderBy('created_at', 'desc')
+                ->with(['invited'])
                 ->get();
 
                 $escorteCreateBySalons = Invitation::where('inviter_id', $user->id)
@@ -193,9 +268,11 @@ class ProfileCompletionController extends Controller
                             'salonFavorites' => $salonFavorites,
                             'messageNoSeen' => $messageNoSeen,
                             'listInvitation' => $invitations,
+                            'listInvitationSalons' => $invitationSalons,
                             'acceptedInvitations' => $acceptedInvitations,
                             'invitationsRecus' => $invitationsRecus,
                             'escortsNoInvited' => $escortsNoInvited,
+                            'salonsNoInvited' => $salonsNoInvited,
                             'salonAssociers' => $salonAssociers,
                             'escorteCreateBySalons' => $escorteCreateBySalons,
                         ]);       

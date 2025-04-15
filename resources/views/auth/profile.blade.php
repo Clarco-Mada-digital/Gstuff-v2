@@ -8,16 +8,490 @@
 @endsection
 
 @section('content')
-    <div x-data="{ couvertureForm: false }">
-        <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
-            class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden"
-            style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
-            <button x-on:click.stop="couvertureForm = !couvertureForm"
-                class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg
-                    class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
-                </svg> Modifier photo de couverture</button>
+<div x-data="{ couvertureForm: false }">
+    <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })" class="relative w-full max-h-[30vh] min-h-[30vh] overflow-hidden" style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
+        <button x-on:click.stop="couvertureForm = !couvertureForm" class="absolute hidden shadow-xl p-2 rounded-md right-2 bottom-1 md:flex items-end gap-2 text-amber-300 hover:text-green-gs"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+            </svg> Modifier photo de couverture</button>
+    </div>
+
+    <div x-data="{ pageSection: $persist('compte'), userType: '{{ $user->profile_type }}', completionPercentage: 0, dropdownData: '', fetchCompletionPercentage() { fetch('/profile-completion-percentage').then(response => response.json()).then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data').then(response => response.json()).then(data => { this.dropdownData = data; }); } }" x-init="fetchCompletionPercentage()" class="container flex flex-col xl:flex-row justify-center mx-auto">
+
+        {{-- Left section profile --}}
+        <div x-data="{ profileForm: false }" class="min-w-1/4 flex flex-col items-center gap-3">
+
+            <div class="w-55 h-55  -translate-y-[50%] rounded-full border-5 border-white mx-auto">
+                <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $avatar = auth()->user()->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=auth()->user()->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+                @else
+                src="{{ asset('images/icon_logo.png') }}" @endif
+                alt="image profile" />
+            </div>
+            <a href="#" class="flex md:hidden items-center gap-3 -mt-[25%] ">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                </svg>
+                Modifier photo de couverture
+            </a>
+            <button x-on:click="profileForm = !profileForm" class="flex items-center gap-3 md:-mt-[10%] xl:-mt-[25%] cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15.275 12.475L11.525 8.7L14.3 5.95l-.725-.725L8.1 10.7L6.7 9.3l5.45-5.475q.6-.6 1.413-.6t1.412.6l.725.725l1.25-1.25q.3-.3.713-.3t.712.3L20.7 5.625q.3.3.3.713t-.3.712zM6.75 21H3v-3.75l7.1-7.125l3.775 3.75z" />
+                </svg>
+                Modifier photo de profil
+            </button>
+            <div x-show="profileForm" x-data="imageViewer('')" class="w-full border border-gray-300 shadow rounded-lg p-4">
+                <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data" class="w-full flex flex-col justify-center gap-5">
+                    @csrf()
+                    <h3 class="font-dm-serif text-sm text-green-gs text-center">Modifier photo de profile</h3>
+                    <template x-if="imageUrl">
+                        <img :src="imageUrl" class="object-cover rounded-md border border-gray-200 mx-auto" style="width: 100px; height: 100px;">
+                    </template>
+                    <input name="photo_profil" type="file" accept="image/*" x-on:change="fileChosen($event)" class="mt-2" />
+                    <button type="submit" class="btn-gs-gradient font-bold py-2 px-4 rounded">Mettre à jour</button>
+                </form>
+            </div>
+            <p class="font-bold">{{ $user->pseudo ?? ($user->prenom ?? $user->nom_salon) }}</p>
+            <div class="flex items-center justify-center gap-2 text-green-gs">
+                <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none">
+                        <path d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        </path>
+                    </svg> {{ $user->canton['nom'] ?? 'Non renseigner' }}</a>
+                <a href="tel:{{ $user->telephone }}" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z" />
+                    </svg> {{ $user->telephone ?? 'Non renseigner' }}</a>
+            </div>
+            @if ($user->profile_type == 'salon')
+            <div class="flex items-center justify-center gap-2 text-green-gs">
+                <a href="#" class="flex items-center gap-1"> <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <!-- Icon from All by undefined - undefined -->
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5" />
+                        <circle cx="24" cy="20.206" r="4.299" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
+                    </svg> Récrutement : {{ $user->recrutement }}</a>
+            </div>
+            @endif
+            <hr class="w-full h-2">
+
+            <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf" class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré
+                mon profile</button>
+
+            <div class="w-full flex flex-col gap-0 items-center mb-5">
+                <button x-on:click="pageSection='compte'" :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mon
+                    compte</button>
+                <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'" :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Mes
+                    favoris</button>
+                <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Galerie</button>
+                <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : ''" class="flex items-center w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">Discussion
+                    @if ($messageNoSeen > 0)
+                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{ $messageNoSeen }}</span>
+                    @endif
+                </button>
+            </div>
+
+            <button data-modal-target="gestionInvitation" data-modal-toggle="gestionInvitation" class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Invitation</button>
+            
+            <div x-data="" x-init="" id="gestionInvitation" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <!-- Modale -->
+                <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Les invitations
+                        </h3>
+                    </div>
+
+
+                    <div class="text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                        <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" data-tabs-toggle="#tabs-content" role="tablist">
+                            <li class="me-2">
+                                <a href="#" data-tabs-target="#recus" class="inline-flex p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-controls="recus" role="tab" aria-selected="true">
+                                    Reçus
+                                </a>
+                            </li>
+                            <li class="me-2">
+                                <a href="#" data-tabs-target="#enAttente" class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" aria-controls="enAttente" role="tab">
+                                    En attente
+                                </a>
+                            </li>
+                            <li class="me-2">
+                                <a href="#" data-tabs-target="#accepter" class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" aria-controls="accepter" role="tab">
+                                    Accepter
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div id="tabs-content">
+                        <div id="recus" class="p-4" role="tabpanel" aria-labelledby="dashboard-tab">
+                            @if($user->profile_type === 'escorte')
+
+                            <div class="flex items-center mx-auto mb-4">
+                                <label for="simple-search-recus" class="sr-only">Search</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="simple-search-recus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterInvitationsRecus(this.value)">
+                                </div>
+                            </div>
+                            <ul id="invitation-list-recus" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
+                                @if($invitationsRecus->isNotEmpty())
+                              
+                                @foreach ($invitationsRecus as $invitationsRecu)
+                                <li class="border-b border-gray-100 dark:border-gray-600" data-nameSalon="{{ $invitationsRecu->inviter->nom_salon }}" data-emailSalon="{{ $invitationsRecu->inviter->email }}">
+                                   
+                                    <div class="relative w-full overflow-y-auto bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 m-h-50">
+                                
+                                        <a href="#" class="flex items-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 justify-between">
+                                            <div class="flex items-center">
+                                                <div class="me-3 rounded-full w-11 h-11">
+                                                    <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=$invitationsRecu->inviter->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+                                                    @else
+                                                    src="{{ asset('images/icon_logo.png') }}" @endif
+                                                    alt="image profile" />
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                                        Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
+                                                        vient d'envoyer une invitation pour rejoindre son salon.
+                                                    </p>
+                                                    <span class="text-xs text-blue-600 dark:text-blue-500">
+                                                        {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button class="py-2 px-3 w-32 flex items-center justify-center rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800" data-modal-target="detailInvitation" data-modal-toggle="detailInvitation" x-on:click="$dispatch('invitation-detail', {
+                                                        id: '{{ $invitationsRecu->id }}',
+                                                        avatar: '{{ $invitationsRecu->inviter->avatar }}',
+                                                        nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
+                                                        date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
+                                                        type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
+                                                        email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
+                                                    })">
+                                                Détail
+                                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                                </svg>
+                                            </button>
+                                        </a>
+                                   
+                                    </div>
+
+                                </li>
+                                @endforeach
+                            @else
+                                <div class="flex items-center justify-center py-10">
+                                    <p class="text-gray-500 dark:text-gray-400">Aucune invitation reçue.</p>
+                                </div>
+                            @endif
+                            </ul>
+
+                            
+                            @else
+
+                            <div class="flex items-center mx-auto mb-4">
+                                <label for="simple-search-recus" class="sr-only">Search</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="simple-search-recus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterInvitationsRecus(this.value)">
+                                </div>
+                            </div>
+
+                            <ul id="invitation-list-recus" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
+
+                                @if($invitationsRecus->isNotEmpty())
+                                @foreach ($invitationsRecus as $invitationsRecu)
+                                <li class="border-b border-gray-100 dark:border-gray-600" data-nameSalon="{{ $invitationsRecu->inviter->nom_salon }}" data-emailSalon="{{ $invitationsRecu->inviter->email }}">
+
+                                    <div class="relative w-full overflow-y-auto bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 m-h-50">
+                                        <a href="#" class="flex items-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 justify-between">
+                                            <div class="flex items-center">
+                                                <div class="me-3 rounded-full w-11 h-11">
+                                                    <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=$invitationsRecu->inviter->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+                                                    @else
+                                                    src="{{ asset('images/icon_logo.png') }}" @endif
+                                                    alt="image profile" />
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                                        Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
+                                                        vient d'envoyer une invitation pour rejoindre son salon.
+                                                    </p>
+                                                    <span class="text-xs text-blue-600 dark:text-blue-500">
+                                                        {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button class="py-2 px-3 w-32 flex items-center justify-center rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800" data-modal-target="detailInvitation" data-modal-toggle="detailInvitation" x-on:click="$dispatch('invitation-detail', {
+                                                id: '{{ $invitationsRecu->id }}',
+                                                avatar: '{{ $invitationsRecu->inviter->avatar }}',
+                                                nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
+                                                date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
+                                                type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
+                                                email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
+                                            })">
+                                                Détail
+                                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                                </svg>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </li>
+                                @endforeach
+
+                                @else
+                                <div class="flex items-center justify-center py-10">
+                                    <p class="text-gray-500 dark:text-gray-400">Aucune invitation reçue.</p>
+                                </div>
+                                @endif
+
+
+
+                            </ul>
+
+
+                            @endif
+                        </div>
+
+                        <div id="enAttente" class="p-4 hidden" role="tabpanel" aria-labelledby="profile-tab">
+                            @if($user->profile_type === 'escorte')
+                            <div class="flex items-center mx-auto">
+                                <label for="simple-search-pending-salon" class="sr-only">Search</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10
+                                        p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'pending')">
+                                </div>
+                            </div>
+                            <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto" id="salon-list-pending">
+                                @if($listInvitationSalons->isNotEmpty())
+                                @foreach($listInvitationSalons as $invitation)
+                                <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation->invited->prenom }}" data-email="{{ $invitation->invited->email }}">
+                                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                        <div class="shrink-0">
+                                            <img class="w-8 h-8 rounded-full" src="{{ $invitation->invited->avatar ? asset('storage/avatars/'.$invitation->invited->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation->invited->prenom }}">
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                {{ $invitation->invited->nom_salon }}
+                                            </p>
+                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                {{ $invitation->invited->email }}
+                                            </p>
+                                        </div>
+                                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                {{ \Carbon\Carbon::parse($invitation->created_at)->translatedFormat('d F Y') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            @if($invitation->created_at->ne($invitation->updated_at))
+                                            <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
+                                                Refusée
+                                            </span>
+                                            @else
+                                            <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
+                                                En attente
+                                            </span>
+                                            @endif
+                                            <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                                    Annuler
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endforeach
+                                @else
+                                <li class="text-center text-gray-500 py-4">
+                                    Aucune invitation en attente.
+                                </li>
+                                @endif
+                            </ul>
+                            @else
+                            <div class="flex items-center mx-auto">
+                                <label for="simple-search-pending-salon" class="sr-only">Search</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10
+                                        p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'pending')">
+                                </div>
+                            </div>
+                            <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto" id="salon-list-pending">
+                                @if($listInvitationSalons->isNotEmpty())
+                                @foreach($listInvitationSalons as $invitation)
+                                <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $invitation->inviter->prenom }}" data-email="{{ $invitation->inviter->email }}">
+                                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                        <div class="shrink-0">
+                                            <img class="w-8 h-8 rounded-full" src="{{ $invitation->inviter->avatar ? asset('storage/avatars/'.$invitation->inviter->avatar) : asset('images/icon_logo.png') }}" alt="{{ $invitation->inviter->prenom }}">
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                {{ $invitation->inviter->nom_salon }}
+                                            </p>
+                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                {{ $invitation->inviter->email }}
+                                            </p>
+                                        </div>
+                                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                {{ \Carbon\Carbon::parse($invitation->created_at)->translatedFormat('d F Y') }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            @if($invitation->created_at->ne($invitation->updated_at))
+                                            <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
+                                                Refusée
+                                            </span>
+                                            @else
+                                            <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
+                                                En attente
+                                            </span>
+                                            @endif
+                                            <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                                    Annuler
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endforeach
+                                @else
+                                <li class="text-center text-gray-500 py-4">
+                                    Aucune invitation en attente.
+                                </li>
+                                @endif
+                            </ul>
+                            @endif
+                        </div>
+
+                        <div id="accepter" class="p-4 hidden" role="tabpanel" aria-labelledby="settings-tab">
+                            <div class="flex items-center mx-auto">
+                                <label for="simple-search-pending-Salon" class="sr-only">Search</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="simple-search-pending-Salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalonsAccepter(this.value, 'accepted')">
+                                </div>
+                            </div>
+                            <ul id="salon-list-accepted" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
+                                @if($salonAssociers->isNotEmpty())
+                                @foreach ($salonAssociers as $salonAssocier)
+                                    @if($salonAssocier->type === "associe au salon")
+                                        <li class="pt-3 pb-0 sm:pt-4" data-nameSalon="{{ $salonAssocier->invited->prenom }}" data-emailSalon="{{ $salonAssocier->invited->email }}">
+                                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                                <div class="shrink-0">
+                                                    <img class="w-8 h-8 rounded-full" src="{{ $salonAssocier->invited->avatar ? asset('storage/avatars/'.$salonAssocier->invited->avatar) : asset('images/icon_logo.png') }}" alt="{{ $salonAssocier->invited->prenom }}">
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        {{ $salonAssocier->invited->nom_salon }}
+                                                    </p>
+                                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                        {{ $salonAssocier->invited->email }}
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                        {{ \Carbon\Carbon::parse($salonAssocier->created_at)->translatedFormat('d F Y') }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    @if($salonAssocier->created_at->ne($salonAssocier->updated_at))
+                                                    <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
+                                                        Refusée
+                                                    </span>
+                                                    @else
+                                                    <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
+                                                        En attente
+                                                    </span>
+                                                    @endif
+                                                    <form action="{{ route('invitations.cancel', $salonAssocier->id) }}" method="POST" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                                            Annuler
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @else
+                                    <li class="pt-3 pb-0 sm:pt-4" data-name="{{ $salonAssocier->inviter->prenom }}" data-email="{{ $salonAssocier->inviter->email }}">
+                                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                            <div class="shrink-0">
+                                                <img class="w-8 h-8 rounded-full" src="{{ $salonAssocier->inviter->avatar ? asset('storage/avatars/'.$salonAssocier->inviter->avatar) : asset('images/icon_logo.png') }}" alt="{{ $salonAssocier->inviter->prenom }}">
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    {{ $salonAssocier->inviter->nom_salon }}
+                                                </p>
+                                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                    {{ $salonAssocier->inviter->email }}
+                                                </p>
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                    {{ \Carbon\Carbon::parse($salonAssocier->created_at)->translatedFormat('d F Y') }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                @if($salonAssocier->created_at->ne($salonAssocier->updated_at))
+                                                {{-- <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
+                                                                        Refusée
+                                                                    </span> --}}
+                                                @else
+                                                <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
+                                                    En attente
+                                                </span>
+                                                @endif
+                                                <form action="{{ route('invitations.cancel', $salonAssocier->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                                        Annuler
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+                                @endforeach
+                                @else
+                                <li class="text-center text-gray-500 py-4">
+                                    Aucune invitation en accepter.
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
         <div x-data="{ pageSection: $persist('compte'), userType: '{{ $user->profile_type }}', completionPercentage: 0, dropdownData: '', fetchCompletionPercentage() { fetch('/profile-completion-percentage').then(response => response.json()).then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data').then(response => response.json()).then(data => { this.dropdownData = data; }); } }" x-init="fetchCompletionPercentage()"
@@ -608,25 +1082,42 @@
                     </form>
                 </div>
 
-                {{-- Message --}}
-                <div x-show="completionPercentage != 100"
-                    class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert">
-                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
-                    <span class="sr-only">Danger</span>
-                    <div class="text-dm-serif">
-                        <span class="font-bold">Votre profil est actuellement rempli à <span
-                                x-text=`${completionPercentage}%`></span> </span>
-                        <div class="my-1.5">
-                            Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de
-                            compléter vos informations avec des données réelles. Chez Gstuff, nous nous engageons à
-                            respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une
-                            expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici : <a
-                                class="font-bold" href="{{ route('static.pdc') }}">Politique de confidentialité</a>
+                    {{-- Information --}}
+                    <div class="flex items-center justify-between py-5">
+                        <h2 class="font-dm-serif font-bold text-2xl">Mes informations</h2>
+
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
+                        <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
+                            </svg> {{ $user->pseudo }}</span>
+                        <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path fill="currentColor" fill-rule="evenodd" d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd" />
+                            </svg> {{ Carbon::parse($user->date_naissance)->age }} ans</span>
+                        <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                                <path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
+                            </svg> Homme</span>
+                        <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M4.35 20.7q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v8.425q-.875-1.275-2.187-1.975T16 10q-.5 0-1 .088t-1 .262v-3.5l-4-1.4v13.075zM20.6 22l-2.55-2.55q-.45.275-.962.413T16 20q-1.65 0-2.825-1.175T12 16t1.175-2.825T16 12t2.825 1.175T20 16q0 .575-.137 1.088t-.413.962L22 20.6zM16 18q.85 0 1.413-.5T18 16q.025-.85-.562-1.425T16 14t-1.425.575T14 16t.575 1.425T16 18" />
+                            </svg> Vaud - Bex</span>
+                    </div>
+
+                    {{-- Favoris --}}
+                    <div class="flex items-center justify-center md:justify-start py-5">
+                        <h2 class="font-dm-serif font-bold text-2xl">Mes favoris</h2>
+                    </div>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 w-full">
+                        <div class="xl:w-1/2 flex flex-col items-center justify-center gap-4 min-w-full">
+                            <h3 class="font-dm-serif text-xl text-green-gs">Mes escortes favoris</h3>
+                            @if ($escortFavorites->isNotEmpty())
+                            <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
+                                @foreach ($escortFavorites as $favorie)
+                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" />
+                                @endforeach
+                            </div>
+                            @else
+                            <div>Aucun favoris escorte pour l'instant</div>
+                            @endif
                         </div>
                         <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
                             class="font-dm-serif font-bold border text-green-gs border-green-600 px-2 py-1 hover:bg-green-gs hover:text-white rounded-lg transition-all">Amelioré
@@ -823,99 +1314,11 @@
                 @endif
 
 
+                @if($user->profile_type === 'escorte')
 
-
-                @if ($invitationsRecus->isNotEmpty())
-                <div class="flex items-center justify-between gap-5 py-5">
-
-                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Invitation</h2>
-                    <div class="flex-1 h-0.5 bg-green-gs"></div>
-                </div>
-
-
-                <div class="relative w-full overflow-y-auto bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 m-h-50">
-                    <ul>
-                        @foreach ($invitationsRecus as $invitationsRecu)
-                        <li class="border-b border-gray-100 dark:border-gray-600">
-                            <a href="#" class="flex items-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 justify-between">
-                                <div class="flex items-center">
-                                    <div class="me-3 rounded-full w-11 h-11">
-                                        <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })" class="w-full h-full rounded-full object-center object-cover" @if ($avatar=$invitationsRecu->inviter->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
-                                        @else
-                                        src="{{ asset('images/icon_logo.png') }}" @endif
-                                        alt="image profile" />
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                                            Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
-                                            vient d'envoyer une invitation pour rejoindre son salon.
-                                        </p>
-                                        <span class="text-xs text-blue-600 dark:text-blue-500">
-                                            {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <!-- Bouton pour ouvrir le modal et afficher les détails de l'invitation -->
-                                <button class="py-2 px-3 w-32 flex items-center justify-center rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800" data-modal-target="detailInvitation" data-modal-toggle="detailInvitation" x-on:click="$dispatch('invitation-detail', {
-                                    id: '{{ $invitationsRecu->id }}',
-                                    avatar: '{{ $invitationsRecu->inviter->avatar }}',
-                                    nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
-                                    date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
-                                    type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
-                                    email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
-                                })">
-                                    Détail
-                                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                    </svg>
-                                </button>
-
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div x-data="{ id: '', avatar: '', nomSalon: '', date: '', type: '', email: '' }" x-on:invitation-detail.window="id = $event.detail.id; avatar = $event.detail.avatar; nomSalon = $event.detail.nomSalon; date = $event.detail.date; type = $event.detail.type; email = $event.detail.email" id="detailInvitation" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <!-- Modale -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 w-[35vw]  max-h-[90vh] xl:max-w-7xl overflow-y-auto">
-                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Détails de l'invitation</h2>
-
-                        <div class="flex items-center mt-4 justify-between">
-                            <div class="me-3 rounded-xl w-32 h-32">
-                                <img :src="avatar ? `{{ asset('storage/avatars') }}/${avatar}` :
-                                            `{{ asset('images/icon_logo.png') }}`" class="w-full h-full rounded-full object-center object-cover" alt="Avatar salon">
-                            </div>
-                            <div class="w-[50%]">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Nom du salon : <span class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span class="font-medium text-gray-900 dark:text-white" x-text="email"></span>
-                                </p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span class="font-medium text-gray-900 dark:text-white" x-text="date"></span>
-                                </p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span class="font-medium text-gray-900 dark:text-white" x-text="type"></span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex justify-end items-center gap-4">
-                            <!-- Bouton pour refuser l'invitation -->
-                            <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
-                                @csrf
-                                <button class="bg-gray-300 rounded-sm text-black px-4 py-2 hover:bg-gray-400">
-                                    Refuser
-                                </button>
-                            </form>
-                            <!-- Bouton pour accepter l'invitation -->
-                            <form :action="`{{ route('accepter.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
-                                @csrf
-                                <button class="btn-gs-gradient text-black rounded-sm px-4 py-2 hover:bg-green-700">
-                                    Accepter
-                                </button>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
+                <x-invitation-list :invitationsRecus="$invitationsRecus" type="escorte" />
                 @endif
+
 
                 <!-- Modal Structure -->
                 <div id="requestModal" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -968,8 +1371,15 @@
                             @livewire('gallery-manager', ['user' => $user], key($user->id))
                         </div>
 
-                        {{-- A propos de moi --}}
-                        <div class="flex items-center justify-between gap-5 py-5">
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Ajouter
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
 
                             <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
                             <div class="flex-1 h-0.5 bg-green-gs"></div>
@@ -1148,17 +1558,93 @@
                             <p class="text-justify text-sm xl:text-base"> {{ $user->apropos ?? '-' }} </p>
                         </div>
 
-                        {{-- A propos de moi --}}
-                        <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
-                            <div class="flex-1 h-0.5 bg-green-gs"></div>
-                        </div>
-                        <div class="flex items-center gap-10 flex-wrap">
-                            <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
-                                <div class="w-full flex items-center gap-3 font-dm-serif">
-                                    <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>Catégorie : {{ $user->categorie['nom'] ?? '-' }} </span>
+                    </div>
+
+                    {{-- Salon associé --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Salon associé</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Modifier
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="w-full flex items-center gap-10 flex-wrap">
+                        @if($salonAssociers->isNotEmpty())
+                        @foreach ($salonAssociers as $salonAssocier)
+
+                        @if($salonAssocier->type === "associe au salon")
+                        <livewire:salon-card name="{{ $salonAssocier->invited->nom_salon}}" canton="{{$salonAssocier->invited->cantonget->nom ?? 'Inconue'}}" ville="{{$salonAssocier->invited->villeget->nom  ?? 'Inconue'}}" avatar='{{$salonAssocier->invited->avatar}}' salonId='{{$salonAssocier->invited->id}}' wire:key="{{$salonAssocier->invited->id}}" />
+
+                        @else
+                        <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon}}" canton="{{$salonAssocier->inviter->cantonget->nom ?? 'Inconue'}}" ville="{{$salonAssocier->inviter->villeget->nom  ?? 'Inconue'}}" avatar='{{$salonAssocier->inviter->avatar}}' salonId='{{$salonAssocier->inviter->id}}' wire:key="{{$salonAssocier->inviter->id}}" />
+
+                        @endif
+                        @endforeach
+                        @else
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun salon associé pour l'instant</span>
+                        @endif
+
+
+
+                    </div>
+
+                    <button data-modal-target="sendInvitationSalon" data-modal-toggle="sendInvitationSalon" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base
+                     text-white cursor-pointer hover:bg-green-800">Invité
+                        un salon</button>
+                    {{-- Modale pour l'invitation escort --}}
+                    <div x-data="" x-init="" id="sendInvitationSalon" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <!-- Modale -->
+                        <x-invitation-tabs-escorte :salonsNoInvited="$salonsNoInvited" :listInvitationSalon="$listInvitationSalons" />
+                    </div>
+
+                    {{-- Galerie privée --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Modifier
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez
+                            droit qu'à 5
+                            vidéos</span>
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour
+                            l'instant</span>
+                    </div>
+
+                </section>
+
+                {{-- Section galerie --}}
+                <section x-show="pageSection=='galerie'">
+                    {{-- Storie --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Ajouter/Modifier
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
                                 </div>
                                 <div class="w-full flex items-center gap-3 font-dm-serif">
                                     <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
@@ -1263,6 +1749,329 @@
                 </section>
 
             </div>
+
+            {{-- Pour salon --}}
+            <div x-show="userType=='salon'">
+
+
+                @if($user->profile_type === 'salon')
+                <x-invitation-list :invitationsRecus="$invitationsRecus" type="salon" />
+                @endif
+
+
+
+                {{-- Section mon compte --}}
+                <section x-show="pageSection=='compte'">
+
+                    {{-- Galerie --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Ajouter
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Description</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+                        <p class="text-justify text-sm xl:text-base"> {{ $user->apropos ?? '-' }} </p>
+                    </div>
+
+                    {{-- A propos de moi --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">A propos de moi</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+                        <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 w-full">
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Catégorie : {{ $user->categorie['nom'] ?? '-' }} </span>
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Nombre des filles : {{ $user->nombre_filles }} filles</span>
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Langue : {{ $user->langues }}</span>
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Autre contact : {{ $user->autre_contact ?? '-' }} </span>
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Adresse : {{ $user->adresse ?? '-' }} </span>
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" srcset="age icon">
+                                @if ($user->tarif)
+                                <span>Tarifs à partir de {{ $user->tarif }}.-CHF</span>
+                                @else
+                                <span>Contacter moi pour connaitre mes tarifs </span>
+                                @endif
+                            </div>
+                            <div class="w-full flex items-center gap-3 font-dm-serif">
+                                <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
+                                <span>Moyen de paiement : {{ $user->paiement }}</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {{-- Escort associé --}}
+                    <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Escorte du salon</h2>
+                        <div class="hidden xl:block flex-1 h-0.5 bg-green-gs"></div>
+
+
+                    </div>
+                    <div class="mt-10 xl:mt-0 w-full flex items-center flex-col">
+
+                        <div class="w-full   items-center ">
+
+                            <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
+                                <div class="xl:ml-auto">
+                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Escortes créées</h2>
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
+                                <div class="flex items-center flex-wrap">
+                                    @if ($escorteCreateBySalons->isNotEmpty())
+                                    @foreach ($escorteCreateBySalons as $acceptedInvitation)
+                                    <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                    @endforeach
+                                    @else
+                                    <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun
+                                        escort créer pour l'instant</span>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                            <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
+                                <div class="xl:ml-auto">
+                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Invitée du salon</h2>
+                                </div>
+                            </div>
+
+                            <div class="">
+
+                                <div class="flex items-center justify-around flex-wrap gap-4">
+                                    @if ($acceptedInvitations->isNotEmpty())
+
+                                    @foreach ($acceptedInvitations as $acceptedInvitation)
+
+                                    @if($acceptedInvitation->type === "associe au salon")
+                                    <livewire:escort_card name="{{$acceptedInvitation->inviter->prenom != null ? $acceptedInvitation->inviter->prenom : $acceptedInvitation->inviter->nom_salon }}" canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->inviter->avatar }}" escortId="{{ $acceptedInvitation->inviter->id }}" wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                    @else
+                                    <livewire:escort_card name="{{$acceptedInvitation->invited->prenom != null ? $acceptedInvitation->invited->prenom : $acceptedInvitation->invited->nom_salon }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                    @endif
+
+                                    @endforeach
+                                    @else
+                                    <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">
+                                        Aucun escort associé pour l'instant
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="w-full flex items-center justify-between pt-10">
+
+                            <button data-modal-target="createEscorte" data-modal-toggle="createEscorte" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer
+                                un escort</button>
+                            <button data-modal-target="sendInvitationEscort" data-modal-toggle="sendInvitationEscort" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base
+                             text-white cursor-pointer hover:bg-green-800">Invité
+                                un escort</button>
+                        </div>
+
+
+                    </div>
+                    {{-- Modale pour l'invitation escort --}}
+                    <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <!-- Modale -->
+                        <x-invitation-tabs :escortsNoInvited="$escortsNoInvited" :listInvitation="$listInvitation" />
+                    </div>
+                    {{-- Modale pour créer un escort --}}
+                    <div x-data="" x-init="" id="createEscorte" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <!-- Modale -->
+                        <x-escort-form :user="$user->id" />
+                    </div>
+
+                    {{-- Galerie privée --}}
+                    <div class="flex items-center justify-between gap-5 py-5">
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie privée</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Modifier
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Attention ! Vous n'avez
+                            droit qu'à 5
+                            vidéos</span>
+                        <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun vidéo pour
+                            l'instant</span>
+                    </div>
+
+                </section>
+
+                {{-- section gallerie --}}
+                <section x-show="pageSection=='galerie'">
+                    <div class="flex items-center justify-between gap-5 py-5">
+
+                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Galerie</h2>
+                        <div class="flex-1 h-0.5 bg-green-gs"></div>
+                        <button class="flex items-center gap-2 text-amber-400">
+                            Ajouter/Modifier
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-10 flex-wrap">
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="grid gap-4">
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
+                                </div>
+                                <div>
+                                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            {{-- Section discussion --}}
+            <section x-show="pageSection=='discussion'">
+                <div class="py-5">
+                    <h2 class="font-dm-serif font-bold text-2xl my-5">Discussions</h2>
+                    <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                {{-- <div class="card-header">Chat avec Jhone</div> --}}
+                                <div class="card-body">
+                                    {{-- <chat-component :receiver-id="{{ $receiver->id }}" :user-id="{{ Auth::id() }}"></chat-component> --}}
+                                    <iframe src="{{ route('home-messenger') }}" frameborder="0" width="100%" height="500"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </div>
     </div>
