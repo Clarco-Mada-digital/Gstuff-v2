@@ -60,7 +60,7 @@ Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->nam
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-// Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
+Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 
 
 Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
