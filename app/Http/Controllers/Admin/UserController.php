@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Notification;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -13,15 +14,48 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
     public function index()
     {
-        return view('admin.users.index', [
-            'users' => User::with('roles')->paginate(10),
-            'roles' => Role::all()
-        ]);
+
+      // Récupérer l'utilisateur actuellement authentifié
+    $user = Auth::user();
+
+    // Récupérer les notifications paginées directement depuis la base de données
+    $notifications = Notification::where('notifiable_id', $user->id)
+        ->where('type', 'App\Notifications\ProfileVerificationRequestNotification')
+        ->orderBy('created_at', 'desc')
+        ->paginate(4); // Pagination automatique ici
+
+    // Récupérer les user_id uniques dans les données de notification
+    $userIds = $notifications->getCollection()->pluck('data.user_id')->filter()->unique();
+
+    // Charger tous les utilisateurs concernés en une seule requête
+    $users = User::whereIn('id', $userIds)->get()->keyBy('id');
+
+    // Formater les notifications
+    $formattedNotifications = $notifications->getCollection()->map(function ($notification) use ($users) {
+        return [
+            'id'=>$notification->id,
+            'data' => $notification->data ?? null,
+            'user' => isset($notification->data['user_id']) ? $users->get($notification->data['user_id']) : null,
+            'created_at' => $notification->created_at->toDateTimeString(),
+            'read_at' => $notification->read_at ? $notification->read_at->toDateTimeString() : null,
+        ];
+    });
+
+    // Remplacer la collection originale par la version formatée
+    $notifications->setCollection($formattedNotifications);
+
+    return view('admin.users.index', [
+        'users' => User::with('roles')->paginate(10),
+        'roles' => Role::all(),
+        'demandes' => $notifications, // Notifications paginées et formatées
+    ]);
     }
 
     public function create()
@@ -147,4 +181,74 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', 'Utilisateur supprimé avec succès');
     }
+
+
+
+    public function showDemande($iduser, $idnotif)
+    {
+        $user = Auth::user();
+
+        // Vérification de l'authentification avant toute opération
+        if (!$user || $user->profile_type !== 'admin') {
+            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+        }
+        
+        // Chercher la notification par ID
+        $notification = Notification::findOrFail($idnotif);
+
+        // Mettre à jour la colonne read_at avec l'heure actuelle
+        $notification->update([
+            'read_at' => now(),
+        ]);
+
+        $user = User::findOrFail($iduser);
+ 
+        return view('admin.users.demande', [ 
+            'user' => $user,
+            'idnotif' => $idnotif
+        ]);
+    }
+
+    
+    public function approvedProfile($iduser)
+    {
+
+        $user = Auth::user();
+
+        // Vérification de l'authentification avant toute opération
+        if (!$user || $user->profile_type !== 'admin') {
+            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+        }
+
+        $user = User::findOrFail($iduser);
+        $user->update([
+            'profile_verifie'=>  'verifier'
+        ]);
+
+        return redirect()->route('users.index')
+        ->with('success', "Profil de l'utilisateur approuvé avec succès.");
+    
+    }
+
+     
+    public function notApprovedProfile($iduser)
+    {
+
+        $user = Auth::user();
+
+        // Vérification de l'authentification avant toute opération
+        if (!$user || $user->profile_type !== 'admin') {
+            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+        }
+
+        $user = User::findOrFail($iduser);
+        $user->update([
+            'profile_verifie'=>  'non verifier'
+        ]);
+
+        return redirect()->route('users.index')
+        ->with('success', "Profil de l'utilisateur n'est pas approuvé avec succès.");
+    
+    }
+
 }

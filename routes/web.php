@@ -21,6 +21,7 @@ use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,6 +120,13 @@ Route::get('/users/create', [UserController::class, 'create'])->name('users.crea
 Route::get('/users/edit', [UserController::class, 'update'])->name('users.edit');
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+
+Route::get('/users/{iduser}/demande/{idnotif}', [UserController::class, 'showDemande'])->name('users.demande');
+Route::get('/users/approved/{iduser}', [UserController::class, 'approvedProfile'])->name('users.approvedProfile');
+Route::get('/users/notApproved/{iduser}', [UserController::class, 'notApprovedProfile'])->name('users.notApprovedProfile');
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+
+
 
 // Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
 

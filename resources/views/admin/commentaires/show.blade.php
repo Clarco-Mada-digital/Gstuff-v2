@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-<div x-data="{ selectedTab: 'approved' }" class="md:ml-64 pt-16 min-h-[100vh] container mx-auto px-4 py-8">
+<div x-data="{ selectedTab: 'approved' }" class=" pt-16 min-h-[100vh] container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">
            Voir le commentaire
