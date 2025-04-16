@@ -247,7 +247,8 @@ class MessengerController extends Controller
         'users.created_at', 
         'users.profile_verifie',
         'users.image_verification',
-        'users.updated_at')
+        'users.updated_at',
+        'userS.last_seen_at')
         ->paginate(10);
 
         if(count($users) > 0) {
