@@ -218,7 +218,7 @@
                     if (this.filters.status === 'draft' && article.is_published) return false;
                     
                     // Filtre par catégorie
-                    if (this.filters.category && !article.categories.some(c => c.id == this.filters.category)) return false;
+                    if (this.filters.category && !(article.category.id == this.filters.category)) return false;
                     
                     // Filtre par date
                     if (this.filters.start_date) {
