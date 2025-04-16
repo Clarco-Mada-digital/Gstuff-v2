@@ -171,6 +171,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('taxonomy', [\App\Http\Controllers\Admin\TaxonomyController::class, 'index'])
          ->name('taxonomy');
 
+    Route::get('/articles/json', [ArticleController::class, 'indexJson'])->name('articles.indexJson');
+    Route::patch('/articles/{article}/status', [ArticleController::class, 'updateStatus'])->name('articles.updateStatus');
+    Route::get('/articles', [ArticleController::class, 'admin'])->name('articles.admin');
+    Route::delete('articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
     // Catégories
     Route::post('categories', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeCategory'])->name('categories.store');
     Route::put('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateCategory'])->name('categories.update');

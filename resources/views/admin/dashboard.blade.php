@@ -73,7 +73,7 @@
         <!-- Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-            <div class="flex sm:flex-row items-start items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
+            <div class="flex sm:flex-row items-start space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
                 <!-- Filtre par statut -->
                 <div class="relative w-full sm:w-48">
                     <select x-model="filters.status" 

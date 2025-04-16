@@ -27,6 +27,56 @@ class ArticleController extends Controller
         return view('articles.index');
     }
 
+    public function admin()
+    {       
+        return view('admin.articles.index', [
+            'articles' => Article::with(['category', 'tags', 'user'])
+                ->latest()
+                ->paginate(10),
+            'categories' => ArticleCategory::all(),
+            'tags' => Tag::all()
+        ]);
+    }
+
+    public function updateStatus(Article $article)
+    {
+        $article->update([
+            'is_published' => !$article->is_published
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'is_published' => $article->is_published,
+            'message' => $article->is_published 
+                ? 'Article publié avec succès' 
+                : 'Article retiré de la publication'
+        ]);
+    }
+
+    public function indexJson()
+    {
+        return response()->json([
+            'articles' => Article::with(['category', 'tags', 'user'])
+                ->latest()
+                ->get()
+                ->map(function($article) {
+                    return [
+                        'id' => $article->id,
+                        'title' => $article->title,
+                        'user' => [
+                            'id' => $article->user->id,
+                            'name' => $article->user->pseudo,
+                            'avatar_url' => $article->user->avatar
+                        ],
+                        'categories' => $article->category,
+                        'tags' => $article->tags,
+                        'created_at' => $article->created_at,
+                        'is_published' => $article->is_published
+                    ];
+                })
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -176,8 +226,13 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Article supprimé définitivement'
+        ]);
     }
 }

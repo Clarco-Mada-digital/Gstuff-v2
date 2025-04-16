@@ -70,7 +70,7 @@ function dashboard() {
             { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
             { label: 'Utilisateurs', route: '{{route("users.index")}}', icon: '👥', badge: 'Nouveaux' },
             { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
-            { label: 'Articles', route: '{{ route("articles.index") }}', icon: '📝', badge: null },          
+            { label: 'Articles', route: '{{ route("articles.admin") }}', icon: '📝', badge: null },          
             { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },          
             { label: 'Catégories / Tags', route: '{{ route("taxonomy") }}', icon: '🗂️', badge: null },            
             // { label: 'Tags', route: '#', icon: '🏷️', badge: null },

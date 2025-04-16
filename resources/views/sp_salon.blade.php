@@ -61,7 +61,7 @@ use Carbon\Carbon;
       <livewire:favorite-button :userId='$salon->id' wire:key='{{$salon->id}}' />
       Ajouter au favoris
     </button>
-    <button x-on:click="$dispatch('loadForSender', [{{$salon->id}}])"
+    <button @auth x-on:click="$dispatch('loadForSender', [{{$salon->id}}])" @else data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" @endauth         
       class="flex items-center justify-center gap-2 w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">
       <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path fill="currentColor"
