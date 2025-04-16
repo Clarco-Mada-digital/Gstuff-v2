@@ -127,15 +127,6 @@
         </div>
     @endif
 
-    <style>
-        @keyframes progress {
-            from { width: 0%; }
-            to { width: 100%; }
-        }
-        .animate-progress {
-            animation: progress 24s linear forwards;
-        }
-    </style>
 </div>
 </div>
 

@@ -17,7 +17,7 @@
     <div class="flex flex-col gap-2 mt-4">
         <a class="flex items-center gap-1" href="{{route('show_escort', $escortId)}}" >
             <h5 class="text-base tracking-tight text-gray-900 dark:text-white">{{ $name }}</h5>
-            <div class="w-2 h-2 rounded-full bg-green-gs"></div>
+            <div class="w-2 h-2 rounded-full {{ $isOnline ? 'bg-green-gs' : 'bg-gray-400' }}"></div>
         </a>
         <p class="font-normal text-gray-700 dark:text-gray-400">
           <span>{{$canton}}</span> @if($ville != '') <span> | {{$ville}}</span>@endif

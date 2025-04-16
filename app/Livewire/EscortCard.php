@@ -11,6 +11,7 @@ class EscortCard extends Component
     public string $ville;
     public string $avatar;
     public float $escortId;
+    public bool $isOnline = false;
 
     public function render()
     {
