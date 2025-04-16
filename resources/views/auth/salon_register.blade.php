@@ -75,7 +75,7 @@
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
             @enderror
             </div>
-            <div class="font-dm-serif font-bold">{{__("Merci de consulter nos conditions générales d'utilisation.")}} <br> Voir les <a class="text-green-gs" href="{{ route('cgv') }}">{{__("condition générales d'utilisation.")}}</a></div>
+            <div class="font-dm-serif font-bold">{{__("Merci de consulter nos conditions générales d'utilisation.")}} <br> Voir les <a class="text-green-gs" href="{{ route('static.cgv') }}">{{__("condition générales d'utilisation.")}}</a></div>
             <div class="flex items-start mb-5">
               <div class="flex items-center h-5">
                 <input id="cgu_accepted" type="checkbox" name="cgu_accepted" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-green-gs dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-gs dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" autocomplete="cgu_accepted" {{ old('cgu_accepted') ? 'checked' : '' }} required />
