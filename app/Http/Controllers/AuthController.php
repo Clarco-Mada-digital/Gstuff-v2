@@ -17,6 +17,7 @@ use App\Models\Notification;
 use App\Models\Invitation;
 use App\Models\Service;
 use App\Models\Ville;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -94,6 +95,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Enregistrer le dernier timestamp avant déconnexion
+        if (Auth::check()) {
+            $user = User::find(Auth::id());
+            $user->last_seen_at = now();
+            $user->save();
+            // Supprimer le cache de l'utilisateur
+            Cache::forget('user-is-online-' . $user->id);
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

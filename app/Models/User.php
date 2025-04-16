@@ -43,6 +43,12 @@ class User extends Authenticatable
         'credit_card'
     ];
 
+    protected $dates = [
+        'last_seen_at',
+        'created_at',
+        'updated_at'
+    ];
+
     protected $fillable = [
         'avatar',
         'couverture_image',
@@ -164,7 +170,21 @@ class User extends Authenticatable
     // Relation avec detection de on line
     public function isOnline()
     {
-        return Cache::has('user-is-online-' . $this->id);
+        // Vérifie d'abord le cache
+        if (Cache::has('user-is-online-' . $this->id)) {
+            return true;
+        }
+        
+        // Si pas dans le cache, vérifie si la dernière activité était récente (2 minutes par exemple)
+        $user = User::find($this->id);
+        $lastSeen = $user->last_seen_at instanceof \Carbon\Carbon 
+            ? $user->last_seen_at 
+            : Carbon::parse($user->last_seen_at);
+        if ($this->last_seen_at) {
+            return $lastSeen->gt(now()->subMinutes(2));
+        }
+        
+        return false;
     }
 
     public function getLastActivityAttribute()
@@ -174,10 +194,12 @@ class User extends Authenticatable
 
     public function getLastSeenForHumansAttribute()
     {
+        // verification si l'user est en ligne
         if ($this->isOnline()) {
             return 'En ligne';
         }
 
+        // vérifier last_seen_at
         if (!$this->last_seen_at) {
             return 'Jamais connecté';
         }
@@ -185,7 +207,7 @@ class User extends Authenticatable
         $lastSeen = Carbon::parse($this->last_seen_at);
         $diffInMinutes = now()->diffInMinutes($lastSeen);
 
-        if ($diffInMinutes < 1) {
+        if ($diffInMinutes < 2) {
             return 'À l\'instant';
         } elseif ($diffInMinutes < 60) {
             return 'Il y a ' . $diffInMinutes . ' min';
