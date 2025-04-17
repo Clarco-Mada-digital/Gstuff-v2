@@ -167,25 +167,37 @@ class User extends Authenticatable
         return $this->hasMany(Commentaire::class);
     }
 
-    // Relation avec detection de on line
-    public function isOnline()
+    // Relation avec les invitations envoyées
+    public function invitations()
     {
-        // Vérifie d'abord le cache
-        if (Cache::has('user-is-online-' . $this->id)) {
-            return true;
-        }
-        
-        // Si pas dans le cache, vérifie si la dernière activité était récente (2 minutes par exemple)
-        $user = User::find($this->id);
-        $lastSeen = $user->last_seen_at instanceof \Carbon\Carbon 
-            ? $user->last_seen_at 
-            : Carbon::parse($user->last_seen_at);
-        if ($this->last_seen_at) {
-            return $lastSeen->gt(now()->subMinutes(2));
-        }
-        
-        return false;
+        return $this->hasMany(Invitation::class, 'inviter_id');
     }
+
+    // Relation avec les invitations reçues
+    public function receivedInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'invited_id');
+    }
+
+     // Relation avec detection de on line
+     public function isOnline()
+     {
+         // Vérifie d'abord le cache
+         if (Cache::has('user-is-online-' . $this->id)) {
+             return true;
+         }
+         
+         // Si pas dans le cache, vérifie si la dernière activité était récente (2 minutes par exemple)
+         $user = User::find($this->id);
+         $lastSeen = $user->last_seen_at instanceof \Carbon\Carbon 
+             ? $user->last_seen_at 
+             : Carbon::parse($user->last_seen_at);
+         if ($this->last_seen_at) {
+             return $lastSeen->gt(now()->subMinutes(2));
+         }
+         
+         return false;
+     } 
 
     public function getLastActivityAttribute()
     {

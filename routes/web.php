@@ -21,6 +21,7 @@ use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +61,7 @@ Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->nam
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-// Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
+Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 
 
 Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
@@ -123,6 +124,13 @@ Route::get('/users/create', [UserController::class, 'create'])->name('users.crea
 Route::get('/users/edit', [UserController::class, 'update'])->name('users.edit');
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+
+Route::get('/users/{iduser}/demande/{idnotif}', [UserController::class, 'showDemande'])->name('users.demande');
+Route::get('/users/approved/{iduser}', [UserController::class, 'approvedProfile'])->name('users.approvedProfile');
+Route::get('/users/notApproved/{iduser}', [UserController::class, 'notApprovedProfile'])->name('users.notApprovedProfile');
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+
+
 
 // Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
 
@@ -220,6 +228,7 @@ Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->
 Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
 
 Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
+Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');
 Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
 Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
 Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');

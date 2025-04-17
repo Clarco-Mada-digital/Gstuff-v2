@@ -5,15 +5,15 @@
 @endsection
 
 @section('admin-content')
-    <div x-data="{ selectedTab: 'approved' }" class="pt-16 min-h-[100vh] container mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">
-                Voir le commentaire
-            </h1>
-            <a href="{{ route('commentaires.index') }}" class="btn-secondary">
-                <i class="fas fa-arrow-left mr-2"></i> Retour
-            </a>
-        </div>
+<div x-data="{ selectedTab: 'approved' }" class=" pt-16 min-h-[100vh] container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">
+           Voir le commentaire
+        </h1>
+        <a href="{{ route('commentaires.index') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left mr-2"></i> Retour
+        </a>
+    </div>
 
         <dl
             class=" bg-white w-full flex justify-around flex-wrap text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700 p-5 m-2 shadow-sm rounded-sm">

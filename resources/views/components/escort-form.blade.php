@@ -1,7 +1,7 @@
 @props(['user'])
 
 
-<div class="bg-white rounded-lg shadow-lg p-6 w-[40vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
+<div class="bg-white rounded-lg shadow-lg p-6  w-full h-[80vh] md:w-[70vw] xl:w-[35vw] mx-auto overflow-y-auto">
     <div class="w-full py-3 px-2 flex flex-col items-center justify-center gap-15">
         <h2 class="font-dm-serif text-2xl font-bold text-center">Créer un nouvel escorte</h2>
 
