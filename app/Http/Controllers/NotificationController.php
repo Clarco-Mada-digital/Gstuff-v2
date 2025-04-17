@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Notification;
+use App\Models\User;
+
 
 class NotificationController extends Controller
 {
@@ -16,7 +18,7 @@ class NotificationController extends Controller
     }
 
 
-    public function destroy($idnotif)
+    public function destroy($iduser,  $idnotif)
 {
     $user = Auth::user();
 
@@ -30,6 +32,13 @@ class NotificationController extends Controller
 
     // Supprimer la notification
     $notification->delete();
+
+    $userModifier = User::findOrFail($iduser);
+
+    // Mettre à jour le statut de vérification de l'utilisateur
+    $userModifier->update([
+        'profile_verifie' => 'non verifier'
+    ]);
 
     // Retourner une redirection avec un message de succès
     return redirect()->route('users.index')

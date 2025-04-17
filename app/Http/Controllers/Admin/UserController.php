@@ -251,4 +251,19 @@ class UserController extends Controller
     
     }
 
+    
+    public function newUsersCount()
+{
+    $user = Auth::user();
+
+    // Compter le nombre de notifications non lues
+    $newUsersCount = Notification::where('notifiable_id', $user->id)
+        ->where('type', 'App\Notifications\ProfileVerificationRequestNotification')
+        ->whereNull('read_at')
+        ->count();
+
+    // Retourner une réponse JSON avec le nombre de notifications non lues
+    return response()->json(['count' => $newUsersCount]);
+}
+
 }

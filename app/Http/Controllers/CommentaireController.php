@@ -6,6 +6,8 @@ use App\Models\Commentaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Notification;
+
 use App\Notifications\NewCommentNotification;
 
 
@@ -81,6 +83,11 @@ class CommentaireController extends Controller
         public function show($id)
         {
             $commentaire = Commentaire::with('user')->findOrFail($id);
+
+            $commentaire->read_at = now();
+            $commentaire->save();
+
+
             return view('admin.commentaires.show', compact('commentaire'));
         }
         
@@ -136,6 +143,18 @@ class CommentaireController extends Controller
 
         return redirect()->route('commentaires.index')->with('success', 'Commentaire approuvé avec succès.');
     }
+
+    public function unreadCommentsCount()
+    {
+        // Compter le nombre de commentaires non lus
+        $unreadCommentsCount = Commentaire::whereNull('read_at')->count();
+
+        // Retourner une réponse JSON avec le nombre de commentaires non lus
+        return response()->json(['count' => $unreadCommentsCount]);
+    }
+
+
+
 
    
 }

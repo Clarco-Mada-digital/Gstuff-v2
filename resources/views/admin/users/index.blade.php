@@ -90,7 +90,7 @@
                             <a href="{{route('users.demande', ['iduser' => $notification['user']->id, 'idnotif' => $notification['id']]) }}" class="text-blue-600 hover:text-blue-900 mr-3">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <form id="delete-form-{{  $notification['user']->id }}" action="{{ route('notifications.destroy',  $notification['id']) }}" method="POST" class="inline">
+                            <form id="delete-form-{{  $notification['user']->id }}" action="{{ route('notifications.destroy',  ['iduser' => $notification['user']->id, 'idnotif' => $notification['id']]) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{  $notification['user']->id , 'notif' }})">

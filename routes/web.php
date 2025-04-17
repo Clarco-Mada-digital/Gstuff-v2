@@ -128,7 +128,7 @@ Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.d
 Route::get('/users/{iduser}/demande/{idnotif}', [UserController::class, 'showDemande'])->name('users.demande');
 Route::get('/users/approved/{iduser}', [UserController::class, 'approvedProfile'])->name('users.approvedProfile');
 Route::get('/users/notApproved/{iduser}', [UserController::class, 'notApprovedProfile'])->name('users.notApprovedProfile');
-Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+Route::delete('/notifications/{iduser}/{idnotif}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
 
 
@@ -210,6 +210,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
         ->name('roles.permissions.store');
     Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
         ->name('roles.permissions.destroy');
+    Route::get('/new-users-count', [UserController::class, 'newUsersCount'])->name('unread.notifications.count');
+    Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
+
+    
 });
 
 
@@ -226,6 +230,8 @@ Route::get('/commentaires/approved', [CommentaireController::class, 'getCommentA
 Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('commentaires.show');
 Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
 Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
+Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
+
 
 Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
 Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');

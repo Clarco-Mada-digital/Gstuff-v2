@@ -32,7 +32,7 @@ Commentaires
             </div>
         </div>
     </nav>
-    
+
     {{-- Pour les commentaires approuvés --}}
     <div x-show="selectedTab === 'approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Approuvés</h2>
@@ -47,6 +47,8 @@ Commentaires
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
                     </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions</th>
                 </tr>
@@ -54,7 +56,6 @@ Commentaires
 
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($commentairesApproved as $commentaire)
-
                 <tr class="approved-item">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
@@ -80,17 +81,19 @@ Commentaires
                             {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                         </div>
                     </td>
-                    
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        
+                        @if ($commentaire->read_at)
+                        <p class="text-xs text-green-500">Lu : {{ $commentaire->read_at }}</p>
+                        @else
+                        <p class="text-xs text-red-500">Non lu</p>
+                        @endif
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
-                        <a 
-                        href="{{ route('commentaires.show', $commentaire->id) }}"
-                         class="text-green-600 hover:text-green-900 mr-3">
+                        <a href="{{ route('commentaires.show', $commentaire->id) }}"
+                            class="text-green-600 hover:text-green-900 mr-3">
                             <i class="fas fa-eye"></i>
                         </a>
-                        {{-- <a href="{{ route('users.edit', $commentaire->user) }}" class="text-blue-600 hover:text-blue-900 mr-3">
-                            <i class="fas fa-edit"></i>
-                        </a> --}}
-                       
                         <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
@@ -100,11 +103,8 @@ Commentaires
                         </form>
                     </td>
                 </tr>
-
                 @endforeach
             </tbody>
-            <!-- Contrôles de pagination -->
-
         </table>
         <div class="flex justify-center mt-4 space-x-4">
             <button onclick="prevPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
@@ -113,9 +113,7 @@ Commentaires
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-
             <span id="page-info-approved" class="px-4 py-2 font-semibold"></span>
-
             <button onclick="nextPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor">
@@ -123,13 +121,11 @@ Commentaires
                 </svg>
             </button>
         </div>
-
     </div>
 
     {{-- Pour les commentaires non approuvés --}}
     <div x-show="selectedTab === 'non-approved'" class="px-4 py-3">
         <h2 class="mb-5">Liste des Commentaires Non Approuvés</h2>
-
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -141,11 +137,12 @@ Commentaires
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
                     </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions</th>
                 </tr>
             </thead>
-
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($commentairesNotApproved as $commentaire)
                 <tr class="non-approved-item">
@@ -173,16 +170,20 @@ Commentaires
                             {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                         </div>
                     </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                       
+
+                        @if ($commentaire->read_at)
+                        <p class="text-xs text-green-500">Lu : {{ $commentaire->read_at }}</p>
+                        @else
+                        <p class="text-xs text-red-500">Non lu</p>
+                        @endif
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
-                        <a 
-                        href="{{ route('commentaires.show', $commentaire->id) }}"
-                         class="text-green-600 hover:text-green-900 mr-3">
+                        <a href="{{ route('commentaires.show', $commentaire->id) }}"
+                            class="text-green-600 hover:text-green-900 mr-3">
                             <i class="fas fa-eye"></i>
                         </a>
-                        {{-- <a href="{{ route('users.edit', $commentaire->user) }}" class="text-blue-600 hover:text-blue-900 mr-3">
-                            <i class="fas fa-edit"></i>
-                        </a> --}}
-                       
                         <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
@@ -191,14 +192,9 @@ Commentaires
                             </button>
                         </form>
                     </td>
-                    
                 </tr>
-
                 @endforeach
             </tbody>
-
-
-
         </table>
         <div class="flex justify-center mt-4 space-x-4">
             <button onclick="prevPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
@@ -207,9 +203,7 @@ Commentaires
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-
             <span id="page-info-non-approved" class="px-4 py-2 font-semibold"></span>
-
             <button onclick="nextPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor">
@@ -217,46 +211,44 @@ Commentaires
                 </svg>
             </button>
         </div>
-
     </div>
 </div>
 @endsection
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    let itemsPerPageApproved = 4;
-    let currentPageApproved = 1;
-    let approvedComments = document.querySelectorAll(".approved-item");
-    let totalPagesApproved = Math.ceil(approvedComments.length / itemsPerPageApproved);
+        let itemsPerPageApproved = 4;
+        let currentPageApproved = 1;
+        let approvedComments = document.querySelectorAll(".approved-item");
+        let totalPagesApproved = Math.ceil(approvedComments.length / itemsPerPageApproved);
 
-    function showPageApproved(page) {
-        let start = (page - 1) * itemsPerPageApproved;
-        let end = start + itemsPerPageApproved;
+        function showPageApproved(page) {
+            let start = (page - 1) * itemsPerPageApproved;
+            let end = start + itemsPerPageApproved;
 
-        approvedComments.forEach((item, index) => {
-            item.style.display = index >= start && index < end ? "table-row" : "none";
-        });
+            approvedComments.forEach((item, index) => {
+                item.style.display = index >= start && index < end ? "table-row" : "none";
+            });
 
-        document.getElementById("page-info-approved").innerText = `Page ${currentPageApproved} / ${totalPagesApproved}`;
-    }
-
-    window.nextPageApproved = function () {
-        if (currentPageApproved < totalPagesApproved) {
-            currentPageApproved++;
-            showPageApproved(currentPageApproved);
+            document.getElementById("page-info-approved").innerText = `Page ${currentPageApproved} / ${totalPagesApproved}`;
         }
-    };
 
-    window.prevPageApproved = function () {
-        if (currentPageApproved > 1) {
-            currentPageApproved--;
-            showPageApproved(currentPageApproved);
-        }
-    };
+        window.nextPageApproved = function () {
+            if (currentPageApproved < totalPagesApproved) {
+                currentPageApproved++;
+                showPageApproved(currentPageApproved);
+            }
+        };
 
-    showPageApproved(currentPageApproved);
-});
+        window.prevPageApproved = function () {
+            if (currentPageApproved > 1) {
+                currentPageApproved--;
+                showPageApproved(currentPageApproved);
+            }
+        };
 
+        showPageApproved(currentPageApproved);
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         let itemsPerPageNonApproved = 4;

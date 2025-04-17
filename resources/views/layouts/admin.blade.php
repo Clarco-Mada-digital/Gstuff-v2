@@ -41,8 +41,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
-function dashboard() {
 
+function dashboard() {
     return {
         currentPage: 1,
         perPage: 5,
@@ -68,14 +68,13 @@ function dashboard() {
         },
         menuItems: [
             { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
-            { label: 'Utilisateurs', route: '{{route("users.index")}}', icon: '👥', badge: 'Nouveaux' },
+            { label: 'Utilisateurs', route: '{{route("users.index")}}', icon: '👥', badge: null },
             { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
-            { label: 'Articles', route: '{{ route("articles.admin") }}', icon: '📝', badge: null },          
-            { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },          
-            { label: 'Catégories / Tags', route: '{{ route("taxonomy") }}', icon: '🗂️', badge: null },            
-            // { label: 'Tags', route: '#', icon: '🏷️', badge: null },
-            { label: 'Commentaires', route: '{{ route("commentaires.index") }}', icon: '💬', badge: '3' },
-            { label: 'Paramètres', route: '#', icon: '⚙️', badge: null }, 
+            { label: 'Articles', route: '{{ route("articles.admin") }}', icon: '📝', badge: null },
+            { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },
+            { label: 'Catégories / Tags', route: '{{ route("taxonomy") }}', icon: '🗂️', badge: null },
+            { label: 'Commentaires', route: '{{ route("commentaires.index") }}', icon: '💬', badge: null },
+            { label: 'Paramètres', route: '#', icon: '⚙️', badge: null },
         ],
         recentActivity:[],
         stats: {
@@ -84,7 +83,6 @@ function dashboard() {
             comments: 0,
             views: 0,
             escorteApproved: 0
-
         },
         userSatats:[],
         recentArticles: [],
@@ -99,17 +97,17 @@ function dashboard() {
                     statusMatch = article.is_published;
                 } else if(this.filters.status === 'unpublished') {
                     statusMatch = !article.is_published;
-                }               
-                
+                }
+
                 // Filtre par recherche
                 const searchMatch = this.filters.search === '' ||
                                   article.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
                                   article.excerpt.toLowerCase().includes(this.filters.search.toLowerCase());
-                
+
                 return statusMatch && searchMatch;
             });
         },
-        
+
         // Réinitialisation des filtres
         resetFilters() {
             this.filters = {
@@ -122,7 +120,7 @@ function dashboard() {
             return [...this.filteredArticles()].sort((a, b) => {
                 let modifier = 1;
                 if (this.sort.direction === 'desc') modifier = -1;
-                
+
                 if (a[this.sort.field] < b[this.sort.field]) return -1 * modifier;
                 if (a[this.sort.field] > b[this.sort.field]) return 1 * modifier;
                 return 0;
@@ -143,7 +141,8 @@ function dashboard() {
             this.fetchStats();
             this.fetchRecentArticles();
             this.fetchRecentActivity();
-            // this.fetchUserStats();
+            this.fetchUnreadCommentsCount();
+            this.fetchNewUsersCount();
 
             // Restaurer les filtres depuis localStorage si disponible
             if (localStorage.getItem('dashboardFilters')) {
@@ -154,7 +153,7 @@ function dashboard() {
             this.$watch('filters', (value) => {
                 localStorage.setItem('dashboardFilters', JSON.stringify(value));
             }, { deep: true });
-            
+
             // Initialiser le graphique après le rendu
             this.$nextTick(() => {
                 this.initChart();
@@ -177,8 +176,6 @@ function dashboard() {
 
         isActive(route) {
             return route.includes(window.location.href);
-            // let pathname = window.location.pathname;
-            // return route.includes(pathname);
         },
 
         async fetchStats() {
@@ -186,7 +183,7 @@ function dashboard() {
                 const response = await fetch('/api/admin/api/stats');
                 const data = await response.json();
                 this.stats = data;
-                
+
             } catch (error) {
                 console.error('Error fetching stats:', error);
             }
@@ -197,7 +194,7 @@ function dashboard() {
                 const response = await fetch('/api/admin/api/user-stats');
                 const data = await response.json();
                 this.userSatats = data;
-                this.initChart();                
+                this.initChart();
 
             } catch (error) {
                 console.error('Error fetching user stats:', error);
@@ -221,6 +218,35 @@ function dashboard() {
                 this.recentActivity = data;
             } catch (error) {
                 console.error('Error fetching recent activity:', error);
+            }
+        },
+
+        async fetchUnreadCommentsCount() {
+            try {
+                const response = await fetch('/admin/unread-comments');
+                const data = await response.json();
+                console.log('data', data);
+                
+                this.updateMenuItemBadge('Commentaires', data.count);
+            } catch (error) {
+                console.error('Error fetching unread comments count:', error);
+            }
+        },
+
+        async fetchNewUsersCount() {
+            try {
+                const response = await fetch('/admin/new-users-count');
+                const data = await response.json();
+                this.updateMenuItemBadge('Utilisateurs', data.count);
+            } catch (error) {
+                console.error('Error fetching new users count:', error);
+            }
+        },
+
+        updateMenuItemBadge(label, count) {
+            const menuItem = this.menuItems.find(item => item.label === label);
+            if (menuItem) {
+                menuItem.badge = count > 0 ? count.toString() : null;
             }
         },
 
@@ -273,18 +299,18 @@ function dashboard() {
             const date = new Date(dateString);
             const now = new Date();
             const seconds = Math.floor((now - date) / 1000);
-            
+
             if (seconds < 60) return 'à l\'instant';
-            
+
             const minutes = Math.floor(seconds / 60);
             if (minutes < 60) return `il y a ${minutes} min`;
-            
+
             const hours = Math.floor(minutes / 60);
             if (hours < 24) return `il y a ${hours} h`;
-            
+
             const days = Math.floor(hours / 24);
             if (days < 7) return `il y a ${days} j`;
-            
+
             return this.formatDate(dateString);
         },
 
@@ -298,9 +324,9 @@ function dashboard() {
         totalPages() {
             return Math.ceil(this.filteredArticles().length / this.perPage);
         },
-
     }
 };
+
 
 function roleForm() {
     return {
