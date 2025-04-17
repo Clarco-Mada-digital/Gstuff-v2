@@ -184,7 +184,7 @@ class UserController extends Controller
 
 
 
-    public function showDemande($iduser, $idnotif)
+    public function showDemande($iduser)
     {
         $user = Auth::user();
 
@@ -192,20 +192,35 @@ class UserController extends Controller
         if (!$user || $user->profile_type !== 'admin') {
             return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
         }
-        
-        // Chercher la notification par ID
-        $notification = Notification::findOrFail($idnotif);
 
-        // Mettre à jour la colonne read_at avec l'heure actuelle
-        $notification->update([
-            'read_at' => now(),
-        ]);
+        $iduser = (int) $iduser;
+
+        // Validation de l'entrée
+        if (!is_numeric($iduser)) {
+            return redirect()->route('users.index')->with('error', "ID utilisateur invalide. Type détecté : $iduserType");
+        }
+    
+        
+        // Utilisation d'une transaction pour garantir l'atomicité des opérations
+        DB::transaction(function () use ($iduser) {
+            // Supprimer les notifications filtrées
+            $notifications = Notification::whereJsonContains('data->user_id', $iduser)
+            ->where('type', 'App\Notifications\ProfileVerificationRequestNotification')
+            ->get();
+    
+            foreach ($notifications as $notification) {
+                // Mettre à jour la colonne read_at avec l'heure actuelle
+                $notification->update([
+                    'read_at' => now(),
+                ]);
+            }
+        });
 
         $user = User::findOrFail($iduser);
  
         return view('admin.users.demande', [ 
             'user' => $user,
-            'idnotif' => $idnotif
+        
         ]);
     }
 
