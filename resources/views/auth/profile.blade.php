@@ -655,10 +655,10 @@ Mon compte
                     @endif
 
 
-                @if($user->profile_type === 'escorte')
+                    @if($user->profile_type === 'escorte')
 
-                <x-invitation-list :invitationsRecus="$invitationsRecus" type="escorte" />
-                @endif
+                    <x-invitation-list :invitationsRecus="$invitationsRecus" type="escorte" />
+                    @endif
 
 
                     <!-- Modal Structure -->
@@ -875,8 +875,9 @@ Mon compte
 
                 </section>
 
-                {{-- Galerie --}}
-                @livewire('gallery-manager', ['user' => $user], key($user->id))
+                <section x-show="pageSection=='galerie'">
+                    @livewire('gallery-manager', ['user' => $user], key($user->id))
+                </section>
 
             </div>
 
