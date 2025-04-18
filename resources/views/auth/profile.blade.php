@@ -30,8 +30,8 @@
                     <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $avatar = auth()->user()->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })"
                         class="w-full h-full rounded-full object-center object-cover"
                         @if ($avatar = auth()->user()->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
-        @else
-        src="{{ asset('images/icon_logo.png') }}" @endif
+                        @else
+                        src="{{ asset('images/icon_logo.png') }}" @endif
                         alt="image profile" />
                 </div>
                 <a href="#" class="flex md:hidden items-center gap-3 -mt-[25%] ">
@@ -1167,8 +1167,7 @@
                                         <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
                                         @endforeach
                                         @else
-                                        <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun
-                                            escort créer pour l'instant</span>
+                                        <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
                                         @endif
                                     </div>
                                 </div>
