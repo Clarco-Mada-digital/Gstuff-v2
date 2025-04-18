@@ -130,6 +130,7 @@ class Chat extends Component
     {
         //$this->loadMessages(); // Charger les messages du chat
         $this->user = auth()->user(); // Charger l'utilisateur authentifié
+        $this->unseenCounter = 0; // Initialiser le compteur de messages non lus
 
         if($this->user)
         {
