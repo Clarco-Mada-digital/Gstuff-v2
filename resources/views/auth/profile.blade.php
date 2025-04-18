@@ -101,7 +101,6 @@ Mon compte
         <div x-data="multiStepForm()" x-init="fetchDropdownData();" id="addInfoProf" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <!-- Modale -->
             <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
-
                 <!-- Étapes -->
                 <div class="w-full flex justify-between gap-5 mb-6">
                     <template class="w-full" x-for="(step, index) in steps" :key="index">
@@ -1353,10 +1352,6 @@ Mon compte
 
 @section('extraScripts')
 <script>
-    var user = @json($user)
-
-    console.log('ok', user);
-
     function multiStepForm() {
         return {
             steps: "{{ $user->profile_type }}" == 'invite' ? ['Informations personnelles'
@@ -1397,11 +1392,11 @@ Mon compte
             }
         }
     }
-
     function storyPlayer() {
-        isModalOpen: false
-        , currentStory: 0
-        , progress: 0,
+    return {
+        isModalOpen: false,
+        currentStory: 0,
+        progress: 0,
 
         init() {
             this.$wire.$on('openStory', () => {
@@ -1426,18 +1421,9 @@ Mon compte
             }, 50);
         }
     };
+}
 
-    function filterEscorts(searchValue) {
-        const listItems = document.querySelectorAll('#escort-list li');
-        listItems.forEach(item => {
-            const name = item.getAttribute('data-name').toLowerCase();
-            if (name.includes(searchValue.toLowerCase())) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
+
 
 </script>
 

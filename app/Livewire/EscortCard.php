@@ -10,6 +10,7 @@ class EscortCard extends Component
     public string $canton;
     public string $ville;
     public string $avatar;
+    public string $distance;
     public float $escortId;
     public bool $isOnline = false;
 

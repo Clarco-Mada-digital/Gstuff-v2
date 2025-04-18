@@ -124,9 +124,9 @@
               <span class="hidden xl:block" :class="{'text-amber-400': index < currentStep}" x-text="step"></span>
               <span :class="index < steps.length - 1 ? 'flex':'hidden'"  class="flex-1 w-16 h-1 bg-gray-300 md:mx-1"></span>
             </div>
-<<<<<<< HEAD
+
           </template>
-=======
+
 
             <!-- Contenu du formulaire -->
             <form @submit.prevent="submitForm" action="{{ route('profile.update') }}" method="POST">
@@ -232,7 +232,7 @@
 
                 {{-- ... (navigation buttons - no changes needed) ... --}}
             </form>
->>>>>>> 838752511e6378be94bd4fd4fbc073472fa0ff9b
+
         </div>
 
         <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
