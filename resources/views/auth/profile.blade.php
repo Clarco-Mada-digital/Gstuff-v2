@@ -315,8 +315,8 @@
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($salon_categories as $categorie)
-                                            <option value={{ $categorie->id }}
-                                                @if ($user->categorie?->id ?? '' == $categorie['id']) selected @endif>{{ $categorie->nom }}
+                                            <option value={{ $categorie['id'] }}
+                                            @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
                                             </option>
                                         @endforeach
                                     </select>
