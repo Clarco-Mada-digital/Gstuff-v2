@@ -567,9 +567,14 @@ class ProfileCompletionController extends Controller
                 'profile_verifie' => $request->input('profile_verifie'),
             ]);
 
-            // Envoyer une notification à l'administrateur
-            $admin = User::where('profile_type', 'admin')->first(); // Assurez-vous que l'admin existe
-            if ($admin) {
+            // // Envoyer une notification à l'administrateur
+            // $admin = User::where('profile_type', 'admin')->first(); // Assurez-vous que l'admin existe
+            // if ($admin) {
+            //     $admin->notify(new ProfileVerificationRequestNotification($user));
+            // }
+
+            $admins = User::where('profile_type', 'admin')->get(); // Récupérer tous les administrateurs
+            foreach ($admins as $admin) {
                 $admin->notify(new ProfileVerificationRequestNotification($user));
             }
         

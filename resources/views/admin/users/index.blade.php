@@ -18,7 +18,8 @@
             </div>
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    <input x-model="search" type="text" placeholder="Rechercher..." class="pl-10 text-sm pr-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <input x-model="searchNotif" type="text" placeholder="Rechercher..." 
+                    class="pl-10 text-sm pr-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
                 <select x-model="statusFilter" class="border text-sm rounded-lg px-3 py-2 w-36 focus:ring-blue-500 focus:border-blue-500">
@@ -87,10 +88,10 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium">
-                            <a href="{{route('users.demande', ['iduser' => $notification['user']->id, 'idnotif' => $notification['id']]) }}" class="text-blue-600 hover:text-blue-900 mr-3">
+                            <a href="{{route('users.demande', $notification['user']->id) }}" class="text-blue-600 hover:text-blue-900 mr-3">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <form id="delete-form-{{  $notification['user']->id }}" action="{{ route('notifications.destroy',  ['iduser' => $notification['user']->id, 'idnotif' => $notification['id']]) }}" method="POST" class="inline">
+                            <form id="delete-form-{{  $notification['user']->id }}" action="{{ route('notifications.destroy',  $notification['user']->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{  $notification['user']->id , 'notif' }})">
@@ -194,15 +195,16 @@
 <script>
     function userManagement() {
         return {
-            search: ''
-            , roleFilter: '',
+            search: '',
+            searchNotif: '',
+            roleFilter: '',
             statusFilter: '',
 
             matchesSearch(userName) {
                 return userName.includes(this.search.toLowerCase());
             }
             , matchesSearchNotification(userName) {
-                return userName.includes(this.search.toLowerCase());
+                return userName.includes(this.searchNotif.toLowerCase());
             },
 
             matchesRole(userRoles) {
