@@ -26,7 +26,7 @@ use App\Models\Canton;
                 <a href="{{ route('glossaires.index') }}">Glossaire</a>
                 <a href="{{ route('faq') }}">FAQ</a>
                 <a href="{{ route('about') }}">Qui sommes-nous ?</a>
-                <a href="{{ route('static.cgv') }}">Conditions générales de vente (GGV)</a>
+                <a href="{{ route('static.cgv') }}">Conditions générales de vente (CGV)</a>
                 <a href="{{ route('contact') }}">Contact</a>
             </div>
 

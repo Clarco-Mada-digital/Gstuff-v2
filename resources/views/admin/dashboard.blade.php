@@ -153,6 +153,52 @@
                         <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir tous →</a>
                     </div>
                 </div>
+                <div class="bg-white rounded-lg shadow p-6">
+
+                     <div x-data="{ isEditing: false, distanceMax: stats.distanceMax ?? 0 }">
+                        <!-- Affichage -->
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-lg font-medium flex items-center">
+                                    Escortes au tour de
+                                </p>
+                                <template x-if="!isEditing">
+                                    <p class="text-2xl font-semibold">
+                                        <span x-text="stats.distanceMax + ' km'"></span>
+                                    </p>
+                                </template>
+                                <template x-if="isEditing">
+                                    <input type="number" name="distance_max"
+                                        class="text-xl font-semibold border rounded w-32 py-0 px-2"
+                                        x-model="stats.distanceMax" />
+                                </template>
+                            </div>
+                            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                                <i class="fas fa-user-check text-blue-500"></i>
+                            </div>
+                        </div>
+                    
+                        <!-- Formulaire -->
+                        <form method="POST" action="{{ route('distance.update') }}">
+                            @csrf
+                            <input type="hidden" name="distance_max" x-model="stats.distanceMax">
+                    
+                            <div class="mt-4">
+                                <button type="button" x-on:click="isEditing = !isEditing"
+                                    x-text="isEditing ? 'Annuler' : 'Modifier →'"
+                                    class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                </button>
+                    
+                                <button x-show="isEditing" type="submit"
+                                    class="text-white bg-blue-600 px-2 py-1 rounded text-sm">
+                                    Mettre à jour
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+                
                 
                 
                 <!-- Ajoutez d'autres cartes de statistiques ici -->

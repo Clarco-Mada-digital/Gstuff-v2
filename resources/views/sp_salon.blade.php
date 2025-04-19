@@ -109,7 +109,7 @@ use Carbon\Carbon;
       <section>        
 
       <div class="min-w-3/4 px-5 py-5">
-        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="{{route('salons').'?selectedSalonCategories=['.$salon->categorie['id'].']'}}">{{Str::ucfirst($salon->categorie['nom'] ?? '')}}</a>  / <a href="{{route('salons').'?selectedSalonCanton='.$salon->canton['id']}}">{{Str::ucfirst($salon->canton['nom'] ?? '')}}</a> / {{Str::ucfirst($salon->profile_type ?? '')}} / {{Str::ucfirst($salon->nom_salon)}}</div>
+        <div class="text-right w-full text-green-gs font-dm-serif font-bold"> <a href="{{route('salons').'?selectedSalonCategories=['.$salon->categorie['id'] ?? ''.']'}}">{{Str::ucfirst($salon->categorie['nom'] ?? '')}}</a>  / <a href="{{route('salons').'?selectedSalonCanton='.$salon->canton['id'] ?? ''}}">{{Str::ucfirst($salon->canton['nom'] ?? '')}}</a> / {{Str::ucfirst($salon->profile_type ?? '')}} / {{Str::ucfirst($salon->nom_salon)}}</div>
 
         <div>
 

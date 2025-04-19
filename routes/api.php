@@ -27,9 +27,11 @@ Route::prefix('admin/api')->group(function () {
             'users' => \App\Models\User::count(),
             'comments' => \App\Models\Feedback::count(),
             'escorteApproved' => \App\Models\User::where('profile_verifie', 'verifier')->count(),
-            // 'views' => \App\Models\Article::sum('views')
+            'distanceMax' => optional(\App\Models\DistanceMax::first())->distance_max ?? 0, // Handles null gracefully
+            // 'views' => \App\Models\Article::sum('views') // Uncomment this line if needed
         ]);
     });
+    
 
 
 

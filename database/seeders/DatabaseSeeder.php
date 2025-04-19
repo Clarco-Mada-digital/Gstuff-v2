@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,  // Puis exécute UserSeeder
             ArticleCategorySeeder::class, //Pour exécute ArticleCategorySeeder
             ArticleSeeder::class, //Pour exécute ArticleSeeder
-            CommentaireSeeder::class
+            CommentaireSeeder::class,
+            DistanceMaxSeeder::class
         ]);
     }
 

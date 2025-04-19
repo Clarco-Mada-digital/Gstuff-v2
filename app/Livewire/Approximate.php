@@ -21,7 +21,7 @@ class Approximate extends Component
         $user = User::find($userId);
 
         $distanceMaxRecord = DistanceMax::first();
-        $this->maxDistance = $distanceMaxRecord->distance_max;
+        $this->maxDistance = $distanceMaxRecord->distance_max ?? 100;
 
         if ($user && !is_null($user->lon) && !is_null($user->lat)) {
             $userLongitude = $user->lon;

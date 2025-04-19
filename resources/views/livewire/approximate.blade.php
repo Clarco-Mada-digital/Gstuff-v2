@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col md:flex-row items-center justify-between py-5">
-        <h2 class="font-dm-serif font-bold text-2xl text-center md:text-left">Les filles hot près de chez toi </h2>
+        <h2 class="font-dm-serif font-bold text-2xl text-center md:text-left">Les filles hot près de chez toi</h2>
         <div class="flex items-center mt-4 md:mt-0">
             <h2 class="px-4 font-semibold">
                 <span id="distanceValue" class="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $distanceMax }}</span>km
@@ -18,7 +18,7 @@
             </button>
         </div>
     </div>
-    
+
     <!-- Dropdown menu -->
     <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full max-w-md md:max-w-lg lg:max-w-xl dark:bg-gray-700 flex flex-col items-center justify-center p-5">
         <!-- Ajout de la jauge pour varier la distance -->
@@ -30,8 +30,6 @@
             <input type="range" id="distanceRange" min="0" max="{{ $distanceMax }}" value="{{ $distanceMax/2 }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
         </div>
     </div>
-    
-    
 
     <div id="escortsContainer">
         @if ($escorts)
@@ -54,6 +52,7 @@
         <p class="text-gray-500 text-lg">Aucun résultat trouvé pour cette distance.</p>
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const distanceRange = document.getElementById('distanceRange');
@@ -62,10 +61,21 @@
         const escortCards = document.querySelectorAll('.escort-card');
         const noResultsMessage = document.getElementById('noResultsMessage');
 
+        // Récupérer la valeur de distance depuis le localStorage
+        const savedDistance = localStorage.getItem('selectedDistance');
+        if (savedDistance !== null) {
+            distanceRange.value = savedDistance;
+            distanceValue.textContent = savedDistance;
+            distanceValue2.textContent = savedDistance;
+        }
+
         function filterEscorts() {
             const selectedDistance = parseFloat(distanceRange.value);
             distanceValue.textContent = selectedDistance;
             distanceValue2.textContent = selectedDistance;
+
+            // Stocker la valeur de distance dans le localStorage
+            localStorage.setItem('selectedDistance', selectedDistance);
 
             let visibleCards = 0;
 
@@ -92,5 +102,4 @@
         // Appel initial pour afficher les escortes en fonction de la distance par défaut
         filterEscorts();
     });
-
 </script>

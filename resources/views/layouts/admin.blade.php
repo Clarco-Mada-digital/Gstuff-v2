@@ -82,7 +82,8 @@ function dashboard() {
             users: 0,
             comments: 0,
             views: 0,
-            escorteApproved: 0
+            escorteApproved: 0,
+            distanceMax: 0
         },
         userSatats:[],
         recentArticles: [],

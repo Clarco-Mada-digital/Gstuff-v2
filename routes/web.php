@@ -22,7 +22,7 @@ use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\DistanceMaxController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -239,6 +239,9 @@ Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])
 Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
 Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
 Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
+
+Route::post('/update-distance', [DistanceMaxController::class, 'update'])->name('distance.update');
+
 
 
 
