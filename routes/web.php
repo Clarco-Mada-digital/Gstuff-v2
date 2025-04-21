@@ -134,6 +134,8 @@ Route::delete('/notifications/{iduser}', [NotificationController::class, 'destro
 
 
 // Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
+Route::get('/gallery', [AuthController::class, 'showGallery'])->name('gallery.show');
+
 
 
 

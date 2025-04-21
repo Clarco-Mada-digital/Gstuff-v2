@@ -13,9 +13,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetMail; // Vous devrez créer ce Mail plus tard
 use App\Models\Categorie;
+use App\Models\Gallery;
 use App\Models\Notification;
 use App\Models\Invitation;
 use App\Models\Service;
+use App\Models\Story;
 use App\Models\Ville;
 use Illuminate\Support\Facades\Cache;
 
@@ -267,7 +269,6 @@ public function profile()
     }
 }
 
-
 public function createEscorteBySalon(Request $request)
 {
     // Validation des données
@@ -323,6 +324,20 @@ public function createEscorteBySalon(Request $request)
     Auth::login($user);
 
     return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
+}
+
+public function showGallery()
+{
+    return view('auth.gallery', [
+        'usersWithStories' => Story::with('user')
+        ->where('expires_at', '>', now())
+        ->get()
+        ->groupBy('user_id')
+        ->collect(),
+        'usersWithMedia' => User::has('galleries')->get(),
+        'publicGallery' => Gallery::where('is_public', true)->latest()->get(),
+        'privateGallery' => Gallery::where('is_public', false)->latest()->get(),
+    ]);
 }
 
 
