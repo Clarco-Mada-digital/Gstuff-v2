@@ -96,8 +96,11 @@
                 <hr class="w-full h-2">
 
                 <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                    class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré
-                    mon profile</button>
+                    class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré mon profile
+                </button>
+                <a href="{{ route('profile.visibility.update') }}"
+                    class="w-full p-2 text-green-gs text-sm text-center rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Visibilité de mon profile
+                </a>
 
                 <div class="w-full flex flex-col gap-0 items-center mb-5">
                     <button x-on:click="pageSection='compte'"

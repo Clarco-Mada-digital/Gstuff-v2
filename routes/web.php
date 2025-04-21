@@ -22,6 +22,7 @@ use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileVisibilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -214,6 +215,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
 
     
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])
+         ->name('profile.visibility.edit');
+    Route::put('/profile/visibility', [ProfileVisibilityController::class, 'update'])
+         ->name('profile.visibility.update');
 });
 
 

@@ -127,7 +127,32 @@ class User extends Authenticatable
         'paiement' => 'array',
         'langues' => 'array',
         'profile_verifie' => 'string',
+        'visible_countries' => 'array',
     ];
+
+    public function getVisibleCountriesAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+
+    public function setVisibleCountriesAttribute($value)
+    {
+        $this->attributes['visible_countries'] = json_encode($value);
+    }
+
+    public function isProfileVisibleTo($countryCode)
+    {
+        if ($this->visibility === 'public') {
+            return true;
+        }
+
+        if ($this->visibility === 'private') {
+            return false;
+        }
+
+        // Pour 'custom', vérifier les pays autorisés
+        return in_array($countryCode, $this->visible_countries ?? []);
+    }
 
     public function canton(): BelongsTo
     {

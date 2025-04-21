@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\Ville;
+use Stevebauman\Location\Facades\Location;
 
 class UsersSearch extends Component
 {
@@ -20,6 +21,25 @@ class UsersSearch extends Component
     public $cantons = '';
     public $villes = '';
     public $users;
+
+    private function getEscorts($escorts)
+    {
+      $esc = [];
+
+      // Détection du pays via IP
+      $position = Location::get(request()->ip());
+      $viewerCountry = $position?->countryCode ?? null;
+
+      // dd($viewerCountry);
+
+      foreach ($escorts as $escort) {
+          if ($escort->isProfileVisibleTo($viewerCountry)) {
+              $esc[] = $escort;
+          }
+      }
+
+      return $esc;
+    }
 
     public function render()
     {
@@ -70,6 +90,8 @@ class UsersSearch extends Component
           $user['canton'] = Canton::find($user->canton);
           $user['ville'] = Ville::find($user->ville);
         }
+
+        $this->users = $this->getEscorts($this->users);
 
         return view('livewire.users-search');
     }

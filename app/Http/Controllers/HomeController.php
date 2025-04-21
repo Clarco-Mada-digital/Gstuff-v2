@@ -9,9 +9,29 @@ use App\Models\Categorie;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Ville;
+use Stevebauman\Location\Facades\Location;
 
 class HomeController extends Controller
 {
+  private function getEscorts($escorts)
+  {
+    $esc = [];
+
+    // Détection du pays via IP
+    $position = Location::get(request()->ip());
+    $viewerCountry = $position?->countryCode ?? 'FR';
+
+    // dd($viewerCountry);
+
+    foreach ($escorts as $escort) {
+        if ($escort->isProfileVisibleTo($viewerCountry)) {
+            $esc[] = $escort;
+        }
+    }
+
+    return $esc;
+  }
+
   public function home()
   {
       // categorie
@@ -20,8 +40,7 @@ class HomeController extends Controller
       // Canton
       $cantons = Canton::all();
       $glossaire_category_id = ArticleCategory::where('name', 'LIKE', 'glossaires')->first();
-      $glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();        
-
+      $glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();   
 
       // Les services
       // $servicesResp = $client->get('https://gstuff.ch/wp-json/services/list_service/');
@@ -29,6 +48,8 @@ class HomeController extends Controller
 
       // Les escortes
       $escorts = User::where('profile_type', 'escorte')->get();
+      $escorts = $this->getEscorts($escorts);
+
       foreach ($escorts as $escort) {
         $escort['canton'] = Canton::find($escort->canton);
         $escort['ville'] = Ville::find($escort->ville);
@@ -38,6 +59,7 @@ class HomeController extends Controller
       }
       // Les salons
       $salons = User::where('profile_type', 'salon')->get();
+      $salons = $this->getEscorts($salons);
       foreach ($salons as $salon) {
         $salon['canton'] = Canton::find($salon->canton);
         $salon['ville'] = Ville::find($salon->ville);

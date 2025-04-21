@@ -6,9 +6,12 @@ use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\User;
 use App\Models\Ville;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Stevebauman\Location\Facades\Location;
 
 class SalonSearch extends Component
 {
@@ -47,53 +50,72 @@ class SalonSearch extends Component
     }
   }
 
-    public function render()
-    {
-        $this->cantons = Canton::all();
-        $this->availableVilles = Ville::all();
-        $this->categories = Categorie::where('type', 'salon')->get();
-        // $this->escorts = User::where('profile_type', 'escorte')->get();
-
-        $query = User::query()->where('profile_type', 'salon');
-                
-        // Filtres supplémentaires
-        if ($this->selectedSalonCanton) {
-            $query->where('canton', 'LIKE', '%'.$this->selectedSalonCanton.'%');
-            $this->resetPage();
-        }
-
-        if ($this->selectedSalonVille != '') {
-            $query->where('ville', 'LIKE', '%'.$this->selectedSalonVille.'%');
-            $this->resetPage();
-        }
-
-        if ($this->nbFilles) {
+  public function render()
+  {
+      $this->cantons = Canton::all();
+      $this->availableVilles = Ville::all();
+      $this->categories = Categorie::where('type', 'salon')->get();
+  
+      // Récupération du pays du visiteur via IP
+      $position = Location::get(request()->ip());
+      $viewerCountry = $position?->countryCode ?? null; // fallback utile
+  
+      $query = User::query()->where('profile_type', 'salon');
+  
+      if ($this->selectedSalonCanton) {
+          $query->where('canton', 'LIKE', '%' . $this->selectedSalonCanton . '%');
+          $this->resetPage();
+      }
+  
+      if ($this->selectedSalonVille != '') {
+          $query->where('ville', 'LIKE', '%' . $this->selectedSalonVille . '%');
+          $this->resetPage();
+      }
+  
+      if ($this->nbFilles) {
           $query->where(function ($q) {
-            foreach($this->nbFilles as $nbFilles){
-              $q->orwhere('nombre_filles', $nbFilles);
-            }
+              foreach ($this->nbFilles as $nbFilles) {
+                  $q->orWhere('nombre_filles', $nbFilles);
+              }
           });
           $this->resetPage();
-        }
-
-        if ($this->selectedSalonCategories){
+      }
+  
+      if ($this->selectedSalonCategories) {
           $query->where(function ($q) {
-            foreach($this->selectedSalonCategories as $categorie){
-              $q->orwhere('categorie', 'LIKE', '%'.$categorie.'%');
-            }
+              foreach ($this->selectedSalonCategories as $categorie) {
+                  $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
+              }
           });
           $this->resetPage();
-        }
-
-        $salons = $query->paginate(10);
-        foreach ($salons as $salon) {
+      }
+  
+      // Obtenir tous les salons et filtrer par pays
+      $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+          return $salon->isProfileVisibleTo($viewerCountry);
+      });
+  
+      // Pagination manuelle
+      $currentPage = Paginator::resolveCurrentPage();
+      $perPage = 10;
+      $currentItems = $allSalons->slice(($currentPage - 1) * $perPage, $perPage)->values();
+      $paginatedSalons = new LengthAwarePaginator(
+          $currentItems,
+          $allSalons->count(),
+          $perPage,
+          $currentPage,
+          ['path' => request()->url(), 'query' => request()->query()]
+      );
+  
+      // Hydrate les champs manuellement
+      foreach ($paginatedSalons as $salon) {
           $salon['categorie'] = Categorie::find($salon->categorie);
           $salon['canton'] = Canton::find($salon->canton);
           $salon['ville'] = Ville::find($salon->ville);
-        }
-        
-        return view('livewire.salon-search', [
-            'salons' => $salons,
-        ]);
-    }
+      }
+  
+      return view('livewire.salon-search', [
+          'salons' => $paginatedSalons,
+      ]);
+  }
 }
