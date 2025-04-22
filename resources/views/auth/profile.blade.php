@@ -97,8 +97,16 @@
                 <hr class="w-full h-2">
 
                 <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                    class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré
-                    mon profile</button>
+                    class="w-full p-2 text-green-gs text-sm rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Amelioré mon profile
+                </button>
+                <a href="{{ route('profile.visibility.update') }}"
+                    class="w-full p-2 text-green-gs text-sm text-center rounded-lg border border-gray-400 cursor-pointer hover:bg-green-gs hover:text-white">Visibilité de mon profile
+                </a>
+                @if ($user->profile_type === 'escorte')
+                <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitationSalons" :salon-associers="$salonAssociers" />
+                @elseif ($user->profile_type === 'salon')
+                <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
+                @endif
 
                 <div class="w-full flex flex-col gap-0 items-center mb-5">
                     <button x-on:click="pageSection='compte'"
@@ -121,11 +129,7 @@
                         @endif
                     </button>                    
                 </div>
-                @if ($user->profile_type === 'escorte')
-                <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitationSalons" :salon-associers="$salonAssociers" />
-                @elseif ($user->profile_type === 'salon')
-                <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
-                @endif
+               
             </div>
 
             {{-- Modale pour l'amelioration du profile --}}
@@ -640,6 +644,11 @@
                     </div>
                 </div>
 
+                {{-- Invitation --}}
+                @if($user->profile_type === 'escorte' || $user->profile_type === 'salon')
+                <x-invitation-list :invitationsRecus="$invitationsRecus" type='{{$user->profile_type}}' />
+                @endif
+
                 {{-- Pour l'invité --}}
                 <div x-show="userType=='invite'">
 
@@ -830,14 +839,7 @@
                             class="w-full p-5 rounded-xl flex items-center justify-between border border-green-gs text-green-gs">
                             <p>Votre profil est en cours de validation.</p>
                         </div>
-                    @endif
-
-
-
-
-                    @if($user->profile_type === 'escorte')
-                    <x-invitation-list :invitationsRecus="$invitationsRecus" type="escorte" />
-                    @endif
+                    @endif                    
 
                     <!-- Modal Structure -->
                     <div id="requestModal"
@@ -1153,11 +1155,17 @@
                         </div>
                         <div class="mt-10 xl:mt-0 w-full flex items-center flex-col">
 
-                            <div class="w-full   items-center ">
+                            <div class="w-full grid grid-cols-1 xl:grid-cols-2  items-center ">
 
-                                <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
+                                <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-2">
+                                    <div class="xl:mr-auto">
+                                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center">Escortes créées</h2>
+                                    </div>
+                                </div>
+
+                                <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-2">
                                     <div class="xl:ml-auto">
-                                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Escortes créées</h2>
+                                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center">Invitée du salon</h2>
                                     </div>
                                 </div>
 
@@ -1169,17 +1177,10 @@
                                         <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
                                         @endforeach
                                         @else
-                                        <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
+                                        <span class="w-full text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
                                         @endif
                                     </div>
-                                </div>
-
-
-                                <div class="hidden xl:flex items-end justify-between flex-col xl:flex-row gap-5 py-2">
-                                    <div class="xl:ml-auto">
-                                        <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-right">Invitée du salon</h2>
-                                    </div>
-                                </div>
+                                </div>                                
 
                                 <div class="">
 
@@ -1196,7 +1197,7 @@
 
                                         @endforeach
                                         @else
-                                        <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">
+                                        <span class="w-full text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">
                                             Aucun escort associé pour l'instant
                                         </span>
                                         @endif
@@ -1204,13 +1205,12 @@
                                 </div>
 
                             </div>
-                            <div class="w-full flex items-center justify-between pt-10">
 
-                                <button data-modal-target="createEscorte" data-modal-toggle="createEscorte" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer
-                                    un escort</button>
+                            <div class="w-full flex items-center justify-between pt-10 mb-5">
+
+                                <button data-modal-target="createEscorte" data-modal-toggle="createEscorte" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer un escort</button>
                                 <button data-modal-target="sendInvitationEscort" data-modal-toggle="sendInvitationEscort" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base
-                                text-white cursor-pointer hover:bg-green-800">Invité
-                                    un escort</button>
+                                text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
                             </div>
 
 

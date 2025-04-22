@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('oriantation_sexuelles')->nullable(); // Ajoute la colonne
+            $table->string('visibility')->default('public')->comment('public|private|custom');
+            $table->text('visible_countries')->nullable()->comment('JSON array of country codes');
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('oriantation_sexuelles'); // Supprime la colonne en cas de rollback
+            //
         });
     }
 };

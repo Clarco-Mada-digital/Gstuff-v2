@@ -127,7 +127,32 @@ class User extends Authenticatable
         'paiement' => 'array',
         'langues' => 'array',
         'profile_verifie' => 'string',
+        'visible_countries' => 'array',
     ];
+
+    public function getVisibleCountriesAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+
+    public function setVisibleCountriesAttribute($value)
+    {
+        $this->attributes['visible_countries'] = json_encode($value);
+    }
+
+    public function isProfileVisibleTo($countryCode)
+    {
+        if ($this->visibility === 'public') {
+            return true;
+        }
+
+        if ($this->visibility === 'private') {
+            return false;
+        }
+
+        // Pour 'custom', vérifier les pays autorisés
+        return in_array($countryCode, $this->visible_countries ?? []);
+    }
 
     public function canton(): BelongsTo
     {
@@ -228,6 +253,25 @@ class User extends Authenticatable
         } else {
             return 'Il y a ' . now()->diffInDays($lastSeen) . ' jours';
         }
+    }
+
+
+     /**
+     * Les escortes associées à un salon.
+     */
+    public function escortes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'salon_escorte', 'salon_id', 'escorte_id')
+                    ->wherePivot('salon_id', $this->id);
+    }
+
+    /**
+     * Les salons auxquels une escorte est associée.
+     */
+    public function salons(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'salon_escorte', 'escorte_id', 'salon_id')
+                    ->wherePivot('escorte_id', $this->id);
     }
 
 }

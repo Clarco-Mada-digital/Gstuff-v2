@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Stevebauman\Location\Facades\Location;
 
 class EscortSearch extends Component
 {
@@ -32,6 +33,17 @@ class EscortSearch extends Component
   public $availableVilles;
   public $villes = [];
 
+  private function getEscorts($escorts)
+  {
+     // Détection du pays via IP
+     $position = \Stevebauman\Location\Facades\Location::get(request()->ip());
+     $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
+ 
+     return $escorts->filter(function ($escort) use ($viewerCountry) {
+         return $escort->isProfileVisibleTo($viewerCountry);
+     });
+  }
+
   public function resetFilter()
   {      
     $this->selectedCanton = '';
@@ -53,62 +65,84 @@ class EscortSearch extends Component
     }
   }
 
-    public function render()
-    {
-        $this->cantons = Canton::all();
-        $this->availableVilles = Ville::all();
-        $this->categories = Categorie::where('type', 'escort')->get();
-        $serviceQuery = Service::query();
-        // $this->escorts = User::where('profile_type', 'escorte')->get();
-
-        $query = User::query()->where('profile_type', 'escorte');
-                
-        // Filtres supplémentaires
-        if ($this->selectedCanton) {
-            $query->where('canton', $this->selectedCanton);
-        }
-
-        if ($this->selectedVille) {
-            $query->where('ville', $this->selectedVille);
-        }
-
-        if ($this->selectedGenre) {
-            $query->where('genre', $this->selectedGenre);
-        }
-
-        if ($this->selectedCategories){
+  public function render()
+  {
+      $this->cantons = Canton::all();
+      $this->availableVilles = Ville::all();
+      $this->categories = Categorie::where('type', 'escort')->get();
+      $serviceQuery = Service::query();
+  
+      // Détection du pays via IP
+      $position = Location::get(request()->ip());
+      $viewerCountry = $position?->countryCode ?? null; // fallback pour le dev
+  
+      // Construction de la requête
+      $query = User::query()->where('profile_type', 'escorte');
+  
+      if ($this->selectedCanton) {
+          $query->where('canton', $this->selectedCanton);
+      }
+  
+      if ($this->selectedVille) {
+          $query->where('ville', $this->selectedVille);
+      }
+  
+      if ($this->selectedGenre) {
+          $query->where('genre', $this->selectedGenre);
+      }
+  
+      if ($this->selectedCategories){
           $query->where(function ($q) {
-            foreach($this->selectedCategories as $categorie){
-              $q->where('categorie', 'LIKE', '%'.$categorie.'%');
-            }
+              foreach ($this->selectedCategories as $categorie) {
+                  $q->where('categorie', 'LIKE', '%' . $categorie . '%');
+              }
           });
-        }
-        if ($this->selectedServices){
+      }
+  
+      if ($this->selectedServices){
           $query->where(function ($q) {
-            foreach($this->selectedServices as $service){
-              $q->where('service', 'LIKE', '%'.$service.'%');
-            }
+              foreach ($this->selectedServices as $service) {
+                  $q->where('service', 'LIKE', '%' . $service . '%');
+              }
           });
-        }
-        if ($this->autreFiltres){
+      }
+  
+      if ($this->autreFiltres){
           $query->where(function ($q) {
-            foreach($this->autreFiltres as $key => $value){
-              $q->where($key, 'LIKE', '%'.$value.'%');
-            }
+              foreach ($this->autreFiltres as $key => $value) {
+                  $q->where($key, 'LIKE', '%' . $value . '%');
+              }
           });
-        }
-
-        $escorts = $query->paginate(10);
-        $services = $serviceQuery->paginate(20);
-        foreach ($escorts as $escort) {
+      }
+  
+      // Récupération des escorts paginées
+      $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
+          return $escort->isProfileVisibleTo($viewerCountry);
+      });
+  
+      // Convertir en pagination manuelle après filtrage
+      $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+      $perPage = 10;
+      $currentItems = $escorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
+      $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator(
+          $currentItems,
+          $escorts->count(),
+          $perPage,
+          $currentPage,
+          ['path' => request()->url(), 'query' => request()->query()]
+      );
+  
+      // Hydrate relations
+      foreach ($paginatedEscorts as $escort) {
           $escort['categorie'] = Categorie::find($escort->categorie);
           $escort['canton'] = Canton::find($escort->canton);
           $escort['ville'] = Ville::find($escort->ville);
-        }
-
-        return view('livewire.escort-search', [
-            'escorts' => $escorts,
-            'services' => $services,
-        ]);
-    }
+      }
+  
+      return view('livewire.escort-search', [
+          'escorts' => $paginatedEscorts,
+          'services' => $serviceQuery->paginate(20),
+      ]);
+  }
+  
 }

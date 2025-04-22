@@ -8,14 +8,13 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Mailer\Event\MessageEvent;
 
 class Chat extends Component
 {
     public $message;
-    public $messages =[];
+    public $messages = [];
     public $open = false;  // Variable pour suivre si le chat est ouvert ou non
-    public $sending = false;  
+    public $sending = false;
     public $user;
     public $users;
     public $contacts;
@@ -46,12 +45,12 @@ class Chat extends Component
 
     public function messageReceived($message)
     {
-        if ($message['from_id'] == Auth()->user()->id){
+        if ($message['from_id'] == Auth::user()->id) {
             $this->loadMessages();
-        }elseif($message['to_id'] == Auth()->user()->id){
-            if($this->userReceved == null){
+        } elseif ($message['to_id'] == Auth::user()->id) {
+            if ($this->userReceved == null) {
                 $this->loadForSender($message['from_id']);
-            }elseif($this->userReceved == $message['from_id']){
+            } elseif ($this->userReceved->id == $message['from_id']) {
                 $this->loadMessages();
             }
         }
@@ -77,143 +76,187 @@ class Chat extends Component
             // broadcast event
             event(new MessageSent($message));
             $this->dispatch('messageReceived', $message);
-            // MessageEvent::dispatch($message);
-        }else{
+        } else {
             $this->message = '';
             return null;
         }
 
         $this->message = '';
         $this->sending = false;
-
     }
 
     public function loadMessages()
     {
         if ($this->userReceved == null) {
             $this->messages = [];
-        }else{
-            $this->messages = Message::where('from_id', Auth::user()->id)->where('to_id', $this->userReceved->id)
-            ->orWhere('from_id', $this->userReceved->id)->where('to_id', Auth::user()->id)
+        } else {
+            $this->messages = Message::where(function ($query) {
+                $query->where('from_id', Auth::user()->id)->where('to_id', $this->userReceved->id)
+                    ->orWhere('from_id', $this->userReceved->id)->where('to_id', Auth::user()->id);
+            })
             ->latest()
             ->take(20)
-            ->get()->reverse(); // Charger les messages du chat
+            ->get()
+            ->reverse(); // Charger les messages du chat
             $this->dispatch('messages-loaded');
-            // $this->userReceved = User::find($id);
         }
     }
 
     // delete message
-    function deleteMessage($id) 
+    public function deleteMessage($id)
     {
         $message = Message::findOrFail($id);
-        if($message->from_id == Auth::user()->id) {
+        if ($message->from_id == Auth::user()->id) {
             $message->delete();
             $this->dispatch('messageReceived', $message);
         }
         $this->loadMessages(); // Charger les messages du chat
-        return;
     }
 
-    function getContactItem($user) 
+    public function getContactItem($user)
     {
-        $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
-        ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
-        ->latest()->first();
-        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();        
+        $lastMessage = Message::where(function ($query) use ($user) {
+            $query->where('from_id', Auth::user()->id)->where('to_id', $user->id)
+                ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id);
+        })
+        ->latest()
+        ->first();
+
+        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
 
         return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
-
     }
 
     public function render()
     {
-        //$this->loadMessages(); // Charger les messages du chat
         $this->user = auth()->user(); // Charger l'utilisateur authentifié
+        $this->unseenCounter = 0; // Initialiser le compteur de messages non lus
 
-        if($this->user)
-        {
-            $this->users = Message::join('users', function($join) {
-            $join->on('messages.from_id', '=', 'users.id')
-             ->orOn('messages.to_id', '=', 'users.id');
-            })
-            ->where(function($q) {
-                $q->where('messages.from_id', Auth::user()->id)
-                ->orWhere('messages.to_id', Auth::user()->id);
-            })
-            ->where('users.id', '!=', Auth::user()->id)
-            ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-            ->orderBy('max_created_at', 'desc')
-            ->groupBy('users.id', 
-            'users.pseudo', 
-            'users.prenom', 
-            'users.nom_salon', 
-            'users.email', 
-            'users.profile_type', 
-            'users.avatar', 
-            'users.date_naissance', 
-            'users.genre', 
-            'users.intitule', 
-            'users.nom_proprietaire', 
-            'users.telephone',
-            'users.adresse',
-            'users.npa',
-            'users.canton',
-            'users.ville',
-            'users.categorie',
-            'users.service',
-            'users.recrutement',
-            'users.nombre_filles',
-            'users.pratique_sexuelles',
-            'users.oriantation_sexuelles',
-            'users.tailles',
-            'users.origine',
-            'users.couleur_yeux',
-            'users.couleur_cheveux',
-            'users.mensuration',
-            'users.poitrine',
-            'users.taille_poitrine',
-            'users.pubis',
-            'users.tatouages',
-            'users.mobilite',
-            'users.tarif',
-            'users.paiement',
-            'users.langues',
-            'users.apropos',
-            'users.autre_contact',
-            'users.complement_adresse',
-            'users.lien_site_web',
-            'users.localisation',
-            'users.email_verified_at',
-            'users.password',
-            'users.lat',
-            'users.lon',
-            'users.couverture_image',
-            'users.remember_token', 
-            'users.created_at',
-            'users.profile_verifie', 
-            'users.image_verification', 
-            'users.updated_at',
-            'users.last_seen_at')
-            ->get();
+        if ($this->user) {
+            $subQuery = DB::table('messages')
+                ->select('from_id', 'to_id', DB::raw('MAX(created_at) as max_created_at'))
+                ->where(function ($query) {
+                    $query->where('from_id', Auth::user()->id)
+                        ->orWhere('to_id', Auth::user()->id);
+                })
+                ->groupBy('from_id', 'to_id');
 
-            if(count($this->users) > 0) {
+            $this->users = DB::table('users')
+                ->joinSub($subQuery, 'latest_messages', function ($join) {
+                    $join->on('users.id', '=', 'latest_messages.from_id')
+                        ->orOn('users.id', '=', 'latest_messages.to_id');
+                })
+                ->where('users.id', '!=', Auth::user()->id)
+                ->orderBy('latest_messages.max_created_at', 'desc')
+                ->get();
+
+            if (count($this->users) > 0) {
                 $this->contacts = '';
-                foreach($this->users as $user) {
+                foreach ($this->users as $user) {
                     $this->contacts .= $this->getContactItem($user);
                     $item = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
                     $this->unseenCounter += $item;
                 }
-    
-            }else {
+            } else {
                 $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
             }
-        }else{
+        } else {
             $this->contacts = [];
         }
+
+        return view('livewire.chat');
+    }
+
+    // public function render()
+    // {
+    //     //$this->loadMessages(); // Charger les messages du chat
+    //     $this->user = auth()->user(); // Charger l'utilisateur authentifié
+    //     $this->unseenCounter = 0; // Initialiser le compteur de messages non lus
+
+    //     if($this->user)
+    //     {
+    //         $this->users = Message::join('users', function($join) {
+    //         $join->on('messages.from_id', '=', 'users.id')
+    //          ->orOn('messages.to_id', '=', 'users.id');
+    //         })
+    //         ->where(function($q) {
+    //             $q->where('messages.from_id', Auth::user()->id)
+    //             ->orWhere('messages.to_id', Auth::user()->id);
+    //         })
+    //         ->where('users.id', '!=', Auth::user()->id)
+    //         ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+    //         ->orderBy('max_created_at', 'desc')
+    //         ->groupBy('users.id', 
+    //         'users.pseudo', 
+    //         'users.prenom', 
+    //         'users.nom_salon', 
+    //         'users.email', 
+    //         'users.profile_type', 
+    //         'users.avatar', 
+    //         'users.date_naissance', 
+    //         'users.genre', 
+    //         'users.intitule', 
+    //         'users.nom_proprietaire', 
+    //         'users.telephone',
+    //         'users.adresse',
+    //         'users.npa',
+    //         'users.canton',
+    //         'users.ville',
+    //         'users.categorie',
+    //         'users.service',
+    //         'users.recrutement',
+    //         'users.nombre_filles',
+    //         'users.pratique_sexuelles',
+    //         'users.oriantation_sexuelles',
+    //         'users.tailles',
+    //         'users.origine',
+    //         'users.couleur_yeux',
+    //         'users.couleur_cheveux',
+    //         'users.mensuration',
+    //         'users.poitrine',
+    //         'users.taille_poitrine',
+    //         'users.pubis',
+    //         'users.tatouages',
+    //         'users.mobilite',
+    //         'users.tarif',
+    //         'users.paiement',
+    //         'users.langues',
+    //         'users.apropos',
+    //         'users.autre_contact',
+    //         'users.complement_adresse',
+    //         'users.lien_site_web',
+    //         'users.localisation',
+    //         'users.email_verified_at',
+    //         'users.password',
+    //         'users.lat',
+    //         'users.lon',
+    //         'users.couverture_image',
+    //         'users.remember_token', 
+    //         'users.created_at',
+    //         'users.profile_verifie', 
+    //         'users.image_verification', 
+    //         'users.updated_at',
+    //         'users.last_seen_at')
+    //         ->get();
+
+    //         if(count($this->users) > 0) {
+    //             $this->contacts = '';
+    //             foreach($this->users as $user) {
+    //                 $this->contacts .= $this->getContactItem($user);
+    //                 $item = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+    //                 $this->unseenCounter += $item;
+    //             }
+    
+    //         }else {
+    //             $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+    //         }
+    //     }else{
+    //         $this->contacts = [];
+    //     }
         
 
         
-        return view('livewire.chat');
-    }
+    //     return view('livewire.chat');
+    // }
 }
+

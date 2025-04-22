@@ -60,9 +60,9 @@
     id="detailInvitation" 
     tabindex="-1" 
     aria-hidden="true" 
-    class="hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full backdrop-blur-sm">
+    class="hidden fixed top-0 right-0 left-0 z-90 justify-center items-center w-full h-full backdrop-blur-sm">
    <!-- Modal -->
-   <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[30vh] md:w-[70vw] xl:w-[40vw] mx-auto overflow-y-auto">
+   <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[30vh] md:w-[70vw] xl:w-[40vw] mx-auto overflow-y-auto z-100">
        <h2 class="font-dm-serif font-bold text-2xl text-green-gs">Détails de l'invitation</h2>
 
        <div class="flex flex-wrap items-center mt-4 justify-between">
@@ -81,7 +81,7 @@
            <!-- Bouton pour refuser l'invitation -->
            <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST" class="inline">
                @csrf
-               <button class="bg-gray-300 rounded-sm text-black px-4 py-2 hover:bg-gray-400">
+               <button class="bg-red-300 rounded-sm text-black px-4 py-2 hover:bg-red-400">
                    Refuser
                </button>
            </form>

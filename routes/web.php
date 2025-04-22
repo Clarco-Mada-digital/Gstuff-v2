@@ -22,7 +22,12 @@ use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
+
 use App\Http\Controllers\DistanceMaxController;
+
+use App\Http\Controllers\ProfileVisibilityController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -133,6 +138,8 @@ Route::delete('/notifications/{iduser}', [NotificationController::class, 'destro
 
 
 // Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
+Route::get('/gallery', [AuthController::class, 'showGallery'])->name('gallery.show');
+
 
 
 
@@ -214,6 +221,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
 
     
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])
+         ->name('profile.visibility.edit');
+    Route::put('/profile/visibility', [ProfileVisibilityController::class, 'update'])
+         ->name('profile.visibility.update');
 });
 
 
