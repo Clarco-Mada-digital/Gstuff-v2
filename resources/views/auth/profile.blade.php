@@ -123,7 +123,7 @@
                 </div>
                 @if ($user->profile_type === 'escorte')
                 <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitationSalons" :salon-associers="$salonAssociers" />
-                @else
+                @elseif ($user->profile_type === 'salon')
                 <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
                 @endif
             </div>
