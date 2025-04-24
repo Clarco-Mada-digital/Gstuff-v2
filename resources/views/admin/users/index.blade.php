@@ -45,18 +45,19 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($demandes as $notification)
-                    <tr x-show="matchesSearchNotification('{{ strtolower($notification['user']->prenom ?? $notification['user']->nom_salon) }}') && matchesStatus('{{ $notification['user']->profile_verifie }}') ">
+                    @if($notification['user'])
+                    <tr x-show="matchesSearchNotification('{{ strtolower($notification['user']->prenom ?? $notification['user']->nom_salon ?? '' ) }}') && matchesStatus('{{ $notification['user']->profile_verifie ?? '' }}') ">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                    {{ substr($notification['user']->pseudo ?? $notification['user']->prenom ?? $notification['user']->nom_salon, 0, 1) }}
+                                    {{ substr($notification['user']->pseudo ?? $notification['user']->prenom ?? $notification['user']->nom_salon ?? '', 0, 1) }}
                                 </div>
                                 <div class="ml-4">
-                                    <div class="font-medium text-gray-900">{{ $notification['user']->pseudo ?? $notification['user']->prenom ?? $notification['user']->nom_salon }}</div>
+                                    <div class="font-medium text-gray-900">{{ $notification['user']->pseudo ?? $notification['user']->prenom ?? $notification['user']->nom_salon ?? '' }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $notification['user']->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $notification['user']->email ?? '' }}</td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
                             @if($notification['user']->profile_verifie === 'verifier')
@@ -100,6 +101,9 @@
                             </form>
                         </td>
                     </tr>
+                    @else
+                        
+                    @endif
                     @endforeach
                 </tbody>
             </table>

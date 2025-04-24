@@ -47,7 +47,7 @@ class ProfileVerificationRequestNotification extends Notification implements Sho
                     ->subject('Nouvelle demande de vérification de profil')
                     ->greeting('Bonjour Admin,')
                     ->line('Un utilisateur a soumis une demande de vérification de profil.')
-                    ->action('Voir la demande', url('/admin/profile-verification'))
+                    ->action('Voir la demande', url('/admin/users'))
                     ->line('Merci d\'utiliser notre application!');
     }
 
@@ -62,7 +62,7 @@ class ProfileVerificationRequestNotification extends Notification implements Sho
         return [
             'title' => 'Nouvelle demande de vérification de profil',
             'message' => 'L\'utilisateur ' . $this->user->name . ' a soumis une demande de vérification de profil.',
-            'url' => '/admin/profile-verification',
+            'url' => '/admin/users',
             'user_id' => $this->user->id,
             'user_name' => $this->user->name,
         ];
