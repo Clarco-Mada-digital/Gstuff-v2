@@ -248,6 +248,8 @@ class MessengerController extends Controller
         'users.profile_verifie',
         'users.image_verification',
         'users.updated_at',
+        'visibility',
+        'visible_countries',
         'userS.last_seen_at')
         ->paginate(10);
 
