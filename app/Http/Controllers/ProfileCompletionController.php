@@ -179,7 +179,7 @@ class ProfileCompletionController extends Controller
                     $query->where('inviter_id', $user->id)
                           ->orWhere('invited_id', $user->id); // Condition "OU" sur inviter_id et invited_id
                 })
-                ->whereIn('type', ['associe au salon', 'invite par salon']) // Types d'invitation
+                ->whereIn('type', ['associe au salon', 'invite par salon' ,'creer par salon']) // Types d'invitation
                 ->where('accepted', true) // Invitations acceptées
                 ->with([
                     'inviter.cantonget', 'inviter.villeget',
@@ -227,6 +227,9 @@ class ProfileCompletionController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->with(['invited'])
                 ->get();
+
+                $escorteCreateByUser = $user->escortes;
+
 
                 $escorteCreateBySalons = Invitation::where('inviter_id', $user->id)
                 ->where('accepted', true)
@@ -282,6 +285,7 @@ class ProfileCompletionController extends Controller
                             'salonsNoInvited' => $salonsNoInvited,
                             'salonAssociers' => $salonAssociers,
                             'escorteCreateBySalons' => $escorteCreateBySalons,
+                            'escorteCreateByUser' => $escorteCreateByUser,
                         ]);       
                 }
         }else{

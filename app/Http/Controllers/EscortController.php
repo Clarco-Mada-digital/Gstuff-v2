@@ -7,7 +7,17 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\SalonEscorte;
 use App\Models\Invitation;
+use App\Models\Favorite;
+use App\Models\Commentaire;
+use Illuminate\Support\Facades\Cache;
+
+
+use App\Models\Message;
+
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Notifications\EscortInvitationNotification;
@@ -278,6 +288,253 @@ public function cancel($id)
     $invitation->delete();
 
     return back()->with('success', 'Invitation annulée avec succès.');
+}
+
+
+
+
+public function gererEscorte(Request $request, $id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $userConnected = Auth::user();
+
+    // Vérifier si l'utilisateur connecté est un salon
+    if ($userConnected->profile_type !== 'salon') {
+        return redirect()->back()->with('error', 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
+    }
+
+    // Récupérer l'escorte associée
+    $salonEscorte = SalonEscorte::where('escorte_id', $id)
+                                ->where('salon_id', $userConnected->id)
+                                ->first();
+
+    if (!$salonEscorte) {
+        return redirect()->back()->with('error', 'Escorte non trouvée ou non associée à votre salon.');
+    }
+
+    // Enregistrer le dernier timestamp avant déconnexion
+    $user = Auth::user();
+    $user->last_seen_at = now();
+    $user->save();
+
+    // Supprimer le cache de l'utilisateur
+    Cache::forget('user-is-online-' . $user->id);
+
+    // Déconnexion de l'utilisateur actuel
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Récupérer le userEscorte
+    $userEscorte = User::findOrFail($id);
+
+    // Connexion du userEscorte
+    if (Auth::loginUsingId($userEscorte->id)) {
+        $request->session()->regenerate();
+        return redirect()->route('profile.index')->with('success',  'Vous êtes maintenant connecté en tant que ' . $userEscorte->prenom);
+    }
+
+    return redirect()->route('login')->with('error', 'Échec de l\'authentification.');
+}
+// public function revenirSalon(Request $request, $id)
+// {
+//     // Vérification de l'authentification avant toute opération
+//     if (!Auth::check()) {
+//         return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+//     }
+
+//     // Récupérer l'utilisateur connecté
+//     $userConnected = Auth::user();
+
+//     // Vérifier si l'utilisateur connecté est un salon
+//     if ($userConnected->profile_type !== 'escorte') {
+//         return redirect()->back()->with('error', 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
+//     }
+
+//     // Récupérer l'escorte associée
+//     $salonEscorte = SalonEscorte::where('salon_id' , $id)
+//                                 ->where('escorte_id', $userConnected->id)
+//                                 ->first();
+
+//     if (!$salonEscorte) {
+//         return redirect()->back()->with('error', 'Escorte non trouvée ou non associée à votre salon.');
+//     }
+
+//     // Enregistrer le dernier timestamp avant déconnexion
+//     $user = Auth::user();
+//     $user->last_seen_at = now();
+//     $user->save();
+
+//     // Supprimer le cache de l'utilisateur
+//     Cache::forget('user-is-online-' . $user->id);
+
+//     // Déconnexion de l'utilisateur actuel
+//     Auth::logout();
+//     $request->session()->invalidate();
+//     $request->session()->regenerateToken();
+
+//     // Récupérer le userEscorte
+//     $userSalon = User::findOrFail($id);
+
+    
+//     if (Auth::loginUsingId($userSalon->id)) {
+//         $request->session()->regenerate();
+//         return redirect()->route('profile.index')->with('success',  'Vous êtes maintenant connecté en tant que ' . $userSalon->prenom);
+//     }
+
+//     return redirect()->route('login')->with('error', 'Échec de l\'authentification.');
+// }
+
+public function revenirSalon(Request $request, $id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $userConnected = Auth::user();
+
+  
+
+    // Vérifier si l'utilisateur connecté est une escorte
+    if ($userConnected->profile_type !== 'escorte') {
+        return redirect()->back()->with('error', 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
+    }
+
+    // Récupérer le salon associé
+    $salonEscorte = SalonEscorte::where('salon_id', $id)
+                                ->where('escorte_id', $userConnected->id)
+                                ->first();
+
+    if (!$salonEscorte) {
+        return redirect()->back()->with('error', 'Salon non trouvé ou non associé à votre compte.');
+    }
+
+    // Enregistrer le dernier timestamp avant déconnexion
+    $userConnected->last_seen_at = now();
+    $userConnected->save();
+
+    // Supprimer le cache de l'utilisateur
+    Cache::forget('user-is-online-' . $userConnected->id);
+
+    // Déconnexion de l'utilisateur actuel
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Récupérer le salon
+    $userSalon = User::find($salonEscorte->salon_id);
+
+    if (!$userSalon) {
+        return redirect()->route('login')->with('error', 'Salon non trouvé.');
+    }
+
+    // Connexion au salon
+    Auth::loginUsingId($userSalon->id);
+    $request->session()->regenerate();
+
+    return redirect()->route('profile.index')->with('success', 'Vous êtes maintenant connecté en tant que ' . $userSalon->nom_salon);
+}
+
+public function deleteEscorteCreateBySalon($id)
+{
+    // Vérification de l'authentification avant toute opération
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $userConnected = Auth::user();
+
+    // Vérifier si l'utilisateur connecté est un salon
+    if ($userConnected->profile_type !== 'salon') {
+        return redirect()->back()->with('error', 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
+    }
+
+    // Récupérer l'escorte associée
+    $salonEscorte = SalonEscorte::where('escorte_id', $id)
+                                ->where('salon_id', $userConnected->id)
+                                ->first();
+
+    if (!$salonEscorte) {
+        return redirect()->back()->with('error', 'Escorte non trouvée ou non associée à votre salon.');
+    }
+
+    // Récupérer l'escorte
+    $escorte = User::findOrFail($salonEscorte->escorte_id);
+
+    // Récupérer l'invitation existante
+    $existingInvitation = Invitation::where('inviter_id', $userConnected->id)
+                                    ->where('invited_id', $escorte->id)
+                                    ->where('type', 'creer par salon')
+                                    ->first();
+
+    if (!$existingInvitation) {
+        return redirect()->back()->with('error', 'Escorte non trouvée ou non associée à votre salon.');
+    }
+
+    // Supprimer l'invitation, l'association salon-escorte et l'escorte
+    $existingInvitation->delete();
+    $salonEscorte->delete();
+    $escorte->delete();
+
+    // Rediriger avec un message de succès
+    return redirect()->route('profile.index')->with('success', 'L\'escorte a été supprimée avec succès.');
+}
+
+
+public function autonomiser($id)
+{
+    // Vérification de l'authentification
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette action.');
+    }
+
+    // Récupérer l'utilisateur connecté
+    $userConnected = Auth::user();
+
+    // Vérification des permissions
+    if ($userConnected->profile_type !== 'salon') {
+        return redirect()->back()->with('error', 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
+    }
+
+    // Récupérer l'escorte associée au salon
+    $salonEscorte = SalonEscorte::where([
+        ['escorte_id', '=', $id],
+        ['salon_id', '=', $userConnected->id]
+    ])->first();
+
+    if (!$salonEscorte) {
+        return redirect()->back()->with('error', 'Escorte non trouvée ou non associée à votre salon.');
+    }
+
+    // Récupérer l'escorte
+    $escorte = User::findOrFail($id);
+
+    // Vérifier si une invitation existante est liée
+    $existingInvitation = Invitation::where([
+        ['inviter_id', '=', $userConnected->id],
+        ['invited_id', '=', $escorte->id],
+        ['type', '=', 'creer par salon']
+    ])->first();
+
+    if (!$existingInvitation) {
+        return redirect()->back()->with('error', 'Aucune invitation trouvée pour cette escorte.');
+    }
+
+    // Supprimer les relations et mettre à jour les données
+    $existingInvitation->delete();
+    $salonEscorte->delete();
+    $escorte->update(['createbysalon' => false]);
+
+    // Redirection avec message de succès
+    return redirect()->route('profile.index')->with('success', 'L\'escorte a été autonomisée avec succès.');
 }
 
 }

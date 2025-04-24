@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -98,6 +99,7 @@ class User extends Authenticatable
         'lon',
         'profile_verifie', // Ajout du nouveau champ
         'image_verification',
+        'createbysalon',
     ];
 
     /**
@@ -128,6 +130,7 @@ class User extends Authenticatable
         'langues' => 'array',
         'profile_verifie' => 'string',
         'visible_countries' => 'array',
+        'createbysalon' => 'boolean', 
     ];
 
     public function getVisibleCountriesAttribute($value)
@@ -255,14 +258,12 @@ class User extends Authenticatable
         }
     }
 
-
-     /**
+    /**
      * Les escortes associées à un salon.
      */
     public function escortes(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'salon_escorte', 'salon_id', 'escorte_id')
-                    ->wherePivot('salon_id', $this->id);
+        return $this->belongsToMany(User::class, 'salon_escorte', 'salon_id', 'escorte_id');
     }
 
     /**
@@ -270,8 +271,9 @@ class User extends Authenticatable
      */
     public function salons(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'salon_escorte', 'escorte_id', 'salon_id')
-                    ->wherePivot('escorte_id', $this->id);
+        return $this->belongsToMany(User::class, 'salon_escorte', 'escorte_id', 'salon_id');
     }
+
+    
 
 }

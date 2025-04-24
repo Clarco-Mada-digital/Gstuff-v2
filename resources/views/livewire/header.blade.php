@@ -154,6 +154,15 @@
                 <li>
                   <a x-on:click="pageSection='discussion'" href="{{route('profile.index')}}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">Discussion</a>
                 </li>
+                @if(Auth::user()->createbysalon)
+                  
+                <li>
+                  <a href="{{ route('salon.revenirSalon', ['id' => $salonCreator->id]) }}"
+                    class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">
+                     <h2>Allez au </h2> {{ $salonCreator->nom_salon }}
+                 </a>
+                </li>
+                @endif
                 <li>
                   <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">
                     {{ __('Déconnexion') }}
@@ -162,6 +171,7 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                   @csrf
                 </form>
+              
               </ul>
             </div>
           </div>

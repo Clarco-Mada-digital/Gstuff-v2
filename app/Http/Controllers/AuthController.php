@@ -19,6 +19,7 @@ use App\Models\Invitation;
 use App\Models\Service;
 use App\Models\Story;
 use App\Models\Ville;
+use App\Models\SalonEscorte;
 use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
@@ -76,24 +77,36 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
-            // return redirect()->intended(route('profile'))->with('success', 'Connexion réussie !');
-            return response()->json(['success' => true, 'message' => 'Authentification réussie']);
+    public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Tenter la connexion
+    if (Auth::attempt($credentials, $request->remember)) {
+        $request->session()->regenerate();
+
+        // Vérifier si l'utilisateur a le champ createBySalon à true
+        $user = Auth::user(); // Récupère l'utilisateur connecté
+        if ($user->createbysalon) {
+            Auth::logout(); // Déconnecter immédiatement l'utilisateur
+            return response()->json([
+                'success' => false, 
+                'message' => 'Votre compte est actuellement géré par un salon. Veuillez contacter l\'administration.'
+            ], 403);
         }
 
-        // return back()->withErrors([
-        //     'email' => 'Email ou mot de passe incorrect.',
-        // ])->onlyInput('email');
-        return response()->json(['success' => false, 'message' => 'Identifiants incorrects'], 401);
+        // Si tout est bon, autoriser l'accès
+        return response()->json(['success' => true, 'message' => 'Authentification réussie']);
     }
+
+    // Identifiants incorrects
+    return response()->json(['success' => false, 'message' => 'Identifiants incorrects'], 401);
+}
+
 
     public function logout(Request $request)
     {
@@ -269,22 +282,16 @@ public function profile()
     }
 }
 
+
 public function createEscorteBySalon(Request $request)
 {
     // Validation des données
     $validator = Validator::make($request->all(), [
         'id_salon' => 'required|exists:users,id', // Vérifie que le salon existe
-        'profile_type' => 'required|in:invite,escorte,salon',
         'email' => 'required|email|unique:users',
-        'password' => ['required', 'confirmed', Password::min(8)],
         'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
-        'cgu_accepted' => 'accepted', // Obligatoire pour le profil invité
-        'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
-        'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
-        'genre' => 'required_if:profile_type,escorte|nullable|in:homme,femme,non-binaire,autre', // Pour Escorte
-        'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
-        'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre', // Pour Salon
-        'nom_proprietaire' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
+        'prenom' => 'required|string|max:255', // Pour Escorte
+        'genre' => 'required|string|in:femme,homme,trans,gay,lesbienne,bisexuelle,queer', // Ajout de la validation pour le genre
     ]);
 
     if ($validator->fails()) {
@@ -297,19 +304,19 @@ public function createEscorteBySalon(Request $request)
     if (!$salon) {
         return back()->with('error', 'Salon non trouvé.');
     }
+    $pwd = 'password';
 
     // Création de l'utilisateur
     $user = User::create([
-        'profile_type' => $request->profile_type,
+        'profile_type' => 'escorte',
         'email' => $request->email,
-        'password' => Hash::make($request->password),
+        'password' => Hash::make($pwd),
         'date_naissance' => $request->date_naissance,
-        'pseudo' => $request->pseudo,
+        'pseudo' => $request->prenom,
         'prenom' => $request->prenom,
         'genre' => $request->genre,
         'nom_salon' => $salon->nom_salon,
-        'intitule' => $request->intitule,
-        'nom_proprietaire' => $request->nom_proprietaire,
+        'createbysalon' => true, 
     ]);
 
     // Création de l'invitation
@@ -320,11 +327,15 @@ public function createEscorteBySalon(Request $request)
         'type' => 'creer par salon',
     ]);
 
-    // Connexion automatique de l'utilisateur
-    Auth::login($user);
+    SalonEscorte::create([
+        'salon_id' => $salon->id, // ID du salon qui invite
+        'escorte_id' => $user->id,  // ID de l'utilisateur invité
+    ]);
+
 
     return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
 }
+
 
 public function showGallery()
 {

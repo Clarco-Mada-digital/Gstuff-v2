@@ -255,6 +255,11 @@ Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->
 Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
 
 Route::post('/update-distance', [DistanceMaxController::class, 'update'])->name('distance.update');
+Route::get('/escorte/gerer/{id}', [EscortController::class, 'gererEscorte'])->name('escortes.gerer');
+Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('salon.revenirSalon');
+Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
+Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
+
 
 
 

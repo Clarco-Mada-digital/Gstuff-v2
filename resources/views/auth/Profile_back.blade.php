@@ -1280,9 +1280,9 @@ Mon compte
                             <div class="">
                                 <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
                                 <div class="flex items-center flex-wrap">
-                                    @if ($escorteCreateBySalons->isNotEmpty())
-                                    @foreach ($escorteCreateBySalons as $acceptedInvitation)
-                                    <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                    @if ($escorteCreateByUser->isNotEmpty())
+                                    @foreach ($escorteCreateByUser as $acceptedInvitation)
+                                    <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" wire:key="{{ $acceptedInvitation->id }}" />
                                     @endforeach
                                     @else
                                     <span class="w-[40%] text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun
