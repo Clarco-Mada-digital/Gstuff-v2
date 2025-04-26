@@ -1,4 +1,18 @@
 <div>
+
+    @if ($deviceType === 'phone')
+        <script>
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    Livewire.emit('updateUserLatitude', position.coords.latitude);
+                    Livewire.emit('updateUserLongitude', position.coords.longitude);
+                });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        </script>
+    @endif
+
     <div class="flex flex-col md:flex-row items-center justify-between py-5">
         <h2 class="font-dm-serif font-bold text-2xl text-center md:text-left">Les filles hot près de chez toi</h2>
         <div class="flex items-center mt-4 md:mt-0">

@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Livewire;
 
 use App\Models\User;
 use App\Models\Canton;
 use App\Models\Ville;
 use App\Models\DistanceMax;
-
 use Livewire\Component;
 
 class Approximate extends Component
@@ -15,6 +13,8 @@ class Approximate extends Component
     public $maxDistance;
     public $escorts = [];
     public $deviceType;
+    public $userLatitude;
+    public $userLongitude;
 
     public function mount($userId)
     {
@@ -22,39 +22,57 @@ class Approximate extends Component
         $user = User::find($userId);
 
         $this->deviceType = $this->detectDevice();
-    
+
         $distanceMaxRecord = DistanceMax::first();
-        $this->maxDistance = $distanceMaxRecord->distance_max ?? 100;
+        $this->maxDistance = $distanceMaxRecord ? $distanceMaxRecord->distance_max : 1000;
 
-       if ($this->deviceType  === 'PC') {
-        if ($user && !is_null($user->lon) && !is_null($user->lat)) {
-            $userLongitude = $user->lon;
-            $userLatitude = $user->lat;
+        if ($this->deviceType === 'PC') {
+            if ($user && !is_null($user->lon) && !is_null($user->lat)) {
+                $this->userLongitude = $user->lon;
+                $this->userLatitude = $user->lat;
 
-            $allEscortsUsers = User::where('profile_type', 'escorte')->get();
-
-            // Calculer la distance de chaque escorte sans limite stricte
-            $this->escorts = $allEscortsUsers->map(function ($escort) use ($userLatitude, $userLongitude) {
-                if (!is_null($escort->lat) && !is_null($escort->lon)) {
-                    $distance = $this->calculateDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-                    
-                    return [
-                        'canton' => Canton::find($escort->canton),
-                        'ville' => Ville::find($escort->ville),
-                        'escort' => $escort,
-                        'distance' => floatval($distance)
-                    ];
-                }
-            })->filter(); // Supprimer les valeurs nulles
+                $this->calculateEscortsDistances();
+            }
+        } elseif ($this->deviceType === 'phone') {
+            // Assurez-vous que les valeurs de latitude et longitude sont définies
+            if (!is_null($this->userLatitude) && !is_null($this->userLongitude)) {
+                $this->calculateEscortsDistances();
+            }
         }
-       }elseif ($this->deviceType  === 'phone') {
-        # code...
-       }
+    }
+
+    public function updatedUserLatitude()
+    {
+        if ($this->deviceType === 'phone' && !is_null($this->userLatitude) && !is_null($this->userLongitude)) {
+            $this->calculateEscortsDistances();
+        }
+    }
+
+    private function calculateEscortsDistances()
+    {
+        $allEscortsUsers = User::where('profile_type', 'escorte')->get();
+
+        // Calculer la distance de chaque escorte sans limite stricte
+        $this->escorts = $allEscortsUsers->map(function ($escort) {
+            if (!is_null($escort->lat) && !is_null($escort->lon)) {
+                $distance = $this->calculateDistance($this->userLatitude, $this->userLongitude, $escort->lat, $escort->lon);
+
+                return [
+                    'canton' => Canton::find($escort->canton),
+                    'ville' => Ville::find($escort->ville),
+                    'escort' => $escort,
+                    'distance' => floatval($distance)
+                ];
+            }
+            return null; // Retourne null pour les escortes sans coordonnées
+        })->filter(function ($escort) {
+            return !is_null($escort); // Supprimer les valeurs nulles
+        });
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)
     {
-        $R = 6371.0;
+        $R = 6371.0; // Rayon moyen de la Terre en kilomètres
         $deltaLat = deg2rad($lat2 - $lat1);
         $deltaLon = deg2rad($lon2 - $lon1);
 
@@ -68,18 +86,17 @@ class Approximate extends Component
 
     public function render()
     {
-        return view('livewire.approximate', ['escorts' => $this->escorts , 'distanceMax'=>$this->maxDistance]);
+        return view('livewire.approximate', ['escorts' => $this->escorts, 'distanceMax' => $this->maxDistance]);
     }
-    public function detectDevice() {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-    
-        if (preg_match('/mobile/i', $userAgent) || preg_match('/tablet/i', $userAgent)) {
+
+    public function detectDevice()
+    {
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+        if (preg_match('/mobile|tablet/i', $userAgent)) {
             return 'phone';
         } else {
             return 'PC';
         }
     }
-    
-    
 }
-
