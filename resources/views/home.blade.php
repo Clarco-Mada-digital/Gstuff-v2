@@ -46,57 +46,32 @@ Home
 
         {{-- Section listing Escort --}}
 
-        <div x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-show="viewEscorte"
-            class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
-          <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
-          <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($escorts as $escort)
-            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
-            @endforeach
-          </div>
-          <div id="arrowEscortScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
-          </div>
-          <div id="arrowEscortScrollLeft" class="absolute top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-          </div>
+        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte" class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
+            <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
+            <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                @foreach ($escorts as $escort)
+                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                @endforeach
+            </div>
+            <div id="arrowEscortScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" /></svg>
+            </div>
+            <div id="arrowEscortScrollLeft" class="absolute top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" /></svg>
+            </div>
         </div>
 
         {{-- Section listing Salon --}}
-        <div x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-show="!viewEscorte"
-            class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
-          <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
-          <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($salons as $salon)
-            <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton['nom'] ?? ''}}" ville="{{$salon->ville['nom'] ?? ''}}" salonId='{{$salon->id}}' avatar='{{$salon->avatar}}' />
-            @endforeach
-            @if($salons == '[]')
-              <h3 class="w-full font-dm-serif text-3xl text-center text-green-gs">Aucun salon pour l'instant !</h3>
-            @endif
-          </div>
-          <div id="arrowSalonScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
-          </div>
-          <div id="arrowSalonScrollLeft" class="absolute top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-          </div>
-        </div>
-      </div>
-
-
-                @if ($salon->canton && $salon->ville && $salon->nom_salon )
-                <livewire:salon-card name="{{ $salon->nom_salon }}" canton="{{ $salon->canton['nom'] }}" ville="{{ $salon->ville['nom'] }}" salonId="{{ $salon->id }}" avatar="{{ $salon->avatar }}" />
-                @endif @endforeach
+        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-show="!viewEscorte" class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
+            <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
+            <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                @foreach ($salons as $salon)
+                <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton['nom'] ?? ''}}" ville="{{$salon->ville['nom'] ?? ''}}" salonId='{{$salon->id}}' avatar='{{$salon->avatar}}' />
+                @endforeach
                 @if($salons == '[]')
                 <h3 class="w-full font-dm-serif text-3xl text-center text-green-gs">Aucun salon pour l'instant !</h3>
-                @else
-
                 @endif
             </div>
             <div id="arrowSalonScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -107,6 +82,7 @@ Home
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                     <path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" /></svg>
             </div>
+
         </div>
     </div>
 
@@ -115,9 +91,9 @@ Home
         <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
 
-          @foreach ($escorts as $escort)
-          <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
-          @endforeach
+            @foreach ($escorts as $escort)
+            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+            @endforeach
 
         </div>
         <div id="arrowListScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
