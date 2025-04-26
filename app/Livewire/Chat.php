@@ -141,6 +141,7 @@ class Chat extends Component
                 })
                 ->groupBy('from_id', 'to_id');
 
+
             $this->users = DB::table('users')
                 ->joinSub($subQuery, 'latest_messages', function ($join) {
                     $join->on('users.id', '=', 'latest_messages.from_id')

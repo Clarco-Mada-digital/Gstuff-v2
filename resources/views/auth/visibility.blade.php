@@ -1,6 +1,8 @@
 @extends('layouts.base')
+
 @php use Carbon\Carbon; @endphp
-@section('title', 'Paramètres de visibilité du profil')
+
+@section('pageTitle', 'Paramètres de visibilité du profil')
 
 @section('content')
 <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -17,12 +19,12 @@
                 {{-- Option Public --}}
                 <div class="relative flex items-start p-4 rounded-lg border-2 border-transparent hover:border-blue-100 transition-all duration-200 bg-gray-50">
                     <div class="flex items-center h-5">
-                        <input type="radio" name="visibility" value="public"
+                        <input x-on:click="customVisibility=false" type="radio" name="visibility" value="public" id="public-visibility"
                                @checked(auth()->user()->visibility === 'public')
                                class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <span class="block text-sm font-medium text-gray-900">Profil public</span>
+                        <label for="public-visibility" class="block text-sm font-medium text-gray-900">Profil public</label>
                         <span class="block text-sm text-gray-500 mt-1">Visible dans tous les pays sans restriction</span>
                     </div>
                 </div>
@@ -30,12 +32,12 @@
                 {{-- Option Private --}}
                 <div class="relative flex items-start p-4 rounded-lg border-2 border-transparent hover:border-red-100 transition-all duration-200 bg-gray-50">
                     <div class="flex items-center h-5">
-                        <input type="radio" name="visibility" value="private"
+                        <input x-on:click="customVisibility=false" type="radio" name="visibility" value="private" id="private-visibility"
                                @checked(auth()->user()->visibility === 'private')
                                class="h-5 w-5 text-red-600 focus:ring-red-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <span class="block text-sm font-medium text-gray-900">Profil privé</span>
+                        <label for="private-visibility" class="block text-sm font-medium text-gray-900">Profil privé</label>
                         <span class="block text-sm text-gray-500 mt-1">Caché dans tous les pays</span>
                     </div>
                 </div>
@@ -44,12 +46,13 @@
                 <div class="relative flex items-start p-4 rounded-lg border-2 border-transparent hover:border-purple-100 transition-all duration-200 bg-gray-50">
                     <div class="flex items-center h-5">
                         <input type="radio" name="visibility" value="custom"
+                               id="custom-visibility"
                                x-model="customVisibility"
                                @checked(auth()->user()->visibility === 'custom')
                                class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <span class="block text-sm font-medium text-gray-900">Visibilité personnalisée</span>
+                        <label for="custom-visibility" class="block text-sm font-medium text-gray-900">Visibilité personnalisée</label>
                         <span class="block text-sm text-gray-500 mt-1">Choisissez les pays où votre profil sera visible</span>
                     </div>
                 </div>
@@ -88,13 +91,13 @@
                             >
                         </div>
 
-                        <div x-show="open && Object.keys(filtered).length > 0" class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                        <div x-show="open && Object.keys(filtered).length > 0" class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto px-5">
                             <template x-for="(name, code) in filtered" :key="code">
                                 <div
                                     @click="select(code)"
                                     :class="{
                                         'bg-purple-100 text-purple-800': highlightedIndex === $index,
-                                        'px-4 py-2 cursor-pointer hover:bg-purple-50': true
+                                        'px-4 py-3 cursor-pointer hover:bg-purple-50': true
                                     }"
                                     @mouseenter="highlightedIndex = $index"
                                 >
