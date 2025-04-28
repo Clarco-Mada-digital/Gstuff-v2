@@ -1,6 +1,37 @@
-<?php 
+<?php
 
-return  [
-
-
+return [
+    'page_title' => 'Who are we?',
+    'who_we_are' => 'Who are we?',
+    'welcome_text' => 'Welcome to Gstuff.ch, the Swiss platform for erotic ads dedicated to celebrating sexual pleasure in all its diversity.',
+    'decorative_image_alt' => 'Decorative image',
+    'genesis_of_gstuff' => 'Genesis of Gstuff',
+    'genesis_description_1' => 'Gstuff is written with a capital G, referring to the pleasure zone called the G-spot or G-zone, and thus means everything related to pleasure. Therefore, Gstuff aims to be an inclusive erotic ads site, meaning that only pleasure matters, regardless of how and with whom, as long as it remains between consenting adults.',
+    'genesis_description_2' => 'Erotic pleasure is an intimate facet of the human experience that transcends gender identity boundaries. It is a rich territory of sensations, emotions, and connections that link us to our deepest essence. For Gstuff, it is essential to celebrate erotic pleasure inclusively, embracing all gender identities. From gender fluidity to non-conformity, every individual deserves to explore their sexuality freely without fear or judgment.',
+    'shield_icon_alt' => 'shield icon',
+    'erotic_entertainment' => 'Erotic Entertainment',
+    'erotic_entertainment_description' => 'Experience unique moments with our carefully selected partners.',
+    'zap_icon_alt' => 'zap icon',
+    'security_confidentiality' => 'Security & Confidentiality',
+    'security_confidentiality_description' => 'Meet with confidence thanks to our advanced security system.',
+    'map_icon_alt' => 'map icon',
+    'reliable_education' => 'Reliable Education and Information',
+    'reliable_education_description' => 'Access sexological advice and educational articles for a fulfilling sexuality.',
+    'register_in_a_minute' => 'Register in one minute.',
+    'username' => 'Username',
+    'email_address' => 'Email address',
+    'birth_date' => 'Date of birth',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm your password',
+    'terms_conditions' => 'Please review our terms of use. See the',
+    'terms_conditions_link' => 'terms of use',
+    'accept_terms' => 'I have read and accept the terms of use',
+    'oops' => 'Oops!',
+    'register' => 'REGISTER',
+    'partners_count' => '+500 partners',
+    'partners_description' => 'Verified profiles for authentic encounters',
+    'amateurs_count' => '+300 amateurs',
+    'amateurs_description' => 'Naughty experiences with dedicated amateurs.',
+    'professional_salons_count' => '+200 professional salons',
+    'professional_salons_description' => 'Varied offers in secure professional settings.',
 ];

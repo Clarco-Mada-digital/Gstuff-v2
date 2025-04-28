@@ -9,25 +9,23 @@ use App\Models\Canton;
                 <a href="{{ route('home') }}" class="w-full">
                     <img class="mx-auto lg:m-0 w-60" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" />
                 </a>
-                <p class="w-96 lg:text-start text-center">Votre portail suisse des rencontres érotique sécurisées et
-                    inclusives.</p>
+                <p class="w-96 lg:text-start text-center">{{ __('footer.txt_portal') }}</p>
             </div>
 
             <div class="flex flex-col items-center lg:items-start gap-2">
-                <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
+                <h3 class="font-dm-serif text-4xl font-bold mb-3">{{ __('footer.quick_links') }}</h3>
                 @foreach (Canton::all()->slice(0, 5) as $canton)
-                    <a href="{{ route('escortes') . '?selectedCanton=' . $canton->id }}">Escort girl
-                        {{ $canton->nom }}</a>
+                    <a href="{{ route('escortes') . '?selectedCanton=' . $canton->id }}">{{ __('footer.escort_girl') }} {{ $canton->nom }}</a>
                 @endforeach
             </div>
 
             <div class="flex flex-col items-center lg:items-start gap-2">
-                <h3 class="font-dm-serif text-4xl font-bold mb-3">Liens rapides</h3>
-                <a href="{{ route('glossaires.index') }}">Glossaire</a>
-                <a href="{{ route('faq') }}">FAQ</a>
-                <a href="{{ route('about') }}">Qui sommes-nous ?</a>
-                <a href="{{ route('static.cgv') }}">Conditions générales de vente (CGV)</a>
-                <a href="{{ route('contact') }}">Contact</a>
+                <h3 class="font-dm-serif text-4xl font-bold mb-3">{{ __('footer.quick_links') }}</h3>
+                <a href="{{ route('glossaires.index') }}">{{ __('footer.glossary') }}</a>
+                <a href="{{ route('faq') }}">{{ __('footer.faq') }}</a>
+                <a href="{{ route('about') }}">{{ __('footer.about_us') }}</a>
+                <a href="{{ route('static.cgv') }}">{{ __('footer.cgv') }}</a>
+                <a href="{{ route('contact') }}">{{ __('footer.contact') }}</a>
             </div>
 
         </div>
@@ -35,6 +33,6 @@ use App\Models\Canton;
     <div
         class="relative flex items-center justify-center bg-black text-white text-xs lg:text-base py-7 transition-all z-30">
         Copyright {{ now()->year }} - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> -
-        <a href="{{ route('static.pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
+        <a href="{{ route('static.pdc') }}" class="text-yellow-500 mx-2">{{ __('footer.privacy_policy') }}</a>
     </div>
 </div>

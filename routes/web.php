@@ -260,7 +260,11 @@ Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('sal
 Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
 Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
 
-
+Route::get('lang/{locale}', function ($locale) {
+    App::setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('lang.switch');
 
 
 
