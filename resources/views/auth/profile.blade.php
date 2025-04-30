@@ -553,7 +553,7 @@
                             @if ($escortFavorites != '[]')
                             <div class="w-full grid grid-cols-1 md:grid-cols-1 2xl:grid-cols-2 items-center mb-4 gap-2">
                                 @foreach ($escortFavorites as $favorie)
-                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" />
+                                <livewire:escort-card name="{{ $favorie->prenom }}" canton="{{ $favorie->canton['nom'] ?? '' }}" ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" />
                                 @endforeach
                             </div>
                             @else
