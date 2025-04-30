@@ -594,7 +594,7 @@
                             @if ($escortFavorites != '[]')
                             <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                                 @foreach ($escortFavorites as $escort)
-                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
+                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}" ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
                                 @endforeach
                             </div>
                             <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -616,7 +616,7 @@
                             @if ($salonFavorites != '[]')
                             <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-5 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                                 @foreach ($salonFavorites as $escort)
-                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
+                                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}" ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' />
                                 @endforeach
                             </div>
                             <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
