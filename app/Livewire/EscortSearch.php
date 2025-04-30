@@ -188,8 +188,8 @@ class EscortSearch extends Component
     {
         // Détection du pays via IP
         $position = \Stevebauman\Location\Facades\Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
-        dd($viewerCountry);
+        $viewerCountry = $position?->countryCode ?? ''; // fallback pour dev
+        // dd($viewerCountry);
 
         return $escorts->filter(function ($escort) use ($viewerCountry) {
             return $escort->isProfileVisibleTo($viewerCountry);
@@ -211,7 +211,7 @@ class EscortSearch extends Component
     public function chargeVille()
     {
         if (!empty($this->selectedCanton)) {
-            dd($this->selectedCanton);
+            // dd($this->selectedCanton);
             $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
         } else {
             $this->villes = collect();

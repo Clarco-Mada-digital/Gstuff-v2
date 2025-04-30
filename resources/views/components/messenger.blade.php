@@ -19,7 +19,7 @@
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
                         class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
-                        <img :src="favorite.avatar ? `{{ asset('avatars/') }}${favorite.avatar}` : '/icon-logo.png'"
+                        <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/icon-logo.png'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="w-12 h-12 rounded-full object-cover">
                         <span
@@ -49,7 +49,7 @@
         <!-- En-tête du chat -->
         <div x-show="currentChat" class="p-4 border-b bg-white flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img :src="currentChatUser.avatar ? `{{ asset('avatars/') }}${currentChatUser.avatar}` : '/icon-logo.png'"
+                <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/icon-logo.png'"
                     :alt="currentChatUser.pseudo" class="w-10 h-10 rounded-full">
                 <div>
                     <h2 x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon"
@@ -88,7 +88,7 @@
 
                 <!-- Avatar et nom -->
                 <div class="text-center mb-6">
-                    <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars/') }}${currentChatUser.avatar}` :
+                    <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` :
                         '/icon-logo.png'"
                         :alt="currentChatUser.pseudo"
                         class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-blue-100">

@@ -1,10 +1,10 @@
 @extends('layouts.base')
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
 
 @section('pageTitle')
-Mon compte
+    Mon compte
 @endsection
 
 @section('content')
@@ -1058,15 +1058,12 @@ Mon compte
 @stop
 
 @section('extraScripts')
-
-<script>
-   document.addEventListener('DOMContentLoaded', () => {
-        // Multi-step form handler
-        function multiStepForm(profileType) {
+    <script>
+        function multiStepForm() {
             return {
-                steps: profileType === 'invite' 
-                    ? ['Informations personnelles', 'Informations complémentaires']
-                    : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
+                steps: "{{ $user->profile_type }}" == 'invite' ? ['Informations personnelles',
+                    'Informations complémentaires'
+                ] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
                 currentStep: 0,
                 nextStep() {
                     if (this.currentStep < this.steps.length - 1) {
@@ -1079,32 +1076,30 @@ Mon compte
                     }
                 },
                 saveAndQuit() {
-                    const submitButton = document.getElementById('addInfoSubmit');
-                    if (submitButton) {
-                        submitButton.click();
-                    }
-                }
+                    document.getElementById('addInfoSubmit').click();
+                },
+                // submitForm() {
+                //   alert('Formulaire soumis avec succès !');
+                // }
             };
         }
 
-        // Image viewer handler
-        function imageViewer(initialSrc = '') {
+        function imageViewer(src = '') {
             return {
-                imageUrl: initialSrc,
+                imageUrl: src,
                 fileChosen(event) {
                     this.fileToDataUrl(event, src => this.imageUrl = src);
                 },
                 fileToDataUrl(event, callback) {
                     if (!event.target.files.length) return;
-                    const file = event.target.files[0];
-                    const reader = new FileReader();
-                    reader.onload = e => callback(e.target.result);
+                    let file = event.target.files[0];
+                    let reader = new FileReader();
                     reader.readAsDataURL(file);
+                    reader.onload = e => callback(e.target.result);
                 }
-            };
+            }
         }
 
-        // Story player handler
         function storyPlayer() {
             return {
                 isModalOpen: false,
@@ -1112,12 +1107,12 @@ Mon compte
                 progress: 0,
 
                 init() {
-                    this.$wire?.on('openStory', () => {
+                    this.$wire.$on('openStory', () => {
                         this.isModalOpen = true;
                         this.startProgress();
                     });
 
-                    this.$wire?.on('closeStory', () => {
+                    this.$wire.$on('closeStory', () => {
                         this.isModalOpen = false;
                         this.progress = 0;
                     });
@@ -1128,25 +1123,32 @@ Mon compte
                         if (this.progress < 100) {
                             this.progress++;
                         } else {
-                            this.$wire?.nextStory();
+                            this.$wire.nextStory();
                             clearInterval(interval);
                         }
                     }, 50);
                 }
-            };
+            }
         }
 
-        // Messenger handler
-        function messenger(initialFavorites = []) {
+        function messenger() {
             return {
                 searchQuery: '',
                 typingIndicator: false,
                 showInfoPanel: false,
                 mediaCount: 0,
-                sharedLinks: [],
+                sharedLinks: 0,
                 sharedLinksCount: 0,
                 messageCount: 0,
-                favorites: initialFavorites,
+                favorites: {!! $favoriteList->map(function ($fav) {
+                        return [
+                            'id' => $fav->user->id,
+                            'pseudo' => $fav->user->pseudo,
+                            'prenom' => $fav->user->prenom,
+                            'nom_salon' => $fav->user->nom_salon,
+                            'avatar' => $fav->user->avatar,
+                        ];
+                    })->toJson() !!},
                 currentChat: null,
                 currentChatUser: null,
                 newMessage: '',
@@ -1154,48 +1156,54 @@ Mon compte
                 loadingMessages: false,
                 fileToUpload: null,
                 preview: null,
-                emojis: [],
+                emojies: null,
                 showEmojiPicker: false,
 
-                async init() {
-                    await this.loadContacts();
+                init() {
+                    this.loadContacts();
                     this.setupEventListeners();
-                    await this.getEmojis();
+                    this.getEmojies();
                 },
 
                 toggleInfoPanel() {
                     this.showInfoPanel = !this.showInfoPanel;
+                    // if (this.showInfoPanel) {
+                    //     this.calculateConversationStats();
+                    // }
                 },
 
-                async getEmojis() {
-                    try {
-                        const response = await fetch('https://api.github.com/emojis');
-                        const data = await response.json();
-                        this.emojis = Object.values(data);
-                    } catch (error) {
-                        console.error('Failed to load emojis:', error);
-                    }
+                async getEmojies() {
+                    await fetch('https://api.github.com/emojis')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.emojies = Object.keys(data).map(key => data[key]);
+                            console.log(emojis); // Tableau d'URLs d'emojis
+                        });
                 },
 
                 handleFileUpload(event) {
                     const file = event.target.files[0];
-                    if (!file || !file.type.match('image.*')) {
-                        showToast('Veuillez sélectionner une image valide', 'error');
-                        return;
-                    }
+                    if (!file) return;
+                    if (file && file.type.match('image.*')) {
+                        // this.attachment = file;
+                        this.fileToUpload = file;
 
-                    this.fileToUpload = file;
-                    const reader = new FileReader();
-                    reader.onload = (e) => this.preview = e.target.result;
-                    reader.readAsDataURL(file);
+                        // Créer une prévisualisation
+                        const reader = new FileReader();
+                        reader.onload = (e) => this.preview = e.target.result;
+                        reader.readAsDataURL(file);
+                        handleFileUpload(event);
+                    } else {
+                        alert('Veuillez sélectionner une image valide');
+                        return;
+                    };
                 },
 
                 clearAttachment() {
                     this.newMessage = '';
                     this.fileToUpload = null;
                     this.preview = null;
-                    const input = document.querySelector('.attachment-input');
-                    if (input) input.value = '';
+                    document.querySelector('.attachment-input').value = '';
                 },
 
                 insertEmoji(emoji) {
@@ -1204,14 +1212,12 @@ Mon compte
                 },
 
                 setupEventListeners() {
-                    const messagesContainer = document.getElementById('messages-container');
-                    if (messagesContainer) {
-                        messagesContainer.addEventListener('scroll', (e) => {
-                            if (e.target.scrollTop === 0 && this.currentChat) {
-                                this.loadMoreMessages();
-                            }
-                        });
-                    }
+                    // Écouteur pour le scroll des messages
+                    document.getElementById('messages-container').addEventListener('scroll', (e) => {
+                        if (e.target.scrollTop === 0 && this.currentChat) {
+                            this.loadMoreMessages();
+                        }
+                    });
                 },
 
                 async searchUsers() {
@@ -1219,14 +1225,13 @@ Mon compte
 
                     try {
                         const response = await axios.get('/messenger/search', {
-                            params: { query: this.searchQuery }
+                            params: {
+                                query: this.searchQuery
+                            }
                         });
-                        const searchList = document.getElementById('search-list');
-                        if (searchList) {
-                            searchList.innerHTML = response.data.records;
-                        }
+                        document.getElementById('search-list').innerHTML = response.data.records;
                     } catch (error) {
-                        console.error('Search failed:', error);
+                        console.error(error);
                     }
                 },
 
@@ -1234,14 +1239,13 @@ Mon compte
                     this.loadingContacts = true;
                     try {
                         const response = await axios.get('/messenger/fetch-contacts', {
-                            params: { page }
+                            params: {
+                                page
+                            }
                         });
-                        const contactsList = document.getElementById('contacts-list');
-                        if (contactsList) {
-                            contactsList.innerHTML = response.data.contacts;
-                        }
+                        document.getElementById('contacts-list').innerHTML = response.data.contacts;
                     } catch (error) {
-                        console.error('Failed to load contacts:', error);
+                        console.error(error);
                     } finally {
                         this.loadingContacts = false;
                     }
@@ -1252,33 +1256,42 @@ Mon compte
                     this.loadingMessages = true;
 
                     try {
+                        // Récupérer les infos de l'utilisateur
                         const userResponse = await axios.get('/messenger/id-info', {
-                            params: { id: userId }
+                            params: {
+                                id: userId
+                            }
                         });
                         this.currentChatUser = userResponse.data.fetch;
                         this.messageCount = userResponse.data.stats.total_messages;
 
+                        // load gallery
                         if (userResponse.data?.shared_photos) {
                             $('.info_gallery').html(userResponse.data.shared_photos);
                             this.mediaCount = userResponse.data.stats.photos_count;
                         }
-                        if (userResponse.data?.shared_links) {
+                        if(userResponse.data?.shared_links){
                             this.sharedLinks = userResponse.data.shared_links;
                             this.sharedLinksCount = userResponse.data.stats.links_count;
                         }
 
+                        // Récupérer les messages
                         const messagesResponse = await axios.get('/messenger/fetch-messages', {
-                            params: { id: userId }
+                            params: {
+                                id: userId
+                            }
                         });
-                        const messagesList = document.getElementById('messages-list');
-                        if (messagesList) {
-                            messagesList.innerHTML = messagesResponse.data.messages;
-                        }
+                        document.getElementById('messages-list').innerHTML = messagesResponse.data.messages;
 
-                        await axios.post('/messenger/make-seen', { id: userId });
+                        // Marquer comme lu
+                        await axios.post('/messenger/make-seen', {
+                            id: userId
+                        });
+
+                        // Scroll vers le bas
                         this.scrollToBottom();
                     } catch (error) {
-                        console.error('Failed to load chat:', error);
+                        console.error(error);
                     } finally {
                         this.loadingMessages = false;
                     }
@@ -1292,25 +1305,31 @@ Mon compte
                     formData.append('message', this.newMessage);
                     formData.append('temporaryMsgId', Date.now());
 
+                    console.log(formData);
+
                     if (this.fileToUpload) {
                         formData.append('attachment', this.fileToUpload);
                     }
 
                     try {
                         const response = await axios.post('/messenger/send-message', formData, {
-                            headers: { 'Content-Type': 'multipart/form-data' }
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
                         });
 
-                        const messagesList = document.getElementById('messages-list');
-                        if (messagesList) {
-                            messagesList.insertAdjacentHTML('beforeend', response.data.message);
-                        }
+                        // Ajouter le nouveau message
+                        let messagesList = document.getElementById('messages-list');
+                        messagesList.insertAdjacentHTML('beforeend', response.data.message);
 
+                        // Réinitialiser
                         this.clearAttachment();
-                        await this.loadContacts();
+                        this.loadContacts();
+
+                        // Scroll vers le bas
                         this.scrollToBottom();
                     } catch (error) {
-                        console.error('Failed to send message:', error);
+                        console.error(error);
                         showToast('Erreur lors de l\'envoi du message', 'error');
                     }
                 },
@@ -1318,7 +1337,9 @@ Mon compte
                 async deleteMessage(messageId) {
                     try {
                         const response = await axios.delete('/messenger/delete-message', {
-                            params: { message_id: messageId }
+                            params: {
+                                message_id: messageId
+                            }
                         });
 
                         if (response.data.status === 'success') {
@@ -1331,20 +1352,21 @@ Mon compte
                             showToast('Erreur lors de la suppression du message', 'error');
                         }
                     } catch (error) {
-                        console.error('Failed to delete message:', error);
+                        console.error(error);
                     }
                 },
 
                 scrollToBottom() {
                     const container = document.getElementById('messages-container');
-                    if (container) {
-                        container.scrollTop = container.scrollHeight;
-                    }
+                    container.scrollTop = container.scrollHeight;
                 },
 
                 async toggleFavorite(userId) {
                     try {
-                        const response = await axios.post('/messenger/favorite', { id: userId });
+                        const response = await axios.post('/messenger/favorite', {
+                            id: userId
+                        });
+
                         if (response.data.status === 'added') {
                             this.favorites.push({
                                 id: userId,
@@ -1355,7 +1377,7 @@ Mon compte
                             this.favorites = this.favorites.filter(fav => fav.id !== userId);
                         }
                     } catch (error) {
-                        console.error('Failed to toggle favorite:', error);
+                        console.error(error);
                     }
                 },
 
@@ -1364,33 +1386,35 @@ Mon compte
                 },
 
                 startTyping() {
-                    this.typingIndicator = true;
+                    this.typing = true;
                     Echo.private(`chat.${this.currentChat}`)
-                        .whisper('typing', { userId: this.currentUser?.id });
+                        .whisper('typing', {
+                            userId: this.currentUser.id
+                        });
                 },
-
                 stopTyping() {
-                    this.typingIndicator = false;
+                    this.typing = false;
+                    // Envoyer un événement pour indiquer l'arrêt de la saisie
                 },
 
                 async loadMoreMessages() {
-                    // Implement pagination for older messages
+                    // Implémentez le chargement des messages plus anciens
                 }
-            };
-        }
 
-        // Utility functions
-        function autoResize(textarea) {
-            if (textarea) {
-                textarea.style.height = 'auto';
-                textarea.style.height = `${textarea.scrollHeight}px`;
             }
         }
 
+        // Fonction pour redimensionner automatiquement le textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+
+        // Fonction utilitaire
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg text-white ${
-                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            type === 'success' ? 'bg-green-500' : 'bg-red-500'
             }`;
             toast.textContent = message;
             document.body.appendChild(toast);
@@ -1399,6 +1423,5 @@ Mon compte
                 toast.remove();
             }, 3000);
         }
-    });
-</script>
+    </script>
 @endsection

@@ -237,7 +237,15 @@ class Chat extends Component
             'users.profile_verifie', 
             'users.image_verification', 
             'users.updated_at',
+<<<<<<< HEAD
             'users.last_seen_at')
+=======
+            'users.last_seen_at',
+            'users.visibility',
+            'users.visible_countries',
+            'users.last_seen_at',        
+            'users.createbysalon')
+>>>>>>> a676405d9851cac39a7193c678ff44fdd6315672
             ->get();
 
             if(count($this->users) > 0) {
