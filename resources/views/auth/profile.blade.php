@@ -964,7 +964,7 @@
                                 <div class="flex items-center flex-wrap">
                                     @if ($escorteCreateByUser->isNotEmpty())
                                     @foreach ($escorteCreateByUser as $acceptedInvitation)
-                                    <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" isOnline='{{$acceptedInvitation->isOnline()}}' wire:key="{{ $acceptedInvitation->id }}" />
+                                    <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" wire:key="{{ $acceptedInvitation->id }}" />
                                     @endforeach
                                     @else
                                     <span class="w-full text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
@@ -980,7 +980,7 @@
                                     @foreach ($acceptedInvitations as $acceptedInvitation)
 
                                     @if($acceptedInvitation->type === "associe au salon")
-                                    <livewire:escort_card name="{{$acceptedInvitation->inviter->prenom != null ? $acceptedInvitation->inviter->prenom : $acceptedInvitation->inviter->nom_salon }}" canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->inviter->avatar }}" escortId="{{ $acceptedInvitation->inviter->id }}" isOnline='{{$acceptedInvitation->inviter->isOnline()}}' wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                    <livewire:escort_card name="{{$acceptedInvitation->inviter->prenom != null ? $acceptedInvitation->inviter->prenom : $acceptedInvitation->inviter->nom_salon }}" canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->inviter->avatar }}" escortId="{{ $acceptedInvitation->inviter->id }}" wire:key="{{ $acceptedInvitation->inviter->id }}" />
                                     @else
                                     <livewire:escort_card name="{{$acceptedInvitation->invited->prenom != null ? $acceptedInvitation->invited->prenom : $acceptedInvitation->invited->nom_salon }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" isOnline='{{$$acceptedInvitation->inviter->isOnline()}}' wire:key="{{ $acceptedInvitation->invited->id }}" />
                                     @endif
