@@ -248,9 +248,10 @@ class MessengerController extends Controller
         'users.profile_verifie',
         'users.image_verification',
         'users.updated_at',
-        'visibility',
-        'visible_countries',
-        'userS.last_seen_at')
+        'users.visibility',
+        'users.visible_countries',
+        'users.last_seen_at',        
+        'users.createbysalon')
         ->paginate(10);
 
         if(count($users) > 0) {
