@@ -1067,6 +1067,13 @@ Mon compte
 
                         </div>
 
+                        <div class="w-full flex items-center justify-between pt-10 mb-5">
+
+                            <button data-modal-target="createEscorte" data-modal-toggle="createEscorte" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base text-white cursor-pointer hover:bg-green-800">Créer un escort</button>
+                            <button data-modal-target="sendInvitationEscort" data-modal-toggle="sendInvitationEscort" class="p-2 rounded-lg bg-green-gs text-sm xl:text-base
+                                text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
+                        </div>
+
                     </div>
 
                     {{-- Modale pour l'invitation escort --}}
