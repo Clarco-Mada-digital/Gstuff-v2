@@ -29,7 +29,25 @@ class DatabaseSeeder extends Seeder
             ArticleCategorySeeder::class, //Pour exécute ArticleCategorySeeder
             ArticleSeeder::class, //Pour exécute ArticleSeeder
             CommentaireSeeder::class,
-            DistanceMaxSeeder::class
+            DistanceMaxSeeder::class,
+
+            GenreSeeder::class,
+            PratiqueSexuelleSeeder::class,
+            OrientationSexuelleSeeder::class,
+            OrigineSeeder::class,
+            CouleurYeuxSeeder::class,
+            CouleurCheveuxSeeder::class,
+            MensurationSeeder::class,
+            PoitrineSeeder::class,
+            TaillePoitrineSeeder::class,
+            SilhouetteSeeder::class,
+            PubisSeeder::class,
+            TatouageSeeder::class,
+            MobiliteSeeder::class,
+            PaiementSeeder::class,
+            NombreFilleSeeder::class,
+            LangueSeeder::class,
+            TarifSeeder::class,
         ]);
     }
 

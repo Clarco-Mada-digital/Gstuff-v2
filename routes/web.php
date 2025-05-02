@@ -26,6 +26,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DistanceMaxController;
 
 use App\Http\Controllers\ProfileVisibilityController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\PratiqueSexuelleController;
 
 
 /*
@@ -267,8 +269,9 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 
+Route::resource('genres', GenreController::class);
 
-
+Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
 // Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
 
 

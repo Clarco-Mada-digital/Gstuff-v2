@@ -118,7 +118,7 @@
 
                         <li>
                             <a href="{{ route('salon.revenirSalon', ['id' => $salonCreator->id]) }}" class="block px-4 py-2 hover:text-black hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-white">
-                                <h2>{{ __('header.go_to') }}</h2> {{ $salonCreator->nom_salon }}
+                                <h2>{{ __('header.go_to') }} {{ $salonCreator->nom_salon }}</h2> 
                             </a>
                         </li>
                         @endif
