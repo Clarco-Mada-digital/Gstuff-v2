@@ -1,6 +1,6 @@
 <!-- resources/views/components/empty-state.blade.php -->
 <div class="flex items-center justify-center h-full">
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center mb-4">
         <svg width="99px" height="99px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
