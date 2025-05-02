@@ -10,6 +10,7 @@ return [
     'more_than_15_girls' => 'More than 15 girls',
     'reset_filters' => 'Reset filters',
     'results_around' => 'Results around',
+    'results_no_aroud' => 'Results',
     'km' => 'km',
     'result' => 'Result',
 ];
