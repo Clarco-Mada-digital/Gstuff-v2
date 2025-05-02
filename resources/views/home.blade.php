@@ -51,7 +51,7 @@ Home
             <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">{{__('home.new_escorts')}}</h3>
             <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                 @foreach ($escorts as $escort)
-                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+                <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' isOnline='{{$escort->isOnline()}}' escortId='{{$escort->id}}' />
                 @endforeach
             </div>
             <div id="arrowEscortScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
@@ -93,7 +93,7 @@ Home
         <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
 
             @foreach ($escorts as $escort)
-            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
+            <livewire:escort-card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom'] ?? ''}}" ville="{{$escort->ville['nom'] ?? ''}}" avatar='{{$escort->avatar}}' isOnline='{{$escort->isOnline()}}' escortId='{{$escort->id}}' />
             @endforeach
 
         </div>

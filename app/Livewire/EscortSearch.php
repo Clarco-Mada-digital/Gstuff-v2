@@ -378,7 +378,9 @@ class EscortSearch extends Component
     {
         // Détection du pays via IP
         $position = \Stevebauman\Location\Facades\Location::get(request()->ip());
+
         $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
+
 
         return $escorts->filter(function ($escort) use ($viewerCountry) {
             return $escort->isProfileVisibleTo($viewerCountry);

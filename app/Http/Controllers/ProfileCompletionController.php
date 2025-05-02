@@ -522,7 +522,7 @@ class ProfileCompletionController extends Controller
         }
         if ($request->hasFile('photo_couverture') && $request->file('photo_couverture')->isValid()) {
             // Supprimer l'ancienne photo si elle existe
-            if ($user->avatar) {
+            if ($user->couverture_image) {
                 Storage::delete('public/couvertures/' . $user->couverture_image);
             }
 
