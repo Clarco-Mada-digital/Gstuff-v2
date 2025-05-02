@@ -55,7 +55,7 @@
     <div class="container mx-auto py-20 px-2">
       <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">
         {{ $salons->count() }}
-        @if($salons->count() > 1)
+        @if($salons->count() > 1 && $maxDistance > 0)
             {{ __('salon-search.results_around') }} {{ $maxDistance }} km
         @else
             {{ __('salon-search.result') }}
