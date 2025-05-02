@@ -174,6 +174,49 @@
         </template>
     </div>
 
+    <!-- MODAL LIGHTBOX MEDIA -->
+    <div 
+        x-data="{
+            open: false,
+            src: '',
+            type: '',
+            show(src, type) {
+                this.src = src;
+                this.type = type;
+                this.open = true;
+            },
+            close() {
+                this.open = false;
+                this.src = '';
+                this.type = '';
+            }
+        }"
+        x-ref="lightbox"
+        x-on:media-open.window="show($event.detail.src, $event.detail.type)"
+        x-show="open"
+        x-transition.opacity
+        x-cloak
+        @keydown.escape.window="close()"
+        @click.self="close()"
+        class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+    >
+        <div class="relative max-w-3xl w-full bg-white rounded-xl shadow-xl overflow-hidden">
+            <template x-if="type === 'image'">
+                <img :src="src" alt="media" class="w-full h-auto object-contain">
+            </template>
+            <template x-if="type === 'video'">
+                <video controls autoplay class="w-full h-auto bg-black">
+                    <source :src="src" type="video/mp4">
+                </video>
+            </template>
+            <button @click="close"
+                    class="absolute top-3 right-3 text-white text-xl font-bold bg-black/50 rounded-full w-8 h-8 flex items-center justify-center">
+                &times;
+            </button>
+        </div>
+    </div>
+
+
     {{-- header --}}
     @livewire('header')
 
