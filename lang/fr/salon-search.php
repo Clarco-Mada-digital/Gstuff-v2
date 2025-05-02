@@ -12,4 +12,5 @@ return [
     'results_around' => 'Résultats autour de',
     'km' => 'km',
     'result' => 'Résultat',
+    'results_near' => 'Résultats autour de ',
 ];

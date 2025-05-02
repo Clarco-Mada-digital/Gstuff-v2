@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Livewire;
 
 use App\Models\Canton;
@@ -34,6 +32,7 @@ class SalonSearch extends Component
     public $availableVilles;
     public $maxDistance = 0;
     public $salonCount = 0; // Ajout de la propriété pour le nombre de salons trouvés
+    
 
     public function resetFilter()
     {
@@ -82,10 +81,7 @@ class SalonSearch extends Component
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
 
-        $query = User::query()->where('profile_type', 'salon')
-        ->whereNotNull('lat') // Ajout de la condition pour vérifier la présence de la lat
-        ->whereNotNull('lon'); // Ajout de la condition pour vérifier la présence de la longitude
-
+        $query = User::query()->where('profile_type', 'salon');
 
         if ($this->selectedSalonCanton) {
             $query->where('canton', 'LIKE', '%' . $this->selectedSalonCanton . '%');
@@ -120,20 +116,58 @@ class SalonSearch extends Component
             return $salon->isProfileVisibleTo($viewerCountry);
         });
 
+        // Si aucun résultat, chercher dans les villes proches
+        if ($allSalons->isEmpty() && !empty($this->selectedSalonVille)) {
+            $nearbyVilles = Ville::where('canton_id', $this->selectedSalonCanton)
+                ->where('id', '!=', $this->selectedSalonVille)
+                ->get();
+
+            foreach ($nearbyVilles as $ville) {
+                $query = User::query()->where('profile_type', 'salon')
+                    ->where('ville', $ville->id);
+
+                if ($this->nbFilles) {
+                    $query->where(function ($q) {
+                        foreach ($this->nbFilles as $nbFilles) {
+                            $q->orWhere('nombre_filles', $nbFilles);
+                        }
+                    });
+                }
+
+                if ($this->selectedSalonCategories) {
+                    $query->where(function ($q) {
+                        foreach ($this->selectedSalonCategories as $categorie) {
+                            $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
+                        }
+                    });
+                }
+
+                $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+                    return $salon->isProfileVisibleTo($viewerCountry);
+                });
+
+                if (!$allSalons->isEmpty()) {
+                    break;
+                }
+            }
+        }
+
         // Compter le nombre de salons trouvés
         $this->salonCount = $allSalons->count();
 
         // Calculer la distance maximale
         $this->maxDistance = 0;
         foreach ($allSalons as $salon) {
-            $distance = $this->haversineGreatCircleDistance(
-                $viewerLatitude,
-                $viewerLongitude,
-                $salon->lat,
-                $salon->lon
-            );
-            if ($distance > $this->maxDistance) {
-                $this->maxDistance = $distance;
+            if ($salon->lat && $salon->lon) {
+                $distance = $this->haversineGreatCircleDistance(
+                    $viewerLatitude,
+                    $viewerLongitude,
+                    $salon->lat,
+                    $salon->lon
+                );
+                if ($distance > $this->maxDistance) {
+                    $this->maxDistance = $distance;
+                }
             }
         }
         $this->maxDistance = round($this->maxDistance);

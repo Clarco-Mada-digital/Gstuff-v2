@@ -54,8 +54,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
     <div class="container mx-auto py-20 px-2">
         <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">
-            {{ $escortCount }}
-            @if($escortCount > 1)
+            {{ $escorts->count() }}
+            @if($escorts->count() > 1)
                 {{__('escort-search.results_around', ['distance' => $maxDistance])}}
             @else
                 {{__('escort-search.result')}}

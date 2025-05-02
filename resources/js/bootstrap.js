@@ -32,19 +32,19 @@ window.Echo = new Echo({
 });
 
 
-// Echo.channel('message.' + userId)
-//     .listen('message.sent', (event) => {
-//         // Ici, tu peux mettre à jour ton chat en temps réel
-//         console.log(event.message);
-//     });
+Echo.channel('message.' + userId)
+    .listen('message.sent', (event) => {
+        // Ici, tu peux mettre à jour ton chat en temps réel
+        console.log(event.message);
+    });
 
 // Vérification de la variable userId
-if (typeof userId !== 'undefined' && userId) {
-    Echo.channel('message.' + userId)
-        .listen('message.sent', (event) => {
-            // Mise à jour du chat en temps réel
-            console.log(event.message);
-        });
-} else {
-    console.warn('userId est null ou undefined. Vérifiez sa valeur avant de l’utiliser.');
-}
+// if (typeof userId !== 'undefined' && userId) {
+//     Echo.channel('message.' + userId)
+//         .listen('message.sent', (event) => {
+//             // Mise à jour du chat en temps réel
+//             console.log(event.message);
+//         });
+// } else {
+//     console.warn('userId est null ou undefined. Vérifiez sa valeur avant de l’utiliser.');
+// }
