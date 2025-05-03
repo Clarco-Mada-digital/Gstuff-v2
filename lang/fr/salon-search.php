@@ -10,6 +10,8 @@ return [
     'more_than_15_girls' => 'Plus de 15 filles',
     'reset_filters' => 'Réinitialiser les filtres',
     'results_around' => 'Résultats autour de',
+    'results_no_aroud' => 'Résultats',
+
     'km' => 'km',
     'result' => 'Résultat',
     'results_near' => 'Résultats autour de ',

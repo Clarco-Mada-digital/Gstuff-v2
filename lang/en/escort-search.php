@@ -17,6 +17,7 @@ return [
     'reset_filters' => 'Reset filters',
     'result' => 'Result',
     'results_around' => 'Results around :distance km',
+    'results_no_aroud' => 'Results',
     'service_categories' => 'Service categories',
     'other_filters' => 'Other filters',
     'origin' => 'Origin',
