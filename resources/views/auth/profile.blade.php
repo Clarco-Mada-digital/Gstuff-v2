@@ -94,13 +94,13 @@
                     @endif
                 </button>
                 @if($escorteCreateByUser->isNotEmpty())
-                <x-gestion-escorte-creer :escorteCreateByUser="$escorteCreateByUser"/>
+                <x-gestion-escorte-creer :escorteCreateByUser="$escorteCreateByUser" />
                 @endif
 
 
             </div>
 
-            
+
 
 
 
@@ -114,7 +114,6 @@
         <div x-data="multiStepForm()" x-init="fetchDropdownData();" id="addInfoProf" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <!-- Modale -->
             <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
-
                 <!-- Étapes -->
                 <div class="w-full flex justify-between gap-5 mb-6">
                     <template class="w-full" x-for="(step, index) in steps" :key="index">
@@ -531,16 +530,16 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 items-center gap-10">
                         <span class="flex items-center gap-2"><svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
-                            </svg> {{ $user->pseudo }}</span>
+                            </svg> {{ $user->prenom ?? $user->nom_salon ?? $user->pseudo ?? 'Non définie'}}</span>
                         <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                 <path fill="currentColor" fill-rule="evenodd" d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2" clip-rule="evenodd" />
                             </svg> {{ Carbon::parse($user->date_naissance)->age }} ans</span>
                         <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
                                 <path fill="currentColor" d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
-                            </svg> Homme</span>
+                            </svg> {{ $user->genre ?? 'Non définie'}}</span>
                         <span class="flex items-center gap-2"> <svg class="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M4.35 20.7q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v8.425q-.875-1.275-2.187-1.975T16 10q-.5 0-1 .088t-1 .262v-3.5l-4-1.4v13.075zM20.6 22l-2.55-2.55q-.45.275-.962.413T16 20q-1.65 0-2.825-1.175T12 16t1.175-2.825T16 12t2.825 1.175T20 16q0 .575-.137 1.088t-.413.962L22 20.6zM16 18q.85 0 1.413-.5T18 16q.025-.85-.562-1.425T16 14t-1.425.575T14 16t.575 1.425T16 18" />
-                            </svg> Vaud - Bex</span>
+                            </svg> {{ $user->canton->nom ?? 'Non définie' }} - {{ $user->ville->nom ?? 'Non définie' }} </span>
                     </div>
 
                     {{-- Favoris --}}
@@ -935,6 +934,10 @@
                         </div>
                     </div>
 
+
+
+
+
                     {{-- Escort associé --}}
                     <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-5">
 
@@ -943,56 +946,124 @@
 
 
                     </div>
-                    <div class="mt-10 xl:mt-0 w-full flex items-center flex-col">
 
-                        <div class="w-full grid grid-cols-1 xl:grid-cols-2  items-center ">
+                    <div class="mt-10 xl:mt-0 w-full flex flex-wrap justify-around  gap-4 px-4 mb-4">
 
-                            <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-2">
-                                <div class="xl:mr-auto">
-                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center">Escortes créées</h2>
-                                </div>
-                            </div>
+                        <!-- Colonne 1 -->
+                        <div class=" w-full md:w-[48%]">
+                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center mb-2">Escortes créées</h2>
 
-                            <div class="hidden xl:flex items-center justify-between flex-col xl:flex-row gap-5 py-2">
-                                <div class="xl:ml-auto">
-                                    <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center">Invitée du salon</h2>
-                                </div>
-                            </div>
-
-                            <div class="">
-                                <h2 class="font-dm-serif font-bold text-2xl text-green-gs xl:hidden">Escorte du salon</h2>
-                                <div class="flex items-center flex-wrap">
+                            @if ($escorteCreateByUser->isNotEmpty())
+                            <div id="default-carousel" class="relative w-full " data-carousel="static">
+                                <!-- Carousel wrapper -->
+                                <div class="relative  overflow-hidden rounded-lg min-h-[500px]">
                                     @if ($escorteCreateByUser->isNotEmpty())
-                                    @foreach ($escorteCreateByUser as $acceptedInvitation)
-                                    <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" wire:key="{{ $acceptedInvitation->id }}" />
+                                    @foreach ($escorteCreateByUser as $index => $acceptedInvitation)
+                                    <!-- Item {{ $index + 1 }} -->
+                                    <div class="hidden duration-700 ease-in-out  items-center min-h-[405px] " data-carousel-item>
+                                        <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" wire:key="{{ $acceptedInvitation->id }}" />
+                                    </div>
                                     @endforeach
                                     @else
-                                    <span class="w-full text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créer pour l'instant</span>
+                                    <div class="flex items-center justify-center h-full">
+                                        <span class="text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort créé pour l'instant</span>
+                                    </div>
                                     @endif
                                 </div>
-                            </div>
-
-                            <div class="">
-
-                                <div class="flex items-center justify-around flex-wrap gap-4">
-                                    @if ($acceptedInvitations->isNotEmpty())
-
-                                    @foreach ($acceptedInvitations as $acceptedInvitation)
-
-                                    @if($acceptedInvitation->type === "associe au salon")
-                                    <livewire:escort_card name="{{$acceptedInvitation->inviter->prenom != null ? $acceptedInvitation->inviter->prenom : $acceptedInvitation->inviter->nom_salon }}" canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->inviter->avatar }}" escortId="{{ $acceptedInvitation->inviter->id }}" wire:key="{{ $acceptedInvitation->inviter->id }}" />
-                                    @else
-                                    <livewire:escort_card name="{{$acceptedInvitation->invited->prenom != null ? $acceptedInvitation->invited->prenom : $acceptedInvitation->invited->nom_salon }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
-                                    @endif
-
+                                <!-- Slider indicators -->
+                                <div class="z-30 flex justify-center my-3 space-x-3 rtl:space-x-reverse">
+                                    @foreach ($escorteCreateByUser as $index => $acceptedInvitation)
+                                    <button type="button" class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-blue-500' : 'bg-gray-300' }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
                                     @endforeach
-                                    @else
-                                    <span class="w-full text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">
-                                        Aucun escort associé pour l'instant
+                                </div>
+                                <!-- Slider controls -->
+                                <!-- Bouton PREV -->
+                                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-4 group-focus:ring-green-gs/50 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                        </svg>
+                                        <span class="sr-only">Previous</span>
                                     </span>
+                                </button>
+
+                                <!-- Bouton NEXT -->
+                                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-4 group-focus:ring-green-gs/50 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                        </svg>
+                                        <span class="sr-only">Next</span>
+                                    </span>
+                                </button>
+
+                            </div>
+                            @else
+                            <x-empty-state message="Aucun escort créé pour l'instant" />
+                            @endif
+
+                        </div>
+
+                        <!-- Colonne 2 -->
+                        <div class=" w-full md:w-[48%]">
+                            <h2 class="font-dm-serif font-bold text-2xl text-green-gs text-center mb-2">Invitée du salon</h2>
+
+                            @if ($acceptedInvitations->isNotEmpty())
+                            <div id="associated-escorts-carousel" class="relative w-full" data-carousel="static">
+                                <!-- Carousel wrapper -->
+                                <div class="relative overflow-hidden rounded-lg min-h-[500px]">
+                                    @if ($acceptedInvitations->isNotEmpty())
+                                    @foreach ($acceptedInvitations as $index => $acceptedInvitation)
+                                    <!-- Item {{ $index + 1 }} -->
+                                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                        @if($acceptedInvitation->type === "associe au salon")
+                                        <livewire:escort_card name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}" canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->inviter->avatar }}" escortId="{{ $acceptedInvitation->inviter->id }}" wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                        @else
+                                        <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}" canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->invited->avatar }}" escortId="{{ $acceptedInvitation->invited->id }}" wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                        @endif
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="flex items-center justify-center h-full">
+                                        <span class="text-sm xl:text-base text-center text-green-gs font-bold font-dm-serif">Aucun escort associé pour l'instant</span>
+                                    </div>
                                     @endif
                                 </div>
+                                <!-- Slider indicators -->
+                                <div class="z-30 flex justify-center my-3 space-x-3 rtl:space-x-reverse ">
+                                    @if ($acceptedInvitations->isNotEmpty())
+                                    @foreach ($acceptedInvitations as $index => $acceptedInvitation)
+                                    <button type="button" class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-green-gs' : 'bg-gray-400' }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
+                                    @endforeach
+                                    @endif
+                                </div>
+                                <!-- Slider controls -->
+                                <!-- Bouton PREV -->
+                                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-4 group-focus:ring-green-gs/50 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                        </svg>
+                                        <span class="sr-only">Previous</span>
+                                    </span>
+                                </button>
+
+                                <!-- Bouton NEXT -->
+                                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-4 group-focus:ring-green-gs/50 group-focus:outline-none">
+                                        <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                        </svg>
+                                        <span class="sr-only">Next</span>
+                                    </span>
+                                </button>
+
                             </div>
+                            @else
+
+                            <x-empty-state message="Aucun escort associé pour l'instant" />
+
+                            @endif
 
                         </div>
 
@@ -1003,8 +1074,8 @@
                                 text-white cursor-pointer hover:bg-green-800">Invité un escort</button>
                         </div>
 
-
                     </div>
+
                     {{-- Modale pour l'invitation escort --}}
                     <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <!-- Modale -->

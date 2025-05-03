@@ -4,8 +4,10 @@
         <script>
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    Livewire.emit('updateUserLatitude', position.coords.latitude);
-                    Livewire.emit('updateUserLongitude', position.coords.longitude);
+                    console.log(Livewire);
+
+                    Livewire.trigger('updateUserLatitude', position.coords.latitude);
+                    Livewire.trigger('updateUserLongitude', position.coords.longitude);
                 });
             } else {
                 console.log("Geolocation is not supported by this browser.");

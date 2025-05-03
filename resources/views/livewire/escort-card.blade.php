@@ -1,4 +1,4 @@
-<div class="relative flex flex-col justify-start  w-full min-w-[270px] min-h-[405px] max-w-[330px] mx-auto mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
+<div class="relative flex flex-col justify-start  w-full h-full min-w-[270px] min-h-[405px] max-w-[330px] mx-auto mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
     <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-gs cursor-pointer shadow-lg">
         {{-- @livewire('favorite-button', ['userId' => $escortId], key($escortId)) --}}
         <livewire:favorite-button :userId=$escortId wire:key='{{$escortId}}' />

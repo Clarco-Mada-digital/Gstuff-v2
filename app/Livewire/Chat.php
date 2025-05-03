@@ -174,8 +174,7 @@ class Chat extends Component
         $this->user = auth()->user(); // Charger l'utilisateur authentifié
         $this->unseenCounter = 0; // Initialiser le compteur de messages non lus
 
-        if($this->user)
-        {
+        if($this->user){
             $this->users = Message::join('users', function($join) {
             $join->on('messages.from_id', '=', 'users.id')
              ->orOn('messages.to_id', '=', 'users.id');
@@ -242,25 +241,8 @@ class Chat extends Component
             'users.visible_countries',
             'users.last_seen_at',        
             'users.createbysalon')
-            ->get();
-
-            if(count($this->users) > 0) {
-                $this->contacts = '';
-                foreach($this->users as $user) {
-                    $this->contacts .= $this->getContactItem($user);
-                    $item = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
-                    $this->unseenCounter += $item;
-                }
-    
-            }else {
-                $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
-            }
-        }else{
-            $this->contacts = [];
+            ->get(); 
         }
-        
-
-        
         return view('livewire.chat');
     }
 }

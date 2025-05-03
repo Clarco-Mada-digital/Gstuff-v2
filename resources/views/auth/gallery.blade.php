@@ -97,7 +97,7 @@
                         <select x-model="selectedUser" class="border border-gray-300 rounded-md p-1">
                             <option value="">Tous les utilisateurs</option>
                             @foreach($usersWithMedia as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option value="{{ $user->id }}">{{ $user->prenom }}</option>
                             @endforeach
                         </select>
                         <select x-model="selectedType" class="border border-gray-300 rounded-md p-1">
@@ -125,6 +125,7 @@
                                     <div class="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold">▶</div>
                                 </div>
                             @endif
+                            <span class="ms-3 my-2"> {{$media->user->prenom}} </span>
                         </div>
                     </template>
                     
