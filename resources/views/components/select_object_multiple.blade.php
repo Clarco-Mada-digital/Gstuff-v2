@@ -1,5 +1,4 @@
-<div x-data="multiObjectSelect({{ json_encode($options) }}, {{json_encode($value)}})" class="w-full">
-    {{-- <label for="{{ $name }}" class="block text-sm font-medium text-gray-700">{{ $label }}</label> --}}
+<div x-data="multiObjectSelect({{ json_encode($options) }}, {{ json_encode($value) }})" class="w-full">
     <div class="relative mt-1">
         <!-- Input pour afficher les badges -->
         <div
@@ -9,12 +8,12 @@
             <template x-for="(option, index) in selectedOptions" :key="index">
                 <span class="flex justify-center items-center my-1.5 font-medium p-0.5 text-sm text-white rounded-md bg-green-gs border border-green-gs">
                     <span x-text="option['nom']"></span>
-                    <button type="button" class="ml-2 text-white" x-on:click="removeOption(index)">×</button>
+                    <button type="button" class="ml-2 text-white" @click="removeOption(index)">×</button>
                 </span>
             </template>
             <input
                 type="text"
-                placeholder="{{$label}}..."
+                :placeholder="'{{ $label }}...'"
                 class="flex-1 border-none focus:ring-0 focus:outline-none"
                 x-model="search"
                 @input="filterOptions"
@@ -22,7 +21,7 @@
                 @blur="closeDropdown"
             />
         </div>
-  
+
         <!-- Liste déroulante des options -->
         <div
             class="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border rounded-md shadow-lg"
@@ -40,14 +39,44 @@
             </ul>
         </div>
     </div>
-  
+
     <!-- Champ caché pour envoyer les données au backend -->
-    <input type="hidden" name="{{ $name }}" x-bind:value="selectedValues()" />
-    {{-- <template x-for="option in selectedOptions" :key="option">
-    </template> --}}
-  </div>
-  
-  {{-- @section('specialScripts')
-  
-  @endsection --}}
-  
+    <input type="hidden" :name="'{{ $name }}'" x-bind:value="selectedValues()" />
+</div>
+
+<script>
+    function multiObjectSelect(options, value) {
+        return {
+            options: options,
+            selectedOptions: value || [],
+            search: '',
+            isOpen: false,
+            get filteredOptions() {
+                return this.options.filter(option =>
+                    option.nom.toLowerCase().includes(this.search.toLowerCase())
+                );
+            },
+            selectOption(option) {
+                if (!this.selectedOptions.some(opt => opt.id === option.id)) {
+                    this.selectedOptions.push(option);
+                }
+                this.search = '';
+                this.isOpen = false;
+            },
+            removeOption(index) {
+                this.selectedOptions.splice(index, 1);
+            },
+            selectedValues() {
+                return this.selectedOptions.map(option => option.id);
+            },
+            filterOptions() {
+                this.isOpen = true;
+            },
+            closeDropdown() {
+                setTimeout(() => {
+                    this.isOpen = false;
+                }, 100);
+            }
+        };
+    }
+</script>

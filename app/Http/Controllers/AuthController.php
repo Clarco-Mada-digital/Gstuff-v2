@@ -282,20 +282,53 @@ public function profile()
     }
 }
 
-
 public function createEscorteBySalon(Request $request)
 {
+    // Convertir les chaînes en tableaux
+    $request->merge([
+        'service' => explode(',', $request->service),
+        'langues' => explode(',', $request->langues),
+        'paiement' => explode(',', $request->paiement),
+    ]);
+
     // Validation des données
     $validator = Validator::make($request->all(), [
         'id_salon' => 'required|exists:users,id', // Vérifie que le salon existe
         'email' => 'required|email|unique:users',
         'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
         'prenom' => 'required|string|max:255', // Pour Escorte
-        'genre' => 'required|string|in:femme,homme,trans,gay,lesbienne,bisexuelle,queer', // Ajout de la validation pour le genre
+        'genre' => 'required|string|in:Femme,Homme,Trans,Gay,Lesbienne,Bisexuelle,Queer', // Ajout de la validation pour le genre
+        'telephone' => 'nullable|string|max:20',
+        'adresse' => 'nullable|string|max:255',
+        'npa' => 'nullable|string|max:10',
+        'canton' => 'nullable|exists:cantons,id',
+        'ville' => 'nullable|exists:villes,id',
+        'categorie' => 'nullable|exists:categories,id', // Assurez-vous que le nom de la table est correct
+        'pratique_sexuelles' => 'nullable|string|max:255',
+        'oriantation_sexuelles' => 'nullable|string|max:255',
+        'service' => 'nullable|array',
+        'tailles' => 'nullable|integer',
+        'pubis' => 'nullable|string|max:255',
+        'origine' => 'nullable|string|max:255',
+        'couleur_yeux' => 'nullable|string|max:255',
+        'couleur_cheveux' => 'nullable|string|max:255',
+        'mensuration' => 'nullable|string|max:255',
+        'poitrine' => 'nullable|string|max:255',
+        'taille_poitrine' => 'nullable|string|max:255',
+        'tatouages' => 'nullable|string|max:255',
+        'mobilite' => 'nullable|string|max:255',
+        'langues' => 'nullable|array',
+        'tarif' => 'nullable|string|max:255',
+        'paiement' => 'nullable|array',
+        'autre_contact' => 'nullable|string|max:255',
+        'complement_adresse' => 'nullable|string|max:255',
+        'lien_site_web' => 'nullable|url',
+        'apropos' => 'nullable|string|max:1000',
     ]);
 
+
     if ($validator->fails()) {
-        return back()->withErrors($validator)->withInput()->with('error', 'Problème de validation');
+        return response()->json(['errors' => $validator->errors()], 422);
     }
 
     // Récupérer le salon
@@ -316,7 +349,33 @@ public function createEscorteBySalon(Request $request)
         'prenom' => $request->prenom,
         'genre' => $request->genre,
         'nom_salon' => $salon->nom_salon,
-        'createbysalon' => true, 
+        'createbysalon' => true,
+        'telephone' => $request->telephone,
+        'adresse' => $request->adresse,
+        'npa' => $request->npa,
+        'canton_id' => $request->canton,
+        'ville_id' => $request->ville,
+        'categorie_id' => $request->categorie,
+        'pratique_sexuelles' => $request->pratique_sexuelles,
+        'oriantation_sexuelles' => $request->oriantation_sexuelles,
+        'service' => json_encode($request->service),
+        'tailles' => $request->tailles,
+        'pubis' => $request->pubis,
+        'origine' => $request->origine,
+        'couleur_yeux' => $request->couleur_yeux,
+        'couleur_cheveux' => $request->couleur_cheveux,
+        'mensuration' => $request->mensuration,
+        'poitrine' => $request->poitrine,
+        'taille_poitrine' => $request->taille_poitrine,
+        'tatouages' => $request->tatouages,
+        'mobilite' => $request->mobilite,
+        'langues' => json_encode($request->langues),
+        'tarif' => $request->tarif,
+        'paiement' => json_encode($request->paiement),
+        'autre_contact' => $request->autre_contact,
+        'complement_adresse' => $request->complement_adresse,
+        'lien_site_web' => $request->lien_site_web,
+        'apropos' => $request->apropos,
     ]);
 
     // Création de l'invitation
@@ -332,9 +391,11 @@ public function createEscorteBySalon(Request $request)
         'escorte_id' => $user->id,  // ID de l'utilisateur invité
     ]);
 
-
     return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
 }
+
+
+
 
 
 public function showGallery()

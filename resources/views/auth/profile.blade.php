@@ -966,6 +966,7 @@
                                     @foreach ($escorteCreateByUser as $index => $acceptedInvitation)
                                     <!-- Item {{ $index + 1 }} -->
                                     <div class="hidden duration-700 ease-in-out  items-center min-h-[405px] " data-carousel-item>
+                                       
                                         <livewire:escort_card name="{{ $acceptedInvitation->prenom }}" canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}" ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}" avatar="{{ $acceptedInvitation->avatar }}" escortId="{{ $acceptedInvitation->id }}" wire:key="{{ $acceptedInvitation->id }}" />
                                     </div>
                                     @endforeach
