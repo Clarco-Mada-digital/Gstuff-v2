@@ -31,23 +31,6 @@ class DatabaseSeeder extends Seeder
             CommentaireSeeder::class,
             DistanceMaxSeeder::class,
 
-            GenreSeeder::class,
-            PratiqueSexuelleSeeder::class,
-            OrientationSexuelleSeeder::class,
-            OrigineSeeder::class,
-            CouleurYeuxSeeder::class,
-            CouleurCheveuxSeeder::class,
-            MensurationSeeder::class,
-            PoitrineSeeder::class,
-            TaillePoitrineSeeder::class,
-            SilhouetteSeeder::class,
-            PubisSeeder::class,
-            TatouageSeeder::class,
-            MobiliteSeeder::class,
-            PaiementSeeder::class,
-            NombreFilleSeeder::class,
-            LangueSeeder::class,
-            TarifSeeder::class,
         ]);
     }
 
