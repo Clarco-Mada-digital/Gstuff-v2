@@ -162,10 +162,10 @@
                             <span>
                                 Langue :
                                 @php
-                                    $languesArray = json_decode($user->langues, true);
+                                    $languesArray = json_decode($escort->langues, true);
                                 @endphp
-                                {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
-                                @if($user->langues == null)
+                                {{ is_array($languesArray) ? implode(', ', $languesArray) : $escort->langues }}
+                                @if($escort->langues == null)
                                 --
                              @endif
                             </span>
@@ -214,10 +214,10 @@
                             <span>
                                 Moyen de paiement  :
                                 @php
-                                    $payementArray = json_decode( $user->paiement, true);
+                                    $payementArray = json_decode( $escort->paiement, true);
                                 @endphp
-                                {{ is_array($payementArray) ? implode(', ', $payementArray) : $user->paiement }}
-                                @if($user->paiement == null)
+                                {{ is_array($payementArray) ? implode(', ', $payementArray) : $escort->paiement }}
+                                @if($escort->paiement == null)
                                 --
                              @endif
                             </span>

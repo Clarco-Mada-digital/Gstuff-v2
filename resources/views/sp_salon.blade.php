@@ -137,10 +137,10 @@ use Carbon\Carbon;
                   <span>
                     Langue :
                     @php
-                        $languesArray = json_decode($user->langues, true);
+                        $languesArray = json_decode($salon->langues, true);
                     @endphp
-                    {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
-                    @if($user->langues == null)
+                    {{ is_array($languesArray) ? implode(', ', $languesArray) : $salon->langues }}
+                    @if($salon->langues == null)
                     --
                  @endif
                 </span>
@@ -155,7 +155,16 @@ use Carbon\Carbon;
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" />
-                  <span>Moyen de paiement : {{$salon->paiement ?? '-'}}</span>
+                  <span>
+                    Moyen de paiement  :
+                    @php
+                        $payementArray = json_decode( $salon->paiement, true);
+                    @endphp
+                    {{ is_array($payementArray) ? implode(', ', $payementArray) : $salon->paiement }}
+                    @if($salon->paiement == null)
+                    --
+                 @endif
+                </span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" />
