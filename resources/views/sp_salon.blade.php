@@ -134,7 +134,16 @@ use Carbon\Carbon;
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" />
-                  <span>Langue : {{$salon->langue ?? '-'}}</span>
+                  <span>
+                    Langue :
+                    @php
+                        $languesArray = json_decode($user->langues, true);
+                    @endphp
+                    {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
+                    @if($user->langues == null)
+                    --
+                 @endif
+                </span>
                 </div>
                 <div class="w-full flex items-center gap-3 font-dm-serif">
                   <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon" />
