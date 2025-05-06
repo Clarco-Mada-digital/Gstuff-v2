@@ -298,7 +298,13 @@ public function createEscorteBySalon(Request $request)
         'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
         'prenom' => 'required|string|max:255', // Pour Escorte
         'genre' => 'required|string|in:Femme,Homme,Trans,Gay,Lesbienne,Bisexuelle,Queer', // Ajout de la validation pour le genre
-        'telephone' => 'nullable|string|max:20',
+        'telephone' => [
+            'nullable',
+            'string',
+            'max:15', // Adjust max length if needed
+            'regex:/^[0-9]{10}$/', // Example regex for a 10-digit number
+            
+        ],
         'adresse' => 'nullable|string|max:255',
         'npa' => 'nullable|string|max:10',
         'canton' => 'nullable|exists:cantons,id',
@@ -325,6 +331,7 @@ public function createEscorteBySalon(Request $request)
         'lien_site_web' => 'nullable|url',
         'apropos' => 'nullable|string|max:1000',
     ]);
+    
 
 
     if ($validator->fails()) {

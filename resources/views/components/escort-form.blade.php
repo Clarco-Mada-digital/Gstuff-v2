@@ -14,7 +14,7 @@
                 <div class="w-full md:grid md:grid-cols-2 md:gap-4 xl:grid-cols-3">
                     <!-- Champs du formulaire -->
                     <div class="mb-2">
-                        <label class="block text-sm font-medium text-gray-700 @error('prenom') text-red-700 dark:text-red-500 @enderror">Prénom*</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('prenom') text-red-700 dark:text-red-500 @enderror">Prénom <span class="text-red-500">*</span></label>
                         <input type="text" name="prenom" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('prenom') border-red-500 @enderror" placeholder=" " value="{{ old('prenom') }}" autocomplete="prenom" required />
                         @error('prenom')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email *</label>
+                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email <span class="text-red-500">*</span></label>
                         <input type="email" name="test" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
                         @error('email')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
@@ -30,8 +30,8 @@
                     </div>
 
                     <div class="mb-2">
-                        <label class="block text-sm font-medium text-gray-700 @error('genre') text-red-700 dark:text-red-500 @enderror">Genre *</label>
-                        <select name="genre" id="intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('genre') border-red-500 @enderror">
+                        <label class="block text-sm font-medium text-gray-700 @error('genre') text-red-700 dark:text-red-500 @enderror">Genre <span class="text-red-500">*</span></label>
+                        <select name="genre" id="floating_intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('genre') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($genres as $genre)
                             <option value="{{ $genre }}">{{ $genre }}</option>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="floating_date_naissance" class="block text-sm font-medium text-gray-700 @error('date_naissance') text-red-700 dark:text-red-500 @enderror">Date anniversaire *</label>
+                        <label for="floating_date_naissance" class="block text-sm font-medium text-gray-700 @error('date_naissance') text-red-700 dark:text-red-500 @enderror">Date anniversaire <span class="text-red-500">*</span></label>
                         <input type="date" name="date_naissance" id="floating_date_naissance" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('date_naissance') border-red-500 @enderror" placeholder=" " value="{{ old('date_naissance') }}" autocomplete="date_naissance" required />
                         @error('date_naissance')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
@@ -52,10 +52,8 @@
 
                     <div class="mb-2">
                         <label class="block text-sm font-medium text-gray-700 @error('telephone') text-red-700 dark:text-red-500 @enderror">Numéro téléphone</label>
-                        <input type="text" id="phone-input" name="telephone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('telephone') border-red-500 @enderror" value="{{ old('telephone') }}">
-                        @error('telephone')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
-                        @enderror
+                        <input type="text" id="phone_input" name="telephone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('telephone') border-red-500 @enderror" value="{{ old('telephone') }}">
+
                     </div>
 
                     <div class="mb-2">
@@ -316,7 +314,7 @@
 
                     <div class="mb-2">
                         <label class="block text-sm font-medium text-gray-700 @error('lien_site_web') text-red-700 dark:text-red-500 @enderror">Lien site web</label>
-                        <input type="url" name="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('lien_site_web') border-red-500 @enderror" value="{{ old('lien_site_web') }}" />
+                        <input type="url" name="lien_site_web" id="lien_site_web" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('lien_site_web') border-red-500 @enderror" value="{{ old('lien_site_web') }}" />
                         @error('lien_site_web')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
                         @enderror
@@ -394,51 +392,75 @@
     });
 
     function submitForm() {
-        const form = document.getElementById('createEscorteForm');
-        const formData = new FormData(form);
+    const form = document.getElementById('createEscorteForm');
+    const formData = new FormData(form);
+    
 
-        fetch("{{ route('createEscorteBySalon') }}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Rediriger ou afficher un message de succès
-                // window.location.href = "{{ route('profile.index') }}";
-            } else {
-                // Afficher les erreurs
-                
-                const errorContainer = document.createElement('div');
-                errorContainer.className = 'alert alert-danger';
-                errorContainer.innerHTML = '<ul>';
-                for (const field in data.errors) {
-                    const errorMessage = data.errors[field][0];
-                console.log(field);
-                let errorElement 
-                if (field === 'email') {
-                    errorElement = document.querySelector(`[id="floating_email"]`).closest('.mb-2');
-                    console.log(errorElement);
-                }else{
-                    errorElement = document.querySelector(`[name="${field}"]`).closest('.mb-2');
-                    console.log(errorElement);
+    fetch("{{ route('createEscorteBySalon') }}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Rediriger ou afficher un message de succès
+            // window.location.href = "{{ route('profile.index') }}";
+            console.log('Formulaire soumis avec succès');
+        } else {
+            // Afficher les erreurs
+            displayErrors(data.errors);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    });
+}
+function displayErrors(errors) {
+    const form = document.getElementById('createEscorteForm');
+    const errorContainer = document.createElement('div');
+    errorContainer.className = 'alert alert-danger';
+    errorContainer.innerHTML = '<ul>';
 
-                }
+    for (const field in errors) {
+        const errorMessage = errors[field][0];
+        console.log(`Error in field: ${field}`);
 
-                   
-                    if (errorElement) {
-                        errorElement.innerHTML += `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> ${errorMessage}</p>`;
-                    }
-                }
-                errorContainer.innerHTML += '</ul>';
-                form.prepend(errorContainer);
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-        });
+        let errorElement = null;
+
+        // Utilisation d'un switch pour sélectionner les éléments en fonction du champ
+        switch (field) {
+            case 'email':
+                errorElement = document.querySelector(`#floating_email`).closest('.mb-2');
+                break;
+            case 'genre':
+                errorElement = document.querySelector(`#floating_intitule`).closest('.mb-2');
+                break;
+            case 'telephone':
+                errorElement = document.querySelector(`#phone_input`).closest('.mb-2');
+                break;
+            case 'lien_site_web':
+                errorElement = document.querySelector(`#lien_site_web`).closest('.mb-2');
+                break;
+            default:
+                errorElement = document.querySelector(`[name="${field}"]`).closest('.mb-2');
+                break;
+        }
+        
+        console.log(`Error element for ${field}:`, errorElement);
+
+        // Ajout du message d'erreur si l'élément est trouvé
+        if (errorElement) {
+            errorElement.innerHTML += `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> ${errorMessage}</p>`;
+        } else {
+            console.error(`Parent element with class 'mb-2' not found for field: ${field}`);
+        }
     }
+
+    errorContainer.innerHTML += '</ul>';
+    form.prepend(errorContainer);
+}
+
 </script>
