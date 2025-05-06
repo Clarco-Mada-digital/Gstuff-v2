@@ -22,8 +22,8 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email address *</label>
-                        <input type="email" name="email" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
+                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email *</label>
+                        <input type="email" name="test" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
                         @error('email')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
                         @enderror
@@ -408,7 +408,7 @@
         .then(data => {
             if (data.success) {
                 // Rediriger ou afficher un message de succès
-                window.location.href = "{{ route('profile.index') }}";
+                // window.location.href = "{{ route('profile.index') }}";
             } else {
                 // Afficher les erreurs
                 
@@ -418,10 +418,17 @@
                 for (const field in data.errors) {
                     const errorMessage = data.errors[field][0];
                 console.log(field);
-
-                    const errorElement = document.querySelector(`[name="${field}"]`).closest('.mb-2');
+                let errorElement 
+                if (field === 'email') {
+                    errorElement = document.querySelector(`[id="floating_email"]`).closest('.mb-2');
+                    console.log(errorElement);
+                }else{
+                    errorElement = document.querySelector(`[name="${field}"]`).closest('.mb-2');
                     console.log(errorElement);
 
+                }
+
+                   
                     if (errorElement) {
                         errorElement.innerHTML += `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> ${errorMessage}</p>`;
                     }
