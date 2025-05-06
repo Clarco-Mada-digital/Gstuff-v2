@@ -218,6 +218,6 @@ return [
     |
     */
     
-    'locales' => ['en', 'fr', 'es' , 'it' , 'de'], 
+    'locales' => ['en-US', 'fr', 'es' , 'it' , 'de'], 
 
 ];

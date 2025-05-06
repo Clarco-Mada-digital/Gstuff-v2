@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
-use App\Services\GoogleTranslateService;
+use App\Services\DeepLTranslateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -14,7 +14,7 @@ class CommentaireController extends Controller
 {
     protected $translateService;
 
-    public function __construct(GoogleTranslateService $translateService)
+    public function __construct(DeepLTranslateService $translateService)
     {
         $this->translateService = $translateService;
     }
@@ -49,6 +49,7 @@ class CommentaireController extends Controller
         //
     }
 
+
     public function store(Request $request)
     {
         // Vérification de l'authentification avant toute opération
@@ -62,7 +63,7 @@ class CommentaireController extends Controller
         ]);
 
         // Langues cibles pour les traductions
-        $locales = ['fr', 'en', 'es', 'de', 'it'];
+        $locales = ['fr', 'en-US', 'es', 'de', 'it'];
         $sourceLocale = 'fr'; // Langue source par défaut
 
         // Traduire le contenu dans toutes les langues cibles

@@ -8,12 +8,11 @@
                 {{ $currentIndex === $index - 1 ? 'scale-100 translate-x-0 z-20' : '' }}
                 {{ $currentIndex === $index - 2 ? 'scale-75 translate-x-[100%] z-10' : '' }}
                 {{ $currentIndex !== $index && $currentIndex !== $index - 1 && $currentIndex !== $index - 2 ? 'translate-x-0 opacity-0 scale-50' : '' }}">
-                <p class="text-center w-[80%] mx-auto mb-10">{{ $item->content }}</p>
+                <p class="text-center w-[80%] mx-auto mb-10">  {{ $item->getTranslation('content', session('locale')) ?:  $item->content }}</p>
                 <div class="flex flex-col xl:flex-row items-center w-full justify-center gap-4">
                     <!-- Affichage de l'avatar de l'utilisateur -->
                     <img class="w-12 h-12 rounded-full"
                         src="{{ get_gravatar($item->user->email) }}"
-                         {{-- src="{{ $item->user->avatar ? asset('storage/avatars/' . $item->user->avatar) : asset('images/icons/user_icon.svg') }}" --}}
                          alt="Avatar"/>
                     <div class="flex flex-col font-bold">
                         <span class="font-dm-serif text-base lg:text-2xl text-green-800">{{ $item->user->pseudo ?? $item->user->prenom ?? $item->user->nom_salon }}</span>

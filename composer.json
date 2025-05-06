@@ -6,7 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "deeplcom/deepl-php": "^1.12",
+        "guzzlehttp/guzzle": "^7.9",
         "intervention/image": "^3.11",
         "laravel/breeze": "^1.29",
         "laravel/framework": "^10.10",
