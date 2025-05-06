@@ -402,6 +402,7 @@ class EscortSearch extends Component
     public function chargeVille()
     {
         if (!empty($this->selectedCanton)) {
+            // dd($this->selectedCanton);
             $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
         } else {
             $this->villes = collect();

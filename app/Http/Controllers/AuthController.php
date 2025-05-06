@@ -407,8 +407,8 @@ public function showGallery()
         ->groupBy('user_id')
         ->collect(),
         'usersWithMedia' => User::has('galleries')->get(),
-        'publicGallery' => Gallery::where('is_public', true)->latest()->get(),
-        'privateGallery' => Gallery::where('is_public', false)->latest()->get(),
+        'publicGallery' => Gallery::where('is_public', true)->with('user')->latest()->get(),
+        'privateGallery' => Gallery::where('is_public', false)->with('user')->latest()->get(),
     ]);
 }
 

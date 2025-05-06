@@ -12,10 +12,11 @@
                 <div class="flex flex-col xl:flex-row items-center w-full justify-center gap-4">
                     <!-- Affichage de l'avatar de l'utilisateur -->
                     <img class="w-12 h-12 rounded-full"
-                         src="{{ $item->user->avatar ? asset('storage/avatars/' . $item->user->avatar) : asset('images/icons/user_icon.svg') }}"
-                         alt="Image profile"/>
+                        src="{{ get_gravatar($item->user->email) }}"
+                         {{-- src="{{ $item->user->avatar ? asset('storage/avatars/' . $item->user->avatar) : asset('images/icons/user_icon.svg') }}" --}}
+                         alt="Avatar"/>
                     <div class="flex flex-col font-bold">
-                        <span class="font-dm-serif text-base lg:text-2xl text-green-800">{{ $item->user->prenom }}</span>
+                        <span class="font-dm-serif text-base lg:text-2xl text-green-800">{{ $item->user->pseudo ?? $item->user->prenom ?? $item->user->nom_salon }}</span>
                         <span class="text-sm text-center xl:text-start lg:text-base">{{ $item->user->profile_type }}</span>
                     </div>
                 </div>

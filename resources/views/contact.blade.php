@@ -32,7 +32,7 @@
     </form>
     @endif
 
-    <form id="conseilForm" action="#" method="POST" class="flex flex-col gap-3 w-full">
+    {{-- <form id="conseilForm" action="#" method="POST" class="flex flex-col gap-3 w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
         <div class="flex flex-col w-full gap-2">
           <label for="nom">{{__('contact.name')}}</label>
@@ -52,7 +52,9 @@
         <textarea name="message" id="messageConseil" rows="10" class="border rounded-lg focus:border-amber-400 ring-0" placeholder="{{__('contact.message_placeholder')}}"></textarea>
       </div>
       <button type="submit" class="w-full bg-green-gs rounded-lg text-center text-white p-3 text-lg cursor-pointer hover:bg-green-gs/70">{{__('contact.send')}}</button>
-    </form>
+    </form> --}}
+    @livewire('contact')
+
   </div>
 
   <div class="hidden lg:block lg:w-1/2 h-screen rounded-lg" style="background: url('images/girl_deco_contact_001.jpg') center center /cover"></div>

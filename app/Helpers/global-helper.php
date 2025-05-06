@@ -37,4 +37,14 @@
     {
         return strip_tags($html, '<p><a><ul><ol><li><h1><h2><h3><h4><strong><em><br><img>');
     }
-}
+ }
+
+ if (!function_exists('get_gravatar')) {
+    function get_gravatar($email, $size = 80)
+    {
+        $email = strtolower(trim($email));
+        $hash = md5($email);
+        return "https://www.gravatar.com/avatar/$hash?s=$size&d=mp";
+    }
+ }
+
