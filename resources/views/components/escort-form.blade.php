@@ -23,7 +23,7 @@
 
                     <div class="mb-2">
                         <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email <span class="text-red-500">*</span></label>
-                        <input type="email" name="test" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
+                        <input type="email" name="email" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
                         @error('email')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
                         @enderror
@@ -405,9 +405,9 @@
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+        if (data.status == 200) {
             // Rediriger ou afficher un message de succès
-            // window.location.href = "{{ route('profile.index') }}";
+            window.location.href = "{{ route('profile.index') }}";
             console.log('Formulaire soumis avec succès');
         } else {
             // Afficher les erreurs

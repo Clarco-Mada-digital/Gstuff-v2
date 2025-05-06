@@ -734,9 +734,19 @@
                                 <span>Origine : {{ $user->origine ?? '-' }} </span>
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
-                                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Langue : {{ $user->langues }}</span>
+                                <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="language icon">
+                                <span>
+                                    Langue :
+                                    @php
+                                        $languesArray = json_decode($user->langues, true);
+                                    @endphp
+                                    {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
+                                    @if($user->langues == null)
+                                    --
+                                 @endif
+                                </span>
                             </div>
+                            
 
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon" srcset="age icon">
@@ -778,7 +788,17 @@
                             </div>
                             <div class="w-full flex items-center gap-3 font-dm-serif">
                                 <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon" srcset="age icon">
-                                <span>Moyen de paiement : {{ $user->paiement }}</span>
+                               
+                                <span>
+                                    Moyen de paiement  :
+                                    @php
+                                        $payementArray = json_decode( $user->paiement, true);
+                                    @endphp
+                                    {{ is_array($payementArray) ? implode(', ', $payementArray) : $user->paiement }}
+                                    @if($user->paiement == null)
+                                    --
+                                 @endif
+                                </span>
                             </div>
 
                         </div>

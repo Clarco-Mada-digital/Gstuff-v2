@@ -398,7 +398,7 @@ public function createEscorteBySalon(Request $request)
         'escorte_id' => $user->id,  // ID de l'utilisateur invité
     ]);
 
-    return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
+    return response()->json(['status' => 200 ]);
 }
 
 
