@@ -162,7 +162,7 @@ Commentaires
                     <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $commentaire->user->email }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex flex-wrap gap-1">
-                            {{ $commentaire->getTranslation('content', session('locale')) ?: 'Traduction non disponible' }}
+                            {{ $commentaire->getTranslation('content', session('locale', 'fr')) ?: 'Traduction non disponible' }}
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">

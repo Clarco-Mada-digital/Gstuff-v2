@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('pageTitle')
-    Admin Panel
+    {{__('admin_panel.admin_panel')}}
 @endsection
 
 @section('content')
@@ -12,17 +12,17 @@
         {{-- @click.away="sidebarOpen = false" --}}
         >
         <div class="flex items-center justify-center h-16 px-4 bg-blue-600 text-white">
-            <span class="text-xl font-bold">Admin Panel</span>
+            <span class="text-xl font-bold">{{__('admin_panel.admin_panel')}}</span>
         </div>
         <nav class="mt-6">
             <template x-for="(item, index) in menuItems" :key="index">
-                <a :href="item.route" 
+                <a :href="item.route"
                     class="flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
                     :class="{ 'bg-blue-50 text-blue-600 border-r-4 border-blue-600': isActive(item.route) }">
                     <span x-text="item.icon" class="mr-3"></span>
                     <span x-text="item.label"></span>
                     <template x-if="item.badge">
-                        <span class="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full" 
+                        <span class="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
                                 x-text="item.badge"></span>
                     </template>
                 </a>
@@ -33,14 +33,13 @@
     <div class="min-h-[80vh] bg-gray-100 md:ml-64">
         @yield('admin-content')
     </div>
-    
+
 </div>
     <!-- Main Content -->
 
 @section('extraScripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
 
 function dashboard() {
     return {
@@ -52,7 +51,7 @@ function dashboard() {
         notifications: [],
         unreadCount: 0,
         sidebarOpen: window.innerWidth >= 768,
-        currentPageTitle: 'Tableau de bord',
+        currentPageTitle: '{{__('admin_panel.dashboard')}}',
         sort: {
             field: 'created_at',
             direction: 'desc'
@@ -67,14 +66,14 @@ function dashboard() {
             avatar: 'https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->pseudo) }}&background=random'
         },
         menuItems: [
-            { label: 'Tableau de bord', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
-            { label: 'Utilisateurs', route: '{{route("users.index")}}', icon: '👥', badge: null },
-            { label: 'Rôles / Permissions', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
-            { label: 'Articles', route: '{{ route("articles.admin") }}', icon: '📝', badge: null },
-            { label: 'Pages', route: '{{ route("static.index") }}', icon: '📄', badge: null },
-            { label: 'Catégories / Tags', route: '{{ route("taxonomy") }}', icon: '🗂️', badge: null },
-            { label: 'Commentaires', route: '{{ route("commentaires.index") }}', icon: '💬', badge: null },
-            { label: 'Paramètres', route: '#', icon: '⚙️', badge: null },
+            { label: '{{__('admin_panel.dashboard')}}', route: '{{ route("profile.index") }}', icon: '🏠', badge: null },
+            { label: '{{__('admin_panel.users')}}', route: '{{route("users.index")}}', icon: '👥', badge: null },
+            { label: '{{__('admin_panel.roles_permissions')}}', route: '{{ route("roles.index") }}', icon: '🔑', badge: null },
+            { label: '{{__('admin_panel.articles')}}', route: '{{ route("articles.admin") }}', icon: '📝', badge: null },
+            { label: '{{__('admin_panel.pages')}}', route: '{{ route("static.index") }}', icon: '📄', badge: null },
+            { label: '{{__('admin_panel.categories_tags')}}', route: '{{ route("taxonomy") }}', icon: '🗂️', badge: null },
+            { label: '{{__('admin_panel.comments')}}', route: '{{ route("commentaires.index") }}', icon: '💬', badge: null },
+            { label: '{{__('admin_panel.settings')}}', route: '#', icon: '⚙️', badge: null },
         ],
         recentActivity:[],
         stats: {
@@ -227,8 +226,8 @@ function dashboard() {
                 const response = await fetch('/admin/unread-comments');
                 const data = await response.json();
                 console.log('data', data);
-                
-                this.updateMenuItemBadge('Commentaires', data.count);
+
+                this.updateMenuItemBadge('{{__('admin_panel.comments')}}', data.count);
             } catch (error) {
                 console.error('Error fetching unread comments count:', error);
             }
@@ -238,7 +237,7 @@ function dashboard() {
             try {
                 const response = await fetch('/admin/new-users-count');
                 const data = await response.json();
-                this.updateMenuItemBadge('Utilisateurs', data.count);
+                this.updateMenuItemBadge('{{__('admin_panel.users')}}', data.count);
             } catch (error) {
                 console.error('Error fetching new users count:', error);
             }
@@ -301,19 +300,21 @@ function dashboard() {
             const now = new Date();
             const seconds = Math.floor((now - date) / 1000);
 
-            if (seconds < 60) return 'à l\'instant';
+            if (seconds < 60) return "{{ __("admin_panel.just_now") }}" ;
 
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return `il y a ${minutes} min`;
+            if (minutes < 60) return ` ${minutes} min`;
 
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `il y a ${hours} h`;
+            if (hours < 24) return ` ${hours} h`;
 
             const days = Math.floor(hours / 24);
-            if (days < 7) return `il y a ${days} j`;
+            if (days < 7) return `${days} j`;
 
             return this.formatDate(dateString);
         },
+
+
 
         // Méthode paginée
         paginatedArticles() {
@@ -328,7 +329,6 @@ function dashboard() {
     }
 };
 
-
 function roleForm() {
     return {
     openModal: false,
@@ -337,7 +337,7 @@ function roleForm() {
         permissions: []
     },
     errors: {}, // Ajoutez ceci pour gérer les erreurs
-    
+
     submitForm() {
         // Formatage pour Laravel
         const formData = {

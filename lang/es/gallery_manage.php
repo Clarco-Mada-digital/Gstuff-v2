@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'gallery_title' => 'Galería',
+    'private' => 'privada',
+    'add' => 'Añadir',
+    'video_limit_warning' => '¡Atención! Solo tienes derecho a 5 videos',
+    'confirm_delete' => '¿Estás seguro de que deseas eliminar este medio? Esta acción es irreversible.',
+    'cancel' => 'Cancelar',
+    'delete' => 'Eliminar',
+    'no_media' => 'No hay medios en la galería',
+    'add_first_media' => 'Añadir tu primer medio',
+    'no_description' => 'Sin descripción',
+    'image' => 'Imagen',
+    'video' => 'Video',
+    'edit_media' => 'Editar el medio',
+    'add_media' => 'Añadir nuevo medio',
+    'title' => 'Título',
+    'description' => 'Descripción',
+    'media' => 'Medios',
+    'drag_drop' => 'Arrastra y suelta tus archivos o haz clic para seleccionar',
+    'supported_formats' => 'Formatos admitidos: JPG, PNG, WEBP, MP4 (máximo 100MB)',
+    'uploading' => 'Subiendo',
+    'make_public' => 'Hacer este medio público',
+    'update' => 'Actualizar',
+    'save' => 'Guardar',
+    'video_not_supported' => 'Tu navegador no soporta videos.',
+];
