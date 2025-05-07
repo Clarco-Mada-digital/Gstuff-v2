@@ -60,11 +60,13 @@ class CommentaireController extends Controller
         // Validation des données
         $validated = $request->validate([
             'content' => 'required|string|max:500',
+            'lang' => 'required|in:fr,en-US,es,de,it' 
         ]);
 
         // Langues cibles pour les traductions
         $locales = ['fr', 'en-US', 'es', 'de', 'it'];
-        $sourceLocale = 'fr'; // Langue source par défaut
+        $sourceLocale = $validated['lang']; // Langue source par défaut
+        // dd($sourceLocale);
 
         // Traduire le contenu dans toutes les langues cibles
         $translatedContent = [];
@@ -89,8 +91,9 @@ class CommentaireController extends Controller
         if ($admin) {
             $admin->notify(new NewCommentNotification($commentaire));
         }
+        return back()->with('success', 'Commentaire envoyé avec succès.');
 
-        return redirect()->route('profile.index')->with('success', 'Commentaire envoyé avec succès.');
+        // return redirect()->route('profile.index')->with('success', 'Commentaire envoyé avec succès.');
     }
 
     public function show($id)

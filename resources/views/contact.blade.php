@@ -159,6 +159,7 @@
             <form id="commentaireForm" method="POST" class="flex flex-col gap-3 w-full hidden" action="{{ route('commentaires.store') }}">
                 @csrf
                 <div class="flex flex-col w-full gap-2">
+                    <input type="hidden" name="lang" value="{{ session('locale', 'fr') }}">
                     <label for="messageCommentaire">{{__('contact.comment')}}</label>
                     <textarea name="content" id="messageCommentaire" rows="10" class="border rounded-lg focus:border-amber-400 ring-0" placeholder="{{__('contact.message_placeholder')}}"></textarea>
                 </div>

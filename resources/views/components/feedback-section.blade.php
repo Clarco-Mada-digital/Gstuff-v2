@@ -8,7 +8,7 @@
                 {{ $currentIndex === $index - 1 ? 'scale-100 translate-x-0 z-20' : '' }}
                 {{ $currentIndex === $index - 2 ? 'scale-75 translate-x-[100%] z-10' : '' }}
                 {{ $currentIndex !== $index && $currentIndex !== $index - 1 && $currentIndex !== $index - 2 ? 'translate-x-0 opacity-0 scale-50' : '' }}">
-                <p class="text-center w-[80%] mx-auto mb-10">  {{ $item->getTranslation('content', session('locale')) ?:  $item->content }}</p>
+                <p class="text-center w-[80%] mx-auto mb-10">  {{ $item->getTranslation('content', session('locale' , 'fr')) ?:  $item->content }}</p>
                 <div class="flex flex-col xl:flex-row items-center w-full justify-center gap-4">
                     <!-- Affichage de l'avatar de l'utilisateur -->
                     <img class="w-12 h-12 rounded-full"
