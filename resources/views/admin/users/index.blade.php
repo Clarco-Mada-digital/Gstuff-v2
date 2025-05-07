@@ -1,32 +1,32 @@
 @extends('layouts.admin')
 
-@section('title', 'Gestion des utilisateurs')
+@section('title', __('user_management.user_management'))
 
 @section('admin-content')
 <div x-data="userManagement()" class="md:py-6 px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Gestion des utilisateurs</h1>
+        <h1 class="text-2xl font-bold text-gray-900">{{__('user_management.user_management')}}</h1>
         <a href="{{ route('users.create') }}" class="btn-gs-gradient rounded-md shadow-md font-bold">
-            <i class="fas fa-plus mr-2"></i> Nouvel utilisateur
+            <i class="fas fa-plus mr-2"></i> {{__('user_management.new_user')}}
         </a>
     </div>
 
     <div class="bg-white shadow rounded-lg overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <div>
-                <h2>Vérification des profils</h2>
+                <h2>{{__('user_management.profile_verification')}}</h2>
             </div>
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    <input x-model="searchNotif" type="text" placeholder="Rechercher..." 
+                    <input x-model="searchNotif" type="text" placeholder="{{__('user_management.search')}}..."
                     class="pl-10 text-sm pr-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
                 <select x-model="statusFilter" class="border text-sm rounded-lg px-3 py-2 w-36 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Tous les status</option>
-                    <option value="verifier">Vérifier</option>
-                    <option value="en cours">En cours</option>
-                    <option value="non verifier">Non vérifier</option>
+                    <option value="">{{__('user_management.all_statuses')}}</option>
+                    <option value="verifier">{{__('user_management.verified')}}</option>
+                    <option value="en cours">{{__('user_management.in_progress')}}</option>
+                    <option value="non verifier">{{__('user_management.not_verified')}}</option>
                 </select>
             </div>
         </div>
@@ -35,18 +35,18 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">profile</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type de profile</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.name')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.email')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.profile')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.profile_type')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.status')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.actions')}}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($demandes as $notification)
                     @if($notification['user'])
-                    <tr x-show="matchesSearchNotification('{{ strtolower($notification['user']->prenom ?? $notification['user']->nom_salon ?? '' ) }}') && matchesStatus('{{ $notification['user']->profile_verifie ?? '' }}') ">
+                    <tr x-show="matchesSearchNotification('{{ strtolower($notification['user']->prenom ?? $notification['user']->nom_salon ?? '') }}') && matchesStatus('{{ $notification['user']->profile_verifie ?? '' }}') ">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
@@ -62,15 +62,15 @@
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
                             @if($notification['user']->profile_verifie === 'verifier')
                             <p class="text-xs text-green-500 p-2 rounded-sm flex items-center">
-                                <i class="fas fa-check-circle text-green-500 mr-2"></i> Vérifié
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> {{__('user_management.verified')}}
                             </p>
                             @elseif($notification['user']->profile_verifie === 'non verifier')
                             <p class="text-xs text-red-500 p-2 rounded-sm flex items-center">
-                                <i class="fas fa-times-circle text-red-500 mr-2"></i> Non Vérifié
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> {{__('user_management.not_verified')}}
                             </p>
                             @elseif($notification['user']->profile_verifie === 'en cours')
-                            <p class="text-xs  p-2 rounded-sm flex items-center text-yellow-500">
-                                <i class="fas fa-hourglass-half text-yellow-500 mr-2"></i> En cours
+                            <p class="text-xs p-2 rounded-sm flex items-center text-yellow-500">
+                                <i class="fas fa-hourglass-half text-yellow-500 mr-2"></i> {{__('user_management.in_progress')}}
                             </p>
                             @endif
                         </td>
@@ -79,30 +79,30 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex flex-wrap gap-1">
                                 <p class="text-xs text-gray-400">
-                                    Envoyé : {{ $notification['created_at'] }}
+                                    {{__('user_management.sent')}} : {{ $notification['created_at'] }}
                                 </p>
                                 @if ($notification['read_at'])
-                                <p class="text-xs text-green-500">Lu : {{ $notification['read_at'] }}</p>
+                                <p class="text-xs text-green-500">{{__('user_management.read')}} : {{ $notification['read_at'] }}</p>
                                 @else
-                                <p class="text-xs text-red-500">Non lu</p>
+                                <p class="text-xs text-red-500">{{__('user_management.not_read')}}</p>
                                 @endif
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium">
-                            <a href="{{route('users.demande', $notification['user']->id) }}" class="text-blue-600 hover:text-blue-900 mr-3">
+                            <a href="{{ route('users.demande', $notification['user']->id) }}" class="text-blue-600 hover:text-blue-900 mr-3">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <form id="delete-form-{{  $notification['user']->id }}" action="{{ route('notifications.destroy',  $notification['user']->id) }}" method="POST" class="inline">
+                            <form id="delete-form-{{ $notification['user']->id }}" action="{{ route('notifications.destroy', $notification['user']->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{  $notification['user']->id , 'notif' }})">
+                                <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{ $notification['user']->id, 'notif' }})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
                     @else
-                        
+
                     @endif
                     @endforeach
                 </tbody>
@@ -118,16 +118,16 @@
 
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <div>
-                <h2>Liste des utilisateurs</h2>
+                <h2>{{__('user_management.user_list')}}</h2>
             </div>
             <div class="flex items-center space-x-4">
 
                 <div class="relative">
-                    <input x-model="search" type="text" placeholder="Rechercher..." class="pl-10 pr-4 py-2 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <input x-model="search" type="text" placeholder="{{__('user_management.search')}}..." class="pl-10 pr-4 py-2 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500">
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
                 <select x-model="roleFilter" class="border rounded-lg px-3 py-2 w-36 text-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Tous les rôles</option>
+                    <option value="">{{__('user_management.all_roles')}}</option>
                     @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                     @endforeach
@@ -139,11 +139,11 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type de profile</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôles</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.name')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.email')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.profile_type')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.roles')}}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{__('user_management.actions')}}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -164,8 +164,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex flex-wrap gap-1">
                                 @foreach($user->roles as $role)
-                                <span class="px-2 py-1 text-sm rounded-full 
-                                      bg-{{ $role->color }}-100 text-{{ $role->color }}-800">
+                                <span class="px-2 py-1 text-sm rounded-full bg-{{ $role->color }}-100 text-{{ $role->color }}-800">
                                     {{ $role->name }}
                                 </span>
                                 @endforeach
@@ -178,7 +177,7 @@
                             <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{ $user->id , 'user' }})">
+                                <button type="button" class="text-red-600 hover:text-red-900" onclick="confirmDelete({{ $user->id, 'user' }})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -203,43 +202,38 @@
             searchNotif: '',
             roleFilter: '',
             statusFilter: '',
-
             matchesSearch(userName) {
                 return userName.includes(this.search.toLowerCase());
-            }
-            , matchesSearchNotification(userName) {
+            },
+            matchesSearchNotification(userName) {
                 return userName.includes(this.searchNotif.toLowerCase());
             },
-
             matchesRole(userRoles) {
-                
                 if (!this.roleFilter) return true;
                 return userRoles.includes(parseInt(this.roleFilter));
+            },
+            matchesStatus(userStatus) {
+                if (!this.statusFilter || this.statusFilter === "") return true;
+                return userStatus === this.statusFilter;
             }
-            , matchesStatus(userStatus) {
-                if (!this.statusFilter || this.statusFilter === "") return true; 
-                return userStatus === this.statusFilter; 
-            }
-
         }
     }
 
     function confirmDelete(userId, type) {
         Swal.fire({
-            title: type === 'user' ? ' Êtes-vous sûr de vouloir supprimer cet utilisateur ?' : ' Êtes-vous sûr de vouloir supprimer cette demande ?'
-            , text: "Cette action est irréversible !"
-            , icon: 'warning'
-            , showCancelButton: true
-            , confirmButtonColor: '#3085d6'
-            , cancelButtonColor: '#d33'
-            , confirmButtonText: 'Oui, supprimer'
-            , cancelButtonText: 'Annuler'
+            title: type === 'user' ? __('user_management.confirm_delete_user') : __('user_management.confirm_delete_notification'),
+            text: __('user_management.irreversible_action'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: __('user_management.confirm_delete'),
+            cancelButtonText: __('user_management.cancel')
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById(`delete-form-${userId}`).submit();
             }
         });
     }
-
 </script>
 @endsection

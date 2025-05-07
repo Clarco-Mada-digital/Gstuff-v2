@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'gallery_title' => 'Gallery',
+    'private' => 'private',
+    'add' => 'Add',
+    'video_limit_warning' => 'Warning! You are only allowed 5 videos',
+    'confirm_delete' => 'Are you sure you want to delete this media? This action is irreversible.',
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
+    'no_media' => 'No media in the gallery',
+    'add_first_media' => 'Add your first media',
+    'no_description' => 'No description',
+    'image' => 'Image',
+    'video' => 'Video',
+    'edit_media' => 'Edit Media',
+    'add_media' => 'Add New Media',
+    'title' => 'Title',
+    'description' => 'Description',
+    'media' => 'Media',
+    'drag_drop' => 'Drag and drop your files or click to select',
+    'supported_formats' => 'Supported formats: JPG, PNG, WEBP, MP4 (max 100MB)',
+    'uploading' => 'Uploading',
+    'make_public' => 'Make this media public',
+    'update' => 'Update',
+    'save' => 'Save',
+    'video_not_supported' => 'Your browser does not support videos.',
+];

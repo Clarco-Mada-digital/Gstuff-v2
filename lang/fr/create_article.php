@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'new_glossary' => 'Nouveau glossaire',
+    'create_new_article' => 'Créer un nouvel article',
+    'title' => 'Titre',
+    'slug' => 'Slug',
+    'url_friendly_version' => 'Version URL-friendly du titre',
+    'excerpt' => 'Extrait',
+    'content' => 'Contenu',
+    'category' => 'Catégorie',
+    'select_category' => 'Sélectionnez une catégorie',
+    'tags' => 'Tags',
+    'search_or_add_tags' => 'Rechercher ou ajouter des tags',
+    'exists' => 'Existe',
+    'tag_does_not_exist' => 'Le tag n\'existe pas.',
+    'create_tag' => 'Créer ce tag',
+    'publish_article' => 'Publier cet article',
+    'publication_date' => 'Date de publication',
+    'create_article' => 'Créer l\'article',
+    'create_new_tag' => 'Créer un nouveau tag',
+    'tag_name' => 'Nom du tag',
+    'cancel' => 'Annuler',
+    'oops' => 'Oops',
+];
