@@ -13,7 +13,7 @@
             </g>
         </svg>
         Fr
-        @elseif(session('locale') == 'en')
+        @elseif(session('locale') == 'en-US')
         <svg aria-hidden="true" class="w-5 h-5 rounded-full me-3" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-us" viewBox="0 0 512 512">
             <g fill-rule="evenodd">
                 <g stroke-width="1pt">
@@ -115,7 +115,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('lang.switch', 'en') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+            <a href="{{ route('lang.switch', 'en-US') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
                 <div class="inline-flex items-center">
                     <svg aria-hidden="true" class="h-3.5 w-3.5 rounded-full me-2" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-us" viewBox="0 0 512 512">
                         <g fill-rule="evenodd">
