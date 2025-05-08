@@ -3,7 +3,7 @@
     <div class="w-1/4 border-r bg-white flex flex-col">
         <!-- Header -->
         <div class="p-4 border-b">
-            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
+            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}qqqqqqqqqqqq</h1>
             <div class="relative mt-3">
                 <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                     placeholder="{{ __('messenger.search_placeholder') }}"

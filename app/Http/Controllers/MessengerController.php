@@ -188,92 +188,92 @@ class MessengerController extends Controller
         return response()->json($response);
     }
 
-    // fetch contacts from database
-    function fetchContacts(Request $request)
-    {
-        $users = Message::join('users', function($join) {
-           $join->on('messages.from_id', '=', 'users.id')
-            ->orOn('messages.to_id', '=', 'users.id');
-        })
-        ->where(function($q) {
-            $q->where('messages.from_id', Auth::user()->id)
-            ->orWhere('messages.to_id', Auth::user()->id);
-        })
-        ->where('users.id', '!=', Auth::user()->id)
-        ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-        ->orderBy('max_created_at', 'desc')
-        ->groupBy('users.id', 
-        'users.pseudo', 
-        'users.prenom', 
-        'users.nom_salon', 
-        'users.email', 
-        'users.profile_type', 
-        'users.avatar', 
-        'users.date_naissance', 
-        'users.genre', 
-        'users.intitule', 
-        'users.nom_proprietaire', 
-        'users.telephone',
-        'users.adresse',
-        'users.npa',
-        'users.canton',
-        'users.ville',
-        'users.categorie',
-        'users.service',
-        'users.recrutement',
-        'users.nombre_filles',
-        'users.pratique_sexuelles',
-        'users.oriantation_sexuelles',
-        'users.tailles',
-        'users.origine',
-        'users.couleur_yeux',
-        'users.couleur_cheveux',
-        'users.mensuration',
-        'users.poitrine',
-        'users.taille_poitrine',
-        'users.pubis',
-        'users.tatouages',
-        'users.mobilite',
-        'users.tarif',
-        'users.paiement',
-        'users.langues',
-        'users.apropos',
-        'users.autre_contact',
-        'users.complement_adresse',
-        'users.lien_site_web',
-        'users.localisation',
-        'users.email_verified_at',
-        'users.password',
-        'users.lat',
-        'users.lon',
-        'users.couverture_image',
-        'users.remember_token', 
-        'users.created_at', 
-        'users.profile_verifie',
-        'users.image_verification',
-        'users.updated_at',
-        'users.visibility',
-        'users.visible_countries',
-        'users.last_seen_at',        
-        'users.createbysalon')
-        ->paginate(10);
+   // fetch contacts from database
+   function fetchContacts(Request $request)
+   {
+       $users = Message::join('users', function($join) {
+          $join->on('messages.from_id', '=', 'users.id')
+           ->orOn('messages.to_id', '=', 'users.id');
+       })
+       ->where(function($q) {
+           $q->where('messages.from_id', Auth::user()->id)
+           ->orWhere('messages.to_id', Auth::user()->id);
+       })
+       ->where('users.id', '!=', Auth::user()->id)
+       ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+       ->orderBy('max_created_at', 'desc')
+       ->groupBy('users.id', 
+       'users.pseudo', 
+       'users.prenom', 
+       'users.nom_salon', 
+       'users.email', 
+       'users.profile_type', 
+       'users.avatar', 
+       'users.date_naissance', 
+       'users.genre', 
+       'users.intitule', 
+       'users.nom_proprietaire', 
+       'users.telephone',
+       'users.adresse',
+       'users.npa',
+       'users.canton',
+       'users.ville',
+       'users.categorie',
+       'users.service',
+       'users.recrutement',
+       'users.nombre_filles',
+       'users.pratique_sexuelles',
+       'users.oriantation_sexuelles',
+       'users.tailles',
+       'users.origine',
+       'users.couleur_yeux',
+       'users.couleur_cheveux',
+       'users.mensuration',
+       'users.poitrine',
+       'users.taille_poitrine',
+       'users.pubis',
+       'users.tatouages',
+       'users.mobilite',
+       'users.tarif',
+       'users.paiement',
+       'users.langues',
+       'users.apropos',
+       'users.autre_contact',
+       'users.complement_adresse',
+       'users.lien_site_web',
+       'users.localisation',
+       'users.email_verified_at',
+       'users.password',
+       'users.lat',
+       'users.lon',
+       'users.couverture_image',
+       'users.remember_token', 
+       'users.created_at', 
+       'users.profile_verifie',
+       'users.image_verification',
+       'users.updated_at',
+       'users.visibility',
+       'users.visible_countries',
+       'users.last_seen_at',        
+       'users.createbysalon')
+       ->paginate(10);
 
-        if(count($users) > 0) {
-            $contacts = '';
-            foreach($users as $user) {
-                $contacts .= $this->getContactItem($user);
-            }
+       if(count($users) > 0) {
+           $contacts = '';
+           foreach($users as $user) {
+               $contacts .= $this->getContactItem($user);
+           }
 
-        }else {
-            $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
-        }
+       }else {
+           $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+       }
 
-        return response()->json([
-            'contacts' => $contacts,
-            'last_page' => $users->lastPage()
-        ]);
+       return response()->json([
+           'contacts' => $contacts,
+           'last_page' => $users->lastPage()
+       ]);
 
-    }
+   }
 
     function getContactItem($user) 
     {
