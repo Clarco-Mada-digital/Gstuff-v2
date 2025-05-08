@@ -1,16 +1,15 @@
-<!-- resources/views/admin/taxonomy/index.blade.php -->
 @extends('layouts.admin')
 
 @section('admin-content')
     <div x-data="{...taxonomyManager(), showDeleteModal: false, itemToDelete: null, deleteType: null}" x-init="init()" class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Gestion des Taxonomies</h1>
+            <h1 class="text-2xl font-bold">{{ __('taxonomy.taxonomy_management') }}</h1>
             <div class="flex space-x-3">
                 <button @click="openModal('category')" class="btn-gs-gradient rounded-md">
-                    + Nouvelle Catégorie
+                    {{ __('taxonomy.new_category') }}
                 </button>
                 <button @click="openModal('tag')" class="btn-gs-gradient rounded-md">
-                    + Nouveau Tag
+                    {{ __('taxonomy.new_tag') }}
                 </button>
             </div>
         </div>
@@ -18,15 +17,15 @@
         <!-- Tabs Navigation -->
         <div class="border-b border-gray-200 mb-6">
             <nav class="-mb-px flex space-x-8">
-                <button @click="activeTab = 'categories'" 
+                <button @click="activeTab = 'categories'"
                         :class="activeTab === 'categories' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                         class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    Catégories
+                    {{ __('taxonomy.categories') }}
                 </button>
-                <button @click="activeTab = 'tags'" 
+                <button @click="activeTab = 'tags'"
                         :class="activeTab === 'tags' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                         class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    Tags
+                    {{ __('taxonomy.tags') }}
                 </button>
             </nav>
         </div>
@@ -36,9 +35,9 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Articles</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.name') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.articles') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -49,19 +48,19 @@
                                 <div class="text-sm text-gray-500" x-text="category.slug"></div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800" 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
                                     x-text="category.articles_count"></span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button @click="editItem('category', category)" class="text-indigo-600 hover:text-indigo-900 mr-3">Éditer</button>
-                                <button @click="deleteItem('category', category.id)" class="text-red-600 hover:text-red-900">Supprimer</button>
+                                <button @click="editItem('category', category)" class="text-indigo-600 hover:text-indigo-900 mr-3">{{ __('taxonomy.edit') }}</button>
+                                <button @click="deleteItem('category', category.id)" class="text-red-600 hover:text-red-900">{{ __('taxonomy.delete') }}</button>
                             </td>
                         </tr>
                     </template>
                 </tbody>
             </table>
             <div class="px-6 py-4 border-t border-gray-200" x-show="categories.length === 0">
-                <p class="text-gray-500 text-center">Aucune catégorie trouvée</p>
+                <p class="text-gray-500 text-center">{{ __('taxonomy.no_categories_found') }}</p>
             </div>
         </div>
 
@@ -70,9 +69,9 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Articles</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.name') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.articles') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('taxonomy.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -83,19 +82,19 @@
                                 <div class="text-sm text-gray-500" x-text="tag.slug"></div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800" 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
                                     x-text="tag.articles_count"></span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button @click="editItem('tag', tag)" class="text-indigo-600 hover:text-indigo-900 mr-3">Éditer</button>
-                                <button @click="deleteItem('tag', tag.id)" class="text-red-600 hover:text-red-900">Supprimer</button>
+                                <button @click="editItem('tag', tag)" class="text-indigo-600 hover:text-indigo-900 mr-3">{{ __('taxonomy.edit') }}</button>
+                                <button @click="deleteItem('tag', tag.id)" class="text-red-600 hover:text-red-900">{{ __('taxonomy.delete') }}</button>
                             </td>
                         </tr>
                     </template>
                 </tbody>
             </table>
             <div class="px-6 py-4 border-t border-gray-200" x-show="tags.length === 0">
-                <p class="text-gray-500 text-center">Aucun tag trouvé</p>
+                <p class="text-gray-500 text-center">{{ __('taxonomy.no_tags_found') }}</p>
             </div>
         </div>
 
@@ -110,18 +109,18 @@
                     class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
-                            Confirmer la suppression
+                            {{ __('taxonomy.confirm_delete') }}
                         </h3>
                         <p class="text-gray-600">
-                            Êtes-vous sûr de vouloir supprimer <span x-text="deleteType === 'category' ? 'cette catégorie' : 'ce tag'"></span> ? Cette action est irréversible.
+                            {{ __('taxonomy.confirm_delete_message') }} <span x-text="deleteType === 'category' ? '{{ __('taxonomy.category') }}' : '{{ __('taxonomy.tag') }}'"></span> {{ __('taxonomy.irreversible_action') }}
                         </p>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button type="button" @click="confirmDelete" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                            Supprimer
+                            {{ __('taxonomy.delete_button') }}
                         </button>
                         <button type="button" @click="showDeleteModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            Annuler
+                            {{ __('taxonomy.cancel_button') }}
                         </button>
                     </div>
                 </div>
@@ -146,17 +145,17 @@
                     }">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" x-text="modalTitle"></h3>
-                        
+
                         <form @submit.prevent="submitForm">
                             <!-- Category specific fields -->
                             <div x-show="modalType === 'category'">
                                 <div class="mb-4">
-                                    <label for="category_name" class="block text-sm font-medium text-gray-700">Nom</label>
+                                    <label for="category_name" class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
                                     <input type="text" id="category_name" x-model="formData.name" required
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 </div>
                                 <div class="mb-4">
-                                    <label for="category_description" class="block text-sm font-medium text-gray-700">Description</label>
+                                    <label for="category_description" class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_description') }}</label>
                                     <textarea id="category_description" x-model="formData.description" rows="3"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
                                 </div>
@@ -165,7 +164,7 @@
                             <!-- Tag specific fields -->
                             <div x-show="modalType === 'tag'">
                                 <div class="mb-4">
-                                    <label for="tag_name" class="block text-sm font-medium text-gray-700">Nom</label>
+                                    <label for="tag_name" class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
                                     <input type="text" id="tag_name" x-model="formData.name" required
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 </div>
@@ -174,10 +173,10 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button type="button" @click="submitForm" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                            Enregistrer
+                            {{ __('taxonomy.save_button') }}
                         </button>
                         <button type="button" @click="closeModal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            Annuler
+                            {{ __('taxonomy.cancel_button') }}
                         </button>
                     </div>
                 </div>
@@ -215,23 +214,23 @@
                 this.modalType = type;
                 this.isEditing = item !== null;
                 this.currentId = item?.id || null;
-                
+
                 if (this.isEditing) {
-                    this.modalTitle = `Modifier ${type === 'category' ? 'la catégorie' : 'le tag'}`;
+                    this.modalTitle = `${this.modalType === 'category' ? '{{ __('taxonomy.edit_category') }}' : '{{ __('taxonomy.edit_tag') }}'}`;
                     this.formData = {
                         name: item.name,
                         description: item.description || '',
                         is_active: item.is_active || true
                     };
                 } else {
-                    this.modalTitle = `Créer ${type === 'category' ? 'une catégorie' : 'un tag'}`;
+                    this.modalTitle = `${this.modalType === 'category' ? '{{ __('taxonomy.create_category') }}' : '{{ __('taxonomy.create_tag') }}'}`;
                     this.formData = {
                         name: '',
                         description: '',
                         is_active: true
                     };
                 }
-                
+
                 this.isModalOpen = true;
             },
 
@@ -251,12 +250,12 @@
             },
 
             async submitForm() {
-                const url = this.modalType === 'category' 
-                    ? (this.isEditing 
-                        ? `/admin/categories/${this.currentId}` 
+                const url = this.modalType === 'category'
+                    ? (this.isEditing
+                        ? `/admin/categories/${this.currentId}`
                         : '/admin/categories')
-                    : (this.isEditing 
-                        ? `/admin/tags/${this.currentId}` 
+                    : (this.isEditing
+                        ? `/admin/tags/${this.currentId}`
                         : '/admin/tags');
 
                 const method = this.isEditing ? 'PUT' : 'POST';
@@ -289,8 +288,8 @@
             async deleteItem(type, id) {
                 if (!confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) return;
 
-                const url = type === 'category' 
-                    ? `/admin/categories/${id}` 
+                const url = type === 'category'
+                    ? `/admin/categories/${id}`
                     : `/admin/tags/${id}`;
 
                 try {
@@ -352,15 +351,15 @@
                 this.itemToDelete = id;
                 this.showDeleteModal = true;
             },
-            
+
             async confirmDelete() {
                 this.showDeleteModal = false;
                 const type = this.deleteType;
                 const id = this.itemToDelete;
-                
+
                 try {
-                    const url = type === 'category' 
-                        ? `/admin/categories/${id}` 
+                    const url = type === 'category'
+                        ? `/admin/categories/${id}`
                         : `/admin/tags/${id}`;
 
                     const response = await fetch(url, {

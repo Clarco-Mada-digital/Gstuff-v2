@@ -3,10 +3,10 @@
     <div class="w-1/4 border-r bg-white flex flex-col">
         <!-- Header -->
         <div class="p-4 border-b">
-            <h1 class="text-xl font-bold text-gray-800">Messagerie</h1>
+            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
             <div class="relative mt-3">
                 <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
-                    placeholder="Rechercher..."
+                    placeholder="{{ __('messenger.search_placeholder') }}"
                     class="w-full p-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
             </div>
@@ -14,7 +14,7 @@
 
         <!-- Favoris -->
         <div class="p-4 border-b">
-            <h2 class="font-semibold text-gray-700 mb-2">Favoris</h2>
+            <h2 class="font-semibold text-gray-700 mb-2">{{ __('messenger.favorites') }}</h2>
             <div class="flex space-x-2 overflow-x-auto pb-2">
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
@@ -67,7 +67,7 @@
                         }"></i>
                 </button>
                 <button @click="toggleInfoPanel()" class="p-2 text-gray-500 hover:text-blue-500 cursor-pointer"
-                    aria-label="Afficher les informations">
+                    aria-label="{{ __('messenger.user_info_panel') }}">
                     <i class="fas fa-info-circle"></i>
                 </button>
             </div>
@@ -82,7 +82,7 @@
             <div class="p-6">
                 <!-- Bouton de fermeture -->
                 <button @click="showInfoPanel = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-                    aria-label="Fermer le panneau">
+                    aria-label="{{ __('messenger.close_panel') }}">
                     <i class="fas fa-times"></i>
                 </button>
 
@@ -102,24 +102,24 @@
                 <div class="mb-6">
                     <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
                         <i class="fas fa-chart-bar mr-2 text-blue-500"></i>
-                        Statistiques de la conversation
+                        {{ __('messenger.conversation_stats') }}
                     </h4>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-blue-50 p-3 rounded-lg text-center">
                             <div class="text-blue-600 font-bold text-xl" x-text="messageCount"></div>
-                            <div class="text-xs text-gray-600">Messages</div>
+                            <div class="text-xs text-gray-600">{{ __('messenger.messages') }}</div>
                         </div>
                         <div class="bg-purple-50 p-3 rounded-lg text-center">
                             <div class="text-purple-600 font-bold text-xl" x-text="mediaCount"></div>
-                            <div class="text-xs text-gray-600">Médias</div>
+                            <div class="text-xs text-gray-600">{{ __('messenger.media') }}</div>
                         </div>
                         <div class="bg-green-50 p-3 rounded-lg text-center">
                             <div class="text-green-600 font-bold text-xl" x-text="sharedLinksCount"></div>
-                            <div class="text-xs text-gray-600">Liens</div>
+                            <div class="text-xs text-gray-600">{{ __('messenger.links') }}</div>
                         </div>
                         <div class="bg-yellow-50 p-3 rounded-lg text-center">
                             <div class="text-yellow-600 font-bold text-xl" x-text="currentChatUser.last_seen"></div>
-                            <div class="text-xs text-gray-600">Dernière activité</div>
+                            <div class="text-xs text-gray-600">{{ __('messenger.last_activity') }}</div>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                 <div class="mb-6" x-show="mediaCount > 0">
                     <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
                         <i class="fas fa-images mr-2 text-blue-500"></i>
-                        Médias partagés
+                        {{ __('messenger.shared_media') }}
                     </h4>
                     <div class="grid grid-cols-3 gap-2 info_gallery">
 
@@ -139,7 +139,7 @@
                 <div x-show="sharedLinksCount > 0">
                     <h4 class="font-semibold text-gray-700 mb-3 flex items-center">
                         <i class="fas fa-link mr-2 text-blue-500"></i>
-                        Liens partagés
+                        {{ __('messenger.shared_links') }}
                     </h4>
                     <div class="space-y-2">
                         <template
@@ -196,7 +196,7 @@
 
                 <!-- Champ de message -->
                 <div class="relative flex-1">
-                    <textarea x-model="newMessage" rows="1" placeholder="Tapez un message..."
+                    <textarea x-model="newMessage" rows="1" placeholder="{{ __('messenger.type_message') }}"
                         class="w-full p-3 pr-10 rounded-full border border-gray-300 focus:outline-none resize-none overflow-hidden"
                         @input="autoResize($el)"></textarea>
 
@@ -238,9 +238,8 @@
                 <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-comments text-gray-400 text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Pas de conversation sélectionnée</h3>
-                <p class="text-gray-500">Sélectionnez une conversation ou recherchez un contact pour commencer à
-                    discuter</p>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">{{ __('messenger.no_conversation') }}</h3>
+                <p class="text-gray-500">{{ __('messenger.select_conversation') }}</p>
             </div>
         </div>
     </div>

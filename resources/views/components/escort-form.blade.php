@@ -3,7 +3,7 @@
 <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[90vh] md:w-[85vw] xl:w-[80vw] mx-12 overflow-y-auto">
     <div class="w-full py-3 px-2 flex flex-col items-center justify-center">
         <div class="mb-3">
-            <h2 class="font-dm-serif text-2xl font-bold text-center">Créer un nouvel escorte</h2>
+            <h2 class="font-dm-serif text-2xl font-bold text-center">{{ __('profile.create_new_escort') }}</h2>
         </div>
 
         <form id="createEscorteForm" class="w-full mx-auto flex flex-col">
@@ -14,23 +14,23 @@
                 <div class="w-full md:grid md:grid-cols-2 md:gap-4 xl:grid-cols-4">
                     <!-- Champs du formulaire -->
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('prenom') text-red-700 dark:text-red-500 @enderror">Prénom <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 @error('prenom') text-red-700 dark:text-red-500 @enderror">{{ __('profile.first_name') }} <span class="text-red-500">*</span></label>
                         <input type="text" name="prenom" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('prenom') border-red-500 @enderror" placeholder=" " value="{{ old('prenom') }}" autocomplete="prenom" required />
                         @error('prenom')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">Email <span class="text-red-500">*</span></label>
+                        <label for="floating_email" class="block text-sm font-medium text-gray-700 @error('email') text-red-700 dark:text-red-500 @enderror">{{ __('profile.email') }} <span class="text-red-500">*</span></label>
                         <input type="email" name="email" id="floating_email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('email') border-red-500 @enderror" placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
                         @error('email')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('genre') text-red-700 dark:text-red-500 @enderror">Genre <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 @error('genre') text-red-700 dark:text-red-500 @enderror">{{ __('profile.gender') }} <span class="text-red-500">*</span></label>
                         <select name="genre" id="floating_intitule" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('genre') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($genres as $genre)
@@ -38,42 +38,41 @@
                             @endforeach
                         </select>
                         @error('genre')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label for="floating_date_naissance" class="block text-sm font-medium text-gray-700 @error('date_naissance') text-red-700 dark:text-red-500 @enderror">Date anniversaire <span class="text-red-500">*</span></label>
+                        <label for="floating_date_naissance" class="block text-sm font-medium text-gray-700 @error('date_naissance') text-red-700 dark:text-red-500 @enderror">{{ __('profile.birth_date') }} <span class="text-red-500">*</span></label>
                         <input type="date" name="date_naissance" id="floating_date_naissance" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('date_naissance') border-red-500 @enderror" placeholder=" " value="{{ old('date_naissance') }}" autocomplete="date_naissance" required />
                         @error('date_naissance')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('telephone') text-red-700 dark:text-red-500 @enderror">Numéro téléphone</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('telephone') text-red-700 dark:text-red-500 @enderror">{{ __('profile.phone_number') }}</label>
                         <input type="text" id="phone_input" name="telephone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('telephone') border-red-500 @enderror" value="{{ old('telephone') }}">
-
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('adresse') text-red-700 dark:text-red-500 @enderror">Adresse</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('adresse') text-red-700 dark:text-red-500 @enderror">{{ __('profile.address') }}</label>
                         <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('adresse') border-red-500 @enderror" value="{{ old('adresse') }}">
                         @error('adresse')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('npa') text-red-700 dark:text-red-500 @enderror">NPA</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('npa') text-red-700 dark:text-red-500 @enderror">{{ __('profile.zip_code') }}</label>
                         <input type="text" name="npa" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('npa') border-red-500 @enderror" value="{{ old('npa') }}">
                         @error('npa')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('canton') text-red-700 dark:text-red-500 @enderror">Canton</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('canton') text-red-700 dark:text-red-500 @enderror">{{ __('profile.canton') }}</label>
                         <select name="canton" id="cantonselect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('canton') border-red-500 @enderror" onchange="filterVilles()">
                             <option hidden value=""> -- </option>
                             @foreach ($cantons as $canton)
@@ -81,22 +80,22 @@
                             @endforeach
                         </select>
                         @error('canton')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('ville') text-red-700 dark:text-red-500 @enderror">Ville</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('ville') text-red-700 dark:text-red-500 @enderror">{{ __('profile.city') }}</label>
                         <select name="ville" id="villeselect" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('ville') border-red-500 @enderror" onchange="localStorage.setItem('villeNom', this.options[this.selectedIndex].text);">
                             <option hidden value=""> -- </option>
                         </select>
                         @error('ville')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('categorie') text-red-700 dark:text-red-500 @enderror">Catégories</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('categorie') text-red-700 dark:text-red-500 @enderror">{{ __('profile.category') }}</label>
                         <select name="categorie" id="escort_categorie" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('categorie') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($escortCategories as $categorie)
@@ -104,12 +103,12 @@
                             @endforeach
                         </select>
                         @error('categorie')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('pratique_sexuelles') text-red-700 dark:text-red-500 @enderror">Pratique sexuels</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('pratique_sexuelles') text-red-700 dark:text-red-500 @enderror">{{ __('profile.sexual_practices') }}</label>
                         <select name="pratique_sexuelles" id="pratique_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('pratique_sexuelles') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($pratiquesSexuelles as $pratique)
@@ -117,12 +116,12 @@
                             @endforeach
                         </select>
                         @error('pratique_sexuelles')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('oriantation_sexuelles') text-red-700 dark:text-red-500 @enderror">Orientation sexuels</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('oriantation_sexuelles') text-red-700 dark:text-red-500 @enderror">{{ __('profile.sexual_orientation') }}</label>
                         <select name="oriantation_sexuelles" id="oriantation_sexuelles" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('oriantation_sexuelles') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($orientationSexuelles as $oriantation)
@@ -130,21 +129,20 @@
                             @endforeach
                         </select>
                         @error('oriantation_sexuelles')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
-                
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('tailles') text-red-700 dark:text-red-500 @enderror">Tailles en cm</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('tailles') text-red-700 dark:text-red-500 @enderror">{{ __('profile.height') }}</label>
                         <input class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('tailles') border-red-500 @enderror" type="number" name="tailles" id="taille" placeholder="taille en cm" value="{{ old('tailles') }}">
                         @error('tailles')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('pubis') text-red-700 dark:text-red-500 @enderror">Poils du pubis</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('pubis') text-red-700 dark:text-red-500 @enderror">{{ __('profile.pubic_hair') }}</label>
                         <select id="pubis" name="pubis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('pubis') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($pubis as $pubi)
@@ -152,12 +150,12 @@
                             @endforeach
                         </select>
                         @error('pubis')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('origine') text-red-700 dark:text-red-500 @enderror">Origine</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('origine') text-red-700 dark:text-red-500 @enderror">{{ __('profile.origin') }}</label>
                         <select name="origine" id="origine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('origine') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($origines as $origine)
@@ -165,12 +163,12 @@
                             @endforeach
                         </select>
                         @error('origine')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('couleur_yeux') text-red-700 dark:text-red-500 @enderror">Couleur des yeux</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('couleur_yeux') text-red-700 dark:text-red-500 @enderror">{{ __('profile.eye_color') }}</label>
                         <select name="couleur_yeux" id="couleur_yeux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('couleur_yeux') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursYeux as $yeux)
@@ -178,12 +176,12 @@
                             @endforeach
                         </select>
                         @error('couleur_yeux')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('couleur_cheveux') text-red-700 dark:text-red-500 @enderror">Couleur des cheveux</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('couleur_cheveux') text-red-700 dark:text-red-500 @enderror">{{ __('profile.hair_color') }}</label>
                         <select name="couleur_cheveux" id="couleur_cheveux" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('couleur_cheveux') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursCheveux as $cheveux)
@@ -191,12 +189,12 @@
                             @endforeach
                         </select>
                         @error('couleur_cheveux')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('mensuration') text-red-700 dark:text-red-500 @enderror">Mensuration</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('mensuration') text-red-700 dark:text-red-500 @enderror">{{ __('profile.measurements') }}</label>
                         <select name="mensuration" id="mensuration" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('mensuration') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($mensurations as $mensuration)
@@ -204,12 +202,12 @@
                             @endforeach
                         </select>
                         @error('mensuration')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('poitrine') text-red-700 dark:text-red-500 @enderror">Poitrine</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('poitrine') text-red-700 dark:text-red-500 @enderror">{{ __('profile.bust') }}</label>
                         <select name="poitrine" id="poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('poitrine') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($poitrines as $poitrine)
@@ -217,12 +215,12 @@
                             @endforeach
                         </select>
                         @error('poitrine')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('taille_poitrine') text-red-700 dark:text-red-500 @enderror">Taille de poitrine</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('taille_poitrine') text-red-700 dark:text-red-500 @enderror">{{ __('profile.bust_size') }}</label>
                         <select id="taille_poitrine" name="taille_poitrine" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('taille_poitrine') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($taillesPoitrine as $taillePoitrine)
@@ -230,12 +228,12 @@
                             @endforeach
                         </select>
                         @error('taille_poitrine')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('tatouages') text-red-700 dark:text-red-500 @enderror">Tatouages</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('tatouages') text-red-700 dark:text-red-500 @enderror">{{ __('profile.tattoos') }}</label>
                         <select id="tatouages" name="tatouages" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('tatouages') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($tatouages as $tatou)
@@ -243,12 +241,12 @@
                             @endforeach
                         </select>
                         @error('tatouages')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('mobilite') text-red-700 dark:text-red-500 @enderror">Mobilité</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('mobilite') text-red-700 dark:text-red-500 @enderror">{{ __('profile.mobility') }}</label>
                         <select id="mobilete" name="mobilite" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('mobilite') border-red-500 @enderror">
                             <option hidden value=""> -- </option>
                             @foreach ($mobilites as $mobilite)
@@ -256,13 +254,12 @@
                             @endforeach
                         </select>
                         @error('mobilite')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
-                 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('tarif') text-red-700 dark:text-red-500 @enderror">Tarif</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('tarif') text-red-700 dark:text-red-500 @enderror">{{ __('profile.rate') }}</label>
                         <select id="tarif" name="tarif" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 @error('tarif') border-red-500 @enderror">
                             <option hidden> -- </option>
                             @foreach ($tarifs as $tarif)
@@ -270,49 +267,45 @@
                             @endforeach
                         </select>
                         @error('tarif')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('paiement') text-red-700 dark:text-red-500 @enderror">Moyen de paiement</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('paiement') text-red-700 dark:text-red-500 @enderror">{{ __('profile.payment_method') }}</label>
                         <x-select_multiple name="paiement" :options="$paiements" :value="old('paiement', [])" label="Paiment" />
                         @error('paiement')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
-
-                 
                 </div>
                 <div class="w-full md:grid md:grid-cols-2 md:gap-4">
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('service') text-red-700 dark:text-red-500 @enderror">Services</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('service') text-red-700 dark:text-red-500 @enderror">{{ __('profile.services') }}</label>
                         <x-select_object_multiple name="service" :options="$services" :value="old('service', [])" label="Mes services" />
                         @error('service')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
-
 
                     <div class="mb-1">
-                        <label class="block text-sm font-medium text-gray-700 @error('langues') text-red-700 dark:text-red-500 @enderror">Langue</label>
+                        <label class="block text-sm font-medium text-gray-700 @error('langues') text-red-700 dark:text-red-500 @enderror">{{ __('profile.languages') }}</label>
                         <x-select_multiple name="langues" :options="$langues" :value="old('langues', [])" label="Langue parlée" />
                         @error('langues')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
-
                 </div>
                 <div class="mb-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 @error('apropos') text-red-700 dark:text-red-500 @enderror">Apropos</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1 @error('apropos') text-red-700 dark:text-red-500 @enderror">{{ __('profile.about') }}</label>
                     <textarea rows="5" name="apropos" class="py-2 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500 @error('apropos') border-red-500 @enderror">{{ old('apropos') }}</textarea>
                     @error('apropos')
-                    <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> {{ $message }}</p>
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
-            <button type="submit" class="text-white bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-600">{{__('Créer')}}</button>
+            <button type="submit" class="text-white bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-600">{{ __('profile.create') }}</button>
         </form>
     </div>
 </div>
@@ -376,7 +369,6 @@
     function submitForm() {
     const form = document.getElementById('createEscorteForm');
     const formData = new FormData(form);
-    
 
     fetch("{{ route('createEscorteBySalon') }}", {
         method: 'POST',
@@ -430,12 +422,12 @@ function displayErrors(errors) {
                 errorElement = document.querySelector(`[name="${field}"]`).closest('.mb-1');
                 break;
         }
-        
+
         console.log(`Error element for ${field}:`, errorElement);
 
         // Ajout du message d'erreur si l'élément est trouvé
         if (errorElement) {
-            errorElement.innerHTML += `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> ${errorMessage}</p>`;
+            errorElement.innerHTML += `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> ${errorMessage}</p>`;
         } else {
             console.error(`Parent element with class 'mb-1' not found for field: ${field}`);
         }

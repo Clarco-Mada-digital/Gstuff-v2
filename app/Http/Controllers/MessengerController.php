@@ -169,7 +169,11 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='flex justify-center font-bold font-dm-serif text-3xl items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
+            $response['messages'] = "<div class='flex justify-center items-center h-full font-bold text-xl font-dm-serif'>
+    <p>Dis 'bonjour' et commence à échanger des messages.</p>
+</div>";
+
+            // $response['messages'] = "<div class='flex justify-center font-bold font-dm-serif text-xl items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
             return response()->json($response);
         }
 

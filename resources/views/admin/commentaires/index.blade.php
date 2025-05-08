@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
 @section('pageTitle')
-Commentaires
+{{ __('comments.comments_management') }}
 @endsection
 
 @section('admin-content')
 <div x-data="{ selectedTab: 'approved' }" class="pt-16 min-h-[100vh] container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Gestion des Commentaires</h1>
+        <h1 class="text-2xl font-bold text-gray-800">{{ __('comments.comments_management') }}</h1>
     </div>
 
     <nav class="bg-gray-50 dark:bg-gray-700">
@@ -18,14 +18,14 @@ Commentaires
                         <a href="#" @click="selectedTab = 'approved'"
                             :class="{ 'bg-blue-500 text-white': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
                             class="hover:bg-blue-300 px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i> Approuvés
+                            <i class="fas fa-check-circle mr-2"></i> {{ __('comments.approved') }}
                         </a>
                     </li>
                     <li>
                         <a href="#" @click="selectedTab = 'non-approved'"
                             :class="{ 'bg-blue-500 text-white': selectedTab === 'non-approved', 'text-gray-900 dark:text-white': selectedTab !== 'non-approved' }"
                             class="hover:bg-blue-300 px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-times-circle mr-2"></i> Non Approuvés
+                            <i class="fas fa-times-circle mr-2"></i> {{ __('comments.non_approved') }}
                         </a>
                     </li>
                 </ul>
@@ -35,22 +35,16 @@ Commentaires
 
     {{-- Pour les commentaires approuvés --}}
     <div x-show="selectedTab === 'approved'" class="px-4 py-3">
-        <h2 class="mb-5">Liste des Commentaires Approuvés</h2>
+        <h2 class="mb-5">{{ __('comments.approved_comments_list') }}</h2>
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.name') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.email') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.content') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.date') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.status') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.actions') }}</th>
                 </tr>
             </thead>
 
@@ -59,14 +53,11 @@ Commentaires
                 <tr class="approved-item">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
-                            <div
-                                class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ??
-                                $commentaire->user->nom_salon, 0, 1) }}
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ?? $commentaire->user->nom_salon, 0, 1) }}
                             </div>
                             <div class="ml-4">
-                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ??
-                                    $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
+                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ?? $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
                             </div>
                         </div>
                     </td>
@@ -82,23 +73,21 @@ Commentaires
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        
                         @if ($commentaire->read_at)
-                        <p class="text-xs text-green-500">Lu : {{ $commentaire->read_at }}</p>
+                        <p class="text-xs text-green-500">{{ __('comments.read') }} : {{ $commentaire->read_at }}</p>
                         @else
-                        <p class="text-xs text-red-500">Non lu</p>
+                        <p class="text-xs text-red-500">{{ __('comments.not_read') }}</p>
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
-                        <a href="{{ route('commentaires.show', $commentaire->id) }}"
-                            class="text-green-600 hover:text-green-900 mr-3">
-                            <i class="fas fa-eye"></i>
+                        <a href="{{ route('commentaires.show', $commentaire->id) }}" class="text-green-600 hover:text-green-900 mr-3">
+                            <i class="fas fa-eye"></i> {{ __('comments.view') }}
                         </a>
                         <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet Commentaire ?')">
-                                <i class="fas fa-trash"></i>
+                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('{{ __('comments.delete_confirmation') }}')">
+                                <i class="fas fa-trash"></i> {{ __('comments.delete') }}
                             </button>
                         </form>
                     </td>
@@ -108,15 +97,13 @@ Commentaires
         </table>
         <div class="flex justify-center mt-4 space-x-4">
             <button onclick="prevPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
             <span id="page-info-approved" class="px-4 py-2 font-semibold"></span>
             <button onclick="nextPageApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
@@ -125,22 +112,16 @@ Commentaires
 
     {{-- Pour les commentaires non approuvés --}}
     <div x-show="selectedTab === 'non-approved'" class="px-4 py-3">
-        <h2 class="mb-5">Liste des Commentaires Non Approuvés</h2>
+        <h2 class="mb-5">{{ __('comments.non_approved_comments_list') }}</h2>
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contenu
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.name') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.email') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.content') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.date') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.status') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('comments.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -148,14 +129,11 @@ Commentaires
                 <tr class="non-approved-item">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
-                            <div
-                                class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ??
-                                $commentaire->user->nom_salon, 0, 1) }}
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                {{ substr($commentaire->user->pseudo ?? $commentaire->user->prenom ?? $commentaire->user->nom_salon, 0, 1) }}
                             </div>
                             <div class="ml-4">
-                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ??
-                                    $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
+                                <div class="font-medium text-gray-900">{{ $commentaire->user->pseudo ?? $commentaire->user->prenom ?? $commentaire->user->nom_salon }}</div>
                             </div>
                         </div>
                     </td>
@@ -171,24 +149,21 @@ Commentaires
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                       
-
                         @if ($commentaire->read_at)
-                        <p class="text-xs text-green-500">Lu : {{ $commentaire->read_at }}</p>
+                        <p class="text-xs text-green-500">{{ __('comments.read') }} : {{ $commentaire->read_at }}</p>
                         @else
-                        <p class="text-xs text-red-500">Non lu</p>
+                        <p class="text-xs text-red-500">{{ __('comments.not_read') }}</p>
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap font-medium">
-                        <a href="{{ route('commentaires.show', $commentaire->id) }}"
-                            class="text-green-600 hover:text-green-900 mr-3">
-                            <i class="fas fa-eye"></i>
+                        <a href="{{ route('commentaires.show', $commentaire->id) }}" class="text-green-600 hover:text-green-900 mr-3">
+                            <i class="fas fa-eye"></i> {{ __('comments.view') }}
                         </a>
                         <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet Commentaire ?')">
-                                <i class="fas fa-trash"></i>
+                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('{{ __('comments.delete_confirmation') }}')">
+                                <i class="fas fa-trash"></i> {{ __('comments.delete') }}
                             </button>
                         </form>
                     </td>
@@ -198,15 +173,13 @@ Commentaires
         </table>
         <div class="flex justify-center mt-4 space-x-4">
             <button onclick="prevPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
             <span id="page-info-non-approved" class="px-4 py-2 font-semibold"></span>
             <button onclick="nextPageNonApproved()" class="px-4 py-2 bg-gray-300 rounded-lg flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>

@@ -1,16 +1,15 @@
-
 @props(['salonsNoInvited', 'listInvitationSalon'])
 
 <div class="bg-white rounded-lg shadow-lg p-6 w-full h-[60vh] md:w-[70vw] xl:w-[50vw] mx-auto md:h-[55vh] xl:h-[60vh]">
     <ul class="text-sm mb-5 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400" data-tabs-toggle="#tabs-content-salon" role="tablist">
         <li class="flex-1">
             <button id="new-invitation-tab-salon" data-tabs-target="#new-invitation-salon" type="button" role="tab" aria-controls="new-invitation-salon" aria-selected="true" class="w-full p-4 text-blue-700 bg-gray-100 rounded-l-lg dark:bg-gray-800 dark:text-blue-500">
-                Nouvelle invitation
+                {{ __('profile.new_invitation') }}
             </button>
         </li>
         <li class="flex-1">
             <button id="pending-invitation-tab-salon" data-tabs-target="#pending-invitation-salon" type="button" role="tab" aria-controls="pending-invitation-salon" aria-selected="false" class="w-full p-4 bg-white hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700">
-                Invitation en attente
+                {{ __('profile.pending_invitation') }}
             </button>
         </li>
     </ul>
@@ -28,8 +27,7 @@
                     </div>
                     <input type="text" id="simple-search-new-salon"
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
-                      block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                      placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'new')">
+                      block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  placeholder="{{ __('profile.search_placeholder') }}" oninput="filterSalons(this.value, 'new')">
                 </div>
             </div>
 
@@ -56,8 +54,8 @@
                 @endforeach
             </ul>
             <div class="flex justify-center">
-                <button type="submit" class="p-2.5 my-2 w-full md:w-auto text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Envoyer la demande
+                <button type="submit" class="p-2.5 my-2 w-full md:w-auto text-sm font-medium text-white bg-green-gs rounded-lg border border-green-gs hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    {{ __('profile.send_request') }}
                 </button>
             </div>
         </form>
@@ -72,13 +70,13 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                         </svg>
                     </div>
-                    <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'pending')">
+                    <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('profile.search_placeholder') }}" oninput="filterSalons(this.value, 'pending')">
                 </div>
             </div>
             <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto" id="salon-list-pending">
                 @if($listInvitationSalon->isEmpty())
                     <li class="text-center text-gray-500 py-4">
-                        Aucune invitation en attente.
+                        {{ __('profile.no_pending_invitations') }}
                     </li>
                 @else
                     @foreach($listInvitationSalon as $invitation)
@@ -103,18 +101,18 @@
                                 <div>
                                     @if($invitation->created_at->ne($invitation->updated_at))
                                         <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
-                                            Refusée
+                                            {{ __('profile.refused') }}
                                         </span>
                                     @else
                                         <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
-                                            En attente
+                                            {{ __('profile.pending') }}
                                         </span>
                                     @endif
                                     <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                            Annuler
+                                            {{ __('profile.cancel') }}
                                         </button>
                                     </form>
                                 </div>
@@ -141,6 +139,4 @@
             }
         });
     }
-
-
 </script>
