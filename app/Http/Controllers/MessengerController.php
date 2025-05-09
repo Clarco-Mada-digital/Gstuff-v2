@@ -34,9 +34,9 @@ class MessengerController extends Controller
             ->orWhere('prenom', 'LIKE', "%". $input. "%")
             ->orWhere('nom_salon', 'LIKE', "%".$input."%")
             ->orWhere('profile_type', 'LIKE', "%".$input."%")
-            ->paginate(10);
+            ->get();
 
-        if ($records->total() < 1) {
+        if (count($records) < 1) {
             $getRecords .= "<p class='text-center'>Rien a voir - Aucun resultat.</p>";
         }
 
@@ -46,7 +46,7 @@ class MessengerController extends Controller
 
         return response()->json([
             'records' => $getRecords,
-            'last_page' => $records->lastPage()
+            'user_id' => Auth::user()->id
         ]);
     }
 

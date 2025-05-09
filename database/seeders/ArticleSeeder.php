@@ -28,13 +28,20 @@ class ArticleSeeder extends Seeder
                 $slug = "{$baseSlug}-" . ($slugCount + 1);
             }
 
+            // Récupérer un utilisateur existant
+            $user = \App\Models\User::first();
+            
+            if (!$user) {
+                throw new \Exception('Aucun utilisateur trouvé dans la base de données');
+            }
+
             DB::table('articles')->insert([
                 'title' => $value['title']['rendered'],
                 'slug' => $slug,
                 'excerpt' => $value['excerpt']['rendered'],
                 'content' => $value['content']['rendered'],
                 'article_category_id' => $glossaire_category->id,
-                'article_user_id' => 1,
+                'article_user_id' => $user->id,
                 'is_published' => true,
                 'published_at' => now(),
             ]);

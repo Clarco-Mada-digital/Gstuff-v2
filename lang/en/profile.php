@@ -91,6 +91,7 @@ return [
 
     'about_me' => 'About Me',
     'age' => 'Age',
+    'years_old' => 'years old',
     'origin' => 'Origin',
     'language' => 'Language',
     'eye_color' => 'Eye Color',

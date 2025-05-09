@@ -7,7 +7,7 @@
         <!-- Bouton de chat flottant -->
         <button x-show="!open" wire:click="toggleChat" type="button"
             class="relative inline-flex items-center justify-center p-3 text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none transition-all duration-200"
-            aria-label="Ouvrir le chat">
+            aria-label="Ouvrir le chat"> {{ $unseenCounter }}
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 16" aria-hidden="true">
                 <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                 <path

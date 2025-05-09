@@ -16,10 +16,10 @@
     @endif
 
     <div class="flex flex-col md:flex-row items-center justify-between py-5">
-        <h2 class="font-dm-serif font-bold text-2xl text-center md:text-left">Les filles hot près de chez toi</h2>
+        <h2 class="font-dm-serif font-bold text-2xl text-center md:text-left">{{ __('proximity.nearby_girls') }}</h2>
         <div class="flex items-center mt-4 md:mt-0">
             <h2 class="px-4 font-semibold">
-                <span id="distanceValue" class="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $distanceMax }}</span>km
+                <span id="distanceValue" class="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $distanceMax }}</span>{{ __('proximity.km') }}
             </h2>
             <button id="dropdownDelayButton"
                 data-dropdown-toggle="dropdownDelay"
@@ -27,7 +27,7 @@
                 data-dropdown-trigger="hover"
                 class="text-white bg-green-gs hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
-                Distance
+                {{ __('proximity.distance_label') }}
                 <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                 </svg>
@@ -40,7 +40,7 @@
         <!-- Ajout de la jauge pour varier la distance -->
         <div class="flex flex-col items-center justify-center w-full">
             <label for="distanceRange" class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
-                Distance (km) :
+                {{ __('proximity.distance_label') }} ({{ __('proximity.km') }}) :
                 <span id="distanceValue2" class="mt-2 text-lg font-medium text-gray-900 dark:text-white">{{ $distanceMax }}</span>
             </label>
             <input type="range" id="distanceRange" min="0" max="{{ $distanceMax }}" value="{{ $distanceMax/2 }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
@@ -58,14 +58,14 @@
         </div>
         @else
         <div class="flex items-center justify-center py-10">
-            <p class="text-gray-500 text-lg">Aucun résultat trouvé.</p>
+            <p class="text-gray-500 text-lg">{{ __('proximity.no_results_found') }}</p>
         </div>
         @endif
     </div>
 
     <!-- Message pour indiquer qu'aucun résultat n'a été trouvé -->
     <div id="noResultsMessage" class="flex items-center justify-center py-10" style="display: none;">
-        <p class="text-gray-500 text-lg">Aucun résultat trouvé pour cette distance.</p>
+        <p class="text-gray-500 text-lg">{{ __('proximity.no_results_for_distance') }}</p>
     </div>
 </div>
 

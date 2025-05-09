@@ -93,7 +93,7 @@
                 <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'" :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : ''" class="w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">{{ __('profile.gallery') }}</button>
                 <button x-on:click="pageSection='discussion'" :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : ''" class="flex items-center w-full p-2 text-green-gs border-b border-gray-400 text-left font-bold cursor-pointer hover:bg-green-gs hover:text-white">{{ __('profile.discussion') }}
                     @if ($messageNoSeen > 0)
-                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{ $messageNoSeen }}</span>
+                    <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-red-800 bg-red-200 rounded-full">{{ $messageNoSeen }} zaza</span>
                     @endif
                 </button>
                 @if($escorteCreateByUser->isNotEmpty())
@@ -1205,6 +1205,7 @@
                 init() {
                     this.loadContacts();
                     this.setupEventListeners();
+                    this.setupSearchListeners();
                     this.getEmojies();
                 },
 
@@ -1263,18 +1264,63 @@
                     });
                 },
 
+                searchPage: 1,
+                noMoreDataSearch: false,
+                searchTempVal: '',
+                setSearchLoading: false,
+
                 async searchUsers() {
-                    if (!this.searchQuery.trim()) return;
+                    if (!this.searchQuery.trim()) {
+                        this.searchPage = 1;
+                        this.noMoreDataSearch = false;
+                        document.getElementById('search-list').innerHTML = '';
+                        return;
+                    }
+
+                    // Réinitialiser la pagination si la recherche change
+                    if (this.searchQuery !== this.searchTempVal) {
+                        this.searchPage = 1;
+                        this.noMoreDataSearch = false;
+                    }
+                    this.searchTempVal = this.searchQuery;
+
+                    if (this.setSearchLoading || this.noMoreDataSearch) return;
 
                     try {
+                        this.setSearchLoading = true;
                         const response = await axios.get('/messenger/search', {
                             params: {
-                                query: this.searchQuery
+                                query: this.searchQuery,
+                                page: this.searchPage
                             }
                         });
-                        document.getElementById('search-list').innerHTML = response.data.records;
+
+                        const searchList = document.getElementById('search-list');
+                        if (this.searchPage === 1) {
+                            searchList.innerHTML = response.data.records;
+                        } else {
+                            searchList.innerHTML += response.data.records;
+                        }
+
+                        this.noMoreDataSearch = this.searchPage >= response.data.last_page;
                     } catch (error) {
                         console.error(error);
+                    } finally {
+                        this.setSearchLoading = false;
+                    }
+                },
+
+                setupSearchListeners() {
+                    // Écouteur pour le scroll des résultats de recherche
+                    const searchList = document.getElementById('search-list');
+                    if (searchList) {
+                        searchList.addEventListener('scroll', (e) => {
+                            if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight - 100 &&
+                                this.currentChat && !this.noMoreDataSearch && !this.setSearchLoading) {
+                                this.searchPage++;
+                                this.searchUsers();
+                            }
+                        });
                     }
                 },
 

@@ -91,6 +91,7 @@ return [
 
     'about_me' => 'À propos de moi',
     'age' => 'Âge',
+    'years_old' => 'ans',
     'origin' => 'Origine',
     'language' => 'Langue',
     'eye_color' => 'Couleur des yeux',
