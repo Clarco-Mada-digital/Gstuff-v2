@@ -1,17 +1,9 @@
-<div class="flex h-[60vh]" x-data="{ ...messenger(),
-            searchPage: 1,
-            itemsPerPage: 10,
-            allResults: [],
-            searchTempVal: '',
-            setSearchLoading: false,
-            currentResults: [],
-            totalItems: 0
-        }" x-init="init()">
+<div class="flex h-[60vh]" x-data="messenger()" x-init="init()">
     <!-- Sidebar -->
     <div class="w-1/4 border-r bg-white flex flex-col">
         <!-- Header -->
         <div class="p-4 border-b">
-            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
+            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}qqqqqqqqqqqq</h1>
             <div class="relative mt-3">
                 <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                     placeholder="{{ __('messenger.search_placeholder') }}"
@@ -42,25 +34,6 @@
             <div id="search-list" class="divide-y absolute h-full w-full inset-0 bg-white z-10"
                 x-show="searchQuery.length > 0 && !loadingContacts">
                 <!-- Les contacts seront chargés ici -->
-            </div>
-            <div x-show="searchQuery.length > 0 && !loadingContacts" class="absolute bottom-0 left-0 right-0 bg-white border-t p-4 z-10">
-                <div class="flex justify-between items-center text-sm text-gray-600">
-                    <span x-text="`Page ${searchPage} de ${Math.ceil(totalItems / itemsPerPage)}`"></span>
-                    <div class="flex space-x-2">
-                        <button @click="changePage(searchPage - 1)"
-                            class="px-3 py-1 rounded hover:bg-gray-100"
-                            :disabled="searchPage <= 1"
-                            :class="{ 'cursor-not-allowed opacity-50': searchPage <= 1 }">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button @click="changePage(searchPage + 1)"
-                            class="px-3 py-1 rounded hover:bg-gray-100"
-                            :disabled="searchPage >= Math.ceil(totalItems / itemsPerPage)"
-                            :class="{ 'cursor-not-allowed opacity-50': searchPage >= Math.ceil(totalItems / itemsPerPage) }">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
             </div>
             <div id="contacts-list" class="divide-y">
                 <!-- Les contacts seront chargés ici -->
@@ -232,88 +205,6 @@
                         class="absolute right-3 top-3 text-gray-400 hover:text-yellow-500">
                         <i class="far fa-smile"></i>
                     </button>
-
-                    <!-- Picker d'emoji simple -->
-                    <div x-show="showEmojiPicker" @click.away="showEmojiPicker = false"
-                        class="absolute -top-5 -translate-y-full right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 w-64 h-48 overflow-y-auto z-10">
-                        <div class="flex flex-wrap gap-3 gap-1">
-                            <template
-                                x-for="emoji in ['😀', '😂', '😍', '👍', '❤️', '🙏', '🔥', '🎉', '🤔', '😎',  '👩‍💼', '👨‍💼', '☺️', '☝️', '🕵️', '💄', '💋', '👄',  '🥵', '😏', '😉','🤤', '😵', '🍑', '🌶️', '🔞',  '😈', '💃', '👀', '🍷', '🎷', '🌇']">
-                                <button type="button" @click="insertEmoji(emoji)"
-                                    class="text-xl hover:bg-gray-100 rounded p-1" x-text="emoji"></button>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bouton d'envoi -->
-                <button type="submit" :disabled="!newMessage.trim() && !fileToUpload"
-                    :class="{
-                        'btn-gs-gradient': newMessage.trim() || fileToUpload,
-                        'bg-gray-300 cursor-not-allowed': !
-                            newMessage.trim() && !fileToUpload
-                    }"
-                    class="text-back p-3 rounded-full w-12 h-12 flex items-center justify-center">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex-1 flex items-center justify-center bg-gray-50">
-            <div class="text-center p-6">
-                <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-comments text-gray-400 text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">{{ __('messenger.no_conversation') }}</h3>
-                <p class="text-gray-500">{{ __('messenger.select_conversation') }}</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-                        <i class="far fa-smile"></i>
-                    </button>
-
-                    <!-- Picker d'emoji simple -->
-                    <div x-show="showEmojiPicker" @click.away="showEmojiPicker = false"
-                        class="absolute -top-5 -translate-y-full right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 w-64 h-48 overflow-y-auto z-10">
-                        <div class="flex flex-wrap gap-3 gap-1">
-                            <template
-                                x-for="emoji in ['😀', '😂', '😍', '👍', '❤️', '🙏', '🔥', '🎉', '🤔', '😎',  '👩‍💼', '👨‍💼', '☺️', '☝️', '🕵️', '💄', '💋', '👄',  '🥵', '😏', '😉','🤤', '😵', '🍑', '🌶️', '🔞',  '😈', '💃', '👀', '🍷', '🎷', '🌇']">
-                                <button type="button" @click="insertEmoji(emoji)"
-                                    class="text-xl hover:bg-gray-100 rounded p-1" x-text="emoji"></button>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bouton d'envoi -->
-                <button type="submit" :disabled="!newMessage.trim() && !fileToUpload"
-                    :class="{
-                        'btn-gs-gradient': newMessage.trim() || fileToUpload,
-                        'bg-gray-300 cursor-not-allowed': !
-                            newMessage.trim() && !fileToUpload
-                    }"
-                    class="text-back p-3 rounded-full w-12 h-12 flex items-center justify-center">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex-1 flex items-center justify-center bg-gray-50">
-            <div class="text-center p-6">
-                <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-comments text-gray-400 text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">{{ __('messenger.no_conversation') }}</h3>
-                <p class="text-gray-500">{{ __('messenger.select_conversation') }}</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 
                     <!-- Picker d'emoji simple -->
                     <div x-show="showEmojiPicker" @click.away="showEmojiPicker = false"
