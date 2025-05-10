@@ -26,36 +26,26 @@ class VilleSeeder extends Seeder
         // Exemple avec relation canton_id (si vous avez une relation avec la table 'cantons')
         $cantons = DB::table('cantons')->pluck('id', 'nom')->toArray(); // Récupérer les IDs des cantons
 
-        DB::table('villes')->insert([ // Assurez-vous que 'villes' est le nom de votre table
-            [ 'nom' => 'Aarau', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
-            [ 'nom' => 'Bâle', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
-            [ 'nom' => 'Glaris', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
-            [ 'nom' => 'Lucerne', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
-            [ 'nom' => 'Soleure', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
-            [ 'nom' => 'Wintherthur', 'canton_id' => $cantons['Suisse Alémanique'] ?? null ], // Utilisez l'ID du canton de Suisse_alemanique
+        DB::table('villes')->insert([
+            // Canton de Zürich
+            ['nom' => 'Bassersdorf', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Dietikon', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Dübendorf', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Pläffikon', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Schwerzenbach', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Zürich', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Winterthur', 'canton_id' => $cantons['Zürich'] ?? null],
+            ['nom' => 'Wald', 'canton_id' => $cantons['Zürich'] ?? null],
 
-            [ 'nom' => 'Bassersdorf', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Dietikon', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Dübendorf', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Pläffikon', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Schwerzenbach', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Zürich', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-            [ 'nom' => 'Wald Zürich', 'canton_id' => $cantons['Zurich'] ?? null ], // Utilisez l'ID du canton de Zurich
-
-            [ 'nom' => 'Berne', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Bienne', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Gstaad', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Granges', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Interlaken', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Thoune', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-            [ 'nom' => 'Zollikofen', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
-
-            [ 'nom' => 'Bulle', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Châtel-Saint-Denis', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Düdingen', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Fribourg', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Marly', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Romont', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
+            // Canton de Bern
+            ['nom' => 'Berne', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Bienne', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Gstaad', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Granges', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Interlaken', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Thoune', 'canton_id' => $cantons['Bern'] ?? null],
+            ['nom' => 'Zollikofen', 'canton_id' => $cantons['Bern'] ?? null],
+            [ 'nom' => 'Romont', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
 
             [ 'nom' => 'Bassecour', 'canton_id' => $cantons['Jura'] ?? null ], // Utilisez l'ID du canton de Jura
             [ 'nom' => 'Boncourt', 'canton_id' => $cantons['Jura'] ?? null ], // Utilisez l'ID du canton de Jura
@@ -68,18 +58,18 @@ class VilleSeeder extends Seeder
             [ 'nom' => 'Le Locle', 'canton_id' => $cantons['Neuchâtel'] ?? null ], // Utilisez l'ID du canton de Neuchâtel
             [ 'nom' => 'Neuchâtel', 'canton_id' => $cantons['Neuchâtel'] ?? null ], // Utilisez l'ID du canton de Neuchâtel
 
-            [ 'nom' => 'Genève', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Carouge', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Chambésy', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Champel', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Cité-Centre', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Cornavin', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Eaux-vives', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Plainpalais', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Plan-les-Ouates', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Servette', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Thônex', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
-            [ 'nom' => 'Versoix', 'canton_id' => $cantons['Genève'] ?? null ], // Utilisez l'ID du canton de Genève
+            [ 'nom' => 'Genève', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Carouge', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Chambésy', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Champel', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Cité-Centre', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Cornavin', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Eaux-vives', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Plainpalais', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Plan-les-Ouates', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Servette', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Thônex', 'canton_id' => $cantons['Genève'] ?? null ],
+            [ 'nom' => 'Versoix', 'canton_id' => $cantons['Genève'] ?? null ],
 
             [ 'nom' => 'Aproz', 'canton_id' => $cantons['Valais'] ?? null ], // Utilisez l'ID du canton de Valais
             [ 'nom' => 'Ardon', 'canton_id' => $cantons['Valais'] ?? null ], // Utilisez l'ID du canton de Valais

@@ -3,7 +3,7 @@
     <div class="w-1/4 border-r bg-white flex flex-col">
         <!-- Header -->
         <div class="p-4 border-b">
-            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}qqqqqqqqqqqq</h1>
+            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
             <div class="relative mt-3">
                 <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                     placeholder="{{ __('messenger.search_placeholder') }}"
@@ -31,10 +31,22 @@
 
         <!-- Liste des contacts -->
         <div class="flex-1 overflow-y-auto relative">
-            <div id="search-list" class="divide-y absolute h-full w-full inset-0 bg-white z-10"
-                x-show="searchQuery.length > 0 && !loadingContacts">
-                <!-- Les contacts seront chargés ici -->
+            <div>
+                <template x-for="result in searchResults" :key="result.id">
+                    <div @click="loadChat(result.id)"
+                        class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
+                        <img :src="result.avatar ? `{{ asset('storage/avatars') }}/${result.avatar}` : '/icon-logo.png'"
+                            :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"
+                            class="w-12 h-12 rounded-full object-cover">
+                        <span
+                            x-text="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"></span>
+                    </div>
+                </template>
             </div>
+            <!-- <div id="search-list" class="divide-y absolute h-full w-full inset-0 bg-white z-10"
+                x-show="searchQuery.length > 0 && !loadingContacts">
+            
+            </div> -->
             <div id="contacts-list" class="divide-y">
                 <!-- Les contacts seront chargés ici -->
             </div>

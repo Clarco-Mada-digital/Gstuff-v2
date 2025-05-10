@@ -1201,6 +1201,7 @@
                 preview: null,
                 emojies: null,
                 showEmojiPicker: false,
+                searchResults: [],
 
                 init() {
                     this.loadContacts();
@@ -1272,6 +1273,7 @@
                                 query: this.searchQuery
                             }
                         });
+                        this.searchResults = response.data.records;
                         document.getElementById('search-list').innerHTML = response.data.records;
                     } catch (error) {
                         console.error(error);

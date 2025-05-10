@@ -45,7 +45,7 @@ class MessengerController extends Controller
         }
 
         return response()->json([
-            'records' => $getRecords,
+            'records' => $records,
             'user_id' => Auth::user()->id
         ]);
     }
