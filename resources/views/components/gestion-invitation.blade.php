@@ -7,7 +7,7 @@
         <div class="bg-white rounded-lg shadow-lg p-6 w-[90vw] max-h-[90vh] xl:max-w-7xl overflow-y-auto">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Les invitations
+                    {{ __('invitations.title') }}
                 </h3>
             </div>
 
@@ -15,17 +15,17 @@
                 <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700" data-tabs-toggle="#tabs-content" role="tablist">
                     <li class="me-2">
                         <a href="#" data-tabs-target="#recus" class="inline-flex p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-controls="recus" role="tab" aria-selected="true">
-                            Reçus
+                            {{ __('invitations.tabs.received') }}
                         </a>
                     </li>
                     <li class="me-2">
                         <a href="#" data-tabs-target="#enAttente" class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" aria-controls="enAttente" role="tab">
-                            En attente
+                            {{ __('invitations.tabs.pending') }}
                         </a>
                     </li>
                     <li class="me-2">
                         <a href="#" data-tabs-target="#accepter" class="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" aria-controls="accepter" role="tab">
-                            Accepter
+                            {{ __('invitations.tabs.accepted') }}
                         </a>
                     </li>
                 </ul>
@@ -57,8 +57,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                            Le salon <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
-                                                            vient d'envoyer une invitation pour rejoindre son salon.
+                                                            {{ __('invitations.invitation_received.salon', ['name' => $invitationsRecu->inviter->nom_salon]) }}
                                                         </p>
                                                         <span class="text-xs text-blue-600 dark:text-blue-500">
                                                             {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
@@ -71,9 +70,9 @@
                                                     nomSalon: '{{ $invitationsRecu->inviter->nom_salon }}',
                                                     date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
                                                     type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
-                                                    email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
+                                                    {{ __('invitations.search_placeholder') }}: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
                                                 })">
-                                                    Détail
+                                                    {{ __('invitations.detail') }}
                                                     <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                                     </svg>
@@ -83,21 +82,19 @@
                                     </li>
                                 @endforeach
                             @else
-                                <div class="flex items-center justify-center py-10">
-                                    <p class="text-gray-500 dark:text-gray-400">Aucune invitation reçue.</p>
-                                </div>
+                                <x-empty-state message="{{ __('invitations.no_invitations') }}" />
                             @endif
                         </ul>
                     @else
                         <div class="flex items-center mx-auto mb-4">
-                            <label for="simple-search-recus" class="sr-only">Search</label>
+                            <label for="simple-search-recus" class="sr-only">{{ __('invitations.search_placeholder') }}</label>
                             <div class="relative w-full">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                                     </svg>
                                 </div>
-                                <input type="text" id="simple-search-recus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterInvitationsRecus(this.value)">
+                                <input type="text" id="simple-search-recus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('invitations.search_placeholder') }}" oninput="filterInvitationsRecus(this.value)">
                             </div>
                         </div>
                         <ul id="invitation-list-recus" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
@@ -112,8 +109,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                            L'escorte <span class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->prenom }}</span>
-                                                            vient d'envoyer une invitation pour rejoindre vos salon.
+                                                            {{ __('invitations.invitation_received.escort', ['name' => $invitationsRecu->inviter->prenom]) }}
                                                         </p>
                                                         <span class="text-xs text-blue-600 dark:text-blue-500">
                                                             {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
@@ -126,9 +122,9 @@
                                                     nomSalon: '{{ $invitationsRecu->inviter->prenom }}',
                                                     date: '{{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}',
                                                     type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
-                                                    email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
+                                                    {{ __('invitations.search_placeholder') }}: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
                                                 })">
-                                                    Détail
+                                                    {{ __('invitations.detail') }}
                                                     <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                                                     </svg>
@@ -138,9 +134,7 @@
                                     </li>
                                 @endforeach
                             @else
-                                <div class="flex items-center justify-center py-10">
-                                    <p class="text-gray-500 dark:text-gray-400">Aucune invitation reçue.</p>
-                                </div>
+                                <x-empty-state message="{{ __('invitations.no_invitations') }}" />
                             @endif
                         </ul>
                     @endif
@@ -149,14 +143,14 @@
                 <div id="enAttente" class="p-4 hidden" role="tabpanel" aria-labelledby="profile-tab">
                     @if($user->profile_type === 'escorte')
                         <div class="flex items-center mx-auto">
-                            <label for="simple-search-pending-salon" class="sr-only">Search</label>
+                            <label for="simple-search-pending-salon" class="sr-only">{{ __('invitations.search_placeholder') }}</label>
                             <div class="relative w-full">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                                     </svg>
                                 </div>
-                                <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'pending')">
+                                <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('invitations.search_placeholder') }}" oninput="filterSalons(this.value, 'pending')">
                             </div>
                         </div>
                         <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto" id="salon-list-pending">
@@ -183,18 +177,18 @@
                                             <div>
                                                 @if($invitation->created_at->ne($invitation->updated_at))
                                                     <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
-                                                        Refusée
+                                                        {{ __('invitations.refused') }}
                                                     </span>
                                                 @else
                                                     <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
-                                                        En attente
+                                                        {{ __('invitations.pending') }}
                                                     </span>
                                                 @endif
                                                 <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                        Annuler
+                                                        {{ __('invitations.cancel') }}
                                                     </button>
                                                 </form>
                                             </div>
@@ -202,22 +196,19 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li class="text-center text-gray-500 py-4">
-                                    Aucune invitation en attente.
-                                </li>
+                                <x-empty-state message="{{ __('invitations.no_pending') }}" />
                             @endif
                         </ul>
                     @else
-                
                         <div class="flex items-center mx-auto">
-                            <label for="simple-search-pending-salon" class="sr-only">Search</label>
+                            <label for="simple-search-pending-salon" class="sr-only">{{ __('invitations.search_placeholder') }}</label>
                             <div class="relative w-full">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                                     </svg>
                                 </div>
-                                <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalons(this.value, 'pending')">
+                                <input type="text" id="simple-search-pending-salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('invitations.search_placeholder') }}" oninput="filterSalons(this.value, 'pending')">
                             </div>
                         </div>
                         <ul class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto" id="salon-list-pending">
@@ -245,18 +236,18 @@
                                             <div>
                                                 @if($invitation->created_at->ne($invitation->updated_at))
                                                     <span class="px-2 py-1 text-xs font-semibold bg-red-200 text-red-600 rounded-md">
-                                                        Refusée
+                                                        {{ __('invitations.refused') }}
                                                     </span>
                                                 @else
                                                     <span class="px-2 py-1 text-xs font-semibold bg-yellow-200 text-yellow-600 rounded-md">
-                                                        En attente
+                                                        {{ __('invitations.pending') }}
                                                     </span>
                                                 @endif
                                                 <form action="{{ route('invitations.cancel', $invitation->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                        Annuler
+                                                        {{ __('invitations.cancel') }}
                                                     </button>
                                                 </form>
                                             </div>
@@ -264,9 +255,7 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li class="text-center text-gray-500 py-4">
-                                    Aucune invitation en attente.
-                                </li>
+                                <x-empty-state message="{{ __('invitations.no_pending') }}" />
                             @endif
                         </ul>
                     @endif
@@ -281,7 +270,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
                                 </svg>
                             </div>
-                            <input type="text" id="simple-search-pending-Salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Chercher le nom ou email ..." oninput="filterSalonsAccepter(this.value)">
+                            <input type="text" id="simple-search-pending-Salon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{ __('invitations.search_placeholder') }}" oninput="filterSalonsAccepter(this.value)">
                         </div>
                     </div>
                     <ul id="salon-list-accepted" class="p-5 divide-y divide-gray-200 dark:divide-gray-700 h-[30vh] md:h-[35vh] xl:h-[40vh] overflow-y-auto">
@@ -312,7 +301,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                            Annuler
+                                                            {{ __('invitations.action.cancel') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -342,7 +331,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                            Annuler
+                                                            {{ __('invitations.action.cancel') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -374,7 +363,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                            Annuler
+                                                            {{ __('invitations.action.cancel') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -404,7 +393,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="px-2 py-1 mx-2 text-xs font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                            Annuler
+                                                            {{ __('invitations.action.cancel') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -414,9 +403,7 @@
                                 @endif
                             @endforeach
                         @else
-                            <li class="text-center text-gray-500 py-4">
-                                Aucune invitation en accepter.
-                            </li>
+                            <x-empty-state message="{{ __('invitations.no_accepted') }}" />
                         @endif
                     </ul>
                 </div>

@@ -2,13 +2,13 @@
 
 @php use Carbon\Carbon; @endphp
 
-@section('pageTitle', 'Paramètres de visibilité du profil')
+@section('pageTitle', __('visibility.title'))
 
 @section('content')
 <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-6 pb-4 border-b border-gray-200">
-            🌍 Visibilité du profil
+            {{ __('visibility.profile_visibility') }}
         </h2>
 
         <form x-data="visibility()" method="POST" action="{{ route('profile.visibility.update') }}" class="space-y-6">
@@ -24,8 +24,8 @@
                                class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <label for="public-visibility" class="block text-sm font-medium text-gray-900">Profil public</label>
-                        <span class="block text-sm text-gray-500 mt-1">Visible dans tous les pays sans restriction</span>
+                        <label for="public-visibility" class="block text-sm font-medium text-gray-900">{{ __('visibility.public.label') }}</label>
+                        <span class="block text-sm text-gray-500 mt-1">{{ __('visibility.public.description') }}</span>
                     </div>
                 </div>
 
@@ -37,8 +37,8 @@
                                class="h-5 w-5 text-red-600 focus:ring-red-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <label for="private-visibility" class="block text-sm font-medium text-gray-900">Profil privé</label>
-                        <span class="block text-sm text-gray-500 mt-1">Caché dans tous les pays</span>
+                        <label for="private-visibility" class="block text-sm font-medium text-gray-900">{{ __('visibility.private.label') }}</label>
+                        <span class="block text-sm text-gray-500 mt-1">{{ __('visibility.private.description') }}</span>
                     </div>
                 </div>
 
@@ -52,22 +52,22 @@
                                class="h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300">
                     </div>
                     <div class="ml-3 flex flex-col">
-                        <label for="custom-visibility" class="block text-sm font-medium text-gray-900">Visibilité personnalisée</label>
-                        <span class="block text-sm text-gray-500 mt-1">Choisissez les pays où votre profil sera visible</span>
+                        <label for="custom-visibility" class="block text-sm font-medium text-gray-900">{{ __('visibility.custom.label') }}</label>
+                        <span class="block text-sm text-gray-500 mt-1">{{ __('visibility.custom.description') }}</span>
                     </div>
                 </div>
 
                 {{-- Country Selector --}}
                 <div x-show="customVisibility" x-collapse class="mt-6 pl-8 border-l-4 border-purple-200 bg-purple-50 rounded-lg p-6 space-y-4">
                     <h3 class="text-lg font-semibold text-purple-800">
-                        Sélection des pays autorisés
+                        {{ __('visibility.country_selector.title') }}
                     </h3>
                     <p class="text-sm text-purple-700">
-                        Sélectionnez un ou plusieurs pays dans la liste ci-dessous
+                        {{ __('visibility.country_selector.description') }}
                     </p>
 
                     <div x-data="countrySelector({{ Js::from(config('countries')) }}, {{ Js::from(auth()->user()->visible_countries ?? []) }})" class="relative">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Pays autorisés</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('visibility.country_selector.title') }}</label>
 
                         <div class="flex flex-wrap items-center border rounded-xl bg-white px-3 py-2 focus-within:ring-2 focus-within:ring-purple-500 shadow-sm min-h-[48px]">
                             <template x-for="(code, index) in selected" :key="code">
@@ -87,7 +87,7 @@
                                 @keydown.enter.prevent="select(Object.keys(filtered)[highlightedIndex])"
                                 @click.away="open = false"
                                 class="flex-1 min-w-[120px] border-none focus:ring-0 text-sm placeholder-gray-400"
-                                placeholder="Rechercher un pays..."
+                                placeholder="{{ __('visibility.country_selector.placeholder') }}"
                             >
                         </div>
 
@@ -115,7 +115,7 @@
                     <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    Enregistrer les modifications
+                    {{ __('visibility.save') }}
                 </button>
             </div>
         </form>

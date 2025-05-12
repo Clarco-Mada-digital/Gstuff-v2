@@ -2,7 +2,7 @@
 
 return [
     'gallery_title' => 'Galerie',
-    'private' => 'Privée',
+    'private' => 'Privé',
     'add' => 'Ajouter',
     'video_limit_warning' => 'Attention : Vous avez atteint la limite de vidéos pour votre galerie privée.',
     'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer ce média ?',
@@ -17,7 +17,7 @@ return [
     'media' => 'Média',
     'drag_drop' => 'Glissez-déposez vos fichiers ici ou cliquez pour parcourir',
     'supported_formats' => 'Formats supportés : JPEG, PNG, GIF, MP4',
-    'uploading' => 'Téléchargement',
+    'uploading' => 'Téléchargement en cours',
     'no_description' => 'Aucune description',
     'image' => 'Image',
     'video' => 'Vidéo',
