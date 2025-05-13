@@ -1076,8 +1076,8 @@
 
             {{-- Section discussion --}}
             <section x-show="pageSection=='discussion'">
-                <div class="py-5">
-                    <h2 class="font-dm-serif font-bold text-2xl my-5">{{ __('profile.discussions') }}</h2>
+                <div class="py-5 flex justify-between items-center">
+                    <h2 class="font-dm-serif font-bold text-2xl my-5 mr-4">{{ __('profile.discussions') }}</h2>
                     <div class="w-[90%] mx-auto h-1 bg-green-gs"></div>
                 </div>
                 <div class="container">
@@ -1183,6 +1183,7 @@
                 sharedLinks: 0,
                 sharedLinksCount: 0,
                 messageCount: 0,
+                sendingMessage: false,
                 favorites: {!! $favoriteList->map(function ($fav) {
                         return [
                             'id' => $fav->user->id,
@@ -1202,6 +1203,9 @@
                 emojies: null,
                 showEmojiPicker: false,
                 searchResults: [],
+                currentPage: 1,
+itemsPerPage: 10,
+modalIsOpen: false ,
 
                 init() {
                     this.loadContacts();
@@ -1274,7 +1278,7 @@
                             }
                         });
                         this.searchResults = response.data.records;
-                        document.getElementById('search-list').innerHTML = response.data.records;
+                        // document.getElementById('search-list').innerHTML = response.data.records;
                     } catch (error) {
                         console.error(error);
                     }
@@ -1297,6 +1301,9 @@
                 },
 
                 async loadChat(userId) {
+
+                    console.log('testee' , userId);
+                    
                     this.currentChat = userId;
                     this.loadingMessages = true;
 
@@ -1345,12 +1352,13 @@
                 async sendMessage() {
                     if (!this.newMessage.trim() && !this.fileToUpload) return;
 
+                    // Activer l'état de chargement
+                    this.sendingMessage = true;
+
                     const formData = new FormData();
                     formData.append('id', this.currentChat);
                     formData.append('message', this.newMessage);
                     formData.append('temporaryMsgId', Date.now());
-
-                    console.log(formData);
 
                     if (this.fileToUpload) {
                         formData.append('attachment', this.fileToUpload);
@@ -1368,6 +1376,7 @@
                         messagesList.insertAdjacentHTML('beforeend', response.data.message);
 
                         // Réinitialiser
+                        this.newMessage = '';
                         this.clearAttachment();
                         this.loadContacts();
 
@@ -1376,6 +1385,9 @@
                     } catch (error) {
                         console.error(error);
                         showToast('Erreur lors de l\'envoi du message', 'error');
+                    } finally {
+                        // Désactiver l'état de chargement dans tous les cas
+                        this.sendingMessage = false;
                     }
                 },
 

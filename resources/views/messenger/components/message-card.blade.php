@@ -33,7 +33,14 @@
 @endphp
 
 <div class="flex group w-[60%] {{ $isSender ? 'justify-end ms-auto' : 'justify-start me-auto' }} mb-3 message-card"
-    data-id="{{ $message->id }}">
+    data-id="{{ $message->id }}"
+    x-data="{ showDelete: false, pressTimer: null }"
+    @mousedown="pressTimer = setTimeout(() => showDelete = true, 500)"
+    @mouseup="clearTimeout(pressTimer)"
+    @mouseleave="pressTimer = clearTimeout(pressTimer)"
+    @touchstart.passive="pressTimer = setTimeout(() => showDelete = true, 500)"
+    @touchend="clearTimeout(pressTimer)"
+    @touchcancel="pressTimer = clearTimeout(pressTimer)">
     <div
         class="{{ $isSender ? 'bg-[#6366f1] text-white' : 'bg-white' }} relative rounded-lg p-3 max-w-xs lg:max-w-md shadow">
         @if ($attachment)
@@ -50,9 +57,13 @@
             </p>
         @endif
         @if ($message->from_id === auth()->user()->id)
-            <button @click="deleteMessage({{ $message->id }})"
-                class="hidden group-hover:block absolute text-red-500 top-[50%] -translate-y-[50%] right-[110%] cursor-pointer"
-                data-id="{{ $message->id }}"><i class="fas fa-trash"></i></button>
+            <button @click.stop="deleteMessage({{ $message->id }}); showDelete = false"
+                x-show="showDelete || $el.matches(':hover')"
+                @click.away="showDelete = false"
+                class="absolute text-red-500 top-[50%] -translate-y-[50%] right-[110%] cursor-pointer"
+                data-id="{{ $message->id }}">
+                <i class="fas fa-trash"></i>
+            </button>
         @endif
     </div>
 </div>

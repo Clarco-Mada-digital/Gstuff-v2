@@ -4,10 +4,11 @@
 
 <div x-data="{ open: @entangle('open') }" class="fixed bottom-6 right-6 z-50" x-cloak>
     @auth
+
         <!-- Bouton de chat flottant -->
         <button x-show="!open" wire:click="toggleChat" type="button"
             class="relative inline-flex items-center justify-center p-3 text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none transition-all duration-200"
-            aria-label="Ouvrir le chat"> {{ $unseenCounter }}
+            aria-label="{{ __('messenger.open_chat') }}">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 16" aria-hidden="true">
                 <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                 <path
@@ -32,7 +33,7 @@
             <div class="flex items-center justify-between p-4 bg-blue-600 text-white">
                 <div class="flex items-center space-x-3">
                     @if ($userReceved)
-                        <button wire:click="resetSender" aria-label="Retour aux contacts"
+                        <button wire:click="resetSender" aria-label="{{ __('messenger.back_to_contacts') }}"
                             class="p-1 rounded-full hover:bg-blue-700 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -47,10 +48,10 @@
                             {{ $userReceved->pseudo ?? ($userReceved->prenom ?? ($userReceved->nom_salon ?? 'Chat')) }}
                         </h2>
                     @else
-                        <h2 class="font-semibold">Messages</h2>
+                        <h2 class="font-semibold">{{ __('messenger.messages') }}</h2>
                     @endif
                 </div>
-                <button @click="open = false" aria-label="Fermer le chat"
+                <button @click="open = false" aria-label="{{ __('messenger.close_chat') }}"
                     class="p-1 rounded-full hover:bg-blue-700 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -86,7 +87,7 @@
                                     <span>{{ timeAgo($message->created_at) }}</span>
                                     @if ($message->from_id === auth()->user()->id)
                                         <button wire:click="deleteMessage({{ $message->id }})"
-                                            aria-label="Supprimer le message"
+                                            aria-label="{{ __('messenger.delete_message') }}"
                                             class="ml-2 text-red-500 hover:text-red-700 transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +101,7 @@
                         </div>
                     @empty
                         <div class="flex items-center justify-center h-full text-gray-500">
-                            <p>Sélectionnez un utilisateur pour commencer la conversation</p>
+                            <p>{{ __('messenger.select_user_to_start') }}</p>
                         </div>
                     @endforelse
                 </div>
@@ -109,7 +110,7 @@
                 <div class="p-3 border-t border-gray-200 bg-white">
                     <div class="flex space-x-2">
                         <input type="text" wire:model="message" wire:keydown.enter="sendMessage"
-                            placeholder="Écrivez un message..."
+                            placeholder="{{ __('messenger.type_message') }}"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <button wire:click="sendMessage" @if ($sending) disabled @endif
                             class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-colors">

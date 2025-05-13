@@ -1,66 +1,129 @@
-<div class="flex h-[60vh]" x-data="messenger()" x-init="init()">
+<div class="h-[90vh] md:flex md:justify-between md:h-[60vh] " x-data="messenger()" x-init="init()">
     <!-- Sidebar -->
-    <div class="w-1/4 border-r bg-white flex flex-col">
+    <div class="  bg-white flex flex-col md:w-[30vw] md:h-full md:mr-2 shadow-sm rounded-sm ">
         <!-- Header -->
-        <div class="p-4 border-b">
+        <div class="p-4  flex justify-between items-center">
             <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
-            <div class="relative mt-3">
-                <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
-                    placeholder="{{ __('messenger.search_placeholder') }}"
-                    class="w-full p-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                
+            <button x-on:click="modalIsOpen = true" type="button" class="block text-white bg-green-gs hover:bg-green-gs-dark focus:ring-4 focus:outline-none focus:ring-green-gs-light font-medium rounded-lg text-sm px-3 py-1.5 text-center dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </button>
+
+        </div>
+
+        <div >
+            <div x-cloak x-show="modalIsOpen" 
+            x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen" 
+            x-on:keydown.esc.window="modalIsOpen = false" x-on:click.self="modalIsOpen = false" 
+            class="fixed inset-0 z-100 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-sm sm:items-center lg:p-8" 
+            role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
+                <!-- Modal Dialog -->
+                <div x-show="modalIsOpen" 
+                x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity" 
+            class="w-[95vw] md:w-[60vw] lg:w-[40vw] ">
+                    <!-- Dialog Header -->
+                    <div class="relative p-4 w-full max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700 h-[50vh]">
+                <div class="p-4">
+                
+                    <div class="relative mt-3">
+                        <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
+                            placeholder="{{ __('messenger.search_placeholder') }}"
+                            class="w-full p-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-gs">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                <div>
+                        <template x-if="searchResults.length === 0">
+                            <div class="p-4 text-center text-gray-500">
+                                {{ __('messenger.no_results_found') }}
+                            </div>
+                        </template>
+                        <div class="h-[35vh]  overflow-y-auto p-4">
+                        <template x-for="result in searchResults.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)" :key="result.id" >
+                            <div x-on:click="loadChat(result.id) ; modalIsOpen = false ; " 
+                                class="p-3 hover:bg-green-gs hover:text-white cursor-pointer flex items-center rounded-sm">
+                                <img :src="result.avatar ? `{{ asset('storage/avatars') }}/` + result.avatar : '/icon-logo.png'"
+                                    :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"
+                                    class="w-10 h-10 rounded-full object-cover">
+                                <div class="ml-3">
+                                    <h3 class="font-medium hover:text-white font-bold"
+                                        x-text="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"></h3>
+                                    <p class="text-xs text-gray-500 hover:text-gray-300" x-text="result.profile_type"></p>
+                                </div>
+                            </div>
+
+
+
+                        </template>
+                        </div>
+                                    <!-- Pagination Controls -->
+                                    <div class="flex justify-center space-x-2 mt-2" x-show="searchResults.length > 0">
+                                    <button @click="currentPage = Math.max(1, currentPage - 1)"
+                                        class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        :disabled="currentPage === 1">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <span x-text="currentPage + ' / ' + Math.ceil(searchResults.length / itemsPerPage)" class="px-4 py-2 text-sm rounded bg-gray-100"></span>
+                                    <button @click="currentPage = Math.min(Math.ceil(searchResults.length / itemsPerPage), currentPage + 1)"
+                                        class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        :disabled="currentPage === Math.ceil(searchResults.length / itemsPerPage)">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                    </div>
+                </div>
+            </div>
+                
+                </div>
             </div>
         </div>
 
         <!-- Favoris -->
-        <div class="p-4 border-b">
-            <h2 class="font-semibold text-gray-700 mb-2">{{ __('messenger.favorites') }}</h2>
-            <div class="flex space-x-2 overflow-x-auto pb-2">
+        <div class="mb-2">
+            <h2 class="font-semibold px-4 py-2 text-gray-700 mb-2 bg-gray-100 rounded-t-sm">{{ __('messenger.favorites') }}</h2>
+            <div class="flex space-x-2 overflow-x-auto p-2">
+                <template x-if="favorites.length === 0">
+                    <div class="p-4 text-center text-gray-500">
+                        {{ __('messenger.no_favorites') }}
+                    </div>
+                </template>
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
-                        class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
+                        class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden ">
                         <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/icon-logo.png'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="w-12 h-12 rounded-full object-cover">
                         <span
-                            x-text="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"></span>
+                            x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon "></span>
                     </div>
                 </template>
             </div>
         </div>
 
         <!-- Liste des contacts -->
-        <div class="flex-1 overflow-y-auto relative">
-            <div>
-                <template x-for="result in searchResults" :key="result.id">
-                    <div @click="loadChat(result.id)"
-                        class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
-                        <img :src="result.avatar ? `{{ asset('storage/avatars') }}/${result.avatar}` : '/icon-logo.png'"
-                            :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"
-                            class="w-12 h-12 rounded-full object-cover">
-                        <span
-                            x-text="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon"></span>
-                    </div>
-                </template>
-            </div>
-            <!-- <div id="search-list" class="divide-y absolute h-full w-full inset-0 bg-white z-10"
-                x-show="searchQuery.length > 0 && !loadingContacts">
-            
-            </div> -->
-            <div id="contacts-list" class="divide-y">
+        <div class="flex-1  relative mb-2">
+            <h2 class="font-semibold px-4 py-2 text-gray-700 mb-2 bg-gray-100 rounded-t-sm">{{ __('messenger.contacts') }}</h2>
+            <div  x-show="!loadingContacts" id="contacts-list" class="divide-y overflow-y-auto h-[15vh] md:h-[30vh]">
+                
                 <!-- Les contacts seront chargés ici -->
             </div>
-            <div x-show="loadingContacts" class="p-4 text-center">
+            <div x-show="loadingContacts" class=" flex items-center justify-center p-4 text-center h-[15vh] md:h-[30vh]">
                 <i class="fas fa-spinner fa-spin text-primary"></i>
             </div>
         </div>
     </div>
 
     <!-- Zone de chat principale -->
-    <div class="flex-1 flex flex-col relative">
-        <!-- En-tête du chat -->
-        <div x-show="currentChat" class="p-4 border-b bg-white flex items-center justify-between">
-            <div class="flex items-center space-x-3">
+    <div class="w-full h-[75vh] relative md:w-[60vw] md:h-full">
+
+    <h2 class="font-semibold px-4 py-2 text-gray-700 mb-2 bg-gray-100 rounded-t-sm md:hidden">{{ __('messenger.messages') }}</h2>
+     
+        <div x-show="currentChat" class="p-4 flex items-center justify-between bg-gray-100 rounded-sm">
+            <div class="flex items-center space-x-3 ">
                 <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/icon-logo.png'"
                     :alt="currentChatUser.pseudo" class="w-10 h-10 rounded-full">
                 <div>
@@ -90,7 +153,7 @@
             x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-x-0"
             x-transition:leave-end="opacity-0 translate-x-full"
-            class="absolute top-0 right-0 bottom-0 w-80 bg-white border-l z-10 shadow-lg overflow-y-auto">
+            class="absolute top-12 right-0 bottom-0 w-80 bg-white border-l z-10 shadow-lg h-[49vh] md:h-[60vh] md:top-0  overflow-y-auto shadow-sm">
             <div class="p-6">
                 <!-- Bouton de fermeture -->
                 <button @click="showInfoPanel = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -175,28 +238,31 @@
         </div>
 
         <!-- Messages -->
-        <div x-show="currentChat" x-transition:enter="transition ease-out duration-300"
+        <div x-show="currentChat" x-transition:enter="transition ease-out duration-300 "
             x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
             class="flex-1 overflow-y-auto p-4 bg-gray-50" id="messages-container">
-            <div x-show="loadingMessages" class="text-center py-4">
+            <div x-show="loadingMessages" class="flex items-center justify-center text-center py-4 h-[30vh] md:h-[40vh]">
                 <i class="fas fa-spinner fa-spin text-primary"></i>
             </div>
-            <div id="messages-list" class="space-y-3">
+            <div x-show="!loadingMessages" id="messages-list" class="space-y-3 h-[30vh] overflow-y-auto md:h-[40vh]">
                 <!-- Les messages seront chargés ici -->
             </div>
         </div>
-
-        <!-- Input d'envoi -->
-        <div x-show='currentChat' class="border-t bg-white p-3">
-            <!-- Prévisualisation de l'image -->
-            <div x-show="preview" class="relative mb-3">
-                <img :src="preview" alt="Preview" class="max-w-64 rounded-lg">
+         <!-- Prévisualisation de l'image -->
+          <div  x-show="preview" class="absolute bottom-[260px] left-0 mb-3 w-full bg-gray-100 shadow-sm md:bottom-[70px]">
+          <div x-show="preview" class="relative my-2 w-[60px] h-[60px] mx-1 ">
+                <img :src="preview" alt="Preview" class="w-[60px] h-[60px] rounded-lg">
                 <button @click="clearAttachment()"
-                    class="absolute top-2 right-2 bg-gray-800 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                    class="absolute top-2 right-2 bg-gray-800 text-white rounded-full w-4 h-4 flex items-center justify-center">
                     <i class="fas fa-times text-xs"></i>
                 </button>
             </div>
+          </div>
+        
 
+        <!-- Input d'envoi -->
+        <div x-show='currentChat' class="border-t bg-white px-3 pt-4 pb-3 shadow-sm rounded-b-sm">
+           
             <!-- Formulaire d'envoi -->
             <form @submit.prevent="sendMessage(); clearAttachment();" class="flex items-center gap-2">
                 <!-- Bouton pièce jointe -->
@@ -232,24 +298,26 @@
                 </div>
 
                 <!-- Bouton d'envoi -->
-                <button type="submit" :disabled="!newMessage.trim() && !fileToUpload"
+                <button type="submit" :disabled="(!newMessage.trim() && !fileToUpload) || sendingMessage"
                     :class="{
-                        'btn-gs-gradient': newMessage.trim() || fileToUpload,
-                        'bg-gray-300 cursor-not-allowed': !
-                            newMessage.trim() && !fileToUpload
+                        'btn-gs-gradient': (newMessage.trim() || fileToUpload) && !sendingMessage,
+                        'bg-gray-300 cursor-not-allowed': (!newMessage.trim() && !fileToUpload) || sendingMessage
                     }"
                     class="text-back p-3 rounded-full w-12 h-12 flex items-center justify-center">
-                    <i class="fas fa-paper-plane"></i>
+                    <i x-show="!sendingMessage" class="fas fa-paper-plane"></i>
+                    <i x-show="sendingMessage" class="fas fa-spinner fa-spin"></i>
                 </button>
             </form>
         </div>
 
         <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex-1 flex items-center justify-center bg-gray-50">
+        <div x-show="!currentChat" class="h-[45vh] flex items-center justify-center bg-gray-50 md:h-[60vh]">
             <div class="text-center p-6">
                 <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
                     <i class="fas fa-comments text-gray-400 text-3xl"></i>
                 </div>
+                <!-- <h3 class="text-lg font-semibold text-gray-700 mb-2">{{ __('messenger.no_chat_selected') }}</h3>
+                <p class="text-gray-500 text-sm">{{ __('messenger.select_contact_to_start') }}</p> -->
                 <h3 class="text-xl font-semibold text-gray-700 mb-2">{{ __('messenger.no_conversation') }}</h3>
                 <p class="text-gray-500">{{ __('messenger.select_conversation') }}</p>
             </div>

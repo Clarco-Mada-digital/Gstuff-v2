@@ -126,7 +126,7 @@ class MessengerController extends Controller
     function sendMessage(Request $request)
     {
         $request->validate([
-            'message' => ['required'],
+            'message' => ['required_without:attachment'],
             'id' => ['required', 'integer'],
             'temporaryMsgId' => ['required'],
             'attachment' => ['nullable', 'max:1024', 'image']
@@ -255,8 +255,7 @@ class MessengerController extends Controller
        'users.visibility',
        'users.visible_countries',
        'users.last_seen_at',        
-       'users.createbysalon')
-       ->paginate(10);
+       'users.createbysalon')->get( );
 
        if(count($users) > 0) {
            $contacts = '';
@@ -270,7 +269,7 @@ class MessengerController extends Controller
 
        return response()->json([
            'contacts' => $contacts,
-           'last_page' => $users->lastPage()
+        //    'last_page' => $users->lastPage()
        ]);
 
    }
@@ -281,9 +280,17 @@ class MessengerController extends Controller
         ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
         ->latest()->first();
         $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+        
+        // Vérification du statut en ligne basée uniquement sur last_seen_at
+        $isOnline = false;
+        if ($user->last_seen_at) {
+            $lastSeen = $user->last_seen_at instanceof \Carbon\Carbon 
+                ? $user->last_seen_at 
+                : \Carbon\Carbon::parse($user->last_seen_at);
+            $isOnline = $lastSeen->gt(now()->subMinutes(2));
+        }
 
-        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
-
+        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user', 'isOnline'))->render();
     }
 
     // update contact item
