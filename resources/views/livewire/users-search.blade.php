@@ -8,21 +8,21 @@
     </div>
   </div>
 
-  <input wire:model.live.debounce.500ms="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" required />
+  <input wire:model.live.prevent.debounce.500ms="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" required />
   <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
-    <select wire:model.live="selectedCanton" x-model="selectedCanton" x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+    <select wire:model.live.prevent="selectedCanton" x-model="selectedCanton" x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
       <option selected value="">{{__('search_modal.cantons')}}</option>
       <template x-for="canton in cantons" :key="canton.id">
         <option :value="canton.id" x-text="canton.nom"></option>
       </template>
     </select>
-    <select wire:model.live="selectedVille" id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" :disabled="villes == '' ? true : false" >
+    <select wire:model.live.prevent="selectedVille" id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" :disabled="villes == '' ? true : false" >
       <option selected value="" x-text="villes == '' ? '{{__('search_modal.choose_canton')}}' : '{{__('search_modal.cities')}}' "></option>
       <template x-for="ville in villes" :key="ville.id">
         <option :value="ville.id" x-text="ville.nom"></option>
       </template>
     </select>
-    <select wire:model.live='selectedGenre' id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+    <select wire:model.live.prevent='selectedGenre' id="small" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
       <option selected value=''>{{__('search_modal.gender')}}</option>
       <option value="Femme">{{__('search_modal.female')}}</option>
       <option value="Homme">{{__('search_modal.male')}}</option>
@@ -36,7 +36,7 @@
   <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
     @foreach ($salonCategories as $categorie)
       <div wire:key="{{$categorie->id}}">
-        <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
+        <input  wire:model.live.prevent='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
         <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
       </div>
     @endforeach
@@ -44,7 +44,7 @@
   <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
     @foreach ($escortCategories as $categorie)
       <div wire:key="{{$categorie->id}}">
-        <input  wire:model.live='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
+        <input  wire:model.live.prevent='selectedCategories' type="checkbox" name="{{$categorie->id}}" id="categorie{{$categorie->id}}" value="{{$categorie->id}}" class="hidden peer">
         <label for="categorie{{$categorie->id}}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">{{$categorie->nom}}</label>
       </div>
     @endforeach
