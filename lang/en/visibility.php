@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'validation' => [
+        'visibility_required' => 'The visibility field is required.',
+        'visibility_in' => 'The selected visibility is invalid.',
+        'countries_required_if' => 'The countries field is required when visibility is custom.',
+        'countries_array' => 'The countries must be an array.',
+        'countries_*_string' => 'Each country must be a string.',
+        'countries_*_size' => 'Each country code must be 2 characters.',
+    ],
+    'success' => [
+        'visibility_updated' => 'Visibility settings updated successfully.',
+        'visibility_reset' => 'Visibility settings reset successfully.',
+    ],
     'title' => 'Profile Visibility Settings',
     'profile_visibility' => '🌍 Profile Visibility',
     'public' => [

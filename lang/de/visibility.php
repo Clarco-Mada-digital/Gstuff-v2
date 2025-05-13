@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'validation' => [
+        'visibility_required' => 'Das Sichtbarkeitsfeld ist erforderlich.',
+        'visibility_in' => 'Die ausgewählte Sichtbarkeit ist ungültig.',
+        'countries_required_if' => 'Das Länderfeld ist erforderlich, wenn die Sichtbarkeit angepasst ist.',
+        'countries_array' => 'Die Länder müssen ein Array sein.',
+        'countries_*_string' => 'Jedes Land muss eine Zeichenkette sein.',
+        'countries_*_size' => 'Jeder Ländercode muss 2 Zeichen lang sein.',
+    ],
+    'success' => [
+        'visibility_updated' => 'Sichtbarkeitseinstellungen erfolgreich aktualisiert.',
+        'visibility_reset' => 'Sichtbarkeitseinstellungen erfolgreich zurückgesetzt.',
+    ],
     'title' => 'Profil-Sichtbarkeitseinstellungen',
     'profile_visibility' => '🌍 Profil-Sichtbarkeit',
     'public' => [

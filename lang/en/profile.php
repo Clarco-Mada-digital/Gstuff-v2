@@ -1,6 +1,51 @@
 <?php
 
 return [
+    'success' => [
+        'profile_updated' => 'Profile updated successfully!',
+        'profile_photo_updated' => 'Profile photo updated successfully.',
+        'verification_request_sent' => 'Your verification request has been sent successfully!',
+        'profile_saved' => 'Profile saved successfully',
+        'password_updated' => 'Password updated successfully',
+    ],
+    'errors' => [
+        'profile_photo_update_failed' => 'Error updating profile photo.',
+        'validation_failed' => 'Validation failed',
+    ],
+    
+    'validation' => [
+        'avatar' => [
+            'image' => 'The file must be an image',
+            'max' => 'The image size must not exceed :max KB',
+        ],
+        'name' => [
+            'required' => 'The name field is required',
+            'string' => 'The name must be a string',
+            'max' => 'The name may not be greater than :max characters',
+        ],
+        'user_id' => [
+            'required' => 'The user ID is required',
+            'string' => 'The user ID must be a string',
+            'max' => 'The user ID may not be greater than :max characters',
+            'unique' => 'This user ID is already taken',
+        ],
+        'email' => [
+            'required' => 'The email field is required',
+            'email' => 'The email must be a valid email address',
+            'max' => 'The email may not be greater than :max characters',
+            'unique' => 'This email is already in use',
+        ],
+        'current_password' => [
+            'required' => 'The current password is required',
+            'current_password' => 'The current password is incorrect',
+        ],
+        'password' => [
+            'required' => 'The new password is required',
+            'string' => 'The password must be a string',
+            'min' => 'The password must be at least :min characters',
+            'confirmed' => 'The password confirmation does not match',
+        ],
+    ],
     'edit_cover_photo' => 'Edit Cover Photo',
     'edit_profile_photo' => 'Edit Profile Photo',
     'update_profile_photo' => 'Update',

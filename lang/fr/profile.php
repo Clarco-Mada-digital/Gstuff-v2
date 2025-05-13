@@ -1,6 +1,51 @@
 <?php
 
 return [
+    'success' => [
+        'profile_updated' => 'Profil mis à jour avec succès!',
+        'profile_photo_updated' => 'Photo de profil mise à jour avec succès.',
+        'verification_request_sent' => 'Votre demande de vérification a été envoyée avec succès!',
+        'profile_saved' => 'Profil enregistré avec succès',
+        'password_updated' => 'Mot de passe mis à jour avec succès',
+    ],
+    'errors' => [
+        'profile_photo_update_failed' => 'Erreur lors de la mise à jour de la photo de profil.',
+        'validation_failed' => 'La validation a échoué',
+    ],
+    
+    'validation' => [
+        'avatar' => [
+            'image' => 'Le fichier doit être une image',
+            'max' => 'La taille de l\'image ne doit pas dépasser :max Ko',
+        ],
+        'name' => [
+            'required' => 'Le nom est requis',
+            'string' => 'Le nom doit être une chaîne de caractères',
+            'max' => 'Le nom ne peut pas dépasser :max caractères',
+        ],
+        'user_id' => [
+            'required' => 'L\'identifiant utilisateur est requis',
+            'string' => 'L\'identifiant utilisateur doit être une chaîne de caractères',
+            'max' => 'L\'identifiant utilisateur ne peut pas dépasser :max caractères',
+            'unique' => 'Cet identifiant utilisateur est déjà pris',
+        ],
+        'email' => [
+            'required' => 'L\'email est requis',
+            'email' => 'L\'email doit être une adresse email valide',
+            'max' => 'L\'email ne peut pas dépasser :max caractères',
+            'unique' => 'Cet email est déjà utilisé',
+        ],
+        'current_password' => [
+            'required' => 'Le mot de passe actuel est requis',
+            'current_password' => 'Le mot de passe actuel est incorrect',
+        ],
+        'password' => [
+            'required' => 'Le nouveau mot de passe est requis',
+            'string' => 'Le mot de passe doit être une chaîne de caractères',
+            'min' => 'Le mot de passe doit contenir au moins :min caractères',
+            'confirmed' => 'La confirmation du mot de passe ne correspond pas',
+        ],
+    ],
     'edit_cover_photo' => 'Modifier photo de couverture',
     'edit_profile_photo' => 'Modifier photo de profil',
     'update_profile_photo' => 'Mettre à jour',
@@ -197,5 +242,8 @@ return [
     'default_password' => "Mot de passe par défaut",
     'password_change_notice' => "L'escorte doit modifier le mot de passe par défaut pour sécuriser son compte.",
 
+    // Validation
+    'password_required' => 'Le mot de passe est requis',
+    'current_password_invalid' => 'Le mot de passe actuel est incorrect',
 
 ];

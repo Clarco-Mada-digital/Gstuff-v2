@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'success' => [
+        'profile_updated' => 'Profil erfolgreich aktualisiert!',
+        'profile_photo_updated' => 'Profilfoto erfolgreich aktualisiert.',
+        'verification_request_sent' => 'Ihr Verifizierungsantrag wurde erfolgreich gesendet!',
+    ],
+    'errors' => [
+        'profile_photo_update_failed' => 'Fehler beim Aktualisieren des Profilfotos.',
+    ],
     'edit_cover_photo' => 'Titelbild bearbeiten',
     'edit_profile_photo' => 'Profilbild bearbeiten',
     'update_profile_photo' => 'Aktualisieren',

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Lang;
 
 class MessengerController extends Controller
 {
@@ -37,7 +38,7 @@ class MessengerController extends Controller
             ->get();
 
         if (count($records) < 1) {
-            $getRecords .= "<p class='text-center'>Rien a voir - Aucun resultat.</p>";
+            $getRecords .= "<p class='text-center'>".__('chat.no_results')."</p>";
         }
 
         foreach ($records as $record) {
@@ -146,7 +147,9 @@ class MessengerController extends Controller
 
         return response()->json([
             'message' => $message->attachment ? $this->messageCard($message, true) : $this->messageCard($message),
-            'tempID' => $request->temporaryMsgId
+            'tempID' => $request->temporaryMsgId,
+            'success' => true,
+            'message_text' => __('chat.message_sent')
         ]);
     }
 
@@ -169,11 +172,7 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='flex justify-center items-center h-full font-bold text-xl font-dm-serif'>
-    <p>Dis 'bonjour' et commence à échanger des messages.</p>
-</div>";
-
-            // $response['messages'] = "<div class='flex justify-center font-bold font-dm-serif text-xl items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
+            $response['messages'] = view('messenger.components.no-messages')->render();
             return response()->json($response);
         }
 
@@ -346,10 +345,13 @@ class MessengerController extends Controller
             return response()->json([
                 'id' => $request->message_id,
                 'status' => 'success',
-                'message' => 'Message supprimé avec succès'
+                'message' => __('chat.message_deleted')
             ], 200);
         }
-        return;
+        return response()->json([
+            'status' => 'error',
+            'message' => __('chat.delete_failed')
+        ], 403);
     }
 
 }

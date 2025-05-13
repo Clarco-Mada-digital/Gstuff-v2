@@ -25,24 +25,73 @@
     </form> --}}
     <form id="conseilForm" wire:submit.prevent="send" method="POST" class="flex flex-col gap-3 w-full">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
-          <div class="flex flex-col w-full gap-2">
-            <label for="nom">{{__('contact.name')}}</label>
-            <input wire:model.defer="name" type="text" name="nom" id="nom" class="border rounded-lg focus:border-amber-400 ring-0 @error('name') border-red-500 @enderror" placeholder="{{__('contact.name_placeholder')}}">
+          <div class="flex flex-col w-full gap-1">
+            <label for="nom" class="font-medium">{{__('contact.name')}}</label>
+            <input 
+                wire:model.defer="name" 
+                type="text" 
+                name="nom" 
+                id="nom" 
+                class="border rounded-lg focus:border-amber-400 ring-0 p-2 @error('name') border-red-500 @enderror" 
+                placeholder="{{__('contact.name_placeholder')}}"
+            >
+            @error('name')
+                <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+            @enderror
           </div>
-          <div class="flex flex-col w-full gap-2">
-            <label for="contact_email">{{__('contact.email')}}</label>
-            <input wire:model.defer="email" type="email" name="email" id="contact_email" class="border rounded-lg focus:border-amber-400 ring-0 @error('email') border-red-500 @enderror" placeholder="{{__('contact.email_placeholder')}}">
+          
+          <div class="flex flex-col w-full gap-1">
+            <label for="contact_email" class="font-medium">{{__('contact.email')}}</label>
+            <input 
+                wire:model.defer="email" 
+                type="email" 
+                name="email" 
+                id="contact_email" 
+                class="border rounded-lg focus:border-amber-400 ring-0 p-2 @error('email') border-red-500 @enderror" 
+                placeholder="{{__('contact.email_placeholder')}}"
+            >
+            @error('email')
+                <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+            @enderror
           </div>
         </div>
-        <div class="flex flex-col w-full gap-2">
-          <label for="sujet">{{__('contact.subject')}}</label>
-          <input  wire:model.defer="subject" type="text" name="sujet" id="sujet" class="border rounded-lg focus:border-amber-400 ring-0 @error('subject') border-red-500 @enderror" placeholder="{{__('contact.subject_placeholder')}}">
+        
+        <div class="flex flex-col w-full gap-1">
+          <label for="sujet" class="font-medium">{{__('contact.subject')}}</label>
+          <input  
+              wire:model.defer="subject" 
+              type="text" 
+              name="sujet" 
+              id="sujet" 
+              class="border rounded-lg focus:border-amber-400 ring-0 p-2 @error('subject') border-red-500 @enderror" 
+              placeholder="{{__('contact.subject_placeholder')}}"
+          >
+          @error('subject')
+              <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+          @enderror
         </div>
-        <div class="flex flex-col w-full gap-2">
-          <label for="messageConseil">{{__('contact.message')}}</label>
-          <textarea  wire:model.defer="message" name="message" id="messageConseil" rows="10" class="border rounded-lg focus:border-amber-400 ring-0 @error('message') border-red-500 @enderror" placeholder="{{__('contact.message_placeholder')}}"></textarea>
+        
+        <div class="flex flex-col w-full gap-1">
+          <label for="messageConseil" class="font-medium">{{__('contact.message')}}</label>
+          <textarea  
+              wire:model.defer="message" 
+              name="message" 
+              id="messageConseil" 
+              rows="6" 
+              class="border rounded-lg focus:border-amber-400 ring-0 p-2 @error('message') border-red-500 @enderror" 
+              placeholder="{{__('contact.message_placeholder')}}"
+          ></textarea>
+          @error('message')
+              <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+          @enderror
         </div>
-        <button type="submit" class="w-full bg-green-gs rounded-lg text-center text-white p-3 text-lg cursor-pointer hover:bg-green-gs/70">{{__('contact.send')}}</button>
+        
+        <button 
+            type="submit" 
+            class="w-full bg-green-gs rounded-lg text-center text-white p-3 text-lg cursor-pointer hover:bg-green-gs/90 transition-colors duration-200 mt-2"
+        >
+            {{__('contact.send')}}
+        </button>
     </form>
 </div>
 

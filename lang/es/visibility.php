@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'validation' => [
+        'visibility_required' => 'El campo visibilidad es obligatorio.',
+        'visibility_in' => 'La visibilidad seleccionada no es válida.',
+        'countries_required_if' => 'El campo países es obligatorio cuando la visibilidad es personalizada.',
+        'countries_array' => 'Los países deben ser un arreglo.',
+        'countries_*_string' => 'Cada país debe ser una cadena de caracteres.',
+        'countries_*_size' => 'Cada código de país debe tener 2 caracteres.',
+    ],
+    'success' => [
+        'visibility_updated' => 'Configuración de visibilidad actualizada correctamente.',
+        'visibility_reset' => 'Configuración de visibilidad restablecida correctamente.',
+    ],
     'title' => 'Configuración de visibilidad del perfil',
     'profile_visibility' => '🌍 Visibilidad del perfil',
     'public' => [

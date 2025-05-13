@@ -493,7 +493,9 @@ class ProfileCompletionController extends Controller
 
         $user->notify(new ComplementationNotification($percentage));
 
-        return redirect()->route('profile.index')->with('success', 'Profil mis à jour avec succès!')->with('completionPercentage', $percentage);
+        return redirect()->route('profile.index')
+            ->with('success', __('profile.success.profile_updated'))
+            ->with('completionPercentage', $percentage);
     }
 
     public function updatePhoto(Request $request)
@@ -518,7 +520,7 @@ class ProfileCompletionController extends Controller
             // Mettre à jour la photo de profil de l'utilisateur
             $user->update(['avatar' => $filename]);
 
-            return redirect()->back()->with('success', 'Photo de profil mise à jour avec succès.');
+            return redirect()->back()->with('success', __('profile.success.profile_photo_updated'));
         }
         if ($request->hasFile('photo_couverture') && $request->file('photo_couverture')->isValid()) {
             // Supprimer l'ancienne photo si elle existe
@@ -534,10 +536,10 @@ class ProfileCompletionController extends Controller
             // Mettre à jour la photo de profil de l'utilisateur
             $user->update(['couverture_image' => $filename]);
 
-            return redirect()->back()->with('success', 'Photo de profil mise à jour avec succès.');
+            return redirect()->back()->with('success', __('profile.success.profile_photo_updated'));
         }
 
-        return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la photo de profil.');
+        return redirect()->back()->with('error', __('profile.errors.profile_photo_update_failed'));
     }
 
     public function updateVerification(Request $request)
@@ -584,7 +586,7 @@ class ProfileCompletionController extends Controller
         
             // Rediriger avec un message de succès
             return redirect()->route('profile.index')
-                ->with('success', 'Votre demande de vérification a été envoyée avec succès!');
+                ->with('success', __('profile.success.verification_request_sent'));
 
             }
 

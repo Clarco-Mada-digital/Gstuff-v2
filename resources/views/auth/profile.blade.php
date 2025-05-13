@@ -1104,9 +1104,14 @@
     <script>
         function multiStepForm() {
             return {
-                steps: "{{ $user->profile_type }}" == 'invite' ? ['Informations personnelles',
-                    'Informations complémentaires'
-                ] : ['Informations personnelles', 'Informations professionnelles', 'Informations complémentaires'],
+                steps: "{{ $user->profile_type }}" == 'invite' ? [
+                    '{{ __('profile.personal_information') }}',
+                    '{{ __('profile.additional_information') }}'
+                ] : [
+                    '{{ __('profile.personal_information') }}', 
+                    '{{ __('profile.professional_information') }}', 
+                    '{{ __('profile.additional_information') }}'
+                ],
                 currentStep: 0,
                 nextStep() {
                     if (this.currentStep < this.steps.length - 1) {

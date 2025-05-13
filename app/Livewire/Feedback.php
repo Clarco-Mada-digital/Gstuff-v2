@@ -23,6 +23,22 @@ class Feedback extends Component
         'rating' => 'required|integer|min:1|max:5',
         'comment' => 'nullable|string|max:500',
     ];
+    
+    protected $validationAttributes = [
+        'rating' => __('feedback.validation.rating_required'),
+        'comment' => __('feedback.validation.comment_max'),
+    ];
+    
+    protected function getMessages()
+    {
+        return [
+            'rating.required' => __('feedback.validation.rating_required'),
+            'rating.integer' => __('feedback.validation.rating_integer'),
+            'rating.min' => __('feedback.validation.rating_min'),
+            'rating.max' => __('feedback.validation.rating_max'),
+            'comment.max' => __('feedback.validation.comment_max'),
+        ];
+    }
 
     public function mount($userToId)
     {
@@ -58,7 +74,7 @@ class Feedback extends Component
 
         // $this->loadFeedbacks(); // Rafraîchit la liste
 
-        session()->flash('success', 'Votre feedback a été soumis avec succès.');
+        session()->flash('success', __('feedback.success.submitted'));
     }
 
     public function render()
