@@ -32,11 +32,11 @@ window.Echo = new Echo({
 });
 
 
-Echo.channel('message.' + userId)
-    .listen('message.sent', (event) => {
-        // Ici, tu peux mettre à jour ton chat en temps réel
-        console.log(event.message);
-    });
+// Echo.channel('message.' + userId)
+//     .listen('message.sent', (event) => {
+//         // Ici, tu peux mettre à jour ton chat en temps réel
+//         console.log(event.message);
+//     });
 
 // Vérification de la variable userId
 // if (typeof userId !== 'undefined' && userId) {

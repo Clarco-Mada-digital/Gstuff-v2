@@ -70,7 +70,6 @@ Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
 
-
 Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
 Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
 Route::post('/static-store', [StaticPageController::class, 'store'])->name('static.store');
