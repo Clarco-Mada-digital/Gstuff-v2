@@ -40,8 +40,8 @@
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 
-    @vite('resources/css/app.css', 'resources/js/app.js')
-    {{-- Vite::useBuildDirectory('build')->withEntryPoints(['resources/js/app.js', 'resources/css/app.css']) --}}
+    {{-- @vite('resources/css/app.css', 'resources/js/app.js') --}}
+    {{ Vite::useBuildDirectory('build')->withEntryPoints(['resources/js/app.js', 'resources/css/app.css']) }}
 
     @livewireStyles
     @livewireScripts
