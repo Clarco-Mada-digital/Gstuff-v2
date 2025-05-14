@@ -41,24 +41,11 @@ class GalleryManager extends Component
             'media.*' => 'required|file|mimetypes:image/jpeg,image/png,image/webp,video/mp4,video/quicktime|max:102400'
         ]);
 
-        dump("ici", $this->media);
-
         $this->previews = [];
         $this->uploadProgress = [];
 
         foreach ($this->media as $key => $file) {
             $this->uploadProgress[$key] = 0;
-
-            dump('Traitement du fichier:', [
-                'index' => $key,
-                'original_name' => $file->getClientOriginalName(),
-                'mime_type' => $file->getMimeType(),
-                'size' => $file->getSize(),
-                'real_path' => $file->getRealPath(),
-                'exists' => file_exists($file->getRealPath()),
-                'is_uploaded_file' => is_uploaded_file($file->getRealPath()),
-                'is_readable' => is_readable($file->getRealPath())
-            ]);
             
             if (str_starts_with($file->getMimeType(), 'image/')) {
                 $this->previews[$key] = [
@@ -73,13 +60,7 @@ class GalleryManager extends Component
                     'name' => $file->getClientOriginalName()
                 ];
             }
-
-            dump("ici 2", $this->previews);
-            dump('Prévisualisation créée:', $this->previews[$key]);
         }
-
-        dump("ici 3", $this->previews);
-        $this->dispatch('media-updated');
     }
 
     public function removePreview($index)
