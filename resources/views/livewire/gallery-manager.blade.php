@@ -1,7 +1,9 @@
-<div class="w-full" x-data="gallery()" x-init="initGallery()" x-cloak @keydown.left="if(fullscreen) navigateMedia(-1)" @keydown.right="if(fullscreen) navigateMedia(1)">
+<div class="w-full" x-data="{gallery() ,  logPreviews() {
+        console.log('Prévisualisations côté client:', @js($previews));
+    }}" x-init="initGallery()" x-cloak @keydown.left="if(fullscreen) navigateMedia(-1)" @keydown.right="if(fullscreen) navigateMedia(1)">
     <!-- Header -->
     <div class="flex justify-between items-center gap-3 mb-6 text-green-gs">
-        <h2 class="font-dm-serif font-bold text-2xl">{{ __('gallery.gallery') }} @if ($isPublic == false) ({{ __('gallery.private') }}) @endif</h2>
+        <h2 class="font-dm-serif font-bold text-2xl">{{__('gallery_manageSection.gallery_title')}} @if ($isPublic == false) {{__('gallery_manageSection.private')}} @endif</h2>
         <div class="flex-1 h-0.5 bg-green-gs"></div>
         <div class="flex space-x-3">
             <!-- Boutons de vue -->
@@ -15,25 +17,14 @@
             <!-- Bouton ajout (seulement pour le propriétaire) -->
             @if(auth()->id() === $user->id)
             <button @click="$wire.openModal()" class="btn-primary flex items-center">
-                <i class="fas fa-plus mr-2"></i> {{ __('gallery.add_media') }}
+                <i class="fas fa-plus mr-2"></i> {{__('gallery_manageSection.add')}}
             </button>
             @endif
         </div>
     </div>
 
     @if (!$isPublic && $user->id == auth()->user()->id)
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <i class="fas fa-exclamation-circle text-yellow-400"></i>
-            </div>
-            <div class="ml-3">
-                <p class="text-sm text-yellow-700">
-                    {{ __('gallery.private_gallery_warning') }}
-                </p>
-            </div>
-        </div>
-    </div>
+    <span class="w-full text-center text-green-gs font-bold font-dm-serif">{{__('gallery_manageSection.video_limit_warning')}}</span>
     @endif
 
     <!-- Modal de confirmation de suppression -->
@@ -47,14 +38,14 @@
                     </button>
                 </div>
 
-                <p class="text-gray-600 mb-6">{{ __('gallery.messages.delete_confirm') }}</p>
+                <p class="text-gray-600 mb-6">{{__('gallery_manageSection.confirm_delete')}}</p>
 
                 <div class="flex justify-end space-x-3">
                     <button @click="showDeleteModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                        {{ __('gallery.cancel') }}
+                        {{__('gallery_manageSection.cancel')}}
                     </button>
                     <button @click="$wire.deleteMedia(mediaToDelete); showDeleteModal = false" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
-                        <i class="fas fa-trash mr-2"></i> {{ __('gallery.delete') }}
+                        <i class="fas fa-trash mr-2"></i> {{__('gallery_manageSection.delete')}}
                     </button>
                 </div>
             </div>
@@ -109,10 +100,10 @@
             @if($galleries->isEmpty())
             <div class="col-span-full text-center py-12 text-gray-500">
                 <i class="fas fa-images text-4xl mb-3"></i>
-                <p>{{ __('gallery.no_media') }}</p>
+                <p>{{__('gallery_manageSection.no_media')}}</p>
                 @if(auth()->id() === $user->id)
                 <button @click="$wire.openModal()" class="btn-primary mt-4">
-                    <i class="fas fa-plus mr-2"></i> {{ __('gallery.add_media') }}
+                    <i class="fas fa-plus mr-2"></i> {{__('gallery_manageSection.add_first_media')}}
                 </button>
                 @endif
             </div>
@@ -177,10 +168,10 @@
             @if($galleries->isEmpty())
             <div class="text-center py-12 text-gray-500">
                 <i class="fas fa-images text-4xl mb-3"></i>
-                <p>{{ __('gallery.no_media') }}</p>
+                <p>{{__('gallery_manageSection.no_media')}}</p>
                 @if(auth()->id() === $user->id)
                 <button @click="$wire.openModal()" class="btn-primary mt-4">
-                    <i class="fas fa-plus mr-2"></i> {{ __('gallery.add_media') }}
+                    <i class="fas fa-plus mr-2"></i> {{__('gallery_manageSection.add_first_media')}}
                 </button>
                 @endif
             </div>
@@ -198,25 +189,32 @@
 
             @endphp
             <h3 class="text-xl font-semibold mb-4">
-                {{ $selectedMedia ? __('gallery.edit') : __('gallery.add_media') }}
+                {{ $selectedMedia ? $edit_media : $add_media }}aaaaaaaaaaaaaa
             </h3>
 
             <form wire:submit.prevent="saveMedia">
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('gallery.title') }} *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{__('gallery_manageSection.title')}} *</label>
                         <input type="text" wire:model="title" class="w-full rounded-lg border-gray-300">
                         @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('gallery.description') }}</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{__('gallery_manageSection.description')}}</label>
                         <textarea wire:model="description" rows="3" class="w-full rounded-lg border-gray-300"></textarea>
                     </div>
 
+                    
+                    <div>
+    <p>Debug:</p>
+    <p>Selected Media: {{ is_array($selectedMedia) ? json_encode($selectedMedia) : $selectedMedia }}</p>
+    <p>Previews: {{ json_encode($previews) }}</p>
+</div>
+
                     @if(!$selectedMedia)
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('gallery.media') }} @if(!$selectedMedia) * @endif</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">{{__('gallery_manageSection.media')}} *</label>
                         <div x-data="{ isUploading: false, progress: 0, isDragging: false }" x-on:livewire-upload-start="isUploading = true" x-on:livewire-upload-finish="isUploading = false" x-on:livewire-upload-error="isUploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress" @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false" @drop.prevent="isDragging = false; $wire.uploadMultiple('media', $event.dataTransfer.files)">
                             <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center" :class="{ 'border-blue-500 bg-blue-50': isDragging, 'border-gray-300': !isDragging }">
                                 <input type="file" wire:model="media" multiple accept="image/*,video/*" class="hidden" id="galleryUpload">
@@ -239,6 +237,34 @@
                             @error('media.*') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
                     </div>
+                    <!-- Remplacer le template existant par : -->
+@if(count($previews) > 0)
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        @foreach($previews as $index => $preview)
+            <div class="relative border rounded-lg overflow-hidden group">
+                @if($preview['type'] === 'image')
+                    <img src="{{ $preview['url'] }}" alt="{{ $preview['name'] }}" class="w-full h-32 object-cover">
+                @else
+                    <div class="w-full h-32 bg-gray-200 flex items-center justify-center">
+                        <i class="fas fa-video text-gray-400 text-2xl"></i>
+                    </div>
+                @endif
+                <div class="absolute inset-x-0 bottom-0 bg-black/70 text-white p-2">
+                    <p class="text-xs truncate">{{ $preview['name'] }}</p>
+                </div>
+                <button type="button" 
+                        @click.prevent="
+                            $wire.previews.splice({{ $index }}, 1);
+                            $wire.media.splice({{ $index }}, 1);
+                        " 
+                        class="absolute top-2 right-2 p-1 bg-white/80 rounded-full hover:bg-white">
+                    <i class="fas fa-times text-red-600 text-sm"></i>
+                </button>
+            </div>
+        @endforeach
+    </div>
+@endif
+
                     <!-- Prévisualisations -->
                     <template x-if="$wire.previews.length > 0">
                         <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -282,7 +308,7 @@
 
                 <div class="flex justify-end space-x-3 mt-6">
                     <button type="button" @click="$wire.showModal = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-                        {{ __('gallery.cancel') }}
+                        {{__('gallery_manageSection.cancel')}}
                     </button>
                     @php
                     $update = __('gallery_manageSection.update');
@@ -342,3 +368,12 @@
         </template>
     </div>
 </div>
+<script>
+    document.addEventListener('livewire:initialized', () => {
+    Livewire.on('media-updated', () => {
+        // Cette partie n'est plus nécessaire si on utilise le rendu côté serveur
+        // Laissé pour référence si besoin de logique supplémentaire
+        console.log('Media updated');
+    });
+});
+</script>

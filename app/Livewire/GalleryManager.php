@@ -34,29 +34,6 @@ class GalleryManager extends Component
         'isPublic' => 'nullable|boolean',
         'media.*' => 'required|file|mimetypes:image/jpeg,image/png,image/webp,video/mp4,video/webp,video/quicktime|max:102400' // 100MB max
     ];
-    
-    protected $validationAttributes = [];
-    
-    public function boot()
-    {
-        $this->validationAttributes = [
-            'title' => __('gallery.title'),
-            'description' => __('gallery.description'),
-            'isPublic' => __('gallery.is_public'),
-            'media' => __('gallery.media'),
-        ];
-    }
-    
-    protected function getMessages()
-    {
-        return [
-            'title.required' => __('gallery.validation.title_required'),
-            'title.max' => __('gallery.validation.title_max', ['max' => 255]),
-            'media.required' => __('gallery.validation.media_required'),
-            'media.mimetypes' => __('gallery.validation.media_mimetypes'),
-            'media.max' => __('gallery.validation.media_max'),
-        ];
-    }
 
     public function updatedMedia()
     {
@@ -64,11 +41,24 @@ class GalleryManager extends Component
             'media.*' => 'required|file|mimetypes:image/jpeg,image/png,image/webp,video/mp4,video/quicktime|max:102400'
         ]);
 
+        dump("ici", $this->media);
+
         $this->previews = [];
         $this->uploadProgress = [];
 
         foreach ($this->media as $key => $file) {
             $this->uploadProgress[$key] = 0;
+
+            dump('Traitement du fichier:', [
+                'index' => $key,
+                'original_name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'real_path' => $file->getRealPath(),
+                'exists' => file_exists($file->getRealPath()),
+                'is_uploaded_file' => is_uploaded_file($file->getRealPath()),
+                'is_readable' => is_readable($file->getRealPath())
+            ]);
             
             if (str_starts_with($file->getMimeType(), 'image/')) {
                 $this->previews[$key] = [
@@ -83,7 +73,13 @@ class GalleryManager extends Component
                     'name' => $file->getClientOriginalName()
                 ];
             }
+
+            dump("ici 2", $this->previews);
+            dump('Prévisualisation créée:', $this->previews[$key]);
         }
+
+        dump("ici 3", $this->previews);
+        $this->dispatch('media-updated');
     }
 
     public function removePreview($index)
@@ -132,23 +128,18 @@ class GalleryManager extends Component
             if ($this->selectedMedia) {
                 // Mise à jour d'un média existant
                 $this->updateMedia();
-                $successMessage = __('gallery.messages.update_success');
             } else {
                 // Ajout de nouveaux médias
                 $this->saveNewMedia();
-                $successMessage = __('gallery.messages.upload_success');
             }
     
             // Fermer le modal et notifier du succès
             $this->showModal = false;
-            $this->dispatch('galleryUpdated', [
-                'message' => $successMessage,
-                'type' => 'success'
-            ]);
+            $this->dispatch('galleryUpdated');
         } catch (\Exception $e) {
             // Gestion des erreurs générales
             logger()->error('Erreur lors de la sauvegarde des médias : ' . $e->getMessage());
-            $this->addError('general', __('gallery.messages.error'));
+            $this->addError('general', 'Une erreur est survenue lors de la sauvegarde. Veuillez réessayer.');
         }
     }
     
@@ -162,7 +153,7 @@ class GalleryManager extends Component
             ]);
         } catch (\Exception $e) {
             logger()->error('Erreur lors de la mise à jour du média : ' . $e->getMessage());
-            throw new \RuntimeException(__('gallery.messages.error'));
+            throw new \RuntimeException('Impossible de mettre à jour le média sélectionné.');
         }
     }
     
@@ -172,7 +163,7 @@ class GalleryManager extends Component
             try {
                 // Validation du fichier
                 if (!$file || !$file->isValid()) {
-                    throw new \InvalidArgumentException(__('gallery.messages.error'));
+                    throw new \InvalidArgumentException('Fichier invalide ou corrompu.');
                 }
     
                 // Stockage du fichier
@@ -197,7 +188,7 @@ class GalleryManager extends Component
             } catch (\Exception $e) {
                 logger()->error('Erreur lors de l\'enregistrement d\'un nouveau média : ' . $e->getMessage());
                 dd($e->getMessage());
-                throw new \RuntimeException(__('gallery.messages.error'));
+                throw new \RuntimeException('Impossible d\'enregistrer un ou plusieurs fichiers. Veuillez vérifier vos fichiers et réessayer.');
             }
         }
     }
@@ -221,24 +212,12 @@ class GalleryManager extends Component
 
     public function deleteMedia($mediaId)
     {
-        try {
-            $media = Gallery::findOrFail($mediaId);
-            
-            // Supprimer les fichiers associés
-            Storage::disk('public')->delete([$media->path, $media->thumbnail_path]);
-            $media->delete();
-            
-            $this->dispatch('galleryUpdated', [
-                'message' => __('gallery.messages.delete_success'),
-                'type' => 'success'
-            ]);
-        } catch (\Exception $e) {
-            logger()->error('Erreur lors de la suppression du média : ' . $e->getMessage());
-            $this->dispatch('galleryUpdated', [
-                'message' => __('gallery.messages.error'),
-                'type' => 'error'
-            ]);
-        }
+        $media = Gallery::findOrFail($mediaId);
+        
+        Storage::disk('public')->delete([$media->path, $media->thumbnail_path]);
+        $media->delete();
+        
+        $this->dispatch('galleryUpdated');
     }
 
     public function render()
