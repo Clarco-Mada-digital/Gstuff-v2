@@ -24,10 +24,13 @@ class Feedback extends Component
         'comment' => 'nullable|string|max:500',
     ];
     
-    protected $validationAttributes = [
-        'rating' => __('feedback.validation.rating_required'),
-        'comment' => __('feedback.validation.comment_max'),
-    ];
+    protected function validationAttributes()
+    {
+        return [
+            'rating' => __('feedback.validation.rating_required'),
+            'comment' => __('feedback.validation.comment_max'),
+        ];
+    }
     
     protected function getMessages()
     {

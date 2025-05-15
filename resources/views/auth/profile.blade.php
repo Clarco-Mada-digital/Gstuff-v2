@@ -38,7 +38,7 @@
             <div x-data="{ profileForm: false }" class="min-w-1/4 flex flex-col items-center">
 
 
-                <div class="relative -top-[10vh] h-[32vh]">
+                <div class="relative -top-[12vh] h-[300px]">
                     <div class="w-55 h-55 border-5 mx-auto rounded-full border-white">
                         <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $avatar = auth()->user()->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })"
                             class="h-full w-full rounded-full object-cover object-center"

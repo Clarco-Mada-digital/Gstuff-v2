@@ -407,8 +407,7 @@
 <script>
     // Données des villes disponibles (à générer côté serveur)
     const availableVilles = @json($villes);
-    console.log("Villes disponibles:", availableVilles);
-
+   
     function filterVilles() {
         console.log("Fonction filterVilles appelée");
 
