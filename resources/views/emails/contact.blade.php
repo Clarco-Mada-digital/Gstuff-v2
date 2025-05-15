@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Nouveau message de contact</title>
@@ -18,7 +19,7 @@
             background: #ffffff;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         }
 
         .email-header {
@@ -67,6 +68,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="email-wrapper">
         <div class="email-header">
@@ -78,7 +80,8 @@
 
             <div class="detail">
                 <p><span class="label">👤 Nom :</span> {{ $messageData['name'] }}</p>
-                <p><span class="label">📧 Email :</span> <a href="mailto:{{ $messageData['email'] }}">{{ $messageData['email'] }}</a></p>
+                <p><span class="label">📧 Email :</span> <a
+                        href="mailto:{{ $messageData['email'] }}">{{ $messageData['email'] }}</a></p>
                 <p><span class="label">📝 Sujet :</span> {{ $messageData['subject'] }}</p>
             </div>
 
@@ -92,5 +95,5 @@
         </div>
     </div>
 </body>
-</html>
 
+</html>

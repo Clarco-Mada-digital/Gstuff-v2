@@ -49,6 +49,7 @@ return [
     'edit_cover_photo' => 'Modifier photo de couverture',
     'edit_profile_photo' => 'Modifier photo de profil',
     'update_profile_photo' => 'Mettre à jour',
+    'choose_photo' => 'Choisir une photo',
     'profile_improvement' => 'Améliorer mon profil',
     'profile_visibility' => 'Visibilité de mon profil',
     'my_account' => 'Mon compte',

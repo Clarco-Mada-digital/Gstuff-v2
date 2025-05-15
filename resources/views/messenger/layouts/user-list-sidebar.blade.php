@@ -36,25 +36,25 @@
     <div class="wsus__favourite_user my-5">
         <div class="top">Favoris</div>
         @if ($favoriteList->count() > 0)
-        <div class="row w-[100%] mx-0 px-0 gap-5 favourite_user_slider">
-            @foreach ($favoriteList as $item)
-                <div class="w-full messenger-list-item cursor-pointer" role="button" data-id="{{ $item->user?->id }}">
-                    <div class="wsus__favourite_item">
-                        <div class="img">
-                            <img src="@if ($item->user?->avatar)
-                                {{ asset('storage/avatars/'.$item->user?->avatar) }}
+            <div class="row favourite_user_slider mx-0 w-[100%] gap-5 px-0">
+                @foreach ($favoriteList as $item)
+                    <div class="messenger-list-item w-full cursor-pointer" role="button" data-id="{{ $item->user?->id }}">
+                        <div class="wsus__favourite_item">
+                            <div class="img">
+                                <img src="@if ($item->user?->avatar) {{ asset('storage/avatars/' . $item->user?->avatar) }}
                             @else
-                                {{asset('icon-logo.png')}}
-                            @endif" alt="Utilisateur" class="img-fluid">
-                            <span class="inactive"></span>
+                                {{ asset('icon-logo.png') }} @endif"
+                                    alt="Utilisateur" class="img-fluid">
+                                <span class="inactive"></span>
+                            </div>
+                            <p class="w-full text-center">
+                                {{ $item->user?->pseudo ?? ($item->user?->prenom ?? $item->user?->nom_salon) }}</p>
                         </div>
-                        <p class="w-full text-center">{{ $item->user?->pseudo ?? $item->user?->prenom ?? $item->user?->nom_salon  }}</p>
                     </div>
-                </div>           
-            @endforeach
-        </div>
+                @endforeach
+            </div>
         @else
-        <p class="W-full text-center text-sm">Aucun favoris pour l'instant !</p>
+            <p class="W-full text-center text-sm">Aucun favoris pour l'instant !</p>
         @endif
     </div>
 

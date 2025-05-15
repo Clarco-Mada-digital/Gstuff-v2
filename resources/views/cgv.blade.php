@@ -61,10 +61,10 @@
     </style>
 @endsection
 
-<div class="w-full bg-green-gs/50 py-10 content"
+<div class="bg-green-gs/50 content w-full py-10"
     style="background: url('images/Fond-page-politique.jpg') center center /cover">
-    <div class="w-full lg:w-[70%] lg:mx-auto p-5 bg-white">
-        <h1 class="text-7xl font-dm-serif font-bold text-green-gs text-center py-2">{{ $page->title }}</h1>
+    <div class="w-full bg-white p-5 lg:mx-auto lg:w-[70%]">
+        <h1 class="font-dm-serif text-green-gs py-2 text-center text-7xl font-bold">{{ $page->title }}</h1>
 
         <!-- Table des matières - Accordéon -->
         <div x-data="{
@@ -104,12 +104,12 @@
                 }, 100);
             }
         }" x-init="generateTOC()" class="mb-10">
-            <div class="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+            <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
                 <button @click="open = !open"
-                    class="w-full px-6 py-4 flex justify-between items-center text-left font-medium text-green-gs hover:bg-gray-100 transition-colors duration-200"
+                    class="text-green-gs flex w-full items-center justify-between px-6 py-4 text-left font-medium transition-colors duration-200 hover:bg-gray-100"
                     :aria-expanded="open">
-                    <span class="text-xl font-dm-serif font-bold">Table des matières</span>
-                    <svg class="w-5 h-5 transform transition-transform duration-200" :class="{ 'rotate-180': open }"
+                    <span class="font-dm-serif text-xl font-bold">Table des matières</span>
+                    <svg class="h-5 w-5 transform transition-transform duration-200" :class="{ 'rotate-180': open }"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -121,7 +121,7 @@
                             <template x-for="(section, index) in sections" :key="index">
                                 <li class="space-y-2">
                                     <a :href="'#' + section.id"
-                                        class="block py-2 font-medium text-green-gs hover:text-green-700 hover:underline transition-colors duration-200"
+                                        class="text-green-gs block py-2 font-medium transition-colors duration-200 hover:text-green-700 hover:underline"
                                         x-text="section.text"></a>
 
                                     <ul x-show="section.children.length > 0" class="toc-level-2 space-y-1">
@@ -129,7 +129,7 @@
                                             :key="subIndex">
                                             <li>
                                                 <a :href="'#' + subsection.id"
-                                                    class="block py-1 text-gray-700 hover:text-green-700 hover:underline transition-colors duration-200"
+                                                    class="block py-1 text-gray-700 transition-colors duration-200 hover:text-green-700 hover:underline"
                                                     x-text="subsection.text"></a>
                                             </li>
                                         </template>

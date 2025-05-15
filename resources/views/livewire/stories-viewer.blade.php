@@ -1,5 +1,5 @@
 <div x-data="{
-    openViewStorie:false,
+    openViewStorie: false,
     touchStartX: 0,
     touchEndX: 0,
     handleTouchStart(e) {
@@ -18,114 +18,100 @@
         }
     }
 }">
-<div x-data="storyPlayer()" x-init="init()">
-   <!-- Liste des stories -->
-    <div class="flex space-x-4 p-4 overflow-x-auto">
-        @php
-            $hasStories = false;
-        @endphp
+    <div x-data="storyPlayer()" x-init="init()">
+        <!-- Liste des stories -->
+        <div class="flex space-x-4 overflow-x-auto p-4">
+            @php
+                $hasStories = false;
+            @endphp
 
-        @foreach($stories as $userId => $userStories)
-            @if($userStories->isNotEmpty() && $userId == $userViewStorie)
-                @php $hasStories = true; @endphp
-                <div class="relative w-24 h-24 rounded-full border-2 border-blue-500 cursor-pointer"
-                    @click="$wire.openStory({{ $userId }}); openViewStorie=true">
+            @foreach ($stories as $userId => $userStories)
+                @if ($userStories->isNotEmpty() && $userId == $userViewStorie)
+                    @php $hasStories = true; @endphp
+                    <div class="relative h-24 w-24 cursor-pointer rounded-full border-2 border-blue-500"
+                        @click="$wire.openStory({{ $userId }}); openViewStorie=true">
 
-                    @if($userStories->first()->media_type === 'image')
-                        <img src="{{ asset('storage/' . $userStories->first()->media_path) }}"
-                            class="w-full h-full rounded-full object-cover"
-                            alt="Story image">
-                    @elseif($userStories->first()->media_type === 'video')
-                        <video class="w-full h-full rounded-full object-cover"
-                            muted
-                            playsinline>
-                            <source src="{{ asset('storage/' . $userStories->first()->media_path) }}">
-                        </video>
-                    @endif
+                        @if ($userStories->first()->media_type === 'image')
+                            <img src="{{ asset('storage/' . $userStories->first()->media_path) }}"
+                                class="h-full w-full rounded-full object-cover" alt="Story image">
+                        @elseif($userStories->first()->media_type === 'video')
+                            <video class="h-full w-full rounded-full object-cover" muted playsinline>
+                                <source src="{{ asset('storage/' . $userStories->first()->media_path) }}">
+                            </video>
+                        @endif
+                    </div>
+                @endif
+            @endforeach
+
+            @if (!$hasStories)
+                <div class="flex w-full items-center justify-center text-center text-gray-500">
+                    {{ __('profile.no_stories_available') }}
                 </div>
             @endif
-        @endforeach
+        </div>
 
-        @if(!$hasStories)
-            <div class="text-gray-500 text-center flex items-center justify-center w-full">
-                {{ __('profile.no_stories_available') }}
-            </div>
-        @endif
-    </div>
+        <!-- Modal de visualisation -->
+        @if ($activeUser)
+            <div x-show='openViewStorie' class="fixed inset-0 z-50 bg-black bg-opacity-90" x-show="isModalOpen">
+                <div class="relative flex h-screen items-center justify-center">
+                    <!-- Contenu de la story -->
+                    <div x-data="{ 'muted': true }" @touchstart="handleTouchStart" @touchend="handleTouchEnd"
+                        class="relative h-5/6 w-full max-w-2xl">
 
-    <!-- Modal de visualisation -->
-    @if($activeUser)
-        <div x-show='openViewStorie' class="fixed inset-0 bg-black bg-opacity-90 z-50" x-show="isModalOpen">
-            <div class="relative h-screen flex items-center justify-center">
-                <!-- Contenu de la story -->
-                <div x-data="{'muted':true}" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="relative w-full max-w-2xl h-5/6">
-
-                    <!-- Media -->
-                    @if($selectedUserStories[$currentIndex]['media_type'] != 'image')
-                        <video
-                            class="w-full h-full object-contain rounded-lg"
-                            controls
-                            autoplay
-                            onended="window.Livewire.dispatch('nextStory')">
-                            <source src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}">
-                        </video>
-                    @else
-                        <!-- Barre de progression -->
-                        <div class="absolute top-4 left-4 right-4 flex space-x-1">
-                            @foreach($selectedUserStories as $index => $story)
-                                <div class="h-1 bg-gray-600 flex-1 rounded">
-                                    <div
-                                        class="h-full bg-white transition-all duration-500 {{ $index == $currentIndex ? 'animate-progress' : '' }}"
-                                        :style="`width: ${$index < $currentIndex ? '100%' : ($index == $currentIndex ? progress + '%' : '0%')}`">
+                        <!-- Media -->
+                        @if ($selectedUserStories[$currentIndex]['media_type'] != 'image')
+                            <video class="h-full w-full rounded-lg object-contain" controls autoplay
+                                onended="window.Livewire.dispatch('nextStory')">
+                                <source
+                                    src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}">
+                            </video>
+                        @else
+                            <!-- Barre de progression -->
+                            <div class="absolute left-4 right-4 top-4 flex space-x-1">
+                                @foreach ($selectedUserStories as $index => $story)
+                                    <div class="h-1 flex-1 rounded bg-gray-600">
+                                        <div class="{{ $index == $currentIndex ? 'animate-progress' : '' }} h-full bg-white transition-all duration-500"
+                                            :style="`width: ${$index < $currentIndex ? '100%' : ($index == $currentIndex ? progress + '%' : '0%')}`">
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <img
-                            src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}"
-                            class="w-full h-full object-contain rounded-lg">
-                    @endif
+                                @endforeach
+                            </div>
+                            <img src="{{ asset('storage/' . $selectedUserStories[$currentIndex]['media_path']) }}"
+                                class="h-full w-full rounded-lg object-contain">
+                        @endif
 
-                    <!-- Contrôles -->
-                    <div class="absolute inset-0 flex justify-between">
-                        <div
-                            class="w-1/2 h-full cursor-pointer"
-                            @click="$wire.previousStory"></div>
-                        <div
-                            class="w-1/2 h-full cursor-pointer"
-                            @click="$wire.nextStory"></div>
+                        <!-- Contrôles -->
+                        <div class="absolute inset-0 flex justify-between">
+                            <div class="h-full w-1/2 cursor-pointer" @click="$wire.previousStory"></div>
+                            <div class="h-full w-1/2 cursor-pointer" @click="$wire.nextStory"></div>
+                        </div>
+
+                        <!-- Bouton de fermeture -->
+                        <button class="absolute right-4 top-4 text-4xl text-white" @click="$wire.closeStory">
+                            &times;
+                        </button>
                     </div>
 
-                    <!-- Bouton de fermeture -->
-                    <button
-                        class="absolute top-4 right-4 text-white text-4xl"
-                        @click="$wire.closeStory">
-                        &times;
-                    </button>
-                </div>
-
-                {{-- Like button --}}
-                @auth
-                <div x-data="{ likeCount: {{$selectedUserStories[$currentIndex]['likes_count']}} }">
-                    <div class="absolute bottom-4 text-4xl left-4 flex items-center justify-end space-x-2">
-                        <button
-                            @if ($userViewStorie != Auth()->user()->id)
-                            @click="
+                    {{-- Like button --}}
+                    @auth
+                        <div x-data="{ likeCount: {{ $selectedUserStories[$currentIndex]['likes_count'] }} }">
+                            <div class="absolute bottom-4 left-4 flex items-center justify-end space-x-2 text-4xl">
+                                <button
+                                    @if ($userViewStorie != Auth()->user()->id) @click="
                                 likeCount += 1;
                                 @this.call('likeStory', {{ $selectedUserStories[$currentIndex]['id'] }});
-                            "
-                            @endif
-                            class="transition-colors duration-200">
-                            ❤️
-                        </button>
-                        <span x-text="likeCount" class="text-white"></span>
-                    </div>
+                            " @endif
+                                    class="transition-colors duration-200">
+                                    ❤️
+                                </button>
+                                <span x-text="likeCount" class="text-white"></span>
+                            </div>
+                        </div>
+                    @endauth
+
                 </div>
-                @endauth
-
             </div>
-        </div>
-    @endif
+        @endif
 
-</div>
+    </div>
 </div>

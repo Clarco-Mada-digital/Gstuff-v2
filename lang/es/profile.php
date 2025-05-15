@@ -12,6 +12,7 @@ return [
     'edit_cover_photo' => 'Editar foto de portada',
     'edit_profile_photo' => 'Editar foto de perfil',
     'update_profile_photo' => 'Actualizar',
+    'choose_photo' => 'Elegir una foto',
     'profile_improvement' => 'Mejorar mi perfil',
     'profile_visibility' => 'Visibilidad del perfil',
     'my_account' => 'Mi cuenta',

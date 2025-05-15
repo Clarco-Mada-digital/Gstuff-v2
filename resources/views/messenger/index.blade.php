@@ -59,27 +59,27 @@
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen" x-data="messenger()" x-init="init()">
         <!-- Sidebar -->
-        <div class="w-1/4 border-r bg-white flex flex-col">
+        <div class="flex w-1/4 flex-col border-r bg-white">
             <!-- Header -->
-            <div class="p-4 border-b">
+            <div class="border-b p-4">
                 <h1 class="text-xl font-bold text-gray-800">Messagerie</h1>
                 <div class="relative mt-3">
                     <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                         placeholder="Rechercher..."
-                        class="w-full p-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                        class="focus:ring-primary w-full rounded-lg border border-gray-300 p-2 pl-10 focus:outline-none focus:ring-2">
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
             </div>
 
             <!-- Favoris -->
-            <div class="p-4 border-b">
-                <h2 class="font-semibold text-gray-700 mb-2">Favoris</h2>
+            <div class="border-b p-4">
+                <h2 class="mb-2 font-semibold text-gray-700">Favoris</h2>
                 <div class="flex space-x-2 overflow-x-auto pb-2">
                     <template x-for="favorite in favorites" :key="favorite.id">
                         <div @click="loadChat(favorite.id)"
-                            class="flex flex-col gap-2 flex-shrink-0 cursor-pointer items-center justify-center">
+                            class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2">
                             <img :src="favorite.avatar ? `{{ asset('avatars/') }}${favorite.avatar}` : '/icon-logo.png'"
-                                :alt="favorite.pseudo" class="w-12 h-12 rounded-full object-cover">
+                                :alt="favorite.pseudo" class="h-12 w-12 rounded-full object-cover">
                             <span
                                 x-text="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"></span>
                         </div>
@@ -88,8 +88,8 @@
             </div>
 
             <!-- Liste des contacts -->
-            <div class="flex-1 overflow-y-auto relative">
-                <div id="search-list" class="divide-y absolute h-full w-full inset-0 bg-white z-10"
+            <div class="relative flex-1 overflow-y-auto">
+                <div id="search-list" class="absolute inset-0 z-10 h-full w-full divide-y bg-white"
                     x-show="searchQuery.length > 0 && !loadingContacts">
                     <!-- Les contacts seront chargés ici -->
                 </div>
@@ -103,12 +103,12 @@
         </div>
 
         <!-- Zone de chat principale -->
-        <div class="flex-1 flex flex-col">
+        <div class="flex flex-1 flex-col">
             <!-- En-tête du chat -->
-            <div x-show="currentChat" class="p-4 border-b bg-white flex items-center justify-between">
+            <div x-show="currentChat" class="flex items-center justify-between border-b bg-white p-4">
                 <div class="flex items-center space-x-3">
                     <img :src="currentChatUser.avatar ? `{{ asset('avatars/') }}${currentChatUser.avatar}` : '/icon-logo.png'"
-                        :alt="currentChatUser.pseudo" class="w-10 h-10 rounded-full">
+                        :alt="currentChatUser.pseudo" class="h-10 w-10 rounded-full">
                     <div>
                         <h2 x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon"
                             class="font-semibold"></h2>
@@ -130,8 +130,8 @@
             <!-- Messages -->
             <div x-show="currentChat" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-                class="flex-1 overflow-y-auto p-4 bg-gray-50" id="messages-container">
-                <div x-show="loadingMessages" class="text-center py-4">
+                class="flex-1 overflow-y-auto bg-gray-50 p-4" id="messages-container">
+                <div x-show="loadingMessages" class="py-4 text-center">
                     <i class="fas fa-spinner fa-spin text-primary"></i>
                 </div>
                 <div id="messages-list" class="space-y-3">
@@ -145,7 +145,7 @@
                 <div x-show="preview" class="relative mb-3">
                     <img :src="preview" alt="Preview" class="max-w-64 rounded-lg">
                     <button @click="clearAttachment()"
-                        class="absolute top-2 right-2 bg-gray-800 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                        class="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-800 text-white">
                         <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
@@ -153,16 +153,16 @@
                 <!-- Formulaire d'envoi -->
                 <form @submit.prevent="sendMessage(); clearAttachment();" class="flex items-center gap-2">
                     <!-- Bouton pièce jointe -->
-                    <label class="cursor-pointer text-gray-500 hover:text-primary p-2">
+                    <label class="hover:text-primary cursor-pointer p-2 text-gray-500">
                         <i class="fas fa-paperclip"></i>
-                        <input type="file" @change="handleFileUpload" class="hidden attachment-input"
+                        <input type="file" @change="handleFileUpload" class="attachment-input hidden"
                             accept="image/*">
                     </label>
 
                     <!-- Champ de message -->
                     <div class="relative flex-1">
                         <textarea x-model="newMessage" rows="1" placeholder="Tapez un message..."
-                            class="w-full p-3 pr-10 rounded-full border border-gray-300 focus:outline-none resize-none overflow-hidden"
+                            class="w-full resize-none overflow-hidden rounded-full border border-gray-300 p-3 pr-10 focus:outline-none"
                             @input="autoResize($el)"></textarea>
 
                         <!-- Bouton emoji -->
@@ -173,11 +173,11 @@
 
                         <!-- Picker d'emoji simple -->
                         <div x-show="showEmojiPicker" @click.away="showEmojiPicker = false"
-                            class="absolute -top-5 -translate-y-full right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 w-64 h-48 overflow-y-auto z-10">
-                            <div class="flex flex-wrap gap-3 gap-1">
+                            class="absolute -top-5 right-0 z-10 h-48 w-64 -translate-y-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
+                            <div class="flex flex-wrap gap-1 gap-3">
                                 <template x-for="emoji in ['😀', '😂', '😍', '👍', '❤️', '🙏', '🔥', '🎉', '🤔', '😎']">
                                     <button type="button" @click="insertEmoji(emoji)"
-                                        class="text-xl hover:bg-gray-100 rounded p-1" x-text="emoji"></button>
+                                        class="rounded p-1 text-xl hover:bg-gray-100" x-text="emoji"></button>
                                 </template>
                             </div>
                         </div>
@@ -190,19 +190,19 @@
                             'bg-gray-300 cursor-not-allowed': !
                                 newMessage.trim() && !fileToUpload
                         }"
-                        class="text-back p-3 rounded-full w-12 h-12 flex items-center justify-center">
+                        class="text-back flex h-12 w-12 items-center justify-center rounded-full p-3">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
             </div>
 
             <!-- Vue quand aucun chat n'est sélectionné -->
-            <div x-show="!currentChat" class="flex-1 flex items-center justify-center bg-gray-50">
-                <div class="text-center p-6">
-                    <div class="mx-auto w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-comments text-gray-400 text-3xl"></i>
+            <div x-show="!currentChat" class="flex flex-1 items-center justify-center bg-gray-50">
+                <div class="p-6 text-center">
+                    <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
+                        <i class="fas fa-comments text-3xl text-gray-400"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Pas de conversation sélectionnée</h3>
+                    <h3 class="mb-2 text-xl font-semibold text-gray-700">Pas de conversation sélectionnée</h3>
                     <p class="text-gray-500">Sélectionnez une conversation ou recherchez un contact pour commencer à
                         discuter</p>
                 </div>
