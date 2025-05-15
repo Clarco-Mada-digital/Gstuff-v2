@@ -458,13 +458,7 @@
         ESleftBtn.addEventListener('click', () => {
             scrollByPercentage(EScontainer, true)
         })
-
-        window.addEventListener('load', () => {
-            loader.classList.add('fondu-out');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-            }, 500);
-        })
+        
 
         function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
             // Si aucun élément n'est fourni, on utilise la fenêtre
@@ -720,6 +714,13 @@
                 }
             }
         }
+
+        window.addEventListener('load', () => {
+            loader.classList.add('fondu-out');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 500);
+        })
 
         // Gestion des toasts
         window.addEventListener('show-toast', (event) => {

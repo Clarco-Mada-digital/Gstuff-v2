@@ -22,6 +22,24 @@ class UsersSearch extends Component
     public $villes = '';
     public $users;
 
+    public function mount()
+    {
+        $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
+    }
+
+    public function handleModalClosed()
+    {
+        $this->search = '';
+        $this->selectedCanton = '';
+        $this->selectedVille = '';
+        $this->selectedGenre = '';
+        $this->selectedCategories = [];
+        $this->escortCategories = [];
+        $this->salonCategories = [];
+        $this->cantons = [];
+        $this->villes = [];
+    }
+
     private function getEscorts($escorts)
     {
       $esc = [];
@@ -66,6 +84,9 @@ class UsersSearch extends Component
         // Filtres supplémentaires
         if ($this->selectedCanton) {
             $query->where('canton', $this->selectedCanton);
+        }
+        if ($this->selectedCanton == '') {
+            $this->selectedVille = '';
         }
 
         if ($this->selectedVille) {
