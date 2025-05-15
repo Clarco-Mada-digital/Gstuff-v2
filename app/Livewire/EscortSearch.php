@@ -140,9 +140,7 @@ class EscortSearch extends Component
         }
 
         // Récupération des escorts paginées
-        $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-            return $escort->isProfileVisibleTo($viewerCountry);
-        });
+        $escorts = $this->getEscorts($query->get());
 
         // Si aucun résultat, chercher dans les villes proches
         if ($escorts->isEmpty() && !empty($this->selectedVille)) {
@@ -182,9 +180,7 @@ class EscortSearch extends Component
                     });
                 }
 
-                $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-                    return $escort->isProfileVisibleTo($viewerCountry);
-                });
+                $escorts = $this->getEscorts($query->get());
 
                 if (!$escorts->isEmpty()) {
                     break;
