@@ -28,7 +28,7 @@ use App\Http\Controllers\DistanceMaxController;
 use App\Http\Controllers\ProfileVisibilityController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PratiqueSexuelleController;
-
+use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +40,10 @@ use App\Http\Controllers\PratiqueSexuelleController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('livewire/update', function(){
+    return redirect()->back();
+})->middleware(['web'])->name('livewire.update');
 
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
