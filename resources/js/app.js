@@ -1,6 +1,7 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+// import './livewire-redirect-fix.js';
 
 window.Alpine = Alpine;
 
@@ -64,6 +65,62 @@ document.addEventListener('alpine:init', () => {
             });
         }
     }));
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour vérifier l'URL et rediriger si nécessaire
+    function checkAndRedirect() {
+        // Vérifie si l'URL contient 'livewire/update'
+        if (window.location.href.includes('livewire/update')) {
+            console.log('URL livewire/update détectée, redirection...');
+            
+            // Récupère l'URL précédente depuis l'historique si disponible
+            if (document.referrer && document.referrer !== '') {
+                window.location.href = document.referrer;
+            } else {
+                // Si pas d'URL précédente, rediriger vers la page d'accueil
+                // Vous pouvez remplacer cette URL par votre page d'accueil
+                window.location.href = window.location.origin;
+            }
+        }
+    }
+
+    // Vérifie immédiatement au chargement de la page
+    checkAndRedirect();
+
+    // Surveille également les changements d'URL via history API
+    const originalPushState = window.history.pushState;
+    window.history.pushState = function() {
+        originalPushState.apply(this, arguments);
+        checkAndRedirect();
+    };
+
+    const originalReplaceState = window.history.replaceState;
+    window.history.replaceState = function() {
+        originalReplaceState.apply(this, arguments);
+        checkAndRedirect();
+    };
+
+    // Surveille également les événements de navigateur (boutons précédent/suivant)
+    window.addEventListener('popstate', function() {
+        checkAndRedirect();
+    });
+
+    // Pour les requêtes AJAX de Livewire
+    document.addEventListener('livewire:load', function() {
+        if (typeof window.Livewire !== 'undefined') {
+            // Avant que Livewire n'envoie une requête
+            window.Livewire.hook('message.sent', () => {
+                // Vérifie l'URL après un court délai pour laisser le temps à la redirection
+                setTimeout(checkAndRedirect, 100);
+            });
+            
+            // Après que Livewire ait reçu une réponse
+            window.Livewire.hook('message.received', () => {
+                setTimeout(checkAndRedirect, 100);
+            });
+        }
+    });
 });
 
 Alpine.start();
