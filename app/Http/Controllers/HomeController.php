@@ -19,7 +19,7 @@ class HomeController extends Controller
 
     // Détection du pays via IP
     $position = Location::get(request()->ip());
-    $viewerCountry = $position?->countryCode ?? 'FR';
+    $viewerCountry = $position?->countryCode ?? null;
 
     // dd($viewerCountry);
 

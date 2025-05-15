@@ -43,10 +43,13 @@ class EscortSearch extends Component
 
         $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
 
-
-        return $escorts->filter(function ($escort) use ($viewerCountry) {
-            return $escort->isProfileVisibleTo($viewerCountry);
-        });
+        $esc = [];
+        foreach ($escorts as $escort) {
+            if ($escort->isProfileVisibleTo($viewerCountry)) {
+                $esc[] = $escort;
+            }
+        }
+        return $esc;
     }
 
     public function resetFilter()

@@ -1932,5 +1932,55 @@
                 toast.remove();
             }, 3000);
         }
+
+        // Visibility
+        function visibility() {
+            return {
+                customVisibility: {{ auth()->user()->visibility === 'custom' ? 'true' : 'false' }},
+            };
+        }
+
+        // Country Selector
+        function countrySelector(allCountries, initialSelected = []) {
+            return {
+                countries: allCountries,
+                selected: [...initialSelected],
+                search: '',
+                open: false,
+                highlightedIndex: 0,
+                get filtered() {
+                    let results = {};
+                    const term = this.search.toLowerCase();
+                    for (const [code, name] of Object.entries(this.countries)) {
+                        if (
+                            name.toLowerCase().includes(term) &&
+                            !this.selected.includes(code)
+                        ) {
+                            results[code] = name;
+                        }
+                    }
+                    return results;
+                },
+                select(code) {
+                    if (!this.selected.includes(code)) {
+                        this.selected.push(code);
+                    }
+                    this.search = '';
+                    this.open = false;
+                    this.highlightedIndex = 0;
+                },
+                remove(code) {
+                    this.selected = this.selected.filter(c => c !== code);
+                },
+                navigate(direction) {
+                    const keys = Object.keys(this.filtered);
+                    if (direction === 'next') {
+                        this.highlightedIndex = (this.highlightedIndex + 1) % keys.length;
+                    } else if (direction === 'prev') {
+                        this.highlightedIndex = (this.highlightedIndex - 1 + keys.length) % keys.length;
+                    }
+                }
+            };
+        }
     </script>
 @endsection

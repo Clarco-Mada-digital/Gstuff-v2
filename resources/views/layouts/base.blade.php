@@ -757,6 +757,22 @@
                 setTimeout(() => toast.remove(), 300);
             }, 5000);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentUrl = window.location.href;
+
+            if (currentUrl.includes("/livewire/update")) {
+                // Supprimer "/livewire/update" de l'URL
+                const cleanedUrl = currentUrl.replace("/livewire/update", "");
+
+                // Remplace l'URL dans l'historique
+                window.history.replaceState({}, document.title, cleanedUrl);
+
+                // Recharge la page avec la nouvelle URL
+                //window.location.reload();
+            }
+        });
+
     </script>
     @yield('extraScripts')
     @yield('specialScripts')
