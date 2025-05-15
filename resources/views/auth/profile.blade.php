@@ -9,12 +9,13 @@
 
 @section('content')
     <div x-data="{ couvertureForm: false }">
-        <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
-            class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
+        <div class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
             style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
+            <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
+                class="absolute inset-0"></div>
             <div class="absolute bottom-2 right-4">
                 <button x-on:click.stop="couvertureForm = !couvertureForm"
-                    class="hover:text-green-gs flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
+                    class="hover:text-green-gs z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
                     data-tooltip-target="tooltip-cover-photo" data-tooltip-placement="top">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -25,6 +26,102 @@
                     class="tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
                     {{ __('profile.edit_cover_photo') }}
                     <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+                <div x-cloak x-show="couvertureForm" x-transition.opacity.duration.300ms
+                    x-trap.inert.noscroll="couvertureForm" x-on:keydown.esc.window="couvertureForm = false"
+                    x-on:click.self="couvertureForm = false"
+                    class="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+                    role="dialog" aria-modal="true" aria-labelledby="modal-title">
+                    <!-- Modal Dialog -->
+                    <div x-show="couvertureForm" x-data="imageViewer('')"
+                        x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                        class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
+                        <!-- Close Button -->
+                        <button type="button" x-on:click="couvertureForm = false"
+                            class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                            <span class="sr-only">{{ __('profile.close') }}</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        <!-- Modal Content -->
+                        <div class="p-6">
+                            <h3 id="modal-title" class="font-dm-serif text-green-gs mb-6 text-center text-xl font-medium">
+                                {{ __('profile.update_cover_photo') }}
+                            </h3>
+
+                            <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data"
+                                class="space-y-6">
+                                @csrf()
+
+                                <!-- Image Preview -->
+                                <div class="flex justify-center">
+                                    <div
+                                        class="relative h-40 w-40 overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+                                        <template x-if="!imageUrl">
+                                            <div class="flex h-full flex-col items-center justify-center p-4 text-center">
+                                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                <span
+                                                    class="mt-2 block text-sm text-gray-600">{{ __('profile.image_preview') }}</span>
+                                            </div>
+                                        </template>
+                                        <template x-if="imageUrl">
+                                            <img :src="imageUrl" class="h-full w-full object-cover"
+                                                alt="Aperçu de l'image">
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- File Input -->
+                                <div class="mt-4">
+                                    <label
+                                        class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                        <div class="flex items-center">
+                                            <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                            </svg>
+                                            <span class="ml-2 text-sm text-gray-700">
+                                                <span
+                                                    x-text="imageUrl ? '{{ __('profile.change_file') }}' : '{{ __('profile.select_file') }}'"></span>
+                                                <span
+                                                    class="block text-xs text-gray-500">{{ __('profile.file_types') }}</span>
+                                            </span>
+                                        </div>
+                                        <input name="photo_couverture" type="file" accept="image/*"
+                                            x-on:change="fileChosen($event)" class="hidden" required>
+                                    </label>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="mt-6 flex justify-end space-x-3">
+                                    <button type="button" x-on:click="couvertureForm = false"
+                                        class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        {{ __('profile.cancel') }}
+                                    </button>
+                                    <button type="submit"
+                                        class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                        </svg>
+                                        <span
+                                            x-text="imageUrl ? '{{ __('profile.update') }}' : '{{ __('profile.upload') }}'"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,64 +148,119 @@
                             <button x-on:click="profileForm = true" type="button"
                                 class="absolute bottom-2 right-4 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white shadow-md transition-colors hover:bg-gray-100"
                                 data-tooltip-target="tooltip-profile-photo" data-tooltip-placement="top">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="M15.275 12.475L11.525 8.7L14.3 5.95l-.725-.725L8.1 10.7L6.7 9.3l5.45-5.475q.6-.6 1.413-.6t1.412.6l.725.725l1.25-1.25q.3-.3.713-.3t.712.3L20.7 5.625q.3.3.3.713t-.3.712zM6.75 21H3v-3.75l7.1-7.125l3.775 3.75z" />
                                 </svg>
                             </button>
 
 
-                              <!-- Modal Backdrop -->
-                            <div   x-cloak x-show="profileForm" x-transition:enter="transition ease-out duration-200"
-                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0"
-                                class="bg-black/30 fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
-                                x-on:click.self="profileForm = false">
-                                <!-- Modal Container -->
-                                <div x-show="profileForm" x-transition:enter="transition ease-out duration-200"
-                                    x-transition:enter-start="opacity-0 transform scale-95"
-                                    x-transition:enter-end="opacity-100 transform scale-100"
-                                    x-transition:leave="transition ease-in duration-200"
-                                    x-transition:leave-start="opacity-100 transform scale-100"
-                                    x-transition:leave-end="opacity-0 transform scale-95" x-data="imageViewer('')"
-                                    class="relative w-[95vw] max-w-md rounded-lg bg-white p-6 shadow-lg">
+                            <!-- Modal Backdrop -->
+                            <div x-cloak x-show="profileForm" x-transition.opacity.duration.300ms
+                                x-trap.inert.noscroll="profileForm" x-on:keydown.esc.window="profileForm = false"
+                                x-on:click.self="profileForm = false"
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+                                role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+
+                                <!-- Modal Dialog -->
+                                <div x-show="profileForm" x-data="imageViewer('')"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
+
                                     <!-- Close Button -->
-                                    <button x-on:click="profileForm = false"
-                                        class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
+                                    <button type="button" x-on:click="profileForm = false"
+                                        class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                                        <span class="sr-only">{{ __('profile.close') }}</span>
                                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </button>
 
-                                    <!-- Form Content -->
-                                    <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data"
-                                        class="flex w-full flex-col justify-center gap-5">
-                                        @csrf()
-                                        <h3 class="font-dm-serif text-green-gs text-center text-lg font-medium">
-                                            {{ __('profile.update_profile_photo') }}
+                                    <!-- Modal Content -->
+                                    <div class="p-6">
+                                        <h3 id="profile-modal-title"
+                                            class="font-dm-serif text-green-gs mb-6 text-center text-xl font-medium">
+                                            {{ __('profile.edit_profile_photo') }}
                                         </h3>
-                                        <div class="flex flex-col items-center">
-                                            <template x-if="imageUrl">
-                                                <img :src="imageUrl"
-                                                    class="mx-auto mb-4 rounded-full border-2 border-gray-200 object-cover"
-                                                    style="width: 120px; height: 120px;">
-                                            </template>
-                                            <div class="relative w-full">
-                                                <input id="photo-upload" name="photo_profil" type="file" accept="image/*"
-                                                    x-on:change="fileChosen($event)" class="hidden" />
-                                                <label for="photo-upload"
-                                                    class="block w-full cursor-pointer rounded-md border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">
-                                                    {{ __('profile.choose_photo') }}
+
+                                        <form action="{{ route('profile.update-photo') }}" method="post"
+                                            enctype="multipart/form-data" class="space-y-6">
+                                            @csrf()
+
+                                            <!-- Image Preview -->
+                                            <div class="flex justify-center">
+                                                <div
+                                                    class="relative h-40 w-40 overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50">
+                                                    <template x-if="!imageUrl">
+                                                        <div
+                                                            class="flex h-full flex-col items-center justify-center p-4 text-center">
+                                                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none"
+                                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="1"
+                                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                            </svg>
+                                                            <span
+                                                                class="mt-2 block text-sm text-gray-600">{{ __('profile.image_preview') }}</span>
+                                                        </div>
+                                                    </template>
+                                                    <template x-if="imageUrl">
+                                                        <img :src="imageUrl" class="h-full w-full object-cover"
+                                                            alt="{{ __('profile.image_preview') }}">
+                                                    </template>
+                                                </div>
+                                            </div>
+
+                                            <!-- File Input -->
+                                            <div class="mt-4">
+                                                <label
+                                                    class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                                    <div class="flex items-center">
+                                                        <svg class="h-6 w-6 text-amber-500" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                        </svg>
+                                                        <span class="ml-2 text-sm text-gray-700">
+                                                            <span
+                                                                x-text="imageUrl ? '{{ __('profile.change_file') }}' : '{{ __('profile.select_file') }}'"></span>
+                                                            <span
+                                                                class="block text-xs text-gray-500">{{ __('profile.file_types') }}</span>
+                                                        </span>
+                                                    </div>
+                                                    <input name="photo_profil" type="file" accept="image/*"
+                                                        x-on:change="fileChosen($event)" class="hidden" required>
                                                 </label>
                                             </div>
-                                        </div>
-                                        <button type="submit"
-                                            class="btn-gs-gradient mt-4 w-full rounded-md px-4 py-2 font-bold text-white">
-                                            {{ __('profile.update_profile_photo') }}
-                                        </button>
-                                    </form>
+
+                                            <!-- Action Buttons -->
+                                            <div class="mt-6 flex justify-end space-x-3">
+                                                <button type="button" x-on:click="profileForm = false"
+                                                    class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    {{ __('profile.cancel') }}
+                                                </button>
+                                                <button type="submit"
+                                                    class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                    </svg>
+                                                    <span
+                                                        x-text="imageUrl ? '{{ __('profile.update') }}' : '{{ __('profile.upload') }}'"></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
 
@@ -161,8 +313,8 @@
                                         <path fill="none" stroke="currentColor" stroke-linecap="round"
                                             stroke-linejoin="round"
                                             d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5" />
-                                        <circle cx="24" cy="20.206" r="4.299" fill="none" stroke="currentColor"
-                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <circle cx="24" cy="20.206" r="4.299" fill="none"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
                                         <path fill="none" stroke="currentColor" stroke-linecap="round"
                                             stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
                                     </svg>
@@ -179,7 +331,7 @@
                 </div>
 
 
-              
+
 
 
 
@@ -705,43 +857,60 @@
             {{-- Right section profile --}}
             <div class="min-w-3/4 flex flex-col gap-5 px-5 py-5">
 
-                <div x-show="couvertureForm" x-data="imageViewer('')"
-                    class="w-full rounded-lg border border-gray-300 p-4 shadow">
-                    <form action="{{ route('profile.update-photo') }}" method="post" enctype="multipart/form-data"
-                        class="flex w-full flex-col justify-center gap-5">
-                        @csrf()
-                        <h3 class="font-dm-serif text-green-gs text-center text-sm">
-                            {{ __('profile.update_cover_photo') }}</h3>
-                        <template x-if="imageUrl">
-                            <img :src="imageUrl" class="mx-auto rounded-md border border-gray-200 object-cover"
-                                style="width: 100px; height: 100px;">
-                        </template>
-                        <input name="photo_couverture" type="file" accept="image/*" x-on:change="fileChosen($event)"
-                            class="mt-2" />
-                        <button type="submit"
-                            class="btn-gs-gradient rounded px-4 py-2 font-bold">{{ __('profile.update') }}</button>
-                    </form>
-                </div>
+
 
                 {{-- Message --}}
-                <div x-show="completionPercentage != 100"
-                    class="mb-4 flex rounded-lg bg-red-50 p-4 text-sm text-red-800 dark:bg-gray-800 dark:text-red-400"
-                    role="alert">
-                    <svg class="me-3 mt-[2px] inline h-4 w-4 shrink-0" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
-                    <span class="sr-only">Danger</span>
-                    <div class="text-dm-serif">
-                        <span class="font-bold">{{ __('profile.profile_completion') }} <span
-                                x-text=`${completionPercentage}%`></span></span>
-                        <div class="my-1.5">
-                            {{ __('profile.profile_completion_message') }} <a class="font-bold"
-                                href="{{ route('static.pdc') }}">{{ __('profile.privacy_policy') }}</a>
+                <div x-data="{ isOpen: window.innerWidth >= 768 }" x-show="completionPercentage != 100"
+                    @resize.window="isOpen = window.innerWidth >= 768"
+                    class="mb-4 overflow-hidden rounded-lg bg-red-50 p-4 text-sm text-red-800" role="alert">
+
+                    <!-- Header de l'accordéon (toujours visible sur mobile) -->
+                    <button @click="isOpen = !isOpen"
+                        class="flex w-full items-center justify-between p-4 text-left md:hidden">
+                        <div class="flex items-center">
+                            <svg class="me-3 h-4 w-4 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="font-bold">{{ __('profile.profile_completion') }} <span
+                                    x-text="`${completionPercentage}%`"></span></span>
                         </div>
-                        <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                            class="font-dm-serif text-green-gs hover:bg-green-gs rounded-lg border border-green-600 px-2 py-1 font-bold transition-all hover:text-white">{{ __('profile.improve_profile') }}</button>
+                        <svg x-show="!isOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                        <svg x-show="isOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        </svg>
+                    </button>
+
+                    <!-- Contenu de l'alerte -->
+                    <div x-show="isOpen" x-collapse class="md:flex md:items-start">
+                        <!-- Icône (cachée sur mobile, visible sur desktop) -->
+                        <svg class="me-3 mt-[2px] hidden h-4 w-4 shrink-0 md:inline" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+
+                        <div class="text-dm-serif w-full">
+                            <!-- Titre (caché sur mobile, visible sur desktop) -->
+                            <span class="hidden font-bold md:inline">
+                                {{ __('profile.profile_completion') }} <span x-text="`${completionPercentage}%`"></span>
+                            </span>
+
+                            <div class="my-1.5">
+                                {{ __('profile.profile_completion_message') }}
+                                <a class="font-bold hover:underline" href="{{ route('static.pdc') }}">
+                                    {{ __('profile.privacy_policy') }}
+                                </a>
+                            </div>
+
+                            <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
+                                class="font-dm-serif text-green-gs hover:bg-green-gs mt-2 w-full rounded-lg border border-green-600 px-4 py-2 text-center font-bold transition-all hover:text-white md:w-auto md:px-2 md:py-1">
+                                {{ __('profile.improve_profile') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1457,7 +1626,8 @@
                                             <span
                                                 class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
                                                 <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
                                                 </svg>
@@ -1472,7 +1642,8 @@
                                             <span
                                                 class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
                                                 <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                                 </svg>
@@ -1488,15 +1659,16 @@
                             <div class="mb-5 flex w-full items-center justify-between pt-10">
                                 <button data-modal-target="createEscorte" data-modal-toggle="createEscorte"
                                     class="bg-green-gs cursor-pointer rounded-lg p-2 text-sm text-white hover:bg-green-800 xl:text-base">{{ __('profile.create_escort') }}</button>
-                                <button data-modal-target="sendInvitationEscort" data-modal-toggle="sendInvitationEscort"
+                                <button data-modal-target="sendInvitationEscort"
+                                    data-modal-toggle="sendInvitationEscort"
                                     class="bg-green-gs cursor-pointer rounded-lg p-2 text-sm text-white hover:bg-green-800 xl:text-base">{{ __('profile.invite_escort') }}</button>
                             </div>
                         </div>
 
 
                         {{-- Modale pour l'invitation escort --}}
-                        <div x-data="" x-init="" id="sendInvitationEscort" tabindex="-1"
-                            aria-hidden="true"
+                        <div x-data="" x-init="" id="sendInvitationEscort"
+                            tabindex="-1" aria-hidden="true"
                             class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
                             <!-- Modale -->
                             <x-invitation-tabs :escortsNoInvited="$escortsNoInvited" :listInvitation="$listInvitation" />
