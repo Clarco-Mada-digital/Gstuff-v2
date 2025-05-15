@@ -32,7 +32,7 @@ return [
     // Become an escort
     'become_escort_title' => 'How to become an escort on Gstuff?',
     'become_escort_steps' => 'Become an independent escort in 3 steps!',
-    'send_selfies' => 'Send 5 selfies to escort-gstuff@gstuff.ch',
+    'send_selfies' => 'Send 5 selfies to',
     'photo_shoot_appointment' => 'Schedule a photo shoot',
     'publish_profile' => 'Publish your profile',
     'signup_today' => 'Sign up today on Gstuff ...',
@@ -42,6 +42,7 @@ return [
     
 
     // FAQ
+    'read_more' => 'Read more',
     'frequent_questions' => 'Frequently asked questions',
     'photo_shoot_mandatory' => 'Is the photo shoot mandatory?',
     'apartments_rent' => 'Do you have apartments for rent?',
