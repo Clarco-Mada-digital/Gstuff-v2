@@ -722,7 +722,7 @@
                 window.history.replaceState({}, document.title, cleanedUrl);
 
                 // Recharge la page avec la nouvelle URL
-                window.location.reload();
+                //window.location.reload();
             }
         });
 
