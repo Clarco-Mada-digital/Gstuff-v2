@@ -4,6 +4,35 @@ import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
 
+function setupCsrfToken() {
+    const token = document.querySelector('meta[name="csrf-token"]')?.content;
+    if (!token) {
+        console.warn('CSRF token meta tag not found');
+        return;
+    }
+
+    return {
+        getToken: () => token,
+        fetchWithCsrf: (url, options = {}) => {
+            options.headers = {
+                ...options.headers,
+                'X-CSRF-TOKEN': token,
+                'X-Requested-With': 'XMLHttpRequest'
+            };
+            return fetch(url, options);
+        }
+    };
+}
+
+// Initialisation
+const csrf = setupCsrfToken();
+
+// Utilisation
+csrf.fetchWithCsrf('/api/data', {
+    method: 'POST',
+    body: JSON.stringify({ key: 'value' })
+});
+
 document.addEventListener('alpine:init', () => {    
     Alpine.data('realTimeStories', () => ({
         init() {
