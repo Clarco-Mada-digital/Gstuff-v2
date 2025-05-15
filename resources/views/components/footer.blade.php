@@ -9,7 +9,7 @@ use App\Models\Canton;
                 <a href="{{ route('home') }}" class="w-full">
                     <img class="mx-auto w-60 lg:m-0" src="{{ url('images/Logo_lg.svg') }}" alt="Logo gstuff" />
                 </a>
-                <p class="w-96 text-center lg:text-start">{{ __('footer.txt_portal') }}</p>
+                <p class="w-[90%] text-wrap text-center lg:text-start">{{ __('footer.txt_portal') }}</p>
             </div>
 
             <div class="flex flex-col items-center gap-2 lg:items-start">
