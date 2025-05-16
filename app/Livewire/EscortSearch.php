@@ -99,7 +99,7 @@ class EscortSearch extends Component
 
         // Détection du pays via IP
         $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? null; // fallback pour le dev
+        $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
 
@@ -187,7 +187,9 @@ class EscortSearch extends Component
                     });
                 }
 
-                $escorts = $this->getEscorts($query->get());
+                $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
+                    return $escort->isProfileVisibleTo($viewerCountry);
+                });
 
                 if (!$escorts->isEmpty()) {
                     break;
