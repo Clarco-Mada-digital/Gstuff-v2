@@ -11,7 +11,7 @@
   {{-- Le champ de recherche --}}
   <form wire:submit.prevent="search" class="w-full" method="POST">
     @csrf
-    <input wire:model.live.debounce.500ms="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" required />
+    <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" />
   </form>
   {{-- Les selects --}}
   <form wire:submit.prevent="selectedCanton" class="w-full">

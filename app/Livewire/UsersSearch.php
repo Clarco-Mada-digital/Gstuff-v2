@@ -59,6 +59,11 @@ class UsersSearch extends Component
       return $esc;
     }
 
+    public function search()
+    {
+        $this->render();
+    }
+
     public function render()
     {
         $query = User::query()->where(function ($q) {
