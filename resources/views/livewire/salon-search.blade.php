@@ -85,7 +85,7 @@
         <div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
             @foreach ($salons as $salon)
                 <livewire:salon_card wire:key='{{ $salon->id }}' name="{{ $salon->nom_salon }}"
-                    canton="{{ $salon->canton['nom'] }}" ville="{{ $salon->ville['nom'] }}"
+                    canton="{{ $salon->canton?->nom ?? '' }}" ville="{{ $salon->ville?->nom ?? '' }}"
                     avatar='{{ $salon->avatar }}' salonId="{{ $salon->id }}" />
             @endforeach
         </div>

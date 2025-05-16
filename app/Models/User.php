@@ -50,6 +50,46 @@ class User extends Authenticatable
         'updated_at'
     ];
 
+    /**
+     * Get the profile associated with the user.
+     */
+    public function profile(): BelongsTo
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    /**
+     * Get the canton associated with the user.
+     */
+    // public function canton(): BelongsTo
+    // {
+    //     return $this->belongsTo(Canton::class);
+    // }
+
+    /**
+     * Get the ville associated with the user.
+     */
+    public function ville(): BelongsTo
+    {
+        return $this->belongsTo(Ville::class);
+    }
+
+    /**
+     * Get the categories associated with the user.
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Categorie::class);
+    }
+
+    /**
+     * Get the services associated with the user.
+     */
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
     protected $fillable = [
         'avatar',
         'couverture_image',
