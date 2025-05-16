@@ -1,5 +1,5 @@
 <!-- Modal body -->
-<div x-data="{villes:'', cantons:{{$cantons}}, selectedCanton:'', availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center w-full h-full p-4 md:p-5">
+<div x-data="{villes:'', cantons:{{$cantons}}, selectedCanton:'', availableVilles:{{$villes}}}" class="relative flex flex-col gap-3 items-center justify-center w-full h-full p-4 md:p-5" wire:ignore>
 
 {{-- loader --}}
   <div wire:loading id="loader" class="absolute inset-0 flex items-center justify-center bg-black/75 bg-opacity-50 z-50">
@@ -9,12 +9,10 @@
   </div>
 
   {{-- Le champ de recherche --}}
-  <form wire:submit.prevent="search" class="w-full" method="POST">
-    @csrf
+  <form wire:submit.prevent="search">
     <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" />
-  </form>
-  {{-- Les selects --}}
-  <form wire:submit.prevent="selectedCanton" class="w-full">
+
+    {{-- Les selects --}}
     <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
       <select  x-model="selectedCanton" 
       @change="$wire.set('selectedCanton', selectedCanton); villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)" 
@@ -48,9 +46,7 @@
         <option value="Queer">{{__('search_modal.queer')}}</option>
       </select>
     </div>
-  </form>
-  {{-- Les checkboxes --}}
-  <form wire:submit.prevent="selectedCategories" class="w-full flex flex-col items-center justify-center gap-2">
+    {{-- Les checkboxes --}}
     <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
       @foreach ($salonCategories as $categorie)
         <div wire:key="salon-{{ $categorie->id }}">
