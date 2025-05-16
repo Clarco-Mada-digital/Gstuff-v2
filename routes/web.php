@@ -41,9 +41,9 @@ use Illuminate\Support\Facades\App;
 |
 */
 
-// Route::get('livewire/update', function(){
-//     return redirect()->back();
-// })->middleware(['web'])->name('livewire.update');
+Route::get('livewire/update', function(){
+    return redirect()->back();
+})->middleware(['web'])->name('livewire.update');
 
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');

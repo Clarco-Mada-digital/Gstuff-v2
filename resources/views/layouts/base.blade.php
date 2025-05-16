@@ -711,21 +711,29 @@
             }, 5000);
         }
 
-        document.addEventListener('livewire:request', function(event) {
-            const request = event.detail; // Détails de la requête Livewire
-
-            // Vérifiez l'URL de la requête
-            if (request.url.includes('/livewire/update')) {
-                // Vérifiez les conditions, par exemple, si la méthode est incorrecte
-                if (request.method !== 'POST') {
-                    console.log('Requête GET non autorisée vers /livewire/update');
-                    event.preventDefault(); // Bloquer la requête
-                    return false;
-                }        
+        window.addEventListener('fetch', (event) => {
+            if (event.request.method === 'GET' && event.request.url.endsWith('/livewire/update')) {
+                event.respondWith(new Response(null, { status: 204 })); // Répond avec un statut 204 No Content pour bloquer la requête
+                event.preventDefault(); // Empêche la propagation de l'événement
+                console.log("Requête GET vers /livewire/update bloquée.");
             }
+            });
 
-            console.log('Requête Livewire autorisée:', request);
-        });
+            // Pour les formulaires qui pourraient utiliser GET
+            document.addEventListener('submit', (event) => {
+            if (event.target.method === 'get' && event.target.action.endsWith('/livewire/update')) {
+                event.preventDefault(); // Empêche la soumission du formulaire
+                console.log("Soumission de formulaire GET vers /livewire/update bloquée.");
+            }
+            });
+
+            // Pour les changements de localisation (liens <a>)
+            document.addEventListener('click', (event) => {
+            if (event.target.tagName === 'A' && event.target.href.endsWith('/livewire/update')) {
+                event.preventDefault(); // Empêche la navigation
+                console.log("Navigation vers /livewire/update bloquée.");
+            }
+            });
 
     </script>
     @yield('extraScripts')
