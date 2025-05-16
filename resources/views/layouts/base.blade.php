@@ -711,19 +711,20 @@
             }, 5000);
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const currentUrl = window.location.href;
+        document.addEventListener('livewire:request', function(event) {
+            const request = event.detail; // Détails de la requête Livewire
 
-            if (currentUrl.includes("/livewire/update")) {
-                // Supprimer "/livewire/update" de l'URL
-                const cleanedUrl = currentUrl.replace("/livewire/update", "");
-
-                // Remplace l'URL dans l'historique
-                window.history.replaceState({}, document.title, cleanedUrl);
-
-                // Recharge la page avec la nouvelle URL
-                //window.location.reload();
+            // Vérifiez l'URL de la requête
+            if (request.url.includes('/livewire/update')) {
+                // Vérifiez les conditions, par exemple, si la méthode est incorrecte
+                if (request.method !== 'POST') {
+                    console.log('Requête GET non autorisée vers /livewire/update');
+                    event.preventDefault(); // Bloquer la requête
+                    return false;
+                }        
             }
+
+            console.log('Requête Livewire autorisée:', request);
         });
 
     </script>
