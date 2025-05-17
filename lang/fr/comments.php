@@ -36,9 +36,8 @@ return [
     
     // Statuts
     'approved' => 'Approuvé',
-    'not_approved' => 'Non approuvé'
+    'not_approved' => 'Non approuvé',
     
-    // Champs et libellés
     'profile_type' => 'Type de profil',
     'comment' => 'Commentaire',
     'name' => 'Nom',

@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Categorie extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, HasTranslations;
 
     protected $table = 'categories'; // Spécifiez le nom de la table si ce n'est pas 'cantons' au pluriel
     protected $primaryKey = 'id'; // Spécifiez la clé primaire si ce n'est pas 'id'
@@ -20,6 +21,8 @@ class Categorie extends Model
         'type',
     ];
 
+    public $translatable = ['nom'];
+    
     /**
      * Get all of the services for the categories
      *

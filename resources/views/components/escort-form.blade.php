@@ -409,10 +409,8 @@
     const availableVilles = @json($villes);
    
     function filterVilles() {
-        console.log("Fonction filterVilles appelée");
 
         const selectedCanton = document.getElementById('cantonselect').value;
-        console.log("Canton sélectionné:", selectedCanton);
 
         const villeSelect = document.getElementById('villeselect');
 
@@ -430,25 +428,20 @@
 
         // Filtrer et ajouter les villes correspondantes
         availableVilles.forEach(ville => {
-            console.log("Vérification de la ville:", ville);
             if (ville.canton_id == selectedCanton) {
                 const option = document.createElement('option');
                 option.value = ville.id;
                 option.text = ville.nom;
                 villeSelect.appendChild(option);
-                console.log("Ville ajoutée:", ville.nom);
             }
         });
     }
 
     // Vérifiez si le DOM est complètement chargé avant d'ajouter l'écouteur d'événement
     document.addEventListener('DOMContentLoaded', (event) => {
-        console.log("DOM complètement chargé et analysé");
         const cantonSelect = document.getElementById('cantonselect');
         if (cantonSelect) {
             cantonSelect.addEventListener('change', filterVilles);
-        } else {
-            console.error("Élément avec l'ID 'cantonselect' non trouvé");
         }
 
         // Ajouter l'écouteur d'événement pour la soumission du formulaire
@@ -475,7 +468,6 @@
                 if (data.status == 200) {
                     // Rediriger ou afficher un message de succès
                     window.location.href = "{{ route('profile.index') }}";
-                    console.log('Formulaire soumis avec succès');
                 } else {
                     // Afficher les erreurs
                     displayErrors(data.errors);
@@ -494,8 +486,6 @@
 
         for (const field in errors) {
             const errorMessage = errors[field][0];
-            console.log(`Error in field: ${field}`);
-
             let errorElement = null;
 
             // Utilisation d'un switch pour sélectionner les éléments en fonction du champ
@@ -517,14 +507,10 @@
                     break;
             }
 
-            console.log(`Error element for ${field}:`, errorElement);
-
             // Ajout du message d'erreur si l'élément est trouvé
             if (errorElement) {
                 errorElement.innerHTML +=
                     `<p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ __('profile.oops') }}</span> ${errorMessage}</p>`;
-            } else {
-                console.error(`Parent element with class 'mb-1' not found for field: ${field}`);
             }
         }
 

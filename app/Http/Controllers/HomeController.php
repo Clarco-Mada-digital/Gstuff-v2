@@ -39,7 +39,7 @@ class HomeController extends Controller
 
       // Canton
       $cantons = Canton::all();
-      $glossaire_category_id = ArticleCategory::where('name', 'LIKE', 'glossaires')->first();
+      $glossaire_category_id = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
       $glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();   
 
       // Les services

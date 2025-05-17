@@ -1926,7 +1926,6 @@
 
                 async loadChat(userId) {
 
-                    console.log('testee', userId);
 
                     this.currentChat = userId;
                     this.loadingMessages = true;
@@ -1995,6 +1994,13 @@
                             }
                         });
 
+                        if(response.data.success) {
+                            const no_messages = document.querySelector(`#no-messages`);
+                            if (no_messages) {
+                                no_messages.remove();
+                            }
+                        }
+
                         // Ajouter le nouveau message
                         let messagesList = document.getElementById('messages-list');
                         messagesList.insertAdjacentHTML('beforeend', response.data.message);
@@ -2017,6 +2023,7 @@
 
                 async deleteMessage(messageId) {
                     try {
+                       
                         const response = await axios.delete('/messenger/delete-message', {
                             params: {
                                 message_id: messageId
@@ -2024,7 +2031,7 @@
                         });
 
                         if (response.data.status === 'success') {
-                            const messageElement = document.querySelector(`.message-card[data-id="${messageId}"]`);
+                            const messageElement = document.querySelector(`[data-id="${messageId}"]`);
                             if (messageElement) {
                                 messageElement.remove();
                             }

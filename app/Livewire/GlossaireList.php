@@ -13,7 +13,7 @@ class GlossaireList extends Component
 
     public function render()
     {
-        $artile_glossaire = ArticleCategory::where('name', 'LIKE', 'glossaires')->first();
+        $artile_glossaire = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
 
         $glossaires = Article::where('article_category_id', 'LIKE', $artile_glossaire->id)
                          ->where(function ($q) {

@@ -388,6 +388,9 @@
                             }
                         });
 
+                        console.log('ici delete');
+                        
+
                         if (response.data.status === 'success') {
                             const messageElement = document.querySelector(`.message-card[data-id="${messageId}"]`);
                             if (messageElement) {

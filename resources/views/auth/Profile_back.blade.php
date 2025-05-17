@@ -1858,7 +1858,6 @@
     <script>
         var user = @json($user)
 
-        console.log('ok', user);
 
         function multiStepForm() {
             return {

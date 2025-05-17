@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Translatable\HasTranslations;
 
 class Article extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, HasTranslations;
 
     protected $fillable = [
         'title', 
@@ -22,6 +23,8 @@ class Article extends Model
         'is_published',
         'published_at'
     ];
+
+    public $translatable = ['title', 'content', 'excerpt'];
 
     protected $casts = [
         'is_published' => 'boolean',

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Notification;
 use App\Notifications\NewCommentNotification;
+use App\Helpers\Locales;
 
 class CommentaireController extends Controller
 {
@@ -71,7 +72,7 @@ class CommentaireController extends Controller
 
         try {
             // Langues cibles pour les traductions
-            $locales = ['fr', 'en-US', 'es', 'de', 'it'];
+            $locales = Locales::SUPPORTED_CODES;
             $sourceLocale = $validated['lang']; // Langue source par défaut
 
             // Traduire le contenu dans toutes les langues cibles

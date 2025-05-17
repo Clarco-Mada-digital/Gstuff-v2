@@ -12,9 +12,15 @@ class CommentaireFactory extends Factory
     public function definition()
     {
         return [
-            'content' => $this->faker->sentence(),
+            'content' => [
+                'fr' => $this->faker->sentence(),
+                'en' => $this->faker->sentence(),
+                'es' => $this->faker->sentence(),
+                'de' => $this->faker->sentence(),
+                'it' => $this->faker->sentence()
+            ],
             'user_id' => User::inRandomOrder()->first()->id, // Sélectionner un utilisateur existant
-            'is_approved' => $this->faker->boolean(60), // 80% des commentaires validés
+            'is_approved' => $this->faker->boolean(60), // 60% des commentaires validés
         ];
     }
 }
