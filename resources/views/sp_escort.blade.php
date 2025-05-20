@@ -241,8 +241,10 @@
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/taill_poit.svg') }}"
                                 alt="{{ __('escort_profile.bust_size_icon') }}" />
-                            <span>{{ __('escort_profile.bust_size') }} : {{ __('escort_profile.cup') }}
-                                {{ $escort->poitrine->getTranslation('name', app()->getLocale()) ?? '-' }} </span>
+                            <span>
+                                {{ __('escort_profile.bust_size') }} : 
+                                {{ $escort->poitrine ? __('escort_profile.cup') . ' ' . $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
+                            </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/cart_icon.svg') }}"

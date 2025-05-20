@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\Ville;
+use App\Models\Genre;
 use Stevebauman\Location\Facades\Location;
 
 class UsersSearch extends Component
@@ -21,6 +22,7 @@ class UsersSearch extends Component
     public $cantons = '';
     public $villes = '';
     public $users;
+    public $genres;
 
     public function mount()
     {
@@ -69,6 +71,7 @@ class UsersSearch extends Component
         $this->salonCategories = Categorie::where('type', 'salon')->get();
         $this->cantons = Canton::all();
         $this->villes = Ville::all();
+        $this->genres = Genre::all();
 
         // Recherche principale (OR sur nom, prénom et salon)
         if ($this->search) {
@@ -94,7 +97,7 @@ class UsersSearch extends Component
         }
 
         if ($this->selectedGenre) {
-            $query->where('genre', $this->selectedGenre);
+            $query->where('genre_id', $this->selectedGenre);
         }
 
         if ($this->selectedCategories){

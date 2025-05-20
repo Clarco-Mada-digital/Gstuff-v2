@@ -11,6 +11,7 @@ use Illuminate\Pagination\Paginator;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\NombreFille;
 use Stevebauman\Location\Facades\Location;
 
 class SalonSearch extends Component
@@ -32,6 +33,7 @@ class SalonSearch extends Component
     public $availableVilles;
     public $maxDistance = 0;
     public $salonCount = 0; // Ajout de la propriété pour le nombre de salons trouvés
+    public $nombreFilles;
     
 
     public function resetFilter()
@@ -74,6 +76,7 @@ class SalonSearch extends Component
         $this->cantons = Canton::all();
         $this->availableVilles = Ville::all();
         $this->categories = Categorie::where('type', 'salon')->get();
+        $this->nombreFilles = NombreFille::all();
 
         // Récupération du pays du visiteur via IP
         $position = Location::get(request()->ip());
@@ -96,7 +99,7 @@ class SalonSearch extends Component
         if ($this->nbFilles) {
             $query->where(function ($q) {
                 foreach ($this->nbFilles as $nbFilles) {
-                    $q->orWhere('nombre_filles', $nbFilles);
+                    $q->orWhere('nombre_fille_id', $nbFilles);
                 }
             });
             $this->resetPage();
@@ -129,7 +132,7 @@ class SalonSearch extends Component
                 if ($this->nbFilles) {
                     $query->where(function ($q) {
                         foreach ($this->nbFilles as $nbFilles) {
-                            $q->orWhere('nombre_filles', $nbFilles);
+                            $q->orWhere('nombre_fille_id', $nbFilles);
                         }
                     });
                 }

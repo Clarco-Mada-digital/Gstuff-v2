@@ -6,6 +6,7 @@ namespace App\Livewire;
 use Livewire\Attributes\Url;
 use App\Models\Canton;
 use App\Models\Categorie;
+use App\Models\Genre;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Ville;
@@ -35,6 +36,8 @@ class EscortSearch extends Component
     public $villes = [];
     public $maxDistance = 0;
     public $escortCount = 0;
+    public $genres;
+
 
     private function getEscorts($escorts)
     {
@@ -92,10 +95,12 @@ class EscortSearch extends Component
 
     public function render()
     {
+        $currentLocale = app()->getLocale();
         $this->cantons = Canton::all();
         $this->availableVilles = Ville::all();
         $this->categories = Categorie::where('type', 'escort')->get();
         $serviceQuery = Service::query();
+        $this->genres = Genre::all();
 
         // Détection du pays via IP
         $position = Location::get(request()->ip());
@@ -115,7 +120,7 @@ class EscortSearch extends Component
         }
 
         if ($this->selectedGenre) {
-            $query->where('genre', $this->selectedGenre);
+            $query->where('genre_id', $this->selectedGenre);
         }
 
         if ($this->selectedCategories) {
@@ -134,10 +139,44 @@ class EscortSearch extends Component
             });
         }
 
+
         if ($this->autreFiltres) {
-            $query->where(function ($q) {
+            $query->where(function($q) {
                 foreach ($this->autreFiltres as $key => $value) {
-                    $q->where($key, 'LIKE', '%' . $value . '%');
+                    if (!empty($value)) {
+                        switch ($key) {
+                            case 'mensuration':
+                                $q->where('mensuration_id', $value);
+                                break;
+                            case 'orientation':
+                                $q->where('orientation_sexuelle_id', (int)$value);
+                                break;
+                            case 'couleur_yeux':
+                                $q->where('couleur_yeux_id', (int)$value);
+                                break;
+                            case 'couleur_cheveux':
+                                $q->where('couleur_cheveux_id', (int)$value);
+                                break;
+                            case 'poitrine':
+                                $q->where('poitrine_id', (int)$value);
+                                break;
+                            case 'pubis':
+                                $q->where('pubis_type_id', (int)$value);
+                                break;
+                            case 'tatouages':
+                                $q->where('tatoo_id', (int)$value);
+                                break;
+                            case 'taille_poitrine':
+                                $q->where('taille_poitrine', (int)$value);
+                                break;
+                            case 'mobilite':
+                                $q->where('mobilite_id', (int)$value);
+                                break;
+                            default:
+                                $q->where($key, 'LIKE', '%' . $value . '%');
+                                break;
+                        }
+                    }
                 }
             });
         }
@@ -179,14 +218,54 @@ class EscortSearch extends Component
                     });
                 }
 
+                // if ($this->autreFiltres) {
+                //     $query->where(function ($q) {
+                //         foreach ($this->autreFiltres as $key => $value) {
+                //             $q->where($key, 'LIKE', '%' . $value . '%');
+                //         }
+                //     });
+                // }
+
                 if ($this->autreFiltres) {
-                    $query->where(function ($q) {
+                    $query->where(function($q) {
                         foreach ($this->autreFiltres as $key => $value) {
-                            $q->where($key, 'LIKE', '%' . $value . '%');
+                            if (!empty($value)) {
+                                switch ($key) {
+                                    case 'mensuration':
+                                        $q->where('mensuration_id', $value);
+                                        break;
+                                    case 'orientation':
+                                        $q->where('orientation_sexuelle_id', (int)$value);
+                                        break;
+                                    case 'couleur_yeux':
+                                        $q->where('couleur_yeux_id', (int)$value);
+                                        break;
+                                    case 'couleur_cheveux':
+                                        $q->where('couleur_cheveux_id', (int)$value);
+                                        break;
+                                    case 'poitrine':
+                                        $q->where('poitrine_id', (int)$value);
+                                        break;
+                                    case 'pubis':
+                                        $q->where('pubis_type_id', (int)$value);
+                                        break;
+                                    case 'tatouages':
+                                        $q->where('tatoo_id', (int)$value);
+                                        break;
+                                    case 'taille_poitrine':
+                                        $q->where('taille_poitrine', (int)$value);
+                                        break;
+                                    case 'mobilite':
+                                        $q->where('mobilite_id', (int)$value);
+                                        break;
+                                    default:
+                                        $q->where($key, 'LIKE', '%' . $value . '%');
+                                        break;
+                                }
+                            }
                         }
                     });
                 }
-
                 $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
                     return $escort->isProfileVisibleTo($viewerCountry);
                 });
@@ -241,6 +320,7 @@ class EscortSearch extends Component
             'services' => $serviceQuery->paginate(20),
             'maxDistance' => $this->maxDistance,
             'escortCount' => $this->escortCount,
+            'currentLocale' => $currentLocale,
         ]);
     }
 }

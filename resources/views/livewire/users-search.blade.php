@@ -39,13 +39,9 @@
       id="small" 
       class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
         <option selected value=''>{{__('search_modal.gender')}}</option>
-        <option value="Femme">{{__('search_modal.female')}}</option>
-        <option value="Homme">{{__('search_modal.male')}}</option>
-        <option value="Trans">{{__('search_modal.trans')}}</option>
-        <option value="Gay">{{__('search_modal.gay')}}</option>
-        <option value="Lesbienne">{{__('search_modal.lesbian')}}</option>
-        <option value="Bisexuelle">{{__('search_modal.bisexual')}}</option>
-        <option value="Queer">{{__('search_modal.queer')}}</option>
+        @foreach ($genres as $genre)
+          <option wire:key="{{ $genre->id }}" value="{{ $genre->id }}"> {{ $genre->getTranslation('name', app()->getLocale()) }} </option>
+        @endforeach
       </select>
     </div>
   </form>

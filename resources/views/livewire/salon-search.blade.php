@@ -40,13 +40,18 @@
             @endforeach
         </div>
         <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
+
+        @foreach ($nombreFilles as $nombreFille)
             <div>
-                <input wire:model.live='nbFilles' class="peer hidden" name="5" type="checkbox" id="nbfille5"
-                    value="1 à 5" />
-                <label for="nbfille5"
-                    class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-amber-400 bg-white p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">{{ __('salon-search.1_5_girls') }}</label>
+                <input wire:model.live='nbFilles' class="peer hidden" name="{{ $nombreFille->id }}" type="checkbox" id="nbfille{{ $nombreFille->id }}"
+                    value="{{ $nombreFille->id }}" />
+                <label for="nbfille{{ $nombreFille->id }}"
+                    class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-amber-400 bg-white p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">{{ $nombreFille->getTranslation('name', app()->getLocale()) }}</label>
             </div>
-            <div>
+        @endforeach
+
+<!--            
+                <div>
                 <input wire:model.live='nbFilles' class="peer hidden" name="15" type="checkbox" id="nbfille15"
                     value="5 à 15" />
                 <label for="nbfille15"
@@ -57,7 +62,7 @@
                     value="plus de 15" />
                 <label for="nbfille+15"
                     class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-amber-400 bg-white p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">{{ __('salon-search.more_than_15_girls') }}</label>
-            </div>
+            </div> -->
         </div>
         <button wire:click="resetFilter"
             class="font-dm-serif hover:bg-green-gs group my-2 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white">
