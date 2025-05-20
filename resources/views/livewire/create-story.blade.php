@@ -1,21 +1,22 @@
 @php $user = Auth()->user(); @endphp
-<div class="relative p-4 rounded-lg">
+<div class="relative rounded-lg p-4">
     <input type="file" wire:model="media" class="hidden" id="storiesUpload">
 
-    @if(!$media)
+    @if (!$media)
         <label for="storiesUpload">
-            <div class="relative w-24 h-24 rounded-full border-2 border-green-gs cursor-pointer">
-                <img  @if ($avatar = $user->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+            <div class="border-green-gs relative h-24 w-24 cursor-pointer rounded-full border-2">
+                <img @if ($avatar = $user->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
                     @else
                     src="{{ asset('images/icon_logo.png') }}" @endif
-                    class="w-full h-full rounded-full object-cover"
-                    alt="{{ __('profile.add_story') }}">
-                <div class="w-full h-full absolute top-0 left-0 rounded-full bg-gray-300/50 flex items-center justify-center text-2xl text-green-gs font-bold">+</div>
+                    class="h-full w-full rounded-full object-cover" alt="{{ __('profile.add_story') }}">
+                <div
+                    class="text-green-gs absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-full bg-gray-300/50 text-2xl font-bold">
+                    +</div>
             </div>
         </label>
     @else
         <div class="relative">
-            @if($mediaType === 'image')
+            @if ($mediaType === 'image')
                 <img src="{{ $media->temporaryUrl() }}" class="max-w-50 rounded-lg">
             @else
                 <video controls class="max-w-50 rounded-lg">
@@ -23,7 +24,7 @@
                 </video>
             @endif
 
-            <button wire:click="save" class="absolute bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
+            <button wire:click="save" class="absolute bottom-4 right-4 rounded bg-green-500 px-4 py-2 text-white">
                 {{ __('profile.publish') }}
             </button>
         </div>

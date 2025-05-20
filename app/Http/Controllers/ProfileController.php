@@ -44,6 +44,9 @@ class ProfileController extends Controller
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
+        ], [
+            'password.required' => __('profile.password_required'),
+            'password.current_password' => __('profile.current_password_invalid')
         ]);
 
         $user = $request->user();

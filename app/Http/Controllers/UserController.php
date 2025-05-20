@@ -106,8 +106,28 @@ public function index()
             'lon' => 'nullable|string|max:255',
         ];
 
+        // Messages de validation personnalisés
+        $messages = [
+            'pseudo.required' => __('user.validation.pseudo_required'),
+            'pseudo.string' => __('user.validation.pseudo_string'),
+            'pseudo.max' => __('user.validation.pseudo_max'),
+            'prenom.required' => __('user.validation.prenom_required'),
+            'prenom.string' => __('user.validation.prenom_string'),
+            'prenom.max' => __('user.validation.prenom_max'),
+            'email.required' => __('user.validation.email_required'),
+            'email.email' => __('user.validation.email_email'),
+            'email.unique' => __('user.validation.email_unique'),
+            'password.required' => __('user.validation.password_required'),
+            'password.string' => __('user.validation.password_string'),
+            'password.min' => __('user.validation.password_min'),
+            'date_naissance.required' => __('user.validation.date_naissance_required'),
+            'date_naissance.date' => __('user.validation.date_naissance_date'),
+            'profile_type.required' => __('user.validation.profile_type_required'),
+            'profile_type.in' => __('user.validation.profile_type_in'),
+        ];
+
         // Validation des données entrantes
-        $validatedData = $request->validate($rules);
+        $validatedData = $request->validate($rules, $messages);
 
         // Ajout du mot de passe hashé
         $validatedData['password'] = bcrypt($validatedData['password']);
@@ -116,7 +136,7 @@ public function index()
         User::create($validatedData);
 
         // Redirection avec un message de succès
-        return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
+        return redirect()->route('users.index')->with('success', __('user.success.user_created'));
     }
 
     
@@ -131,21 +151,40 @@ public function index()
    // Mettre à jour les informations d'un utilisateur
    public function update(Request $request, $id)
    {
-       // Validation des données
-       $request->validate([
+       // Règles de validation
+       $rules = [
            'pseudo' => 'required|string|max:255',
            'prenom' => 'required|string|max:255',
-           'email' => 'required|email|unique:users,email,' . $id, // Vérifie l'unicité sauf pour cet ID
+           'email' => 'required|email|unique:users,email,' . $id,
            'date_naissance' => 'nullable|date',
            'profile_type' => 'required|in:invite,escorte,salon,admin',
-       ]);
+       ];
+
+       // Messages de validation personnalisés
+       $messages = [
+           'pseudo.required' => __('user.validation.pseudo_required'),
+           'pseudo.string' => __('user.validation.pseudo_string'),
+           'pseudo.max' => __('user.validation.pseudo_max'),
+           'prenom.required' => __('user.validation.prenom_required'),
+           'prenom.string' => __('user.validation.prenom_string'),
+           'prenom.max' => __('user.validation.prenom_max'),
+           'email.required' => __('user.validation.email_required'),
+           'email.email' => __('user.validation.email_email'),
+           'email.unique' => __('user.validation.email_unique'),
+           'date_naissance.date' => __('user.validation.date_naissance_date'),
+           'profile_type.required' => __('user.validation.profile_type_required'),
+           'profile_type.in' => __('user.validation.profile_type_in'),
+       ];
+
+       // Validation des données
+       $validatedData = $request->validate($rules, $messages);
 
        // Trouve l'utilisateur et met à jour les données
        $user = User::findOrFail($id);
-       $user->update($request->all());
+       $user->update($validatedData);
 
        // Redirection avec un message de succès
-       return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
+       return redirect()->route('users.index')->with('success', __('user.success.user_updated'));
    }
 
    // Supprimer un utilisateur
@@ -155,6 +194,6 @@ public function index()
        $user->delete(); // Supprime l'utilisateur
 
        // Redirection avec un message de succès
-       return redirect()->route('users.index')->with('success', 'Utilisateur supprimé avec succès.');
+       return redirect()->route('users.index')->with('success', __('user.success.user_deleted'));
    }
 }

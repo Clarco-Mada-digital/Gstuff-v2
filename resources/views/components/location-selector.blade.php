@@ -1,43 +1,43 @@
-<div x-data="{}" class="mb-4 relative">
+<div x-data="{}" class="relative mb-4">
     <label class="block text-sm font-medium text-gray-700">Localisation</label>
     <div class="relative">
-        <div id="loading-spinner" class="absolute inset-y-0 left-0 pl-3 flex items-center hidden">
+        <div id="loading-spinner" class="absolute inset-y-0 left-0 flex hidden items-center pl-3">
             <i class="fas fa-spinner fa-spin text-gray-400"></i>
         </div>
         <input x-on:keyup.debounce.500="performSearch()" type="text" id="location-search" name="localisation"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 pl-10 pr-10"
+            class="mt-1 block w-full rounded-md border-gray-300 pl-10 pr-10 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             placeholder="Rechercher une ville..." value="{{ $user->localisation ?? '' }}">
-        <div class="absolute inset-y-0 right-10 flex items-center cursor-pointer" x-on:click="performSearch()">
+        <div class="absolute inset-y-0 right-10 flex cursor-pointer items-center" x-on:click="performSearch()">
             <i class="fas fa-search text-gray-400 hover:text-gray-600"></i>
         </div>
     </div>
     <input type="hidden" name="lat" id="latitude" value="{{ $user->lat ?? '' }}">
     <input type="hidden" name="lon" id="longitude" value="{{ $user->lon ?? '' }}">
     <div id="suggestions"
-        class="mt-2 absolute z-50 bg-white w-full rounded-lg shadow-lg max-h-[200px] overflow-y-scroll"></div>
+        class="absolute z-50 mt-2 max-h-[200px] w-full overflow-y-scroll rounded-lg bg-white shadow-lg"></div>
 </div>
 
 <div class="relative">
-    <div class="absolute right-0 bg-gray-200 flex items-center justify-center w-10 h-10 z-2 rounded-full m-2 hover:bg-gray-300 cursor-pointer"
+    <div class="z-2 absolute right-0 m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
         onclick="openMapModal()">
         <i class="fas fa-expand text-gray-600 hover:text-gray-800"></i>
     </div>
-    <div class="h-[300px] z-1" id="map">
+    <div class="z-1 h-[300px]" id="map">
         @if (!$user->lat)
             <img src="{{ asset('images/map_placeholder.png') }}" alt="map image"
-                class="w-full h-full object-cover object-center">
+                class="h-full w-full object-cover object-center">
         @endif
     </div>
 </div>
 
 <!-- Modal Structure -->
-<div id="mapModal" class="fixed inset-0 hidden flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-white p-4 rounded-lg relative w-full h-full max-w-[95%] max-h-[95%] m-2.5">
-        <div class="absolute right-0 mr-5 bg-gray-200 flex items-center justify-center w-10 h-10 z-10 rounded-full m-2 hover:bg-gray-300 cursor-pointer"
+<div id="mapModal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black bg-opacity-50">
+    <div class="relative m-2.5 h-full max-h-[95%] w-full max-w-[95%] rounded-lg bg-white p-4">
+        <div class="absolute right-0 z-10 m-2 mr-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
             onclick="closeMapModal(event)">
             <i class="fas fa-times text-gray-600 hover:text-gray-800"></i>
         </div>
-        <div id="modalMap" class="h-full z-1"></div>
+        <div id="modalMap" class="z-1 h-full"></div>
     </div>
 </div>
 
@@ -99,7 +99,8 @@
 
                     // Étape 2 : Effectuer la recherche avec la bounding box
                     fetch(
-                            `https://nominatim.openstreetmap.org/search?format=json&q=${query}&bounded=1&viewbox=${viewBox}`)
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${query}&bounded=1&viewbox=${viewBox}`
+                            )
                         .then(response => response.json())
                         .then(results => {
                             var suggestions = document.getElementById('suggestions');

@@ -1,25 +1,29 @@
 <div>
-    <div class="md:w-[80%] w-full h-auto mx-auto p-2 flex items-center flex-wrap xl:flex-nowrap justify-center gap-3 bg-white rounded-md xl:-translate-y-[50%] -translate-y-[30%] shadow-lg">
+    <div
+        class="mx-auto flex h-auto w-full -translate-y-[30%] flex-wrap items-center justify-center gap-3 rounded-md bg-white p-2 shadow-lg md:w-[80%] xl:-translate-y-[50%] xl:flex-nowrap">
         @foreach (range('A', 'Z') as $item)
-        <div>
-            <input wire:model.live='lettreSearche' id="lettre{{$item}}" name="{{$item}}" class="hidden peer" type="checkbox" value="{{$item}}"/>
-            <label for="lettre{{$item}}" class="w-10 h-10 flex items-center justify-center rounded-md bg-whire text-green-gs border border-gray-300 font-dm-serif text-base xl:text-xl font-bold hover:bg-green-gs hover:text-white peer-checked:bg-green-gs peer-checked:text-white transition-all cursor-pointer">{{ Str::upper($item) }}</label>
-        </div>
+            <div>
+                <input wire:model.live='lettreSearche' id="lettre{{ $item }}" name="{{ $item }}"
+                    class="peer hidden" type="checkbox" value="{{ $item }}" />
+                <label for="lettre{{ $item }}"
+                    class="bg-whire text-green-gs font-dm-serif hover:bg-green-gs peer-checked:bg-green-gs flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-gray-300 text-base font-bold transition-all hover:text-white peer-checked:text-white xl:text-xl">{{ Str::upper($item) }}</label>
+            </div>
         @endforeach
-      </div>
-    
-      <div class="lg:container mx-auto px-5 lg:p-10">
+    </div>
+
+    <div class="mx-auto px-5 lg:container lg:p-10">
         @foreach ($glossaires as $glossaire)
-        <div class="flex flex-col justify-center gap-1 my-5 text-sm xl:text-base">
-          <a href="{{route('glossaires.show', $glossaire->slug)}}" class="text-2xl xl:text-4xl font-dm-serif text-green-gs font-bold">{{ $glossaire->title }}</a>
-          @if ($glossaire->excerpt)
-            {!! $glossaire->excerpt !!}
-          @else
-          <p>{!! $glossaire->content !!}</p>
-          @endif        
-        </div>
+            <div class="my-5 flex flex-col justify-center gap-1 text-sm xl:text-base">
+                <a href="{{ route('glossaires.show', $glossaire->slug) }}"
+                    class="font-dm-serif text-green-gs text-2xl font-bold xl:text-4xl">{{ $glossaire->title }}</a>
+                @if ($glossaire->excerpt)
+                    {!! $glossaire->excerpt !!}
+                @else
+                    <p>{!! $glossaire->content !!}</p>
+                @endif
+            </div>
         @endforeach
-    
-        <div>{{$glossaires->links('pagination::simple-tailwind')}}</div>
+
+        <div>{{ $glossaires->links('pagination::simple-tailwind') }}</div>
     </div>
 </div>

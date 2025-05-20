@@ -54,78 +54,103 @@ class CommentaireController extends Controller
     {
         // Vérification de l'authentification avant toute opération
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté pour poster un commentaire.');
+            return redirect()->route('login')->with('error', __('comment.login_required'));
         }
 
         // Validation des données
         $validated = $request->validate([
             'content' => 'required|string|max:500',
             'lang' => 'required|in:fr,en-US,es,de,it' 
+        ], [
+            'content.required' => __('comment.content.required'),
+            'content.string' => __('comment.content.string'),
+            'content.max' => __('comment.content.max', ['max' => 500]),
+            'lang.required' => __('comment.lang.required'),
+            'lang.in' => __('comment.lang.in'),
         ]);
 
-        // Langues cibles pour les traductions
-        $locales = ['fr', 'en-US', 'es', 'de', 'it'];
-        $sourceLocale = $validated['lang']; // Langue source par défaut
-        // dd($sourceLocale);
+        try {
+            // Langues cibles pour les traductions
+            $locales = ['fr', 'en-US', 'es', 'de', 'it'];
+            $sourceLocale = $validated['lang']; // Langue source par défaut
 
-        // Traduire le contenu dans toutes les langues cibles
-        $translatedContent = [];
-        foreach ($locales as $locale) {
-            if ($locale !== $sourceLocale) {
-                $translatedContent[$locale] = $this->translateService->translate($validated['content'], $locale);
+            // Traduire le contenu dans toutes les langues cibles
+            $translatedContent = [];
+            foreach ($locales as $locale) {
+                if ($locale !== $sourceLocale) {
+                    $translatedContent[$locale] = $this->translateService->translate($validated['content'], $locale);
+                }
             }
+
+            // Création du commentaire avec les traductions
+            $commentaire = new Commentaire();
+            $commentaire->setTranslation('content', $sourceLocale, $validated['content']);
+            foreach ($translatedContent as $locale => $content) {
+                $commentaire->setTranslation('content', $locale, $content);
+            }
+            $commentaire->user_id = Auth::id();
+            $commentaire->save();
+
+            $user = Auth::user();
+
+            $admin = User::where('profile_type', 'admin')->first();
+            if ($admin) {
+                $admin->notify(new NewCommentNotification($commentaire));
+            }
+            
+            return back()->with('success', __('comment.stored'));
+        } catch (\Exception $e) {
+            \Log::error('Error storing comment: ' . $e->getMessage());
+            return back()->with('error', __('comment.store_error'));
         }
-
-        // Création du commentaire avec les traductions
-        $commentaire = new Commentaire();
-        $commentaire->setTranslation('content', $sourceLocale, $validated['content']);
-        foreach ($translatedContent as $locale => $content) {
-            $commentaire->setTranslation('content', $locale, $content);
-        }
-        $commentaire->user_id = Auth::id();
-        $commentaire->save();
-
-        $user = Auth::user();
-
-        $admin = User::where('profile_type', 'admin')->first();
-        if ($admin) {
-            $admin->notify(new NewCommentNotification($commentaire));
-        }
-        return back()->with('success', 'Commentaire envoyé avec succès.');
-
-        // return redirect()->route('profile.index')->with('success', 'Commentaire envoyé avec succès.');
     }
 
     public function show($id)
     {
-        $commentaire = Commentaire::with('user')->findOrFail($id);
+        try {
+            $commentaire = Commentaire::with('user')->findOrFail($id);
 
-        $commentaire->read_at = now();
-        $commentaire->save();
+            if (is_null($commentaire->read_at)) {
+                $commentaire->read_at = now();
+                $commentaire->save();
+            }
 
-        return view('admin.commentaires.show', compact('commentaire'));
+            return view('admin.commentaires.show', compact('commentaire'));
+            
+        } catch (\Exception $e) {
+            \Log::error('Error showing comment: ' . $e->getMessage());
+            return back()->with('error', __('comment.not_found'));
+        }
     }
 
     public function destroy($id)
     {
-        $commentaire = Commentaire::findOrFail($id);
-
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté pour supprimer un commentaire.');
+            return redirect()->route('login')->with('error', __('comment.login_required'));
         }
 
-        $commentaire->delete();
-        $commentairesApproved = Commentaire::where('is_approved', true)
-            ->orderBy('created_at', 'desc')
-            ->with('user') // Charge les données de l'utilisateur lié
-            ->get();
+        try {
+            $commentaire = Commentaire::findOrFail($id);
+            $commentaire->delete();
 
-        $commentairesNotApproved = Commentaire::where('is_approved', false)
-            ->orderBy('created_at', 'desc')
-            ->with('user') // Charge les données de l'utilisateur lié
-            ->get();
+            $commentairesApproved = Commentaire::where('is_approved', true)
+                ->orderBy('created_at', 'desc')
+                ->with('user')
+                ->get();
 
-        return view('admin.commentaires.index', compact('commentairesApproved', 'commentairesNotApproved'));
+            $commentairesNotApproved = Commentaire::where('is_approved', false)
+                ->orderBy('created_at', 'desc')
+                ->with('user')
+                ->get();
+
+
+            return view('admin.commentaires.index', compact('commentairesApproved', 'commentairesNotApproved'))
+                ->with('success', __('comment.deleted'));
+                
+        } catch (\Exception $e) {
+            \Log::error('Error deleting comment: ' . $e->getMessage());
+            return back()->with('error', __('comment.delete_error'));
+        }
     }
 
     public function edit(string $id)
@@ -140,24 +165,43 @@ class CommentaireController extends Controller
 
     public function approve($id)
     {
-        $commentaire = Commentaire::findOrFail($id);
-
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté et avoir les droits administrateur pour approuver un commentaire.');
+            return redirect()->route('login')->with('error', __('comment.login_required'));
         }
 
-        $commentaire->is_approved = true;
-        $commentaire->save();
+        try {
+            $commentaire = Commentaire::findOrFail($id);
+            $commentaire->is_approved = true;
+            $commentaire->save();
 
-        return redirect()->route('commentaires.index')->with('success', 'Commentaire approuvé avec succès.');
+            return redirect()->route('commentaires.index')
+                ->with('success', __('comment.approved'));
+                
+        } catch (\Exception $e) {
+            \Log::error('Error approving comment: ' . $e->getMessage());
+            return back()->with('error', __('comment.approve_error'));
+        }
     }
 
     public function unreadCommentsCount()
     {
-        // Compter le nombre de commentaires non lus
-        $unreadCommentsCount = Commentaire::whereNull('read_at')->count();
+        try {
+            // Compter le nombre de commentaires non lus
+            $unreadCommentsCount = Commentaire::whereNull('read_at')->count();
 
-        // Retourner une réponse JSON avec le nombre de commentaires non lus
-        return response()->json(['count' => $unreadCommentsCount]);
+            // Retourner une réponse JSON avec le nombre de commentaires non lus
+            return response()->json([
+                'success' => true,
+                'count' => $unreadCommentsCount
+            ]);
+            
+        } catch (\Exception $e) {
+            \Log::error('Error getting unread comments count: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error getting unread comments count',
+                'count' => 0
+            ], 500);
+        }
     }
 }

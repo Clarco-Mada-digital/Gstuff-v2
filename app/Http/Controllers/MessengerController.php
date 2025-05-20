@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Lang;
 
 class MessengerController extends Controller
 {
@@ -34,10 +35,10 @@ class MessengerController extends Controller
             ->orWhere('prenom', 'LIKE', "%". $input. "%")
             ->orWhere('nom_salon', 'LIKE', "%".$input."%")
             ->orWhere('profile_type', 'LIKE', "%".$input."%")
-            ->paginate(10);
+            ->get();
 
-        if ($records->total() < 1) {
-            $getRecords .= "<p class='text-center'>Rien a voir - Aucun resultat.</p>";
+        if (count($records) < 1) {
+            $getRecords .= "<p class='text-center'>".__('chat.no_results')."</p>";
         }
 
         foreach ($records as $record) {
@@ -45,8 +46,8 @@ class MessengerController extends Controller
         }
 
         return response()->json([
-            'records' => $getRecords,
-            'last_page' => $records->lastPage()
+            'records' => $records,
+            'user_id' => Auth::user()->id
         ]);
     }
 
@@ -126,7 +127,7 @@ class MessengerController extends Controller
     function sendMessage(Request $request)
     {
         $request->validate([
-            'message' => ['required'],
+            'message' => ['required_without:attachment'],
             'id' => ['required', 'integer'],
             'temporaryMsgId' => ['required'],
             'attachment' => ['nullable', 'max:1024', 'image']
@@ -146,7 +147,9 @@ class MessengerController extends Controller
 
         return response()->json([
             'message' => $message->attachment ? $this->messageCard($message, true) : $this->messageCard($message),
-            'tempID' => $request->temporaryMsgId
+            'tempID' => $request->temporaryMsgId,
+            'success' => true,
+            'message_text' => __('chat.message_sent')
         ]);
     }
 
@@ -169,11 +172,7 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = "<div class='flex justify-center items-center h-full font-bold text-xl font-dm-serif'>
-    <p>Dis 'bonjour' et commence à échanger des messages.</p>
-</div>";
-
-            // $response['messages'] = "<div class='flex justify-center font-bold font-dm-serif text-xl items-center h-100'><p>Dis 'bonjour' et commence à échanger des messages.</p></div>";
+            $response['messages'] = view('messenger.components.no-messages')->render();
             return response()->json($response);
         }
 
@@ -188,92 +187,91 @@ class MessengerController extends Controller
         return response()->json($response);
     }
 
-    // fetch contacts from database
-    function fetchContacts(Request $request)
-    {
-        $users = Message::join('users', function($join) {
-           $join->on('messages.from_id', '=', 'users.id')
-            ->orOn('messages.to_id', '=', 'users.id');
-        })
-        ->where(function($q) {
-            $q->where('messages.from_id', Auth::user()->id)
-            ->orWhere('messages.to_id', Auth::user()->id);
-        })
-        ->where('users.id', '!=', Auth::user()->id)
-        ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-        ->orderBy('max_created_at', 'desc')
-        ->groupBy('users.id', 
-        'users.pseudo', 
-        'users.prenom', 
-        'users.nom_salon', 
-        'users.email', 
-        'users.profile_type', 
-        'users.avatar', 
-        'users.date_naissance', 
-        'users.genre', 
-        'users.intitule', 
-        'users.nom_proprietaire', 
-        'users.telephone',
-        'users.adresse',
-        'users.npa',
-        'users.canton',
-        'users.ville',
-        'users.categorie',
-        'users.service',
-        'users.recrutement',
-        'users.nombre_filles',
-        'users.pratique_sexuelles',
-        'users.oriantation_sexuelles',
-        'users.tailles',
-        'users.origine',
-        'users.couleur_yeux',
-        'users.couleur_cheveux',
-        'users.mensuration',
-        'users.poitrine',
-        'users.taille_poitrine',
-        'users.pubis',
-        'users.tatouages',
-        'users.mobilite',
-        'users.tarif',
-        'users.paiement',
-        'users.langues',
-        'users.apropos',
-        'users.autre_contact',
-        'users.complement_adresse',
-        'users.lien_site_web',
-        'users.localisation',
-        'users.email_verified_at',
-        'users.password',
-        'users.lat',
-        'users.lon',
-        'users.couverture_image',
-        'users.remember_token', 
-        'users.created_at', 
-        'users.profile_verifie',
-        'users.image_verification',
-        'users.updated_at',
-        'users.visibility',
-        'users.visible_countries',
-        'users.last_seen_at',        
-        'users.createbysalon')
-        ->paginate(10);
+   // fetch contacts from database
+   function fetchContacts(Request $request)
+   {
+       $users = Message::join('users', function($join) {
+          $join->on('messages.from_id', '=', 'users.id')
+           ->orOn('messages.to_id', '=', 'users.id');
+       })
+       ->where(function($q) {
+           $q->where('messages.from_id', Auth::user()->id)
+           ->orWhere('messages.to_id', Auth::user()->id);
+       })
+       ->where('users.id', '!=', Auth::user()->id)
+       ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+       ->orderBy('max_created_at', 'desc')
+       ->groupBy('users.id', 
+       'users.pseudo', 
+       'users.prenom', 
+       'users.nom_salon', 
+       'users.email', 
+       'users.profile_type', 
+       'users.avatar', 
+       'users.date_naissance', 
+       'users.genre', 
+       'users.intitule', 
+       'users.nom_proprietaire', 
+       'users.telephone',
+       'users.adresse',
+       'users.npa',
+       'users.canton',
+       'users.ville',
+       'users.categorie',
+       'users.service',
+       'users.recrutement',
+       'users.nombre_filles',
+       'users.pratique_sexuelles',
+       'users.oriantation_sexuelles',
+       'users.tailles',
+       'users.origine',
+       'users.couleur_yeux',
+       'users.couleur_cheveux',
+       'users.mensuration',
+       'users.poitrine',
+       'users.taille_poitrine',
+       'users.pubis',
+       'users.tatouages',
+       'users.mobilite',
+       'users.tarif',
+       'users.paiement',
+       'users.langues',
+       'users.apropos',
+       'users.autre_contact',
+       'users.complement_adresse',
+       'users.lien_site_web',
+       'users.localisation',
+       'users.email_verified_at',
+       'users.password',
+       'users.lat',
+       'users.lon',
+       'users.couverture_image',
+       'users.remember_token', 
+       'users.created_at', 
+       'users.profile_verifie',
+       'users.image_verification',
+       'users.updated_at',
+       'users.visibility',
+       'users.visible_countries',
+       'users.last_seen_at',        
+       'users.createbysalon')->get( );
 
-        if(count($users) > 0) {
-            $contacts = '';
-            foreach($users as $user) {
-                $contacts .= $this->getContactItem($user);
-            }
+       if(count($users) > 0) {
+           $contacts = '';
+           foreach($users as $user) {
+               $contacts .= $this->getContactItem($user);
+           }
 
-        }else {
-            $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
-        }
+       }else {
+           $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+       }
 
-        return response()->json([
-            'contacts' => $contacts,
-            'last_page' => $users->lastPage()
-        ]);
+       return response()->json([
+           'contacts' => $contacts,
+        //    'last_page' => $users->lastPage()
+       ]);
 
-    }
+   }
 
     function getContactItem($user) 
     {
@@ -281,9 +279,17 @@ class MessengerController extends Controller
         ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
         ->latest()->first();
         $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+        
+        // Vérification du statut en ligne basée uniquement sur last_seen_at
+        $isOnline = false;
+        if ($user->last_seen_at) {
+            $lastSeen = $user->last_seen_at instanceof \Carbon\Carbon 
+                ? $user->last_seen_at 
+                : \Carbon\Carbon::parse($user->last_seen_at);
+            $isOnline = $lastSeen->gt(now()->subMinutes(2));
+        }
 
-        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
-
+        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user', 'isOnline'))->render();
     }
 
     // update contact item
@@ -339,10 +345,13 @@ class MessengerController extends Controller
             return response()->json([
                 'id' => $request->message_id,
                 'status' => 'success',
-                'message' => 'Message supprimé avec succès'
+                'message' => __('chat.message_deleted')
             ], 200);
         }
-        return;
+        return response()->json([
+            'status' => 'error',
+            'message' => __('chat.delete_failed')
+        ], 403);
     }
 
 }

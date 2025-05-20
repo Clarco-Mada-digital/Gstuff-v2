@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
 
         // Créez d'autres utilisateurs
         \App\Models\User::factory()
-            ->count(10)
+            ->count(50)
             ->create()
             ->each(function ($user) use ($userRole) {
                 $user->assignRole($userRole);

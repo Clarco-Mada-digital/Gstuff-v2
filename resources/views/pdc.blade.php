@@ -1,33 +1,37 @@
 @extends('layouts.base')
 
-  @section('pageTitle')
-    {{$page->slug}}
-  @endsection
+@section('pageTitle')
+    {{ $page->slug }}
+@endsection
 
-  @section('content')
+@section('content')
 
-  @section('extraStyle')
+@section('extraStyle')
     <style>
-      h3{
-        font-family: 'DM serif';
-        font-size: 30px;
-        font-weight: bold;
-        margin: 10px 0;
-      }
-      .content a{
-        color: var(--color-green-gs);
-      }
-      .content a:hover{
-        color: #e9d168;
-      }
+        h3 {
+            font-family: 'DM serif';
+            font-size: 30px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .content a {
+            color: var(--color-green-gs);
+        }
+
+        .content a:hover {
+            color: #e9d168;
+        }
     </style>
-  @endsection
+@endsection
 
-  <div class="w-full bg-green-gs/50 py-10 content" style="background: url('images/Fond-page-politique.jpg') center center /cover">
-    <div class="w-full lg:w-[70%] lg:mx-auto p-5 bg-white">
-      <h1 class="text-6xl font-dm-serif font-bold text-green-gs text-center py-2 shadow-lg w-full">{{$page->title}}</h1>
-      {!! $page->content !!}
+<div class="bg-green-gs/50 content w-full py-10"
+    style="background: url('images/Fond-page-politique.jpg') center center /cover">
+    <div class="w-full bg-white p-5 lg:mx-auto lg:w-[70%]">
+        <h1 class="font-dm-serif text-green-gs w-full py-2 text-center text-6xl font-bold shadow-lg">{{ $page->title }}
+        </h1>
+        {!! $page->content !!}
     </div>
-  </div>
+</div>
 
-  @stop
+@stop

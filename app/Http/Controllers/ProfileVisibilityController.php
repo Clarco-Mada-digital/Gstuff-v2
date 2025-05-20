@@ -12,6 +12,13 @@ class ProfileVisibilityController extends Controller
             'visibility' => 'required|in:public,private,custom',
             'countries' => 'required_if:visibility,custom|array',
             'countries.*' => 'string|size:2',
+        ], [
+            'visibility.required' => __('visibility.validation.visibility_required'),
+            'visibility.in' => __('visibility.validation.visibility_in'),
+            'countries.required_if' => __('visibility.validation.countries_required_if'),
+            'countries.array' => __('visibility.validation.countries_array'),
+            'countries.*.string' => __('visibility.validation.countries_*_string'),
+            'countries.*.size' => __('visibility.validation.countries_*_size'),
         ]);
 
         $user = auth()->user();
@@ -25,7 +32,7 @@ class ProfileVisibilityController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Paramètres de visibilité mis à jour');
+        return back()->with('success', __('visibility.success.visibility_updated'));
     }
 
     public function show()
@@ -41,7 +48,7 @@ class ProfileVisibilityController extends Controller
         $user->visible_countries = null;
         $user->save();
 
-        return back()->with('success', 'Paramètres de visibilité réinitialisés');
+        return back()->with('success', __('visibility.success.visibility_reset'));
     }
 
     public function edit()

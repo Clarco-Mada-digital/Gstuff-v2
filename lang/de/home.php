@@ -42,6 +42,7 @@ return [
     'signup' => 'Registrieren',
 
     // FAQ
+    'read_more' => 'Mehr lesen',
     'frequent_questions' => 'Häufige Fragen',
     'photo_shoot_mandatory' => 'Ist das Fotoshooting obligatorisch?',
     'apartments_rent' => 'Haben Sie Apartments zu vermieten?',

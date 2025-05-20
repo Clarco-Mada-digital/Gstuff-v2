@@ -43,6 +43,7 @@ return [
     'signup' => 'Registrarse',
 
     // FAQ
+    'read_more' => 'Leer más',
     'frequent_questions' => 'Preguntas frecuentes',
     'photo_shoot_mandatory' => '¿Es obligatoria la sesión de fotos?',
     'apartments_rent' => '¿Tienen apartamentos en alquiler?',

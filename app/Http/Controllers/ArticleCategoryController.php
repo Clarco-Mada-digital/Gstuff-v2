@@ -43,6 +43,11 @@ class ArticleCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'nullable|string'
+        ], [
+            'name.required' => __('article_category.name.required'),
+            'name.max' => __('article_category.name.max', ['max' => 255]),
+            'name.unique' => __('article_category.name.unique'),
+            'description.string' => __('article_category.description.string'),
         ]);
 
         ArticleCategory::create([
@@ -50,7 +55,8 @@ class ArticleCategoryController extends Controller
             'slug' => Str::slug($validated['name']),
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Catégorie créée');
+        return redirect()->route('admin.categories.index')
+            ->with('success', __('article_category.stored'));
     }
 
     /**
@@ -77,6 +83,11 @@ class ArticleCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
             'description' => 'nullable|string'
+        ], [
+            'name.required' => __('article_category.name.required'),
+            'name.max' => __('article_category.name.max', ['max' => 255]),
+            'name.unique' => __('article_category.name.unique'),
+            'description.string' => __('article_category.description.string'),
         ]);
 
         $category->update([
@@ -85,7 +96,8 @@ class ArticleCategoryController extends Controller
             'is_active' => $request->has('is_active')
         ]);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Catégorie mise à jour');
+        return redirect()->route('admin.categories.index')
+            ->with('success', __('article_category.updated'));
     }
 
     /**
@@ -93,7 +105,11 @@ class ArticleCategoryController extends Controller
      */
     public function destroy(ArticleCategory $category)
     {
-        $category->delete();
-        return back()->with('success', 'Catégorie supprimée');
+        try {
+            $category->delete();
+            return back()->with('success', __('article_category.deleted'));
+        } catch (\Exception $e) {
+            return back()->with('error', __('article_category.delete_error'));
+        }
     }
 }

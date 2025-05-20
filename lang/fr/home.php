@@ -45,6 +45,7 @@ return [
    
 
     // FAQ
+    'read_more' => 'Lire la suite',
     'frequent_questions' => 'Questions fréquentes',
     'photo_shoot_mandatory' => 'Est-ce que le shooting photo est obligatoire ?',
     'apartments_rent' => 'Avez-vous des appartements à louer ?',

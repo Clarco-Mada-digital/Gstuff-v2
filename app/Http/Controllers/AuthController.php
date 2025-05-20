@@ -50,8 +50,10 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('error', 'Problème de validation');
-            dd($validator);
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', __('auth.validation_error'));
         }
 
         $user = User::create([
@@ -69,7 +71,8 @@ class AuthController extends Controller
 
         Auth::login($user); // Connecte automatiquement l'utilisateur après l'inscription
 
-        return redirect()->route('profile.index')->with('success', 'Inscription réussie ! Bienvenue.');
+        return redirect()->route('profile.index')
+            ->with('success', __('auth.registration.success'));
     }
 
     public function showLoginForm()
@@ -95,16 +98,22 @@ class AuthController extends Controller
             Auth::logout(); // Déconnecter immédiatement l'utilisateur
             return response()->json([
                 'success' => false, 
-                'message' => 'Votre compte est actuellement géré par un salon. Veuillez contacter l\'administration.'
+                'message' => __('auth.login.salon_managed')
             ], 403);
         }
 
         // Si tout est bon, autoriser l'accès
-        return response()->json(['success' => true, 'message' => 'Authentification réussie']);
+        return response()->json([
+            'success' => true, 
+            'message' => __('auth.login.success')
+        ]);
     }
 
     // Identifiants incorrects
-    return response()->json(['success' => false, 'message' => 'Identifiants incorrects'], 401);
+    return response()->json([
+        'success' => false, 
+        'message' => __('auth.failed')
+    ], 401);
 }
 
 
@@ -122,7 +131,8 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home')->with('info', 'Déconnexion réussie.');
+        return redirect()->route('home')
+            ->with('info', __('auth.logout_success'));
     }
 
     public function showPasswordResetRequestForm()
@@ -132,7 +142,11 @@ class AuthController extends Controller
 
     public function sendPasswordResetLink(Request $request)
     {
-        $request->validate(['email' => 'required|email|exists:users,email']);
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ], [
+            'email.exists' => __('auth.email_not_found')
+        ]);
 
         $user = User::where('email', $request->email)->first();
         $token = Str::random(60); // Générer un token unique
@@ -143,8 +157,10 @@ class AuthController extends Controller
         // Envoyer l'email de réinitialisation (vous devrez configurer Mailtrap ou un service d'email réel)
         // Mail::to($user->email)->send(new PasswordResetMail($user, $token));
 
-        // return back()->with('success', 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.');
-        return response()->json(['success' => true, 'message' => 'Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.']);
+        return response()->json([
+            'success' => true, 
+            'message' => __('auth.reset_link_sent')
+        ]);
     }
 
     public function showPasswordResetForm(string $token)
@@ -154,7 +170,8 @@ class AuthController extends Controller
                      ->first();
 
         if (!$user) {
-            return redirect()->route('password.request')->withErrors(['token' => 'Token de réinitialisation invalide ou expiré.']);
+            return redirect()->route('password.request')
+                ->withErrors(['token' => __('auth.invalid_token')]);
         }
 
         return view('auth.password_reset_form', ['token' => $token]);

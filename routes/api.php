@@ -19,6 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Routes pour la messagerie
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/send-message', [\App\Http\Controllers\MessengerController::class, 'sendMessage'])->name('api.send.message');
+    Route::get('/messages/{id}', [\App\Http\Controllers\MessengerController::class, 'fetchMessages'])->name('api.messages.fetch');
+    Route::post('/favorites/{id}', [\App\Http\Controllers\MessengerController::class, 'addFavorite'])->name('api.favorites.add');
+    Route::delete('/favorites/{id}', [\App\Http\Controllers\MessengerController::class, 'removeFavorite'])->name('api.favorites.remove');
+    Route::get('/search', [\App\Http\Controllers\MessengerController::class, 'search'])->name('api.search');
+});
+
 
 Route::prefix('admin/api')->group(function () {
     Route::get('/stats', function () {

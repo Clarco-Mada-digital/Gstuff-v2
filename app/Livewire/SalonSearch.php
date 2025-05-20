@@ -77,7 +77,7 @@ class SalonSearch extends Component
 
         // Récupération du pays du visiteur via IP
         $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? null; // fallback utile
+        $viewerCountry = $position?->countryCode ?? 'FR'; // fallback utile
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
 

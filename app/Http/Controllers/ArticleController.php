@@ -48,8 +48,8 @@ class ArticleController extends Controller
             'success' => true,
             'is_published' => $article->is_published,
             'message' => $article->is_published 
-                ? 'Article publié avec succès' 
-                : 'Article retiré de la publication'
+                ? __('article.published')
+                : __('article.unpublished')
         ]);
     }
 
@@ -103,6 +103,23 @@ class ArticleController extends Controller
             'tags.*' => 'exists:tags,id',
             'is_published' => 'boolean',
             'published_at' => 'nullable|date|after_or_equal:today'
+        ], [
+            'title.required' => __('article.title.required'),
+            'title.max' => __('article.title.max', ['max' => 255]),
+            'title.unique' => __('article.title.unique'),
+            'slug.required' => __('article.slug.required'),
+            'slug.max' => __('article.slug.max', ['max' => 255]),
+            'slug.unique' => __('article.slug.unique'),
+            'content.required' => __('article.content.required'),
+            'article_category_id.required' => __('article.article_category_id.required'),
+            'article_category_id.exists' => __('article.article_category_id.exists'),
+            'article_user_id.required' => __('article.article_user_id.required'),
+            'article_user_id.exists' => __('article.article_user_id.exists'),
+            'tags.array' => __('article.tags.array'),
+            'tags.*.exists' => __('article.tags.exists'),
+            'is_published.boolean' => __('article.is_published.boolean'),
+            'published_at.date' => __('article.published_at.date'),
+            'published_at.after_or_equal' => __('article.published_at.after_or_equal'),
         ]);
         
         if ($validator->fails()) {
@@ -128,11 +145,11 @@ class ArticleController extends Controller
 
             // Retour à la liste des articles avec succès
             return redirect()->route('articles.index')
-                            ->with('success', 'Article créé avec succès');
+                            ->with('success', __('article.stored'));
         } catch (\Exception $e) {
             // Gestion des erreurs en cas de problème lors de la création
-            die('Une erreur est survenue lors de la création de l\'article.'. $e);
-            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l\'article.']);
+            \Log::error('Error creating article: ' . $e->getMessage());
+            return back()->withErrors(['error' => __('article.store_error')])->withInput();
         }
     }
 
@@ -174,15 +191,25 @@ class ArticleController extends Controller
             'content' => 'required',
             'excerpt' => 'nullable',
             'article_category_id' => 'required|exists:article_categories,id',
-            // 'article_user_id' => 'required|exists:users,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
             'is_published' => 'boolean',
-            // 'published_at' => 'nullable|date|after_or_equal:today'
+        ], [
+            'title.required' => __('article.title.required'),
+            'title.max' => __('article.title.max', ['max' => 255]),
+            'title.unique' => __('article.title.unique'),
+            'slug.required' => __('article.slug.required'),
+            'slug.max' => __('article.slug.max', ['max' => 255]),
+            'slug.unique' => __('article.slug.unique'),
+            'content.required' => __('article.content.required'),
+            'article_category_id.required' => __('article.article_category_id.required'),
+            'article_category_id.exists' => __('article.article_category_id.exists'),
+            'tags.array' => __('article.tags.array'),
+            'tags.*.exists' => __('article.tags.exists'),
+            'is_published.boolean' => __('article.is_published.boolean'),
         ]);
         
         if ($validator->fails()) {
-            dd($validator->errors());
             return back()->withErrors($validator)->withInput();
         }
         
@@ -215,11 +242,11 @@ class ArticleController extends Controller
 
             // Retour à la liste des articles avec succès
             return redirect()->route('glossaires.show', ['article' => $article->slug])
-                            ->with('success', 'Article mis à jour avec succès');
+                            ->with('success', __('article.updated'));
         } catch (\Exception $e) {
             // Gestion des erreurs en cas de problème lors de la mise à jour
-            die('Une erreur est survenue lors de la mise à jour de l\'article.'. $e);
-            return back()->withErrors(['error' => 'Une erreur est survenue lors de la mise à jour de l\'article.']);
+            \Log::error('Error updating article: ' . $e->getMessage());
+            return back()->withErrors(['error' => __('article.update_error')])->withInput();
         }
     }
 
@@ -228,11 +255,19 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Article supprimé définitivement'
-        ]);
+        try {
+            $article->delete();
+            
+            return response()->json([
+                'success' => true,
+                'message' => __('article.deleted')
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error deleting article: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => __('article.delete_error')
+            ], 500);
+        }
     }
 }

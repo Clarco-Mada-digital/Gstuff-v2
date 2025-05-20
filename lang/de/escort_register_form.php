@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'page_title' => 'Registrierungsseite',
+    'register_escort' => 'Als Escort registrieren',
+    'first_name' => 'Vorname',
+    'genre' => 'Genre',
+    'female' => 'Weiblich',
+    'male' => 'Männlich',
+    'trans' => 'Trans',
+    'gay' => 'Schwul',
+    'lesbian' => 'Lesbisch',
+    'bisexual' => 'Bisexuell',
+    'queer' => 'Queer',
+    'email' => 'E-Mail-Adresse',
+    'birth_date' => 'Geburtsdatum',
+    'password' => 'Passwort',
+    'confirm_password' => 'Passwort bestätigen',
+    'terms_conditions' => 'Bitte lesen Sie unsere Nutzungsbedingungen.',
+    'see_terms' => 'Siehe die',
+    'terms_conditions_link' => 'Nutzungsbedingungen.',
+    'accept_terms' => 'Ich habe die Nutzungsbedingungen gelesen und akzeptiere sie',
+    'register' => 'Registrieren',
+    'oops' => 'Hoppla!',
+];

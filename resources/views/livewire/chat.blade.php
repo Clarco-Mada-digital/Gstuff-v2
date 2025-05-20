@@ -4,18 +4,19 @@
 
 <div x-data="{ open: @entangle('open') }" class="fixed bottom-6 right-6 z-50" x-cloak>
     @auth
+
         <!-- Bouton de chat flottant -->
         <button x-show="!open" wire:click="toggleChat" type="button"
-            class="relative inline-flex items-center justify-center p-3 text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none transition-all duration-200"
-            aria-label="Ouvrir le chat">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 16" aria-hidden="true">
+            class="relative inline-flex items-center justify-center rounded-full bg-blue-600 p-3 text-white shadow-lg transition-all duration-200 hover:bg-blue-700 focus:outline-none"
+            aria-label="{{ __('messenger.open_chat') }}">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 16" aria-hidden="true">
                 <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                 <path
                     d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
             </svg>
             @if ($unseenCounter > 0)
                 <span
-                    class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-1">
+                    class="absolute -right-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white">
                     {{ min($unseenCounter, 99) }}
                 </span>
             @endif
@@ -26,14 +27,14 @@
             x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 translate-y-4" @keydown.escape="open = false"
-            class="flex flex-col w-[300px] h-[400px] max-w-sm bg-white rounded-lg shadow-xl overflow-hidden">
+            class="flex h-[400px] w-[300px] max-w-sm flex-col overflow-hidden rounded-lg bg-white shadow-xl">
 
             <!-- En-tête du chat -->
-            <div class="flex items-center justify-between p-4 bg-blue-600 text-white">
+            <div class="flex items-center justify-between bg-blue-600 p-4 text-white">
                 <div class="flex items-center space-x-3">
                     @if ($userReceved)
-                        <button wire:click="resetSender" aria-label="Retour aux contacts"
-                            class="p-1 rounded-full hover:bg-blue-700 transition-colors">
+                        <button wire:click="resetSender" aria-label="{{ __('messenger.back_to_contacts') }}"
+                            class="rounded-full p-1 transition-colors hover:bg-blue-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
@@ -42,16 +43,16 @@
                         </button>
                         <img src="{{ $userReceved->avatar ? asset('storage/avatars/' . $userReceved->avatar) : asset('images/icon_logo.png') }}"
                             alt="Avatar de {{ $userReceved->pseudo ?? ($userReceved->prenom ?? ($userReceved->nom_salon ?? 'Utilisateur')) }}"
-                            class="w-10 h-10 rounded-full object-cover border-2 border-white">
-                        <h2 class="font-semibold truncate max-w-[180px]">
+                            class="h-10 w-10 rounded-full border-2 border-white object-cover">
+                        <h2 class="max-w-[180px] truncate font-semibold">
                             {{ $userReceved->pseudo ?? ($userReceved->prenom ?? ($userReceved->nom_salon ?? 'Chat')) }}
                         </h2>
                     @else
-                        <h2 class="font-semibold">Messages</h2>
+                        <h2 class="font-semibold">{{ __('messenger.messages') }}</h2>
                     @endif
                 </div>
-                <button @click="open = false" aria-label="Fermer le chat"
-                    class="p-1 rounded-full hover:bg-blue-700 transition-colors">
+                <button @click="open = false" aria-label="{{ __('messenger.close_chat') }}"
+                    class="rounded-full p-1 transition-colors hover:bg-blue-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -63,31 +64,30 @@
             @if ($userReceved)
                 <div x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }" x-init="scrollToBottom();
                 $wire.on('messages-loaded', scrollToBottom)"
-                    class="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-50">
+                    class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4">
                     @forelse($messages as $message)
-                        <div class="flex {{ $message->from_id === auth()->user()->id ? 'justify-end' : 'justify-start' }}">
+                        <div class="{{ $message->from_id === auth()->user()->id ? 'justify-end' : 'justify-start' }} flex">
                             <div
-                                class="max-w-[80%] rounded-lg p-3 
-                                      {{ $message->from_id === auth()->user()->id ? 'bg-blue-100 text-blue-900' : 'bg-white border border-gray-200' }}">
+                                class="{{ $message->from_id === auth()->user()->id ? 'bg-blue-100 text-blue-900' : 'bg-white border border-gray-200' }} max-w-[80%] rounded-lg p-3">
                                 @if ($message->attachment)
                                     @php $imagePath = json_decode($message->attachment); @endphp
                                     <a x-on:click.stop="$dispatch('img-modal', { imgModalSrc: '{{ asset($imagePath) }}', imgModalDesc: '' })"
-                                        class="block mb-2 cursor-zoom-in">
+                                        class="mb-2 block cursor-zoom-in">
                                         <img src="{{ asset($imagePath) }}" alt="Image partagée"
-                                            class="rounded max-h-60 object-cover w-full">
+                                            class="max-h-60 w-full rounded object-cover">
                                     </a>
                                 @endif
 
                                 @if ($message->body)
-                                    <p class="text-sm whitespace-pre-wrap">{{ $message->body }}</p>
+                                    <p class="whitespace-pre-wrap text-sm">{{ $message->body }}</p>
                                 @endif
 
-                                <div class="flex items-center justify-between mt-1 text-xs text-gray-500">
+                                <div class="mt-1 flex items-center justify-between text-xs text-gray-500">
                                     <span>{{ timeAgo($message->created_at) }}</span>
                                     @if ($message->from_id === auth()->user()->id)
                                         <button wire:click="deleteMessage({{ $message->id }})"
-                                            aria-label="Supprimer le message"
-                                            class="ml-2 text-red-500 hover:text-red-700 transition-colors">
+                                            aria-label="{{ __('messenger.delete_message') }}"
+                                            class="ml-2 text-red-500 transition-colors hover:text-red-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -99,20 +99,20 @@
                             </div>
                         </div>
                     @empty
-                        <div class="flex items-center justify-center h-full text-gray-500">
-                            <p>Sélectionnez un utilisateur pour commencer la conversation</p>
+                        <div class="flex h-full items-center justify-center text-gray-500">
+                            <p>{{ __('messenger.select_user_to_start') }}</p>
                         </div>
                     @endforelse
                 </div>
 
                 <!-- Zone de saisie -->
-                <div class="p-3 border-t border-gray-200 bg-white">
+                <div class="border-t border-gray-200 bg-white p-3">
                     <div class="flex space-x-2">
                         <input type="text" wire:model="message" wire:keydown.enter="sendMessage"
-                            placeholder="Écrivez un message..."
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            placeholder="{{ __('messenger.type_message') }}"
+                            class="flex-1 rounded-full border border-gray-300 px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <button wire:click="sendMessage" @if ($sending) disabled @endif
-                            class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-colors">
+                            class="rounded-full bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 focus:outline-none">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
@@ -123,7 +123,7 @@
                 </div>
             @else
                 <!-- Liste des contacts -->
-                <div class="flex-1 p-2 overflow-y-auto bg-gray-50">
+                <div class="flex-1 overflow-y-auto bg-gray-50 p-2">
                     {!! $contacts !!}
                 </div>
             @endif

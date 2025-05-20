@@ -33,6 +33,11 @@ class TagController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:tags,name'
+        ], [
+            'name.required' => __('tag.validation.name_required'),
+            'name.string' => __('tag.validation.name_string'),
+            'name.max' => __('tag.validation.name_max'),
+            'name.unique' => __('tag.validation.name_unique'),
         ]);
         
         // Créer le tag avec un slug
@@ -41,7 +46,10 @@ class TagController extends Controller
             'slug' => Str::slug($validated['name'])
         ]);
         
-        return response()->json($tag);
+        return response()->json([
+            'tag' => $tag,
+            'message' => __('tag.success.tag_created')
+        ]);
     }
 
     /**
@@ -49,7 +57,15 @@ class TagController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $tag = Tag::find($id);
+        
+        if (!$tag) {
+            return response()->json([
+                'message' => __('tag.error.tag_not_found')
+            ], 404);
+        }
+        
+        return response()->json($tag);
     }
 
     /**
@@ -65,7 +81,33 @@ class TagController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:tags,name,' . $id
+        ], [
+            'name.required' => __('tag.validation.name_required'),
+            'name.string' => __('tag.validation.name_string'),
+            'name.max' => __('tag.validation.name_max'),
+            'name.unique' => __('tag.validation.name_unique'),
+        ]);
+
+        $tag = Tag::find($id);
+        
+        if (!$tag) {
+            return response()->json([
+                'message' => __('tag.error.tag_not_found')
+            ], 404);
+        }
+
+
+        $tag->update([
+            'name' => $validated['name'],
+            'slug' => Str::slug($validated['name'])
+        ]);
+
+        return response()->json([
+            'tag' => $tag,
+            'message' => __('tag.success.tag_updated')
+        ]);
     }
 
     /**
@@ -74,6 +116,6 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        return back()->with('success', 'Tag supprimé');
+        return back()->with('success', __('tag.success.tag_deleted'));
     }
 }
