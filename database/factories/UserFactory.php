@@ -57,8 +57,8 @@ class UserFactory extends Factory
         // Calculer une date de naissance pour s'assurer que l'utilisateur a plus de 18 ans
         $dateOfBirth = $this->faker->dateTimeBetween('-40 years', '-18 years');
         $profileType = $this->faker->randomElement(['escorte', 'salon']);
-        $genre = $this->faker->randomElement(['femme', 'homme', 'trans', 'gay', 'bisexuelle', 'lesbienne', 'queer']);
-        $name = $genre == 'femme' ? $this->faker->firstNameFemale() : $this->faker->firstName();
+        $genre_id = $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7]);
+        $name = $genre_id == 1 ? $this->faker->firstNameFemale() : $this->faker->firstName();
         $nom_salon = $profileType === 'salon' ? $this->faker->firstNameMale() : '';
 
         // Sélectionne un canton aléatoire
@@ -70,7 +70,7 @@ class UserFactory extends Factory
         return [
             'profile_type' => $profileType === 'escorte' ? 'escorte' : 'salon',
             'email' => $this->faker->unique()->safeEmail,
-            'genre' => $genre,
+            'genre_id' => $genre_id,
             'prenom' => $name,
             'nom_salon' => $nom_salon,
             'canton' => $canton,

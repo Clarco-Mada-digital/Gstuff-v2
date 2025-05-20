@@ -17,7 +17,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Commentaire;
 use App\Models\Invitation;
-
+use App\Models\Genre;
+use App\Models\PratiqueSexuelle;
+use App\Models\OrientationSexuelle;
+use App\Models\CouleurYeux;
+use App\Models\CouleurCheveux;
+use App\Models\Mensuration;
+use App\Models\Poitrine;
+use App\Models\Silhouette;
+use App\Models\PubisType;
+use App\Models\Tattoo;
+use App\Models\Mobilite;
+use App\Models\NombreFille;
 
 class ProfileCompletionController extends Controller
 {
@@ -28,9 +39,10 @@ class ProfileCompletionController extends Controller
             $user = Auth::user();
             $user['canton'] = Canton::where('id', $user->canton)->first() ?? '';
             $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? null;
+            // dd($user->categorie);
 
-            $serviceIds = explode(',', $user->service);
-            $user['service'] = Service::whereIn('id', $serviceIds)->get();
+            $serviceIds = !empty($user->service) ? explode(',', $user->service) : [];
+            $user['services'] = Service::whereIn('id', $serviceIds)->get();
 
             // $user['service'] = $userService;
 
@@ -50,21 +62,21 @@ class ProfileCompletionController extends Controller
             $escort_categories = Categorie::where('type', 'escort')->get();
             $salon_categories = Categorie::where('type', 'salon')->get();
             $services = Service::all();
-            $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
-            $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
-            $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
+            $genres = Genre::all();
+            $pratiquesSexuelles = PratiqueSexuelle::all();
+            $oriantationSexuelles = OrientationSexuelle::all();
             $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
-            $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
-            $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
-            $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
-            $poitrines = ['Naturelle', 'Améliorée'];
-            $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-            $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
-            $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
-            $tatouages = ['Avec tattos', 'Sans tatto'];
-            $mobilites = ['Je reçois', 'Je me déplace'];
+            $couleursYeux =CouleurYeux::all();
+            $couleursCheveux =CouleurCheveux::all();
+            $mensurations =Mensuration::all();
+            $poitrines =Poitrine::all();
+            $taillesPoitrine =['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            $silhouette =Silhouette::all();
+            $pubis =PubisType::all();
+            $tatouages =Tattoo::all();
+            $mobilites =Mobilite::all();
             $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
-            $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
+            $nombreFilles =NombreFille::all();
             $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
             $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
@@ -301,21 +313,21 @@ class ProfileCompletionController extends Controller
     {
         // Exemple de données statiques, à remplacer par votre logique de récupération de données
         $categories = Categorie::all();
-        $genres = ['Femme', 'Homme', 'Trans', 'Gay', 'Lesbienne', 'Bisexuelle', 'Queer'];
-        $pratiquesSexuelles = ['69', 'Cunnilingus', 'Ejaculation corps', 'Ejaculation facial', 'Face-sitting', 'Fellation', 'Fétichisme', 'GFE', 'Gorge Profonde', 'Lingerie', 'Massage érotique', 'Rapport sexuel', 'Blow job', 'Hand job'];
-        $oriantationSexuelles = ['Bisexuelle', 'Hétéro', 'Lesbienne', 'Polyamoureux', 'Polyamoureuse', 'Autre'];
+        $genres = Genre::all();
+        $pratiquesSexuelles = PratiqueSexuelle::all();
+        $oriantationSexuelles = OrientationSexuelle::all();
         $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
-        $couleursYeux = ['Bleus', 'Bruns', 'Bruns clairs', 'Gris', 'Jaunes', 'Marrons', 'Noirs', 'Verts', 'Autre'];
-        $couleursCheveux = ['Blonds', 'Brune', 'Châtin', 'Gris', 'Noiraude', 'Rousse', 'Autre'];
-        $mensurations = ['Mince', 'Normale', 'Pulpeuse', 'Ronde', 'Sportive'];
-        $poitrines = ['Naturelle', 'Améliorée'];
+        $couleursYeux = CouleurYeux::all();
+        $couleursCheveux = CouleurCheveux::all();
+        $mensurations = Mensuration::all();
+        $poitrines = Poitrine::all();
         $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        $silhouette = ['Fine', 'Mince', 'Normale', 'Sportive', 'Pulpeuse', 'Ronde'];
-        $pubis = ['Entièrement rasé', 'Partiellement rasé', 'Tout naturel'];
-        $tatouages = ['Avec tattos', 'Sans tatto'];
-        $mobilites = ['Je reçois', 'Je me déplace'];
+        $silhouette = Silhouette::all();
+        $pubis = PubisType::all();
+        $tatouages = Tattoo::all();
+        $mobilites = Mobilite::all();
         $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
-        $nombreFilles = ['1 à 5', '5 à 15', 'plus de 15'];
+        $nombreFilles = NombreFille::all();
         $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
         $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
@@ -345,8 +357,19 @@ class ProfileCompletionController extends Controller
     public function getProfileCompletionPercentage()
     {
         $user = Auth::user();
-        $totalFields = 29; // Total number of fields considered for completion
-        $completedFields = 0;
+        if($user->profile_type == 'escorte')
+        {
+            $totalFields = 30; // Total number of fields considered for completion
+            $completedFields = 0;
+        }elseif($user->profile_type == 'salon')
+        {
+            $totalFields = 19; // Total number of fields considered for completion
+            $completedFields = 0;
+        }else
+        {
+            $totalFields = 29; // Total number of fields considered for completion
+            $completedFields = 0;
+        }
 
         // Fields to consider for profile completion
         if($user->profile_type == 'escorte')
@@ -360,17 +383,17 @@ class ProfileCompletionController extends Controller
                 'canton',
                 'ville',
                 'categorie',
-                'pratique_sexuelles',
+                'pratique_sexuelle_id',
                 'tailles',
                 'origine',
-                'couleur_yeux',
-                'couleur_cheveux',
-                'mensuration',
-                'poitrine',
+                'couleur_yeux_id',
+                'couleur_cheveux_id',
+                'mensuration_id',
+                'poitrine_id',
                 'taille_poitrine',
-                'pubis',
-                'tatouages',
-                'mobilite',
+                'pubis_type_id',
+                'tatoo_id',
+                'mobilite_id',
                 'tarif',
                 'langues',
                 'paiement',
@@ -379,6 +402,7 @@ class ProfileCompletionController extends Controller
                 'complement_adresse',
                 'lien_site_web',
                 'localisation',
+                'service'
             ];
         }elseif($user->profile_type == 'salon')
         {
@@ -393,7 +417,7 @@ class ProfileCompletionController extends Controller
                 'ville',
                 'categorie',
                 'recrutement',
-                'nombre_filles',               
+                'nombre_fille_id',               
                 'tarif',
                 'langues',
                 'paiement',
@@ -446,6 +470,7 @@ class ProfileCompletionController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
+        // dd($request->tailles->type());
 
         $request->validate([
             'intitule' => 'nullable|string|max:255',
@@ -458,20 +483,20 @@ class ProfileCompletionController extends Controller
             'ville' => 'nullable',
             'categorie' => 'nullable',
             'service' => 'nullable',
-            'oriantation_sexuelles' => 'nullable|string|max:255',
+            'orientation_sexuelle_id' => 'nullable|exists:orientation_sexuelles,id',
             'recrutement' => 'nullable|string|max:255',
-            'nombre_filles' => 'nullable|string|max:255',
-            'pratique_sexuelles' => 'nullable|string|max:255',
+            'nombre_fille_id' => 'nullable|exists:nombre_filles,id',
+            'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
             'tailles' => 'nullable|string|max:255',
             'origine' => 'nullable|string|max:255',
-            'couleur_yeux' => 'nullable|string|max:255',
-            'couleur_cheveux' => 'nullable|string|max:255',
-            'mensuration' => 'nullable|string|max:255',
-            'poitrine' => 'nullable|string|max:255',
+            'couleur_yeux_id' => 'nullable|exists:couleur_yeuxes,id',
+            'couleur_cheveux_id' => 'nullable|exists:couleur_cheveuxes,id',
+            'mensuration_id' => 'nullable|exists:mensurations,id',
+            'poitrine_id' => 'nullable|exists:poitrines,id',
             'taille_poitrine' => 'nullable|string|max:255',
-            'pubis' => 'nullable|string|max:255',
-            'tatouages' => 'nullable|string|max:255',
-            'mobilite' => 'nullable|string|max:255',
+            'pubis_type_id' => 'nullable|exists:pubis_types,id',
+            'tatoo_id' => 'nullable|exists:tattoos,id',
+            'mobilite_id' => 'nullable|exists:mobilites,id',
             'tarif' => 'nullable|string|max:255',
             'langues' => 'nullable|string|max:255',
             'paiement' => 'nullable|string|max:255',
@@ -484,6 +509,8 @@ class ProfileCompletionController extends Controller
             'lon' => 'nullable|string|max:255',
             // Ajoutez les règles de validation pour les autres champs
         ]);
+
+        
 
         $user->update($request->all());
 

@@ -52,7 +52,7 @@
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18" />
-                </svg>{{ Str::ucfirst($escort->genre) }}</span>
+                </svg>{{ Str::ucfirst($escort->genre->getTranslation('name', app()->getLocale(), 'fr')) }}</span>
             @php
                 $noPhoneText = __('escort_profile.no_phone');
             @endphp
@@ -140,8 +140,10 @@
 
                     <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.category') }}</h2>
                     <div class="flex items-center gap-5">
-                        <span
-                            class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $escort->categories->nom ?? '' }}</span>
+                        @foreach ($escort->getCategoriesAttribute() as $category)
+                            <span
+                                class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $category->getTranslation('nom', app()->getLocale()) }}</span>
+                        @endforeach
                     </div>
 
                 </div>
@@ -198,18 +200,18 @@
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/yeux_icon.svg') }}"
                                 alt="{{ __('escort_profile.eye_color_icon') }}" />
-                            <span>{{ __('escort_profile.eye_color') }} : {{ $escort->couleur_yeux ?? '-' }} </span>
+                            <span>{{ __('escort_profile.eye_color') }} : {{ $escort->couleurYeux ? $escort->couleurYeux->getTranslation('name', app()->getLocale()) : '-' }} </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/cheveux_icon.svg') }}"
                                 alt="{{ __('escort_profile.hair_color_icon') }}" />
-                            <span>{{ __('escort_profile.hair_color') }} : {{ $escort->couleur_cheveux ?? '-' }} </span>
+                            <span>{{ __('escort_profile.hair_color') }} : {{ $escort->couleurCheveux ? $escort->couleurCheveux->getTranslation('name', app()->getLocale()) : '-' }} </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/tarif_icon.svg') }}"
                                 alt="{{ __('escort_profile.rate_icon') }}" />
                             @if ($escort->tarif)
-                                <span>{{ __('escort_profile.rates_from') }} {{ $escort->tarif ?? '-' }}.-CHF </span>
+                                <span>{{ __('escort_profile.rates_from') }} {{ $escort->tarif ?? '-' }} CHF </span>
                             @else
                                 <span>{{ __('escort_profile.contact_for_rates') }}</span>
                             @endif
@@ -223,24 +225,24 @@
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/poitrine_icon.svg') }}"
                                 alt="{{ __('escort_profile.bust_icon') }}" />
-                            <span>{{ __('escort_profile.bust') }} : {{ $escort->poitrine ?? '-' }} </span>
+                            <span>{{ __('escort_profile.bust') }} : {{ $escort->poitrine ? $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }} </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/mobilite.svg') }}"
                                 alt="{{ __('escort_profile.mobility_icon') }}" />
-                            <span>{{ __('escort_profile.mobility') }} : {{ $escort->mobilite ?? '-' }}</span>
+                            <span>{{ __('escort_profile.mobility') }} : {{ $escort->mobilite ? $escort->mobilite->getTranslation('name', app()->getLocale()) : '-' }}</span>
                         </div>
 
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/mensuration.svg') }}"
                                 alt="{{ __('escort_profile.measurements_icon') }}" />
-                            <span>{{ __('escort_profile.measurements') }} : {{ $escort->mensuration ?? '-' }}</span>
+                            <span>{{ __('escort_profile.measurements') }} : {{ $escort->mensuration ? $escort->mensuration->getTranslation('name', app()->getLocale()) : '-' }}</span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/taill_poit.svg') }}"
                                 alt="{{ __('escort_profile.bust_size_icon') }}" />
                             <span>{{ __('escort_profile.bust_size') }} : {{ __('escort_profile.cup') }}
-                                {{ $escort->poitrine ?? '-' }} </span>
+                                {{ $escort->poitrine->getTranslation('name', app()->getLocale()) ?? '-' }} </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/cart_icon.svg') }}"
@@ -279,10 +281,13 @@
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                 </div>
-                <div class="flex flex-wrap items-center gap-5">
-                    @foreach ($escort->service as $service)
-                        <span
-                            class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $service['nom'] }}</span>
+
+
+                <div class="flex flex-wrap items-center gap-2">
+                    @foreach ($escort['service'] as $service)
+                        <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
+                            {{ $service['nom'][app()->getLocale()] ?? $service['nom']['fr'] ?? '-' }}
+                        </span>
                     @endforeach
                 </div>
 

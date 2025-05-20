@@ -25,7 +25,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->json('categorie')->nullable();
             $table->json('service')->nullable();
             $table->string('recrutement')->nullable()->default('Ouvert');
-            $table->integer('nombre_filles')->nullable();
             $table->string('pratique_sexuelles')->nullable();
             $table->string('oriantation_sexuelles')->nullable();
             $table->string('tailles')->nullable();
@@ -35,9 +34,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('mensuration')->nullable();
             $table->string('poitrine')->nullable();
             $table->string('taille_poitrine')->nullable();
-            $table->string('pubis')->nullable();
-            $table->string('tatouages')->nullable();
-            $table->string('mobilite')->nullable();
             $table->string('tarif')->nullable();
             $table->json('paiement')->nullable();
             $table->json('langues')->nullable();
@@ -67,7 +63,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
                 'ville',
                 'categorie',
                 'recrutement',
-                'nombre_filles',
                 'pratique_sexuelles',
                 'tailles',
                 'origine',
@@ -76,9 +71,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
                 'mensuration',
                 'poitrine',
                 'taille_poitrine',
-                'pubis',
-                'tatouages',
-                'mobilite',
                 'tarif',
                 'paiement',
                 'apropos',

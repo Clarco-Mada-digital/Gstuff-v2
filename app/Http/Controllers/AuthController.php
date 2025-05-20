@@ -63,7 +63,7 @@ class AuthController extends Controller
             'date_naissance' => $request->date_naissance,
             'pseudo' => $request->pseudo,
             'prenom' => $request->prenom,
-            'genre' => $request->genre,
+            'genre_id' => $request->genre_id,
             'nom_salon' => $request->nom_salon,
             'intitule' => $request->intitule,
             'nom_proprietaire' => $request->nom_proprietaire,
@@ -301,12 +301,14 @@ public function profile()
 
 public function createEscorteBySalon(Request $request)
 {
-    // Convertir les chaînes en tableaux
+
+        // Convertir les chaînes en tableaux
     $request->merge([
         'service' => explode(',', $request->service),
         'langues' => explode(',', $request->langues),
         'paiement' => explode(',', $request->paiement),
     ]);
+
 
     // Validation des données
     $validator = Validator::make($request->all(), [
@@ -314,7 +316,7 @@ public function createEscorteBySalon(Request $request)
         'email' => 'required|email|unique:users',
         'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
         'prenom' => 'required|string|max:255', // Pour Escorte
-        'genre' => 'required|string|in:Femme,Homme,Trans,Gay,Lesbienne,Bisexuelle,Queer', // Ajout de la validation pour le genre
+        'genre_id' => 'required|exists:genres,id', // Ajout de la validation pour le genre
         'telephone' => [
             'nullable',
             'string',
@@ -327,19 +329,19 @@ public function createEscorteBySalon(Request $request)
         'canton' => 'nullable|exists:cantons,id',
         'ville' => 'nullable|exists:villes,id',
         'categorie' => 'nullable|exists:categories,id', // Assurez-vous que le nom de la table est correct
-        'pratique_sexuelles' => 'nullable|string|max:255',
-        'oriantation_sexuelles' => 'nullable|string|max:255',
+        'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
+        'oriantation_sexuelle_id' => 'nullable|exists:oriantation_sexuelles,id',
         'service' => 'nullable|array',
         'tailles' => 'nullable|integer',
-        'pubis' => 'nullable|string|max:255',
+        'pubis_id' => 'nullable|exists:pubises,id',
         'origine' => 'nullable|string|max:255',
-        'couleur_yeux' => 'nullable|string|max:255',
-        'couleur_cheveux' => 'nullable|string|max:255',
+        'couleur_yeux_id' => 'nullable|exists:couleur_yeuxes,id',
+        'couleur_cheveux_id' => 'nullable|exists:couleur_cheveuxes,id',
         'mensuration' => 'nullable|string|max:255',
         'poitrine' => 'nullable|string|max:255',
         'taille_poitrine' => 'nullable|string|max:255',
-        'tatouages' => 'nullable|string|max:255',
-        'mobilite' => 'nullable|string|max:255',
+        'tatoo_id' => 'nullable|exists:tattoos,id',
+        'mobilite_id' => 'nullable|exists:mobilites,id',
         'langues' => 'nullable|array',
         'tarif' => 'nullable|string|max:255',
         'paiement' => 'nullable|array',
@@ -348,6 +350,9 @@ public function createEscorteBySalon(Request $request)
         'lien_site_web' => 'nullable|url',
         'apropos' => 'nullable|string|max:1000',
     ]);
+
+
+    
     
 
 
@@ -371,28 +376,28 @@ public function createEscorteBySalon(Request $request)
         'date_naissance' => $request->date_naissance,
         'pseudo' => $request->prenom,
         'prenom' => $request->prenom,
-        'genre' => $request->genre,
+        'genre_id' => $request->genre_id,
         'nom_salon' => $salon->nom_salon,
         'createbysalon' => true,
         'telephone' => $request->telephone,
         'adresse' => $request->adresse,
         'npa' => $request->npa,
-        'canton_id' => $request->canton,
-        'ville_id' => $request->ville,
+        'canton' => $request->canton,
+        'ville' => $request->ville,
         'categorie_id' => $request->categorie,
-        'pratique_sexuelles' => $request->pratique_sexuelles,
-        'oriantation_sexuelles' => $request->oriantation_sexuelles,
+        'pratique_sexuelle_id' => $request->pratique_sexuelle_id,
+        'orientation_sexuelle_id' => $request->orientation_sexuelle_id,
         'service' => json_encode($request->service),
         'tailles' => $request->tailles,
         'pubis' => $request->pubis,
         'origine' => $request->origine,
-        'couleur_yeux' => $request->couleur_yeux,
-        'couleur_cheveux' => $request->couleur_cheveux,
-        'mensuration' => $request->mensuration,
-        'poitrine' => $request->poitrine,
+        'couleur_yeux_id' => $request->couleur_yeux_id,
+        'couleur_cheveux_id' => $request->couleur_cheveux_id,
+        'mensuration_id' => $request->mensuration_id,
+        'poitrine_id' => $request->poitrine_id,
         'taille_poitrine' => $request->taille_poitrine,
-        'tatouages' => $request->tatouages,
-        'mobilite' => $request->mobilite,
+        'tatoo_id' => $request->tatoo_id,
+        'mobilite_id' => $request->mobilite_id,
         'langues' => json_encode($request->langues),
         'tarif' => $request->tarif,
         'paiement' => json_encode($request->paiement),

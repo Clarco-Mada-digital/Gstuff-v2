@@ -426,12 +426,12 @@
                                                 d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
                                         </svg>
                                     </div>
-                                    <select name="genre" id="intitule"
+                                    <select name="intitule" id="intitule"
                                         class="block w-full rounded-e-lg border border-s-0 border-gray-300 border-s-gray-100 bg-gray-50 p-2.5 ps-2 text-sm text-gray-900 dark:border-gray-600 dark:border-s-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                                         <option hidden value=""> -- </option>
                                         @foreach ($genres as $genre)
-                                            <option value="{{ $genre }}"
-                                                @if ($user->genre == $genre) selected @endif>{{ $genre }}
+                                            <option value="{{ $genre->id }}"
+                                                @if ($user->genre_id == $genre->id) selected @endif>{{ $genre->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -585,17 +585,18 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.number_of_girls') }}</label>
-                                    <select name="nombre_filles" id="nombre_filles"
+                                    <select name="nombre_fille_id" id="nombre_fille_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($nombre_filles as $nb_fille)
-                                            <option value="{{ $nb_fille }}"
-                                                @if ($user->nombre_filles == $nb_fille) selected @endif> {{ $nb_fille }}
+                                            <option value="{{ $nb_fille->id }}"
+                                                @if ($user->nombre_fille_id == $nb_fille->id) selected @endif> {{ $nb_fille->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                             @endif
+                            <!-- ESCORTE -->
                             @if ($user->profile_type == 'escorte')
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
@@ -613,12 +614,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.sexual_practices') }}</label>
-                                    <select name="pratique_sexuelles" id="pratique_sexuelles"
+                                    <select name="pratique_sexuelle_id" id="pratique_sexuelle_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($pratiquesSexuelles as $pratique)
-                                            <option value="{{ $pratique }}"
-                                                @if ($user->pratique_sexuelles == $pratique) selected @endif>{{ $pratique }}
+                                            <option value="{{ $pratique->id }}"
+                                                @if ($user->pratique_sexuelle_id == $pratique->id) selected @endif>{{ $pratique->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -626,12 +627,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.sexual_orientation') }}</label>
-                                    <select name="oriantation_sexuelles" id="oriantation_sexuelles"
+                                    <select name="orientation_sexuelle_id" id="orientation_sexuelle_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($oriantationSexuelles as $oriantation)
-                                            <option value="{{ $oriantation }}"
-                                                @if ($user->oriantation_sexuelles == $oriantation) selected @endif>{{ $oriantation }}
+                                            <option value="{{ $oriantation->id }}"
+                                                @if ($user->orientation_sexuelle_id == $oriantation->id) selected @endif>{{ $oriantation->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -647,7 +648,7 @@
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.height') }}</label>
                                     <input
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        type="number" name="tailles" id="taille" placeholder="taille en cm"
+                                        type="number" name="tailles" id="tailles" placeholder="{{ __('profile.height_placeholder') }}"
                                         value="{{ $user->tailles }}">
                                 </div>
                                 <div class="col-span-2 mb-4 md:col-span-1">
@@ -666,12 +667,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.eye_color') }}</label>
-                                    <select name="couleur_yeux" id="couleur_yeux"
+                                    <select name="couleur_yeux_id" id="couleur_yeux_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($couleursYeux as $yeux)
-                                            <option value="{{ $yeux }}"
-                                                @if ($user->couleur_yeux == $yeux) selected @endif>{{ $yeux }}
+                                            <option value="{{ $yeux->id }}"
+                                                @if ($user->couleur_yeux_id == $yeux->id) selected @endif>{{ $yeux->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -679,12 +680,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.hair_color') }}</label>
-                                    <select name="couleur_cheveux" id="couleur_cheveux"
+                                    <select name="couleur_cheveux_id" id="couleur_cheveux_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($couleursCheveux as $cheveux)
-                                            <option value="{{ $cheveux }}"
-                                                @if ($user->couleur_cheveux == $cheveux) selected @endif>{{ $cheveux }}
+                                            <option value="{{ $cheveux->id }}"
+                                                @if ($user->couleur_cheveux_id == $cheveux->id) selected @endif>{{ $cheveux->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -692,12 +693,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.measurements') }}</label>
-                                    <select name="mensuration" id="mensuration"
+                                    <select name="mensuration_id" id="mensuration_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($mensurations as $mensuration)
-                                            <option value="{{ $mensuration }}"
-                                                @if ($user->mensuration == $mensuration) selected @endif>{{ $mensuration }}
+                                            <option value="{{ $mensuration->id }}"
+                                                @if ($user->mensuration_id == $mensuration->id) selected @endif>{{ $mensuration->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -705,12 +706,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.bust') }}</label>
-                                    <select name="poitrine" id="poitrine"
+                                    <select name="poitrine_id" id="poitrine_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($poitrines as $poitrine)
-                                            <option value="{{ $poitrine }}"
-                                                @if ($user->poitrine == $poitrine) selected @endif>{{ $poitrine }}
+                                            <option value="{{ $poitrine->id }}"
+                                                @if ($user->poitrine_id == $poitrine->id) selected @endif>{{ $poitrine->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -731,12 +732,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.pubic_hair') }}</label>
-                                    <select id="pubis" name="pubis"
+                                    <select id="pubis_type_id" name="pubis_type_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($pubis as $pubi)
-                                            <option value="{{ $pubi }}"
-                                                @if ($user->pubis == $pubi) selected @endif>{{ $pubi }}
+                                            <option value="{{ $pubi->id }}"
+                                                @if ($user->pubis_type_id == $pubi->id) selected @endif>{{ $pubi->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -744,12 +745,12 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.tattoos') }}</label>
-                                    <select id="tatouages" name="tatouages"
+                                    <select id="tatoo_id" name="tatoo_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($tatouages as $tatou)
-                                            <option value="{{ $tatou }}"
-                                                @if ($user->tatouages == $tatou) selected @endif>{{ $tatou }}
+                                            <option value="{{ $tatou->id }}"
+                                                @if ($user->tatoo_id == $tatou->id) selected @endif>{{ $tatou->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -757,17 +758,19 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.mobility') }}</label>
-                                    <select id="mobilete" name="mobilite"
+                                    <select id="mobilite_id" name="mobilite_id"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($mobilites as $mobilite)
-                                            <option value="{{ $mobilite }}"
-                                                @if ($user->mobilite == $mobilite) selected @endif>{{ $mobilite }}
+                                            <option value="{{ $mobilite->id }}"
+                                                @if ($user->mobilite_id == $mobilite->id) selected @endif>{{ $mobilite->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                             @endif
+
+                            <!-- INVITE -->
                             <div class="col-span-2 mb-4 md:col-span-1">
                                 <label
                                     class="block text-sm font-medium text-gray-700">{{ __('profile.language') }}</label>
@@ -781,8 +784,7 @@
                                     <option hidden> -- </option>
                                     @foreach ($tarifs as $tarif)
                                         <option value="{{ $tarif }}"
-                                            @if ($user->tarif == $tarif) selected @endif>A partir de
-                                            {{ $tarif }}.-CHF</option>
+                                            @if ($user->tarif == $tarif) selected @endif>{{ __('profile.price_from', ['price' => $tarif]) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -1217,19 +1219,19 @@
                                     <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.eye_color') }} :
-                                        {{ $user->couleur_yeux ?? __('profile.undefined') }}</span>
+                                        {{ $user->couleurYeux ? $user->couleurYeux->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.hair_color') }} :
-                                        {{ $user->couleur_cheveux ?? __('profile.undefined') }}</span>
+                                        {{ $user->couleurCheveux ? $user->couleurCheveux->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     @if ($user->tarif)
-                                        <span>{{ __('profile.rate') }} {{ $user->tarif }}.-CHF</span>
+                                        <span>{{ __('profile.rate') }} {{ $user->tarif }} CHF</span>
                                     @else
                                         <span>{{ __('profile.contact_for_rates') }}</span>
                                     @endif
@@ -1245,20 +1247,20 @@
                                     <img src="{{ asset('images/icons/poitrine_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.bust') }} :
-                                        {{ $user->poitrine ?? __('profile.undefined') }}</span>
+                                        {{ $user->poitrine ? $user->poitrine->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.mobility') }} :
-                                        {{ $user->mobilite ?? __('profile.undefined') }}</span>
+                                        {{ $user->mobilite  ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
 
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/mensuration.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.measurements') }} :
-                                        {{ $user->mensuration ?? __('profile.undefined') }}</span>
+                                        {{ $user->mensuration ? $user->mensuration->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/taill_poit.svg') }}" alt="age icon"
@@ -1312,8 +1314,19 @@
                                 </button>
                             </div>
                             <div class="flex items-center gap-5">
-                                <span
-                                    class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $user->categorie['nom'] ?? '' }}</span>
+                                @php
+                                    $categories = $user->getCategoriesAttribute();
+                                @endphp
+                                
+                                @if(count($categories) > 0)
+                                    @foreach ($categories as $category)
+                                        <span class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300"> 
+                                            {{ $category->getTranslation('nom', app()->getLocale()) }}
+                                        </span>
+                                    @endforeach
+                                @else
+                                    <span class="text-gray-500">{{ __('profile.no_categories') }}</span>
+                                @endif
                             </div>
 
                             <div class="font-dm-serif text-green-gs flex items-center gap-5 font-bold">
@@ -1326,11 +1339,19 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="flex items-center gap-5">
-                                @foreach ($user->service as $service)
-                                    <span
-                                        class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $service['nom'] ?? '' }}</span>
-                                @endforeach
+                            <div class="flex flex-wrap items-center gap-2">
+                                @php
+                                    $locale = session('locale', 'fr');
+                                    $services = $user->services ?? collect();
+                                @endphp
+                                
+                                @forelse($services as $service)
+                                    <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
+                                        {{ $service->getTranslation('nom', $locale, 'fr') }}
+                                    </span>
+                                @empty
+                                    <span class="text-gray-500">{{ __('profile.no_services') }}</span>
+                                @endforelse
                             </div>
                         </div>
 
@@ -1422,12 +1443,21 @@
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
-                                    <span>{{ __('profile.category') }} : {{ $user->categorie['nom'] ?? '-' }} </span>
+                                    <span>
+                                        {{ __('profile.category') }} : 
+                                        @php
+                                            $locale = session('locale', 'fr');
+                                            $categoryName = $user->categorie['nom'][$locale] ?? 
+                                                         $user->categorie['nom']['fr'] ?? 
+                                                         ($user->categorie['nom'] ?? '-');
+                                        @endphp
+                                        {{ $categoryName }}
+                                    </span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
-                                    <span>{{ __('profile.number_of_girls') }} : {{ $user->nombre_filles }} filles</span>
+                                    <span>{{ __('profile.number_of_girls') }} : {{ $user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
@@ -1457,7 +1487,7 @@
                                     <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     @if ($user->tarif)
-                                        <span>{{ __('profile.rates_from') }} {{ $user->tarif }}.-CHF</span>
+                                        <span>{{ __('profile.rates_from') }} {{ $user->tarif }} CHF</span>
                                     @else
                                         <span>{{ __('profile.contact_me_for_rates') }} </span>
                                     @endif

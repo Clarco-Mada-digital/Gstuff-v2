@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'pseudo' => 'Administrateur',
                 'profile_type' => 'admin',
                 'email' => $adminEmail,
-                'genre' => 'Homme',
+                'genre_id' => 1,
                 'password' => bcrypt('password'),
             ]);
 

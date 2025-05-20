@@ -29,7 +29,17 @@
             </div>
             <p class="-mt-[25%] font-bold md:-mt-[10%] xl:-mt-[25%]">{{ Str::ucfirst($salon->nom_salon) }}</p>
             <span
-                class="font-dm-serif flex items-center gap-2 font-bold">({{ Str::ucfirst($salon->categorie['nom'] ?? '') }})</span>
+                class="font-dm-serif flex items-center gap-2 font-bold">
+                @php
+                    $locale = session('locale', 'fr');
+                    $categoryName = $salon->categorie['nom'][$locale] ?? 
+                                 $salon->categorie['nom']['fr'] ?? 
+                                 ($salon->categorie['nom'] ?? '-');
+                @endphp
+                
+                
+                {{ Str::ucfirst($categoryName) }}</span>
+
 
             @php
                 $no_phone = __('salon_profile.no_phone');
@@ -115,7 +125,14 @@
                         <div class="text-green-gs font-dm-serif w-full text-right font-bold">
                             <a
                                 href="{{ route('salons') . '?selectedSalonCategories=' . ($salon->categorie['id'] ?? '') }}">
-                                {{ Str::ucfirst($salon->categorie['nom'] ?? '') }}
+
+                                @php
+                                    $locale = session('locale', 'fr');
+                                    $categoryName = $salon->categorie['nom'][$locale] ?? 
+                                                 $salon->categorie['nom']['fr'] ?? 
+                                                 ($salon->categorie['nom'] ?? '-');
+                                @endphp
+                                {{ Str::ucfirst($categoryName) }}
                             </a>
                             /
                             <a href="{{ route('salons') . '?selectedSalonCanton=' . ($salon->canton['id'] ?? '') }}">

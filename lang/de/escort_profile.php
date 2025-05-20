@@ -47,4 +47,5 @@ return [
     'no_associated_salon' => 'Derzeit kein zugehöriger Salon',
     'connect_to_view_private_content' => 'Melden Sie sich an, um den privaten Inhalt von Daniela zu sehen',
     'connect_signup' => 'Anmelden / Registrieren',
+    'no_services' => 'Keine Dienstleistungen verfügbar',
 ];

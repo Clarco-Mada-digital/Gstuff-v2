@@ -47,4 +47,5 @@ return [
     'no_associated_salon' => 'No associated salon for the moment',
     'connect_to_view_private_content' => 'Connect to view private content of Daniela',
     'connect_signup' => 'Connect / Sign Up',
+    'no_services' => 'No services available',
 ];

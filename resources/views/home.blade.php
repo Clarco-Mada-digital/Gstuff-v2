@@ -25,7 +25,15 @@
                         class="hover:bg-green-gs flex w-64 items-center justify-center gap-1.5 rounded-md border border-amber-400 bg-white p-2.5 transition-all hover:text-white lg:w-56">
                         <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.svg') }}"
                             alt="icon service {{ $categorie['display_name'] }}" />
-                        <span>{{ $categorie['nom'] }}</span>
+                        <span>
+                        @php
+                            $locale = session('locale', 'fr');
+                            $categoryName = $categorie['nom'][$locale] ?? 
+                                         $categorie['nom']['fr'] ?? 
+                                         ($categorie['nom'] ?? '-');
+                        @endphp    
+                        
+                        {{ $categoryName }}</span>
                     </div>
                 </a>
             @endforeach

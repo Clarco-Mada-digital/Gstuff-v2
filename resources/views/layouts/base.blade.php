@@ -578,6 +578,8 @@
 
         // Script for multi-object-Select
         function multiObjectSelect(options, value) {
+            console.log('options blade',options);
+            console.log('value blade',value);
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],

@@ -41,16 +41,16 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('genre') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.gender') }}
+                            class="@error('genre_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.gender') }}
                             <span class="text-red-500">*</span></label>
-                        <select name="genre" id="floating_intitule"
-                            class="@error('genre') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                        <select name="genre_id" id="floating_intitule"
+                            class="@error('genre_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($genres as $genre)
-                                <option value="{{ $genre }}">{{ $genre }}</option>
+                                <option value="{{ $genre->id }}">{{ $genre->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('genre')
+                        @error('genre_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -151,15 +151,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('pratique_sexuelles') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_practices') }}</label>
-                        <select name="pratique_sexuelles" id="pratique_sexuelles"
-                            class="@error('pratique_sexuelles') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('pratique_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_practices') }}</label>
+                        <select name="pratique_sexuelle_id" id="pratique_sexuelle_id"
+                            class="@error('pratique_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($pratiquesSexuelles as $pratique)
-                                <option value="{{ $pratique }}">{{ $pratique }}</option>
+                                <option value="{{ $pratique->id }}">{{ $pratique->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('pratique_sexuelles')
+                        @error('pratique_sexuelle_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -167,15 +167,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('oriantation_sexuelles') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_orientation') }}</label>
-                        <select name="oriantation_sexuelles" id="oriantation_sexuelles"
-                            class="@error('oriantation_sexuelles') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('orientation_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_orientation') }}</label>
+                        <select name="orientation_sexuelle_id" id="orientation_sexuelle_id"
+                            class="@error('orientation_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($orientationSexuelles as $oriantation)
-                                <option value="{{ $oriantation }}">{{ $oriantation }}</option>
+                                <option value="{{ $oriantation->id }}">{{ $oriantation->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('oriantation_sexuelles')
+                        @error('orientation_sexuelle_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -196,15 +196,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('pubis') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.pubic_hair') }}</label>
-                        <select id="pubis" name="pubis"
-                            class="@error('pubis') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('pubis_type_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.pubic_hair') }}</label>
+                        <select id="pubis_type_id" name="pubis_type_id"
+                            class="@error('pubis_type_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($pubis as $pubi)
-                                <option value="{{ $pubi }}">{{ $pubi }}</option>
+                                <option value="{{ $pubi->id }}">{{ $pubi->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('pubis')
+                        @error('pubis_type_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -228,15 +228,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('couleur_yeux') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.eye_color') }}</label>
-                        <select name="couleur_yeux" id="couleur_yeux"
-                            class="@error('couleur_yeux') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('couleur_yeux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.eye_color') }}</label>
+                        <select name="couleur_yeux_id" id="couleur_yeux_id"
+                            class="@error('couleur_yeux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursYeux as $yeux)
-                                <option value="{{ $yeux }}">{{ $yeux }}</option>
+                                <option value="{{ $yeux->id }}">{{ $yeux->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('couleur_yeux')
+                        @error('couleur_yeux_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -244,15 +244,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('couleur_cheveux') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.hair_color') }}</label>
-                        <select name="couleur_cheveux" id="couleur_cheveux"
-                            class="@error('couleur_cheveux') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('couleur_cheveux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.hair_color') }}</label>
+                        <select name="couleur_cheveux_id" id="couleur_cheveux_id"
+                            class="@error('couleur_cheveux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursCheveux as $cheveux)
-                                <option value="{{ $cheveux }}">{{ $cheveux }}</option>
+                                <option value="{{ $cheveux->id }}">{{ $cheveux->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('couleur_cheveux')
+                        @error('couleur_cheveux_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -260,15 +260,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('mensuration') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.measurements') }}</label>
-                        <select name="mensuration" id="mensuration"
-                            class="@error('mensuration') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('mensuration_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.measurements') }}</label>
+                        <select name="mensuration_id" id="mensuration_id"
+                            class="@error('mensuration_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($mensurations as $mensuration)
-                                <option value="{{ $mensuration }}">{{ $mensuration }}</option>
+                                <option value="{{ $mensuration->id }}">{{ $mensuration->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('mensuration')
+                        @error('mensuration_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -276,19 +276,21 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('poitrine') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.bust') }}</label>
-                        <select name="poitrine" id="poitrine"
-                            class="@error('poitrine') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('poitrine_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.bust') }}</label>
+                        <select name="poitrine_id" id="poitrine_id"
+                            class="@error('poitrine_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($poitrines as $poitrine)
-                                <option value="{{ $poitrine }}">{{ $poitrine }}</option>
+                                <option value="{{ $poitrine->id }}">{{ $poitrine->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('poitrine')
+                        @error('poitrine_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
                     </div>
+
+                  
 
                     <div class="mb-1">
                         <label
@@ -308,15 +310,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('tatouages') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.tattoos') }}</label>
-                        <select id="tatouages" name="tatouages"
-                            class="@error('tatouages') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('tatoo_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.tattoos') }}</label>
+                        <select id="tatoo_id" name="tatoo_id"
+                            class="@error('tatoo_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($tatouages as $tatou)
-                                <option value="{{ $tatou }}">{{ $tatou }}</option>
+                                <option value="{{ $tatou->id }}">{{ $tatou->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('tatouages')
+                        @error('tatoo_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -324,15 +326,15 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('mobilite') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.mobility') }}</label>
-                        <select id="mobilete" name="mobilite"
-                            class="@error('mobilite') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('mobilite_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.mobility') }}</label>
+                        <select id="mobilete" name="mobilite_id"
+                            class="@error('mobilite_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($mobilites as $mobilite)
-                                <option value="{{ $mobilite }}">{{ $mobilite }}</option>
+                                <option value="{{ $mobilite->id }}">{{ $mobilite->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
-                        @error('mobilite')
+                        @error('mobilite_id')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
@@ -345,7 +347,7 @@
                             class="@error('tarif') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden> -- </option>
                             @foreach ($tarifs as $tarif)
-                                <option value="{{ $tarif }}">A partir de {{ $tarif }}.-CHF</option>
+                                <option value="{{ $tarif }}">{{ __('profile.price_from', ['price' => $tarif]) }}</option>
                             @endforeach
                         </select>
                         @error('tarif')
@@ -455,6 +457,9 @@
     function submitForm() {
         const form = document.getElementById('createEscorteForm');
         const formData = new FormData(form);
+        
+       // console.log("formData:", Object.fromEntries(formData));
+       
 
         fetch("{{ route('createEscorteBySalon') }}", {
                 method: 'POST',

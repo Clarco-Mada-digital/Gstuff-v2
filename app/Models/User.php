@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\CouleurYeux;
+use App\Models\Genre;
+use App\Models\Mensuration;
+use App\Models\OrientationSexuelle;
+use App\Models\PratiqueSexuelle;
+use App\Models\Poitrine;
+use App\Models\Silhouette;
+use App\Models\PubisType;
 
 class User extends Authenticatable
 {
@@ -77,10 +85,7 @@ class User extends Authenticatable
     /**
      * Get the categories associated with the user.
      */
-    public function categories(): BelongsToMany
-    {
-        return $this->belongsToMany(Categorie::class);
-    }
+  
 
     /**
      * Get the services associated with the user.
@@ -96,7 +101,7 @@ class User extends Authenticatable
         'pseudo',
         'prenom',
         'date_naissance',
-        'genre',
+        'genre_id',
         'nom_salon',
         'intitule',
         'nom_proprietaire',
@@ -106,7 +111,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password_reset_token',
         'password_reset_expiry',
-        'telephone', // Ajoutez ici les nouveaux champs
+        'telephone',
         'adresse',
         'npa',
         'canton',
@@ -114,20 +119,21 @@ class User extends Authenticatable
         'langues',
         'categorie',
         'service',
-        'oriantation_sexuelles',
         'recrutement',
-        'nombre_filles',
-        'pratique_sexuelles',
+        'nombre_fille_id',
+        'pratique_sexuelle_id',
         'tailles',
         'origine',
-        'couleur_yeux',
-        'couleur_cheveux',
-        'mensuration',
-        'poitrine',
+        'couleur_yeux_id',
+        'orientation_sexuelle_id',
+        'couleur_cheveux_id',
+        'mensuration_id',
+        'poitrine_id',
+        'silhouette_id',
         'taille_poitrine',
-        'pubis',
-        'tatouages',
-        'mobilite',
+        'tatoo_id',
+        'mobilite_id',
+        'pubis_type_id',
         'tarif',
         'paiement',
         'apropos',
@@ -137,7 +143,7 @@ class User extends Authenticatable
         'localisation',
         'lat',
         'lon',
-        'profile_verifie', // Ajout du nouveau champ
+        'profile_verifie',
         'image_verification',
         'createbysalon',
     ];
@@ -160,12 +166,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'date_naissance' => 'date', // Cast date_naissance en tant que date
-        'password_reset_expiry' => 'datetime', // Cast password_reset_expiry en tant que datetime
+        'date_naissance' => 'date',
+        'password_reset_expiry' => 'datetime',
         'categorie' => 'array',
         'service' => 'array',
-        //   'canton' => 'array',
-        //   'ville' => 'array',
         'paiement' => 'array',
         'langues' => 'array',
         'profile_verifie' => 'string',
@@ -181,6 +185,83 @@ class User extends Authenticatable
     public function setVisibleCountriesAttribute($value)
     {
         $this->attributes['visible_countries'] = json_encode($value);
+    }
+
+
+
+    // public function getCategoriesAttribute()
+    // {
+    //     $category = $this->categorie;
+        
+    //     // Si c'est déjà un modèle Categorie, on le retourne dans une collection
+    //     if ($category instanceof \App\Models\Categorie) {
+    //         return collect([$category]);
+    //     }
+        
+    //     // Si c'est un tableau avec un ID, on cherche la catégorie correspondante
+    //     if (is_array($category) && isset($category['id'])) {
+    //         $categorie = Categorie::find($category['id']);
+    //         return $categorie ? collect([$categorie]) : collect();
+    //     }
+        
+    //     // Si c'est un tableau d'IDs
+    //     if (is_array($category)) {
+    //         $categoryIds = array_filter($category, 'is_numeric');
+    //         if (!empty($categoryIds)) {
+    //             return Categorie::whereIn('id', $categoryIds)->get();
+    //         }
+    //     }
+
+    //     if ($category instanceof string) {
+    //         return $categorie = Categorie::find($category);
+    //     }
+        
+    //     // Par défaut, retourner une collection vide
+    //     return collect();
+    // }
+
+
+
+    public function getCategoriesAttribute()
+    {
+        $category = $this->categorie;
+        
+        // Si c'est déjà un modèle Categorie, on le retourne dans une collection
+        if ($category instanceof \App\Models\Categorie) {
+            return collect([$category]);
+        }
+        
+        // Si c'est une chaîne de caractères
+        if (is_string($category)) {
+            
+                $categorie = Categorie::find($category);
+                return $categorie ? collect([$categorie]) : collect();
+         
+        }
+        
+        // Si c'est un tableau avec un ID, on cherche la catégorie correspondante
+        if (is_array($category) && isset($category['id'])) {
+            $categorie = Categorie::find($category['id']);
+            return $categorie ? collect([$categorie]) : collect();
+        }
+        
+        // Si c'est un tableau d'IDs
+        if (is_array($category)) {
+            $categoryIds = array_filter($category, function($item) {
+                return is_numeric($item) || (is_array($item) && isset($item['id']));
+            });
+            
+            if (!empty($categoryIds)) {
+                // Si c'est un tableau de tableaux avec des clés 'id'
+                if (is_array(reset($categoryIds)) && isset(reset($categoryIds)['id'])) {
+                    $categoryIds = array_column($categoryIds, 'id');
+                }
+                return Categorie::whereIn('id', $categoryIds)->get();
+            }
+        }
+        
+        // Par défaut, retourner une collection vide
+        return collect();
     }
 
     public function isProfileVisibleTo($countryCode)
@@ -314,6 +395,90 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'salon_escorte', 'escorte_id', 'salon_id');
     }
 
-    
+    /**
+     * Get the couleur_yeux associated with the user.
+     */
+    public function couleurYeux()
+    {
+        return $this->belongsTo(CouleurYeux::class, 'couleur_yeux_id');
+    }
+
+    /**
+     * Get the genre associated with the user.
+     */
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id');
+    }
+
+    /**
+     * Get the orientation sexuelle associated with the user.
+     */
+    public function orientationSexuelle()
+    {
+        return $this->belongsTo(OrientationSexuelle::class, 'orientation_sexuelle_id');
+    }
+
+    /**
+     * Get the pratique sexuelle associated with the user.
+     */
+    public function pratiqueSexuelle()
+    {
+        return $this->belongsTo(PratiqueSexuelle::class, 'pratique_sexuelle_id');
+    }
+
+    /**
+     * Get the couleur cheveux associated with the user.
+     */
+    public function couleurCheveux()
+    {
+        return $this->belongsTo(CouleurCheveux::class, 'couleur_cheveux_id');
+    }
+
+    /**
+     * Get the mensuration associated with the user.
+     */
+    public function mensuration()
+    {
+        return $this->belongsTo(Mensuration::class, 'mensuration_id');
+    }
+
+    /**
+     * Get the poitrine associated with the user.
+     */
+    public function poitrine()
+    {
+        return $this->belongsTo(Poitrine::class, 'poitrine_id');
+    }
+
+    /**
+     * Get the silhouette associated with the user.
+     */
+    public function silhouette()
+    {
+        return $this->belongsTo(Silhouette::class, 'silhouette_id');
+    }
+
+    public function tatoo()
+    {
+        return $this->belongsTo(Tatoo::class, 'tatoo_id');
+    }
+
+    public function mobilite()
+    {
+        return $this->belongsTo(Mobilite::class, 'mobilite_id');
+    }
+
+    public function nombreFille()
+    {
+        return $this->belongsTo(NombreFille::class, 'nombre_fille_id');
+    }
+
+    public function pubisType()
+    {
+        return $this->belongsTo(PubisType::class,'pubis_type_id');
+    }
+
+  
 
 }

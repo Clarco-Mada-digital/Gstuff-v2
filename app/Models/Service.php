@@ -33,4 +33,16 @@ class Service extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    /**
+     * The users that belong to the service.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withPivot(['created_at', 'updated_at']);
+    }
 }
