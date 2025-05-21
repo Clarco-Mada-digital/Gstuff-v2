@@ -120,15 +120,14 @@
                         @foreach ($publicGallery as $media)
                             <template
                                 x-if="(!selectedUser || selectedUser == '{{ $media->user_id }}') && (!selectedType || selectedType == '{{ $media->type }}')">
-                                <div @click="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })"
-                                    class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                <div class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                     @if ($media->type === 'image')
-                                        <img src="{{ asset('storage/' . $media->path) }}" class="h-48 w-full object-cover"
+                                        <img @click.stop="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })" src="{{ asset('storage/' . $media->path) }}" class="h-60 w-full object-cover"
                                             alt="media">
                                     @elseif($media->type === 'video')
                                         <div class="relative">
-                                            <video muted autoplay loop
-                                                class="pointer-events-none h-48 w-full object-cover brightness-75">
+                                            <video @click.stop="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })" muted autoplay loop
+                                                class="pointer-events-none h-60 w-full object-cover brightness-75">
                                                 <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                             </video>
                                             <div
@@ -136,7 +135,14 @@
                                                 ▶</div>
                                         </div>
                                     @endif
-                                    <span class="my-2 ms-3"> {{ $media->user->prenom }} </span>
+                                    <div class="flex items-center justify-between px-3">
+                                        <span class="my-2"> {{ $media->user->prenom }} </span>
+                                        <a href="{{ route('show_escort', $media->user->id) }}"
+                                            class="my-2 ms-3" title="voir le profile"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg> </a>
+                                    </div>
                                 </div>
                             </template>
                         @endforeach
@@ -149,14 +155,13 @@
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth
-                                <div @click="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })"
-                                    class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                <div class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                     @if ($media->type === 'image')
-                                        <img src="{{ asset('storage/' . $media->path) }}" class="h-48 w-full object-cover"
+                                        <img @click.stop="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })" src="{{ asset('storage/' . $media->path) }}" class="h-60 w-full object-cover"
                                             alt="media">
                                     @elseif($media->type === 'video')
                                         <div class="relative">
-                                            <video muted class="pointer-events-none h-48 w-full object-cover brightness-75">
+                                            <video @click.stop="$dispatch('media-open', { src: '{{ asset('storage/' . $media->path) }}', type: '{{ $media->type }}' })" muted class="pointer-events-none h-60 w-full object-cover brightness-75">
                                                 <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                             </video>
                                             <div
@@ -169,21 +174,20 @@
                             @guest
                                 <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
                                     @if ($media->type === 'image')
-                                        <img :class="!loggedIn ? 'blur-md grayscale brightness-75' : ''"
-                                            src="{{ asset('storage/' . $media->path) }}" alt="Privé"
-                                            class="h-48 w-full object-cover transition duration-300">
+                                        <img class="blur-md grayscale brightness-75 h-60 w-full object-cover transition duration-300"
+                                            src="{{ asset('storage/' . $media->path) }}" alt="Privé">
                                     @elseif ($media->type === 'video')
-                                        <video :class="!loggedIn ? 'blur-md grayscale brightness-75' : ''"
-                                            class="h-48 w-full object-cover transition duration-300">
+                                    <div class="blur-md grayscale brightness-75">
+                                        <video class="h-60 w-full object-cover transition duration-300">
                                             <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                             Votre navigateur ne supporte pas la vidéo.
                                         </video>
+                                    </div>
                                     @endif
 
-                                    <div x-show="!loggedIn"
-                                        class="absolute inset-0 flex items-center justify-center bg-black/50 px-2 text-center text-sm font-semibold text-white">
+                                    <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button" class="absolute inset-0 flex items-center justify-center bg-black/50 px-2 text-center text-sm font-semibold text-white">
                                         Connectez-vous pour voir ce contenu
-                                    </div>
+                                    </button>
                                 </div>
                             @endguest
                         @endforeach

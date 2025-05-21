@@ -424,7 +424,7 @@ public function createEscorteBySalon(Request $request)
 
 public function showGallery()
 {
-    return view('auth.gallery', [
+    return view('gallery', [
         'usersWithStories' => Story::with('user')
         ->where('expires_at', '>', now())
         ->get()
