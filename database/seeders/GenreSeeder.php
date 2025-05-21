@@ -18,7 +18,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Femme',
-                    'en' => 'Woman',
+                    'en-US' => 'Woman',
                     'es' => 'Mujer',
                     'it' => 'Donna',
                     'de' => 'Frau',
@@ -28,7 +28,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Homme',
-                    'en' => 'Man',
+                    'en-US' => 'Man',
                     'es' => 'Hombre',
                     'it' => 'Uomo',
                     'de' => 'Mann',
@@ -38,7 +38,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Trans',
-                    'en' => 'Trans',
+                    'en-US' => 'Trans',
                     'es' => 'Trans',
                     'it' => 'Trans',
                     'de' => 'Trans',
@@ -48,7 +48,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Gay',
-                    'en' => 'Gay',
+                    'en-US' => 'Gay',
                     'es' => 'Gay',
                     'it' => 'Gay',
                     'de' => 'Schwul',
@@ -58,7 +58,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Lesbienne',
-                    'en' => 'Lesbian',
+                    'en-US' => 'Lesbian',
                     'es' => 'Lesbiana',
                     'it' => 'Lesbica',
                     'de' => 'Lesbisch',
@@ -68,7 +68,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Bisexuelle',
-                    'en' => 'Bisexual',
+                    'en-US' => 'Bisexual',
                     'es' => 'Bisexual',
                     'it' => 'Bisessuale',
                     'de' => 'Bisexuell',
@@ -78,7 +78,7 @@ class GenreSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Queer',
-                    'en' => 'Queer',
+                    'en-US' => 'Queer',
                     'es' => 'Queer',
                     'it' => 'Queer',
                     'de' => 'Queer',

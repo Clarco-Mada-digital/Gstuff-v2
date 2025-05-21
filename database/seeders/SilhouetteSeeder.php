@@ -13,42 +13,42 @@ class SilhouetteSeeder extends Seeder
         $silhouettes = [
             [
                 'fr' => 'Fine',
-                'en' => 'Slim',
+                'en-US' => 'Slim',
                 'de' => 'Schlank',
                 'it' => 'Magra',
                 'es' => 'Delgada'
             ],
             [
                 'fr' => 'Mince',
-                'en' => 'Thin',
+                'en-US' => 'Thin',
                 'de' => 'Dünn',
                 'it' => 'Sottile',
                 'es' => 'Flaca'
             ],
             [
                 'fr' => 'Normale',
-                'en' => 'Average',
+                'en-US' => 'Average',
                 'de' => 'Durchschnittlich',
                 'it' => 'Normale',
                 'es' => 'Promedio'
             ],
             [
                 'fr' => 'Sportive',
-                'en' => 'Athletic',
+                'en-US' => 'Athletic',
                 'de' => 'Athletisch',
                 'it' => 'Atletica',
                 'es' => 'Atlética'
             ],
             [
                 'fr' => 'Pulpeuse',
-                'en' => 'Curvy',
+                'en-US' => 'Curvy',
                 'de' => 'Kurvig',
                 'it' => 'Formosa',
                 'es' => 'Curvilínea'
             ],
             [
                 'fr' => 'Ronde',
-                'en' => 'Plump',
+                'en-US' => 'Plump',
                 'de' => 'Rundlich',
                 'it' => 'Morbida',
                 'es' => 'Rechoncha'

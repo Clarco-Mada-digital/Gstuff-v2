@@ -13,35 +13,35 @@ class MensurationSeeder extends Seeder
         $mensurations = [
             [
                 'fr' => 'Mince',
-                'en' => 'Slim',
+                'en-US' => 'Slim',
                 'de' => 'Schlank',
                 'it' => 'Magro',
                 'es' => 'Delgado'
             ],
             [
                 'fr' => 'Normale',
-                'en' => 'Average',
+                'en-US' => 'Average',
                 'de' => 'Durchschnittlich',
                 'it' => 'Normale',
                 'es' => 'Promedio'
             ],
             [
                 'fr' => 'Pulpeuse',
-                'en' => 'Curvy',
+                'en-US' => 'Curvy',
                 'de' => 'Kurvig',
                 'it' => 'Formosa',
                 'es' => 'Curvilínea'
             ],
             [
                 'fr' => 'Ronde',
-                'en' => 'Plump',
+                'en-US' => 'Plump',
                 'de' => 'Rundlich',
                 'it' => 'Morbida',
                 'es' => 'Rellenita'
             ],
             [
                 'fr' => 'Sportive',
-                'en' => 'Athletic',
+                'en-US' => 'Athletic',
                 'de' => 'Sportlich',
                 'it' => 'Atletica',
                 'es' => 'Atlética'

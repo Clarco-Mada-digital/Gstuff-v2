@@ -12,14 +12,14 @@ class MobiliteSeeder extends Seeder
         $mobilites = [
             [
                 'fr' => 'Je reçois',
-                'en' => 'I receive',
+                'en-US' => 'I receive',
                 'de' => 'Ich empfange',
                 'it' => 'Ricevo',
                 'es' => 'Recibo'
             ],
             [
                 'fr' => 'Je me déplace',
-                'en' => 'I travel',
+                'en-US' => 'I travel',
                 'de' => 'Ich reise',
                 'it' => 'Mi sposto',
                 'es' => 'Me muevo'

@@ -60,7 +60,7 @@ class ArticleCategorySeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Glossaires',
-                    'en' => 'Glossaries',
+                    'en-US' => 'Glossaries',
                     'es' => 'Glosarios',
                     'de' => 'Glossare',
                     'it' => 'Glossari'
@@ -68,7 +68,7 @@ class ArticleCategorySeeder extends Seeder
                 'slug' => 'glossaires',
                 'description' => [
                     'fr' => 'Pour les glossaires',
-                    'en' => 'For glossaries',
+                    'en-US' => 'For glossaries',
                     'es' => 'Para glosarios',
                     'de' => 'Für Glossare',
                     'it' => 'Per i glossari'
@@ -77,7 +77,7 @@ class ArticleCategorySeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Articles',
-                    'en' => 'Articles',
+                    'en-US' => 'Articles',
                     'es' => 'Artículos',
                     'de' => 'Artikel',
                     'it' => 'Articoli'
@@ -85,7 +85,7 @@ class ArticleCategorySeeder extends Seeder
                 'slug' => 'articles',
                 'description' => [
                     'fr' => 'Articles pour mes applications',
-                    'en' => 'Articles for my applications',
+                    'en-US' => 'Articles for my applications',
                     'es' => 'Artículos para mis aplicaciones',
                     'de' => 'Artikel für meine Anwendungen',
                     'it' => 'Articoli per le mie applicazioni'
@@ -94,7 +94,7 @@ class ArticleCategorySeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Astuces',
-                    'en' => 'Tips',
+                    'en-US' => 'Tips',
                     'es' => 'Consejos',
                     'de' => 'Tipps',
                     'it' => 'Consigli'
@@ -102,7 +102,7 @@ class ArticleCategorySeeder extends Seeder
                 'slug' => 'astuces',
                 'description' => [
                     'fr' => 'Conseils pratiques',
-                    'en' => 'Practical advice',
+                    'en-US' => 'Practical advice',
                     'es' => 'Consejos prácticos',
                     'de' => 'Praktische Ratschläge',
                     'it' => 'Consigli pratici'

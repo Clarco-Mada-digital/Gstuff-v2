@@ -470,7 +470,7 @@ class ProfileCompletionController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
-        // dd($request->tailles->type());
+        // dd($request->all());
 
         $request->validate([
             'intitule' => 'nullable|string|max:255',

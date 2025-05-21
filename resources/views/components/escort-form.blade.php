@@ -13,6 +13,7 @@
             <div class="flex w-full flex-col justify-around">
                 <div class="w-full md:grid md:grid-cols-2 md:gap-4 xl:grid-cols-4">
                     <!-- Champs du formulaire -->
+                    <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                     <div class="mb-1">
                         <label
                             class="@error('prenom') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.first_name') }}
@@ -458,7 +459,7 @@
         const form = document.getElementById('createEscorteForm');
         const formData = new FormData(form);
         
-       // console.log("formData:", Object.fromEntries(formData));
+       console.log("formData:", Object.fromEntries(formData));
        
 
         fetch("{{ route('createEscorteBySalon') }}", {

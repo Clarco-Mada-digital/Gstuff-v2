@@ -23,10 +23,11 @@ use App\Models\PratiqueSexuelle;
 use App\Models\Poitrine;
 use App\Models\Silhouette;
 use App\Models\PubisType;
+use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity, HasTranslations;
 
     // Spécifiez les attributs à logger
     protected static $logAttributes = ['pseudo', 'email', 'prenom', 'nom_salon', 'nom_proprietaire', 'telephone', 'adresse'];
@@ -147,6 +148,8 @@ class User extends Authenticatable
         'image_verification',
         'createbysalon',
     ];
+
+    public $translatable = ['apropos'];
 
     /**
      * The attributes that should be hidden for serialization.

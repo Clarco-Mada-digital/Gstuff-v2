@@ -21,9 +21,27 @@ use App\Models\Story;
 use App\Models\Ville;
 use App\Models\SalonEscorte;
 use Illuminate\Support\Facades\Cache;
+use App\Services\DeepLTranslateService;
+use App\Helpers\Locales;
+
 
 class AuthController extends Controller
 {
+
+
+
+
+
+
+
+    protected $translateService;
+
+    public function __construct(DeepLTranslateService $translateService)
+    {
+        $this->translateService = $translateService;
+    }
+
+
     public function showRegistrationForm()
     {
       if (Auth::check()) {
@@ -43,7 +61,7 @@ class AuthController extends Controller
             'cgu_accepted' => 'accepted', // Pour le profil Invité
             'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
             'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
-            'genre' => 'required_if:profile_type,escorte|nullable|in:homme,femme,non-binaire,autre', // Pour Escorte
+            'genre_id' => 'required_if:profile_type,escorte|nullable|exists:genres,id', // Pour Escorte
             'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
             'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre', // Pour Salon
             'nom_proprietaire' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
@@ -302,14 +320,6 @@ public function profile()
 public function createEscorteBySalon(Request $request)
 {
 
-        // Convertir les chaînes en tableaux
-    $request->merge([
-        'service' => explode(',', $request->service),
-        'langues' => explode(',', $request->langues),
-        'paiement' => explode(',', $request->paiement),
-    ]);
-
-
     // Validation des données
     $validator = Validator::make($request->all(), [
         'id_salon' => 'required|exists:users,id', // Vérifie que le salon existe
@@ -331,7 +341,7 @@ public function createEscorteBySalon(Request $request)
         'categorie' => 'nullable|exists:categories,id', // Assurez-vous que le nom de la table est correct
         'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
         'oriantation_sexuelle_id' => 'nullable|exists:oriantation_sexuelles,id',
-        'service' => 'nullable|array',
+        'service' => 'nullable',
         'tailles' => 'nullable|integer',
         'pubis_id' => 'nullable|exists:pubises,id',
         'origine' => 'nullable|string|max:255',
@@ -342,19 +352,31 @@ public function createEscorteBySalon(Request $request)
         'taille_poitrine' => 'nullable|string|max:255',
         'tatoo_id' => 'nullable|exists:tattoos,id',
         'mobilite_id' => 'nullable|exists:mobilites,id',
-        'langues' => 'nullable|array',
+        'langues' => 'nullable|string|max:255',
+        'paiement' => 'nullable|string|max:255',
         'tarif' => 'nullable|string|max:255',
-        'paiement' => 'nullable|array',
         'autre_contact' => 'nullable|string|max:255',
         'complement_adresse' => 'nullable|string|max:255',
         'lien_site_web' => 'nullable|url',
         'apropos' => 'nullable|string|max:1000',
+        'lang' => 'required|in:fr,en-US,es,de,it' 
     ]);
 
 
-    
-    
+     // Langues cibles pour les traductions
+     $locales = Locales::SUPPORTED_CODES;
+     $sourceLocale = $request['lang']; // Langue source par défaut
+     // Traduire le contenu dans toutes les langues cibles
+     $translatedContent = [];
+     foreach ($locales as $locale) {
+         if ($locale !== $sourceLocale) {
+             $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
+         }else{
+             $translatedContent[$locale] = $request['apropos'];
+         }
+     }
 
+     $request['apropos'] = $translatedContent;
 
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
@@ -387,7 +409,7 @@ public function createEscorteBySalon(Request $request)
         'categorie_id' => $request->categorie,
         'pratique_sexuelle_id' => $request->pratique_sexuelle_id,
         'orientation_sexuelle_id' => $request->orientation_sexuelle_id,
-        'service' => json_encode($request->service),
+        'service' => $request->service,
         'tailles' => $request->tailles,
         'pubis' => $request->pubis,
         'origine' => $request->origine,
@@ -398,9 +420,9 @@ public function createEscorteBySalon(Request $request)
         'taille_poitrine' => $request->taille_poitrine,
         'tatoo_id' => $request->tatoo_id,
         'mobilite_id' => $request->mobilite_id,
-        'langues' => json_encode($request->langues),
+        'langues' => $request->langues,
         'tarif' => $request->tarif,
-        'paiement' => json_encode($request->paiement),
+        'paiement' => $request->paiement,
         'autre_contact' => $request->autre_contact,
         'complement_adresse' => $request->complement_adresse,
         'lien_site_web' => $request->lien_site_web,

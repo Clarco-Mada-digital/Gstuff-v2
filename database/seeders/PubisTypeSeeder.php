@@ -12,21 +12,21 @@ class PubisTypeSeeder extends Seeder
         $pubisTypes = [
             [
                 'fr' => 'Entièrement rasé',
-                'en' => 'Fully shaved',
+                'en-US' => 'Fully shaved',
                 'de' => 'Vollständig rasiert',
                 'it' => 'Completamente rasato',
                 'es' => 'Totalmente afeitado'
             ],
             [
                 'fr' => 'Partiellement rasé',
-                'en' => 'Partially shaved',
+                'en-US' => 'Partially shaved',
                 'de' => 'Teilweise rasiert',
                 'it' => 'Parzialmente rasato',
                 'es' => 'Parcialmente afeitado'
             ],
             [
                 'fr' => 'Tout naturel',
-                'en' => 'Natural',
+                'en-US' => 'Natural',
                 'de' => 'Natürlich',
                 'it' => 'Naturale',
                 'es' => 'Natural'

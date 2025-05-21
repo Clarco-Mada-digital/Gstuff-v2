@@ -13,14 +13,14 @@ class PoitrineSeeder extends Seeder
         $poitrines = [
             [
                 'fr' => 'Naturelle',
-                'en' => 'Natural',
+                'en-US' => 'Natural',
                 'de' => 'Natürlich',
                 'it' => 'Naturale',
                 'es' => 'Natural'
             ],
             [
                 'fr' => 'Améliorée',
-                'en' => 'Enhanced',
+                'en-US' => 'Enhanced',
                 'de' => 'Verbessert',
                 'it' => 'Migliorata',
                 'es' => 'Mejorada'

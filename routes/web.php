@@ -29,6 +29,7 @@ use App\Http\Controllers\ProfileVisibilityController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PratiqueSexuelleController;
 use Illuminate\Support\Facades\App;
+use App\Models\Genre;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,9 @@ Route::get('livewire/update', function(){
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/escort-register', function(){return view('auth.escort_register');})->name('escort_register');
+Route::get('/escort-register', function(){
+    $genres = Genre::all();
+    return view('auth.escort_register', compact('genres'));})->name('escort_register');
 Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');

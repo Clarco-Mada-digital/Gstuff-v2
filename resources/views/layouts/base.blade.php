@@ -627,6 +627,7 @@
 
         // Script for multi-select
         function multiSelect(options, value) {
+            console.log('test', value);
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],

@@ -12,14 +12,14 @@ class TattooSeeder extends Seeder
         $tattoos = [
             [
                 'fr' => 'Avec tatouages',
-                'en' => 'With tattoos',
+                'en-US' => 'With tattoos',
                 'de' => 'Mit Tattoos',
                 'it' => 'Con tatuaggi',
                 'es' => 'Con tatuajes'
             ],
             [
                 'fr' => 'Sans tatouages',
-                'en' => 'Without tattoos',
+                'en-US' => 'Without tattoos',
                 'de' => 'Ohne Tattoos',
                 'it' => 'Senza tatuaggi',
                 'es' => 'Sin tatuajes'

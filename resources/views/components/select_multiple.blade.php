@@ -1,4 +1,4 @@
-<div x-data="multiSelect({{ json_encode($options) }}, {{ json_encode($value) }})" 
+<div x-data="multiSelectOption({{ json_encode($options) }}, {{ json_encode($value) }})" 
      class="w-full relative"
      x-init="init()">
     
@@ -90,7 +90,8 @@
 </div>
 
 <script>
-    function multiSelect(options, value) {
+    function multiSelectOption(options, value) {
+        console.log('test2', value);
         return {
             options: Array.isArray(options) ? options : [],
             selectedOptions: Array.isArray(value) ? value : (value ? value.split(',').map(v => v.trim()) : []),
@@ -98,6 +99,7 @@
             isOpen: false,
             
             init() {
+                
                 // Close dropdown when clicking outside
                 const handleClickOutside = (e) => {
                     if (!this.$el.contains(e.target)) {

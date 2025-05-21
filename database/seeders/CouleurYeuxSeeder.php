@@ -15,7 +15,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Bleus',
-                    'en' => 'Blue',
+                    'en-US' => 'Blue',
                     'es' => 'Azules',
                     'it' => 'Blu',
                     'de' => 'Blau',
@@ -25,7 +25,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Bruns',
-                    'en' => 'Brown',
+                    'en-US' => 'Brown',
                     'es' => 'Marrones',
                     'it' => 'Marrone',
                     'de' => 'Braun',
@@ -35,7 +35,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Bruns clairs',
-                    'en' => 'Light brown',
+                    'en-US' => 'Light brown',
                     'es' => 'Marrones claros',
                     'it' => 'Marrone chiaro',
                     'de' => 'Hellbraun',
@@ -45,7 +45,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Gris',
-                    'en' => 'Gray',
+                    'en-US' => 'Gray',
                     'es' => 'Grises',
                     'it' => 'Grigi',
                     'de' => 'Grau',
@@ -55,7 +55,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Jaunes',
-                    'en' => 'Hazel',
+                    'en-US' => 'Hazel',
                     'es' => 'Ámbar',
                     'it' => 'Ambra',
                     'de' => 'Bernstein',
@@ -65,7 +65,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Marrons',
-                    'en' => 'Dark brown',
+                    'en-US' => 'Dark brown',
                     'es' => 'Castaño oscuro',
                     'it' => 'Marrone scuro',
                     'de' => 'Dunkelbraun',
@@ -75,7 +75,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Noirs',
-                    'en' => 'Black',
+                    'en-US' => 'Black',
                     'es' => 'Negros',
                     'it' => 'Neri',
                     'de' => 'Schwarz',
@@ -85,7 +85,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Verts',
-                    'en' => 'Green',
+                    'en-US' => 'Green',
                     'es' => 'Verdes',
                     'it' => 'Verdi',
                     'de' => 'Grün',
@@ -95,7 +95,7 @@ class CouleurYeuxSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Autre',
-                    'en' => 'Other',
+                    'en-US' => 'Other',
                     'es' => 'Otro',
                     'it' => 'Altro',
                     'de' => 'Andere',

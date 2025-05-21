@@ -18,7 +18,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Bisexuelle',
-                    'en' => 'Bisexual',
+                    'en-US' => 'Bisexual',
                     'es' => 'Bisexual',
                     'it' => 'Bisessuale',
                     'de' => 'Bisexuell',
@@ -28,7 +28,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Hétéro',
-                    'en' => 'Straight',
+                    'en-US' => 'Straight',
                     'es' => 'Heterosexual',
                     'it' => 'Eterosessuale',
                     'de' => 'Heterosexuell',
@@ -38,7 +38,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Lesbienne',
-                    'en' => 'Lesbian',
+                    'en-US' => 'Lesbian',
                     'es' => 'Lesbiana',
                     'it' => 'Lesbica',
                     'de' => 'Lesbisch',
@@ -48,7 +48,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Polyamoureux',
-                    'en' => 'Polyamorous (male)',
+                    'en-US' => 'Polyamorous (male)',
                     'es' => 'Poliamoroso',
                     'it' => 'Poliamoroso',
                     'de' => 'Polyamorös (männlich)',
@@ -58,7 +58,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Polyamoureuse',
-                    'en' => 'Polyamorous (female)',
+                    'en-US' => 'Polyamorous (female)',
                     'es' => 'Poliamorosa',
                     'it' => 'Poliamorosa',
                     'de' => 'Polyamorös (weiblich)',
@@ -68,7 +68,7 @@ class OrientationSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Autre',
-                    'en' => 'Other',
+                    'en-US' => 'Other',
                     'es' => 'Otro',
                     'it' => 'Altro',
                     'de' => 'Andere',

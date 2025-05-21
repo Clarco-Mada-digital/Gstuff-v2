@@ -13,49 +13,49 @@ class CouleurCheveuxSeeder extends Seeder
         $couleursCheveux = [
             [
                 'fr' => 'Blonds',
-                'en' => 'Blonde',
+                'en-US' => 'Blonde',
                 'de' => 'Blond',
                 'it' => 'Biondi',
                 'es' => 'Rubio'
             ],
             [
                 'fr' => 'Brune',
-                'en' => 'Brunette',
+                'en-US' => 'Brunette',
                 'de' => 'Brünett',
                 'it' => 'Castana',
                 'es' => 'Morena'
             ],
             [
                 'fr' => 'Châtain',
-                'en' => 'Chestnut',
+                'en-US' => 'Chestnut',
                 'de' => 'Kastanienbraun',
                 'it' => 'Castano',
                 'es' => 'Castaño'
             ],
             [
                 'fr' => 'Gris',
-                'en' => 'Gray',
+                'en-US' => 'Gray',
                 'de' => 'Grau',
                 'it' => 'Grigio',
                 'es' => 'Gris'
             ],
             [
                 'fr' => 'Noiraude',
-                'en' => 'Dark-haired',
+                'en-US' => 'Dark-haired',
                 'de' => 'Dunkelhaarig',
                 'it' => 'Capelli scuri',
                 'es' => 'Pelo oscuro'
             ],
             [
                 'fr' => 'Rousse',
-                'en' => 'Redhead',
+                'en-US' => 'Redhead',
                 'de' => 'Rothaarig',
                 'it' => 'Rossi',
                 'es' => 'Pelirrojo'
             ],
             [
                 'fr' => 'Autre',
-                'en' => 'Other',
+                'en-US' => 'Other',
                 'de' => 'Andere',
                 'it' => 'Altro',
                 'es' => 'Otro'

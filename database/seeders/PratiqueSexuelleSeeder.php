@@ -18,7 +18,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => '69',
-                    'en' => '69',
+                    'en-US' => '69',
                     'es' => '69',
                     'it' => '69',
                     'de' => '69',
@@ -28,7 +28,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Cunnilingus',
-                    'en' => 'Cunnilingus',
+                    'en-US' => 'Cunnilingus',
                     'es' => 'Cunnilingus',
                     'it' => 'Cunnilingus',
                     'de' => 'Cunnilingus',
@@ -38,7 +38,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Ejaculation sur le corps',
-                    'en' => 'Body ejaculation',
+                    'en-US' => 'Body ejaculation',
                     'es' => 'Eyaculación en el cuerpo',
                     'it' => 'Eiaculazione sul corpo',
                     'de' => 'Körperliche Ejakulation',
@@ -48,7 +48,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Ejaculation faciale',
-                    'en' => 'Facial ejaculation',
+                    'en-US' => 'Facial ejaculation',
                     'es' => 'Eyaculación facial',
                     'it' => 'Eiaculazione facciale',
                     'de' => 'Gesichtsejakulation',
@@ -58,7 +58,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Face-sitting',
-                    'en' => 'Face-sitting',
+                    'en-US' => 'Face-sitting',
                     'es' => 'Face-sitting',
                     'it' => 'Face-sitting',
                     'de' => 'Facesitting',
@@ -68,7 +68,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Fellation',
-                    'en' => 'Blowjob',
+                    'en-US' => 'Blowjob',
                     'es' => 'Mamada',
                     'it' => 'Pompino',
                     'de' => 'Blowjob',
@@ -78,7 +78,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Fétichisme',
-                    'en' => 'Fetishism',
+                    'en-US' => 'Fetishism',
                     'es' => 'Fetichismo',
                     'it' => 'Feticismo',
                     'de' => 'Fetischismus',
@@ -88,7 +88,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'GFE (Girlfriend Experience)',
-                    'en' => 'GFE (Girlfriend Experience)',
+                    'en-US' => 'GFE (Girlfriend Experience)',
                     'es' => 'GFE (Experiencia de novia)',
                     'it' => 'GFE (Esperienza da fidanzata)',
                     'de' => 'GFE (Freundin-Erlebnis)',
@@ -98,7 +98,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Gorge profonde',
-                    'en' => 'Deep throat',
+                    'en-US' => 'Deep throat',
                     'es' => 'Garganta profunda',
                     'it' => 'Gola profonda',
                     'de' => 'Tiefer Rachen',
@@ -108,7 +108,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Lingerie',
-                    'en' => 'Lingerie',
+                    'en-US' => 'Lingerie',
                     'es' => 'Lencería',
                     'it' => 'Lingerie',
                     'de' => 'Unterwäsche',
@@ -118,7 +118,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Massage érotique',
-                    'en' => 'Erotic massage',
+                    'en-US' => 'Erotic massage',
                     'es' => 'Masaje erótico',
                     'it' => 'Massaggio erotico',
                     'de' => 'Erotische Massage',
@@ -128,7 +128,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Rapport sexuel',
-                    'en' => 'Sexual intercourse',
+                    'en-US' => 'Sexual intercourse',
                     'es' => 'Relación sexual',
                     'it' => 'Rapporto sessuale',
                     'de' => 'Geschlechtsverkehr',
@@ -138,7 +138,7 @@ class PratiqueSexuelleSeeder extends Seeder
             [
                 'name' => [
                     'fr' => 'Hand job',
-                    'en' => 'Hand job',
+                    'en-US' => 'Hand job',
                     'es' => 'Masturbación con la mano',
                     'it' => 'Masturbazione con la mano',
                     'de' => 'Handjob',
