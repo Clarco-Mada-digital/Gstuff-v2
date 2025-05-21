@@ -45,6 +45,10 @@ Route::get('livewire/update', function(){
     return redirect()->back();
 })->middleware(['web'])->name('livewire.update');
 
+Route::get('search', function(){
+    return view('search_page');
+})->middleware(['web'])->name('search');
+
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
