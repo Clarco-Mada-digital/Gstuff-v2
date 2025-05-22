@@ -28,6 +28,13 @@ class EscortSearch extends Component
     public array $selectedCategories = [];
     #[Url]
     public array $selectedServices = [];
+    #[Url]
+    public $minDistance = 0;  // Distance minimale
+
+    #[Url]
+    public $maxDistanceSelected = 0; // Distance maximale sélectionnée
+
+    public $maxAvailableDistance = 0; // Distance maximale disponible
 
     public array $autreFiltres = [];
     public $categories;
@@ -37,6 +44,10 @@ class EscortSearch extends Component
     public $maxDistance = 0;
     public $escortCount = 0;
     public $genres;
+    
+    public $approximite = false;
+    public $latitudeUser;
+    public $longitudeUser;
 
 
     private function getEscorts($escorts)
@@ -55,6 +66,21 @@ class EscortSearch extends Component
         return $esc;
     }
 
+    public function approximiteFunc()
+    {
+        $this->approximite = !$this->approximite;
+    }
+
+    public function updateUserLatitude($latitude)
+    {
+        $this->latitudeUser = $latitude;
+    }
+
+    public function updateUserLongitude($longitude)
+    {
+        $this->longitudeUser = $longitude;
+    }
+    
     public function resetFilter()
     {
         $this->selectedCanton = '';
@@ -76,6 +102,29 @@ class EscortSearch extends Component
             $this->villes = collect();
         }
     }
+
+    // public function updatedMaxDistanceSelected()
+    // {
+    //     $this->resetPage();
+    // }
+
+    public function updatedMinDistance($value)
+{
+    // S'assurer que la distance minimale ne dépasse pas la distance maximale
+    if ($value > $this->maxDistanceSelected) {
+        $this->maxDistanceSelected = $value;
+    }
+    $this->resetPage();
+}
+
+public function updatedMaxDistanceSelected($value)
+{
+    // S'assurer que la distance maximale n'est pas inférieure à la distance minimale
+    if ($value < $this->minDistance) {
+        $this->minDistance = $value;
+    }
+    $this->resetPage();
+}
 
     private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
@@ -108,7 +157,8 @@ class EscortSearch extends Component
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
 
-        // Construction de la requête
+        if (!$this->approximite) {
+           // Construction de la requête
         $query = User::query()->where('profile_type', 'escorte');
 
         if ($this->selectedCanton) {
@@ -199,7 +249,7 @@ class EscortSearch extends Component
                     ->where('ville', $ville->id);
 
                 if ($this->selectedGenre) {
-                    $query->where('genre', $this->selectedGenre);
+                    $query->where('genre_id', $this->selectedGenre);
                 }
 
                 if ($this->selectedCategories) {
@@ -294,6 +344,7 @@ class EscortSearch extends Component
                 }
             }
         }
+
         $this->maxDistance = round($this->maxDistance);
 
         // Convertir en pagination manuelle après filtrage
@@ -314,6 +365,85 @@ class EscortSearch extends Component
             $escort['canton'] = Canton::find($escort->canton);
             $escort['ville'] = Ville::find($escort->ville);
         }
+        } else {
+            $userLatitude = $this->latitudeUser;
+            $userLongitude = $this->longitudeUser;
+        
+            // Initialiser les variables
+            $minDistance = PHP_FLOAT_MAX;
+            $maxAvailableDistance = 0;
+            $escortCount = 0;
+
+            $escorts = User::where('profile_type', 'escorte')
+                ->whereNotNull('lat')
+                ->whereNotNull('lon')
+                ->get()
+                ->filter(function ($escort) use ($viewerCountry) {
+                    return $escort->isProfileVisibleTo($viewerCountry);
+                })
+                ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
+                    $distance = $this->haversineGreatCircleDistance(
+                        $userLatitude,
+                        $userLongitude,
+                        $escort->lat,
+                        $escort->lon
+                    );
+                    
+                    // Mettre à jour les distances min et max
+                    $minDistance = min($minDistance, $distance);
+                    $maxAvailableDistance = max($maxAvailableDistance, $distance);
+                    
+                    $escortCount++;
+                    
+                    return [
+                        'escort' => $escort,
+                        'distance' => $distance,
+                    ];
+                });
+
+            // Mettre à jour les propriétés de la classe
+            $this->minDistance = $escortCount > 0 ? $minDistance : 0;
+            $this->maxAvailableDistance = $escortCount > 0 ? ceil($maxAvailableDistance) : 0;
+            $this->escortCount = $escortCount;
+
+            // Si c'est le premier chargement, initialiser maxDistanceSelected
+            if (!$this->maxDistanceSelected && $escortCount > 0) {
+                $this->maxDistanceSelected = $this->maxAvailableDistance;
+            }
+
+            // Filtrer par plage de distance uniquement si on a des escorts
+            if ($escortCount > 0) {
+                $escorts = $escorts->filter(function ($item) {
+                    return $item['distance'] >= $this->minDistance && 
+                        $item['distance'] <= $this->maxDistanceSelected;
+                });
+            }
+
+            // Trier par distance si nécessaire
+            $escorts = $escorts->sortBy('distance');
+
+            // Convertir en pagination
+            $perPage = 10;
+            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+            $currentItems = $escorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
+            $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator(
+                $currentItems,
+                $escorts->count(),
+                $perPage,
+                $currentPage,
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+
+            // Hydrater les relations
+            foreach ($paginatedEscorts as $escortData) {
+                $escort = $escortData['escort'];
+                $escort['categorie'] = Categorie::find($escort->categorie);
+                $escort['canton'] = Canton::find($escort->canton);
+                $escort['ville'] = Ville::find($escort->ville);
+            }
+
+        }
+
 
         return view('livewire.escort-search', [
             'escorts' => $paginatedEscorts,
@@ -321,6 +451,7 @@ class EscortSearch extends Component
             'maxDistance' => $this->maxDistance,
             'escortCount' => $this->escortCount,
             'currentLocale' => $currentLocale,
+        
         ]);
     }
 }
