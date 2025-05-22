@@ -75,6 +75,39 @@
               <livewire:escort-card name="{{ $user->prenom ?? $user->nom_salon }}" canton="{{ $user->canton['nom'] ?? 'Inconnu' }}" ville="{{ $user->ville['nom'] ?? 'Inconnu' }}" avatar="{{ $user->avatar }}" escortId="{{ $user->id }}" isOnline="{{ $user->isOnline() }}" wire:key="component-{{ $user->id }}" />
           @endforeach
       </div>
+
+      <!-- Pagination -->
+        @if($users->hasPages())
+        <div class="mt-8 flex justify-center items-center space-x-2">
+            {{-- Premier/Précédent --}}
+            <button 
+                wire:click="previousPage"
+                @disabled($users->onFirstPage())
+                class="px-4 py-2 border rounded {{ $users->onFirstPage() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100' }}">
+                &larr; Précédent
+            </button>
+
+            {{-- Pages --}}
+            <div class="hidden md:flex space-x-1">
+                @foreach($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                    <button
+                        wire:click="gotoPage({{ $page }})"
+                        class="w-10 h-10 flex items-center justify-center border rounded {{ $users->currentPage() === $page ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }}">
+                        {{ $page }}
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Suivant/Dernier --}}
+            <button 
+                wire:click="nextPage"
+                @disabled(!$users->hasMorePages())
+                class="px-4 py-2 border rounded {{ !$users->hasMorePages() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100' }}">
+                Suivant &rarr;
+            </button>
+        </div>
+        @endif
+        
       <!-- Boutons de navigation du carrousel -->
       <div id="arrowESScrollRight" class="hidden absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 items-center justify-center cursor-pointer" data-carousel-prev>
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>

@@ -43,10 +43,10 @@ class ApiDataServiceProvider extends ServiceProvider
       // Récupérer les données de l'API wordpress
       // Protect $client = new Client();
 
-      $glossaires = Cache::remember('glossaires', 3600, function(){
-        $response = Http::get('https://gstuff.ch/wp-json/wp/v2/posts');
-        return $response->json();
-      });
+      // $glossaires = Cache::remember('glossaires', 3600, function(){
+      //   $response = Http::get('https://gstuff.ch/wp-json/wp/v2/posts');
+      //   return $response->json();
+      // });
 
       // Cantons
       $cantons = Cache::remember('cantons', 3600, function() {
@@ -78,7 +78,7 @@ class ApiDataServiceProvider extends ServiceProvider
 
       // Organiser les données dans un tableau associatif
       $apiData = [
-        'glossaires' => $glossaires,
+        // 'glossaires' => $glossaires,
         'cantons' => $cantons,
         'villes' => $villes,
         'cgv' => $cgv,
