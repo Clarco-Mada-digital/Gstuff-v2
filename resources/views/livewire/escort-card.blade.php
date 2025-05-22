@@ -1,17 +1,23 @@
 @php
     $user = App\Models\User::find($escortId);
 @endphp
-<div class="relative flex flex-col justify-start  w-full h-full min-w-[270px] min-h-[405px] max-w-[330px] mx-auto mb-2 p-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700" style="scroll-snap-align: center">
-    <div class="absolute flex items-center justify-center top-0 right-0 w-10 h-10 rounded-full bg-white m-2 text-green-gs cursor-pointer shadow-lg">
+<div class="relative mx-auto mb-2 flex h-full min-h-[405px] w-full min-w-[270px] max-w-[330px] flex-col justify-start rounded-lg border border-gray-200 bg-white p-1 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+    style="scroll-snap-align: center">
+    <div
+        class="text-green-gs absolute right-0 top-0 m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg">
         {{-- @livewire('favorite-button', ['userId' => $escortId], key($escortId)) --}}
         <livewire:favorite-button :userId=$escortId wire:key='{{ $escortId }}' />
     </div>
 
-    <a class="m-auto w-full h-full rounded-lg overflow-hidden"  @if ($user->profile_type == 'escorte') href="{{route('show_escort', $escortId)}}" @else href="{{route('show_salon', $escortId)}}" @endif>
-        <img class="w-full h-[405px] object-cover rounded-t-lg" @if($avatar) src="{{ asset('storage/avatars/'.$avatar) }}" @else src="{{ asset('images/icon_logo.png') }}" @endif alt="image profile" />
+    <a class="m-auto h-full w-full overflow-hidden rounded-lg"
+        @if ($user->profile_type == 'escorte') href="{{ route('show_escort', $escortId) }}" @else href="{{ route('show_salon', $escortId) }}" @endif>
+        <img class="h-[405px] w-full rounded-t-lg object-cover"
+            @if ($avatar) src="{{ asset('storage/avatars/' . $avatar) }}" @else src="{{ asset('images/icon_logo.png') }}" @endif
+            alt="image profile" />
     </a>
-    <div class="flex flex-col gap-2 mt-4">
-        <a class="flex items-center gap-1" @if ($user->profile_type == 'escorte') href="{{route('show_escort', $escortId)}}" @else href="{{route('show_salon', $escortId)}}" @endif>
+    <div class="mt-4 flex flex-col gap-2">
+        <a class="flex items-center gap-1"
+            @if ($user->profile_type == 'escorte') href="{{ route('show_escort', $escortId) }}" @else href="{{ route('show_salon', $escortId) }}" @endif>
             <h5 class="text-base tracking-tight text-gray-900 dark:text-white">{{ $name }}</h5>
             <div class="{{ $isOnline ? 'bg-green-gs' : 'bg-gray-400' }} h-2 w-2 rounded-full"></div>
         </a>

@@ -458,7 +458,7 @@
         ESleftBtn.addEventListener('click', () => {
             scrollByPercentage(EScontainer, true)
         })
-        
+
 
         function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
             // Si aucun élément n'est fourni, on utilise la fenêtre
@@ -578,8 +578,8 @@
 
         // Script for multi-object-Select
         function multiObjectSelect(options, value) {
-            console.log('options blade',options);
-            console.log('value blade',value);
+            console.log('options blade', options);
+            console.log('value blade', value);
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],
@@ -761,7 +761,7 @@
             }, 5000);
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const currentUrl = window.location.href;
 
             if (currentUrl.includes("/livewire/update")) {
@@ -775,7 +775,6 @@
                 //window.location.reload();
             }
         });
-
     </script>
     @yield('extraScripts')
     @yield('specialScripts')

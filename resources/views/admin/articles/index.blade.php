@@ -236,7 +236,7 @@
 
                             // Filtre par catégorie
                             if (this.filters.category && !(article.category.id == this.filters.category))
-                            return false;
+                                return false;
 
                             // Filtre par date
                             if (this.filters.start_date) {

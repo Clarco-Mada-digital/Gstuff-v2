@@ -28,16 +28,15 @@
                     alt="{{ __('salon_profile.profile_image') }}" />
             </div>
             <p class="-mt-[25%] font-bold md:-mt-[10%] xl:-mt-[25%]">{{ Str::ucfirst($salon->nom_salon) }}</p>
-            <span
-                class="font-dm-serif flex items-center gap-2 font-bold">
+            <span class="font-dm-serif flex items-center gap-2 font-bold">
                 @php
                     $locale = session('locale', 'fr');
-                    $categoryName = $salon->categorie['nom'][$locale] ?? 
-                                 $salon->categorie['nom']['fr'] ?? 
-                                 ($salon->categorie['nom'] ?? '-');
+                    $categoryName =
+                        $salon->categorie['nom'][$locale] ??
+                        ($salon->categorie['nom']['fr'] ?? ($salon->categorie['nom'] ?? '-'));
                 @endphp
-                
-                
+
+
                 {{ Str::ucfirst($categoryName) }}</span>
 
 
@@ -128,9 +127,9 @@
 
                                 @php
                                     $locale = session('locale', 'fr');
-                                    $categoryName = $salon->categorie['nom'][$locale] ?? 
-                                                 $salon->categorie['nom']['fr'] ?? 
-                                                 ($salon->categorie['nom'] ?? '-');
+                                    $categoryName =
+                                        $salon->categorie['nom'][$locale] ??
+                                        ($salon->categorie['nom']['fr'] ?? ($salon->categorie['nom'] ?? '-'));
                                 @endphp
                                 {{ Str::ucfirst($categoryName) }}
                             </a>

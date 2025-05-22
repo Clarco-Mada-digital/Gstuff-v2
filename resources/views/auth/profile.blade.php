@@ -431,7 +431,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($genres as $genre)
                                             <option value="{{ $genre->id }}"
-                                                @if ($user->genre_id == $genre->id) selected @endif>{{ $genre->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->genre_id == $genre->id) selected @endif>
+                                                {{ $genre->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -590,7 +591,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($nombre_filles as $nb_fille)
                                             <option value="{{ $nb_fille->id }}"
-                                                @if ($user->nombre_fille_id == $nb_fille->id) selected @endif> {{ $nb_fille->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->nombre_fille_id == $nb_fille->id) selected @endif>
+                                                {{ $nb_fille->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -619,7 +621,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($pratiquesSexuelles as $pratique)
                                             <option value="{{ $pratique->id }}"
-                                                @if ($user->pratique_sexuelle_id == $pratique->id) selected @endif>{{ $pratique->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->pratique_sexuelle_id == $pratique->id) selected @endif>
+                                                {{ $pratique->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -632,7 +635,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($oriantationSexuelles as $oriantation)
                                             <option value="{{ $oriantation->id }}"
-                                                @if ($user->orientation_sexuelle_id == $oriantation->id) selected @endif>{{ $oriantation->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->orientation_sexuelle_id == $oriantation->id) selected @endif>
+                                                {{ $oriantation->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -648,7 +652,8 @@
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.height') }}</label>
                                     <input
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        type="number" name="tailles" id="tailles" placeholder="{{ __('profile.height_placeholder') }}"
+                                        type="number" name="tailles" id="tailles"
+                                        placeholder="{{ __('profile.height_placeholder') }}"
                                         value="{{ $user->tailles }}">
                                 </div>
                                 <div class="col-span-2 mb-4 md:col-span-1">
@@ -672,7 +677,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($couleursYeux as $yeux)
                                             <option value="{{ $yeux->id }}"
-                                                @if ($user->couleur_yeux_id == $yeux->id) selected @endif>{{ $yeux->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->couleur_yeux_id == $yeux->id) selected @endif>
+                                                {{ $yeux->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -685,7 +691,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($couleursCheveux as $cheveux)
                                             <option value="{{ $cheveux->id }}"
-                                                @if ($user->couleur_cheveux_id == $cheveux->id) selected @endif>{{ $cheveux->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->couleur_cheveux_id == $cheveux->id) selected @endif>
+                                                {{ $cheveux->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -698,7 +705,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($mensurations as $mensuration)
                                             <option value="{{ $mensuration->id }}"
-                                                @if ($user->mensuration_id == $mensuration->id) selected @endif>{{ $mensuration->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->mensuration_id == $mensuration->id) selected @endif>
+                                                {{ $mensuration->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -711,7 +719,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($poitrines as $poitrine)
                                             <option value="{{ $poitrine->id }}"
-                                                @if ($user->poitrine_id == $poitrine->id) selected @endif>{{ $poitrine->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->poitrine_id == $poitrine->id) selected @endif>
+                                                {{ $poitrine->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -737,7 +746,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($pubis as $pubi)
                                             <option value="{{ $pubi->id }}"
-                                                @if ($user->pubis_type_id == $pubi->id) selected @endif>{{ $pubi->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->pubis_type_id == $pubi->id) selected @endif>
+                                                {{ $pubi->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -750,7 +760,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($tatouages as $tatou)
                                             <option value="{{ $tatou->id }}"
-                                                @if ($user->tatoo_id == $tatou->id) selected @endif>{{ $tatou->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->tatoo_id == $tatou->id) selected @endif>
+                                                {{ $tatou->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -763,7 +774,8 @@
                                         <option hidden value=""> -- </option>
                                         @foreach ($mobilites as $mobilite)
                                             <option value="{{ $mobilite->id }}"
-                                                @if ($user->mobilite_id == $mobilite->id) selected @endif>{{ $mobilite->getTranslation('name', app()->getLocale()) }}
+                                                @if ($user->mobilite_id == $mobilite->id) selected @endif>
+                                                {{ $mobilite->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -784,7 +796,8 @@
                                     <option hidden> -- </option>
                                     @foreach ($tarifs as $tarif)
                                         <option value="{{ $tarif }}"
-                                            @if ($user->tarif == $tarif) selected @endif>{{ __('profile.price_from', ['price' => $tarif]) }}</option>
+                                            @if ($user->tarif == $tarif) selected @endif>
+                                            {{ __('profile.price_from', ['price' => $tarif]) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -1253,7 +1266,7 @@
                                     <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>{{ __('profile.mobility') }} :
-                                        {{ $user->mobilite  ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
+                                        {{ $user->mobilite ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
 
                                 <div class="font-dm-serif flex w-full items-center gap-3">
@@ -1317,10 +1330,11 @@
                                 @php
                                     $categories = $user->getCategoriesAttribute();
                                 @endphp
-                                
-                                @if(count($categories) > 0)
+
+                                @if (count($categories) > 0)
                                     @foreach ($categories as $category)
-                                        <span class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300"> 
+                                        <span
+                                            class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">
                                             {{ $category->getTranslation('nom', app()->getLocale()) }}
                                         </span>
                                     @endforeach
@@ -1344,9 +1358,10 @@
                                     $locale = session('locale', 'fr');
                                     $services = $user->services ?? collect();
                                 @endphp
-                                
+
                                 @forelse($services as $service)
-                                    <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
+                                    <span
+                                        class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
                                         {{ $service->getTranslation('nom', $locale, 'fr') }}
                                     </span>
                                 @empty
@@ -1444,12 +1459,12 @@
                                     <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
                                     <span>
-                                        {{ __('profile.category') }} : 
+                                        {{ __('profile.category') }} :
                                         @php
                                             $locale = session('locale', 'fr');
-                                            $categoryName = $user->categorie['nom'][$locale] ?? 
-                                                         $user->categorie['nom']['fr'] ?? 
-                                                         ($user->categorie['nom'] ?? '-');
+                                            $categoryName =
+                                                $user->categorie['nom'][$locale] ??
+                                                ($user->categorie['nom']['fr'] ?? ($user->categorie['nom'] ?? '-'));
                                         @endphp
                                         {{ $categoryName }}
                                     </span>
@@ -1457,7 +1472,8 @@
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
                                         srcset="age icon">
-                                    <span>{{ __('profile.number_of_girls') }} : {{ $user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
+                                    <span>{{ __('profile.number_of_girls') }} :
+                                        {{ $user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
                                 </div>
                                 <div class="font-dm-serif flex w-full items-center gap-3">
                                     <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
@@ -2024,7 +2040,7 @@
                             }
                         });
 
-                        if(response.data.success) {
+                        if (response.data.success) {
                             const no_messages = document.querySelector(`#no-messages`);
                             if (no_messages) {
                                 no_messages.remove();
@@ -2053,7 +2069,7 @@
 
                 async deleteMessage(messageId) {
                     try {
-                       
+
                         const response = await axios.delete('/messenger/delete-message', {
                             params: {
                                 message_id: messageId

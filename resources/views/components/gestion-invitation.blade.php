@@ -1,6 +1,6 @@
 @props(['user', 'invitationsRecus', 'listInvitationSalons', 'salonAssociers'])
 
-<div class="w-[90%] my-2">
+<div class="my-2 w-[90%]">
     <button data-modal-target="gestionInvitation" data-modal-toggle="gestionInvitation"
         class="text-green-gs hover:bg-green-gs w-full cursor-pointer rounded-lg border border-gray-400 p-2 text-sm hover:text-white">Invitation</button>
 

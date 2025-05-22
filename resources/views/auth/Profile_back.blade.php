@@ -253,8 +253,8 @@
                             </div>
 
                             <!-- Étape 2: Informations professionnelles -->
-                            <div class="grid grid-cols-1 gap-5 md:grid-cols-2" :class="userType == 'invite' ? 'hidden' : ''"
-                                x-show="currentStep === 1">
+                            <div class="grid grid-cols-1 gap-5 md:grid-cols-2"
+                                :class="userType == 'invite' ? 'hidden' : ''" x-show="currentStep === 1">
                                 <h2 class="col-span-2 mb-4 text-lg font-semibold">Informations professionnelles</h2>
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label class="block text-sm font-medium text-gray-700">Catégories</label>

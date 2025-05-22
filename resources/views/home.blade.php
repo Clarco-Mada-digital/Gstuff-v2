@@ -26,14 +26,14 @@
                         <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.svg') }}"
                             alt="icon service {{ $categorie['display_name'] }}" />
                         <span>
-                        @php
-                            $locale = session('locale', 'fr');
-                            $categoryName = $categorie['nom'][$locale] ?? 
-                                         $categorie['nom']['fr'] ?? 
-                                         ($categorie['nom'] ?? '-');
-                        @endphp    
-                        
-                        {{ $categoryName }}</span>
+                            @php
+                                $locale = session('locale', 'fr');
+                                $categoryName =
+                                    $categorie['nom'][$locale] ??
+                                    ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
+                            @endphp
+
+                            {{ $categoryName }}</span>
                     </div>
                 </a>
             @endforeach
@@ -210,32 +210,40 @@
     </div>
     <x-FeedbackSection />
 
-    <div class="w-full bg-white py-8 px-4 sm:px-6 lg:py-12">
+    <div class="w-full bg-white px-4 py-8 sm:px-6 lg:py-12">
         <div class="mx-auto max-w-4xl">
             <h3 class="font-dm-serif text-green-gs text-center text-2xl font-bold md:text-4xl lg:text-5xl">
                 {{ __('home.become_escort_title') }}
             </h3>
             <p class="mt-2 text-center text-gray-600">{{ __('home.become_escort_steps') }}</p>
-            
-            <div class="relative mt-10 ">
+
+            <div class="relative mt-10">
                 <!-- Ligne de connexion (visible uniquement sur desktop) -->
-                <div class="absolute left-1/5 right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform bg-green-gs md:block"></div>
-                
+                <div
+                    class="left-1/5 bg-green-gs absolute right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform md:block">
+                </div>
+
                 <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
                     @php
                         $steps = [
-                            ['icon' => asset('images/icons/icon_coeur.svg'), 
-                             'text' => __('home.send_selfies') . ' <a href="mailto:escort-gstuff@gstuff.ch" class="text-amber-500 hover:underline">escort-gstuff@gstuff.ch</a>'],
-                            ['icon' => asset('images/icons/icon_coeur.svg'), 
-                             'text' => __('home.photo_shoot_appointment')],
-                            ['icon' => asset('images/icons/icon_coeur.svg'), 
-                             'text' => __('home.publish_profile')]
+                            [
+                                'icon' => asset('images/icons/icon_coeur.svg'),
+                                'text' =>
+                                    __('home.send_selfies') .
+                                    ' <a href="mailto:escort-gstuff@gstuff.ch" class="text-amber-500 hover:underline">escort-gstuff@gstuff.ch</a>',
+                            ],
+                            [
+                                'icon' => asset('images/icons/icon_coeur.svg'),
+                                'text' => __('home.photo_shoot_appointment'),
+                            ],
+                            ['icon' => asset('images/icons/icon_coeur.svg'), 'text' => __('home.publish_profile')],
                         ];
                     @endphp
-                    
-                    @foreach($steps as $step)
+
+                    @foreach ($steps as $step)
                         <div class="flex flex-col items-center">
-                            <img src="{{ $step['icon'] }}" alt="" class="z-10 mx-auto h-16 w-16 md:h-20 md:w-20">
+                            <img src="{{ $step['icon'] }}" alt=""
+                                class="z-10 mx-auto h-16 w-16 md:h-20 md:w-20">
                             <div class="mt-4 text-center text-sm text-gray-700 md:text-base">
                                 {!! $step['text'] !!}
                             </div>
@@ -330,10 +338,10 @@
     {{-- Glossaire --}}
     @if ($glossaires != '[]')
         <div class="mx-auto my-10 lg:container">
-            <div class="my-10 flex items-center justify-between px-5 lg:px-20 flex-wrap">
-                <h3 class="font-dm-serif text-2xl font-bold text-green-gs lg:text-4xl">{{ __('home.glossary_articles') }}
+            <div class="my-10 flex flex-wrap items-center justify-between px-5 lg:px-20">
+                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl">{{ __('home.glossary_articles') }}
                 </h3>
-                <div class="z-10 w-auto my-2">
+                <div class="z-10 my-2 w-auto">
                     <a href="#" type="button"
                         class="btn-gs-gradient flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-sm font-bold text-black focus:outline-none focus:ring-4 focus:ring-blue-300 lg:text-base dark:focus:ring-blue-800">{{ __('home.see_more_articles') }}
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

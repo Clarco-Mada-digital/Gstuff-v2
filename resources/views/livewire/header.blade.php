@@ -11,16 +11,17 @@
                     this.isMobileMenuOpen = false;
                 }
             };
-            
+    
             // Ajouter l'écouteur de redimensionnement
             window.addEventListener('resize', updateView);
-            
+    
             // Nettoyer l'écouteur lors de la destruction du composant
             this.$watch('$store.app.sidebarOpen', () => {
                 window.removeEventListener('resize', updateView);
             });
         }
-    }" class="relative z-30 border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-900">
+    }"
+        class="relative z-30 border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-900">
         <div x-data="{ 'showUserDrop': false }" class="container mx-auto flex flex items-center gap-3 p-4 lg:justify-between">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
                 <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
@@ -40,49 +41,55 @@
             </button>
 
             {{-- Menu --}}
-            <div id="mega-menu-full" 
-                x-show="isMobileMenuOpen || isDesktop" 
-                @click.away="isMobileMenuOpen = false"
+            <div id="mega-menu-full" x-show="isMobileMenuOpen || isDesktop" @click.away="isMobileMenuOpen = false"
                 class="order-1 m-auto w-full items-center justify-between font-medium lg:m-0 xl:flex xl:w-auto"
                 :class="{
                     'hidden xl:flex': !isMobileMenuOpen && !isDesktop,
                     'block xl:flex': isMobileMenuOpen || isDesktop,
                     'absolute left-0 right-0 top-full bg-white dark:bg-gray-900 shadow-lg xl:relative xl:shadow-none': true
                 }">
-                <ul class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
+                <ul
+                    class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
                     <li>
                         <a href="{{ route('escortes') }}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
                             data-dropdown-trigger="hover" data-dropdown-offset-distance="25"
                             class="flex items-center rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500"
                             aria-current="page">
                             {{ __('header.escorts') }}
-                            <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                            <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
                             </svg>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('salons') }}" class="flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
+                        <a href="{{ route('salons') }}"
+                            class="flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
                             {{ __('header.salons') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('about') }}" class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
+                        <a href="{{ url('about') }}"
+                            class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
                             {{ __('header.about') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url('glossaires') }}" class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
+                        <a href="{{ url('glossaires') }}"
+                            class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
                             {{ __('header.glossary') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('contact') }}" class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
+                        <a href="{{ route('contact') }}"
+                            class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
                             {{ __('header.contact') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('gallery.show') }}" class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
+                        <a href="{{ route('gallery.show') }}"
+                            class="block rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-yellow-500 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-yellow-500 xl:dark:hover:bg-transparent xl:dark:hover:text-yellow-500">
                             {{ __('header.galleries') }}
                         </a>
                     </li>
@@ -92,7 +99,7 @@
             </div>
 
 
-            
+
 
             {{-- Search --}}
             <div class="ml-auto mr-0 flex xl:order-1">
@@ -140,7 +147,7 @@
 
             @auth
                 {{-- Notification icon and user presentation --}}
-                <div class="flex gap-3 xl:order-1 items-center">
+                <div class="flex items-center gap-3 xl:order-1">
                     @livewire('notification')
                     <button id="dropdownHoverUser" data-dropdown-toggle="dropdownUser"
                         class="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-gray-200 px-2 py-1.5 text-center font-bold focus:outline-none xl:order-1"
@@ -267,24 +274,31 @@
     </nav>
 
     <!-- Recherche modal -->
-    <div wire:ignore.self id="search-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-[95%] lg:w-[60%] max-h-full">
+    <div wire:ignore.self id="search-modal" tabindex="-1" aria-hidden="true"
+        class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+        <div class="relative max-h-full w-[95%] p-4 lg:w-[60%]">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <div class="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                    <h1 class="flex-1 font-dm-serif font-bold text-3xl text-green-gs text-center">{{__('search_modal.search_title')}}</h1>
-                    <button type="button" class="end-2.5 text-green-gs bg-transparent hover:bg-gray-200 hover:text-amber-400 rounded-lg text-sm w-4 h-4 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="search-modal">
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                <div
+                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
+                    <h1 class="font-dm-serif text-green-gs flex-1 text-center text-3xl font-bold">
+                        {{ __('search_modal.search_title') }}</h1>
+                    <button type="button"
+                        class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="search-modal">
+                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
-                        <span class="sr-only">{{__('search_modal.close')}}</span>
+                        <span class="sr-only">{{ __('search_modal.close') }}</span>
                     </button>
                 </div>
                 <livewire:users-search />
                 {{-- <iframe src="{{route('search')}}" width="100%" height="800px" frameborder="0" wire:ignore.self></iframe> --}}
-            </div>            
+            </div>
         </div>
     </div>
 </div>

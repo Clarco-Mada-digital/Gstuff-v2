@@ -200,12 +200,16 @@
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/yeux_icon.svg') }}"
                                 alt="{{ __('escort_profile.eye_color_icon') }}" />
-                            <span>{{ __('escort_profile.eye_color') }} : {{ $escort->couleurYeux ? $escort->couleurYeux->getTranslation('name', app()->getLocale()) : '-' }} </span>
+                            <span>{{ __('escort_profile.eye_color') }} :
+                                {{ $escort->couleurYeux ? $escort->couleurYeux->getTranslation('name', app()->getLocale()) : '-' }}
+                            </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/cheveux_icon.svg') }}"
                                 alt="{{ __('escort_profile.hair_color_icon') }}" />
-                            <span>{{ __('escort_profile.hair_color') }} : {{ $escort->couleurCheveux ? $escort->couleurCheveux->getTranslation('name', app()->getLocale()) : '-' }} </span>
+                            <span>{{ __('escort_profile.hair_color') }} :
+                                {{ $escort->couleurCheveux ? $escort->couleurCheveux->getTranslation('name', app()->getLocale()) : '-' }}
+                            </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/tarif_icon.svg') }}"
@@ -225,24 +229,28 @@
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/poitrine_icon.svg') }}"
                                 alt="{{ __('escort_profile.bust_icon') }}" />
-                            <span>{{ __('escort_profile.bust') }} : {{ $escort->poitrine ? $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }} </span>
+                            <span>{{ __('escort_profile.bust') }} :
+                                {{ $escort->poitrine ? $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
+                            </span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/mobilite.svg') }}"
                                 alt="{{ __('escort_profile.mobility_icon') }}" />
-                            <span>{{ __('escort_profile.mobility') }} : {{ $escort->mobilite ? $escort->mobilite->getTranslation('name', app()->getLocale()) : '-' }}</span>
+                            <span>{{ __('escort_profile.mobility') }} :
+                                {{ $escort->mobilite ? $escort->mobilite->getTranslation('name', app()->getLocale()) : '-' }}</span>
                         </div>
 
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/mensuration.svg') }}"
                                 alt="{{ __('escort_profile.measurements_icon') }}" />
-                            <span>{{ __('escort_profile.measurements') }} : {{ $escort->mensuration ? $escort->mensuration->getTranslation('name', app()->getLocale()) : '-' }}</span>
+                            <span>{{ __('escort_profile.measurements') }} :
+                                {{ $escort->mensuration ? $escort->mensuration->getTranslation('name', app()->getLocale()) : '-' }}</span>
                         </div>
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/taill_poit.svg') }}"
                                 alt="{{ __('escort_profile.bust_size_icon') }}" />
                             <span>
-                                {{ __('escort_profile.bust_size') }} : 
+                                {{ __('escort_profile.bust_size') }} :
                                 {{ $escort->poitrine ? __('escort_profile.cup') . ' ' . $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
                             </span>
                         </div>
@@ -288,7 +296,7 @@
                 <div class="flex flex-wrap items-center gap-2">
                     @foreach ($escort['service'] as $service)
                         <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
-                            {{ $service['nom'][app()->getLocale()] ?? $service['nom']['fr'] ?? '-' }}
+                            {{ $service['nom'][app()->getLocale()] ?? ($service['nom']['fr'] ?? '-') }}
                         </span>
                     @endforeach
                 </div>

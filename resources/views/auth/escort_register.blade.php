@@ -46,7 +46,8 @@
                             placeholder=" " value="{{ old('genre_id') }}" autocomplete="genre_id" required>
                             <option>---</option>
                             @foreach ($genres as $genre)
-                                <option value="{{ $genre->id }}">{{ $genre->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $genre->id }}">
+                                    {{ $genre->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('genre')

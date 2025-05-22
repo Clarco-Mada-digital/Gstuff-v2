@@ -100,7 +100,7 @@
                     // Étape 2 : Effectuer la recherche avec la bounding box
                     fetch(
                             `https://nominatim.openstreetmap.org/search?format=json&q=${query}&bounded=1&viewbox=${viewBox}`
-                            )
+                        )
                         .then(response => response.json())
                         .then(results => {
                             var suggestions = document.getElementById('suggestions');

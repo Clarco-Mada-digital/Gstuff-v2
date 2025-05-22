@@ -19,7 +19,7 @@
         this.showAutonomiserModal = false;
         this.selectedEscorte = null;
     }
-}" class="w-full flex flex-col justify-center items-center">
+}" class="flex w-full flex-col items-center justify-center">
     <button id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom"
         class="text-green-gs hover:bg-green-gs flex w-[90%] cursor-pointer items-center justify-between border-b border-gray-400 p-2 text-left font-bold hover:text-white"
         type="button">
@@ -33,7 +33,7 @@
 
     <!-- Dropdown menu -->
     <div id="dropdownSearch"
-        class="md:w-xl z-10 hidden rounded-lg bg-white shadow-sm w-[90%] sm:w-[80%] lg:w-96 dark:bg-gray-700">
+        class="md:w-xl z-10 hidden w-[90%] rounded-lg bg-white shadow-sm sm:w-[80%] lg:w-96 dark:bg-gray-700">
         <div class="p-3">
             <label for="input-group-search" class="sr-only">Search</label>
             <div class="relative">

@@ -452,7 +452,7 @@
                     // Add event listener for input changes
                     this.wysiwyg.contentDocument.body.addEventListener('input', () => {
                         this.content = this.wysiwyg.contentDocument.body
-                        .innerHTML; // Update content with the current HTML
+                            .innerHTML; // Update content with the current HTML
                     });
                 },
                 format: function(cmd, param) {

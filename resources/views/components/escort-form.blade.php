@@ -48,7 +48,8 @@
                             class="@error('genre_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($genres as $genre)
-                                <option value="{{ $genre->id }}">{{ $genre->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $genre->id }}">
+                                    {{ $genre->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('genre_id')
@@ -157,7 +158,8 @@
                             class="@error('pratique_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($pratiquesSexuelles as $pratique)
-                                <option value="{{ $pratique->id }}">{{ $pratique->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $pratique->id }}">
+                                    {{ $pratique->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('pratique_sexuelle_id')
@@ -173,7 +175,8 @@
                             class="@error('orientation_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($orientationSexuelles as $oriantation)
-                                <option value="{{ $oriantation->id }}">{{ $oriantation->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $oriantation->id }}">
+                                    {{ $oriantation->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('orientation_sexuelle_id')
@@ -202,7 +205,8 @@
                             class="@error('pubis_type_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($pubis as $pubi)
-                                <option value="{{ $pubi->id }}">{{ $pubi->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $pubi->id }}">
+                                    {{ $pubi->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('pubis_type_id')
@@ -234,7 +238,8 @@
                             class="@error('couleur_yeux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursYeux as $yeux)
-                                <option value="{{ $yeux->id }}">{{ $yeux->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $yeux->id }}">
+                                    {{ $yeux->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('couleur_yeux_id')
@@ -250,7 +255,8 @@
                             class="@error('couleur_cheveux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursCheveux as $cheveux)
-                                <option value="{{ $cheveux->id }}">{{ $cheveux->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $cheveux->id }}">
+                                    {{ $cheveux->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('couleur_cheveux_id')
@@ -266,7 +272,8 @@
                             class="@error('mensuration_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($mensurations as $mensuration)
-                                <option value="{{ $mensuration->id }}">{{ $mensuration->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $mensuration->id }}">
+                                    {{ $mensuration->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('mensuration_id')
@@ -282,7 +289,8 @@
                             class="@error('poitrine_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($poitrines as $poitrine)
-                                <option value="{{ $poitrine->id }}">{{ $poitrine->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $poitrine->id }}">
+                                    {{ $poitrine->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('poitrine_id')
@@ -291,7 +299,7 @@
                         @enderror
                     </div>
 
-                  
+
 
                     <div class="mb-1">
                         <label
@@ -316,7 +324,8 @@
                             class="@error('tatoo_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($tatouages as $tatou)
-                                <option value="{{ $tatou->id }}">{{ $tatou->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $tatou->id }}">
+                                    {{ $tatou->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('tatoo_id')
@@ -332,7 +341,8 @@
                             class="@error('mobilite_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden value=""> -- </option>
                             @foreach ($mobilites as $mobilite)
-                                <option value="{{ $mobilite->id }}">{{ $mobilite->getTranslation('name', app()->getLocale()) }}</option>
+                                <option value="{{ $mobilite->id }}">
+                                    {{ $mobilite->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
                         </select>
                         @error('mobilite_id')
@@ -348,7 +358,8 @@
                             class="@error('tarif') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
                             <option hidden> -- </option>
                             @foreach ($tarifs as $tarif)
-                                <option value="{{ $tarif }}">{{ __('profile.price_from', ['price' => $tarif]) }}</option>
+                                <option value="{{ $tarif }}">
+                                    {{ __('profile.price_from', ['price' => $tarif]) }}</option>
                             @endforeach
                         </select>
                         @error('tarif')
@@ -410,7 +421,7 @@
 <script>
     // Données des villes disponibles (à générer côté serveur)
     const availableVilles = @json($villes);
-   
+
     function filterVilles() {
 
         const selectedCanton = document.getElementById('cantonselect').value;
@@ -458,9 +469,9 @@
     function submitForm() {
         const form = document.getElementById('createEscorteForm');
         const formData = new FormData(form);
-        
-       console.log("formData:", Object.fromEntries(formData));
-       
+
+        console.log("formData:", Object.fromEntries(formData));
+
 
         fetch("{{ route('createEscorteBySalon') }}", {
                 method: 'POST',
