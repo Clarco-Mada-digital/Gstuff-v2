@@ -94,15 +94,17 @@
                                 <span
                                     class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
                                     km</span>
-                                <input type="range" wire:model.live="maxDistanceSelected" min="{{ $minDistance }}"
-                                    max="{{ $maxAvailableDistance }}" step="1"
-                                    class="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-gray-200">
+                                <input type="range"
+                                    wire:model.live="maxDistanceSelected"
+                                    min="{{ $minDistance }}"
+                                    max="{{ $maxAvailableDistance }}"
+                                    step="1"
+                                    class="accent-green-600 h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-gray-200">
                                 <span
                                     class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
                                     km</span>
 
                             </div>
-
 
 
 
