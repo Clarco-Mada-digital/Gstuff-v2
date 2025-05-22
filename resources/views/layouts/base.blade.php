@@ -780,7 +780,7 @@
                 event.preventDefault(); // Empêche la navigation
                 console.log("Navigation vers /livewire/update bloquée.");
             }
-            });
+        });
 
     </script>
     @yield('extraScripts')

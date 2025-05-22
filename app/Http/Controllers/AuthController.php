@@ -422,19 +422,43 @@ public function createEscorteBySalon(Request $request)
 
 
 
-public function showGallery()
-{
-    return view('gallery', [
-        'usersWithStories' => Story::with('user')
-        ->where('expires_at', '>', now())
-        ->get()
-        ->groupBy('user_id')
-        ->collect(),
-        'usersWithMedia' => User::has('galleries')->get(),
-        'publicGallery' => Gallery::where('is_public', true)->with('user')->latest()->get(),
-        'privateGallery' => Gallery::where('is_public', false)->with('user')->latest()->get(),
-    ]);
-}
+    public function showGallery()
+    {
+        return view('gallery', [
+            'usersWithStories' => Story::with('user')
+                ->where('expires_at', '>', now())
+                ->get()
+                ->groupBy('user_id'),
+                
+            'usersWithMedia' => User::has('galleries')->get(),
+            
+            'publicGallery' => Gallery::where('is_public', true)
+                ->with('user')
+                ->latest()
+                ->paginate(12),
+                
+            'privateGallery' => Gallery::where('is_public', false)
+                ->with('user')
+                ->latest()
+                ->paginate(12),
+        ]);
+    }
+
+    public function apiPublicGallery()
+    {
+        return Gallery::where('is_public', true)
+            ->with('user')
+            ->latest()
+            ->paginate(12);
+    }
+
+    public function apiPrivateGallery()
+    {
+        return Gallery::where('is_public', false)
+            ->with('user')
+            ->latest()
+            ->paginate(12);
+    }
 
 
 }
