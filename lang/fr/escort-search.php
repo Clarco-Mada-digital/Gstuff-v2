@@ -35,4 +35,7 @@ return [
     'height' => 'Tailles',
     'rates' => 'Tarifs',
     'close' => 'Fermer',
+    'filter_by_region' => 'Filtrer par région',
+    'filter_by_distance' => 'Filtrer par distance',
+    'distance_km' => 'Distance (km)',
 ];

@@ -36,4 +36,7 @@ return [
     'height' => 'Altura',
     'rates' => 'Tarifas',
     'close' => 'Cerrar',
+    'filter_by_region' => 'Filtrar por región',
+    'filter_by_distance' => 'Filtrar por distancia',
+    'distance_km' => 'Distancia (km)',
 ];

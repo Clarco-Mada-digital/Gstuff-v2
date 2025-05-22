@@ -36,4 +36,7 @@ return [
     'height' => 'Größe',
     'rates' => 'Preise',
     'close' => 'Schließen',
+    'filter_by_region' => 'Nach Region filtern',
+    'filter_by_distance' => 'Nach Entfernung filtern',
+    'distance_km' => 'Entfernung (km)',
 ];

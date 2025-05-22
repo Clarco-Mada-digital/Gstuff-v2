@@ -13,4 +13,7 @@ return [
     'results_no_aroud' => 'Results',
     'km' => 'km',
     'result' => 'Result',
+    'filter_by_region' => 'Filter by region',
+    'filter_by_distance' => 'Filter by distance',
+    'distance_km' => 'Distance (km)',
 ];

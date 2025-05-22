@@ -35,4 +35,7 @@ return [
     'height' => 'Height',
     'rates' => 'Rates',
     'close' => 'Close',
+    'filter_by_region' => 'Filter by region',
+    'filter_by_distance' => 'Filter by distance',
+    'distance_km' => 'Distance (km)',
 ];

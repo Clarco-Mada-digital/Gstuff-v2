@@ -57,7 +57,7 @@
             </div>
             <button wire:click="approximiteFunc()"
                 class="font-dm-serif hover:bg-green-gs group mt-5 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white">
-                {{ $approximite ? 'Filtrer par région' : 'Filtrer par distance' }}
+                {{ $approximite ? __('salon-search.filter_by_region') : __('salon-search.filter_by_distance') }}
             </button>
             <button wire:click="resetFilter"
                 class="font-dm-serif hover:bg-green-gs group my-2 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white">
@@ -73,7 +73,7 @@
                 <div class="space-y-4">
                     <div>
                         <div class="mb-2 flex items-center justify-between">
-                            <label class="block text-sm font-medium text-gray-700">Distance (km)</label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('salon-search.distance_km') }}</label>
                             <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
                                 <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-green-600"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -115,7 +115,7 @@
 
             <button wire:click="approximiteFunc()"
                 class="font-dm-serif hover:bg-green-gs border-green-gs group mx-auto mt-6 flex w-full max-w-xs items-center justify-center gap-2 rounded-lg border-2 bg-white px-6 py-3 text-gray-700 transition-all duration-300 hover:border-transparent hover:text-white hover:shadow-md">
-                <span class="font-medium">{{ $approximite ? 'Filtrer par région' : 'Filtrer par distance' }}</span>
+                <span class="font-medium">{{ $approximite ? __('salon-search.filter_by_region') : __('salon-search.filter_by_distance') }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

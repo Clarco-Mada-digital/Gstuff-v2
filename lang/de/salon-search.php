@@ -14,4 +14,7 @@ return [
 
     'km' => 'km',
     'result' => 'Ergebnis',
+    'filter_by_region' => 'Nach Region filtern',
+    'filter_by_distance' => 'Nach Entfernung filtern',
+    'distance_km' => 'Entfernung (km)',
 ];
