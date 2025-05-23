@@ -28,6 +28,7 @@ use App\Http\Controllers\DistanceMaxController;
 use App\Http\Controllers\ProfileVisibilityController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PratiqueSexuelleController;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\App;
 use App\Models\Genre;
 
@@ -45,6 +46,10 @@ use App\Models\Genre;
 Route::get('livewire/update', function(){
     return redirect()->back();
 })->middleware(['web'])->name('livewire.update');
+
+Route::get('search', function(){
+    return view('search_page');
+})->middleware(['web'])->name('search');
 
 // Auth section
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
@@ -146,7 +151,9 @@ Route::delete('/notifications/{iduser}', [NotificationController::class, 'destro
 
 
 // Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
-Route::get('/gallery', [AuthController::class, 'showGallery'])->name('gallery.show');
+Route::get('/galerie', [AuthController::class, 'showGallery'])->name('gallery.show');
+Route::get('/api/gallery/public', [AuthController::class, 'apiPublicGallery']);
+Route::get('/api/gallery/private', [AuthController::class, 'apiPrivateGallery']);
 
 
 

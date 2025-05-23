@@ -113,10 +113,9 @@
                     </svg>
                     <span class="sr-only">Search</span>
                 </button>
-                <div data-modal-target="search-modal" data-modal-toggle="search-modal" class="relative hidden md:block">
-                    <input type="text" id="search-navbar"
-                        class="focus:ring-green-gs block w-full rounded-xl border border-gray-300 bg-gray-100 p-2 pe-10 text-sm text-gray-950 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder="{{ __('header.search_placeholder') }}">
+                <a href="{{ route('search') }}" class="relative hidden md:block">
+                    <div id="search-navbar"
+                        class="focus:ring-green-gs block w-full rounded-xl border border-gray-300 bg-gray-100 p-2 pe-10 text-sm text-gray-950 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">{{ __('header.search_placeholder') }}</div>
                     <div class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +125,7 @@
                         </svg>
                         <span class="sr-only">Search icon</span>
                     </div>
-                </div>
+                </a>
             </div>
 
             @guest

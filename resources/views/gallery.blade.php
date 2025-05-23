@@ -1,0 +1,331 @@
+@extends('layouts.base')
+
+@section('pageTitle', 'Galerie')
+
+@section('content')
+    <section class="relative mb-10 overflow-hidden rounded-xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 text-white shadow-xl">
+        <!-- Votre en-tête existant reste inchangé -->
+        <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
+            <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">Explorez. Partagez. Ressentez 📸</h1>
+            <p class="mx-auto max-w-2xl text-lg font-light sm:text-xl">
+                Vos moments les plus précieux prennent vie ici – entre <strong>stories instantanées</strong> et
+                <strong>galeries captivantes</strong>. Plongez dans l'univers des émotions partagées.
+            </p>
+        </div>
+
+        <!-- Illustration décorative -->
+        <div class="pointer-events-none absolute bottom-0 right-0 opacity-20">
+            <svg viewBox="0 0 200 200" class="h-64 w-64 translate-x-12 translate-y-12 transform">
+                <path fill="white"
+                    d="M40.6,-71.1C51.1,-66.2,58.8,-51.5,64.3,-37.1C69.7,-22.6,73,-8.3,73.5,6.2C73.9,20.7,71.4,35.3,63.8,47.8C56.2,60.3,43.5,70.7,29.3,73.6C15.2,76.5,-0.5,71.8,-16.4,66.6C-32.3,61.3,-48.5,55.4,-59.6,44.1C-70.7,32.8,-76.8,16.4,-76.3,0.3C-75.8,-15.9,-68.6,-31.8,-58.3,-44.3C-48.1,-56.8,-34.8,-65.9,-20.2,-69.8C-5.6,-73.7,10.2,-72.3,24.6,-71.2C39,-70.1,52.1,-69.9,40.6,-71.1Z"
+                    transform="translate(100 100)" />
+            </svg>
+        </div>
+    </section>
+
+    <div class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8" 
+         x-data="galleryApp()">
+        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 md:flex-row">
+            <!-- MENU LATERAL -->
+            <aside class="space-y-2 md:w-1/5">
+                <!-- MOBILE TOGGLE -->
+                <div class="mb-4 md:hidden">
+                    <button @click="openMenu = !openMenu"
+                        class="flex w-full items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-gray-800">
+                        <span>📁 Sections</span>
+                        <svg :class="{ 'rotate-180': openMenu }" class="h-4 w-4 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="space-y-2 md:block">
+                    <!-- Tab Stories -->
+                    <button @click="selectedTab = 'stories'; openMenu = false"
+                        :class="selectedTab === 'stories' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-700'"
+                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-pink-100">
+                        📸 Stories
+                        <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
+                            x-text="{{ count($usersWithStories) }}"></span>
+                    </button>
+
+                    <!-- Tab Galerie publique -->
+                    <button @click="selectedTab = 'public'; openMenu = false"
+                        :class="selectedTab === 'public' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
+                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-blue-100">
+                        🌍 Publique
+                        <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
+                            x-text="{{ count($publicGallery) }}"></span>
+                    </button>
+
+                    <!-- Tab Galerie privée -->
+                    <button @click="selectedTab = 'private'; openMenu = false"
+                        :class="selectedTab === 'private' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700'"
+                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-gray-200">
+                        🔐 Privée
+                        <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
+                            x-text="{{ count($privateGallery) }}"></span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- CONTENU PRINCIPAL -->
+            <div class="flex-1 space-y-10">
+                <!-- Stories -->
+                <section x-show="selectedTab === 'stories'" x-transition>
+                    <h2 class="mb-6 text-3xl font-semibold text-gray-800">📸 Stories des utilisateurs</h2>
+                    <div class="flex space-x-4 overflow-x-auto pb-2">
+                        @foreach ($usersWithStories as $user)
+                            <div class="flex-shrink-0 text-center">
+                                <div
+                                    class="mx-auto h-20 w-20 overflow-hidden rounded-full border-4 border-pink-500 shadow-md">
+                                    <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"
+                                        class="h-full w-full object-cover">
+                                </div>
+                                <span class="mt-2 block truncate text-sm text-gray-700">{{ $user->name }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+                <!-- Galerie Publique -->
+                <section x-show="selectedTab === 'public'" x-transition>
+                    <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <h2 class="text-3xl font-semibold text-gray-800">🌍 Galerie Publique</h2>
+                        
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
+                            <!-- Filtre utilisateur amélioré -->
+                            <div class="relative w-full md:w-64">
+                                <div class="relative">
+                                    <div @click="userFilter.open = !userFilter.open"
+                                         class="flex items-center justify-between p-2 border border-gray-300 rounded-md cursor-pointer bg-white">
+                                        <div class="flex flex-wrap gap-1 items-center">
+                                            <template x-if="userFilter.selectedUsers.length === 0">
+                                                <span class="text-gray-400">Tous les utilisateurs</span>
+                                            </template>
+                                            <template x-for="userId in userFilter.selectedUsers" :key="userId">
+                                                <span class="flex items-center bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                                                    <span x-text="userFilter.getUserName(userId)"></span>
+                                                    <button @click.stop="userFilter.removeUser(userId)"
+                                                            class="ml-1 text-blue-500 hover:text-blue-700">
+                                                        ×
+                                                    </button>
+                                                </span>
+                                            </template>
+                                        </div>
+                                        <svg class="h-5 w-5 text-gray-400 transition-transform duration-200" 
+                                             :class="{ 'rotate-180': userFilter.open }" 
+                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    </div>
+
+                                    <div x-show="userFilter.open" @click.away="userFilter.open = false"
+                                         class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border max-h-60 overflow-auto">
+                                        <div class="sticky top-0 bg-white border-b p-2">
+                                            <input x-model="userFilter.search" @input="userFilter.filterUsers()"
+                                                   @click.stop placeholder="Rechercher..."
+                                                   class="w-full p-1 border rounded text-sm">
+                                        </div>
+                                        <div @click="userFilter.toggleAllUsers()"
+                                             class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                                             :class="{ 'bg-blue-50 font-medium': userFilter.selectedUsers.length === 0 }">
+                                            <input type="checkbox" class="mr-2" 
+                                                   :checked="userFilter.selectedUsers.length === 0" readonly>
+                                            <span>Tous les utilisateurs</span>
+                                        </div>
+                                        <template x-for="user in userFilter.filteredUsers" :key="user.id">
+                                            <div @click="userFilter.toggleUser(user.id)"
+                                                 class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                                                 :class="{ 'bg-blue-50 font-medium': userFilter.selectedUsers.includes(user.id) }">
+                                                <input type="checkbox" class="mr-2" 
+                                                       :checked="userFilter.selectedUsers.includes(user.id)" readonly>
+                                                <span x-text="user.prenom"></span>
+                                            </div>
+                                        </template>
+                                        <div x-show="userFilter.search && userFilter.filteredUsers.length === 0"
+                                             class="px-3 py-2 text-gray-500 text-sm">
+                                            Aucun utilisateur trouvé
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Filtre par type de média -->
+                            <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
+                                <option value="">Tous types</option>
+                                <option value="image">Images</option>
+                                <option value="video">Vidéos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                        @foreach ($publicGallery as $media)
+                            <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}')"
+                                class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                @if ($media->type === 'image')
+                                    <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
+                                        src="{{ asset('storage/' . $media->path) }}" 
+                                        class="h-60 w-full object-cover" alt="media">
+                                @elseif($media->type === 'video')
+                                    <div class="relative">
+                                        <video @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')" 
+                                            muted autoplay loop
+                                            class="pointer-events-none h-60 w-full object-cover brightness-75">
+                                            <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white">
+                                            ▶
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="flex items-center justify-between px-3">
+                                    <span class="my-2">{{ $media->user->prenom }}</span>
+                                    <a href="{{ route('show_escort', $media->user->id) }}"
+                                    class="my-2 ms-3" title="voir le profile">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- Pagination -->
+                    <div class="mt-6">
+                        {{ $publicGallery->links() }}
+                    </div>
+                </section>
+
+                <!-- Galerie Privée -->
+                <section x-show="selectedTab === 'private'" x-transition>
+                    <h2 class="mb-4 text-3xl font-semibold text-gray-800">🔐 Galerie Privée</h2>
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                        @foreach ($privateGallery as $media)
+                            @auth
+                                <div class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                    @if ($media->type === 'image')
+                                        <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
+                                             src="{{ asset('storage/' . $media->path) }}" 
+                                             class="h-60 w-full object-cover" alt="media">
+                                    @elseif($media->type === 'video')
+                                        <div class="relative">
+                                            <video @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')" 
+                                                   muted class="pointer-events-none h-60 w-full object-cover brightness-75">
+                                                <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
+                                            </video>
+                                            <div class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white">
+                                                ▶
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endauth
+                            @guest
+                                <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
+                                    @if ($media->type === 'image')
+                                        <img class="blur-md grayscale brightness-75 h-60 w-full object-cover transition duration-300"
+                                            src="{{ asset('storage/' . $media->path) }}" alt="Privé">
+                                    @elseif ($media->type === 'video')
+                                        <div class="blur-md grayscale brightness-75">
+                                            <video class="h-60 w-full object-cover transition duration-300">
+                                                <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
+                                                Votre navigateur ne supporte pas la vidéo.
+                                            </video>
+                                        </div>
+                                    @endif
+
+                                    <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" 
+                                            type="button" class="absolute inset-0 flex items-center justify-center bg-black/50 px-2 text-center text-sm font-semibold text-white">
+                                        Connectez-vous pour voir ce contenu
+                                    </button>
+                                </div>
+                            @endguest
+                        @endforeach
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('extraScripts')
+<script>
+function galleryApp() {
+    return {
+        loggedIn: @json(auth()->check()),        
+        openMenu: false,
+        mediaTypeFilter: '',
+        
+        userFilter: {
+            allUsers: @json($usersWithMedia->map(function($user) {
+                return ['id' => $user->id, 'prenom' => $user->prenom];
+            })),
+            filteredUsers: [],
+            selectedUsers: [],
+            search: '',
+            open: false,
+            
+            init() {
+                this.$watch('currentPage', () => this.loadPage());
+                this.$watch(['selectedUsers', 'selectedType', 'searchQuery'], 
+                    () => this.applyFilters());
+            },
+            
+            filterUsers() {
+                if (!this.search) {
+                    this.filteredUsers = [...this.allUsers];
+                    return;
+                }
+                
+                const searchTerm = this.search.toLowerCase().trim();
+                this.filteredUsers = this.allUsers.filter(user => 
+                    user.prenom.toLowerCase().includes(searchTerm)
+                );
+            },
+            
+            toggleUser(userId) {
+                if (this.selectedUsers.includes(userId)) {
+                    this.selectedUsers = this.selectedUsers.filter(id => id !== userId);
+                } else {
+                    this.selectedUsers = [...this.selectedUsers, userId];
+                }
+            },
+            
+            removeUser(userId) {
+                this.selectedUsers = this.selectedUsers.filter(id => id !== userId);
+            },
+            
+            toggleAllUsers() {
+                this.selectedUsers = [];
+            },
+            
+            getUserName(userId) {
+                const user = this.allUsers.find(u => u.id === userId);
+                return user ? user.prenom : '';
+            }
+        },
+        
+        shouldShowMedia(userId, mediaType) {
+            // Conversion robuste des IDs en strings
+            const selectedUsersStrings = this.userFilter.selectedUsers.map(String);
+            const userIdString = String(userId);
+
+            const userMatch = selectedUsersStrings.length === 0 || 
+                            selectedUsersStrings.includes(userIdString);
+            
+            const typeMatch = !this.mediaTypeFilter || this.mediaTypeFilter === mediaType;
+
+            return userMatch && typeMatch;
+        },
+        
+        openMedia(src, type) {
+            this.$dispatch('media-open', { src, type });
+        },
+    }
+}
+</script>
+@endsection

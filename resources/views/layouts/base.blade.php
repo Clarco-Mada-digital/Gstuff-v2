@@ -761,18 +761,27 @@
             }, 5000);
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const currentUrl = window.location.href;
+        window.addEventListener('fetch', (event) => {
+            if (event.request.method === 'GET' && event.request.url.endsWith('/livewire/update')) {
+                event.respondWith(new Response(null, { status: 204 })); // Répond avec un statut 204 No Content pour bloquer la requête
+                event.preventDefault(); // Empêche la propagation de l'événement
+                console.log("Requête GET vers /livewire/update bloquée.");
+            }
+            });
 
-            if (currentUrl.includes("/livewire/update")) {
-                // Supprimer "/livewire/update" de l'URL
-                const cleanedUrl = currentUrl.replace("/livewire/update", "");
+            // Pour les formulaires qui pourraient utiliser GET
+            document.addEventListener('submit', (event) => {
+            if (event.target.method === 'get' && event.target.action.endsWith('/livewire/update')) {
+                event.preventDefault(); // Empêche la soumission du formulaire
+                console.log("Soumission de formulaire GET vers /livewire/update bloquée.");
+            }
+            });
 
-                // Remplace l'URL dans l'historique
-                window.history.replaceState({}, document.title, cleanedUrl);
-
-                // Recharge la page avec la nouvelle URL
-                //window.location.reload();
+            // Pour les changements de localisation (liens <a>)
+            document.addEventListener('click', (event) => {
+            if (event.target.tagName === 'A' && event.target.href.endsWith('/livewire/update')) {
+                event.preventDefault(); // Empêche la navigation
+                console.log("Navigation vers /livewire/update bloquée.");
             }
         });
     </script>

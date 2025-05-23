@@ -9,6 +9,8 @@
         </div>
     </div>
 
+    <div class="flex w-[60%] flex-col items-center justify-center gap-3 mt-10">
+        
     {{-- Le champ de recherche --}}
     <form wire:submit.prevent="search" class="w-full" method="POST">
         @csrf
@@ -18,7 +20,7 @@
     </form>
     {{-- Les selects --}}
     <form wire:submit.prevent="selectedCanton" class="w-full">
-        <div class="mb-3 flex w-full flex-col items-center justify-center gap-2 text-sm md:flex-row xl:text-base">
+        <div class="mb-3 flex w-full flex-col items-center justify-center gap-2 text-sm md:flex-row xl:text-base ">
             <select x-model="selectedCanton"
                 @change="$wire.set('selectedCanton', selectedCanton); villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)"
                 id="small"
@@ -50,6 +52,8 @@
             </select>
         </div>
     </form>
+    </div>
+
     {{-- Les checkboxes --}}
     <form wire:submit.prevent="selectedCategories" class="flex w-full flex-col items-center justify-center gap-2">
         <div class="mb-3 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
@@ -85,7 +89,7 @@
             class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
             style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent"
             wire:key="users-list">
-            @foreach ($users as $user)
+            @foreach ($paginatedUsers as $user)
                 {{-- @if ($user->profile_type == 'escorte') --}}
                 <livewire:escort-card name="{{ $user->prenom ?? $user->nom_salon }}"
                     canton="{{ $user->canton['nom'] ?? 'Inconue' }}" ville="{{ $user->ville['nom'] ?? 'Inconue' }}"

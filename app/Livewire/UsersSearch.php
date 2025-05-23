@@ -3,15 +3,19 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\Ville;
 use App\Models\Genre;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 
 class UsersSearch extends Component
 {
+    use WithPagination; // Ajoutez ce trait
+    
     public string $search = '';
     public string $selectedCanton = '';
     public string $selectedVille = '';
@@ -23,46 +27,73 @@ class UsersSearch extends Component
     public $villes = '';
     public $users;
     public $genres;
+    public $perPage = 8; // Nombre d'éléments par page
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'selectedCanton' => ['except' => ''],
+        'selectedVille' => ['except' => ''],
+        'selectedGenre' => ['except' => ''],
+        'selectedCategories' => ['except' => []],
+        'page' => ['except' => 1]
+    ];
 
     public function mount()
     {
         $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
+        $this->cantons = Canton::all();
+        $this->villes = collect([]);
+        $this->salonCategories = Categorie::where('type', 'salon')->get();
+        $this->escortCategories = Categorie::where('type', 'escort')->get();
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage(); // Réinitialise la pagination quand la recherche change
+    }
+
+
+    public function updated($property)
+    {
+        // Réinitialise la pagination quand un filtre change
+        if (in_array($property, ['search', 'selectedCanton', 'selectedVille', 'selectedGenre', 'selectedCategories'])) {
+            $this->resetPage();
+        }
+    }
+
+    public function updatedSelectedCanton($value)
+    {
+        $this->villes = $value ? Ville::where('canton_id', $value)->get() : collect([]);
+        $this->selectedVille = '';
     }
 
     public function handleModalClosed()
     {
-        $this->search = '';
-        $this->selectedCanton = '';
-        $this->selectedVille = '';
-        $this->selectedGenre = '';
-        $this->selectedCategories = [];
-        $this->escortCategories = [];
-        $this->salonCategories = [];
-        $this->cantons = [];
-        $this->villes = [];
+        $this->resetExcept(['cantons', 'villes', 'escortCategories', 'salonCategories']);
+        $this->resetPage();
     }
 
-    private function getEscorts($escorts)
+    private function getVisibleUsers($users)
     {
-      $esc = [];
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? null;
 
-      // Détection du pays via IP
-      $position = Location::get(request()->ip());
-      $viewerCountry = $position?->countryCode ?? null;
-
-      // dd($viewerCountry);
-
-      foreach ($escorts as $escort) {
-          if ($escort->isProfileVisibleTo($viewerCountry)) {
-              $esc[] = $escort;
-          }
-      }
-
-      return $esc;
+        return $users->filter(function ($user) use ($viewerCountry) {
+            return $user->isProfileVisibleTo($viewerCountry);
+        });
     }
 
     public function render()
     {
+        $cacheKey = md5(serialize([
+            $this->search,
+            $this->selectedCanton,
+            $this->selectedVille,
+            $this->selectedGenre,
+            $this->selectedCategories,
+            request()->ip()
+        ]));
+
         $query = User::query()->where(function ($q) {
             $q->where('profile_type', 'escorte')
               ->orWhere('profile_type', 'salon');
@@ -73,9 +104,7 @@ class UsersSearch extends Component
         $this->villes = Ville::all();
         $this->genres = Genre::all();
 
-        // Recherche principale (OR sur nom, prénom et salon)
         if ($this->search) {
-          // dd($this->search);
             $query->where(function ($q) {
                 $q->where('pseudo', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('prenom', 'LIKE', '%' . $this->search . '%')
@@ -84,12 +113,8 @@ class UsersSearch extends Component
             });
         }
 
-        // Filtres supplémentaires
         if ($this->selectedCanton) {
             $query->where('canton', $this->selectedCanton);
-        }
-        if ($this->selectedCanton == '') {
-            $this->selectedVille = '';
         }
 
         if ($this->selectedVille) {
@@ -100,23 +125,44 @@ class UsersSearch extends Component
             $query->where('genre_id', $this->selectedGenre);
         }
 
-        if ($this->selectedCategories){
-          $query->where(function ($q) {
-            foreach($this->selectedCategories as $categorie){
-              $q->orwhere('categorie', 'LIKE', '%'.$categorie.'%');
-            }
-          });
+        if (!empty($this->selectedCategories)) {
+            $query->whereIn('categorie', $this->selectedCategories);
         }
 
-        $this->users = $query->get();
-        foreach ($this->users as $user) {
-          $user['categorie'] = Categorie::find($user->categorie);
-          $user['canton'] = Canton::find($user->canton);
-          $user['ville'] = Ville::find($user->ville);
-        }
+        $filteredUsers = $query->get();
 
-        $this->users = $this->getEscorts($this->users);
+        $filteredUsers->transform(function ($user) {
+            $user->categorie = Categorie::find($user->categorie);
+            $user->canton = Canton::find($user->canton);
+            $user->ville = Ville::find($user->ville);
+            return $user;
+        });
 
-        return view('livewire.users-search');
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? null;
+        
+        $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
+            return $user->isProfileVisibleTo($viewerCountry);
+        });
+
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = $this->perPage;
+        $results = $visibleUsers->slice(($page - 1) * $perPage, $perPage)->values();
+        // dd('$results', $results);
+        $paginatedUsers = new LengthAwarePaginator(
+            $results,
+            $visibleUsers->count(),
+            $perPage,
+            $page,
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $this->queryString
+            ]
+        );
+        // dd('$paginatedUsers', $paginatedUsers);
+        
+        return view('livewire.users-search', [
+            'paginatedUsers' => $paginatedUsers
+        ]);
     }
 }
