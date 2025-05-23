@@ -30,7 +30,7 @@
                     <select x-model="filters.category" class="w-full rounded-md border-gray-300 shadow-sm">
                         <option value="">{{ __('article_management.all') }}</option>
                         <template x-for="category in categories" :key="category.id">
-                            <option :value="category.id" x-text="category.name"></option>
+                            <option :value="category.id" x-text="category.name['{{ app()->getLocale() }}']"></option>
                         </template>
                     </select>
                 </div>
@@ -80,7 +80,7 @@
                     <template x-for="article in filteredArticles" :key="article.id">
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-medium text-gray-900" x-text="article.title"></div>
+                                <div class="font-medium text-gray-900" x-text="article.title['{{ app()->getLocale() }}']"></div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
@@ -93,7 +93,7 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <span
                                     class="mb-1 mr-1 inline-block rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800"
-                                    x-text="article.category.name"></span>
+                                    x-text="article.category.name['{{ app()->getLocale() }}']"></span>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
                                 <template x-for="tag in article.tags" :key="tag.id">

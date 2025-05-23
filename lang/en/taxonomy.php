@@ -21,6 +21,7 @@ return [
     'save_button' => 'Save',
     'category_name' => 'Name',
     'category_description' => 'Description',
+    'tag_name' => 'Tag Name',
     'edit_category' => 'Edit Category',
     'create_category' => 'Create Category',
     'edit_tag' => 'Edit Tag',

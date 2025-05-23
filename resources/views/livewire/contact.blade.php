@@ -5,24 +5,6 @@
         </div>
     @endif
 
-    {{-- <form  class="space-y-4">
-        <input type="text"  placeholder="Votre nom"
-            class="w-full border rounded px-4 py-2 ">
-        @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
-        <input type="email"  placeholder="Votre email"
-            class="w-full border rounded px-4 py-2 ">
-        @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
-        <textarea placeholder="Votre message"
-            class="w-full border rounded px-4 py-2 h-32 "></textarea>
-        @error('message') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
-        <button type="submit"
-            class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded">
-            Envoyer
-        </button>
-    </form> --}}
     <form id="conseilForm" wire:submit.prevent="send" method="POST" class="flex w-full flex-col gap-3">
         <div class="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
             <div class="flex w-full flex-col gap-1">

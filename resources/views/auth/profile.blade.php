@@ -415,6 +415,8 @@
                         <div x-data="{ cantons: {{ $cantons }}, selectedCanton: {{ $user->canton?->id ?? 1 }}, villes: {{ $villes }}, availableVilles: {{ $villes }} }" x-show="currentStep === 0">
                             <h2 class="mb-4 text-lg font-semibold">{{ __('profile.personal_information') }}</h2>
                             <div class="mb-4">
+                                <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
+
                                 <label class="block text-sm font-medium text-gray-700">{{ __('profile.genre') }}</label>
                                 <div class="flex">
                                     <div id="states-button" data-dropdown-toggle="dropdown-states"

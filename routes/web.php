@@ -204,11 +204,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::put('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateCategory'])->name('categories.update');
     Route::delete('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
     Route::post('categories/{category}/toggle', [\App\Http\Controllers\Admin\TaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
+    Route::get('fetchCategories', [\App\Http\Controllers\Admin\TaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
+    
     
     // Tags
     Route::post('tags', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeTag'])->name('tags.store');
     Route::put('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateTag'])->name('tags.update');
     Route::delete('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyTag'])->name('tags.destroy');
+    Route::get('fetchTags', [\App\Http\Controllers\Admin\TaxonomyController::class, 'fetchTags'])->name('tags.fetch');
     
     // Recherche taxonomy
     Route::get('taxonomy/search', [\App\Http\Controllers\Admin\TaxonomyController::class, 'search'])->name('taxonomy.search');

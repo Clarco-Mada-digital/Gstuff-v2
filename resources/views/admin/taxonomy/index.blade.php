@@ -49,7 +49,7 @@
                     <template x-for="category in categories" :key="category.id">
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-medium text-gray-900" x-text="category.name"></div>
+                                <div class="font-medium text-gray-900" x-text="category.name['{{ app()->getLocale() }}']"></div>
                                 <div class="text-sm text-gray-500" x-text="category.slug"></div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
@@ -164,9 +164,11 @@
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <h3 class="mb-4 text-lg font-medium leading-6 text-gray-900" x-text="modalTitle"></h3>
 
-                        <form @submit.prevent="submitForm">
+                        <!-- Formulaire de création -->
+                        <form x-show="!isEditing" @submit.prevent="submitForm">
                             <!-- Category specific fields -->
                             <div x-show="modalType === 'category'">
+                                <input type="hidden" name="lang" x-model="formData.lang = '{{ app()->getLocale() }}'">
                                 <div class="mb-4">
                                     <label for="category_name"
                                         class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
@@ -185,8 +187,40 @@
                             <div x-show="modalType === 'tag'">
                                 <div class="mb-4">
                                     <label for="tag_name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
+                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.tag_name') }}</label>
                                     <input type="text" id="tag_name" x-model="formData.name" required
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Formulaire de mise à jour -->
+                        <form x-show="isEditing" @submit.prevent="submitForm">
+                            <!-- Category specific fields -->
+                            <div x-show="modalType === 'category'">
+                                <input type="hidden" name="lang" x-model="updateFormData.lang = '{{ app()->getLocale() }}'">
+                                <input type="hidden" name="id" x-model="updateFormData.id">
+                                <div class="mb-4">
+                                    <label for="update_category_name"
+                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
+                                    <input type="text" id="update_category_name" x-model="updateFormData.name" required
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="update_category_description"
+                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_description') }}</label>
+                                    <textarea id="update_category_description" x-model="updateFormData.description" rows="3"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Tag specific fields -->
+                            <div x-show="modalType === 'tag'">
+                                <input type="hidden" name="id" x-model="updateFormData.id">
+                                <div class="mb-4">
+                                    <label for="update_tag_name"
+                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.tag_name') }}</label>
+                                    <input type="text" id="update_tag_name" x-model="updateFormData.name" required
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 </div>
                             </div>
@@ -220,7 +254,15 @@
                     formData: {
                         name: '',
                         description: '',
-                        is_active: true
+                        is_active: true,
+                        lang: ''
+                    },
+                    updateFormData: {
+                        id: null,
+                        name: '',
+                        description: '',
+                        is_active: true,
+                        lang: ''
                     },
                     categories: @json($categories),
                     tags: @json($tags),
@@ -241,17 +283,28 @@
                         if (this.isEditing) {
                             this.modalTitle =
                                 `${this.modalType === 'category' ? '{{ __('taxonomy.edit_category') }}' : '{{ __('taxonomy.edit_tag') }}'}`;
-                            this.formData = {
-                                name: item.name,
-                                description: item.description || '',
-                                is_active: item.is_active || true
-                            };
+                            
+                            if (type === 'category') {
+                                this.updateFormData = {
+                                    id: item.id,
+                                    name: item.name ? (typeof item.name === 'object' ? item.name['{{ app()->getLocale() }}'] : item.name) : '',
+                                    description: item.description ? (typeof item.description === 'object' ? item.description['{{ app()->getLocale() }}'] || '' : item.description) : '',
+                                    is_active: item.is_active || true
+                                };
+                            } else {
+                                // Pour les tags, on suppose que le nom est une chaîne simple
+                                this.updateFormData = {
+                                    id: item.id,
+                                    name: item.name || '',
+                                    is_active: item.is_active || true
+                                };
+                            }
                         } else {
                             this.modalTitle =
                                 `${this.modalType === 'category' ? '{{ __('taxonomy.create_category') }}' : '{{ __('taxonomy.create_tag') }}'}`;
                             this.formData = {
                                 name: '',
-                                description: '',
+                                description: type === 'category' ? '' : undefined,
                                 is_active: true
                             };
                         }
@@ -274,6 +327,8 @@
                         this.isEditing = false;
                     },
 
+
+
                     async submitForm() {
                         const url = this.modalType === 'category' ?
                             (this.isEditing ?
@@ -284,6 +339,10 @@
                                 '/admin/tags');
 
                         const method = this.isEditing ? 'PUT' : 'POST';
+                        console.log('this.formData', this.formData);
+                        console.log('this.updateFormData', this.updateFormData);
+
+
 
                         try {
                             const response = await fetch(url, {
@@ -293,10 +352,12 @@
                                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                                     'Accept': 'application/json'
                                 },
-                                body: JSON.stringify(this.formData)
+                                body: JSON.stringify(this.isEditing ? this.updateFormData : this.formData)
                             });
 
                             const data = await response.json();
+
+                            console.log("ici data", data);
 
                             if (response.ok) {
                                 window.dispatchEvent(new CustomEvent('taxonomy-updated'));
@@ -309,6 +370,10 @@
                             console.error('Error:', error);
                         }
                     },
+
+
+
+
 
                     async deleteItem(type, id) {
                         if (!confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) return;
@@ -341,10 +406,12 @@
                     },
 
                     async fetchData() {
+
+                        console.log("ici fetchData");
                         try {
                             const [categoriesRes, tagsRes] = await Promise.all([
-                                fetch('/admin/categories?json=1'),
-                                fetch('/admin/tags?json=1')
+                                fetch('/admin/fetchCategories'),
+                                fetch('/admin/fetchTags')
                             ]);
 
                             const [categoriesData, tagsData] = await Promise.all([
@@ -352,8 +419,15 @@
                                 tagsRes.json()
                             ]);
 
-                            this.categories = categoriesData;
-                            this.tags = tagsData;
+                            console.log("ici categoriesRes", categoriesRes.json());
+                            console.log("ici tagsRes", tagsRes.json());
+
+                            console.log("ici categoriesData", categoriesData.categories);
+                            console.log("ici tagsData", tagsData.tags);
+                            
+
+                            this.categories = categoriesData.categories;
+                            this.tags = tagsData.tags;
                         } catch (error) {
                             console.error('Error fetching data:', error);
                             this.showToast('error', 'Erreur lors du chargement des données');
@@ -371,6 +445,8 @@
                     },
 
                     editItem(type, item) {
+
+                        console.log("ici item", item);
                         this.openModal(type, item);
                     },
 

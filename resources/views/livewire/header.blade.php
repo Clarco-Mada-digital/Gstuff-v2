@@ -222,15 +222,15 @@
         <div id="dropdownMegaMenu" aria-labelledby="dropdownHoverMenu"
             class="shadow-xs bg-green-gs absolute m-0 hidden w-full p-0">
             <div
-                class="container mx-auto hidden max-w-screen-xl items-start justify-start gap-60 p-20 px-4 py-2 text-white md:px-6 xl:flex">
+                class="container mx-auto hidden max-w-screen-xl items-start justify-start gap-30 p-20 px-4 py-2 text-white md:px-6 xl:flex">
                 <div class="flex flex-col">
                     <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.services') }}</h2>
-                    <div class="grid grid-cols-2 gap-3 text-black">
+                    <div class="grid grid-cols-2 gap-3 text-black  w-[450px]">
                         @foreach ($categories as $categorie)
                             <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                                 class="z-10 flex items-center justify-center gap-1">
                                 <div
-                                    class="hover:bg-green-gs flex w-72 items-center justify-center gap-1.5 rounded-md border border-gray-300 bg-white p-2.5 shadow transition-all hover:text-white lg:w-80">
+                                    class="hover:bg-green-gs flex w-[200px] items-center justify-center gap-1.5 rounded-md border border-gray-300 bg-white p-2.5 shadow transition-all hover:text-white lg:w-80">
                                     <img src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.svg') }}"
                                         alt="icon {{ $categorie['display_name'] }}" />
                                     <span>{{ $categorie['nom'] }}</span>

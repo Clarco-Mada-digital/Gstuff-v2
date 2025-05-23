@@ -21,6 +21,7 @@ return [
     'save_button' => 'Enregistrer',
     'category_name' => 'Nom',
     'category_description' => 'Description',
+    'tag_name' => 'Nom du tag',
     'edit_category' => 'Modifier la catégorie',
     'create_category' => 'Créer une catégorie',
     'edit_tag' => 'Modifier le tag',
