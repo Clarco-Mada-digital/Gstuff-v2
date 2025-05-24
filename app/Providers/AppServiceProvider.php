@@ -18,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // User::observe(UserObserver::class);
+        $this->app->singleton(\App\Services\DeepLTranslateService::class, function ($app) {
+            return new \App\Services\DeepLTranslateService();
+        });
     }
 
     /**

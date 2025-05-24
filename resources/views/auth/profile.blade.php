@@ -1141,30 +1141,97 @@
 
 
                     <!-- Modal Structure -->
-                    <div id="requestModal"
-                        class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-                        <div class="max-h-[90vh] w-[50vw] overflow-y-auto rounded-lg bg-white p-6 shadow-lg xl:max-w-7xl">
-                            <h2 class="font-dm-serif text-green-gs mb-5 text-2xl font-bold">
-                                {{ __('profile.send_verification_photo') }}</h2>
-                            <h2 class="font-dm-serif mb-2 text-sm">{{ __('profile.verification_photo_instructions') }}
-                            </h2>
-                            <div x-data="imageViewer('')" class="w-full rounded-lg border border-gray-300 p-4 shadow">
-                                <form action="{{ route('profile.updateVerification') }}" method="post"
-                                    enctype="multipart/form-data" class="flex w-full flex-col justify-center gap-5">
-                                    @csrf()
-                                    <h3 class="font-dm-serif text-green-gs text-center text-sm">
-                                        {{ __('profile.verification_image') }}</h3>
-                                    <template x-if="imageUrl">
-                                        <img :src="imageUrl"
-                                            class="mx-auto rounded-md border border-gray-200 object-cover"
-                                            style="width: 100px; height: 100px;">
-                                    </template>
-                                    <input name="image_verification" type="file" accept="image/*"
-                                        x-on:change="fileChosen($event)" class="mt-2" />
-                                    <input type="hidden" name="profile_verifie" value="en cours">
-                                    <button type="submit"
-                                        class="btn-gs-gradient rounded px-4 py-2 font-bold">{{ __('profile.send') }}</button>
-                                </form>
+                    <div id="requestModal" tabindex="-1" aria-hidden="true"
+                        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300"
+                        data-modal-placement="center">
+                        <div class="relative w-full max-w-md">
+                            <!-- Modal content -->
+                            <div class="relative rounded-xl bg-white p-6 shadow-2xl">
+                                <!-- Close button -->
+                                <button type="button"
+                                    class="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+                                    data-modal-hide="requestModal">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    <span class="sr-only">Fermer</span>
+                                </button>
+
+                                <!-- Header -->
+                                <div class="mb-6 text-center">
+                                    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="mb-2 text-xl font-bold text-gray-900">
+                                        {{ __('profile.send_verification_photo') }}
+                                    </h3>
+                                    <p class="text-sm text-gray-600">
+                                        {{ __('profile.verification_photo_instructions') }}
+                                    </p>
+                                </div>
+
+                                <!-- Form -->
+                                <div x-data="imageViewer('')" class="space-y-4">
+                                    <form action="{{ route('profile.updateVerification') }}" method="post" enctype="multipart/form-data"
+                                        class="space-y-6">
+                                        @csrf
+
+                                        <!-- Image upload area -->
+                                        <div class="group relative">
+                                            <div x-show="!imageUrl" class="space-y-4">
+                                                <div
+                                                    class="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 text-center transition-colors group-hover:border-green-400">
+                                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <p class="mt-2 text-sm text-gray-600">
+                                                        {{ __('profile.verification_image' )}}
+                                                    </p>
+                                                    <p class="mt-1 text-xs text-gray-500">
+                                                        PNG, JPG, JPEG (max. 5MB)
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Image preview -->
+                                            <div x-show="imageUrl" class="space-y-4">
+                                                <div class="relative mx-auto max-w-xs">
+                                                    <img :src="imageUrl" alt="Aperçu de l'image"
+                                                        class="mx-auto h-40 w-40 rounded-xl border-2 border-gray-200 object-cover shadow-sm">
+                                                    <button type="button" @click="imageUrl = ''"
+                                                        class="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600">
+                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Hidden file input -->
+                                            <input id="file-upload" name="image_verification" type="file" accept="image/*"
+                                                x-on:change="fileChosen($event)"
+                                                class="absolute inset-0 h-full w-full cursor-pointer opacity-0">
+                                        </div>
+
+                                        <input type="hidden" name="profile_verifie" value="en cours">
+
+                                        <!-- Submit button -->
+                                        <div class="mt-6">
+                                            <button type="submit"
+                                                class="btn-gs-gradient w-full transform rounded-lg px-5 py-3 font-bold text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                                                :disabled="!imageUrl">
+                                                <i class="fas fa-paper-plane mr-2"></i>
+                                                {{ __('profile.send') }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1959,11 +2026,7 @@
                 async loadContacts(page = 1) {
                     this.loadingContacts = true;
                     try {
-                        const response = await axios.get('/messenger/fetch-contacts', {
-                            params: {
-                                page
-                            }
-                        });
+                        const response = await axios.get('/messenger/fetch-contacts');
                         document.getElementById('contacts-list').innerHTML = response.data.contacts;
                     } catch (error) {
                         console.error(error);

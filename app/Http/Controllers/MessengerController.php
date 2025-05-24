@@ -209,7 +209,7 @@ class MessengerController extends Controller
        'users.profile_type', 
        'users.avatar', 
        'users.date_naissance', 
-       'users.genre', 
+       'users.genre_id', 
        'users.intitule', 
        'users.nom_proprietaire', 
        'users.telephone',
@@ -220,19 +220,19 @@ class MessengerController extends Controller
        'users.categorie',
        'users.service',
        'users.recrutement',
-       'users.nombre_filles',
-       'users.pratique_sexuelles',
-       'users.oriantation_sexuelles',
+       'users.nombre_fille_id',
+       'users.pratique_sexuelle_id',
+       'users.orientation_sexuelle_id',
        'users.tailles',
        'users.origine',
-       'users.couleur_yeux',
-       'users.couleur_cheveux',
-       'users.mensuration',
-       'users.poitrine',
+       'users.couleur_yeux_id',
+       'users.couleur_cheveux_id',
+       'users.mensuration_id',
+       'users.poitrine_id',
        'users.taille_poitrine',
-       'users.pubis',
-       'users.tatouages',
-       'users.mobilite',
+       'users.pubis_type_id',
+       'users.tatoo_id',
+       'users.mobilite_id',
        'users.tarif',
        'users.paiement',
        'users.langues',
@@ -254,7 +254,10 @@ class MessengerController extends Controller
        'users.visibility',
        'users.visible_countries',
        'users.last_seen_at',        
-       'users.createbysalon')->get( );
+       'users.createbysalon',
+       'users.silhouette_id')->get( );
+
+       
 
        if(count($users) > 0) {
            $contacts = '';

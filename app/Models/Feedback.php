@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Translatable\HasTranslations;
 
 class Feedback extends Model
 {
-    use HasFactory;
+    use HasFactory,HasTranslations;
 
     protected $table = 'feedbacks';
     public $timestamps = true;
@@ -19,6 +20,9 @@ class Feedback extends Model
         'rating',
         'comment',
     ];
+
+    public $translatable = ['comment'];
+
 
     public function userFromId(): BelongsTo
     {
