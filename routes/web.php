@@ -43,9 +43,9 @@ use App\Models\Genre;
 |
 */
 
-Route::get('livewire/update', function(){
-    return redirect()->back();
-})->middleware(['web'])->name('livewire.update');
+// Route::get('livewire/update', function(){
+//     return redirect()->back();
+// })->middleware(['web'])->name('livewire.update');
 
 Route::get('search', function(){
     return view('search_page');
