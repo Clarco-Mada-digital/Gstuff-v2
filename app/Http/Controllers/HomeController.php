@@ -10,71 +10,100 @@ use App\Models\Service;
 use App\Models\User;
 use App\Models\Ville;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
-  private function getEscorts($escorts)
-  {
-    $esc = [];
+    /**
+     * Nombre d'éléments à afficher pour les glossaires.
+     *
+     * @var int
+     */
+    private const GLOSSAIRES_LIMIT = 10;
 
-    // Détection du pays via IP
-    $position = Location::get(request()->ip());
-    $viewerCountry = $position?->countryCode ?? null;
-
-    // dd($viewerCountry);
-
-    foreach ($escorts as $escort) {
-        if ($escort->isProfileVisibleTo($viewerCountry)) {
-            $esc[] = $escort;
-        }
+    /**
+     * Détermine si un profil est visible en fonction du pays.
+     *
+     * @param  \App\Models\User  $escort
+     * @param  string|null  $viewerCountry
+     * @return bool
+     */
+    private function isProfileVisibleTo(User $escort, ?string $viewerCountry): bool
+    {
+        return $escort->isProfileVisibleTo($viewerCountry);
     }
 
-    return $esc;
-  }
+    /**
+     * Récupère les escortes filtrées par visibilité.
+     *
+     * @param  \Illuminate\Support\Collection  $escorts
+     * @return \Illuminate\Support\Collection
+     */
+    private function getVisibleEscorts($escorts): \Illuminate\Support\Collection
+    {
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? null;
 
-  public function home()
-  {
-      // categorie
-      $categories = Categorie::where('type', 'escort')->get();
+        return $escorts->filter(function ($escort) use ($viewerCountry) {
+            return $this->isProfileVisibleTo($escort, $viewerCountry);
+        });
+    }
 
-      // Canton
-      $cantons = Canton::all();
-      $glossaire_category_id = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
-      $glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();   
+    /**
+     * Charge les données associées pour un utilisateur (escorte ou salon).
+     *
+     * @param  \App\Models\User  $user
+     * @return \App\Models\User
+     */
+    private function loadAssociatedData(User $user): User
+    {
+        $user->canton = Canton::find($user->canton);
+        $user->ville = Ville::find($user->ville);
+        $user->categorie = Categorie::find($user->categorie);
+        $user->service = Service::find($user->service);
 
-      // Les services
-      // $servicesResp = $client->get('https://gstuff.ch/wp-json/services/list_service/');
-      // $services = json_decode($servicesResp->getBody(), true);
+        return $user;
+    }
 
-      // Les escortes
-      $escorts = User::where('profile_type', 'escorte')->get();
-      $escorts = $this->getEscorts($escorts);
+    /**
+     * Affiche la page d'accueil avec les données nécessaires.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function home()
+    {
+        // Catégories
+        $categories = Categorie::where('type', 'escort')->get();
 
-      foreach ($escorts as $escort) {
-        $escort['canton'] = Canton::find($escort->canton);
-        $escort['ville'] = Ville::find($escort->ville);
-        $escort['categorie'] = Categorie::find($escort->categorie);
-        $escort['service'] = Service::find($escort->service);
-        // dd($escort->service);
-      }
-      // Les salons
-      $salons = User::where('profile_type', 'salon')->get();
-      $salons = $this->getEscorts($salons);
-      foreach ($salons as $salon) {
-        $salon['canton'] = Canton::find($salon->canton);
-        $salon['ville'] = Ville::find($salon->ville);
-        $salon['categorie'] = Categorie::find($salon->categorie);
-        $salon['service'] = Service::find($salon->service);
-      }
+        // Cantons
+        $cantons = Canton::all();
 
-      // dd($escorts);
+        // Glossaires (avec mise en cache)
+        $glossaire_category_id = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
+        $glossaires = Cache::remember('glossaires', 60 * 60, function () use ($glossaire_category_id) {
+            return Article::where('article_category_id', $glossaire_category_id->id)->limit(self::GLOSSAIRES_LIMIT)->get();
+        });
 
+        // Escortes
+        $escorts = User::where('profile_type', 'escorte')->get();
+        $escorts = $this->getVisibleEscorts($escorts);
+        $escorts = $escorts->map(function ($escort) {
+            return $this->loadAssociatedData($escort);
+        });
 
-      // Limiter le résultat à 4 éléments
-      // $limitedData = array_slice($glossaire, 0, 10);
-      // $limiteCanton = array_slice($apiData['cantons'], 0, 5);
+        // Salons
+        $salons = User::where('profile_type', 'salon')->get();
+        $salons = $this->getVisibleEscorts($salons);
+        $salons = $salons->map(function ($salon) {
+            return $this->loadAssociatedData($salon);
+        });
 
-      return view('home', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts'=> $escorts, 'salons' => $salons, 'glossaires' => $glossaires]);
-  }
-  
+        return view('home', [
+            'cantons' => $cantons,
+            'categories' => $categories,
+            'escorts' => $escorts,
+            'salons' => $salons,
+            'glossaires' => $glossaires,
+        ]);
+    }
 }

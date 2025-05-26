@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\Ville;
-use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 
@@ -25,9 +24,8 @@ class UsersSearch extends Component
     public $salonCategories;
     public $cantons = '';
     public $villes = '';
-    public $users;
-    public $genres;
     public $perPage = 8; // Nombre d'éléments par page
+    public $page = 1;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -45,6 +43,7 @@ class UsersSearch extends Component
         $this->villes = collect([]);
         $this->salonCategories = Categorie::where('type', 'salon')->get();
         $this->escortCategories = Categorie::where('type', 'escort')->get();
+        $this->page = request()->get('page', 1);
     }
 
     public function updatingSearch()
@@ -98,11 +97,6 @@ class UsersSearch extends Component
             $q->where('profile_type', 'escorte')
               ->orWhere('profile_type', 'salon');
         });
-        $this->escortCategories = Categorie::where('type', 'escort')->get();
-        $this->salonCategories = Categorie::where('type', 'salon')->get();
-        $this->cantons = Canton::all();
-        $this->villes = Ville::all();
-        $this->genres = Genre::all();
 
         if ($this->search) {
             $query->where(function ($q) {
@@ -122,7 +116,7 @@ class UsersSearch extends Component
         }
 
         if ($this->selectedGenre) {
-            $query->where('genre_id', $this->selectedGenre);
+            $query->where('genre', $this->selectedGenre);
         }
 
         if (!empty($this->selectedCategories)) {
@@ -148,7 +142,7 @@ class UsersSearch extends Component
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = $this->perPage;
         $results = $visibleUsers->slice(($page - 1) * $perPage, $perPage)->values();
-        // dd('$results', $results);
+        
         $paginatedUsers = new LengthAwarePaginator(
             $results,
             $visibleUsers->count(),
@@ -159,10 +153,9 @@ class UsersSearch extends Component
                 'query' => $this->queryString
             ]
         );
-        // dd('$paginatedUsers', $paginatedUsers);
-        
+
         return view('livewire.users-search', [
-            'paginatedUsers' => $paginatedUsers
+            'users' => $paginatedUsers
         ]);
     }
 }

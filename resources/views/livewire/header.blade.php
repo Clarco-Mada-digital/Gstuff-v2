@@ -22,7 +22,7 @@
         }
     }"
         class="relative z-30 border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-900">
-        <div x-data="{ 'showUserDrop': false }" class="container mx-auto flex flex items-center gap-3 p-4 lg:justify-between">
+        <div x-data="{ 'showUserDrop': false }" class="container mx-auto flex items-center gap-3 p-4 lg:justify-between">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
                 <img class="w-24 lg:w-44" src="{{ asset('images/Logo_lg.svg') }}" alt="Gstuff Logo" />
             </a>
@@ -103,7 +103,7 @@
 
             {{-- Search --}}
             <div class="ml-auto mr-0 flex xl:order-1">
-                <button data-modal-target="search-modal" data-modal-toggle="search-modal" type="button"
+                <a href="{{ route('search') }}"
                     class="me-1 rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 md:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +112,7 @@
                             stroke="#05595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <span class="sr-only">Search</span>
-                </button>
+                </a>
                 <a href="{{ route('search') }}" class="relative hidden md:block">
                     <div id="search-navbar"
                         class="focus:ring-green-gs block w-full rounded-xl border border-gray-300 bg-gray-100 p-2 pe-10 text-sm text-gray-950 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">{{ __('header.search_placeholder') }}</div>
@@ -273,7 +273,7 @@
     </nav>
 
     <!-- Recherche modal -->
-    <div wire:ignore.self id="search-modal" tabindex="-1" aria-hidden="true"
+    {{-- <div wire:ignore.self id="search-modal" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
         <div class="relative max-h-full w-[95%] p-4 lg:w-[60%]">
             <!-- Modal content -->
@@ -296,8 +296,8 @@
                     </button>
                 </div>
                 <livewire:users-search />
-                {{-- <iframe src="{{route('search')}}" width="100%" height="800px" frameborder="0" wire:ignore.self></iframe> --}}
+                <iframe src="{{route('search')}}" width="100%" height="800px" frameborder="0" wire:ignore.self></iframe>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
