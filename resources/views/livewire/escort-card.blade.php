@@ -5,7 +5,6 @@
     style="scroll-snap-align: center">
     <div
         class="text-green-gs absolute right-0 top-0 m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg">
-        {{-- @livewire('favorite-button', ['userId' => $escortId], key($escortId)) --}}
         <livewire:favorite-button :userId=$escortId wire:key='{{ $escortId }}' />
     </div>
 

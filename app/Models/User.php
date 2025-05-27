@@ -228,6 +228,12 @@ class User extends Authenticatable
     public function getCategoriesAttribute()
     {
         $category = $this->categorie;
+
+        if (is_integer($category)) {
+            $categorie = Categorie::find($category);
+            return $categorie ? collect([$categorie]) : collect();
+        }
+
         
         // Si c'est déjà un modèle Categorie, on le retourne dans une collection
         if ($category instanceof \App\Models\Categorie) {
@@ -244,6 +250,7 @@ class User extends Authenticatable
         
         // Si c'est un tableau avec un ID, on cherche la catégorie correspondante
         if (is_array($category) && isset($category['id'])) {
+          
             $categorie = Categorie::find($category['id']);
             return $categorie ? collect([$categorie]) : collect();
         }

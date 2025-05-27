@@ -1,7 +1,7 @@
 <div class="relative flex h-[375px] w-full flex-col items-start justify-center"
     style="background: url('images/girl_deco_image_001.jpg') center center /cover">
-    <div class="container mx-auto flex flex-col gap-4 px-3 text-white">
-        <h3 class="font-dm-serif w-full text-3xl font-bold lg:w-[40%] lg:text-5xl">
+    <div class="container mx-auto flex flex-col gap-4 px-3 text-white lg:px-10">
+        <h3 class="font-dm-serif w-full text-2xl sm:text-3xl font-bold lg:w-[40%] sm:w-[60%] xl:w-[50%] lg:text-5xl">
             {{ __('call-to-action-inscription.register_today') }}</h3>
         <span class="font-dm-serif">{{ __('call-to-action-inscription.register_today2') }}</span>
         <div class="w-45 z-10">

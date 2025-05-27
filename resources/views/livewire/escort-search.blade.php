@@ -18,10 +18,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 }" x-init="fetchDropdownData()">
     @if (!$approximite)
         <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1]">
-            <h1 class="font-dm-serif text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
-                {{ __('escort-search.discover_escorts') }}</h1>
-            <div
-                class="mb-3 flex w-full flex-col items-center justify-center gap-2 px-4 text-sm md:flex-row xl:text-base">
+            <h1 class="font-dm-serif text-green-gs mb-4 text-center text-3xl font-bold">
+                {{ __('escort-search.discover_escorts') }}
+            </h1>
+            <div class="mb-3 flex w-full flex-col items-center justify-center gap-2 px-4 text-sm md:flex-row">
                 <select wire:model.live="selectedCanton" wire:change="chargeVille"
                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
                     <option selected value="">{{ __('escort-search.cantons') }}</option>
@@ -30,7 +30,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     @endforeach
                 </select>
                 <select wire:model.live="selectedVille"
-                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    class="block w-full overflow-hidden truncate rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80"
                     @if (!$villes) disabled @endif>
                     <option selected value="">
                         @if ($villes)
@@ -45,7 +45,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     @endforeach
                 </select>
                 <select wire:model.live='selectedGenre'
-                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+                    class="block w-full overflow-hidden truncate rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80">
                     <option selected value=''>{{ __('escort-search.gender') }}</option>
                     @foreach ($genres as $genre)
                         <option wire:key='{{ $genre->id }}' value="{{ $genre->id }}">
@@ -53,24 +53,25 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     @endforeach
                 </select>
             </div>
-            <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
+            <div class="mx-4 my-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:my-4">
                 @foreach ($categories as $categorie)
-                    <div>
+                    <div class="min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none">
                         <input wire:model.live='selectedCategories' class="peer hidden" type="checkbox"
                             id="escortCategorie{{ $categorie->id }}" name="{{ $categorie->nom }}"
                             value="{{ $categorie->id }}">
                         <label for="escortCategorie{{ $categorie->id }}"
-                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-amber-400 bg-white p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">{{ $categorie->nom }}</label>
+                            class="border-1 hover:bg-green-gs peer-checked:bg-green-gs block w-full cursor-pointer rounded-lg border-amber-400 bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 peer-checked:text-amber-400 sm:text-sm md:text-base">
+                            {{ $categorie->nom }}
+                        </label>
                     </div>
                 @endforeach
             </div>
-            <div class="flex items-center justify-center gap-2">
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3 px-4 sm:gap-4">
                 <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal"
-                    class="font-dm-serif hover:bg-green-gs group mt-5 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white">
+                    class="font-dm-serif hover:bg-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-gray-400 bg-white p-2.5 text-sm text-gray-600 transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 sm:w-auto sm:px-4 sm:text-base">
                     {{ __('escort-search.more_filters') }}
-                    <svg class="h-5 w-5 rounded-full bg-gray-300 p-1 group-hover:bg-gray-700"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <!-- Icon from All by undefined - undefined -->
+                    <svg class="h-5 w-5 rounded-full bg-gray-300 p-1 transition-colors group-hover:bg-gray-700"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                         <g fill="none" fill-rule="evenodd">
                             <path
                                 d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
@@ -79,23 +80,29 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         </g>
                     </svg>
                 </button>
-                <button wire:click="approximiteFunc()"
-                wire:loading.attr="disabled"
-                class="font-dm-serif hover:bg-green-gs group mt-5 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white disabled:opacity-75">
-                {{ $approximite ? __('salon-search.filter_by_region') : __('salon-search.filter_by_distance') }}
-                <div wire:loading.remove wire:target="approximiteFunc">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </div>
-                <div wire:loading wire:target="approximiteFunc">
-                    <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </div>
-            </button>
+                <button wire:click="approximiteFunc()" wire:loading.attr="disabled"
+                    class="font-dm-serif hover:bg-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-gray-400 bg-white p-2.5 text-sm text-gray-600 transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 disabled:opacity-75 sm:w-auto sm:px-4 sm:text-base">
+                    <span>{{ $approximite ? __('salon-search.filter_by_region') : __('salon-search.filter_by_distance') }}</span>
+                    <div wire:loading.remove wire:target="approximiteFunc" class="flex-shrink-0">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <div wire:loading wire:target="approximiteFunc" class="flex-shrink-0">
+                        <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" aria-hidden="true">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
             </div>
 
             <button wire:click="resetFilter"
@@ -109,16 +116,16 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             </button>
         </div>
     @else
-        <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1]">
+        <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1] px-4">
             <h1 class="font-dm-serif text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
                 {{ __('escort-search.discover_escorts') }}</h1>
             <div class="mx-auto mb-4 mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
                 <div class="mb-4">
-
                     <div class="space-y-6">
                         <div>
                             <div class="mb-2 mt-4 flex items-center justify-between">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('escort-search.distance_km') }}</label>
+                                <label
+                                    class="block text-sm font-medium text-gray-700">{{ __('escort-search.distance_km') }}</label>
                                 <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
                                     <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-green-600"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -128,39 +135,50 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                         </path>
                                     </svg>
-
                                 </div>
                             </div>
-
                             <div class="relative pt-1">
 
-
-                                <div class="mb-2 flex items-center space-x-4 text-xs text-gray-600">
-                                    <span
-                                        class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
-                                        km</span>
+                                <div class="w-full">
+                                    <div
+                                        class="mb-2 flex items-center justify-between text-xs text-gray-600 sm:hidden">
+                                        <span
+                                            class="whitespace-nowrap rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
+                                            km</span>
+                                        <span
+                                            class="whitespace-nowrap rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
+                                            km</span>
+                                    </div>
                                     <input type="range" wire:model.live="maxDistanceSelected"
                                         min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
-                                        class="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-gray-200">
-                                    <span
-                                        class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
-                                        km</span>
+                                        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 sm:hidden">
 
                                 </div>
 
-
-
-
+                                <div
+                                    class="mb-2 flex hidden w-full items-center justify-between gap-2 text-xs text-gray-600 sm:block sm:flex sm:gap-3 md:gap-4">
+                                    <span
+                                        class="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm">
+                                        {{ str_replace(',', ' ', number_format($minDistance, 0)) }} km
+                                    </span>
+                                    <input type="range" wire:model.live="maxDistanceSelected"
+                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
+                                        class="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 sm:h-2">
+                                    <span
+                                        class="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm">
+                                        {{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }} km
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
             <button wire:click="approximiteFunc()"
                 class="font-dm-serif hover:bg-green-gs border-green-gs group mx-auto mt-4 flex w-full max-w-xs items-center justify-center gap-2 rounded-lg border-2 bg-white px-6 py-3 text-gray-700 transition-all duration-300 hover:border-transparent hover:text-white hover:shadow-md">
-                <span class="font-medium">{{ $approximite ? __('escort-search.filter_by_region') : __('escort-search.filter_by_distance') }}</span>
+                <span
+                    class="font-medium">{{ $approximite ? __('escort-search.filter_by_region') : __('escort-search.filter_by_distance') }}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-1"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -172,8 +190,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         </div>
     @endif
 
-    <div class="container mx-auto px-2 py-20">
-        <div class="font-dm-serif text-green-gs mb-3 text-3xl font-bold">
+    <div class="container mx-auto px-4 py-10 xl:py-20">
+        <div class="font-dm-serif text-green-gs mb-3 text-2xl font-bold lg:text-3xl">
             {{ $escorts->count() }}
             @if ($escorts->count() > 1)
                 @if ($maxDistance > 0)
@@ -210,7 +228,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 <!-- Modal header -->
                 <div
                     class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
-                    <h3 class="text-green-gs font-dm-serif flex w-full items-center justify-center text-3xl font-bold">
+                    <h3
+                        class="text-green-gs font-dm-serif flex w-full items-center justify-center text-2xl font-bold md:text-3xl">
                         {{ __('escort-search.more_filters') }}</h3>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -226,20 +245,55 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                 <!-- Modal body -->
                 <div class="relative flex flex-col items-center justify-center gap-3 p-4 md:p-5 md:pb-20">
-                    <h3 class="text-green-gs font-dm-serif text-3xl">{{ __('escort-search.service_categories') }}</h3>
-                    <div class="flex flex-wrap items-center gap-4">
-                        @foreach ($services as $service)
-                            <div class="my-1">
-                                <input wire:model.live='selectedServices' id="services{{ $service->id }}"
-                                    class="peer hidden" type="checkbox" name="{{ $service->nom }}"
-                                    value="{{ $service->id }}" />
-                                <label for="services{{ $service->id }}"
-                                    class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-gray-400 p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">{{ $service->nom }}</label>
+                    <h3 class="text-green-gs font-dm-serif text-2xl md:text-3xl">
+                        {{ __('escort-search.service_categories') }}</h3>
+                    <div x-data="{ open: false }" class="w-full">
+                        <button @click="open = !open"
+                            class="hover:bg-green-gs w-full rounded-lg border border-gray-400 p-2 text-left hover:text-amber-400 sm:hidden">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">{{ __('escort-search.service_categories') }}</span>
+                                <svg :class="{ 'rotate-180': open }" class="h-4 w-4 transform transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </div>
-                        @endforeach
+                        </button>
+                        <div x-show="open" x-transition class="mt-2">
+                            <div class="flex flex-wrap items-center gap-4">
+                                @foreach ($services as $service)
+                                    <div class="my-1">
+                                        <input wire:model.live='selectedServices' id="services{{ $service->id }}"
+                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
+                                            value="{{ $service->id }}" />
+                                        <label for="services{{ $service->id }}"
+                                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-gray-400 p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">
+                                            {{ $service->nom }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="hidden sm:block">
+                            <div class="flex flex-wrap items-center gap-4">
+                                @foreach ($services as $service)
+                                    <div class="my-1">
+                                        <input wire:model.live='selectedServices' id="services{{ $service->id }}"
+                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
+                                            value="{{ $service->id }}" />
+                                        <label for="services{{ $service->id }}"
+                                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-gray-400 p-2 text-center hover:text-amber-400 peer-checked:text-amber-400">
+                                            {{ $service->nom }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-green-gs font-dm-serif text-3xl">{{ __('escort-search.other_filters') }}</h3>
-                    <div class="grid w-full grid-cols-1 items-center justify-between gap-3 xl:grid-cols-3">
+                    <h3 class="text-green-gs font-dm-serif text-2xl md:text-3xl">
+                        {{ __('escort-search.other_filters') }}</h3>
+                    <div
+                        class="grid w-full grid-cols-1 items-center justify-between gap-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
                         <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
                             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-amber-500 dark:focus:ring-amber-500">
                             <option selected value="">{{ __('escort-search.origin') }}</option>

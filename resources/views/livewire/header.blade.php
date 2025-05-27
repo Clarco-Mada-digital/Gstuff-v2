@@ -282,8 +282,10 @@
                 <!-- Modal header -->
                 <div
                     class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
-                    <h1 class="font-dm-serif text-green-gs flex-1 text-center text-3xl font-bold">
-                        {{ __('search_modal.search_title') }}</h1>
+                    <div class="w-[70%] sm:flex sm:items-center">
+                        <h1 class="font-dm-serif text-green-gs flex-1 text-center text-2xl font-bold">
+                            {{ __('search_modal.search_title') }}</h1>
+                    </div>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="search-modal">

@@ -1,16 +1,13 @@
 @extends('layouts.base')
 
-@section('pageTitle', 'Galerie')
+@section('pageTitle', __('gallery.gallery'))
 
 @section('content')
     <section class="relative mb-10 overflow-hidden rounded-xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 text-white shadow-xl">
         <!-- Votre en-tête existant reste inchangé -->
         <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
-            <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">Explorez. Partagez. Ressentez 📸</h1>
-            <p class="mx-auto max-w-2xl text-lg font-light sm:text-xl">
-                Vos moments les plus précieux prennent vie ici – entre <strong>stories instantanées</strong> et
-                <strong>galeries captivantes</strong>. Plongez dans l'univers des émotions partagées.
-            </p>
+            <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">{{ __('gallery.explore_share_feel') }}</h1>
+            <p class="mx-auto max-w-2xl text-lg font-light sm:text-xl" x-html="{{ json_encode(__('gallery.header_subtitle')) }}"></p>
         </div>
 
         <!-- Illustration décorative -->
@@ -32,7 +29,7 @@
                 <div class="mb-4 md:hidden">
                     <button @click="openMenu = !openMenu"
                         class="flex w-full items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-gray-800">
-                        <span>📁 Sections</span>
+                        <span>📁 {{ __('gallery.sections') }}</span>
                         <svg :class="{ 'rotate-180': openMenu }" class="h-4 w-4 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -54,7 +51,7 @@
                     <button @click="selectedTab = 'public'; openMenu = false"
                         :class="selectedTab === 'public' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                         class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-blue-100">
-                        🌍 Publique
+                        🌍 {{ __('gallery.public_gallery') }}
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($publicGallery) }}"></span>
                     </button>
@@ -63,7 +60,7 @@
                     <button @click="selectedTab = 'private'; openMenu = false"
                         :class="selectedTab === 'private' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700'"
                         class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-gray-200">
-                        🔐 Privée
+                        🔐 {{ __('gallery.private_gallery') }}
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($privateGallery) }}"></span>
                     </button>
@@ -74,7 +71,7 @@
             <div class="flex-1 space-y-10">
                 <!-- Stories -->
                 <section x-show="selectedTab === 'stories'" x-transition>
-                    <h2 class="mb-6 text-3xl font-semibold text-gray-800">📸 Stories des utilisateurs</h2>
+                    <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-gray-800">📸 {{ __('gallery.user_stories') }}</h2>
                     <div class="flex space-x-4 overflow-x-auto pb-2">
                         @foreach ($usersWithStories as $user)
                             <div class="flex-shrink-0 text-center">
@@ -92,7 +89,7 @@
                 <!-- Galerie Publique -->
                 <section x-show="selectedTab === 'public'" x-transition>
                     <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-3xl font-semibold text-gray-800">🌍 Galerie Publique</h2>
+                        <h2 class="text-xl sm:text-3xl font-semibold text-gray-800">🌍 {{ __('gallery.public_gallery_title') }}</h2>
                         
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
                             <!-- Filtre utilisateur amélioré -->
@@ -102,7 +99,7 @@
                                          class="flex items-center justify-between p-2 border border-gray-300 rounded-md cursor-pointer bg-white">
                                         <div class="flex flex-wrap gap-1 items-center">
                                             <template x-if="userFilter.selectedUsers.length === 0">
-                                                <span class="text-gray-400">Tous les utilisateurs</span>
+                                                <span class="text-gray-400">{{ __('gallery.all_users') }}</span>
                                             </template>
                                             <template x-for="userId in userFilter.selectedUsers" :key="userId">
                                                 <span class="flex items-center bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
@@ -125,7 +122,7 @@
                                          class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border max-h-60 overflow-auto">
                                         <div class="sticky top-0 bg-white border-b p-2">
                                             <input x-model="userFilter.search" @input="userFilter.filterUsers()"
-                                                   @click.stop placeholder="Rechercher..."
+                                                   @click.stop placeholder="{{ __('gallery.search') }}"
                                                    class="w-full p-1 border rounded text-sm">
                                         </div>
                                         <div @click="userFilter.toggleAllUsers()"
@@ -133,7 +130,7 @@
                                              :class="{ 'bg-blue-50 font-medium': userFilter.selectedUsers.length === 0 }">
                                             <input type="checkbox" class="mr-2" 
                                                    :checked="userFilter.selectedUsers.length === 0" readonly>
-                                            <span>Tous les utilisateurs</span>
+                                            <span>{{ __('gallery.all_users') }}</span>
                                         </div>
                                         <template x-for="user in userFilter.filteredUsers" :key="user.id">
                                             <div @click="userFilter.toggleUser(user.id)"
@@ -146,7 +143,7 @@
                                         </template>
                                         <div x-show="userFilter.search && userFilter.filteredUsers.length === 0"
                                              class="px-3 py-2 text-gray-500 text-sm">
-                                            Aucun utilisateur trouvé
+                                            {{ __('gallery.no_users_found') }}
                                         </div>
                                     </div>
                                 </div>
@@ -154,9 +151,9 @@
 
                             <!-- Filtre par type de média -->
                             <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
-                                <option value="">Tous types</option>
-                                <option value="image">Images</option>
-                                <option value="video">Vidéos</option>
+                                <option value="">{{ __('gallery.all_types') }}</option>
+                                <option value="image">{{ __('gallery.images') }}</option>
+                                <option value="video">{{ __('gallery.videos') }}</option>
                             </select>
                         </div>
                     </div>
@@ -184,7 +181,7 @@
                                 <div class="flex items-center justify-between px-3">
                                     <span class="my-2">{{ $media->user->prenom }}</span>
                                     <a href="{{ route('show_escort', $media->user->id) }}"
-                                    class="my-2 ms-3" title="voir le profile">
+                                    class="my-2 ms-3" title="{{ __('gallery.view_profile') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -202,7 +199,7 @@
 
                 <!-- Galerie Privée -->
                 <section x-show="selectedTab === 'private'" x-transition>
-                    <h2 class="mb-4 text-3xl font-semibold text-gray-800">🔐 Galerie Privée</h2>
+                    <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-gray-800">🔐 {{ __('gallery.private_gallery_title') }}</h2>
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth
@@ -240,7 +237,7 @@
 
                                     <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" 
                                             type="button" class="absolute inset-0 flex items-center justify-center bg-black/50 px-2 text-center text-sm font-semibold text-white">
-                                        Connectez-vous pour voir ce contenu
+                                        {{ __('gallery.login_to_view') }}
                                     </button>
                                 </div>
                             @endguest

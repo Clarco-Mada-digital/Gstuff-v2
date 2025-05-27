@@ -17,7 +17,7 @@
 
     <div class="container mx-auto flex flex-col justify-center xl:flex-row">
 
-        <div x-data="{}" class="min-w-1/4 flex flex-col items-center gap-3">
+        <div x-data="{}" class="min-w-1/4 flex flex-col items-center gap-3 p-4">
 
             <div class="w-55 h-55 border-5 mx-auto -translate-y-[50%] rounded-full border-white">
                 <img x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $salon->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : '{{ asset('images/icon_logo.png') }}', imgModalDesc: '' })"
@@ -120,7 +120,7 @@
 
                 <section>
 
-                    <div class="min-w-3/4 px-5 py-5">
+                    <div class="min-w-3/4 py-5">
                         <div class="text-green-gs font-dm-serif w-full text-right font-bold">
                             <a
                                 href="{{ route('salons') . '?selectedSalonCategories=' . ($salon->categorie['id'] ?? '') }}">

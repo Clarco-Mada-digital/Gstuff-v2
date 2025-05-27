@@ -17,7 +17,7 @@
 
     <div x-data="{}" class="container mx-auto flex flex-col justify-center xl:flex-row">
 
-        <div class="min-w-1/4 flex flex-col items-center gap-3">
+        <div class="min-w-1/4 flex flex-col items-center gap-3 px-4">
 
             <div class="w-55 h-55 border-5 relative mx-auto -translate-y-[50%] rounded-full border-white">
                 <!-- {{ __('escort_profile.profile_picture') }} -->

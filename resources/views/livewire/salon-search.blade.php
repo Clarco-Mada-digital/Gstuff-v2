@@ -1,5 +1,5 @@
 <div>
-    <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1]">
+    <div class="py-15 px-4 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1]">
         <h1 class="font-dm-serif text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
             {{ __('salon-search.title') }}</h1>
 
@@ -34,7 +34,7 @@
             </div>
             <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
                 @foreach ($categories as $categorie)
-                    <div wire:key="{{ $categorie->id }}">
+                    <div wire:key="{{ $categorie->id }}" class="my-2 bg-red-500">
                         <input wire:model.live='selectedSalonCategories' class="peer hidden" type="checkbox"
                             id="salonCategorie{{ $categorie->id }}" name="{{ $categorie->nom }}"
                             value="{{ $categorie->id }}" />
@@ -103,21 +103,36 @@
                         <div class="relative pt-1">
 
 
-                            <div class="mb-2 flex items-center space-x-4 text-xs text-gray-600">
-                                <span
-                                    class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
-                                    km</span>
-                                <input type="range"
-                                    wire:model.live="maxDistanceSelected"
-                                    min="{{ $minDistance }}"
-                                    max="{{ $maxAvailableDistance }}"
-                                    step="1"
-                                    class="accent-green-600 h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-gray-200">
-                                <span
-                                    class="rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
-                                    km</span>
+                        <div class="w-full">
+                                    <div
+                                        class="mb-2 flex items-center justify-between text-xs text-gray-600 sm:hidden">
+                                        <span
+                                            class="whitespace-nowrap rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
+                                            km</span>
+                                        <span
+                                            class="whitespace-nowrap rounded-full bg-gray-100 px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
+                                            km</span>
+                                    </div>
+                                    <input type="range" wire:model.live="maxDistanceSelected"
+                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
+                                        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 sm:hidden">
 
-                            </div>
+                                </div>
+
+                                <div
+                                    class="mb-2 flex hidden w-full items-center justify-between gap-2 text-xs text-gray-600 sm:block sm:flex sm:gap-3 md:gap-4">
+                                    <span
+                                        class="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm">
+                                        {{ str_replace(',', ' ', number_format($minDistance, 0)) }} km
+                                    </span>
+                                    <input type="range" wire:model.live="maxDistanceSelected"
+                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
+                                        class="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 sm:h-2">
+                                    <span
+                                        class="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm">
+                                        {{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }} km
+                                    </span>
+                                </div>
 
 
 
@@ -141,8 +156,8 @@
 
     </div>
 
-    <div class="container mx-auto px-2 py-20">
-        <div class="font-dm-serif text-green-gs mb-3 text-3xl font-bold">
+    <div class="container mx-auto px-4 py-10 sm:py-20">
+        <div class="font-dm-serif text-green-gs mb-3 text-2xl sm:text-3xl font-bold">
             {{ $salons->count() }}
             @if ($salons->count() > 1)
                 @if ($maxDistance > 0)

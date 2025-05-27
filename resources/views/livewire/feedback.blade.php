@@ -74,7 +74,7 @@
             }, 5000);
         }
     }"
-    class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-gray-200 p-4 relative"
+    class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-gray-200 p-1 sm:p-4 relative"
 >
     <!-- Notifications flottantes -->
     <div 
@@ -201,9 +201,9 @@
         </div>
     @endforeach
     @auth
-        <div class="flex flex-col justify-center gap-4 p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">{{ __('feedback.rating_given') }}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        <div class="flex flex-col justify-center gap-4 p-2 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 px-2 sm:px-0">{{ __('feedback.rating_given') }}</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 px-2 sm:px-0">
                 {{ __('feedback.rating_help') }}
             </p>
 
@@ -236,7 +236,7 @@
             </div>
 
             <!-- Champ de commentaire -->
-            <div class="w-full mb-4 transition-all duration-200 ease-in-out hover:shadow-lg p-2 rounded-sm">
+            <div class="w-full mb-4 transition-all duration-200 ease-in-out hover:shadow-lg p-2 rounded-sm ">
                 <div class="relative">
                     <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         {{ __('feedback.your_comment') }}
@@ -252,14 +252,14 @@
                     <div id="comment-help" class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                         {{ __('feedback.comment_help') }}
                     </div>
-                    <div class="absolute bottom-2 right-2 text-xs text-gray-400">
+                    <div class="absolute bottom-2 right-2 text-xs text-gray-400 hidden sm:block">
                         <span x-text="$wire.comment ? $wire.comment.length : 0"></span>/500
                     </div>
                 </div>
             </div>
 
             <!-- Bouton de soumission -->
-            <div class="flex justify-end">
+            <div class="flex justify-center sm:justify-end">
                 @php
                     $commentLength = strlen($comment ?? '');
                     $isDisabled = !$rating || $commentLength > 500;
