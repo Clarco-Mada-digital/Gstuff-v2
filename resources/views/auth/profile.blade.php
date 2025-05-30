@@ -416,7 +416,6 @@
                             <h2 class="mb-4 text-lg font-semibold">{{ __('profile.personal_information') }}</h2>
                             <div class="mb-4">
                                 <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
-
                                 <label class="block text-sm font-medium text-gray-700">{{ __('profile.genre') }}</label>
                                 <div class="flex">
                                     <div id="states-button" data-dropdown-toggle="dropdown-states"
@@ -428,12 +427,13 @@
                                                 d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
                                         </svg>
                                     </div>
-                                    <select name="intitule" id="intitule"
+                                    
+                                    <select name="genre_id" id="genre_id"
                                         class="block w-full rounded-e-lg border border-s-0 border-gray-300 border-s-gray-100 bg-gray-50 p-2.5 ps-2 text-sm text-gray-900 dark:border-gray-600 dark:border-s-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                                         <option hidden value=""> -- </option>
                                         @foreach ($genres as $genre)
                                             <option value="{{ $genre->id }}"
-                                                @if ($user->genre_id == $genre->id) selected @endif>
+                                                @if ($user->genre_id === $genre->id) selected @endif>
                                                 {{ $genre->getTranslation('name', app()->getLocale()) }}
                                             </option>
                                         @endforeach
@@ -936,7 +936,7 @@
                     <x-invitation-list :invitationsRecus="$invitationsRecus" type='{{ $user->profile_type }}' />
                 @endif
 
-                {{-- Pour l'invité --}}
+                {{-- Pour invité --}}
                 <div x-show="userType=='invite'">
 
                     <section x-show="pageSection=='compte'">
@@ -968,7 +968,7 @@
                                     <path fill="currentColor"
                                         d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
                                 </svg>
-                                {{ $user->genre ?? __('profile.undefined') }}
+                                {{ $user->genre->getTranslation('name', app()->getLocale()) ?? __('profile.undefined') }}
                             </span>
                             <span class="flex items-center gap-2">
                                 <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg"
@@ -1111,7 +1111,7 @@
                 </div>
 
 
-                {{-- Pour l'escort --}}
+                {{-- Pour escort --}}
                 <div x-show="userType=='escorte'">
 
                     {{-- Pour la vérification --}}

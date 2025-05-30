@@ -10,64 +10,187 @@ use Livewire\Component;
 class Approximate extends Component
 {
     public $userId;
-    public $maxDistance;
     public $escorts = [];
-    public $deviceType;
     public $userLatitude;
     public $userLongitude;
+
+    public $userCanton;
+    public $userVille;
+
+    public $geo;
+
+    public $latitudeUser;
+    public $longitudeUser;
+    public $minDistance = 0;
+    public $maxAvailableDistance = 0;
+    public $selectedDistance = 0;
+    public $escortCount = 0;
+
 
     public function mount($userId)
     {
         $this->userId = $userId;
         $user = User::find($userId);
 
-        $this->deviceType = $this->detectDevice();
-
-        $distanceMaxRecord = DistanceMax::first();
-        $this->maxDistance = $distanceMaxRecord ? $distanceMaxRecord->distance_max : 1000;
-
-        if ($this->deviceType === 'PC') {
-            if ($user && !is_null($user->lon) && !is_null($user->lat)) {
-                $this->userLongitude = $user->lon;
-                $this->userLatitude = $user->lat;
-
-                $this->calculateEscortsDistances();
-            }
-        } elseif ($this->deviceType === 'phone') {
-            // Assurez-vous que les valeurs de latitude et longitude sont définies
-            if (!is_null($this->userLatitude) && !is_null($this->userLongitude)) {
-                $this->calculateEscortsDistances();
-            }
-        }
-    }
-
-    public function updatedUserLatitude()
-    {
-        if ($this->deviceType === 'phone' && !is_null($this->userLatitude) && !is_null($this->userLongitude)) {
+        if ($user) {
+            $this->userCanton = $user->canton;
+            $this->userVille = $user->ville;
+            
+            // Initialiser les propriétés de distance
+            $this->minDistance = 0;
+            $this->maxAvailableDistance = 0;
+            $this->selectedDistance = 0;
+            $this->escortCount = 0;
+            
             $this->calculateEscortsDistances();
         }
     }
 
+    // Add this method to your Approximate class
+public function useFallbackLocation()
+{
+    // This will trigger the fallback logic in calculateEscortsDistances
+    // since latitudeUser and longitudeUser will be null
+    $this->latitudeUser = null;
+    $this->longitudeUser = null;
+    $this->calculateEscortsDistances();
+}
+
+    public function resetLocation()
+    {
+        $this->latitudeUser = null;
+        $this->longitudeUser = null;
+        $this->calculateEscortsDistances();
+    }
+
+
+        // Ajoutez cette méthode publique
+    public function updateLocation($latitude, $longitude)
+    {
+        $this->latitudeUser = $latitude;
+        $this->longitudeUser = $longitude;
+        $this->calculateEscortsDistances();
+    }
+
+    // Gardez cette méthode mais rendez-la privée
+    private function updatedUserLatitude()
+    {
+        if (!is_null($this->latitudeUser) && !is_null($this->longitudeUser)) {
+            $this->calculateEscortsDistances();
+        }
+    }
+
+
     private function calculateEscortsDistances()
     {
-        $allEscortsUsers = User::where('profile_type', 'escorte')->get();
+        // Base query avec les relations chargées
+        $query = User::where('profile_type', 'escorte')
+                    ->with(['ville', 'canton']);
+        
+        // Réinitialisation des compteurs
+        $this->minDistance = PHP_FLOAT_MAX;
+        $this->maxAvailableDistance = 0;
+        $this->escortCount = 0;
+        
+        // Si on a les coordonnées de l'utilisateur, on calcule les distances
+        if (!is_null($this->latitudeUser) && !is_null($this->longitudeUser)) {
+            $allEscortsUsers = $query->clone()
+                                ->whereNotNull('lat')
+                                ->whereNotNull('lon')
+                                ->get();
 
-        // Calculer la distance de chaque escorte sans limite stricte
-        $this->escorts = $allEscortsUsers->map(function ($escort) {
-            if (!is_null($escort->lat) && !is_null($escort->lon)) {
-                $distance = $this->calculateDistance($this->userLatitude, $this->userLongitude, $escort->lat, $escort->lon);
+            // Calculer les distances pour chaque escorte
+            $escortsWithDistance = $allEscortsUsers->map(function ($escort) {
+                $distance = $this->calculateDistance(
+                    $this->latitudeUser, 
+                    $this->longitudeUser, 
+                    $escort->lat, 
+                    $escort->lon
+                );
+
+                // Mettre à jour les distances min et max
+                $this->minDistance = min($this->minDistance, $distance);
+                $this->maxAvailableDistance = max($this->maxAvailableDistance, $distance);
+                $this->escortCount++;
 
                 return [
-                    'canton' => Canton::find($escort->canton),
-                    'ville' => Ville::find($escort->ville),
+                    'canton' => $escort->cantonget,
+                    'ville' => $escort->villeget,
                     'escort' => $escort,
-                    'distance' => floatval($distance)
+                    'distance' => $distance
                 ];
+            });
+            
+            // Si c'est le premier chargement, initialiser la distance sélectionnée
+            if ($this->selectedDistance === 0 && $this->escortCount > 0) {
+                $this->selectedDistance = ceil($this->maxAvailableDistance);
             }
-            return null; // Retourne null pour les escortes sans coordonnées
-        })->filter(function ($escort) {
-            return !is_null($escort); // Supprimer les valeurs nulles
-        });
+            
+            // Filtrer par distance sélectionnée
+            $this->escorts = $escortsWithDistance
+                ->filter(function ($escort) {
+                    // Si pas de distance (cas où on n'a pas pu calculer), on garde le résultat
+                    if (is_null($escort['distance'])) {
+                        return true;
+                    }
+                    return $escort['distance'] <= $this->selectedDistance;
+                })
+                ->sortBy('distance')
+                ->values();
+            
+            if (!$this->escorts->isEmpty()) {
+                return;
+            }
+        }
+        
+        // Si pas de géolocalisation ou pas de résultats, on cherche par ville
+        if (!is_null($this->userVille)) {
+            // dd($this->userVille);
+            $villesListe = Ville::where('canton_id', $this->userCanton)->get();
+
+            $escortInVilleUser = User::where('ville', $this->userVille)->get();
+            // dd("escortInVilleUser",$escortInVilleUser);
+            if ($escortInVilleUser->isNotEmpty()) {
+                $this->escorts = $escortInVilleUser->map(function ($escort) {
+                    return [
+                        'canton' => $escort->cantonget,
+                        'ville' => $escort->villeget,
+                        'escort' => $escort,
+                        'distance' => null
+                    ];
+                });
+                return;
+            }
+
+           
+        }
+        
+        // Si pas de résultats dans la même ville, on cherche dans le même canton
+        if (!is_null($this->userCanton)) {
+            $escortInCantonUser = User::where('canton', $this->userCanton)->get();
+            if ($escortInCantonUser->isNotEmpty()) {
+                $this->escorts = $escortInCantonUser->map(function ($escort) {
+                    return [
+                        'canton' => $escort->canton,
+                        'ville' => $escort->ville,
+                        'escort' => $escort,
+                        'distance' => null
+                    ];
+                });
+                return;
+            }
+        }
+        
+        // Si toujours pas de résultats, on prend toutes les escortes disponibles
+        $this->escorts = $query->get()
+                             ->map(function ($escort) {
+                                 return [
+                                     'canton' => $escort->canton,
+                                     'ville' => $escort->ville,
+                                     'escort' => $escort,
+                                     'distance' => null
+                                 ];
+                             });
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)
@@ -84,19 +207,25 @@ class Approximate extends Component
         return $R * $c;
     }
 
+    public function updateDistance($distance)
+    {
+        $this->selectedDistance = (float)$distance;
+        $this->calculateEscortsDistances();
+    }
+
     public function render()
     {
-        return view('livewire.approximate', ['escorts' => $this->escorts, 'distanceMax' => $this->maxDistance]);
+        return view('livewire.approximate', [
+            'escorts' => $this->escorts->sortBy(function($escort) {
+                // Trier par distance croissante (les null à la fin)
+                return $escort['distance'] ?? PHP_FLOAT_MAX;
+            }),
+            'minDistance' => $this->minDistance,
+            'maxAvailableDistance' => $this->maxAvailableDistance,
+            'selectedDistance' => $this->selectedDistance,
+            'escortCount' => $this->escortCount
+        ]);
     }
 
-    public function detectDevice()
-    {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
-        if (preg_match('/mobile|tablet/i', $userAgent)) {
-            return 'phone';
-        } else {
-            return 'PC';
-        }
-    }
 }

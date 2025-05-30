@@ -519,28 +519,31 @@ class ProfileCompletionController extends Controller
             'localisation' => 'nullable|string|max:255',
             'lat' => 'nullable|string|max:255',
             'lon' => 'nullable|string|max:255',
-            'lang' => 'required|in:fr,en-US,es,de,it' 
+            'lang' => 'required|in:fr,en-US,es,de,it' ,
+            'genre_id' => 'nullable|exists:genres,id',
 
             // Ajoutez les règles de validation pour les autres champs
         ]);
 
 
 
-        // Langues cibles pour les traductions
-        $locales = Locales::SUPPORTED_CODES;
-        $sourceLocale = $request['lang']; // Langue source par défaut
-        // Traduire le contenu dans toutes les langues cibles
-        $translatedContent = [];
-        foreach ($locales as $locale) {
-            if ($locale !== $sourceLocale) {
-                $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
-            }else{
-                $translatedContent[$locale] = $request['apropos'];
-            }
-        }
-
-        $request['apropos'] = $translatedContent;
-
+       if($request->apropos){
+         // Langues cibles pour les traductions
+         $locales = Locales::SUPPORTED_CODES;
+         $sourceLocale = $request['lang']; // Langue source par défaut
+         // Traduire le contenu dans toutes les langues cibles
+         $translatedContent = [];
+         foreach ($locales as $locale) {
+             if ($locale !== $sourceLocale) {
+                 $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
+             }else{
+                 $translatedContent[$locale] = $request['apropos'];
+             }
+         }
+ 
+         $request['apropos'] = $translatedContent;
+ 
+       }
 
 
         
