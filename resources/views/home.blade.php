@@ -1,3 +1,7 @@
+@php
+    $limitedEscorts = array_slice($escorts->toArray(), 0, 10); // Convertit en tableau et coupe
+@endphp
+
 @extends('layouts.base')
 
 @section('pageTitle')
@@ -76,7 +80,7 @@
                 <div id="NewEscortContainer"
                     class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                    @foreach ($escorts as $escort)
+                    @foreach ($escorts->take(10) as $escort)
                         <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                             ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                             isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' />
@@ -107,7 +111,7 @@
                 <div id="OurSalonContainer"
                     class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                    @foreach ($salons as $salon)
+                    @foreach ($salons->take(10) as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
                             salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' />
