@@ -109,22 +109,22 @@ class EscortSearch extends Component
     // }
 
     public function updatedMinDistance($value)
-{
-    // S'assurer que la distance minimale ne dépasse pas la distance maximale
-    if ($value > $this->maxDistanceSelected) {
-        $this->maxDistanceSelected = $value;
+    {
+        // S'assurer que la distance minimale ne dépasse pas la distance maximale
+        if ($value > $this->maxDistanceSelected) {
+            $this->maxDistanceSelected = $value;
+        }
+        $this->resetPage();
     }
-    $this->resetPage();
-}
 
-public function updatedMaxDistanceSelected($value)
-{
-    // S'assurer que la distance maximale n'est pas inférieure à la distance minimale
-    if ($value < $this->minDistance) {
-        $this->minDistance = $value;
+    public function updatedMaxDistanceSelected($value)
+    {
+        // S'assurer que la distance maximale n'est pas inférieure à la distance minimale
+        if ($value < $this->minDistance) {
+            $this->minDistance = $value;
+        }
+        $this->resetPage();
     }
-    $this->resetPage();
-}
 
     private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
@@ -182,9 +182,9 @@ public function updatedMaxDistanceSelected($value)
         }
 
         if ($this->selectedServices) {
-            $query->where(function ($q) {
+            $query->whereHas('services', function ($q) {
                 foreach ($this->selectedServices as $service) {
-                    $q->where('service', 'LIKE', '%' . $service . '%');
+                    $q->where('service_id', $service);
                 }
             });
         }
@@ -261,9 +261,9 @@ public function updatedMaxDistanceSelected($value)
                 }
 
                 if ($this->selectedServices) {
-                    $query->where(function ($q) {
+                    $query->whereHas('services', function ($q) {
                         foreach ($this->selectedServices as $service) {
-                            $q->where('service', 'LIKE', '%' . $service . '%');
+                            $q->where('service_id', $service);
                         }
                     });
                 }
@@ -349,7 +349,7 @@ public function updatedMaxDistanceSelected($value)
 
         // Convertir en pagination manuelle après filtrage
         $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
-        $perPage = 10;
+        $perPage = 12;
         $currentItems = $escorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
         $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator(
             $currentItems,

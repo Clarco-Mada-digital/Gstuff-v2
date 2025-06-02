@@ -6,6 +6,7 @@ use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
 
 class Service extends Model
@@ -41,8 +42,6 @@ class Service extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)
-            ->withTimestamps()
-            ->withPivot(['created_at', 'updated_at']);
+        return $this->belongsToMany(User::class, 'user_service', 'service_id', 'user_id');
     }
 }
