@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ActivityController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
@@ -88,10 +88,20 @@ Route::post('/static-store', [StaticPageController::class, 'store'])->name('stat
 Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
 Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
 
-Route::get('/{slug}', function ($slug) {
-    $page = \App\Models\StaticPage::findBySlug($slug);
-    return view('statique_page', compact('page'));
-})->name('static.page');
+Route::get('/cgv', function () {
+    $page = \App\Models\StaticPage::findBySlug('cgv');
+    return view('cgv', compact('page'));
+})->name('static.page.cgv');
+
+Route::get('/pdc', function () {
+    $page = \App\Models\StaticPage::findBySlug('pdc');
+    return view('pdc', compact('page'));
+})->name('static.page.pdc');
+
+Route::get('/cgu', function () {
+    $page = \App\Models\StaticPage::findBySlug('cgu');
+    return view('admin.static-pages.show', compact('page'));
+})->name('static.cgu');
 
 
 
@@ -306,6 +316,3 @@ Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
 //     // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
 // });
 
-Route::get('/test-route', function() {
-    return response()->json(['message' => 'Test route works']);
-});

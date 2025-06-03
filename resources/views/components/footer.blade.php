@@ -29,7 +29,7 @@ use App\Models\Canton;
                         <a href="{{ route('glossaires.index') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.glossary') }}</a>
                         <a href="{{ route('faq') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.faq') }}</a>
                         <a href="{{ route('about') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.about_us') }}</a>
-                        <a href="{{ route('static.page', 'cgv') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.cgv') }}</a>
+                        <!-- <a href="{{ route('static.page', 'cgv') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.cgv') }}</a> -->
                         <a href="{{ route('contact') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.contact') }}</a>
                     </div>
                 </div>

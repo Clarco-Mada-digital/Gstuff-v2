@@ -21,6 +21,7 @@ use App\Models\Genre;
 use App\Models\PratiqueSexuelle;
 use App\Models\OrientationSexuelle;
 use App\Models\CouleurYeux;
+use App\Models\CouleurCheveux;
 use App\Models\Mensuration;
 use App\Models\Poitrine;
 use App\Models\Silhouette;
@@ -30,14 +31,6 @@ use App\Models\Mobilite;
 use App\Models\NombreFille;
 use App\Services\DeepLTranslateService;
 use App\Helpers\Locales;
-// use App\Models\CouleurYeux;
-// use App\Models\Mensuration;
-// use App\Models\OrientationSexuelle;
-// use App\Models\Poitrine;
-// use App\Models\PratiqueSexuelle;
-// use App\Models\PubisType;
-// use App\Models\Silhouette;
-// use App\Models\Tattoo;
 
 class ProfileCompletionController extends Controller
 {
@@ -50,41 +43,6 @@ class ProfileCompletionController extends Controller
     public function __construct(DeepLTranslateService $translateService)
     {
         $this->translateService = $translateService;
-    }
-
-    /**
-     * Get all the data needed for the dropdowns in the profile completion form.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getDropdownData()
-    {
-        $data = [
-            'cantons' => Canton::all(),
-            'villes' => Ville::all(),
-            'escort_categories' => Categorie::where('type', 'escort')->get(),
-            'salon_categories' => Categorie::where('type', 'salon')->get(),
-            'services' => Service::all(),
-            'genres' => Genre::all(),
-            'pratiques_sexuelles' => PratiqueSexuelle::all(),
-            'orientations_sexuelles' => OrientationSexuelle::all(),
-            'couleurs_yeux' => CouleurYeux::all(),
-            'couleurs_cheveux' => CouleurCheveux::all(),
-            'mensurations' => Mensuration::all(),
-            'poitrines' => Poitrine::all(),
-            'silhouettes' => Silhouette::all(),
-            'pubis_types' => PubisType::all(),
-            'tatouages' => Tattoo::all(),
-            'mobilites' => Mobilite::all(),
-            'nombre_filles' => NombreFille::all(),
-            'tailles_poitrine' => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-            'paiements' => ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'],
-            'langues' => ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'],
-            'tarifs' => [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800],
-            'origines' => ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'],
-        ];
-
-        return response()->json($data);
     }
 
     public function index()
@@ -363,50 +321,50 @@ class ProfileCompletionController extends Controller
      * Affiche les données nécessaires pour les selects du formulaire.
      * (Vous devrez adapter ceci pour récupérer vos données dynamiquement)
      */
-    // public function getDropdownData()
-    // {
-    //     // Exemple de données statiques, à remplacer par votre logique de récupération de données
-    //     $categories = Categorie::all();
-    //     $genres = Genre::all();
-    //     $pratiquesSexuelles = PratiqueSexuelle::all();
-    //     $oriantationSexuelles = OrientationSexuelle::all();
-    //     $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
-    //     $couleursYeux = CouleurYeux::all();
-    //     $couleursCheveux = CouleurCheveux::all();
-    //     $mensurations = Mensuration::all();
-    //     $poitrines = Poitrine::all();
-    //     $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    //     $silhouette = Silhouette::all();
-    //     $pubis = PubisType::all();
-    //     $tatouages = Tattoo::all();
-    //     $mobilites = Mobilite::all();
-    //     $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
-    //     $nombreFilles = NombreFille::all();
-    //     $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
-    //     $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
+    public function getDropdownData()
+    {
+        // Exemple de données statiques, à remplacer par votre logique de récupération de données
+        $categories = Categorie::all();
+        $genres = Genre::all();
+        $pratiquesSexuelles = PratiqueSexuelle::all();
+        $oriantationSexuelles = OrientationSexuelle::all();
+        $origines = ['Africaine', 'Allemande', 'Asiatique', 'Brésilienne', 'Caucasienne', 'Espagnole', 'Européene', 'Française', 'Indienne', 'Italienne', 'Latine', 'Métisse', 'Orientale', 'Russe', 'Suisesse'];
+        $couleursYeux = CouleurYeux::all();
+        $couleursCheveux = CouleurCheveux::all();
+        $mensurations = Mensuration::all();
+        $poitrines = Poitrine::all();
+        $taillesPoitrine = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        $silhouette = Silhouette::all();
+        $pubis = PubisType::all();
+        $tatouages = Tattoo::all();
+        $mobilites = Mobilite::all();
+        $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
+        $nombreFilles = NombreFille::all();
+        $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+        $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];
 
-    //     return response()->json([
-    //         'genres' => $genres,
-    //         'oriantationSexuelles' => $oriantationSexuelles,
-    //         'silhouette' => $silhouette,
-    //         'categories' => $categories,
-    //         'nombreFilles' => $nombreFilles,
-    //         'pratiquesSexuelles' => $pratiquesSexuelles,
-    //         'origines' => $origines,
-    //         'langues' => $langues,
-    //         'couleursYeux' => $couleursYeux,
-    //         'couleursCheveux' => $couleursCheveux,
-    //         'mensurations' => $mensurations,
-    //         'poitrines' => $poitrines,
-    //         'taillesPoitrine' => $taillesPoitrine,
-    //         'pubis' => $pubis,
-    //         'tatouages' => $tatouages,
-    //         'mobilites' => $mobilites,
-    //         'tarifs' => $tarifs,
-    //         'paiements' => $paiements,
-    //     ]);
-    // }
-    
+        return response()->json([
+            'genres' => $genres,
+            'oriantationSexuelles' => $oriantationSexuelles,
+            'silhouette' => $silhouette,
+            'categories' => $categories,
+            'nombreFilles' => $nombreFilles,
+            'pratiquesSexuelles' => $pratiquesSexuelles,
+            'origines' => $origines,
+            'langues' => $langues,
+            'couleursYeux' => $couleursYeux,
+            'couleursCheveux' => $couleursCheveux,
+            'mensurations' => $mensurations,
+            'poitrines' => $poitrines,
+            'taillesPoitrine' => $taillesPoitrine,
+            'pubis' => $pubis,
+            'tatouages' => $tatouages,
+            'mobilites' => $mobilites,
+            'tarifs' => $tarifs,
+            'paiements' => $paiements,
+        ]);
+    }
+
 
     public function getProfileCompletionPercentage()
     {
