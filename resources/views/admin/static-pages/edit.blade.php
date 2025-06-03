@@ -18,6 +18,7 @@
                     <div class="mb-6">
                         <label for="title"
                             class="mb-1 block text-sm font-medium text-gray-700">{{ __('static_pages.title') }}</label>
+                            <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                         <input type="text" name="title" id="title" value="{{ old('title', $staticPage->title) }}"
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     </div>

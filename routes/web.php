@@ -88,6 +88,9 @@ Route::post('/static-store', [StaticPageController::class, 'store'])->name('stat
 Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
 Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
 
+
+
+
 Route::get('/cgv', function () {
     $page = \App\Models\StaticPage::findBySlug('cgv');
     return view('cgv', compact('page'));
@@ -316,3 +319,7 @@ Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
 //     // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
 // });
 
+Route::get('/{slug}', function ($slug) {
+    $page = \App\Models\StaticPage::findBySlug($slug);
+    return view('statique_page', compact('page'));
+})->name('static.page');
