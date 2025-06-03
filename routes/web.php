@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\ActivityController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CgvController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdcController;
 use App\Http\Controllers\ProfileCompletionController;
@@ -306,3 +306,6 @@ Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
 //     // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
 // });
 
+Route::get('/test-route', function() {
+    return response()->json(['message' => 'Test route works']);
+});
