@@ -27,6 +27,8 @@ class ArticleController extends Controller
         return view('articles.index');
     }
 
+    
+
     public function admin()
     {       
         return view('admin.articles.index', [

@@ -918,7 +918,8 @@
 
                             <div class="my-1.5">
                                 {{ __('profile.profile_completion_message') }}
-                                <a class="font-bold hover:underline" href="{{ route('static.pdc') }}">
+                                <a class="font-bold hover:underline" 
+                                >
                                     {{ __('profile.privacy_policy') }}
                                 </a>
                             </div>

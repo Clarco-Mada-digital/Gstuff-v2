@@ -251,78 +251,78 @@
 
 @section('extraScripts')
 <script>
-function galleryApp() {
-    return {
-        loggedIn: @json(auth()->check()),        
-        openMenu: false,
-        mediaTypeFilter: '',
-        
-        userFilter: {
-            allUsers: @json($usersWithMedia->map(function($user) {
-                return ['id' => $user->id, 'prenom' => $user->prenom];
-            })),
-            filteredUsers: [],
-            selectedUsers: [],
-            search: '',
-            open: false,
+    function galleryApp() {
+        return {
+            loggedIn: @json(auth()->check()),        
+            openMenu: false,
+            mediaTypeFilter: '',
             
-            init() {
-                this.$watch('currentPage', () => this.loadPage());
-                this.$watch(['selectedUsers', 'selectedType', 'searchQuery'], 
-                    () => this.applyFilters());
-            },
-            
-            filterUsers() {
-                if (!this.search) {
-                    this.filteredUsers = [...this.allUsers];
-                    return;
-                }
+            userFilter: {
+                allUsers: @json($usersWithMedia->map(function($user) {
+                    return ['id' => $user->id, 'prenom' => $user->prenom];
+                })),
+                filteredUsers: [],
+                selectedUsers: [],
+                search: '',
+                open: false,
                 
-                const searchTerm = this.search.toLowerCase().trim();
-                this.filteredUsers = this.allUsers.filter(user => 
-                    user.prenom.toLowerCase().includes(searchTerm)
-                );
-            },
-            
-            toggleUser(userId) {
-                if (this.selectedUsers.includes(userId)) {
+                init() {
+                    this.$watch('currentPage', () => this.loadPage());
+                    this.$watch(['selectedUsers', 'selectedType', 'searchQuery'], 
+                        () => this.applyFilters());
+                },
+                
+                filterUsers() {
+                    if (!this.search) {
+                        this.filteredUsers = [...this.allUsers];
+                        return;
+                    }
+                    
+                    const searchTerm = this.search.toLowerCase().trim();
+                    this.filteredUsers = this.allUsers.filter(user => 
+                        user.prenom.toLowerCase().includes(searchTerm)
+                    );
+                },
+                
+                toggleUser(userId) {
+                    if (this.selectedUsers.includes(userId)) {
+                        this.selectedUsers = this.selectedUsers.filter(id => id !== userId);
+                    } else {
+                        this.selectedUsers = [...this.selectedUsers, userId];
+                    }
+                },
+                
+                removeUser(userId) {
                     this.selectedUsers = this.selectedUsers.filter(id => id !== userId);
-                } else {
-                    this.selectedUsers = [...this.selectedUsers, userId];
+                },
+                
+                toggleAllUsers() {
+                    this.selectedUsers = [];
+                },
+                
+                getUserName(userId) {
+                    const user = this.allUsers.find(u => u.id === userId);
+                    return user ? user.prenom : '';
                 }
             },
             
-            removeUser(userId) {
-                this.selectedUsers = this.selectedUsers.filter(id => id !== userId);
+            shouldShowMedia(userId, mediaType) {
+                // Conversion robuste des IDs en strings
+                const selectedUsersStrings = this.userFilter.selectedUsers.map(String);
+                const userIdString = String(userId);
+
+                const userMatch = selectedUsersStrings.length === 0 || 
+                                selectedUsersStrings.includes(userIdString);
+                
+                const typeMatch = !this.mediaTypeFilter || this.mediaTypeFilter === mediaType;
+
+                return userMatch && typeMatch;
             },
             
-            toggleAllUsers() {
-                this.selectedUsers = [];
+            openMedia(src, type) {
+                this.$dispatch('media-open', { src, type });
             },
-            
-            getUserName(userId) {
-                const user = this.allUsers.find(u => u.id === userId);
-                return user ? user.prenom : '';
-            }
-        },
-        
-        shouldShowMedia(userId, mediaType) {
-            // Conversion robuste des IDs en strings
-            const selectedUsersStrings = this.userFilter.selectedUsers.map(String);
-            const userIdString = String(userId);
-
-            const userMatch = selectedUsersStrings.length === 0 || 
-                            selectedUsersStrings.includes(userIdString);
-            
-            const typeMatch = !this.mediaTypeFilter || this.mediaTypeFilter === mediaType;
-
-            return userMatch && typeMatch;
-        },
-        
-        openMedia(src, type) {
-            this.$dispatch('media-open', { src, type });
-        },
+        }
     }
-}
 </script>
 @endsection

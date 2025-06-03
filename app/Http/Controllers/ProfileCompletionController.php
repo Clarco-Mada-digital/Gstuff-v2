@@ -364,7 +364,7 @@ class ProfileCompletionController extends Controller
             'paiements' => $paiements,
         ]);
     }
-
+    
 
     public function getProfileCompletionPercentage()
     {

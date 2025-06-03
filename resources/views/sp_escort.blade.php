@@ -17,6 +17,7 @@
 
     <div x-data="{}" class="container mx-auto flex flex-col justify-center xl:flex-row">
 
+        {{-- Profile picture and status --}}
         <div class="min-w-1/4 flex flex-col items-center gap-3 px-4">
 
             <div class="w-55 h-55 border-5 relative mx-auto -translate-y-[50%] rounded-full border-white">
@@ -131,6 +132,7 @@
 
         </div>
 
+        {{-- Escort profile --}}
         <div class="min-w-3/4 px-5 py-5">
 
             <section>
@@ -291,12 +293,10 @@
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                 </div>
-
-
                 <div class="flex flex-wrap items-center gap-2">
-                    @foreach ($escort['service'] as $service)
+                    @foreach ($escort->services as $service)
                         <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
-                            {{ $service['nom'][app()->getLocale()] ?? ($service['nom']['fr'] ?? '-') }}
+                            {{ $service->getTranslation('nom', app()->getLocale()) }}
                         </span>
                     @endforeach
                 </div>

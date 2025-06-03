@@ -23,8 +23,8 @@
                 <img x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $salon->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : '{{ asset('images/icon_logo.png') }}', imgModalDesc: '' })"
                     class="h-full w-full rounded-full object-cover object-center"
                     @if ($avatar = $salon->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
-            @else
-            src="{{ asset('images/icon_logo.png') }}" @endif
+                    @else
+                    src="{{ asset('images/icon_logo.png') }}" @endif
                     alt="{{ __('salon_profile.profile_image') }}" />
             </div>
             <p class="-mt-[25%] font-bold md:-mt-[10%] xl:-mt-[25%]">{{ Str::ucfirst($salon->nom_salon) }}</p>

@@ -8,11 +8,30 @@
 
 @section('extraStyle')
     <style>
-        h3 {
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'DM serif';
-            font-size: 30px;
             font-weight: bold;
             margin: 10px 0;
+        }
+
+        h3 {
+            font-size: 24px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        h5 {
+            font-size: 18px;
+        }
+
+        h6 {
+            font-size: 16px;
         }
 
         .content a {

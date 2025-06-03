@@ -29,7 +29,7 @@ use App\Models\Canton;
                         <a href="{{ route('glossaires.index') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.glossary') }}</a>
                         <a href="{{ route('faq') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.faq') }}</a>
                         <a href="{{ route('about') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.about_us') }}</a>
-                        <a href="{{ route('static.cgv') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.cgv') }}</a>
+                        <a href="{{ route('static.page', 'cgv') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.cgv') }}</a>
                         <a href="{{ route('contact') }}" class="text-gray-300 transition hover:text-white">{{ __('footer.contact') }}</a>
                     </div>
                 </div>
@@ -39,6 +39,6 @@ use App\Models\Canton;
     <div
         class="relative z-30 flex items-center justify-center bg-black py-7 text-xs text-white transition-all lg:text-base">
         Copyright {{ now()->year }} - <a href="{{ route('home') }}" class="mx-2 text-yellow-500"> Gstuff </a> -
-        <a href="{{ route('static.pdc') }}" class="mx-2 text-yellow-500">{{ __('footer.privacy_policy') }}</a>
+        <a href="{{ route('static.page', 'pdc') }}" class="mx-2 text-yellow-500">{{ __('footer.privacy_policy') }}</a>
     </div>
 </div>

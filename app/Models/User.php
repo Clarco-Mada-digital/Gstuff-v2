@@ -23,6 +23,7 @@ use App\Models\PratiqueSexuelle;
 use App\Models\Poitrine;
 use App\Models\Silhouette;
 use App\Models\PubisType;
+use App\Models\Tatoo;
 use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
@@ -93,7 +94,7 @@ class User extends Authenticatable
      */
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class);
+        return $this->belongsToMany(Service::class, 'user_service', 'user_id', 'service_id');
     }
 
     protected $fillable = [

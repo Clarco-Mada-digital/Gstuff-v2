@@ -76,7 +76,7 @@
                     if (!contentElement) return;
         
                     // Récupérer tous les H1 et H2
-                    const headings = contentElement.querySelectorAll('h1, h2');
+                    const headings = contentElement.querySelectorAll('h2, h3');
                     let currentH1 = null;
                     const tocSections = [];
         
@@ -85,14 +85,14 @@
                             heading.id = 'section-' + index;
                         }
         
-                        if (heading.tagName === 'H1') {
+                        if (heading.tagName === 'H2') {
                             currentH1 = {
                                 id: heading.id,
                                 text: heading.textContent.trim(),
                                 children: []
                             };
                             tocSections.push(currentH1);
-                        } else if (heading.tagName === 'H2' && currentH1) {
+                        } else if (heading.tagName === 'H3' && currentH1) {
                             currentH1.children.push({
                                 id: heading.id,
                                 text: heading.textContent.trim()
@@ -102,8 +102,8 @@
         
                     this.sections = tocSections;
                 }, 100);
-            }
-        }" x-init="generateTOC()" class="mb-10">
+                }
+            }" x-init="generateTOC()" class="mb-10">
             <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
                 <button @click="open = !open"
                     class="text-green-gs flex w-full items-center justify-between px-6 py-4 text-left font-medium transition-colors duration-200 hover:bg-gray-100"
