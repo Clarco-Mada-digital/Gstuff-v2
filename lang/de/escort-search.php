@@ -39,4 +39,6 @@ return [
     'filter_by_region' => 'Nach Region filtern',
     'filter_by_distance' => 'Nach Entfernung filtern',
     'distance_km' => 'Entfernung (km)',
+    'filter_by_closest_only' => 'Heiße Escorts in meiner Nähe',
+    'resetting' => 'Zurücksetzen...',
 ];

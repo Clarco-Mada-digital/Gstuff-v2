@@ -6,12 +6,12 @@ use App\Models\Canton;
 use App\Models\Categorie;
 use App\Models\User;
 use App\Models\Ville;
+use App\Models\NombreFille;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\NombreFille;
 use Stevebauman\Location\Facades\Location;
 
 class SalonSearch extends Component
@@ -32,25 +32,32 @@ class SalonSearch extends Component
     public $cantons;
     public $availableVilles;
     public $maxDistance = 0;
-    public $salonCount = 0; // Ajout de la propriété pour le nombre de salons trouvés
+    public $salonCount = 0;
     public $nombreFilles;
-    
 
-    
     public $approximite = false;
     public $latitudeUser;
     public $longitudeUser;
 
     #[Url]
-    public $minDistance = 0;  // Distance minimale
+    public $minDistance = 0;
     #[Url]
-    public $maxDistanceSelected = 0; // Distance maximale sélectionnée
-    public $maxAvailableDistance = 0; // Distance maximale disponible
+    public $maxDistanceSelected = 0;
+    public $maxAvailableDistance = 0;
 
+    #[Url]
+    public $showClosestOnly = false;
+
+    public $showFiltreCanton = true;
 
     public function approximiteFunc()
     {
         $this->approximite = !$this->approximite;
+        if ($this->approximite) {
+            $this->showClosestOnly = false;
+            $this->reset('maxDistanceSelected');
+        }
+        $this->resetPage();
     }
 
     public function updateUserLatitude($latitude)
@@ -63,27 +70,6 @@ class SalonSearch extends Component
         $this->longitudeUser = $longitude;
     }
 
-
-
-    public function updatedMinDistance($value)
-    {
-        // S'assurer que la distance minimale ne dépasse pas la distance maximale
-        if ($value > $this->maxDistanceSelected) {
-            $this->maxDistanceSelected = $value;
-        }
-        $this->resetPage();
-    }
-
-    public function updatedMaxDistanceSelected($value)
-    {
-        // S'assurer que la distance maximale n'est pas inférieure à la distance minimale
-        if ($value < $this->minDistance) {
-            $this->minDistance = $value;
-        }
-        $this->resetPage();
-    }
-
-
     public function resetFilter()
     {
         $this->selectedSalonCanton = '';
@@ -91,6 +77,9 @@ class SalonSearch extends Component
         $this->selectedSalonCategories = [];
         $this->villes = [];
         $this->nbFilles = [];
+        $this->approximite = false;
+        $this->showClosestOnly = false;
+        $this->resetPage();
         $this->render();
     }
 
@@ -103,9 +92,35 @@ class SalonSearch extends Component
         }
     }
 
+    public function updatedShowClosestOnly($value)
+    {
+        if ($value) {
+            $this->approximite = false;
+            $this->reset('minDistance');
+            $this->reset('maxAvailableDistance');
+            $this->reset('maxDistanceSelected');
+        }
+        $this->resetPage();
+    }
+
+    public function updatedMinDistance($value)
+    {
+        if ($value > $this->maxDistanceSelected) {
+            $this->maxDistanceSelected = $value;
+        }
+        $this->resetPage();
+    }
+
+    public function updatedMaxDistanceSelected($value)
+    {
+        if ($value < $this->minDistance) {
+            $this->minDistance = $value;
+        }
+        $this->resetPage();
+    }
+
     private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
-        // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
         $lonFrom = deg2rad($longitudeFrom);
         $latTo = deg2rad($latitudeTo);
@@ -114,378 +129,334 @@ class SalonSearch extends Component
         $latDelta = $latTo - $latFrom;
         $lonDelta = $lonTo - $lonFrom;
 
-        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return $angle * $earthRadius;
     }
 
-    // public function render()
-    // {
-    //     $this->cantons = Canton::all();
-    //     $this->availableVilles = Ville::all();
-    //     $this->categories = Categorie::where('type', 'salon')->get();
-    //     $this->nombreFilles = NombreFille::all();
-
-    //     // Récupération du pays du visiteur via IP
-    //     $position = Location::get(request()->ip());
-    //     $viewerCountry = $position?->countryCode ?? 'FR'; // fallback utile
-    //     $viewerLatitude = $position?->latitude ?? 0;
-    //     $viewerLongitude = $position?->longitude ?? 0;
-
-
-    //     if ($this->approximite) {
-    //         // Logique de filtrage par distance
-    //         $minDistance = PHP_FLOAT_MAX;
-    //         $maxAvailableDistance = 0;
-    //         $salonCount = 0;
-    
-    //         $salons = User::where('profile_type', 'salon')
-    //             ->whereNotNull('lat')
-    //             ->whereNotNull('lon')
-    //             ->get()
-    //             ->filter(function ($salon) use ($viewerCountry) {
-    //                 return $salon->isProfileVisibleTo($viewerCountry);
-    //             })
-    //             ->map(function ($salon) use ($viewerLatitude, $viewerLongitude, &$minDistance, &$maxAvailableDistance, &$salonCount) {
-    //                 $distance = $this->haversineGreatCircleDistance(
-    //                     $viewerLatitude,
-    //                     $viewerLongitude,
-    //                     $salon->lat,
-    //                     $salon->lon
-    //                 );
-                    
-    //                 $minDistance = min($minDistance, $distance);
-    //                 $maxAvailableDistance = max($maxAvailableDistance, $distance);
-    //                 $salonCount++;
-                    
-    //                 return [
-    //                     'salon' => $salon,
-    //                     'distance' => $distance,
-    //                 ];
-    //             });
-    
-    //         $this->minDistance = $salonCount > 0 ? floor($minDistance) : 0;
-    //         $this->maxAvailableDistance = $salonCount > 0 ? ceil($maxAvailableDistance) : 0;
-    //         $this->salonCount = $salonCount;
-    
-    //         if (!$this->maxDistanceSelected && $salonCount > 0) {
-    //             $this->maxDistanceSelected = $this->maxAvailableDistance;
-    //         }
-    
-    //         if ($salonCount > 0) {
-    //             $salons = $salons->filter(function ($item) {
-    //                 return $item['distance'] >= $this->minDistance && 
-    //                        $item['distance'] <= $this->maxDistanceSelected;
-    //             });
-    //         }
-    
-    //         $salons = $salons->sortBy('distance');
-    //     } else {
-    //         $query = User::query()->where('profile_type', 'salon');
-
-    //     if ($this->selectedSalonCanton) {
-    //         $query->where('canton', 'LIKE', '%' . $this->selectedSalonCanton . '%');
-    //         $this->resetPage();
-    //     }
-
-    //     if ($this->selectedSalonVille != '') {
-    //         $query->where('ville', 'LIKE', '%' . $this->selectedSalonVille . '%');
-    //         $this->resetPage();
-    //     }
-
-    //     if ($this->nbFilles) {
-    //         $query->where(function ($q) {
-    //             foreach ($this->nbFilles as $nbFilles) {
-    //                 $q->orWhere('nombre_fille_id', $nbFilles);
-    //             }
-    //         });
-    //         $this->resetPage();
-    //     }
-
-    //     if ($this->selectedSalonCategories) {
-    //         $query->where(function ($q) {
-    //             foreach ($this->selectedSalonCategories as $categorie) {
-    //                 $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
-    //             }
-    //         });
-    //         $this->resetPage();
-    //     }
-
-    //     // Obtenir tous les salons et filtrer par pays
-    //     $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
-    //         return $salon->isProfileVisibleTo($viewerCountry);
-    //     });
-
-    //     // Si aucun résultat, chercher dans les villes proches
-    //     if ($allSalons->isEmpty() && !empty($this->selectedSalonVille)) {
-    //         $nearbyVilles = Ville::where('canton_id', $this->selectedSalonCanton)
-    //             ->where('id', '!=', $this->selectedSalonVille)
-    //             ->get();
-
-    //         foreach ($nearbyVilles as $ville) {
-    //             $query = User::query()->where('profile_type', 'salon')
-    //                 ->where('ville', $ville->id);
-
-    //             if ($this->nbFilles) {
-    //                 $query->where(function ($q) {
-    //                     foreach ($this->nbFilles as $nbFilles) {
-    //                         $q->orWhere('nombre_fille_id', $nbFilles);
-    //                     }
-    //                 });
-    //             }
-
-    //             if ($this->selectedSalonCategories) {
-    //                 $query->where(function ($q) {
-    //                     foreach ($this->selectedSalonCategories as $categorie) {
-    //                         $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
-    //                     }
-    //                 });
-    //             }
-
-    //             $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
-    //                 return $salon->isProfileVisibleTo($viewerCountry);
-    //             });
-
-    //             if (!$allSalons->isEmpty()) {
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     // Compter le nombre de salons trouvés
-    //     $this->salonCount = $allSalons->count();
-
-    //     // Calculer la distance maximale
-    //     $this->maxDistance = 0;
-    //     foreach ($allSalons as $salon) {
-    //         if ($salon->lat && $salon->lon) {
-    //             $distance = $this->haversineGreatCircleDistance(
-    //                 $viewerLatitude,
-    //                 $viewerLongitude,
-    //                 $salon->lat,
-    //                 $salon->lon
-    //             );
-    //             if ($distance > $this->maxDistance) {
-    //                 $this->maxDistance = $distance;
-    //             }
-    //         }
-    //     }
-    //     $this->maxDistance = round($this->maxDistance);
-    //     }
-
-    //     // Pagination manuelle
-    //     $currentPage = Paginator::resolveCurrentPage();
-    //     $perPage = 10;
-    //     $currentItems = $allSalons->slice(($currentPage - 1) * $perPage, $perPage)->values();
-    //     $paginatedSalons = new LengthAwarePaginator(
-    //         $currentItems,
-    //         $allSalons->count(),
-    //         $perPage,
-    //         $currentPage,
-    //         ['path' => request()->url(), 'query' => request()->query()]
-    //     );
-
-    //     // Hydrate les champs manuellement
-    //     foreach ($paginatedSalons as $salon) {
-    //         $salon['categorie'] = Categorie::find($salon->categorie);
-    //         $salon['canton'] = Canton::find($salon->canton);
-    //         $salon['ville'] = Ville::find($salon->ville);
-    //     }
-
-    //     return view('livewire.salon-search', [
-    //         'salons' => $paginatedSalons,
-    //         'maxDistance' => $this->approximite ? $this->maxAvailableDistance : $this->maxDistance,
-    //         'salonCount' => $this->salonCount,
-    //         'minDistance' => $this->minDistance,
-    //         'maxAvailableDistance' => $this->maxAvailableDistance,
-    //     ]);
-    // }
-
     public function render()
-{
-    $this->cantons = Canton::all();
-    $this->availableVilles = Ville::all();
-    $this->categories = Categorie::where('type', 'salon')->get();
-    $this->nombreFilles = NombreFille::all();
+    {
+        if ($this->approximite && $this->showClosestOnly) {
+            $this->showClosestOnly = false;
+        }
 
-    // Récupération du pays du visiteur via IP
-    $position = Location::get(request()->ip());
-    $viewerCountry = $position?->countryCode ?? 'FR'; // fallback utile
-    $viewerLatitude = $position?->latitude ?? 0;
-    $viewerLongitude = $position?->longitude ?? 0;
+        $this->showFiltreCanton = !($this->approximite || $this->showClosestOnly);
 
-    // Déclarer les variables en dehors des conditions
-    $allSalons = collect();
-    $salons = collect();
+        $this->cantons = Canton::all();
+        $this->availableVilles = Ville::all();
+        $this->categories = Categorie::where('type', 'salon')->get();
+        $this->nombreFilles = NombreFille::all();
 
-    if ($this->approximite) {
-        // Logique de filtrage par distance
-        $minDistance = PHP_FLOAT_MAX;
-        $maxAvailableDistance = 0;
-        $salonCount = 0;
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? 'FR';
+        $viewerLatitude = $position?->latitude ?? 0;
+        $viewerLongitude = $position?->longitude ?? 0;
 
-        $salons = User::where('profile_type', 'salon')
-            ->whereNotNull('lat')
-            ->whereNotNull('lon')
-            ->get()
-            ->filter(function ($salon) use ($viewerCountry) {
+        $allSalons = collect();
+        $salons = collect();
+        if (!$this->approximite) {
+            $query = User::query()->where('profile_type', 'salon');
+
+            if ($this->selectedSalonCanton) {
+                $query->where('canton', $this->selectedSalonCanton);
+            }
+
+            if ($this->selectedSalonVille) {
+                $query->where('ville', $this->selectedSalonVille);
+            }
+
+            if ($this->selectedSalonCategories) {
+                $query->where(function ($q) {
+                    foreach ($this->selectedSalonCategories as $categorie) {
+                        $q->where('categorie', 'LIKE', '%' . $categorie . '%');
+                    }
+                });
+            }
+
+            if ($this->nbFilles) {
+                $query->where(function ($q) {
+                    foreach ($this->nbFilles as $nbFilles) {
+                        $q->orWhere('nombre_fille_id', $nbFilles);
+                    }
+                });
+                $this->resetPage();
+            }
+
+            $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
                 return $salon->isProfileVisibleTo($viewerCountry);
-            })
-            ->map(function ($salon) use ($viewerLatitude, $viewerLongitude, &$minDistance, &$maxAvailableDistance, &$salonCount) {
-                $distance = $this->haversineGreatCircleDistance(
-                    $viewerLatitude,
-                    $viewerLongitude,
-                    $salon->lat,
-                    $salon->lon
-                );
-                
-                $minDistance = min($minDistance, $distance);
-                $maxAvailableDistance = max($maxAvailableDistance, $distance);
-                $salonCount++;
-                
-                return [
-                    'salon' => $salon,
-                    'distance' => $distance,
-                ];
             });
-        
 
-        $this->minDistance = $salonCount > 0 ? $minDistance : 0;
-        $this->maxAvailableDistance = $salonCount > 0 ? ceil($maxAvailableDistance) : 0;
-        $this->salonCount = $salonCount;
+            // Si aucun résultat, chercher dans les villes proches
+            if ($salons->isEmpty() && !empty($this->selectedSalonVille)) {
+                $nearbyVilles = Ville::where('canton_id', $this->selectedSalonCanton)->where('id', '!=', $this->selectedSalonVille)->get();
 
-        if (!$this->maxDistanceSelected && $salonCount > 0) {
-            $this->maxDistanceSelected = $this->maxAvailableDistance;
-        }
+                foreach ($nearbyVilles as $ville) {
+                    $query = User::query()->where('profile_type', 'salon')->where('ville', $ville->id);
 
-        if ($salonCount > 0) {
-            $salons = $salons->filter(function ($item) {
-                return $item['distance'] <= $this->maxDistanceSelected;
-            });
-            $salons = $salons->sortBy('distance');
-        }
+                    if ($this->selectedSalonCategories) {
+                        $query->where(function ($q) {
+                            foreach ($this->selectedSalonCategories as $categorie) {
+                                $q->where('categorie', 'LIKE', '%' . $categorie . '%');
+                            }
+                        });
+                    }
 
-        $allSalons = $salons->values();
-        
-    } else {
-        $query = User::query()->where('profile_type', 'salon');
+                    if ($this->nbFilles) {
+                        $query->where(function ($q) {
+                            foreach ($this->nbFilles as $nbFilles) {
+                                $q->orWhere('nombre_fille_id', $nbFilles);
+                            }
+                        });
+                    }
 
-        if ($this->selectedSalonCanton) {
-            $query->where('canton', 'LIKE', '%' . $this->selectedSalonCanton . '%');
-            $this->resetPage();
-        }
-
-        if ($this->selectedSalonVille != '') {
-            $query->where('ville', 'LIKE', '%' . $this->selectedSalonVille . '%');
-            $this->resetPage();
-        }
-
-        if ($this->nbFilles) {
-            $query->where(function ($q) {
-                foreach ($this->nbFilles as $nbFilles) {
-                    $q->orWhere('nombre_fille_id', $nbFilles);
-                }
-            });
-            $this->resetPage();
-        }
-
-        if ($this->selectedSalonCategories) {
-            $query->where(function ($q) {
-                foreach ($this->selectedSalonCategories as $categorie) {
-                    $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
-                }
-            });
-            $this->resetPage();
-        }
-
-        // Obtenir tous les salons et filtrer par pays
-        $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
-            return $salon->isProfileVisibleTo($viewerCountry);
-        });
-
-        // Si aucun résultat, chercher dans les villes proches
-        if ($allSalons->isEmpty() && !empty($this->selectedSalonVille)) {
-            $nearbyVilles = Ville::where('canton_id', $this->selectedSalonCanton)
-                ->where('id', '!=', $this->selectedSalonVille)
-                ->get();
-
-            foreach ($nearbyVilles as $ville) {
-                $query = User::query()->where('profile_type', 'salon')
-                    ->where('ville', $ville->id);
-
-                if ($this->nbFilles) {
-                    $query->where(function ($q) {
-                        foreach ($this->nbFilles as $nbFilles) {
-                            $q->orWhere('nombre_fille_id', $nbFilles);
-                        }
+                    $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+                        return $salon->isProfileVisibleTo($viewerCountry);
                     });
-                }
 
-                if ($this->selectedSalonCategories) {
-                    $query->where(function ($q) {
-                        foreach ($this->selectedSalonCategories as $categorie) {
-                            $q->orWhere('categorie', 'LIKE', '%' . $categorie . '%');
-                        }
-                    });
+                    if (!$salons->isEmpty()) {
+                        break;
+                    }
                 }
+            }
 
-                $allSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+            // Compter le nombre d'escorts trouvés
+            $this->salonCount = $salons->count();
+
+            // Calculer la distance maximale
+            $this->maxDistance = 0;
+            foreach ($salons as $salon) {
+                if ($salon->lat && $salon->lon) {
+                    $distance = $this->haversineGreatCircleDistance($viewerLatitude, $viewerLongitude, $salon->lat, $salon->lon);
+                    if ($distance > $this->maxDistance) {
+                        $this->maxDistance = $distance;
+                    }
+                }
+            }
+
+            $this->maxDistance = round($this->maxDistance);
+
+            // Convertir en pagination manuelle après filtrage
+            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+            $perPage = 12;
+            $currentItems = $salons->slice(($currentPage - 1) * $perPage, $perPage)->values();
+            $paginatedSalons = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $salons->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
+
+            // Hydrate relations
+            foreach ($paginatedSalons as $salon) {
+                $salon['categorie'] = Categorie::find($salon->categorie);
+                $salon['canton'] = Canton::find($salon->canton);
+                $salon['ville'] = Ville::find($salon->ville);
+            }
+        }
+
+        if ($this->approximite) {
+            $userLatitude = $this->latitudeUser;
+            $userLongitude = $this->longitudeUser;
+
+            if (!$userLatitude || !$userLongitude) {
+                $userLatitude = $viewerLatitude;
+                $userLongitude = $viewerLongitude;
+            }
+
+            // Initialiser les variables
+            $minDistance = PHP_FLOAT_MAX;
+            $maxAvailableDistance = 0;
+            $escortCount = 0;
+
+            $salons = User::where('profile_type', 'salon')
+                ->whereNotNull('lat')
+                ->whereNotNull('lon')
+                ->get()
+                ->filter(function ($salon) use ($viewerCountry) {
                     return $salon->isProfileVisibleTo($viewerCountry);
+                })
+                ->map(function ($salon) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$salonCount) {
+                    $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $salon->lat, $salon->lon);
+
+                    // Mettre à jour les distances min et max
+                    $minDistance = min($minDistance, $distance);
+                    $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                    $salonCount++;
+
+                    return [
+                        'salon' => $salon,
+                        'distance' => $distance,
+                    ];
                 });
 
-                if (!$allSalons->isEmpty()) {
-                    break;
-                }
+            // Mettre à jour les propriétés de la classe
+            $this->minDistance = $salonCount > 0 ? $minDistance : 0;
+            $this->maxAvailableDistance = $salonCount > 0 ? ceil($maxAvailableDistance) : 0;
+            $this->salonCount = $salonCount;
+
+            // Si c'est le premier chargement, initialiser maxDistanceSelected
+            if (!$this->maxDistanceSelected && $salonCount > 0) {
+                $this->maxDistanceSelected = $this->maxAvailableDistance;
+            }
+
+            // Filtrer par plage de distance, catégories et genre si sélectionnés
+            if ($salonCount > 0) {
+                $salons = $salons->filter(function ($item) {
+                    // Vérifier la distance
+                    $distanceMatch = $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
+
+                    if (!$distanceMatch) {
+                        return false;
+                    }
+
+                    // Vérifier le nombre de filles si sélectionné
+                    if (!empty($this->nbFilles)) {
+                        $salonNbFilles = $item['salon']->nombre_fille_id;
+                        if (!in_array($salonNbFilles, $this->nbFilles)) {
+                            return false;
+                        }
+                    }
+
+                    // Vérifier les catégories si sélectionnées
+                    if (!empty($this->selectedSalonCategories)) {
+                        // Convertir la catégorie de l'escort en tableau si ce n'est pas déjà le cas
+                        $salonCategory = $item['salon']->categorie;
+                        $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
+
+                        // Convertir les IDs en chaînes pour la comparaison
+                        $salonCategories = array_map('strval', $salonCategories);
+                        $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+
+                        // Vérifier s'il y a une correspondance
+                        $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
+                        if (!$hasMatchingCategory) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
+            }
+
+            // Trier par distance
+            $salons = $salons->sortBy('distance');
+            $this->salonCount = $salons->count();
+
+            // Convertir en pagination
+            $perPage = 12;
+            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+            $currentItems = $salons->slice(($currentPage - 1) * $perPage, $perPage)->values();
+            $paginatedSalons = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $salons->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
+
+            // Hydrater les relations
+            foreach ($paginatedSalons as $salonData) {
+                $salon = $salonData['salon'];
+                $salon['categorie'] = Categorie::find($salon->categorie);
+                $salon['canton'] = Canton::find($salon->canton);
+                $salon['ville'] = Ville::find($salon->ville);
             }
         }
 
-        // Compter le nombre de salons trouvés
-        $this->salonCount = $allSalons->count();
+        if ($this->showClosestOnly) {
+            $userLatitude = $this->latitudeUser;
+            $userLongitude = $this->longitudeUser;
 
-        // Calculer la distance maximale
-        $this->maxDistance = 0;
-        foreach ($allSalons as $salon) {
-            if ($salon->lat && $salon->lon) {
-                $distance = $this->haversineGreatCircleDistance(
-                    $viewerLatitude,
-                    $viewerLongitude,
-                    $salon->lat,
-                    $salon->lon
-                );
-                if ($distance > $this->maxDistance) {
-                    $this->maxDistance = $distance;
-                }
+            if (!$userLatitude || !$userLongitude) {
+                $userLatitude = $viewerLatitude;
+                $userLongitude = $viewerLongitude;
+            }
+
+            // Initialiser les variables
+            $minDistance = PHP_FLOAT_MAX;
+            $maxAvailableDistance = 0;
+            $salonCount = 0;
+           
+            // Récupérer toutes les escortes avec leurs coordonnées
+            $salons = User::where('profile_type', 'salon')
+                ->whereNotNull('lat')
+                ->whereNotNull('lon')
+                ->get()
+                ->filter(function ($salon) use ($viewerCountry) {
+                    return $salon->isProfileVisibleTo($viewerCountry);
+                })
+                ->map(function ($salon) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$salonCount) {
+                    $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $salon->lat, $salon->lon);
+
+                    // Mettre à jour les distances min et max
+                    $minDistance = min($minDistance, $distance);
+                    $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                    $salonCount++;
+
+                    return [
+                        'salon' => $salon,
+                        'distance' => $distance,
+                    ];
+                });
+
+            if ($salonCount >= 4) {
+                $salons = $salons->sortBy('distance')->take(4);
+                $maxAvailableDistance = $salons->last()['distance'];
+            }
+
+            // Mettre à jour les propriétés de la classe
+            $this->minDistance = $salonCount > 0 ? $minDistance : 0;
+            $this->maxAvailableDistance = $salonCount > 0 ? ceil($maxAvailableDistance) : 0;
+            $this->salonCount = $salonCount;
+
+            // Si c'est le premier chargement, initialiser maxDistanceSelected
+            if (!$this->maxDistanceSelected && $salonCount > 0) {
+                $this->maxDistanceSelected = $this->maxAvailableDistance;
+            }
+
+            // Filtrer par plage de distance, catégories et genre si sélectionnés
+            if ($salonCount > 0) {
+                $salons = $salons->filter(function ($item) {
+                    // Vérifier la distance
+                    $distanceMatch = $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
+
+                    if (!$distanceMatch) {
+                        return false;
+                    }
+
+                    // Vérifier les catégories si sélectionnées
+                    if (!empty($this->selectedSalonCategories)) {
+                        $salonCategory = $item['salon']->categorie;
+                        $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
+
+                        $salonCategories = array_map('strval', $salonCategories);
+                        $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+
+                        $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
+                        if (!$hasMatchingCategory) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
+            }
+
+            if ($salonCount >= 4) {
+                $salons = $salons->sortBy('distance')->take(4);
+                $this->salonCount = $salons->count();
+            }
+
+            // Convertir en collection paginée
+            $perPage = 12;
+            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+            $currentItems = $salons->slice(0, $perPage)->values();
+
+            $paginatedSalons = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $salons->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
+
+            // Hydrater les relations
+            foreach ($paginatedSalons as $salonData) {
+                $salon = $salonData['salon'];
+                $salon['categorie'] = Categorie::find($salon->categorie);
+                $salon['canton'] = Canton::find($salon->canton);
+                $salon['ville'] = Ville::find($salon->ville);
             }
         }
-        $this->maxDistance = round($this->maxDistance);
+
+        return view('livewire.salon-search', [
+            'salons' => $paginatedSalons,
+            'maxDistance' => $this->maxDistance,
+            'salonCount' => $this->salonCount,
+        ]);
     }
-
-    // Pagination manuelle
-    $currentPage = Paginator::resolveCurrentPage();
-    $perPage = 10;
-    $currentItems = $allSalons->slice(($currentPage - 1) * $perPage, $perPage)->values();
-    $paginatedSalons = new LengthAwarePaginator(
-        $currentItems,
-        $allSalons->count(),
-        $perPage,
-        $currentPage,
-        ['path' => request()->url(), 'query' => request()->query()]
-    );
-
-    // Hydrate les champs manuellement
-    foreach ($paginatedSalons as $salon) {
-        $salonData = is_array($salon) ? $salon['salon'] : $salon;
-        $salon['categorie'] = Categorie::find($salonData->categorie);
-        $salon['canton'] = Canton::find($salonData->canton);
-        $salon['ville'] = Ville::find($salonData->ville);
-    }
-
-    return view('livewire.salon-search', [
-        'salons' => $paginatedSalons,
-        'maxDistance' => $this->approximite ? $this->maxAvailableDistance : $this->maxDistance,
-        'salonCount' => $this->salonCount,
-        'minDistance' => $this->minDistance,
-        'maxAvailableDistance' => $this->maxAvailableDistance,
-    ]);
-}
 }
