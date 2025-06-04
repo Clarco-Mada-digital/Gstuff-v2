@@ -94,62 +94,50 @@ public function useFallbackLocation()
         
         // Si on a les coordonnées de l'utilisateur, on calcule les distances
         if (!is_null($this->latitudeUser) && !is_null($this->longitudeUser)) {
-            $allEscortsUsers = $query->clone()
-                                ->whereNotNull('lat')
-                                ->whereNotNull('lon')
-                                ->get();
-
-            // Calculer les distances pour chaque escorte
-            $escortsWithDistance = $allEscortsUsers->map(function ($escort) {
-                $distance = $this->calculateDistance(
-                    $this->latitudeUser, 
-                    $this->longitudeUser, 
-                    $escort->lat, 
-                    $escort->lon
-                );
-
-                // Mettre à jour les distances min et max
-                $this->minDistance = min($this->minDistance, $distance);
-                $this->maxAvailableDistance = max($this->maxAvailableDistance, $distance);
-                $this->escortCount++;
-
-                return [
-                    'canton' => $escort->cantonget,
-                    'ville' => $escort->villeget,
-                    'escort' => $escort,
-                    'distance' => $distance
-                ];
-            });
-            
-            // Si c'est le premier chargement, initialiser la distance sélectionnée
-            if ($this->selectedDistance === 0 && $this->escortCount > 0) {
-                $this->selectedDistance = ceil($this->maxAvailableDistance);
-            }
-            
-            // Filtrer par distance sélectionnée
-            $this->escorts = $escortsWithDistance
-                ->filter(function ($escort) {
-                    // Si pas de distance (cas où on n'a pas pu calculer), on garde le résultat
-                    if (is_null($escort['distance'])) {
-                        return true;
-                    }
-                    return $escort['distance'] <= $this->selectedDistance;
+            // Récupérer les escortes avec leurs distances
+            $escortsWithDistance = $query->clone()
+                ->whereNotNull(['lat', 'lon'])
+                ->get()
+                ->map(function ($escort) {
+                    $distance = $this->calculateDistance(
+                        $this->latitudeUser, 
+                        $this->longitudeUser, 
+                        $escort->lat, 
+                        $escort->lon
+                    );
+                    
+                    return [
+                        'canton' => $escort->cantonget,
+                        'ville' => $escort->villeget,
+                        'escort' => $escort,
+                        'distance' => $distance
+                    ];
                 })
                 ->sortBy('distance')
+                ->take(9)
                 ->values();
-            
-            if (!$this->escorts->isEmpty()) {
-                return;
+        
+            // Mettre à jour les propriétés
+            if ($escortsWithDistance->isNotEmpty()) {
+                $this->minDistance = $escortsWithDistance->first()['distance'];
+                $this->maxAvailableDistance = $escortsWithDistance->last()['distance'];
+                $this->escortCount = $escortsWithDistance->count();
+                $this->selectedDistance = $this->selectedDistance ?: ceil($this->maxAvailableDistance);
+        
+                $this->escorts = $escortsWithDistance
+                    ->filter(fn($escort) => is_null($escort['distance']) || $escort['distance'] <= $this->selectedDistance)
+                    ->values();
+        
+                if ($this->escorts->isNotEmpty()) {
+                    return;
+                }
             }
         }
         
         // Si pas de géolocalisation ou pas de résultats, on cherche par ville
         if (!is_null($this->userVille)) {
-            // dd($this->userVille);
-            $villesListe = Ville::where('canton_id', $this->userCanton)->get();
 
             $escortInVilleUser = User::where('ville', $this->userVille)->get();
-            // dd("escortInVilleUser",$escortInVilleUser);
             if ($escortInVilleUser->isNotEmpty()) {
                 $this->escorts = $escortInVilleUser->map(function ($escort) {
                     return [

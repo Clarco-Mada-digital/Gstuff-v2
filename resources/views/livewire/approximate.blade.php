@@ -174,7 +174,7 @@
                 id="distance" 
                 min="{{ $minDistance }}" 
                 max="{{ $maxAvailableDistance }}" 
-                step="0.5"
+                step="0.01"
                 wire:model.live="selectedDistance"
                 wire:change="updateDistance(parseFloat($event.target.value))"
                 class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-yellow-500"
