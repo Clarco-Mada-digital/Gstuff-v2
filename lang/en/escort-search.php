@@ -38,4 +38,6 @@ return [
     'filter_by_region' => 'Filter by region',
     'filter_by_distance' => 'Filter by distance',
     'distance_km' => 'Distance (km)',
+    'filter_by_closest_only' => 'Hot escorts near me',
+    'resetting' => 'Resetting...',
 ];

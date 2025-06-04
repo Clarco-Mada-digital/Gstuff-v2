@@ -18,6 +18,7 @@
                         <div>
                             <label for="slug"
                                 class="mb-1 block text-sm font-medium text-gray-700">{{ __('static_page-create.slug') }}*</label>
+                                <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                             <input type="text" name="slug" id="slug" required
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="{{ __('static_page-create.slug_placeholder') }}">

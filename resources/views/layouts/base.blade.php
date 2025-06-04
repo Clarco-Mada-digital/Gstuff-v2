@@ -138,6 +138,22 @@
         </div>
     </div>
 
+    <!-- Vérification d'âge -->
+    <div id="age-verification" class="fixed inset-0 z-[9999] bg-green-gs bg-opacity-90 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Avez-vous plus de 18 ans ?</h2>
+            <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
+                <button id="confirm-age" class="btn-gs-gradient bg-green-600 hover:bg-green-700 text-green-gs font-bold py-2 px-6 rounded">
+                    Oui
+                </button>
+                <button id="deny-age" class="bg-white border border-green-gs hover:bg-green-gs text-green-gs hover:text-white font-bold py-2 px-6 rounded">
+                    Non
+                </button>
+            </div>
+        </div>  
+    </div>
+    
+   
     <div x-data="{ imgModal: false, imgModalSrc: '', imgModalDesc: '' }">
         <template
             @img-modal.window="imgModal = true; imgModalSrc = $event.detail.imgModalSrc; imgModalDesc = $event.detail.imgModalDesc;"
@@ -436,22 +452,41 @@
     </div>
 
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-3"></div>
-
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifie si l'utilisateur a déjà confirmé son âge
+            const hasConfirmedAge = localStorage.getItem('ageConfirmed');
+            const ageVerification = document.getElementById('age-verification');
+            
+            if (!hasConfirmedAge) {
+                // Affiche la modale après le chargement complet de la page
+                window.addEventListener('load', function() {
+                    document.getElementById('loader').classList.add('hidden');
+                    ageVerification.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                });
+            } else {
+                // Cache le loader si l'âge est déjà confirmé
+                window.addEventListener('load', function() {
+                    document.getElementById('loader').classList.add('hidden');
+                });
+            }
+
+            // Gestion des boutons
+            document.getElementById('confirm-age').addEventListener('click', function() {
+                localStorage.setItem('ageConfirmed', 'true');
+                ageVerification.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            });
+
+            document.getElementById('deny-age').addEventListener('click', function() {
+                window.location.href = 'https://www.youtube.com/watch?v=t0Q2otsqC4I';
+            });
+        });
+   
         const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
         const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
         const loader = document.getElementById('loader');
-
-        // const ESrightBtn = document.getElementById('arrowESScrollRight')
-        // const ESleftBtn = document.getElementById('arrowESScrollLeft')
-        // const EScontainer = document.getElementById('ESContainer')
-
-        // ESrightBtn.addEventListener('click', () => {
-        //     scrollByPercentage(EScontainer, false)
-        // })
-        // ESleftBtn.addEventListener('click', () => {
-        //     scrollByPercentage(EScontainer, true)
-        // })
 
 
         function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
@@ -712,10 +747,15 @@
             }
         }
 
+        function test(){
+            console.log("test");
+        }
+
         window.addEventListener('load', () => {
             loader.classList.add('fondu-out');
             setTimeout(() => {
                 loader.classList.add('hidden');
+                test();
             }, 500);
         })
 

@@ -13,7 +13,7 @@ return [
     'results_no_aroud' => 'Résultats',
 
     'km' => 'km',
-    'result' => 'Résultat',
+    'result' => 'Résultat(s)',
     'results_near' => 'Résultats autour de ',
     'filter_by_region' => 'Filtrer par région',
     'filter_by_distance' => 'Filtrer par distance',
