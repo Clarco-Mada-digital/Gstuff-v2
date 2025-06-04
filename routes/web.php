@@ -45,7 +45,7 @@ use App\Models\Genre;
 
 Route::get('livewire/update', function(){
     return redirect()->back();
-})->middleware(['web'])->name('livewire.update');
+})->middleware(['web'])->name('livewire.update.custom');
 
 Route::get('search', function(){
     return view('search_page');
@@ -94,7 +94,6 @@ Route::get('/{slug}', function ($slug) {
 })->name('static.page');
 
 
-
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
@@ -115,17 +114,17 @@ Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::cla
 // Route::get('/categories/edit', [ArticleCategoryController::class, 'edit'])->name('article-categories.edit');
 // Route::get('/categories/destroy', [ArticleCategoryController::class, 'destroy'])->name('article-categories.destroy');
 
-Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+Route::post('/tags', [TagController::class, 'store'])->name('global.tags.store');
 
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
 Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
 Route::delete('/roles-destroy/{role:id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
-Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
-Route::get('/activity/edit', [ActivityController::class, 'update'])->name('activity.edit');
-Route::post('/activity/store', [ActivityController::class, 'store'])->name('activity.store');
-Route::post('/activity/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
+Route::get('/admin/activity', [ActivityController::class, 'index'])->name('admin.activity.index');
+Route::get('/admin/activity/edit', [ActivityController::class, 'update'])->name('admin.activity.edit');
+Route::post('/admin/activity/store', [ActivityController::class, 'store'])->name('admin.activity.store');
+Route::post('/admin/activity/destroy', [ActivityController::class, 'destroy'])->name('admin.activity.destroy');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
@@ -214,7 +213,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('taxonomy/search', [\App\Http\Controllers\Admin\TaxonomyController::class, 'search'])->name('taxonomy.search');
 
     // Gestion des utilisateurs
-    Route::resource('users', UserController::class);
+    // Route::resource('users', UserController::class);
     
     // Rôles et permissions
     // Route::resource('roles', RoleController::class);
@@ -275,9 +274,9 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 
-Route::resource('genres', GenreController::class);
+// Route::resource('genres', GenreController::class);
 
-Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
+// Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
 // Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
 
 

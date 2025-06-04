@@ -15,7 +15,7 @@ class Header extends Component
     public $categories = [];
     public $cantons = [];
     public $villes = [];
-    public $escorts = [];
+    public $escorts;
     public $salonCreator = null;
 
     public function render()
@@ -24,7 +24,7 @@ class Header extends Component
         $this->categories = Categorie::where('type', 'escort')->get();
         
         // Charger les cantons et villes
-        $this->cantons = Canton::all();
+        $this->cantons = Canton::withCount('users')->orderBy('users_count', 'desc')->get();
         $this->villes = Ville::all();
 
         // Charger les utilisateurs ayant le type 'escorte'
@@ -35,14 +35,14 @@ class Header extends Component
 
       
         if ($userConnected) {
-          if ($userConnected->profile_type === 'escorte') {
-            // Récupérer le salon associé à l'utilisateur connecté
-            $salonEscorte = SalonEscorte::where('escorte_id', $userConnected->id)->first();
-            if ($salonEscorte) {
-                $this->salonCreator = User::find($salonEscorte->salon_id);
+            if ($userConnected->profile_type === 'escorte') {
+                // Récupérer le salon associé à l'utilisateur connecté
+                $salonEscorte = SalonEscorte::where('escorte_id', $userConnected->id)->first();
+                if ($salonEscorte) {
+                    $this->salonCreator = User::find($salonEscorte->salon_id);
+                }
             }
         }
-      }
 
         // Charger les relations pour chaque utilisateur dans les escorts
         $this->escorts->each(function ($escort) {
