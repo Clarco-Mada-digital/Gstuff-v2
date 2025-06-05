@@ -8,7 +8,7 @@ return [
     'about' => 'About',
     'glossary' => 'Glossary',
     'contact' => 'Contact',
-    'galleries' => 'Galerie',
+    'galleries' => 'Gallery',
     'search_placeholder' => 'Search...',
     'search_icon' => 'Search icon',
     'login_register' => 'Login/Register',
