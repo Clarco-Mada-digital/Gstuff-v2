@@ -1,3 +1,6 @@
+@php
+    $cantons = App\Models\Canton::withCount('users')->orderBy('users_count', 'desc')->get();
+@endphp
 <div>
     <div class="bg-green-gs relative z-30 mt-10 min-h-[375px] w-full transition-all">
         <div class="container mx-auto flex flex-col items-center justify-center gap-12 px-4 py-16 text-sm text-white sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:py-20 xl:gap-24 xl:px-8 xl:text-base">
