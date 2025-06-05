@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'notifications' => 'Benachrichtigungen',
+    'no_notifications' => 'Keine Benachrichtigungen',
+    'view_all' => 'Alle anzeigen',
     'validation' => [
         'user_id_required' => 'Benutzer-ID ist erforderlich.',
         'user_id_numeric' => 'Benutzer-ID muss eine Zahl sein.',
