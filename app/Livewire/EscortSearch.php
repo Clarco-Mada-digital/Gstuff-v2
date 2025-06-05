@@ -229,6 +229,9 @@ class EscortSearch extends Component
                                 case 'poitrine':
                                     $q->where('poitrine_id', (int) $value);
                                     break;
+                                case 'langue':
+                                    $q->whereJsonContains('langue', $value);
+                                    break;
                                 case 'pubis':
                                     $q->where('pubis_type_id', (int) $value);
                                     break;
@@ -236,7 +239,22 @@ class EscortSearch extends Component
                                     $q->where('tatoo_id', (int) $value);
                                     break;
                                 case 'taille_poitrine':
-                                    $q->where('taille_poitrine', (int) $value);
+                                    $poitrineValues = [
+                                        'petite' => ['A', 'B', 'C'],
+                                        'moyenne' => ['D', 'E', 'F'],
+                                        'grosse' => ['G', 'H'],
+                                    ];
+                                    
+                                    // Vérifier si la valeur recherchée existe comme clé dans $poitrineValues
+                                    if (array_key_exists($value, $poitrineValues)) {
+                                        $taillesCorrespondantes = $poitrineValues[$value];
+                                        
+                                        $q->where(function ($q) use ($taillesCorrespondantes) {
+                                            foreach ($taillesCorrespondantes as $taille) {
+                                                $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                            }
+                                        });
+                                    }
                                     break;
                                 case 'mobilite':
                                     $q->where('mobilite_id', (int) $value);
@@ -308,7 +326,22 @@ class EscortSearch extends Component
                                             $q->where('tatoo_id', (int) $value);
                                             break;
                                         case 'taille_poitrine':
-                                            $q->where('taille_poitrine', (int) $value);
+                                            $poitrineValues = [
+                                                'petite' => ['A', 'B', 'C'],
+                                                'moyenne' => ['D', 'E', 'F'],
+                                                'grosse' => ['G', 'H'],
+                                            ];
+                                            
+                                            // Vérifier si la valeur recherchée existe comme clé dans $poitrineValues
+                                            if (array_key_exists($value, $poitrineValues)) {
+                                                $taillesCorrespondantes = $poitrineValues[$value];
+                                                
+                                                $q->where(function ($q) use ($taillesCorrespondantes) {
+                                                    foreach ($taillesCorrespondantes as $taille) {
+                                                        $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                    }
+                                                });
+                                            }
                                             break;
                                         case 'mobilite':
                                             $q->where('mobilite_id', (int) $value);
@@ -455,6 +488,7 @@ class EscortSearch extends Component
 
                     // Vérifier les autres filtres
                     if (!empty($this->autreFiltres)) {
+                        dd($this->autreFiltres);
                         foreach ($this->autreFiltres as $key => $value) {
                             if (!empty($value)) {
                                 $escortValue = $item['escort']->$key;
@@ -489,8 +523,20 @@ class EscortSearch extends Component
                                         }
                                         break;
                                     case 'taille_poitrine':
-                                        if ((int) $escortValue != (int) $value) {
-                                            return false;
+                                        $poitrineValues = [
+                                            'petite' => ['A', 'B', 'C'],
+                                            'moyenne' => ['D', 'E', 'F'],
+                                            'grosse' => ['G', 'H'],
+                                        ];
+
+                                        if (array_key_exists($value, $poitrineValues)) {
+                                            $taillesCorrespondantes = $poitrineValues[$value];
+
+                                            $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
+                                                foreach ($taillesCorrespondantes as $taille) {
+                                                    $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                }
+                                            });
                                         }
                                         break;
                                     default:
@@ -656,8 +702,20 @@ class EscortSearch extends Component
                                         }
                                         break;
                                     case 'taille_poitrine':
-                                        if ((int) $escortValue != (int) $value) {
-                                            return false;
+                                        $poitrineValues = [
+                                            'petite' => ['A', 'B', 'C'],
+                                            'moyenne' => ['D', 'E', 'F'],
+                                            'grosse' => ['G', 'H'],
+                                        ];
+
+                                        if (array_key_exists($value, $poitrineValues)) {
+                                            $taillesCorrespondantes = $poitrineValues[$value];
+
+                                            $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
+                                                foreach ($taillesCorrespondantes as $taille) {
+                                                    $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                }
+                                            });
                                         }
                                         break;
                                     default:

@@ -106,12 +106,12 @@ class ProfileCompletionController extends Controller
             }
             // Récupérer les favoris de type "salon"
             $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
-            foreach ($salonFavorites as $escort) {
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
-                $escort['categorie'] = Categorie::find($escort->categorie);
-                $escort['service'] = Service::find($escort->service);
-                // dd($escort->service);
+            foreach ($salonFavorites as $salon) {
+                $salon['canton'] = Canton::find($salon->canton);
+                $salon['ville'] = Ville::find($salon->ville);
+                $salon['categorie'] = Categorie::find($salon->categorie);
+                $salon['service'] = Service::find($salon->service);
+                // dd($salon->service);
             }
 
             $commentairesCount = Commentaire::where('is_approved', false)->count();
@@ -317,13 +317,9 @@ class ProfileCompletionController extends Controller
         }
 
     }
-    /**
-     * Affiche les données nécessaires pour les selects du formulaire.
-     * (Vous devrez adapter ceci pour récupérer vos données dynamiquement)
-     */
+    
     public function getDropdownData()
     {
-        // Exemple de données statiques, à remplacer par votre logique de récupération de données
         $categories = Categorie::all();
         $genres = Genre::all();
         $pratiquesSexuelles = PratiqueSexuelle::all();
@@ -473,12 +469,6 @@ class ProfileCompletionController extends Controller
         return response()->json(['percentage' => round($percentage)]);
     }
 
-    /**
-     * Met à jour le profil de l'utilisateur et retourne le nouveau pourcentage de completion.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function updateProfile(Request $request)
     {
         $user = Auth::user();

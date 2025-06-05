@@ -1,6 +1,6 @@
-<?php
-use App\Models\Canton;
-?>
+@php
+    $cantons = App\Models\Canton::withCount('users')->orderBy('users_count', 'desc')->get();
+@endphp
 <div>
     <div class="bg-green-gs relative z-30 mt-10 min-h-[375px] w-full transition-all">
         <div class="container mx-auto flex flex-col items-center justify-center gap-12 px-4 py-16 text-sm text-white sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:py-20 xl:gap-24 xl:px-8 xl:text-base">
@@ -15,7 +15,7 @@ use App\Models\Canton;
                 <div class="flex flex-col items-center gap-3 lg:items-start">
                     <h3 class="font-dm-serif text-2xl font-bold sm:text-3xl lg:text-2xl xl:text-3xl">{{ __('footer.quick_links') }}</h3>
                     <div class="flex flex-col items-center gap-2 lg:items-start">
-                        @foreach (Canton::all()->slice(0, 5) as $canton)
+                        @foreach ($cantons->slice(0, 5) as $canton)
                             <a href="{{ route('escortes') . '?selectedCanton=' . $canton->id }}" class="text-gray-300 transition hover:text-white">
                                 {{ __('footer.escort_girl') }} {{ $canton->nom }}
                             </a>

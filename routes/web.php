@@ -1,47 +1,31 @@
 <?php
 
-// Importation des classes
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StaticPageController;
+use App\Http\Controllers\Admin\TaxonomyController as AdminTaxonomyController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ArticleCategoryController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileCompletionController;
+use App\Http\Controllers\EscortController;
+use App\Http\Controllers\MessengerController;
+use App\Http\Controllers\SalonController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\NotificationController;
+
+use App\Http\Controllers\DistanceMaxController;
+
+use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
-// Importation des models
-use App\Models\Gallery;
-use App\Models\Genre;
-
-// Importation des controllers
-use App\Http\Controllers\{
-    AuthController,
-    MessengerController,
-    AboutController,
-    ArticleController,
-    ArticleCategoryController,
-    CgvController,
-    ContactController,
-    FaqController,
-    HomeController,
-    PdcController,
-    ProfileCompletionController,
-    ProfileVisibilityController,
-    PratiqueSexuelleController,
-    EscortController,
-    SalonController,
-    TagController,
-    CommentaireController,
-    NotificationController,
-    DistanceMaxController,
-    TaxonomyController,
-};
-
-// Importation des controllers admin
-use App\Http\Controllers\Admin\{
-    ActivityController,
-    PermissionController,
-    RoleController,
-    StaticPageController,
-    UserController,
-};
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +40,7 @@ use App\Http\Controllers\Admin\{
 
 Route::get('livewire/update', function(){
     return redirect()->back();
-})->middleware(['web'])->name('livewire.update');
+})->middleware(['web'])->name('livewire.update.custom');
 
 // =================================== Routes public =========================================
 // Home
@@ -142,11 +126,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
 
     // Catégories
-    Route::post('categories', [TaxonomyController::class, 'storeCategory'])->name('categories.store');
-    Route::put('categories/{category}', [TaxonomyController::class, 'updateCategory'])->name('categories.update');
-    Route::delete('categories/{category}', [TaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
-    Route::post('categories/{category}/toggle', [TaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
-    Route::get('fetchCategories', [TaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
+    Route::post('categories', [AdminTaxonomyController::class, 'storeCategory'])->name('categories.store');
+    Route::put('categories/{category}', [AdminTaxonomyController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('categories/{category}', [AdminTaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
+    Route::post('categories/{category}/toggle', [AdminTaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
+    Route::get('fetchCategories', [AdminTaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
     Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
     
     // Tags
@@ -156,8 +140,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('fetchTags', [TagController::class, 'fetchTags'])->name('tags.fetch');
     
     // Recherche taxonomy
-    Route::get('taxonomy', [TaxonomyController::class, 'index'])->name('taxonomy');
-    Route::get('taxonomy/search', [TaxonomyController::class, 'search'])->name('taxonomy.search');
+    Route::get('taxonomy', [AdminTaxonomyController::class, 'index'])->name('taxonomy');
+    Route::get('taxonomy/search', [AdminTaxonomyController::class, 'search'])->name('taxonomy.search');
 
     // Gestion des utilisateurs
     Route::resource('users', UserController::class)->except(['show']);

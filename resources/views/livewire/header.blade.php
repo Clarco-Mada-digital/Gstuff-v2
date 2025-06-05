@@ -261,9 +261,9 @@
                     <div class="px-4">
                         <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.localization') }}</h2>
                         <div class="flex flex-wrap gap-2">
-                            @foreach ($cantons as $canton)
-                                <a href="{{ route('escortes') }}?selectedCanton={{ $canton['id'] }}"
-                                    class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ $canton['nom'] }}</a>
+                            @foreach ($cantons->slice(0, 10) as $canton)
+                                <a href="{{ route('escortes') }}?selectedCanton={{ $canton->id }}"
+                                    class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ $canton->nom }}</a>
                             @endforeach
                         </div>
                     </div>

@@ -11,23 +11,13 @@ class footer extends Component
 {
     public $cantons;
     public $categories;
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {       
-        // $this->categories = Categorie::where('type', 'escort')->get();
-        // $this->glossaires = Article::where('article_category_id', '=', $glossaire_category_id->id)->get();        
-        // $this->escorts = User::where('profile_type', 'escorte')->get();
-        // $this->salons = User::where('profile_type', 'salon')->get();
-    }
-
+   
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {
-        // $this->cantons = Canton::all();
+        $this->cantons = Canton::withCount('users')->orderBy('users_count', 'desc')->get();
         return view('components.footer', ['cantons' => $this->cantons]);
     }
 }
