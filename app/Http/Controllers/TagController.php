@@ -48,7 +48,9 @@ class TagController extends Controller
         
         return response()->json([
             'tag' => $tag,
-            'message' => __('tag.success.tag_created')
+            'message' => __('tag.success.tag_created'),
+            'success' => true,
+            'data' => $tag->loadCount('articles')
         ]);
     }
 

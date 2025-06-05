@@ -31,6 +31,8 @@ use App\Http\Controllers\PratiqueSexuelleController;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\App;
 use App\Models\Genre;
+use App\Http\Controllers\TaxonomyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -47,136 +49,157 @@ Route::get('livewire/update', function(){
     return redirect()->back();
 })->middleware(['web'])->name('livewire.update');
 
-Route::get('search', function(){
-    return view('search_page');
-})->middleware(['web'])->name('search');
-
-// Auth section
-Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/escort-register', function(){
-    $genres = Genre::all();
-    return view('auth.escort_register', compact('genres'));})->name('escort_register');
-Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
-Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
-Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
-Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
-
-Route::match(['get', 'post'], '/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
-Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
-Route::match(['get', 'post'], '/escortes', [EscortController::class, 'search_escort'])->name('escortes');
-Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
-
-Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
-
+// Static page
 Route::get('/', [HomeController::class, 'home'])->name('home');
+// Glossaires
 Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
 Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->name('glossaires.show');
-// Route::get('/cgv', [CgvController::class, 'index'])->name('cgv');
+// Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+// FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+// About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/pdc', [PdcController::class, 'index'])->name('pdc');
-
-Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
-Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
-Route::post('/static-store', [StaticPageController::class, 'store'])->name('static.store');
-Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
-Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
-
-
-
-
-Route::get('/cgv', function () {
-    $page = \App\Models\StaticPage::findBySlug('cgv');
-    return view('cgv', compact('page'));
-})->name('static.page.cgv');
-
-Route::get('/pdc', function () {
-    $page = \App\Models\StaticPage::findBySlug('pdc');
-    return view('pdc', compact('page'));
-})->name('static.page.pdc');
-
-Route::get('/cgu', function () {
-    $page = \App\Models\StaticPage::findBySlug('cgu');
-    return view('admin.static-pages.show', compact('page'));
-})->name('static.cgu');
-
-
-
-Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
-Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
-Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage'); // Route pour récupérer le pourcentage de completion
-Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
-
-
-// Routes publiques articles
+// Galerie
+Route::get('/galerie', [AuthController::class, 'showGallery'])->name('gallery.show');
+Route::get('/api/gallery/public', [AuthController::class, 'apiPublicGallery']);
+Route::get('/api/gallery/private', [AuthController::class, 'apiPrivateGallery']);
+// Articles
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
-Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
-Route::post('/articles/update/{article:id}', [ArticleController::class, 'update'])->name('articles.update');
-Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
 
-Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
-// Route::get('/categories', [ArticleCategoryController::class, 'index'])->name('article-categories.index');
-// Route::get('/categories/new', [ArticleCategoryController::class, 'create'])->name('article-categories.create');
-// Route::get('/categories/edit', [ArticleCategoryController::class, 'edit'])->name('article-categories.edit');
-// Route::get('/categories/destroy', [ArticleCategoryController::class, 'destroy'])->name('article-categories.destroy');
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
 
+Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
+
+
+Route::get('lang/{locale}', function ($locale) {
+    App::setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('lang.switch');
+
+
+
+
+// -------------------------------------- Admin -------------------------------------------------
+
+// Static page
+Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
+
+// Roles
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
 Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
 Route::delete('/roles-destroy/{role:id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
+// Activity
 Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
 Route::get('/activity/edit', [ActivityController::class, 'update'])->name('activity.edit');
 Route::post('/activity/store', [ActivityController::class, 'store'])->name('activity.store');
 Route::post('/activity/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
 
+// Users
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
 Route::get('/users/edit', [UserController::class, 'update'])->name('users.edit');
 Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
 Route::post('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
-
 Route::get('/users/{iduser}/demande', [UserController::class, 'showDemande'])->name('users.demande');
 Route::get('/users/approved/{iduser}', [UserController::class, 'approvedProfile'])->name('users.approvedProfile');
 Route::get('/users/notApproved/{iduser}', [UserController::class, 'notApprovedProfile'])->name('users.notApprovedProfile');
 Route::delete('/notifications/{iduser}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
 
+// Routes admin protégées
+Route::middleware(['auth'])->prefix('admin')->group(function() {
+    Route::resource('static-pages', StaticPageController::class);
+    Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
+    Route::post('/static-store', [StaticPageController::class, 'store'])->name('static.store');
+    Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
+    Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
+    route::resource('activity', ActivityController::class);
+  
 
-// Route::get('/stories', StoriesViewer::class)->name('stories.viewer');
-Route::get('/galerie', [AuthController::class, 'showGallery'])->name('gallery.show');
-Route::get('/api/gallery/public', [AuthController::class, 'apiPublicGallery']);
-Route::get('/api/gallery/private', [AuthController::class, 'apiPrivateGallery']);
+    Route::get('/articles/json', [ArticleController::class, 'indexJson'])->name('articles.indexJson');
+    Route::get('/articles', [ArticleController::class, 'admin'])->name('articles.admin');
+    Route::patch('/articles/{article}/status', [ArticleController::class, 'updateStatus'])->name('articles.updateStatus');
+    Route::delete('articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+    Route::post('/articles/update/{article:id}', [ArticleController::class, 'update'])->name('articles.update');
+    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+    Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
+
+    // Catégories
+    Route::post('categories', [TaxonomyController::class, 'storeCategory'])->name('categories.store');
+    Route::put('categories/{category}', [TaxonomyController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('categories/{category}', [TaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
+    Route::post('categories/{category}/toggle', [TaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
+    Route::get('fetchCategories', [TaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
+    Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
+    
+    
+    // Tags
+    Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+    Route::put('tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+    Route::get('fetchTags', [TagController::class, 'fetchTags'])->name('tags.fetch');
+    
+    
+    // Recherche taxonomy
+    Route::get('taxonomy', [TaxonomyController::class, 'index'])->name('taxonomy');
+    Route::get('taxonomy/search', [TaxonomyController::class, 'search'])->name('taxonomy.search');
+
+    // Gestion des utilisateurs
+    Route::resource('users', UserController::class)->except(['show']);
+    
+    // Rôles et permissions
+    Route::resource('permissions', PermissionController::class);
+    
+    // Assignation des permissions aux rôles
+    Route::post('roles/{role}/permissions', [RoleController::class, 'assignPermissions'])
+        ->name('roles.permissions.store');
+    Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
+        ->name('roles.permissions.destroy');
+    Route::get('/new-users-count', [UserController::class, 'newUsersCount'])->name('unread.notifications.count');
+    Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
+    Route::get('/commentaires/approved', [CommentaireController::class, 'getCommentApproved'])->name('commentaires.approved');
+
+        
+    Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('commentaires.show');
+    Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
+    Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
+});
 
 
 
 
-//***************************************************************************************** */
+// Auth
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
+Route::get('/escort-register', function(){
+    $genres = Genre::all();
+    return view('auth.escort_register', compact('genres'));})->name('escort_register');
+Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
+
+
+// Profile
+Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
+Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
+Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
+Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
+Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
 
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
-    // Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
-    // Route::get('/messages/{receiver_id}', [ChatController::class, 'getMessages'])->name('get.messages');
-    // Route::get('/chat/{receiver}', [ChatController::class, 'showChatForm'])->name('chat.form'); // Route pour afficher le formulaire de chat
-    // Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-
     Route::get('messenger', [MessengerController::class, 'index'])->name('home-messenger');
-    // Route::post('profile', [UserProfileController::class, 'update'])->name('profile.update');
-    // search route
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');
-    // fetch user by id
     Route::get('messenger/id-info', [MessengerController::class, 'fetchIdInfo'])->name('messenger.id-info');
     // send message
     Route::post('messenger/send-message', [MessengerController::class, 'sendMessage'])->name('messenger.send-message');
@@ -190,136 +213,44 @@ Route::middleware('auth')->group(function () {
     Route::post('messenger/favorite', [MessengerController::class, 'favorite'])->name('messenger.favorite');
     Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
-});
 
-// Routes admin protégées
-Route::middleware(['auth'])->prefix('admin')->group(function() {
-    Route::resource('static-pages', \App\Http\Controllers\Admin\StaticPageController::class)
-    ->except(['destroy']);
-    route::resource('activity', ActivityController::class);
-    // route::resource('roles', RoleController::class);
-    // Route::resource('articles', ArticleController::class)->except(['show']);
-    // Route::resource('article-categories', ArticleCategoryController::class);
-    // Route::resource('tags', TagController::class);
-    Route::get('taxonomy', [\App\Http\Controllers\Admin\TaxonomyController::class, 'index'])
-         ->name('taxonomy');
 
-    Route::get('/articles/json', [ArticleController::class, 'indexJson'])->name('articles.indexJson');
-    Route::patch('/articles/{article}/status', [ArticleController::class, 'updateStatus'])->name('articles.updateStatus');
-    Route::get('/articles', [ArticleController::class, 'admin'])->name('articles.admin');
-    Route::delete('articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])->name('profile.visibility.edit');
+    Route::put('/profile/visibility', [ProfileVisibilityController::class, 'update'])->name('profile.visibility.update');
 
-    // Catégories
-    Route::post('categories', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeCategory'])->name('categories.store');
-    Route::put('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateCategory'])->name('categories.update');
-    Route::delete('categories/{category}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyCategory'])->name('categories.destroy');
-    Route::post('categories/{category}/toggle', [\App\Http\Controllers\Admin\TaxonomyController::class, 'toggleCategoryStatus'])->name('categories.toggle');
-    Route::get('fetchCategories', [\App\Http\Controllers\Admin\TaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
-    
-    
-    // Tags
-    Route::post('tags', [\App\Http\Controllers\Admin\TaxonomyController::class, 'storeTag'])->name('tags.store');
-    Route::put('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'updateTag'])->name('tags.update');
-    Route::delete('tags/{tag}', [\App\Http\Controllers\Admin\TaxonomyController::class, 'destroyTag'])->name('tags.destroy');
-    Route::get('fetchTags', [\App\Http\Controllers\Admin\TaxonomyController::class, 'fetchTags'])->name('tags.fetch');
-    
-    // Recherche taxonomy
-    Route::get('taxonomy/search', [\App\Http\Controllers\Admin\TaxonomyController::class, 'search'])->name('taxonomy.search');
+    Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
 
-    // Gestion des utilisateurs
-    Route::resource('users', UserController::class);
-    
-    // Rôles et permissions
-    // Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class)->only(['index']);
-    
-    // Assignation des permissions aux rôles
-    Route::post('roles/{role}/permissions', [RoleController::class, 'assignPermissions'])
-        ->name('roles.permissions.store');
-    Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
-        ->name('roles.permissions.destroy');
-    Route::get('/new-users-count', [UserController::class, 'newUsersCount'])->name('unread.notifications.count');
-    Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
+    Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
+    Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');
+    Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
+    Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
+    Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
+    Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
+
+        
+    Route::post('/update-distance', [DistanceMaxController::class, 'update'])->name('distance.update');
+    Route::get('/escorte/gerer/{id}', [EscortController::class, 'gererEscorte'])->name('escortes.gerer');
+    Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('salon.revenirSalon');
+    Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
+    Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
 
     
-});
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])
-         ->name('profile.visibility.edit');
-    Route::put('/profile/visibility', [ProfileVisibilityController::class, 'update'])
-         ->name('profile.visibility.update');
 });
 
 
-Route::get('/approximiter/{id}', function ($id) {
-    return view('components.approximate', ['userId' => $id]);
-})->name('approximiter');
+Route::get('search', function(){return view('search_page');})->middleware(['web'])->name('search');
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/approximiter/{id}', function ($id) { return view('components.approximate', ['userId' => $id]);})->name('approximiter');
 
+Route::match(['get', 'post'], '/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
+Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
+Route::match(['get', 'post'], '/escortes', [EscortController::class, 'search_escort'])->name('escortes');
+Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 
-Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
-Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
-Route::get('/commentaires/approved', [CommentaireController::class, 'getCommentApproved'])->name('commentaires.approved');
-Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('commentaires.show');
-Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
-Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
-Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
-
-
-Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
-Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');
-Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
-Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
-Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
-Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
-
-Route::post('/update-distance', [DistanceMaxController::class, 'update'])->name('distance.update');
-Route::get('/escorte/gerer/{id}', [EscortController::class, 'gererEscorte'])->name('escortes.gerer');
-Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('salon.revenirSalon');
-Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
-Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
-
-Route::get('lang/{locale}', function ($locale) {
-    App::setLocale($locale);
-    session()->put('locale', $locale);
-    return redirect()->back();
-})->name('lang.switch');
-
-
-Route::resource('genres', GenreController::class);
-
-Route::resource('pratique_sexuelles', PratiqueSexuelleController::class);
-// Route::post('/commentaires/{id}/reject', [CommentaireController::class, 'reject'])->name('commentaires.reject');
-
-
-// Route::middleware(['auth'])->prefix('admin')->group(function () {
-//     // Routes CRUD pour les utilisateurs
-//     Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Liste des utilisateurs
-//     Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Ajout d'un utilisateur
-//     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Formulaire de modification
-//     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Mise à jour d'un utilisateur
-//     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Suppression d'un utilisateur
-
-//     // // Routes CRUD pour les salons
-//     // Route::get('/salons', [SalonController::class, 'index'])->name('salons.index');
-//     // Route::get('/salons/create', [SalonController::class, 'create'])->name('salons.create');
-//     // Route::post('/salons', [SalonController::class, 'store'])->name('salons.store');
-//     // Route::get('/salons/{id}/edit', [SalonController::class, 'edit'])->name('salons.edit');
-//     // Route::put('/salons/{id}', [SalonController::class, 'update'])->name('salons.update');
-//     // Route::delete('/salons/{id}', [SalonController::class, 'destroy'])->name('salons.destroy');
-
-//     // // // Routes CRUD pour les escortes
-//     // // Route::get('/escortes', [EscortController::class, 'index'])->name('escortes.index');
-//     // // Route::get('/escortes/create', [EscortController::class, 'create'])->name('escortes.create');
-//     // // Route::post('/escortes', [EscortController::class, 'store'])->name('escortes.store');
-//     // // Route::get('/escortes/{id}/edit', [EscortController::class, 'edit'])->name('escortes.edit');
-//     // // Route::put('/escortes/{id}', [EscortController::class, 'update'])->name('escortes.update');
-//     // // Route::delete('/escortes/{id}', [EscortController::class, 'destroy'])->name('escortes.destroy');
-// });
 
 Route::get('/{slug}', function ($slug) {
     $page = \App\Models\StaticPage::findBySlug($slug);
     return view('statique_page', compact('page'));
 })->name('static.page');
+
