@@ -116,6 +116,8 @@ public function useFallbackLocation()
                 ->sortBy('distance')
                 ->take(9)
                 ->values();
+
+                // dd($escortsWithDistance->first());
         
             // Mettre à jour les propriétés
             if ($escortsWithDistance->isNotEmpty()) {
@@ -179,6 +181,8 @@ public function useFallbackLocation()
                                      'distance' => null
                                  ];
                              });
+        $this->escorts = $this->escorts->sortBy('distance');
+        $this->escorts = $this->escorts->take(9);
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)

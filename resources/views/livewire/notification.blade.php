@@ -18,7 +18,7 @@
         aria-labelledby="dropdownNotificationButton">
         <div
             class="block rounded-t-lg bg-gray-50 px-4 py-2 text-center font-medium text-gray-700 dark:bg-gray-800 dark:text-white">
-            Notifications
+            {{ __('notification.notifications') }}
         </div>
         <div class="divide-y divide-gray-100 dark:divide-gray-700">
             @forelse($unreadNotifications as $notification)
@@ -52,7 +52,7 @@
                     </div>
                 </a>
             @empty
-                <div class="p-3 text-gray-500">Aucune notification</div>
+                <div class="p-3 text-gray-500">{{ __('notification.no_notifications') }}</div>
             @endforelse
         </div>
         <a href="#"
@@ -63,7 +63,7 @@
                     <path
                         d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
                 </svg>
-                Voir tous
+                {{ __('notification.view_all') }}
             </div>
         </a>
     </div>

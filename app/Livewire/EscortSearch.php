@@ -106,7 +106,6 @@ class EscortSearch extends Component
     public function chargeVille()
     {
         if (!empty($this->selectedCanton)) {
-            // dd($this->selectedCanton);
             $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
         } else {
             $this->villes = collect();
@@ -488,7 +487,6 @@ class EscortSearch extends Component
 
                     // Vérifier les autres filtres
                     if (!empty($this->autreFiltres)) {
-                        dd($this->autreFiltres);
                         foreach ($this->autreFiltres as $key => $value) {
                             if (!empty($value)) {
                                 $escortValue = $item['escort']->$key;

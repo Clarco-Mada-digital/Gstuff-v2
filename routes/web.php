@@ -27,6 +27,8 @@ use App\Http\Controllers\DistanceMaxController;
 use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
 
+use App\Models\Genre;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,7 +44,8 @@ Route::get('livewire/update', function(){
     return redirect()->back();
 })->middleware(['web'])->name('livewire.update.custom');
 
-// Static page
+// =================================== Routes public =========================================
+// Home
 Route::get('/', [HomeController::class, 'home'])->name('home');
 // Glossaires
 Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
@@ -59,13 +62,11 @@ Route::get('/api/gallery/public', [AuthController::class, 'apiPublicGallery']);
 Route::get('/api/gallery/private', [AuthController::class, 'apiPrivateGallery']);
 // Articles
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-
+// Utilisateurs
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-
+// Commentaires
 Route::get('/commentaires', [CommentaireController::class, 'index'])->name('commentaires.index');
-
-
+// Langue
 Route::get('lang/{locale}', function ($locale) {
     App::setLocale($locale);
     session()->put('locale', $locale);
@@ -75,7 +76,7 @@ Route::get('lang/{locale}', function ($locale) {
 
 
 
-// -------------------------------------- Admin -------------------------------------------------
+// ============================== Routes admin ===========================================
 
 // Static page
 Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
@@ -104,8 +105,10 @@ Route::get('/users/notApproved/{iduser}', [UserController::class, 'notApprovedPr
 Route::delete('/notifications/{iduser}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 
 
-// Routes admin protégées
+// ============================== Routes admin protégées =====================================
+
 Route::middleware(['auth'])->prefix('admin')->group(function() {
+    // Static page
     Route::resource('static-pages', StaticPageController::class);
     Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
     Route::post('/static-store', [StaticPageController::class, 'store'])->name('static.store');
@@ -113,7 +116,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
     route::resource('activity', ActivityController::class);
   
-
+    // Articles
     Route::get('/articles/json', [ArticleController::class, 'indexJson'])->name('articles.indexJson');
     Route::get('/articles', [ArticleController::class, 'admin'])->name('articles.admin');
     Route::patch('/articles/{article}/status', [ArticleController::class, 'updateStatus'])->name('articles.updateStatus');
@@ -132,13 +135,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('fetchCategories', [AdminTaxonomyController::class, 'fetchCategories'])->name('categories.fetch');
     Route::get('/categories/{articleCategory:slug}', [ArticleCategoryController::class, 'show'])->name('article-categories.show');
     
-    
     // Tags
     Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
     Route::put('tags/{tag}', [TagController::class, 'update'])->name('tags.update');
     Route::delete('tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
     Route::get('fetchTags', [TagController::class, 'fetchTags'])->name('tags.fetch');
-    
     
     // Recherche taxonomy
     Route::get('taxonomy', [AdminTaxonomyController::class, 'index'])->name('taxonomy');
@@ -151,15 +152,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::resource('permissions', PermissionController::class);
     
     // Assignation des permissions aux rôles
-    Route::post('roles/{role}/permissions', [RoleController::class, 'assignPermissions'])
-        ->name('roles.permissions.store');
-    Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])
-        ->name('roles.permissions.destroy');
+    Route::post('roles/{role}/permissions', [RoleController::class, 'assignPermissions'])->name('roles.permissions.store');
+    Route::delete('roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.destroy');
     Route::get('/new-users-count', [UserController::class, 'newUsersCount'])->name('unread.notifications.count');
+
+    // Commentaires
     Route::get('/unread-comments', [CommentaireController::class, 'unreadCommentsCount'])->name('unread.comments');
     Route::get('/commentaires/approved', [CommentaireController::class, 'getCommentApproved'])->name('commentaires.approved');
-
-        
     Route::get('/commentaires/{id}', [CommentaireController::class, 'show'])->name('commentaires.show');
     Route::delete('/commentaires/{id}', [CommentaireController::class, 'destroy'])->name('commentaires.destroy');
     Route::get('/commentaires/{id}/approve', [CommentaireController::class, 'approve'])->name('commentaires.approve');
@@ -168,52 +167,53 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
 
 
 
+// ============================== Routes Auth ===========================================
 // Auth
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
-Route::get('/escort-register', function(){
-    $genres = Genre::all();
-    return view('auth.escort_register', compact('genres'));})->name('escort_register');
+Route::get('/escort-register', function(){ $genres = Genre::all(); return view('auth.escort_register', compact('genres'));})->name('escort_register');
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
 
 
+// ============================== Routes Profile ===========================================
 // Profile
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
-Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data'); // Route pour récupérer les données des selects
+Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
 Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
 
 
 
+// ============================== Routes necessite une authentification ===========================================
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index'); // Route to show profile page
+    // Profile
+    Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index');
+    // Messenger
     Route::get('messenger', [MessengerController::class, 'index'])->name('home-messenger');
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');
     Route::get('messenger/id-info', [MessengerController::class, 'fetchIdInfo'])->name('messenger.id-info');
-    // send message
     Route::post('messenger/send-message', [MessengerController::class, 'sendMessage'])->name('messenger.send-message');
-    // fetch message
     Route::get('messenger/fetch-messages', [MessengerController::class, 'fetchMessages'])->name('messenger.fetch-messeges');
-    // fetch contacts
     Route::get('messenger/fetch-contacts', [MessengerController::class, 'fetchContacts'])->name('messenger.fetch-contacts');
     Route::get('messenger/update-contact-item', [MessengerController::class, 'updateContactItem'])->name('messenger.update-contact-item');
     Route::post('messenger/make-seen', [MessengerController::class, 'makeSeen'])->name('messenger.make-seen');
-    // favorite routes
     Route::post('messenger/favorite', [MessengerController::class, 'favorite'])->name('messenger.favorite');
     Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
 
-
+    // Profile visibility
     Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])->name('profile.visibility.edit');
     Route::put('/profile/visibility', [ProfileVisibilityController::class, 'update'])->name('profile.visibility.update');
 
+    // Commentaires
     Route::post('/commentaires', [CommentaireController::class, 'store'])->name('commentaires.store');
 
+    // Invitations
     Route::post('/inviterEscort', [EscortController::class, 'inviterEscorte'])->name('inviter.escorte');
     Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');
     Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
@@ -221,28 +221,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
     Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
 
-        
+    // Distances
     Route::post('/update-distance', [DistanceMaxController::class, 'update'])->name('distance.update');
+    
+    // Escortes
     Route::get('/escorte/gerer/{id}', [EscortController::class, 'gererEscorte'])->name('escortes.gerer');
     Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('salon.revenirSalon');
     Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
     Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
-
-    
-
 });
 
 
+// ============================== Routes public ===========================================
+// Recherche
 Route::get('search', function(){return view('search_page');})->middleware(['web'])->name('search');
 
+// Approximate
 Route::get('/approximiter/{id}', function ($id) { return view('components.approximate', ['userId' => $id]);})->name('approximiter');
 
+// Escort
 Route::match(['get', 'post'], '/escort/{id}', [EscortController::class, 'show'])->name('show_escort');
 Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
 Route::match(['get', 'post'], '/escortes', [EscortController::class, 'search_escort'])->name('escortes');
 Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 
-
+// Statiques
 Route::get('/{slug}', function ($slug) {
     $page = \App\Models\StaticPage::findBySlug($slug);
     return view('statique_page', compact('page'));
