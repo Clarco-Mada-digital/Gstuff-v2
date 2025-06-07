@@ -280,7 +280,7 @@ class EscortSearch extends Component
                                     if ($this->autreFiltres['taille_poitrine'] != 'autre') {
                                         $this->autreFiltres['taille_poitrine_detail'] = '';
                                     }
-                                    $q->where('taille_poitrine_detail', 'LIKE', "%{$value}%");
+                                    $q->where('taille_poitrine', 'LIKE', "%{$value}%");
                                     break;
                                 case 'mobilite':
                                     $q->where('mobilite_id', (int) $value);
