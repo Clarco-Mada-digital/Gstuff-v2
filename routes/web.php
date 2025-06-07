@@ -41,6 +41,10 @@ use Livewire\Livewire;
 |
 */
 
+Route::get('livewire/update', function(){
+    return redirect()->back();
+})->middleware(['web'])->name('livewire.update.custom');
+
 
 // =================================== Routes public =========================================
 // Home
