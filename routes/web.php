@@ -28,6 +28,7 @@ use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
 
 use App\Models\Genre;
+use Livewire\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,8 @@ use App\Models\Genre;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Livewire::routes();
 
 
 // =================================== Routes public =========================================
