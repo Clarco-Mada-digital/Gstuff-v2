@@ -27,7 +27,6 @@
             @endif
         </p>
         @if ($distance > 0)
-            <!-- Vérification si distance est supérieure à 0 -->
 
             <div
                 class="text-green-gs absolute left-0 top-0 m-2 flex cursor-pointer items-center justify-center rounded-sm bg-white px-2 py-1 font-bold shadow-lg">

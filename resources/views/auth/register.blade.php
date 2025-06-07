@@ -90,7 +90,7 @@
 
                     <div class="font-dm-serif font-bold">{{ __('register_form.terms_conditions') }} <br>
                         {{ __('register_form.see_terms') }} <a class="text-green-gs"
-                            href="{{ route('static.cgv') }}">{{ __('register_form.terms_conditions_link') }}</a></div>
+                            href="{{ route('static.page','cgv') }}">{{ __('register_form.terms_conditions_link') }}</a></div>
 
                     <div class="mb-5 flex items-start">
                         <div class="flex h-5 items-center">

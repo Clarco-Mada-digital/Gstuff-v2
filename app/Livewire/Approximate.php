@@ -179,6 +179,8 @@ public function useFallbackLocation()
                                      'distance' => null
                                  ];
                              });
+        $this->escorts = $this->escorts->sortBy('distance');
+        $this->escorts = $this->escorts->take(9);
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)
