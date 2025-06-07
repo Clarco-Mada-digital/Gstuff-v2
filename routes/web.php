@@ -27,6 +27,8 @@ use App\Http\Controllers\DistanceMaxController;
 use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
 
+use App\Models\Genre;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
