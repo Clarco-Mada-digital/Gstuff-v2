@@ -116,6 +116,8 @@ public function useFallbackLocation()
                 ->sortBy('distance')
                 ->take(9)
                 ->values();
+
+                // dd($escortsWithDistance->first());
         
             // Mettre à jour les propriétés
             if ($escortsWithDistance->isNotEmpty()) {

@@ -193,14 +193,15 @@
 
     <div id="escortsContainer">
         @if ($escorts && $escorts->count() > 0)
+     
             <div class="mb-4 grid w-full grid-cols-1 items-center gap-4 md:grid-cols-2 2xl:grid-cols-3">
                 @foreach ($escorts as $escort)
                     <div class="escort-card" data-distance="{{ $escort['distance'] ?? '' }}">
                         <livewire:escort-card 
                             wire:key="escort-{{ $escort['escort']['id'] }}"
                             name="{{ $escort['escort']['prenom'] ?? '' }}"
-                            canton="{{ $escort['escort']->cantonget->nom ?? '' }}" 
-                            ville="{{ $escort['escort']->villeget->nom ?? '' }}"
+                            canton="{{ $escort['canton']->nom ?? '' }}" 
+                            ville="{{ $escort['ville']->nom ?? '' }}"
                             avatar="{{ $escort['escort']['avatar'] ?? '' }}"
                             escortId="{{ $escort['escort']['id'] ?? '' }}"
                             distance="{{ $escort['distance'] ?? '' }}" 
