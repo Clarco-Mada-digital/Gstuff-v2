@@ -41,8 +41,6 @@ use Livewire\Livewire;
 |
 */
 
-Livewire::routes();
-
 
 // =================================== Routes public =========================================
 // Home
