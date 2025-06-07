@@ -443,9 +443,17 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                             <option value="petite">Petite</option>
                             <option value="moyenne">Moyenne</option>
                             <option value="grosse">Grosse</option>
+                            <option value="autre">Voir en détail</option>
                             {{-- <template x-for="poitrine in dropdownData['taillesPoitrine']">
                                 <option value="poitrine" x-text="poitrine"></option>
                             </template> --}}
+                        </select>
+                        <select x-show="autreFiltres.taille_poitrine == 'autre'" wire:model.live="autreFiltres.taille_poitrine_detail" id="poitrine" name="poitrine_detail"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-amber-500 dark:focus:ring-amber-500">
+                            <option :selected="autreFiltres.taille_poitrine === 'autre'" value=""> {{ __('escort-search.breast_size') }} </option>                          
+                            <template x-for="poitrine in dropdownData['taillesPoitrine']">
+                                <option value="poitrine" x-text="poitrine"></option>
+                            </template>
                         </select>
                         <select wire:model.live="autreFiltres.mobilite" id="mobilite" name="mobilite"
                             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-amber-500 dark:focus:ring-amber-500">
