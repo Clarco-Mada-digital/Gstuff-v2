@@ -1,9 +1,11 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import persist from '@alpinejs/persist'
 // import './livewire-redirect-fix.js';
 
 window.Alpine = Alpine;
+Alpine.plugin(persist);
 
 function setupCsrfToken() {
     const token = document.querySelector('meta[name="csrf-token"]')?.content;
