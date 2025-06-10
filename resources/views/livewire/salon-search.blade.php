@@ -14,7 +14,7 @@
                         <option wire:key='{{ $canton->id }}' value="{{ $canton->id }}"> {{ $canton->nom }} </option>
                     @endforeach
                 </select>
-                <select wire:model.live="selectedVille"
+                <select wire:model.live="selectedSalonVille"
                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     @if (!$villes) disabled @endif>
                     <option selected value="">
