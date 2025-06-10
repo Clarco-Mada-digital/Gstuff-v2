@@ -307,6 +307,17 @@ class AuthController extends Controller
         }
     }
 
+    public function editService(Request $request)
+    {
+        // dd($request->get('service'));
+        $user = auth()->user();
+        $user->categorie = $request->get('categorie');
+        $user->service = $request->get('service');
+        $user->save();
+
+        return redirect()->route('profile.index') ->with('success', __('profile.success.profile_updated'));
+    }
+
     public function createEscorteBySalon(Request $request)
     {
 

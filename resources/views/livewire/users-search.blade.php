@@ -9,12 +9,12 @@
     <div class="w-full py-15 flex min-h-72 flex-col items-center justify-center bg-[#E4F1F1]">
         <h1 class="font-dm-serif text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
             {{ __('Découvrer les escortes et les salons de votre région') }}</h1>
-        <form wire:submit.prevent="search" class="w-full container flex flex-col gap-5">
+        <form wire:submit.prevent="search" class="w-full px-5 xl:px-80 container flex flex-col gap-2 xl:gap-5">
             <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search" id="userName-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('search_modal.search_placeholder')}}" />
 
             <!-- Sélection des cantons -->
-            <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
-                <select wire:model.live="selectedCanton" id="canton-search" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+            <div class="w-full flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 xl:mb-3">
+                <select wire:model.live="selectedCanton" id="canton-search" class="block w-full xl:w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
                     <option value="">{{__('search_modal.cantons')}}</option>
                     @foreach ($cantons as $canton)
                         <option value="{{ $canton->id }}">{{ $canton->nom }}</option>
@@ -22,7 +22,7 @@
                 </select>
 
                 <!-- Sélection des villes -->
-                <select wire:model.live="selectedVille" id="ville-search" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" {{ $villes->isEmpty() ? 'disabled' : '' }}>
+                <select wire:model.live="selectedVille" id="ville-search" class="block w-full xl:w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" {{ $villes->isEmpty() ? 'disabled' : '' }}>
                     <option value="">{{ $villes->isEmpty() ? __('search_modal.choose_canton') : __('search_modal.cities') }}</option>
                     @foreach ($villes as $ville)
                         <option value="{{ $ville->id }}">{{ $ville->nom }}</option>
@@ -30,7 +30,7 @@
                 </select>
 
                 <!-- Sélection du genre -->
-                <select wire:model.live="selectedGenre" id="genre-search" class="block w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
+                <select wire:model.live="selectedGenre" id="genre-search" class="block w-full xl:w-1/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
                     <option value="">{{__('search_modal.gender')}}</option>
                   @foreach ($genres as $genre)
                     <option value="{{ $genre->id }}">{{ $genre->getTranslation('name', app()->getLocale()) }}</option>
@@ -39,9 +39,9 @@
             </div>
 
             <!-- Catégories -->
-            <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
+            <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
                 @foreach ($salonCategories as $categorie)
-                    <div wire:key="salon-{{ $categorie->id }}">
+                    <div wire:key="salon-{{ $categorie->id }}" class="my-2">
                         <input wire:model.live="selectedCategories" type="checkbox" name="{{ $categorie->nom }}" id="categorie{{ $categorie->id }}" value="{{ $categorie->id }}" class="peer hidden">
                         <label for="categorie{{ $categorie->id }}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">
                             {{ $categorie->nom }}
@@ -52,7 +52,7 @@
 
             <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
                 @foreach ($escortCategories as $categorie)
-                    <div wire:key="escort-{{ $categorie->id }}">
+                    <div wire:key="escort-{{ $categorie->id }}" class="my-2">
                         <input wire:model.live="selectedCategories" type="checkbox" name="{{ $categorie->nom }}" id="categorie{{ $categorie->id }}" value="{{ $categorie->id }}" class="peer hidden">
                         <label for="categorie{{ $categorie->id }}" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">
                             {{ $categorie->nom }}

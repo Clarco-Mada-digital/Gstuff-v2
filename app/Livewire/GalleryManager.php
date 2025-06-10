@@ -17,7 +17,7 @@ class GalleryManager extends Component
     public $media = [];
     public $title = '';
     public $description = '';
-    public $isPublic;
+    public $isPublic = true;
     public $type = 'image';
     public $selectedMedia;
     public $showModal = false;
@@ -26,7 +26,7 @@ class GalleryManager extends Component
     public $galleries;
     public $gallerieItem;
 
-    protected $listeners = ['galleryUpdated'=>'render'];
+    protected $listeners = ['galleryUpdated'=>'galleryUpdated'];
 
     protected $rules = [
         'title' => 'required|max:255',
@@ -112,6 +112,7 @@ class GalleryManager extends Component
             } else {
                 // Ajout de nouveaux médias
                 $this->saveNewMedia();
+                return redirect('profile')->with('success', 'Les médias ont été ajoutés avec succès.');
             }
     
             // Fermer le modal et notifier du succès
@@ -199,6 +200,11 @@ class GalleryManager extends Component
         $media->delete();
         
         $this->dispatch('galleryUpdated');
+    }
+
+    public function galleryUpdated()
+    {
+        $this->render();
     }
 
     public function render()
