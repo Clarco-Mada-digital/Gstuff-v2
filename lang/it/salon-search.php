@@ -17,4 +17,5 @@ return [
     'filter_by_region' => 'Filtra per regione',
     'filter_by_distance' => 'Filtra per distanza',
     'distance_km' => 'Distanza (km)',
+    'filter_by_closest_only' => 'Solo i saloni più vicini',
 ];

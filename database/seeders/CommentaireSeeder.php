@@ -20,6 +20,6 @@ class CommentaireSeeder extends Seeder
         }
 
         // Insérer des commentaires aléatoires
-        Commentaire::factory()->count(10)->create();
+        Commentaire::factory()->count(9)->create();
     }
 }

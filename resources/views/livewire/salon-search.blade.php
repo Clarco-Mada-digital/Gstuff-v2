@@ -126,7 +126,7 @@
                 name="filter_by_closest_only">
             <label for="filterByClosestOnly"
                 class="border-1 hover:bg-green-gs peer-checked:bg-green-gs group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-gray-400 bg-white p-3 text-center text-xs transition-all duration-200 hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 peer-checked:text-amber-400 sm:text-sm">
-                <span>{{ __('escort-search.filter_by_closest_only') }}</span>
+                <span>{{ __('salon-search.filter_by_closest_only') }}</span>
                 <div wire:loading.remove wire:target="showClosestOnly" class="flex-shrink-0">
                     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
