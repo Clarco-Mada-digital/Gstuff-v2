@@ -138,6 +138,27 @@ class EscortSearch extends Component
         }
         $this->resetPage();
     }
+    
+    public function updated($propertyName)
+    {
+        // Réinitialiser la pagination à 1 lors de la modification des filtres principaux
+        $filterProperties = [
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedCategories',
+            'selectedServices',
+            'autreFiltres',
+            'approximite',
+            'showClosestOnly',
+            'minDistance',
+            'maxDistanceSelected'
+        ];
+        
+        if (in_array($propertyName, $filterProperties)) {
+            $this->resetPage();
+        }
+    }
 
     private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
@@ -250,10 +271,16 @@ class EscortSearch extends Component
                                         
                                         $q->where(function ($q) use ($taillesCorrespondantes) {
                                             foreach ($taillesCorrespondantes as $taille) {
-                                                $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
                                             }
                                         });
                                     }
+                                    break;
+                                case 'taille_poitrine_detail':
+                                    if ($this->autreFiltres['taille_poitrine'] != 'autre') {
+                                        $this->autreFiltres['taille_poitrine_detail'] = '';
+                                    }
+                                    $q->where('taille_poitrine', 'LIKE', "%{$value}%");
                                     break;
                                 case 'mobilite':
                                     $q->where('mobilite_id', (int) $value);

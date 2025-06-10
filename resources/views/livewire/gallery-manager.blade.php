@@ -21,7 +21,7 @@
             </button>
 
             <!-- Bouton ajout (seulement pour le propriétaire) -->
-            @if (auth()->id() === $user->id)
+            @if (auth()->id() === $user->id && $isPublic)
                 <button @click="$wire.openModal()" class="btn-primary flex items-center">
                     <i class="fas fa-plus mr-2"></i> {{ __('gallery_manage.add') }}
                 </button>

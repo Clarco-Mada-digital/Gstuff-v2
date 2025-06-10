@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ApiDataServiceProvider::class,
         App\Providers\ComponentServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
         // Intervention\Image\ImageServiceProvider::class,
     ])->toArray(),
 

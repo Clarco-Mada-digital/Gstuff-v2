@@ -28,6 +28,7 @@ use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
 
 use App\Models\Genre;
+use Livewire\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ use App\Models\Genre;
 Route::get('livewire/update', function(){
     return redirect()->back();
 })->middleware(['web'])->name('livewire.update.custom');
+
 
 // =================================== Routes public =========================================
 // Home

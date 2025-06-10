@@ -21,6 +21,7 @@
     "vite": "^6.2.1"
   },
   "dependencies": {
+    "@alpinejs/persist": "^3.14.9",
     "@tailwindcss/postcss": "^4.0.6",
     "@tailwindcss/vite": "^4.0.6",
     "alpinejs": "^3.14.9",

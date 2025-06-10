@@ -18,7 +18,7 @@
     {{-- js import --}}
     <!-- Alpine Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js" defer></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-focus/3.14.9/cdn.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-intersect/3.14.9/cdn.min.js" defer></script>
     <!-- Alpine Core -->
@@ -656,7 +656,7 @@
 
         // Script for multi-select
         function multiSelect(options, value) {
-            console.log('test', value);
+            // console.log('test', value);
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],
@@ -705,7 +705,7 @@
         // Pour le gallerie
         function gallery() {
             return {
-                viewMode: 'grid',
+                viewMode: Alpine.$persist('grid'),
                 fullscreen: false,
                 currentMedia: null,
                 showDeleteModal: false,
@@ -747,15 +747,10 @@
             }
         }
 
-        function test(){
-            console.log("test");
-        }
-
         window.addEventListener('load', () => {
             loader.classList.add('fondu-out');
             setTimeout(() => {
                 loader.classList.add('hidden');
-                test();
             }, 500);
         })
 
