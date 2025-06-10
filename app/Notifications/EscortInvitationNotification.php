@@ -57,11 +57,15 @@ class EscortInvitationNotification extends Notification implements ShouldQueue
      */
     public function toDatabase($notifiable)
     {
+        $name = $this->inviter->prenom ?? $this->inviter->nom_salon ?? $this->inviter->pseudo;
         return [
             'title' => 'Nouvelle invitation',
-            'message' => 'Vous avez été invité par ' . $this->inviter->prenom . '.',
-            'url' => '/invitations',
+            'message' => 'Vous avez été invité par ' . $name . '.',
+            'url' => '/notifications/markAsRead/' . $this->inviter->id,
             'inviter_id' => $this->inviter->id,
+            'type' => 'escortInvitation',
+            'inviter_name' => $name,
+            'percent' => 0,
         ];
     }
 }

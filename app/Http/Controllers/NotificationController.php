@@ -62,4 +62,14 @@ class NotificationController extends Controller
                 ->with('error', 'Une erreur est survenue lors du traitement de votre demande.');
         }
     }
+
+    public function markAsRead($id)
+{
+    $user = Auth::user();
+    $notification = Notification::where('id', $id)->first();
+    if ($notification) {
+        $notification->markAsRead();
+    }
+    return redirect()->back();
+}
 }

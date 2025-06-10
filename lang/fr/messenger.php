@@ -29,4 +29,5 @@ return [
     'offline' => 'Hors ligne',
     'you' => 'Vous',
     'image_sent' => 'Image envoyée',
+    'contact_list_empty' => 'Votre liste de contact est vide !',
 ];

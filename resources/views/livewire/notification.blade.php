@@ -20,11 +20,11 @@
             class="block rounded-t-lg bg-gray-50 px-4 py-2 text-center font-medium text-gray-700 dark:bg-gray-800 dark:text-white">
             {{ __('notification.notifications') }}
         </div>
-        <div class="divide-y divide-gray-100 dark:divide-gray-700">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700 ">
             @forelse($unreadNotifications as $notification)
-                <a href="{{ $notification->data['url'] ?? '#' }}" wire:key="{{ $notification->id }}"
+                <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['url'] ?? '#' }}" wire:key="{{ $notification->id }}"
                     class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    wire:click="markAsRead('{{ $notification->id }}')">
+                    >
                     <div class="shrink-0">
                         <img class="h-11 w-11 rounded-full" src="{{ asset('images/icons/user_icon.svg') }}"
                             alt="Robert image">
@@ -39,12 +39,48 @@
                     </div>
                     <div class="w-full ps-3">
                         <div class="mb-1.5 flex flex-col gap-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ $notification->data['title'] }}
-                            </span>
-                            <span>
-                                {{ $notification->data['message'] }}
-                            </span>
+                            @php
+                                $data = $notification->data ?? [];
+                                $hasType = isset($data['type']);
+                                $isProfileCompletion = $hasType && $data['type'] === 'profileCompletion';
+                                $isEscortInvitation = $hasType && $data['type'] === 'escortInvitation';
+                                $isProfileVerificationRequest = $hasType && $data['type'] === 'profileVerificationRequest';
+                            @endphp
+                            
+                            @if($isProfileCompletion && isset($data['percent']))
+                                <span class="font-semibold text-gray-900 dark:text-white">
+                                    {{ __('notification.profileCompletion.title', ['percent' => $data['percent']]) }}
+                                </span>
+                                <span>
+                                    {{ __('notification.profileCompletion.message', ['percent' => $data['percent']]) }}
+                                </span>
+                            @elseif($isEscortInvitation && isset($data['inviter_name']))
+                                <span class="font-semibold text-gray-900 dark:text-white">
+                                    {{ __('notification.escortInvitation.title') }} 
+                                </span>
+                                <span>
+                                    {{ __('notification.escortInvitation.message', ['inviter_name' => $data['inviter_name']]) }}
+                                </span>
+                            @elseif($isProfileVerificationRequest && isset($data['user_name']))
+                                <span class="font-semibold text-gray-900 dark:text-white">
+                                    {{ __('notification.profileVerificationRequest.title') }} 
+                                </span>
+                                <span>
+                                    {{ __('notification.profileVerificationRequest.message', ['user_name' => $data['user_name']]) }}
+                                </span>
+                            @elseif(isset($data['title'], $data['message']))
+                                <span class="font-semibold text-gray-900 dark:text-white">
+                                    {{ $data['title'] ?? '' }}
+                                </span>
+                                <span>
+                                    {{ $data['message'] ?? '' }}
+                                </span>
+                            @else
+                                <span class="text-gray-500">
+                                    Notification non reconnue
+                                </span>
+                            @endif
+                            
                         </div>
                         <div class="text-xs text-blue-600 dark:text-blue-500">
                             {{ $notification->created_at->diffForHumans() }}
@@ -52,7 +88,7 @@
                     </div>
                 </a>
             @empty
-                <div class="p-3 text-gray-500">{{ __('notification.no_notifications') }}</div>
+                <div class="p-3 text-gray-500 text-center text-sm">{{ __('notification.no_notifications') }}</div>
             @endforelse
         </div>
         <a href="#"

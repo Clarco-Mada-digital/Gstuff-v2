@@ -28,5 +28,22 @@ return [
     'status' => [
         'pending' => 'Ausstehend',
         'refused' => 'Abgelehnt'
+    ],
+    'detailAll' => [
+        'title' => 'Einladungsdetails',
+        'nomSalon' => 'Salonname',
+        'date' => 'Datum',
+        'type' => 'Typ',
+        'email' => 'E-Mail',
+        'action' => [
+            'accept' => 'Akzeptieren',
+            'decline' => 'Ablehnen',
+            'remove' => 'Entfernen',
+            'cancel' => 'Abbrechen'
+        ],
+        'status' => [
+            'pending' => 'Ausstehend',
+            'refused' => 'Abgelehnt'
+        ]
     ]
 ];

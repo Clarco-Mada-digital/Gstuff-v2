@@ -59,12 +59,14 @@ class ProfileVerificationRequestNotification extends Notification implements Sho
      */
     public function toDatabase($notifiable)
     {
+        $name = $this->user->prenom ?? $this->user->pseudo;
         return [
             'title' => 'Nouvelle demande de vérification de profil',
-            'message' => 'L\'utilisateur ' . $this->user->name . ' a soumis une demande de vérification de profil.',
+            'message' => 'L\'utilisateur ' . $name . ' a soumis une demande de vérification de profil.',
             'url' => '/admin/users',
             'user_id' => $this->user->id,
-            'user_name' => $this->user->name,
+            'user_name' => $name,
+            'type' => 'profileVerificationRequest',
         ];
     }
 }

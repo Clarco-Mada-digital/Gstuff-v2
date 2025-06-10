@@ -231,6 +231,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/goBack/{id}', [EscortController::class, 'revenirSalon'])->name('salon.revenirSalon');
     Route::delete('/escorte/delete/{id}', [EscortController::class, 'deleteEscorteCreateBySalon'])->name('escorte.delete');
     Route::post('/escorte/autonomiser/{id}', [EscortController::class, 'autonomiser'])->name('escorte.autonomiser');
+
+    Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
 

@@ -28,5 +28,22 @@ return [
     'status' => [
         'pending' => 'In sospeso',
         'refused' => 'Rifiutato'
+    ],
+    'detailAll' => [
+        'title' => 'Dettagli invito',
+        'nomSalon' => 'Nome del salone',
+        'date' => 'Data',
+        'type' => 'Tipo',
+        'email' => 'Email',
+        'action' => [
+            'accept' => 'Accetta',
+            'decline' => 'Rifiuta',
+            'remove' => 'Rimuovi',
+            'cancel' => 'Annulla'
+        ],
+        'status' => [
+            'pending' => 'In sospeso',
+            'refused' => 'Rifiutato'
+        ]
     ]
 ];

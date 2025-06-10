@@ -14,6 +14,18 @@ return [
         'user_not_found' => 'User not found.',
     ],
     'success' => [
-        'notification_deleted' => 'The notification has been deleted and the user status has been updated successfully.',
+        'notification_deleted' => 'The notification has been deleted and the user status has been updated successfully.'
+    ],
+    'profileCompletion' => [
+        'title' => 'Profile completed at :percent%',
+        'message' => 'You have completed your profile at :percent%. To better enjoy our services, it\'s best to complete your profile as much as possible.'
+    ],
+    'escortInvitation' => [
+        'title' => 'New invitation',
+        'message' => 'You have been invited by :inviter_name.'
+    ],
+    'profileVerificationRequest' => [
+        'title' => 'New profile verification request',
+        'message' => 'User :user_name has submitted a profile verification request.'
     ]
 ];

@@ -15,5 +15,17 @@ return [
     ],
     'success' => [
         'notification_deleted' => 'Die Benachrichtigung wurde gelöscht und der Benutzerstatus wurde erfolgreich aktualisiert.',
+    ],
+    'profileCompletion' => [
+        'title' => 'Profil zu :percent% abgeschlossen',
+        'message' => 'Sie haben Ihr Profil zu :percent% ausgefüllt. Um unsere Dienste besser nutzen zu können, ist es am besten, wenn Sie Ihr Profil so vollständig wie möglich ausfüllen.',
+    ],
+    'escortInvitation' => [
+        'title' => 'Neue Einladung',
+        'message' => 'Sie wurden von :inviter_name eingeladen.'
+    ],
+    'profileVerificationRequest' => [
+        'title' => 'Neue Profilüberprüfungsanfrage',
+        'message' => 'Benutzer :user_name hat eine Profilüberprüfungsanfrage gestellt.'
     ]
 ];

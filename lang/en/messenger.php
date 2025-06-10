@@ -31,4 +31,5 @@ return [
     'offline' => 'Offline',
     'you' => 'You',
     'image_sent' => 'Image sent',
+    'contact_list_empty' => 'Your contact list is empty!',
 ];

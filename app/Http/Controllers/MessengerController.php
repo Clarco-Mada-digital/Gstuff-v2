@@ -266,7 +266,7 @@ class MessengerController extends Controller
            }
 
        }else {
-           $contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+           $contacts = "<p class='text-center no_contact'>" . __('messenger.contact_list_empty') . "</p>";
        }
 
        return response()->json([

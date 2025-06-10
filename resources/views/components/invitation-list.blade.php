@@ -2,7 +2,7 @@
 
 @if ($invitationsRecus->isNotEmpty())
     <div class="flex items-center justify-between gap-5 py-5">
-        <h2 class="font-dm-serif text-green-gs text-2xl font-bold">Invitation</h2>
+        <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('invitations.title') }}</h2>
         <div class="bg-green-gs h-0.5 flex-1"></div>
     </div>
 
@@ -25,15 +25,11 @@
                             <div>
                                 @if ($type === 'escorte')
                                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                                        Le salon <span
-                                            class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->nom_salon }}</span>
-                                        vient d'envoyer une invitation pour rejoindre son salon.
+                                       {{ __('invitations.invitation_received.salon', ['name' => $invitationsRecu->inviter->nom_salon ?? $invitationsRecu->inviter->prenom ?? $invitationsRecu->inviter->pseudo]) }}
                                     </p>
                                 @else
                                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                                        L'escorte <span
-                                            class="font-medium text-gray-900 dark:text-white">{{ $invitationsRecu->inviter->prenom }}</span>
-                                        vient d'envoyer une invitation pour rejoindre vos salon.
+                                       {{ __('invitations.invitation_received.escort', ['name' => $invitationsRecu->inviter->prenom ?? $invitationsRecu->inviter->pseudo]) }}
                                     </p>
                                 @endif
                                 <span class="text-xs text-blue-600 dark:text-blue-500">
@@ -53,7 +49,7 @@
                             type: '{{ $invitationsRecu->type ?? 'Non spécifié' }}',
                             email: '{{ $invitationsRecu->inviter->email ?? 'Non spécifié' }}'
                         })">
-                            Détail
+                            {{ __('invitations.detail') }}
                             <svg class="ms-2 h-3.5 w-3.5 rtl:rotate-180" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -73,7 +69,7 @@
         <!-- Modal -->
         <div
             class="z-100 mx-auto h-[30vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[70vw] xl:w-[40vw]">
-            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">Détails de l'invitation</h2>
+            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('invitations.detailAll.title') }}</h2>
 
             <div class="mt-4 flex flex-wrap items-center justify-between">
                 <div class="me-3 h-32 w-32 rounded-xl">
@@ -82,13 +78,13 @@
                         class="h-full w-full rounded-full object-cover object-center" alt="Avatar salon">
                 </div>
                 <div class="w-[50%]">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Nom du salon : <span
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.nomSalon') }} : <span
                             class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Email : <span
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.email') }} : <span
                             class="font-medium text-gray-900 dark:text-white" x-text="email"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Date d'envoi : <span
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.date') }} : <span
                             class="font-medium text-gray-900 dark:text-white" x-text="date"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Type : <span
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.type') }} : <span
                             class="font-medium text-gray-900 dark:text-white" x-text="type"></span></p>
                 </div>
             </div>
@@ -98,7 +94,7 @@
                     class="inline">
                     @csrf
                     <button class="rounded-sm bg-red-300 px-4 py-2 text-black hover:bg-red-400">
-                        Refuser
+                        {{ __('invitations.detailAll.action.decline') }}
                     </button>
                 </form>
                 <!-- Bouton pour accepter l'invitation -->
@@ -106,7 +102,7 @@
                     class="inline">
                     @csrf
                     <button class="btn-gs-gradient rounded-sm px-4 py-2 text-black hover:bg-green-700">
-                        Accepter
+                        {{ __('invitations.detailAll.action.accept') }}
                     </button>
                 </form>
             </div>

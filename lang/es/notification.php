@@ -15,5 +15,17 @@ return [
     ],
     'success' => [
         'notification_deleted' => 'La notificación ha sido eliminada y el estado del usuario ha sido actualizado correctamente.',
+    ],
+    'profileCompletion' => [
+        'title' => 'Perfil completado al :percent%',
+        'message' => 'Has completado tu perfil al :percent%. Para disfrutar mejor de nuestros servicios, es mejor que completes tu perfil lo más posible.',
+    ],
+    'escortInvitation' => [
+        'title' => 'Nueva invitación',
+        'message' => 'Has sido invitado por :inviter_name.'
+    ],
+    'profileVerificationRequest' => [
+        'title' => 'Nueva solicitud de verificación de perfil',
+        'message' => 'El usuario :user_name ha enviado una solicitud de verificación de perfil.'
     ]
 ];

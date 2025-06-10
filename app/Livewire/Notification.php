@@ -27,8 +27,11 @@ class Notification extends Component
 
     public function markAsRead($id)
     {
-        Auth::user()->notifications->where('id', $id)->markAsRead();
-        $this->refresh();
+        $notification = Auth::user()->notifications()->find($id);
+        if ($notification) {
+            $notification->markAsRead();
+            $this->refresh();
+        }
     }
 
     // Dans NotificationBell.php

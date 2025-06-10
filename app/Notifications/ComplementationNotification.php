@@ -59,6 +59,8 @@ class ComplementationNotification extends Notification
             'title' => 'Profil completé à ' . $this->percentCompletions . '%',
             'message' => $this->message,
             'url' => '/profile',
+            'type' => 'profileCompletion',
+            'percent' => $this->percentCompletions,
         ];
     }
 }
