@@ -137,10 +137,10 @@
 
     <!-- Mode Liste -->
     <template x-if="viewMode === 'list'">
-        <div class="space-y-3">
+        <div class="flex flex-wrap items-center gap-2">
             @foreach ($galleries as $media)
                 <div
-                    class="group flex items-center rounded-lg bg-white p-3 shadow transition-shadow duration-300 hover:shadow-md">
+                    class="w-1/3 group flex items-center rounded-lg bg-white p-3 shadow transition-shadow duration-300 hover:shadow-md">
                     <div class="h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-md"
                         @click="currentMedia = { 
                         type: '{{ $media->type }}', 
@@ -190,7 +190,7 @@
             @endforeach
 
             @if ($galleries->isEmpty())
-                <div class="py-12 text-center text-gray-500">
+                <div class="py-12 w-full text-center text-gray-500">
                     <i class="fas fa-images mb-3 text-4xl"></i>
                     <p>{{ __('gallery_manage.no_media') }}</p>
                     @if (auth()->id() === $user->id)

@@ -183,6 +183,7 @@ Route::get('/salon-register', function(){return view('auth.salon_register');})->
 // ============================== Routes Profile ===========================================
 // Profile
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+Route::post('/profile/edit-service', [AuthController::class, 'editService'])->name('profile.edit-service');
 Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfile'])->name('profile.update');
 Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');

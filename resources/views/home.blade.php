@@ -148,7 +148,7 @@
                 class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                 style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
 
-                @foreach ($escorts as $escort)
+                @foreach ($escorts->take(30) as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                         isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' />
@@ -385,10 +385,10 @@
             scrollByPercentage(Saloncontainer, true, 35)
         })
         ListrightBtn.addEventListener('click', () => {
-            scrollByPercentage(Listcontainer, false)
+            scrollByPercentage(Listcontainer, false, 10)
         })
         ListleftBtn.addEventListener('click', () => {
-            scrollByPercentage(Listcontainer)
+            scrollByPercentage(Listcontainer, true, 10)
         })
     </script>
 @endsection

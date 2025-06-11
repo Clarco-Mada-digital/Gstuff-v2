@@ -329,12 +329,7 @@
 
                     </div>
                 </div>
-
-
-
-
-
-
+                
                 <hr class="h-2 w-full">
 
                 <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
@@ -871,6 +866,42 @@
                 </div>
             </div>
 
+            {{-- Modal edit service --}}
+            <div id="editServiceModal" tabindex="-1" aria-hidden="true"
+                class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+                <!-- Modale -->
+                <div class="max-h-[90vh] min-h-[35vh] w-[90vw] overflow-y-auto rounded-lg bg-white p-6 shadow-lg xl:max-w-7xl">
+                    <form action="{{ route('profile.edit-service') }}" method="post" enctype="multipart/form-data"
+                        class="space-y-6">
+                        @csrf
+                        <div class="col-span-2 mb-4 md:col-span-1">
+                            <label
+                                class="block text-sm font-medium text-gray-700">{{ __('profile.category') }}</label>
+                            <select name="categorie" id="escort_categorie"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option hidden value=""> -- </option>
+                                @foreach ($escort_categories as $categorie)
+                                    <option value={{ $categorie['id'] }}
+                                        @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-span-2 mb-4 md:col-span-1">
+                            <label
+                                class="block text-sm font-medium text-gray-700">{{ __('profile.services') }}</label>
+                            <x-select_object_multiple name="service" :options="$services" :value="$user->service"
+                                label="Mes services" />
+                        </div>
+                        <button type="submit"
+                            class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-bold text-black shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            {{ __('profile.submit') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             {{-- Right section profile --}}
             <div class="min-w-3/4 flex flex-col gap-5 px-5 py-5">
 
@@ -1389,7 +1420,8 @@
                         <div class="flex flex-col flex-wrap justify-center gap-5">
                             <div class="font-dm-serif text-green-gs flex items-center gap-5 font-bold">
                                 {{ __('profile.categories') }}
-                                <button class="flex items-center gap-2 text-amber-400">
+                                <button data-modal-target="editServiceModal" data-modal-toggle="editServiceModal"
+                                    class="flex items-center gap-2 text-amber-400">
                                     {{ __('profile.edit') }}
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path fill="currentColor"
@@ -1416,7 +1448,8 @@
 
                             <div class="font-dm-serif text-green-gs flex items-center gap-5 font-bold">
                                 {{ __('profile.services_provided') }}
-                                <button class="flex items-center gap-2 text-amber-400">
+                                <button data-modal-target="editServiceModal" data-modal-toggle="editServiceModal"
+                                    class="flex items-center gap-2 text-amber-400">
                                     {{ __('profile.edit') }}
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path fill="currentColor"
