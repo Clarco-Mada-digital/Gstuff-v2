@@ -229,7 +229,7 @@
                         const tag = this.availableTags.find(t => t.id === tagId);
                         if (tag) this.selectedTags.push(tag);
                     });
-                    console.log(this.selectedTags);
+               
                 },
 
                 generateSlug() {

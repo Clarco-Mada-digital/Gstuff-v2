@@ -11,7 +11,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         return nameObj[locale] || nameObj['en'] || Object.values(nameObj)[0] || '';
     },
     approximiteFunc() {
-        console.log('approximite', this.approximite);
+        
         this.approximite = !this.approximite;
     },
     async fetchDropdownData() { 
@@ -22,7 +22,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             }
             const data = await response.json();
             this.dropdownData = data; 
-            console.log('Dropdown data loaded successfully', data);
+           
         } catch (error) {
             console.error('Error loading dropdown data:', error);
             // You might want to show an error message to the user here
@@ -480,12 +480,12 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('livewire:load');
+       
 
         navigator.geolocation.getCurrentPosition(function(position) {
             @this.set('latitudeUser', position.coords.latitude, true);
             @this.set('longitudeUser', position.coords.longitude, true);
-            console.log('Position mise à jour :', position.coords.latitude, position.coords.longitude);
+         
         });
 
         // Mise à jour des valeurs min/max lorsque les curseurs sont déplacés

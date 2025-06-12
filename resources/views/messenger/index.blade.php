@@ -351,7 +351,7 @@
                     formData.append('message', this.newMessage);
                     formData.append('temporaryMsgId', Date.now());
 
-                    console.log(formData);
+                  
 
                     if (this.fileToUpload) {
                         formData.append('attachment', this.fileToUpload);
@@ -388,7 +388,6 @@
                             }
                         });
 
-                        console.log('ici delete');
 
 
                         if (response.data.status === 'success') {

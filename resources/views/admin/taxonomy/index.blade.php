@@ -339,8 +339,7 @@
                                 '/admin/tags');
 
                         const method = this.isEditing ? 'PUT' : 'POST';
-                        console.log('this.formData', this.formData);
-                        console.log('this.updateFormData', this.updateFormData);
+                       
 
 
 
@@ -357,7 +356,7 @@
 
                             const data = await response.json();
 
-                            console.log("ici data", data);
+                         
 
                             if (response.ok) {
                                 window.dispatchEvent(new CustomEvent('taxonomy-updated'));
@@ -407,7 +406,7 @@
 
                     async fetchData() {
 
-                        console.log("ici fetchData");
+                     
                         try {
                             const [categoriesRes, tagsRes] = await Promise.all([
                                 fetch('/admin/fetchCategories'),
@@ -419,12 +418,8 @@
                                 tagsRes.json()
                             ]);
 
-                            console.log("ici categoriesRes", categoriesRes.json());
-                            console.log("ici tagsRes", tagsRes.json());
-
-                            console.log("ici categoriesData", categoriesData.categories);
-                            console.log("ici tagsData", tagsData.tags);
-                            
+                          
+        
 
                             this.categories = categoriesData.categories;
                             this.tags = tagsData.tags;
@@ -446,7 +441,7 @@
 
                     editItem(type, item) {
 
-                        console.log("ici item", item);
+                   
                         this.openModal(type, item);
                     },
 

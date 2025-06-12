@@ -84,11 +84,7 @@
             selectedOptions: Array.isArray(value) ? (value.length == 1 ? (value[0] == '' ? [] : value) : value) : (value ? value.split(',').map(v => v.trim()) : []),
             search: '',
             isOpen: false,
-            log() {
-                console.log('test2', this.selectedOptions);
-            },
             init() {
-                this.log();
                 // Close dropdown when clicking outside
                 const handleClickOutside = (e) => {
                     if (!this.$el.contains(e.target)) {

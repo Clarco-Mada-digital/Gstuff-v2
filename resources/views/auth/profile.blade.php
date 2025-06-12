@@ -1999,7 +1999,7 @@
                         .then(response => response.json())
                         .then(data => {
                             this.emojies = Object.keys(data).map(key => data[key]);
-                            console.log(emojis); // Tableau d'URLs d'emojis
+                           
                         });
                 },
 

@@ -263,7 +263,7 @@
                     try {
                         const response = await fetch('/admin/unread-comments');
                         const data = await response.json();
-                        console.log('data', data);
+                       
 
                         this.updateMenuItemBadge('{{ __('admin_panel.comments') }}', data.count);
                     } catch (error) {

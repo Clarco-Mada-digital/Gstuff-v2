@@ -93,7 +93,7 @@
                 if (data.length > 0) {
                     // Récupère la bounding box à partir des données de la ville
                     var boundingBox = data[0].boundingbox;
-                    console.log(boundingBox);
+                  
 
                     var viewBox = `${boundingBox[2]},${boundingBox[1]},${boundingBox[3]},${boundingBox[0]}`;
 
@@ -136,7 +136,7 @@
                         });
                 } else {
                     document.getElementById('loading-spinner').classList.add('hidden');
-                    console.log("Aucune information trouvée pour la ville !");
+                
                     document.getElementById('suggestions').innerHTML =
                         '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
                         'Ville non trouvée ou erreur dans le nom de la ville.</div>';

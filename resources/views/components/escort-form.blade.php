@@ -470,7 +470,7 @@
         const form = document.getElementById('createEscorteForm');
         const formData = new FormData(form);
 
-        console.log("formData:", Object.fromEntries(formData));
+       
 
 
         fetch("{{ route('createEscorteBySalon') }}", {
