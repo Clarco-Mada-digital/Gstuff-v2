@@ -192,7 +192,7 @@ class Chat extends Component
                     $this->unseenCounter += $item;
                 }
             } else {
-                $this->contacts = "<p class='text-center no_contact'>Votre liste de contact est vide !</p>";
+                $this->contacts ="<p class='text-center no_contact'>" . __('messenger.contact_list_empty') . "</p>";
             }
         } else {
             $this->contacts = [];
