@@ -236,6 +236,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
+Route::post('/test', [AuthController::class, 'test'])->name('test');
 
 // ============================== Routes public ===========================================
 // Recherche

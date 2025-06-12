@@ -326,22 +326,22 @@ class AuthController extends Controller
             'id_salon' => 'required|exists:users,id', // Vérifie que le salon existe
             'email' => 'required|email|unique:users',
             'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérifie l'âge minimum de 18 ans
-            'prenom' => 'required|string|max:255', // Pour Escorte
-            'genre_id' => 'required|exists:genres,id', // Ajout de la validation pour le genre
+            'prenom' => 'required|string|max:255', 
+            'genre_id' => 'required|exists:genres,id', 
             'telephone' => [
                 'nullable',
                 'string',
-                'max:15', // Adjust max length if needed
-                'regex:/^[0-9]{10}$/', // Example regex for a 10-digit number
+                'max:15', 
+                'regex:/^[0-9]{10}$/', 
                 
             ],
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
             'canton' => 'nullable|exists:cantons,id',
             'ville' => 'nullable|exists:villes,id',
-            'categorie' => 'nullable|exists:categories,id', // Assurez-vous que le nom de la table est correct
+            'categorie' => 'nullable|exists:categories,id', 
             'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
-            'oriantation_sexuelle_id' => 'nullable|exists:oriantation_sexuelles,id',
+            'orientation_sexuelle_id' => 'nullable|exists:orientation_sexuelles,id',
             'service' => 'nullable',
             'tailles' => 'nullable|integer',
             'pubis_id' => 'nullable|exists:pubises,id',
@@ -364,20 +364,25 @@ class AuthController extends Controller
         ]);
 
 
+
+
         // Langues cibles pour les traductions
         $locales = Locales::SUPPORTED_CODES;
         $sourceLocale = $request['lang']; // Langue source par défaut
         // Traduire le contenu dans toutes les langues cibles
-        $translatedContent = [];
-        foreach ($locales as $locale) {
-            if ($locale !== $sourceLocale) {
-                $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
-            }else{
-                $translatedContent[$locale] = $request['apropos'];
+       
+        if (!empty($request->apropos)) {
+            $translatedContent = [];
+            foreach ($locales as $locale) {
+                if ($locale !== $sourceLocale) {
+                    $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
+                }else{
+                    $translatedContent[$locale] = $request['apropos'];
+                }
             }
+    
+            $request['apropos'] = $translatedContent;
         }
-
-        $request['apropos'] = $translatedContent;
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -412,11 +417,11 @@ class AuthController extends Controller
             'orientation_sexuelle_id' => $request->orientation_sexuelle_id,
             'service' => $request->service,
             'tailles' => $request->tailles,
-            'pubis' => $request->pubis,
+            'pubis_type_id' => $request->pubis_type_id,
             'origine' => $request->origine,
             'couleur_yeux_id' => $request->couleur_yeux_id,
             'couleur_cheveux_id' => $request->couleur_cheveux_id,
-            'mensuration_id' => $request->mensuration_id,
+            'mensuration_id' => $request->mensuration_id ?? null,
             'poitrine_id' => $request->poitrine_id,
             'taille_poitrine' => $request->taille_poitrine,
             'tatoo_id' => $request->tatoo_id,
