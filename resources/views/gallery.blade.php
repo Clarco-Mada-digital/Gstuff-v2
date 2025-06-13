@@ -129,7 +129,7 @@
                     } else {
                         document.body.style.overflow = 'auto';
                     }
-                })" x-transition>
+                })" x-transition x-cloak>
                     <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-gray-800">📸 {{ __('gallery.user_stories') }}</h2>
                     @if(count($usersWithStories) > 0)
                         <div class="flex space-x-6 overflow-x-auto pb-4 px-2">
