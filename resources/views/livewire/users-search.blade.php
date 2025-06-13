@@ -22,7 +22,7 @@
                 </select>
 
                 <!-- Sélection des villes -->
-                <select wire:model.live="selectedVille" id="ville-search" class="block md:w-1/3 w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" {{ $villes->isEmpty() ? 'disabled' : '' }}>
+                <select wire:model.live="selectedVille" id="ville-search" class="block md:w-1/4 w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" {{ $villes->isEmpty() ? 'disabled' : '' }}>
                     <option value="">{{ $villes->isEmpty() ? __('user-search.choose_canton') : __('user-search.cities') }}</option>
                     @foreach ($villes as $ville)
                         <option value="{{ $ville->id }}">{{ $ville->nom }}</option>

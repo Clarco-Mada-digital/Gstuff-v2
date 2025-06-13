@@ -192,6 +192,40 @@ class User extends Authenticatable
     }
 
 
+
+    // public function getCategoriesAttribute()
+    // {
+    //     $category = $this->categorie;
+        
+    //     // Si c'est déjà un modèle Categorie, on le retourne dans une collection
+    //     if ($category instanceof \App\Models\Categorie) {
+    //         return collect([$category]);
+    //     }
+        
+    //     // Si c'est un tableau avec un ID, on cherche la catégorie correspondante
+    //     if (is_array($category) && isset($category['id'])) {
+    //         $categorie = Categorie::find($category['id']);
+    //         return $categorie ? collect([$categorie]) : collect();
+    //     }
+        
+    //     // Si c'est un tableau d'IDs
+    //     if (is_array($category)) {
+    //         $categoryIds = array_filter($category, 'is_numeric');
+    //         if (!empty($categoryIds)) {
+    //             return Categorie::whereIn('id', $categoryIds)->get();
+    //         }
+    //     }
+
+    //     if ($category instanceof string) {
+    //         return $categorie = Categorie::find($category);
+    //     }
+        
+    //     // Par défaut, retourner une collection vide
+    //     return collect();
+    // }
+
+
+
     public function getCategoriesAttribute()
     {
         $category = $this->categorie;
@@ -456,6 +490,11 @@ class User extends Authenticatable
         return $this->belongsTo(PubisType::class,'pubis_type_id');
     }
 
-  
-
+    /**
+     * Get the stories for the user.
+     */
+    public function stories()
+    {
+        return $this->hasMany(\App\Models\Story::class);
+    }
 }

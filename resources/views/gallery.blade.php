@@ -70,20 +70,167 @@
             <!-- CONTENU PRINCIPAL -->
             <div class="flex-1 space-y-10">
                 <!-- Stories -->
-                <section x-show="selectedTab === 'stories'" x-transition>
+                <section x-show="selectedTab === 'stories'" x-data="{
+                    openViewer: false,
+                    currentUser: null,
+                    currentStoryIndex: 0,
+                    progress: 0,
+                    interval: null,
+                    
+                    openStory(user) {
+                        this.currentUser = user;
+                        this.currentStoryIndex = 0;
+                        this.openViewer = true;
+                        this.startProgress();
+                    },
+                    
+                    nextStory() {
+                        if (this.currentStoryIndex < this.currentUser.stories.length - 1) {
+                            this.currentStoryIndex++;
+                            this.progress = 0;
+                            this.startProgress();
+                        } else {
+                            this.closeViewer();
+                        }
+                    },
+                    
+                    previousStory() {
+                        if (this.currentStoryIndex > 0) {
+                            this.currentStoryIndex--;
+                            this.progress = 0;
+                            this.startProgress();
+                        }
+                    },
+                    
+                    startProgress() {
+                        clearInterval(this.interval);
+                        this.progress = 0;
+                        const duration = 5000; // 5 seconds per story
+                        const steps = 100;
+                        const stepTime = duration / steps;
+                        
+                        this.interval = setInterval(() => {
+                            this.progress += (100 / steps);
+                            if (this.progress >= 100) {
+                                clearInterval(this.interval);
+                                this.nextStory();
+                            }
+                        }, stepTime);
+                    },
+                    
+                    closeViewer() {
+                        clearInterval(this.interval);
+                        this.openViewer = false;
+                        this.currentUser = null;
+                    }
+                }" x-init="$watch('openViewer', value => {
+                    if (value) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                })" x-transition>
                     <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-gray-800">📸 {{ __('gallery.user_stories') }}</h2>
-                    <div class="flex space-x-4 overflow-x-auto pb-2">
-                        @foreach ($usersWithStories as $user)
-                            <div class="flex-shrink-0 text-center">
-                                <div
-                                    class="mx-auto h-20 w-20 overflow-hidden rounded-full border-4 border-pink-500 shadow-md">
-                                    <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"
-                                        class="h-full w-full object-cover">
+                    @if(count($usersWithStories) > 0)
+                        <div class="flex space-x-6 overflow-x-auto pb-4 px-2">
+                            @foreach ($usersWithStories as $user)
+                                <div class="flex-shrink-0 text-center relative group cursor-pointer" 
+                                     @click="openStory({{ json_encode($user) }});">
+                                    <div class="relative">
+                                        <div class="mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-pink-500 shadow-lg group-hover:border-pink-600 transition-all duration-300">
+                                            <img src="{{ $user['avatar'] }}" 
+                                                alt="{{ $user['name'] }}"
+                                                class="h-full w-full object-cover"
+                                                loading="lazy">
+                                            @if($user['stories_count'] > 0)
+                                                <div class="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full h-8 w-8 flex items-center justify-center text-xs font-bold shadow-md">
+                                                    {{ $user['stories_count'] }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <span class="mt-2 block text-sm font-medium text-gray-700 truncate max-w-[6rem]">
+                                        {{ $user['name'] }}
+                                    </span>
                                 </div>
-                                <span class="mt-2 block truncate text-sm text-gray-700">{{ $user->name }}</span>
+                            @endforeach
+                        </div>
+                        
+                        <!-- Story Viewer -->
+                        <div x-show="openViewer && currentUser" class="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center" 
+                             x-transition:enter="ease-out duration-300"
+                             x-transition:enter-start="opacity-0"
+                             x-transition:enter-end="opacity-100"
+                             x-transition:leave="ease-in duration-200"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                             @keydown.escape.window="closeViewer">
+                            
+                            <div class="relative w-full max-w-md h-full max-h-[90vh] flex items-center">
+                                <!-- Close button -->
+                                <button @click="closeViewer" class="absolute top-4 right-4 text-white text-2xl z-10">
+                                    &times;
+                                </button>
+                                
+                                <!-- Navigation buttons -->
+                                <button x-show="currentStoryIndex > 0" 
+                                        @click="previousStory" 
+                                        class="absolute left-4 text-white text-2xl z-10">
+                                    &larr;
+                                </button>
+                                
+                                <button x-show="currentStoryIndex < currentUser.stories.length - 1" 
+                                        @click="nextStory" 
+                                        class="absolute right-4 text-white text-2xl z-10">
+                                    &rarr;
+                                </button>
+                                
+                                <!-- Progress bar -->
+                                <div class="absolute top-4 left-4 right-4 flex space-x-1 z-10">
+                                    <template x-for="(story, index) in currentUser.stories" :key="index">
+                                        <div class="h-1 flex-1 bg-gray-600 rounded-full">
+                                            <div class="h-full bg-white rounded-full transition-all duration-100" 
+                                                 :class="{'w-full': index < currentStoryIndex, 'w-0': index > currentStoryIndex}"
+                                                 :style="index === currentStoryIndex ? 'width: ' + progress + '%' : ''">
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                
+                                <!-- Story content -->
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <template x-if="currentUser.stories[currentStoryIndex].media_type === 'image'">
+                                        <img :src="currentUser.stories[currentStoryIndex].media_path" 
+                                             class="max-h-full max-w-full object-contain" 
+                                             alt="Story">
+                                    </template>
+                                    
+                                    <template x-if="currentUser.stories[currentStoryIndex].media_type === 'video'">
+                                        <video :src="currentUser.stories[currentStoryIndex].media_path" 
+                                              class="max-h-full max-w-full" 
+                                              autoplay
+                                              @ended="nextStory">
+                                        </video>
+                                    </template>
+                                </div>
+                                
+                                <!-- User info -->
+                                <div class="absolute bottom-4 left-4 right-4 text-white text-left z-10">
+                                    <div class="flex items-center space-x-2">
+                                        <img :src="currentUser.avatar" 
+                                             class="h-10 w-10 rounded-full border-2 border-white">
+                                        <span x-text="currentUser.name" class="font-semibold"></span>
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @else
+                        <div class="text-center py-8 bg-gray-50 rounded-lg">
+                            <p class="text-gray-500">
+                                {{ __('gallery.no_stories_available') }}
+                            </p>
+                        </div>
+                    @endif
                 </section>
 
                 <!-- Galerie Publique -->
