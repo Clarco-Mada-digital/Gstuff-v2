@@ -467,7 +467,7 @@ class AuthController extends Controller
             ->get()
             ->map(function($user) {
                 // Récupérer l'avatar de l'utilisateur
-                $avatarUrl = $user->avatar ? asset('storage/' . $user->avatar) : asset('images/icon_logo.png');
+                $avatarUrl = $user->avatar ? asset('storage/avatars/' . $user->avatar) : asset('images/icon_logo.png');
                 
                 // Préparer les stories avec les URLs complètes
                 $stories = $user->stories->map(function($story) {

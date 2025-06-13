@@ -138,7 +138,7 @@
                                      @click="openStory({{ json_encode($user) }});">
                                     <div class="relative">
                                         <div class="mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-pink-500 shadow-lg group-hover:border-pink-600 transition-all duration-300">
-                                            <img src="{{ $user['avatar'] }}" 
+                                            <img src="{{ $user['avatar'] }}"
                                                 alt="{{ $user['name'] }}"
                                                 class="h-full w-full object-cover"
                                                 loading="lazy">
