@@ -13,14 +13,17 @@ class CantonSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $cantonsName = ['Vaud', 'Genève', 'Berne', 'Suise Alémanique', 'Jura', 'Fribourg'];
-        $data = [];
-        foreach ($cantonsName as $cantonName) {
-            $data[] = [
-                'nom' => $cantonName,
-            ];
-        }
-        DB::table('cantons')->insert($data);
+        DB::table('cantons')->insert([ 
+            ['nom' => 'Suisse Alémanique'],
+            [ 'nom' => 'Zurich' ],
+            [ 'nom' => 'Berne' ],
+            [ 'nom' => 'Fribourg' ],
+            [ 'nom' => 'Jura' ],
+            [ 'nom' => 'Neuchâtel' ],
+            [ 'nom' => 'Genève' ],
+            [ 'nom' => 'Valais' ],
+            [ 'nom' => 'Vaud' ],
+            // Ajoutez d'autres cantons ici
+        ]);
     }
 }
