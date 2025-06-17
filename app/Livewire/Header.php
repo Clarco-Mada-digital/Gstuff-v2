@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Canton;
 use App\Models\Categorie;
+use App\Models\Genre;
 use App\Models\User;
 use App\Models\Ville;
 use App\Models\SalonEscorte;
@@ -15,6 +16,7 @@ class Header extends Component
     public $categories = [];
     public $cantons = [];
     public $villes = [];
+    public $genres = [];
     public $escorts;
     public $salonCreator = null;
 
@@ -26,7 +28,7 @@ class Header extends Component
         // Charger les cantons et villes
         $this->cantons = Canton::withCount('users')->orderBy('users_count', 'desc')->get();
         $this->villes = Ville::all();
-
+        $this->genres = Genre::all();
         // Charger les utilisateurs ayant le type 'escorte'
         $this->escorts = User::where('profile_type', 'escorte')->get();
 

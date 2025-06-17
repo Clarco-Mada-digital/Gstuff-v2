@@ -240,22 +240,13 @@
                 </div>
                 <div class="flex flex-col gap-4">
                     <div class="border-l border-gray-500 px-4">
-                        <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.orientation') }}</h2>
+                        <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.orientation') }}aaaaaaaa</h2>
+                        
                         <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
-                            <a href="{{ route('escortes') }}?selectedGenre=homme"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.man') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=Femme"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.woman') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=trans"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.transgender') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=gay"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.gay') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=lesbienne"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.lesbian') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=bisexuelle"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.bisexual') }}</a>
-                            <a href="{{ route('escortes') }}?selectedGenre=queer"
-                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ __('header.queer') }}</a>
+                            @foreach ($genres as $genre)
+                            <a href="{{ route('escortes') }}?selectedGenre={{ $genre->id }}"
+                                class="rounded-lg border border-gray-400 p-2 hover:border-amber-300 hover:text-amber-300">{{ $genre->name }}</a>
+                            @endforeach
                         </div>
                     </div>
                     <div class="px-4">
