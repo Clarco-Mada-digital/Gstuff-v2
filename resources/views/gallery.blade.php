@@ -227,7 +227,7 @@
                     @else
                         <div class="text-center py-8 bg-gray-50 rounded-lg">
                             <p class="text-gray-500">
-                                {{ __('gallery.no_stories_available') }}
+                                {{ __('profile.no_stories_available') }}
                             </p>
                         </div>
                     @endif
