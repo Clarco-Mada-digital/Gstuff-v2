@@ -13,17 +13,20 @@ class GlossaireList extends Component
 
     public function render()
     {
-        $artile_glossaire = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
+        $artile_glossaire = ArticleCategory::where('slug', 'glossaires')->first();
 
-        $glossaires = Article::where('article_category_id', 'LIKE', $artile_glossaire->id)
-                         ->where(function ($q) {
-                            foreach($this->lettreSearche as $lettre){
-                            $q->orwhere('title', 'LIKE', $lettre.'%');
-                            }
-                        })
-                         ->with(['category', 'tags'])
-                         ->orderBy('title', 'ASC')
-                         ->paginate(10);
+        $query = Article::where('article_category_id', $artile_glossaire->id)
+                     ->with(['category', 'tags']);
+
+        if (!empty($this->lettreSearche)) {
+            $query->where(function($q) {
+                foreach($this->lettreSearche as $lettre) {
+                    $q->orWhere('slug', 'LIKE', $lettre . '%');
+                }
+            });
+        }
+
+        $glossaires = $query->orderBy('title', 'ASC')->paginate(10);
                          
         return view('livewire.glossaire-list', compact('glossaires'));
     }

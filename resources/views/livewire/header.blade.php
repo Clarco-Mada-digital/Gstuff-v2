@@ -240,7 +240,7 @@
                 </div>
                 <div class="flex flex-col gap-4">
                     <div class="border-l border-gray-500 px-4">
-                        <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.orientation') }}aaaaaaaa</h2>
+                        <h2 class="font-dm-serif my-6 text-2xl font-bold">{{ __('header.orientation') }}</h2>
                         
                         <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
                             @foreach ($genres as $genre)
