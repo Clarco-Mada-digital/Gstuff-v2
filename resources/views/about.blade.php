@@ -61,11 +61,11 @@
                 @csrf
                 <input type="hidden" name="profile_type" value="invite">
                 <div class="flex flex-col gap-2">
-                    <label for="user_name">{{ __('about.username') }} *</label>
-                    <input type="text" name="user_name" id="user_name"
-                        class="@error('user_name') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror rounded-lg border ring-0 focus:border-amber-400"
-                        value="{{ old('user_name') }}" autocomplete="user_name" required>
-                    @error('user_name')
+                    <label for="pseudo">{{ __('about.username') }} *</label>
+                    <input type="text" name="pseudo" id="pseudo"
+                        class="@error('pseudo') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror rounded-lg border ring-0 focus:border-amber-400"
+                        value="{{ old('pseudo') }}" autocomplete="user_name" required>
+                    @error('pseudo')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                 class="font-medium">{{ __('about.oops') }}</span> {{ $message }}</p>
                     @enderror
@@ -73,8 +73,8 @@
                 <div class="flex flex-col gap-2">
                     <label for="Insc_email">{{ __('about.email_address') }} *</label>
                     <input type="email" name="email" id="Insc_email"
-                        class="@error('user_name') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror rounded-lg border ring-0 focus:border-amber-400"
-                        value="{{ old('user_name') }}" autocomplete="email" required>
+                        class="@error('email') border-red-500 dark:border-red-500 dark:focus:border-red-500 focus:border-red-500 @enderror rounded-lg border ring-0 focus:border-amber-400"
+                        value="{{ old('email') }}" autocomplete="email" required>
                     @error('email')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                 class="font-medium">{{ __('about.oops') }}</span> {{ $message }}</p>

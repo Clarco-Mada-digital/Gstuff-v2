@@ -49,21 +49,50 @@ class AuthController extends Controller
             'profile_type' => 'required|in:invite,escorte,salon',
             'email' => 'required|email|unique:users',
             'password' => ['required', 'confirmed', Password::min(8)],
-            'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(), // Vérification de l'âge (18 ans minimum)
-            'cgu_accepted' => 'accepted', // Pour le profil Invité
-            'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255', // Pour Invité
-            'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255', // Pour Escorte
-            'genre_id' => 'required_if:profile_type,escorte|nullable|exists:genres,id', // Pour Escorte
-            'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
-            'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre', // Pour Salon
-            'nom_proprietaire' => 'required_if:profile_type,salon|nullable|string|max:255', // Pour Salon
+            'date_naissance' => 'required|date|before:' . now()->subYears(18)->toDateString(),
+            'cgu_accepted' => 'accepted',
+            'pseudo' => 'required_if:profile_type,invite|nullable|string|max:255',
+            'prenom' => 'required_if:profile_type,escorte|nullable|string|max:255',
+            'genre_id' => 'required_if:profile_type,escorte|nullable|exists:genres,id',
+            'nom_salon' => 'required_if:profile_type,salon|nullable|string|max:255',
+            'intitule' => 'required_if:profile_type,salon|nullable|in:monsieur,madame,mademoiselle,autre',
+            'nom_proprietaire' => 'required_if:profile_type,salon|nullable|string|max:255',
+        ], [
+            'profile_type.required' => __('validation.profile_type.required'),
+            'profile_type.in' => __('validation.profile_type.in'),
+            'email.required' => __('validation.email.required'),
+            'email.email' => __('validation.email.email'),
+            'email.unique' => __('validation.email.unique'),
+            'password.required' => __('validation.password.required'),
+            'password.confirmed' => __('validation.password.confirmed'),
+            'password.min' => __('validation.password.min'),
+            'date_naissance.required' => __('validation.date_naissance.required'),
+            'date_naissance.date' => __('validation.date_naissance.date'),
+            'date_naissance.before' => __('validation.date_naissance.before'),
+            'cgu_accepted.accepted' => __('validation.cgu_accepted.accepted'),
+            'pseudo.required_if' => __('validation.pseudo.required_if'),
+            'pseudo.string' => __('validation.pseudo.string'),
+            'pseudo.max' => __('validation.pseudo.max'),
+            'prenom.required_if' => __('validation.prenom.required_if'),
+            'prenom.string' => __('validation.prenom.string'),
+            'prenom.max' => __('validation.prenom.max'),
+            'genre_id.required_if' => __('validation.genre_id.required_if'),
+            'genre_id.exists' => __('validation.genre_id.exists'),
+            'nom_salon.required_if' => __('validation.nom_salon.required_if'),
+            'nom_salon.string' => __('validation.nom_salon.string'),
+            'nom_salon.max' => __('validation.nom_salon.max'),
+            'intitule.required_if' => __('validation.intitule.required_if'),
+            'intitule.in' => __('validation.intitule.in'),
+            'nom_proprietaire.required_if' => __('validation.nom_proprietaire.required_if'),
+            'nom_proprietaire.string' => __('validation.nom_proprietaire.string'),
+            'nom_proprietaire.max' => __('validation.nom_proprietaire.max'),
         ]);
 
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
                 ->withInput()
-                ->with('error', __('auth.validation_error'));
+                ->with('error', __('auth.registration.validation_error'));
         }
 
         $user = User::create([
