@@ -453,19 +453,50 @@ class AuthController extends Controller
 
     public function showGallery()
     {
-        return view('gallery', [
-            'usersWithStories' => Story::with('user')
-                ->where('expires_at', '>', now())
-                ->get()
-                ->groupBy('user_id'),
+        // Récupérer les utilisateurs avec leurs stories actives, avec le décompte
+        $usersWithStories = User::whereHas('stories', function($query) {
+                $query->where('expires_at', '>', now());
+            })
+            ->withCount(['stories' => function($query) {
+                $query->where('expires_at', '>', now());
+            }])
+            ->with(['stories' => function($query) {
+                $query->where('expires_at', '>', now())
+                      ->orderBy('created_at', 'desc');
+            }])
+            ->get()
+            ->map(function($user) {
+                // Récupérer l'avatar de l'utilisateur
+                $avatarUrl = $user->avatar ? asset('storage/avatars/' . $user->avatar) : asset('images/icon_logo.png');
                 
+                // Préparer les stories avec les URLs complètes
+                $stories = $user->stories->map(function($story) {
+                    return [
+                        'id' => $story->id,
+                        'media_path' => asset('storage/' . $story->media_path),
+                        'media_type' => $story->media_type,
+                        'created_at' => $story->created_at,
+                        'expires_at' => $story->expires_at,
+                        'user_id' => $story->user_id
+                    ];
+                });
+                
+                return [
+                    'id' => $user->id,
+                    'name' => $user->pseudo ?? $user->prenom ?? $user->nom_salon ?? 'Utilisateur',
+                    'avatar' => $avatarUrl,
+                    'stories_count' => $user->stories_count,
+                    'stories' => $stories
+                ];
+            });
+
+        return view('gallery', [
+            'usersWithStories' => $usersWithStories,
             'usersWithMedia' => User::has('galleries')->get(),
-            
             'publicGallery' => Gallery::where('is_public', true)
                 ->with('user')
                 ->latest()
                 ->paginate(12),
-                
             'privateGallery' => Gallery::where('is_public', false)
                 ->with('user')
                 ->latest()
