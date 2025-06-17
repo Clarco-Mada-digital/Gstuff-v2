@@ -26,5 +26,11 @@ return [
     ],
     'error' => [
         'user_not_found' => 'Utilisateur non trouvé.',
-    ]
+    ],
+    'online' => 'En ligne',
+    'never_connected' => 'Jamais connecté',
+    'just_now' => 'À l\'instant',
+    'minutes_ago' => 'Il y a :count min',
+    'hours_ago' => 'Il y a :count h',
+    'days_ago' => 'Il y a :count jours'
 ];

@@ -332,27 +332,27 @@ class User extends Authenticatable
 
     public function getLastSeenForHumansAttribute()
     {
-        // verification si l'user est en ligne
+        // Check if user is online
         if ($this->isOnline()) {
-            return 'En ligne';
+            return __('user.online');
         }
 
-        // vérifier last_seen_at
+        // Check last_seen_at
         if (!$this->last_seen_at) {
-            return 'Jamais connecté';
+            return __('user.never_connected');
         }
 
         $lastSeen = Carbon::parse($this->last_seen_at);
         $diffInMinutes = now()->diffInMinutes($lastSeen);
 
         if ($diffInMinutes < 2) {
-            return 'À l\'instant';
+            return __('user.just_now');
         } elseif ($diffInMinutes < 60) {
-            return 'Il y a ' . $diffInMinutes . ' min';
+            return __('user.minutes_ago', ['count' => $diffInMinutes]);
         } elseif ($diffInMinutes < 1440) {
-            return 'Il y a ' . now()->diffInHours($lastSeen) . ' h';
+            return __('user.hours_ago', ['count' => now()->diffInHours($lastSeen)]);
         } else {
-            return 'Il y a ' . now()->diffInDays($lastSeen) . ' jours';
+            return __('user.days_ago', ['count' => now()->diffInDays($lastSeen)]);
         }
     }
 
