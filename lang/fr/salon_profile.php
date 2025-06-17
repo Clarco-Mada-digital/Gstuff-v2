@@ -26,4 +26,6 @@ return [
     'no_escort_associated' => 'Aucun escort associé pour l\'instant',
     'login_to_see_private_content' => 'Connectez-vous pour voir le contenu privé de Daniela',
     'login_signup' => 'Se connecter / s\'inscrire',
+    'open' => 'Ouvert',
+    'closed' => 'Ferme',
 ];

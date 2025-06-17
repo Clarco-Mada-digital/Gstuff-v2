@@ -5,8 +5,13 @@
         @foreach ($listcommentApprouved as $index => $item)
             <div
                 class="transition-feed {{ $currentIndex === $index ? 'scale-75 translate-x-[-100%] z-10' : '' }} {{ $currentIndex === $index - 1 ? 'scale-100 translate-x-0 z-20' : '' }} {{ $currentIndex === $index - 2 ? 'scale-75 translate-x-[100%] z-10' : '' }} {{ $currentIndex !== $index && $currentIndex !== $index - 1 && $currentIndex !== $index - 2 ? 'translate-x-0 opacity-0 scale-50' : '' }} absolute flex h-[250px] w-full min-w-[400px] flex-shrink-0 flex-col items-center justify-center gap-7 rounded-lg bg-white p-5 text-xl shadow-sm duration-500 md:w-1/3 lg:w-[625px] lg:text-3xl">
-                <p class="mx-auto w-[80%] text-center">
-                    {{ $item->getTranslation('content', session('locale', 'fr')) ?: $item->content }}</p>
+                @php
+                    $content = $item->getTranslation('content', session('locale', 'fr')) ?: $item->content;
+                    $truncated = strlen($content) > 110 ? substr($content, 0, 110) . '...' : $content;
+                @endphp
+                <p class="mx-auto w-[80%] text-center" title="{{ $content }}">
+                    {{ $truncated }}
+                </p>
                 <div class="flex w-full flex-col items-center justify-center gap-4 xl:flex-row">
                     <!-- Affichage de l'avatar de l'utilisateur -->
                     <img class="h-12 w-12 rounded-full" src="{{ get_gravatar($item->user->email) }}" alt="Avatar" />
@@ -14,7 +19,15 @@
                         <span
                             class="font-dm-serif text-base text-green-800 lg:text-2xl">{{ $item->user->pseudo ?? ($item->user->prenom ?? $item->user->nom_salon) }}</span>
                         <span
-                            class="text-center text-sm lg:text-base xl:text-start">{{ $item->user->profile_type }}</span>
+                            class="text-center text-sm lg:text-base xl:text-start">
+                            @if ($item->user->profile_type == 'escorte')
+                                {{ __('profile.escort') }}
+                            @elseif ($item->user->profile_type == 'salon')
+                                {{ __('profile.salon') }}
+                            @else
+                                {{ __('profile.invited') }}
+                            @endif
+                        </span>
                     </div>
                 </div>
             </div>

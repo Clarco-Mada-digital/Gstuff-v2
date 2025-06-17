@@ -63,7 +63,12 @@
             </div>
             <div class="text-green-gs flex items-center justify-center gap-2">
                 <span class="flex items-center gap-1">{{ __('salon_profile.recruitment') }} :
-                    {{ $salon->recrutement ?? '' }}</span>
+                    @if ($salon->recrutement == 'Ouvert')
+                        {{ __('salon_profile.open') }}
+                    @else
+                        {{ __('salon_profile.closed') }}
+                    @endif
+                </span>
             </div>
             <hr class="h-2 w-full">
 

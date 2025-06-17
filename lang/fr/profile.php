@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'escort' => 'Escorte',
+    'salon' => 'Salon',
+    'invited' => 'Invitée',
     'success' => [
         'profile_updated' => 'Profil mis à jour avec succès!',
         'profile_photo_updated' => 'Photo de profil mise à jour avec succès.',

@@ -26,4 +26,6 @@ return [
     'no_escort_associated' => 'No escort associated for the moment',
     'login_to_see_private_content' => 'Log in to see the private content of Daniela',
     'login_signup' => 'Log in / Sign up',
+    'open' => 'Open',
+    'closed' => 'Closed',
 ];
