@@ -367,15 +367,15 @@ class ProfileCompletionController extends Controller
         $user = Auth::user();
         if($user->profile_type == 'escorte')
         {
-            $totalFields = 30; // Total number of fields considered for completion
+            $totalFields = 32; // Total number of fields considered for completion
             $completedFields = 0;
         }elseif($user->profile_type == 'salon')
         {
-            $totalFields = 19; // Total number of fields considered for completion
+            $totalFields = 21; // Total number of fields considered for completion
             $completedFields = 0;
         }else
         {
-            $totalFields = 29; // Total number of fields considered for completion
+            $totalFields = 14; // Total number of fields considered for completion
             $completedFields = 0;
         }
 
@@ -383,15 +383,20 @@ class ProfileCompletionController extends Controller
         if($user->profile_type == 'escorte')
         {
             $fieldsToCheck = [
-                'intitule',
+                // champ 1 : 8
+                'genre_id',
                 'prenom',
+                'email',
                 'telephone',
                 'adresse',
                 'npa',
                 'canton',
                 'ville',
+                // champ 2 : 14
                 'categorie',
                 'pratique_sexuelle_id',
+                'orientation_sexuelle_id',
+                'service',
                 'tailles',
                 'origine',
                 'couleur_yeux_id',
@@ -406,49 +411,63 @@ class ProfileCompletionController extends Controller
                 'langues',
                 'paiement',
                 'apropos',
+                // champ 3 : 6
                 'autre_contact',
                 'complement_adresse',
                 'lien_site_web',
                 'localisation',
-                'service'
+                'lat',
+                'lon'
             ];
         }elseif($user->profile_type == 'salon')
         {
             $fieldsToCheck = [
+                // champ 1 : 8
                 'intitule',
                 'nom_proprietaire',
-                'nom_salon',
+                'email',
                 'telephone',
                 'adresse',
                 'npa',
                 'canton',
                 'ville',
+                // champ 2 : 7
                 'categorie',
                 'recrutement',
-                'nombre_fille_id',               
+                'nombre_fille_id',            
                 'tarif',
                 'langues',
                 'paiement',
                 'apropos',
+                // champ 3 : 6
                 'autre_contact',
                 'complement_adresse',
                 'lien_site_web',
                 'localisation',
+                'lat',
+                'lon',
+                // 'nom_salon',
+
             ];
         }else
         {
             $fieldsToCheck = [
-                'intitule',
+                // champ 1 : 8
+                'genre_id',
                 'pseudo',
+                'email',
                 'telephone',
                 'adresse',
                 'npa',
                 'canton',
                 'ville',
+                // champ 2 : 6
                 'autre_contact',
                 'complement_adresse',
                 'lien_site_web',
                 'localisation',
+                'lat',
+                'lon',
             ];
         }
 
@@ -477,6 +496,7 @@ class ProfileCompletionController extends Controller
         $request->validate([
             'intitule' => 'nullable|string|max:255',
             'nom_proprietaire' => 'nullable|string|max:255',
+            'prenom' => 'nullable|string|max:255',
             'user_name' => 'nullable|string|max:255',
             'telephone' => 'nullable|string|max:20',
             'adresse' => 'nullable|string|max:255',

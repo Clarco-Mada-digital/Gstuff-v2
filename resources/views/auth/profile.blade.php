@@ -411,6 +411,7 @@
                             <h2 class="mb-4 text-lg font-semibold">{{ __('profile.personal_information') }}</h2>
                             <div class="mb-4">
                                 <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
+                                @if ($user->profile_type !== 'salon')
                                 <label class="block text-sm font-medium text-gray-700">{{ __('profile.genre') }}</label>
                                 <div class="flex">
                                     <div id="states-button" data-dropdown-toggle="dropdown-states"
@@ -434,8 +435,26 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @endif
                             </div>
+                           
                             @if ($user->profile_type == 'salon')
+                            <div class="col-span-2 mb-4 md:col-span-1">
+                            @php
+                                    $intituledata = ['madame', 'monsieur', 'mademoiselle', 'autre'];
+                                    @endphp
+                                    <label
+                                        class="block text-sm font-medium text-gray-700">{{  __('salon_register_form.title') }}</label>
+                                    <select name="intitule" id="intitule"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        <option hidden value=""> -- </option>
+                                        @foreach ($intituledata as $intitule)
+                                            <option value={{ $intitule }}
+                                                @if ($user->intitule ? $user->intitule == $intitule : false) selected @endif>{{ __('salon_register_form.' . $intitule) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="mb-4">
                                     <label
                                         class="block text-sm font-medium text-gray-700">{{ __('profile.owner_name') }}</label>
@@ -484,7 +503,7 @@
                                                 d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12v1.45q0 1.475-1.012 2.513T18.5 17q-.875 0-1.65-.375t-1.3-1.075q-.725.725-1.638 1.088T12 17q-2.075 0-3.537-1.463T7 12t1.463-3.537T12 7t3.538 1.463T17 12v1.45q0 .65.425 1.1T18.5 15t1.075-.45t.425-1.1V12q0-3.35-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20h4q.425 0 .713.288T17 21t-.288.713T16 22zm0-7q1.25 0 2.125-.875T15 12t-.875-2.125T12 9t-2.125.875T9 12t.875 2.125T12 15m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
                                         </svg>
                                     </div>
-                                    <input type="email" id="phone-input" name="email"
+                                    <input type="email" id="email" name="email"
                                         aria-describedby="helper-text-explanation"
                                         class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         value="{{ $user->email }}" />
@@ -779,7 +798,7 @@
                                 </div>
                             @endif
 
-                            <!-- INVITE -->
+                           
                             <div class="col-span-2 mb-4 md:col-span-1">
                                 <label
                                     class="block text-sm font-medium text-gray-700">{{ __('profile.language') }}</label>
