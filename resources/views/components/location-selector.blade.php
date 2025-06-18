@@ -1,12 +1,12 @@
 <div x-data="{}" class="relative mb-4">
-    <label class="block text-sm font-medium text-gray-700">Localisation</label>
+    <label class="block text-sm font-medium text-gray-700">{{ __('common.localization') }}</label>
     <div class="relative">
         <div id="loading-spinner" class="absolute inset-y-0 left-0 flex hidden items-center pl-3">
             <i class="fas fa-spinner fa-spin text-gray-400"></i>
         </div>
         <input x-on:keyup.debounce.500="performSearch()" type="text" id="location-search" name="localisation"
             class="mt-1 block w-full rounded-md border-gray-300 pl-10 pr-10 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            placeholder="Rechercher une ville..." value="{{ $user->localisation ?? '' }}">
+            placeholder="{{ __('common.search_city') }}" value="{{ $user->localisation ?? '' }}">
         <div class="absolute inset-y-0 right-10 flex cursor-pointer items-center" x-on:click="performSearch()">
             <i class="fas fa-search text-gray-400 hover:text-gray-600"></i>
         </div>
