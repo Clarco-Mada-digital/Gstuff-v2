@@ -29,10 +29,17 @@ class Notification extends Component
     {
         $notification = Auth::user()->notifications()->find($id);
         if ($notification) {
-            
             $notification->markAsRead();
             $this->refresh();
+            return redirect(request()->header('Referer'));
         }
+    }
+
+    public function markAsReadAll()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+        $this->refresh();
+        return redirect(request()->header('Referer'));
     }
 
     // Dans NotificationBell.php
