@@ -27,7 +27,8 @@ return [
     ],
     'status' => [
         'pending' => 'En attente',
-        'refused' => 'Refusée'
+        'refused' => 'Refusée',
+     
     ],
     'detailAll' => [
         'title' => 'Détails de l\'invitation',

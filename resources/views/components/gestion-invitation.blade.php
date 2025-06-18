@@ -245,12 +245,12 @@
                                                 @if ($invitation->created_at->ne($invitation->updated_at))
                                                     <span
                                                         class="rounded-md bg-red-200 px-2 py-1 text-xs font-semibold text-red-600">
-                                                        {{ __('invitations.refused') }}
+                                                        {{ __('invitations.status.refused') }}
                                                     </span>
                                                 @else
                                                     <span
                                                         class="rounded-md bg-yellow-200 px-2 py-1 text-xs font-semibold text-yellow-600">
-                                                        {{ __('invitations.pending') }}
+                                                        {{ __('invitations.status.pending') }}
                                                     </span>
                                                 @endif
                                                 <form action="{{ route('invitations.cancel', $invitation->id) }}"
@@ -320,12 +320,12 @@
                                                 @if ($invitation->created_at->ne($invitation->updated_at))
                                                     <span
                                                         class="rounded-md bg-red-200 px-2 py-1 text-xs font-semibold text-red-600">
-                                                        {{ __('invitations.refused') }}
+                                                        {{ __('invitations.status.refused') }}
                                                     </span>
                                                 @else
                                                     <span
                                                         class="rounded-md bg-yellow-200 px-2 py-1 text-xs font-semibold text-yellow-600">
-                                                        {{ __('invitations.pending') }}
+                                                        {{ __('invitations.status.pending') }}
                                                     </span>
                                                 @endif
                                                 <form action="{{ route('invitations.cancel', $invitation->id) }}"
@@ -334,7 +334,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                         class="mx-2 rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-800 hover:bg-gray-300">
-                                                        {{ __('invitations.cancel') }}
+                                                        {{ __('invitations.detailAll.action.cancel') }}
                                                     </button>
                                                 </form>
                                             </div>
