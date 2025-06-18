@@ -29,6 +29,7 @@ class Notification extends Component
     {
         $notification = Auth::user()->notifications()->find($id);
         if ($notification) {
+            
             $notification->markAsRead();
             $this->refresh();
         }

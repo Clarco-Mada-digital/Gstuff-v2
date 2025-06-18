@@ -37,7 +37,8 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="w-full ps-3">
+                    
+                    <div class="w-full ps-3" wire:click="markAsRead('{{ $notification->id }}')">
                         <div class="mb-1.5 flex flex-col gap-1 text-sm text-gray-500 dark:text-gray-400">
                             @php
                                 $data = $notification->data ?? [];
@@ -82,7 +83,7 @@
                             @endif
                             
                         </div>
-                        <div class="text-xs text-blue-600 dark:text-blue-500">
+                        <div class="text-xs text-blue-600 dark:text-blue-500" wire:click="markAsRead('{{ $notification->id }}')">
                             {{ $notification->created_at->diffForHumans() }}
                         </div>
                     </div>
