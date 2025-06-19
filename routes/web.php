@@ -221,6 +221,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/inviterSalon', [EscortController::class, 'inviterSalon'])->name('inviter.salon');
     Route::post('/invitations/accepter/{id}', [EscortController::class, 'accepter'])->name('accepter.invitation');
     Route::post('/invitations/refuser/{id}', [EscortController::class, 'refuser'])->name('annuler.invitation');
+    Route::post('/invitations/supprimer/{id}', [EscortController::class, 'supprimerRelation'])->name('supprimer.invitation');
     Route::delete('/invitations/{id}/cancel', [EscortController::class, 'cancel'])->name('invitations.cancel');
     Route::post('/registerEscorteBySalon', [AuthController::class, 'createEscorteBySalon'])->name('createEscorteBySalon');
 

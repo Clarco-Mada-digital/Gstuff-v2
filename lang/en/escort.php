@@ -34,5 +34,6 @@ return [
         'escort_deleted' => 'The escort has been deleted successfully.',
         'escort_made_autonomous' => 'The escort is now autonomous.',
         'returned_to_salon' => 'You are now logged in as :name',
+        'relation_deleted' => 'The relationship with the escort has been successfully deleted.',
     ],
 ];

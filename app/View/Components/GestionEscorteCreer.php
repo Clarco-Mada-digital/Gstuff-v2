@@ -9,15 +9,15 @@ use Illuminate\View\Component;
 class GestionEscorteCreer extends Component
 {
 
-    public $escorteCreateByUser;
+    public $allrelation;
     /**
      * Create a new component instance.
      */
-    public function __construct($escorteCreateByUser)
+    public function __construct($allrelation)
     {
         //
-        $this->escorteCreateByUser= $escorteCreateByUser;
-    }
+        $this->allrelation = $allrelation;
+        }
 
     /**
      * Get the view / contents that represent the component.

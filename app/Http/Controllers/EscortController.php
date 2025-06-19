@@ -366,6 +366,43 @@ class EscortController extends Controller
         }
     }
 
+    public function supprimerRelation($id)
+    {
+        // Vérification de l'authentification avant toute opération
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', __('escort.errors.login_required'));
+        }
+
+        // Récupérer l'utilisateur connecté
+        $authUser = Auth::user();
+        $escorte = User::findOrFail($id);
+
+    
+        try {
+            // Récupérer l'invitation et vérifier son existence
+            $invitation = Invitation::where('inviter_id', $authUser->id)
+                                    ->where('invited_id', $escorte->id)
+                                    ->where('type', 'invite par salon')
+                                    ->firstOrFail();            
+            // Vérifier que l'utilisateur connecté est bien l'émetteur de l'invitation
+            if ($invitation->inviter_id !== $authUser->id) {
+                return back()->with('error', __('escort.errors.unauthorized'));
+            }
+
+            // Supprimer l'invitation
+            $invitation->delete();
+
+            return back()->with('success', __('escort.success.relation_deleted'));
+            
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            \Log::error('Invitation not found when cancelling: ' . $e->getMessage());
+            return back()->with('error', __('escort.errors.invitation_not_found'));
+            
+        } catch (\Exception $e) {
+            \Log::error('Error cancelling invitation: ' . $e->getMessage());
+            return back()->with('error', __('escort.errors.authentication_failed'));
+        }
+    }
 
 
 
@@ -560,6 +597,7 @@ class EscortController extends Controller
             $salonEscorte = SalonEscorte::where('escorte_id', $id)
                                         ->where('salon_id', $userConnected->id)
                                         ->firstOrFail();
+            $salonEscorte->delete();
 
             // Récupérer l'utilisateur de l'escorte
             $escortUser = User::findOrFail($id);
@@ -569,7 +607,8 @@ class EscortController extends Controller
                 return redirect()->back()->with('error', __('escort.errors.unauthorized'));
             }
 
-
+            $escortUser->createbysalon = false;
+            $escortUser->save();
             // Récupérer l'invitation existante
             $existingInvitation = Invitation::where('inviter_id', $userConnected->id)
                                             ->where('invited_id', $id)

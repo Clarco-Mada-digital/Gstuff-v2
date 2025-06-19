@@ -264,4 +264,7 @@ return [
     'password_required' => 'Le mot de passe est requis',
     'current_password_invalid' => 'Le mot de passe actuel est incorrect',
     'no_specified' => 'Non spécifié',
+    'view' => 'Voir',
+    'delete_relation' => 'Supprimer la relation',
+    'are_you_sure_delete_relation' => 'Êtes-vous sûr de vouloir supprimer la relation avec',
 ];

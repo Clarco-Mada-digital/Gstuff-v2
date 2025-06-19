@@ -211,4 +211,7 @@ return [
     'password_required' => 'La password è obbligatoria',
     'current_password_invalid' => 'La password attuale non è corretta',
     'no_specified' => 'Non specificato',
+    'view' => 'Visualizza',
+    'delete_relation' => 'Elimina relazione',
+    'are_you_sure_delete_relation' => 'Sei sicuro di voler eliminare la relazione con',
 ];

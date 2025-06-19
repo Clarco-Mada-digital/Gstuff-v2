@@ -34,5 +34,6 @@ return [
         'escort_deleted' => 'Die Escort wurde erfolgreich gelöscht.',
         'escort_made_autonomous' => 'Die Escort ist jetzt eigenständig.',
         'returned_to_salon' => 'Sie sind jetzt angemeldet als :name',
+        'relation_deleted' => 'Die Beziehung zur Escort wurde erfolgreich gelöscht.',
     ],
 ];

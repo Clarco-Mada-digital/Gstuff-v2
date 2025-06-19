@@ -211,4 +211,7 @@ return [
     'price_currency' => 'CHF',
     'price_symbol' => '.',
     'no_specified' => 'No especificado',
+    'view' => 'Ver',
+    'delete_relation' => 'Eliminar relación',
+    'are_you_sure_delete_relation' => '¿Está seguro de que desea eliminar la relación con',
 ];

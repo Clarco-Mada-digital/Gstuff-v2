@@ -1,14 +1,37 @@
-@props(['escorteCreateByUser'])
+@props(['allrelation'])
+
+@php
+    // Convertir la collection en tableau avec les propriétés nécessaires
+    $escortes = collect($allrelation)->map(function($item) {
+        return [
+            'id' => $item->invited->id ?? $item->invited_id,
+            'prenom' => $item->invited->prenom ?? 'Inconnu',
+            'email' => $item->invited->email ?? '',
+            'createbysalon' => $item->type === 'creer par salon',
+            'type' => $item->type
+        ];
+    })->toArray();
+@endphp
 
 <div x-data="{
     search: '',
-    filteredEscortes: @js($escorteCreateByUser),
+    filteredEscortes: @js($escortes),
     selectedEscorte: null,
     showSupprimerModal: false,
+    showSupprimerRelationModal: false,
     showAutonomiserModal: false,
+    log() {
+        console.log('filteredEscortes', this.filteredEscortes);
+    },
     supprimerEscorte(escorte) {
         this.selectedEscorte = escorte;
         this.showSupprimerModal = true;
+        this.log();
+    },
+    supprimerRelation(escorte) {
+        this.selectedEscorte = escorte;
+        this.showSupprimerRelationModal = true;
+        this.log();
     },
     autonomiserEscorte(escorte) {
         this.selectedEscorte = escorte;
@@ -18,6 +41,7 @@
         this.showSupprimerModal = false;
         this.showAutonomiserModal = false;
         this.selectedEscorte = null;
+        this.showSupprimerRelationModal = false;
     }
 }" class="flex w-full flex-col items-center justify-center">
     <button id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom"
@@ -60,35 +84,58 @@
                                 x-text="escorte.prenom"></label>
                         </div>
                         <div class="flex space-x-4">
-                            <a href="#"
+                            <a href="#" x-show="escorte.createbysalon"
                                 @click.prevent="window.location.href = `{{ url('escorte/gerer') }}/${escorte.id}`"
                                 class="text-yellow-500 hover:text-yellow-600"
                                 :data-tooltip-target="'tooltip-gerer-' + escorte.id" data-tooltip-placement="top">
                                 <i class="fas fa-cog"></i>
                             </a>
-                            <div :id="'tooltip-gerer-' + escorte.id" role="tooltip"
+                            <div :id="'tooltip-gerer-' + escorte.id" role="tooltip" x-show="escorte.createbysalon"
                                 class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
                                 {{ __('profile.manage') }}
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
 
-                            <a href="#" @click.stop.prevent="supprimerEscorte(escorte)"
+                            <a href="#" x-show="!escorte.createbysalon"
+                                @click.prevent="window.location.href = `{{ url('escorte') }}/${escorte.id}`"
+                                class="text-yellow-500 hover:text-yellow-600"
+                                :data-tooltip-target="'tooltip-voir-' + escorte.id" data-tooltip-placement="top">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <div :id="'tooltip-voir-' + escorte.id" role="tooltip" x-show="!escorte.createbysalon"
+                                class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                                {{ __('profile.view') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+
+                            <a href="#" @click.stop.prevent="supprimerRelation(escorte)" x-show="!escorte.createbysalon"
+                                class="text-red-500 hover:text-red-700"
+                                :data-tooltip-target="'tooltip-supprimer-relation-' + escorte.id" data-tooltip-placement="top">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <div :id="'tooltip-supprimer-relation-' + escorte.id" role="tooltip" x-show="!escorte.createbysalon"
+                                class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                                {{ __('profile.delete_relation') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+
+                            <a href="#" @click.stop.prevent="supprimerEscorte(escorte)" x-show="escorte.createbysalon"
                                 class="text-red-500 hover:text-red-700"
                                 :data-tooltip-target="'tooltip-supprimer-' + escorte.id" data-tooltip-placement="top">
                                 <i class="fas fa-trash"></i>
                             </a>
-                            <div :id="'tooltip-supprimer-' + escorte.id" role="tooltip"
+                            <div :id="'tooltip-supprimer-' + escorte.id" role="tooltip" x-show="escorte.createbysalon"
                                 class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
                                 {{ __('profile.delete') }}
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
 
-                            <a href="#" @click.stop.prevent="autonomiserEscorte(escorte)"
+                            <a href="#" @click.stop.prevent="autonomiserEscorte(escorte)" x-show="escorte.createbysalon"
                                 class="text-green-gs hover:text-green-gs"
                                 :data-tooltip-target="'tooltip-autonomiser-' + escorte.id" data-tooltip-placement="top">
                                 <i class="fas fa-user-cog"></i>
                             </a>
-                            <div :id="'tooltip-autonomiser-' + escorte.id" role="tooltip"
+                            <div :id="'tooltip-autonomiser-' + escorte.id" role="tooltip" x-show="escorte.createbysalon"
                                 class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
                                 {{ __('profile.autonomize') }}
                                 <div class="tooltip-arrow" data-popper-arrow></div>
@@ -213,6 +260,59 @@
                             class="bg-green-gs mb-1 mr-1 rounded px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none hover:shadow-lg focus:outline-none active:bg-green-600"
                             type="submit">
                             {{ __('profile.autonomize') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- Modal for Supprimer -->
+     <div x-cloak x-show="showSupprimerRelationModal" x-transition.opacity.duration.200ms
+        x-trap.inert.noscroll="showSupprimerRelationModal" x-on:keydown.esc.window="showSupprimerRelationModal = false"
+        x-on:click.self="showSupprimerRelationModal = false"
+        class="z-100 fixed inset-0 flex items-end justify-center bg-black/20 p-4 pb-8 backdrop-blur-md sm:items-center lg:p-8"
+        role="dialog" aria-modal="true" aria-labelledby="supprimerRelationModalTitle">
+        <div x-show="showSupprimerRelationModal"
+            x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+            x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
+            class="relative flex w-auto flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
+            <!--content-->
+            <div
+                class="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-start justify-between rounded-t border-b border-solid border-gray-300 p-5">
+                    <h3 class="text-3xl font-semibold">
+                        {{ __('profile.delete_relation') }}
+                    </h3>
+                    <button
+                        class="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
+                        @click="closeModal">
+                        <span class="block h-6 w-6 bg-transparent text-2xl text-black outline-none focus:outline-none">
+                            ×
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <div class="relative flex-auto p-6">
+                    <p class="my-4 text-lg leading-relaxed text-gray-600">
+                        {{ __('profile.are_you_sure_delete_relation') }} <span x-text="selectedEscorte.prenom"></span>?
+                    </p>
+                </div>
+                <!--footer-->
+                <div class="flex items-center justify-end rounded-b border-t border-solid border-gray-300 p-6">
+                    <button x-on:click="showSupprimerRelationModal = false"
+                        class="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none focus:outline-none"
+                        type="button">
+                        {{ __('profile.cancel') }}
+                    </button>
+                    <form x-bind:action="`{{ url('/invitations/supprimer') }}/${selectedEscorte.id}`" method="POST">
+                        @csrf
+                        <button
+                            class="mb-1 mr-1 rounded bg-red-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none hover:shadow-lg focus:outline-none active:bg-red-600"
+                            type="submit" x-on:click="console.log('Supprimer', selectedEscorte)">
+                            {{ __('invitations.detailAll.action.decline') }}
                         </button>
                     </form>
                 </div>

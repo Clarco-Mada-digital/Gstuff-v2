@@ -364,8 +364,8 @@
                                 class="ms-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-200 text-xs font-semibold text-red-800">{{ $messageNoSeen }}</span>
                         @endif
                     </button>
-                    @if ($escorteCreateByUser->isNotEmpty())
-                        <x-gestion-escorte-creer :escorteCreateByUser="$escorteCreateByUser" />
+                    @if ($allrelation->isNotEmpty())
+                        <x-gestion-escorte-creer :allrelation="$allrelation" />
                     @endif
                 </div>
             </div>

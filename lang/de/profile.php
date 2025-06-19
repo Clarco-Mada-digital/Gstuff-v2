@@ -211,4 +211,7 @@ return [
     'email' => 'Email',
     'default_password' => 'Standard-Passwort',
     'password_change_notice' => 'Die Escorte muss das Standard-Passwort ändern, um ihr Konto zu sichern.',
+    'view' => 'Anzeigen',
+    'delete_relation' => 'Beziehung löschen',
+    'are_you_sure_delete_relation' => 'Sind Sie sicher, dass Sie die Beziehung mit',
 ];

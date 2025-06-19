@@ -256,4 +256,7 @@ return [
     'default_password' => 'Default Password',
     'password_change_notice' => 'The escort must change the default password to secure their account.',
     'no_specified' => 'Not specified',
+    'view' => 'View',
+    'delete_relation' => 'Delete Relation',
+    'are_you_sure_delete_relation' => 'Are you sure you want to delete the relation with',
 ];

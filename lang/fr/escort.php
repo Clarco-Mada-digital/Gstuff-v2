@@ -34,5 +34,6 @@ return [
         'escort_deleted' => 'L\'escorte a été supprimée avec succès.',
         'escort_made_autonomous' => 'L\'escorte est maintenant autonome.',
         'returned_to_salon' => 'Vous êtes maintenant connecté en tant que :name',
+        'relation_deleted' => 'La relation avec l\'escorte a été supprimée avec succès.',
     ],
 ];

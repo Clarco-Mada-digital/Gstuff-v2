@@ -254,6 +254,16 @@ class ProfileCompletionController extends Controller
 
                 $escorteCreateByUser = $user->escortes;
 
+                $allrelation = Invitation::where('inviter_id', $user->id)
+                    ->where('accepted', true)
+                    ->where(function($query) {
+                        $query->where('type', 'creer par salon')
+                              ->orWhere('type', 'invite par salon');
+                    })
+                    ->orderByRaw("CASE WHEN type = 'creer par salon' THEN 0 ELSE 1 END")
+                    ->get();
+                
+
 
                 $escorteCreateBySalons = Invitation::where('inviter_id', $user->id)
                 ->where('accepted', true)
@@ -311,7 +321,8 @@ class ProfileCompletionController extends Controller
                             'salonAssociers' => $salonAssociers,
                             'escorteCreateBySalons' => $escorteCreateBySalons,
                             'escorteCreateByUser' => $escorteCreateByUser,
-                        ]);       
+                            'allrelation' => $allrelation,
+                            ]);       
                 }
         }else{
             return redirect()->route('home');
