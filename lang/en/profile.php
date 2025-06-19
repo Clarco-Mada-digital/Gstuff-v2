@@ -36,8 +36,9 @@ return [
             'unique' => 'This email is already in use',
         ],
         'current_password' => [
-            'required' => 'The current password is required',
-            'current_password' => 'The current password is incorrect',
+            'password_required' => 'Password is required',
+            'current_password_invalid' => 'Current password is incorrect',
+            'no_specified' => 'Not specified',
         ],
         'password' => [
             'required' => 'The new password is required',
@@ -254,4 +255,5 @@ return [
     'email' => 'Email',
     'default_password' => 'Default Password',
     'password_change_notice' => 'The escort must change the default password to secure their account.',
+    'no_specified' => 'Not specified',
 ];

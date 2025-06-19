@@ -205,7 +205,10 @@ return [
     'email' => 'Email',
     'default_password' => 'Contraseña por defecto',
     'password_change_notice' => 'La escort debe cambiar la contraseña por defecto para asegurar su cuenta.',
+    'password_required' => 'La contraseña es obligatoria',
+    'current_password_invalid' => 'La contraseña actual no es correcta',
     'price_from' => 'Desde :price CHF',
     'price_currency' => 'CHF',
     'price_symbol' => '.',
+    'no_specified' => 'No especificado',
 ];

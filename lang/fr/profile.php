@@ -263,5 +263,5 @@ return [
     // Validation
     'password_required' => 'Le mot de passe est requis',
     'current_password_invalid' => 'Le mot de passe actuel est incorrect',
-
+    'no_specified' => 'Non spécifié',
 ];

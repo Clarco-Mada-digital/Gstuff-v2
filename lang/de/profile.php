@@ -150,6 +150,9 @@ return [
     'rates_from' => 'Tarife ab',
     'contact_me_for_rates' => 'Kontaktieren Sie mich für meine Tarife',
 
+    'password_required' => 'Passwort ist erforderlich',
+    'current_password_invalid' => 'Das aktuelle Passwort ist falsch',
+    'no_specified' => 'Nicht angegeben',
     'escort_of_salon' => 'Escorte des Salons',
     'created_escorts' => 'Erstellte Escorts',
     'no_created_escorts' => 'Keine Escorts erstellt',

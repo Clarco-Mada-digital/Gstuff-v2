@@ -31,6 +31,7 @@
                             <div class="p-4">
 
                                 <div class="relative mt-3">
+                                    
                                     <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                                         placeholder="{{ __('messenger.search_placeholder') }}"
                                         class="focus:ring-green-gs w-full rounded-lg border border-gray-300 p-2 pl-10 focus:outline-none focus:ring-2">

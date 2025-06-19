@@ -1659,28 +1659,31 @@
                                 {{ __('profile.escort_of_salon') }}</h2>
                             <div class="bg-green-gs hidden h-0.5 flex-1 xl:block"></div>
                         </div>
-
+                        @php
+                                            $noSpecial = __('profile.no_specified');
+                                        @endphp
                         <div class="mb-4 mt-10 flex w-full flex-wrap justify-around gap-4 px-4 xl:mt-0">
                             <!-- Colonne 1 -->
                             <div class="mb-4 w-full md:w-[48%]">
                                 <h2 class="font-dm-serif text-green-gs mb-2 text-center text-2xl font-bold">
                                     {{ __('profile.created_escorts') }}</h2>
 
-                                @if ($escorteCreateByUser->isNotEmpty())
+                                @if ($escorteCreateBySalons->isNotEmpty())
                                     <div id="default-carousel" class="relative w-full" data-carousel="static">
                                         <!-- Carousel wrapper -->
                                         <div class="relative min-h-[500px] overflow-hidden rounded-lg">
-                                            @if ($escorteCreateByUser->isNotEmpty())
-                                                @foreach ($escorteCreateByUser as $index => $acceptedInvitation)
+                                       
+                                            @if ($escorteCreateBySalons->isNotEmpty())
+                                                @foreach ($escorteCreateBySalons as $index => $acceptedInvitation)
                                                     <!-- Item {{ $index + 1 }} -->
                                                     <div class="hidden min-h-[405px] items-center duration-700 ease-in-out"
                                                         data-carousel-item>
-                                                        <livewire:escort_card name="{{ $acceptedInvitation->prenom }}"
-                                                            canton="{{ $acceptedInvitation->cantonget->nom ?? 'Non spécifié' }}"
-                                                            ville="{{ $acceptedInvitation->villeget->nom ?? 'Non spécifié' }}"
-                                                            avatar="{{ $acceptedInvitation->avatar }}"
-                                                            escortId="{{ $acceptedInvitation->id }}"
-                                                            wire:key="{{ $acceptedInvitation->id }}" />
+                                                        <livewire:escort_card name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->pseudo }}"
+                                                            canton="{{ $acceptedInvitation->invited->cantonget->nom ?? $noSpecial }}"
+                                                            ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
+                                                            avatar="{{ $acceptedInvitation->invited->avatar }}"
+                                                            escortId="{{ $acceptedInvitation->invited->id }}"
+                                                            wire:key="{{ $acceptedInvitation->invited->id }}" />
                                                     </div>
                                                 @endforeach
                                             @else
@@ -1692,7 +1695,7 @@
                                         </div>
                                         <!-- Slider indicators -->
                                         <div class="z-30 my-3 flex justify-center space-x-3 rtl:space-x-reverse">
-                                            @foreach ($escorteCreateByUser as $index => $acceptedInvitation)
+                                            @foreach ($escorteCreateBySalons as $index => $acceptedInvitation)
                                                 <button type="button"
                                                     class="{{ $index === 0 ? 'bg-blue-500' : 'bg-gray-300' }} h-3 w-3 rounded-full"
                                                     aria-current="{{ $index === 0 ? 'true' : 'false' }}"
@@ -1752,16 +1755,16 @@
                                                         @if ($acceptedInvitation->type === 'associe au salon')
                                                             <livewire:escort_card
                                                                 name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}"
-                                                                canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? 'Non spécifié' }}"
-                                                                ville="{{ $acceptedInvitation->inviter->villeget->nom ?? 'Non spécifié' }}"
+                                                                canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? $noSpecial }}"
+                                                                ville="{{ $acceptedInvitation->inviter->villeget->nom ?? $noSpecial }}"
                                                                 avatar="{{ $acceptedInvitation->inviter->avatar }}"
                                                                 escortId="{{ $acceptedInvitation->inviter->id }}"
                                                                 wire:key="{{ $acceptedInvitation->inviter->id }}" />
                                                         @else
                                                             <livewire:escort_card
                                                                 name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}"
-                                                                canton="{{ $acceptedInvitation->invited->cantonget->nom ?? 'Non spécifié' }}"
-                                                                ville="{{ $acceptedInvitation->invited->villeget->nom ?? 'Non spécifié' }}"
+                                                                canton="{{ $acceptedInvitation->invited->cantonget->nom ?? $noSpecial }}"
+                                                                ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
                                                                 avatar="{{ $acceptedInvitation->invited->avatar }}"
                                                                 escortId="{{ $acceptedInvitation->invited->id }}"
                                                                 wire:key="{{ $acceptedInvitation->invited->id }}" />

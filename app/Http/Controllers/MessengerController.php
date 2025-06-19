@@ -24,31 +24,101 @@ class MessengerController extends Controller
     }
 
     /** Search user profiles */
-    function search(Request $request)
+    // function search(Request $request)
+    // {
+    //     $getRecords = null;
+    //     $input = $request['query'];
+    //     $records = User::where('id', '!=', Auth::user()->id)
+    //         ->where('profile_type', '=', 'escorte')
+    //         ->orWhere('profile_type', '=', 'salon')
+    //         ->where('pseudo', 'LIKE', "%" .$input. "%")
+    //         ->orWhere('prenom', 'LIKE', "%". $input. "%")
+    //         ->orWhere('nom_salon', 'LIKE', "%".$input."%")
+    //         ->orWhere('profile_type', 'LIKE', "%".$input."%")
+    //         ->get();
+
+    //     if (count($records) < 1) {
+    //         $getRecords .= "<p class='text-center'>".__('chat.no_results')."</p>";
+    //     }
+
+    //     foreach ($records as $record) {
+    //         $getRecords .= view('messenger.components.search-item', compact('record'))->render();
+    //     }
+
+    //     return response()->json([
+    //         'records' => $records,
+    //         'user_id' => Auth::user()->id
+    //     ]);
+    // }
+        function search(Request $request)
     {
-        $getRecords = null;
-        $input = $request['query'];
-        $records = User::where('id', '!=', Auth::user()->id)
-            ->where('profile_type', '=', 'escorte')
-            ->orWhere('profile_type', '=', 'salon')
-            ->where('pseudo', 'LIKE', "%" .$input. "%")
-            ->orWhere('prenom', 'LIKE', "%". $input. "%")
-            ->orWhere('nom_salon', 'LIKE', "%".$input."%")
-            ->orWhere('profile_type', 'LIKE', "%".$input."%")
-            ->get();
+        try {
+            // Validation de l'entrée
+            $request->validate([
+                'query' => 'required|string|min:1|max:100',
+            ]);
 
-        if (count($records) < 1) {
-            $getRecords .= "<p class='text-center'>".__('chat.no_results')."</p>";
+            $input = trim($request->input('query'));
+            $searchTerm = "%$input%";
+            $currentUserId = Auth::id();
+
+            // Log pour le débogage
+            \Log::info('Recherche en cours', [
+                'query' => $input,
+                'user_id' => $currentUserId
+            ]);
+
+            $query = User::where('id', '!=', $currentUserId)
+                ->where(function($q) use ($searchTerm) {
+                    $q->where('pseudo', 'LIKE', $searchTerm)
+                      ->orWhere('prenom', 'LIKE', $searchTerm)
+                      ->orWhere('nom_salon', 'LIKE', $searchTerm)
+                      ->orWhere('profile_type', 'LIKE', $searchTerm);
+                })
+                ->whereIn('profile_type', ['escorte', 'salon']);
+
+            // Ajout du log de la requête SQL
+            \Log::debug('Requête SQL', [
+                'sql' => $query->toSql(),
+                'bindings' => $query->getBindings()
+            ]);
+
+            $records = $query->get();
+
+            // Log des résultats
+            \Log::info('Résultats trouvés', [
+                'count' => $records->count(),
+                'records' => $records->pluck('id')
+            ]);
+
+            $getRecords = '';
+            
+            if ($records->isEmpty()) {
+                $getRecords = "<p class='text-center'>".__('chat.no_results')."</p>";
+            } else {
+                foreach ($records as $record) {
+                    $getRecords .= view('messenger.components.search-item', ['record' => $record])->render();
+                }
+            }
+
+            return response()->json([
+                'records' => $records,
+                'user_id' => $currentUserId,
+                'html' => $getRecords
+            ]);
+
+        } catch (\Exception $e) {
+            // Log de l'erreur
+            \Log::error('Erreur lors de la recherche', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'error' => 'Une erreur est survenue lors de la recherche',
+                'details' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
         }
-
-        foreach ($records as $record) {
-            $getRecords .= view('messenger.components.search-item', compact('record'))->render();
-        }
-
-        return response()->json([
-            'records' => $records,
-            'user_id' => Auth::user()->id
-        ]);
     }
 
     // fetch user by id

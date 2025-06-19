@@ -260,6 +260,7 @@ class ProfileCompletionController extends Controller
                 ->where('type', 'creer par salon')
                 ->with(['inviter.cantonget'])
                 ->with(['inviter.villeget'])
+                ->with(['invited'])
                 ->get();
 
 

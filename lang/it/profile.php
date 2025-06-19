@@ -208,4 +208,7 @@ return [
     'email' => 'Email',
     'default_password' => 'Password predefinita',
     'password_change_notice' => 'L\'escort deve modificare la password predefinita per proteggere il suo account.',
+    'password_required' => 'La password è obbligatoria',
+    'current_password_invalid' => 'La password attuale non è corretta',
+    'no_specified' => 'Non specificato',
 ];
