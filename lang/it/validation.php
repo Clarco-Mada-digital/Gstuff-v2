@@ -51,4 +51,20 @@ return [
         'string' => 'Il nome del proprietario deve essere una stringa.',
         'max' => 'Il nome del proprietario non può superare i :max caratteri.',
     ],
+    'required' => 'Il campo :attribute è obbligatorio.',
+    'string' => 'Il campo :attribute deve essere una stringa.',
+    'email' => 'Il campo :attribute deve essere un indirizzo email valido.',
+    'max' => [
+        'string' => 'Il campo :attribute non può superare i :max caratteri.',
+    ],
+    'unique' => 'Il valore del campo :attribute è già stato utilizzato.',
+    'confirmed' => 'La conferma del campo :attribute non corrisponde.',
+    'array' => 'Il campo :attribute deve essere un array.',
+    'exists' => 'Il :attribute selezionato non è valido.',
+    'attributes' => [
+        'pseudo' => 'username',
+        'email' => 'indirizzo email',
+        'password' => 'password',
+        'roles' => 'ruoli',
+    ],
 ];

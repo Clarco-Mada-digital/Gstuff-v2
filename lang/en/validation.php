@@ -51,4 +51,20 @@ return [
         'string' => 'The owner name must be a string.',
         'max' => 'The owner name may not be greater than :max characters.',
     ],
+    'required' => 'The :attribute field is required.',
+    'string' => 'The :attribute must be a string.',
+    'email' => 'The :attribute must be a valid email address.',
+    'max' => [
+        'string' => 'The :attribute may not be greater than :max characters.',
+    ],
+    'unique' => 'The :attribute has already been taken.',
+    'confirmed' => 'The :attribute confirmation does not match.',
+    'array' => 'The :attribute must be an array.',
+    'exists' => 'The selected :attribute is invalid.',
+    'attributes' => [
+        'pseudo' => 'username',
+        'email' => 'email address',
+        'password' => 'password',
+        'roles' => 'roles',
+    ],
 ];

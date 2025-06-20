@@ -51,4 +51,20 @@ return [
         'string' => 'Le nom du propriétaire doit être une chaîne de caractères.',
         'max' => 'Le nom du propriétaire ne peut pas dépasser :max caractères.',
     ],
+    'required' => 'Le champ :attribute est obligatoire.',
+    'string' => 'Le champ :attribute doit être une chaîne de caractères.',
+    'email' => 'Le champ :attribute doit être une adresse email valide.',
+    'max' => [
+        'string' => 'Le champ :attribute ne peut pas dépasser :max caractères.',
+    ],
+    'unique' => 'La valeur du champ :attribute est déjà utilisée.',
+    'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
+    'array' => 'Le champ :attribute doit être un tableau.',
+    'exists' => 'Le :attribute sélectionné est invalide.',
+    'attributes' => [
+        'pseudo' => 'pseudo',
+        'email' => 'adresse email',
+        'password' => 'mot de passe',
+        'roles' => 'rôles',
+    ],
 ];

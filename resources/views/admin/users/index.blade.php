@@ -211,7 +211,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="text-red-600 hover:text-red-900"
-                                            onclick="confirmDelete({{ $user->id, 'user' }})">
+                                            onclick="confirmDelete({{ $user->id }}, 'user')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -254,16 +254,16 @@
         }
 
         function confirmDelete(userId, type) {
+            console.log(userId, type);
             Swal.fire({
-                title: type === 'user' ? __('user_management.confirm_delete_user') : __(
-                    'user_management.confirm_delete_notification'),
-                text: __('user_management.irreversible_action'),
+                title: type === 'user' ? '{{ __("user_management.confirm_delete_user") }}' : '{{ __("user_management.confirm_delete_notification") }}',
+                text: '{{ __("user_management.irreversible_action") }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: __('user_management.confirm_delete'),
-                cancelButtonText: __('user_management.cancel')
+                confirmButtonText: '{{ __("user_management.confirm_delete") }}',
+                cancelButtonText: '{{ __("user_management.cancel") }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById(`delete-form-${userId}`).submit();

@@ -21,41 +21,51 @@ class UserController extends Controller
 {
     public function index()
     {
+        // Récupérer l'utilisateur actuellement authentifié
+        $user = Auth::user();
 
-      // Récupérer l'utilisateur actuellement authentifié
-    $user = Auth::user();
+        // Récupérer les notifications paginées avec un nom de paramètre personnalisé
+        $notifications = Notification::where('notifiable_id', $user->id)
+            ->where('type', 'App\\Notifications\\ProfileVerificationRequestNotification')
+            ->orderBy('created_at', 'desc')
+            ->paginate(4, ['*'], 'notifications_page');
 
-    // Récupérer les notifications paginées directement depuis la base de données
-    $notifications = Notification::where('notifiable_id', $user->id)
-        ->where('type', 'App\Notifications\ProfileVerificationRequestNotification')
-        ->orderBy('created_at', 'desc')
-        ->paginate(4); // Pagination automatique ici
+        // Récupérer les utilisateurs liés aux notifications en une seule requête
+        $userIds = $notifications->getCollection()
+            ->pluck('data.user_id')
+            ->filter()
+            ->unique()
+            ->values();
 
-    // Récupérer les user_id uniques dans les données de notification
-    $userIds = $notifications->getCollection()->pluck('data.user_id')->filter()->unique();
+        $users = $userIds->isNotEmpty() 
+            ? User::whereIn('id', $userIds)->get()->keyBy('id')
+            : collect();
 
-    // Charger tous les utilisateurs concernés en une seule requête
-    $users = User::whereIn('id', $userIds)->get()->keyBy('id');
+        // Formater les notifications
+        $formattedNotifications = $notifications->getCollection()->map(function ($notification) use ($users) {
+            $userId = $notification->data['user_id'] ?? null;
+            
+            return [
+                'id' => $notification->id,
+                'data' => $notification->data ?? null,
+                'user' => $userId ? $users->get($userId) : null,
+                'created_at' => $notification->created_at->toDateTimeString(),
+                'read_at' => $notification->read_at?->toDateTimeString(),
+            ];
+        });
 
-    // Formater les notifications
-    $formattedNotifications = $notifications->getCollection()->map(function ($notification) use ($users) {
-        return [
-            'id'=>$notification->id,
-            'data' => $notification->data ?? null,
-            'user' => isset($notification->data['user_id']) ? $users->get($notification->data['user_id']) : null,
-            'created_at' => $notification->created_at->toDateTimeString(),
-            'read_at' => $notification->read_at ? $notification->read_at->toDateTimeString() : null,
-        ];
-    });
+        $notifications->setCollection($formattedNotifications);
 
-    // Remplacer la collection originale par la version formatée
-    $notifications->setCollection($formattedNotifications);
+        // Récupérer les utilisateurs avec leurs rôles (pagination séparée)
+        $usersPaginated = User::with('roles')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10, ['*'], 'users_page');
 
-    return view('admin.users.index', [
-        'users' => User::with('roles')->paginate(10),
-        'roles' => Role::all(),
-        'demandes' => $notifications, // Notifications paginées et formatées
-    ]);
+        return view('admin.users.index', [
+            'users' => $usersPaginated,
+            'roles' => Role::all(),
+            'demandes' => $notifications,
+        ]);
     }
 
     public function create()
@@ -147,39 +157,57 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'pseudo' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email,'.$user->id,
+            ],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'roles' => 'sometimes|array',
             'roles.*' => 'exists:roles,id'
+        ], [
+            'pseudo.required' => __('validation.required', ['attribute' => 'pseudo']),
+            'pseudo.string' => __('validation.string', ['attribute' => 'pseudo']),
+            'pseudo.max' => __('validation.max.string', ['attribute' => 'pseudo', 'max' => 255]),
+            'email.required' => __('validation.required', ['attribute' => 'email']),
+            'email.string' => __('validation.string', ['attribute' => 'email']),
+            'email.email' => __('validation.email', ['attribute' => 'email']),
+            'email.max' => __('validation.max.string', ['attribute' => 'email', 'max' => 255]),
+            'email.unique' => __('validation.unique', ['attribute' => 'email']),
+            'password.confirmed' => __('validation.confirmed', ['attribute' => 'mot de passe']),
+            'roles.array' => __('validation.array', ['attribute' => 'rôles']),
+            'roles.*.exists' => __('validation.exists', ['attribute' => 'rôle']),
         ]);
 
         $user->update([
-            'pseudo' => $request->pseudo,
-            'email' => $request->email,
-            'password' => $request->password ? Hash::make($request->password) : $user->password,
+            'pseudo' => $validatedData['pseudo'],
+            'email' => $validatedData['email'],
+            'password' => isset($validatedData['password']) ? Hash::make($validatedData['password']) : $user->password,
         ]);
 
-        if ($request->has('roles')) {
-            $user->roles()->sync($request->roles);
+        if (isset($validatedData['roles'])) {
+            $user->roles()->sync($validatedData['roles']);
         }
 
         return redirect()->route('users.index')
-            ->with('success', 'Utilisateur mis à jour avec succès');
+            ->with('success', __('users.update_success'));
     }
 
     public function destroy(User $user)
     {
         // Empêche la suppression de l'admin principal
         if ($user->id === 1) {
-            return back()->with('error', 'Impossible de supprimer l\'administrateur principal');
+            return back()->with('error', __('users.cannot_delete_admin'));
         }
 
         $user->delete();
         
         return redirect()->route('users.index')
-            ->with('success', 'Utilisateur supprimé avec succès');
+            ->with('success', __('users.delete_success'));
     }
 
 
@@ -190,26 +218,26 @@ class UserController extends Controller
 
         // Vérification de l'authentification avant toute opération
         if (!$user || $user->profile_type !== 'admin') {
-            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+            return redirect()->route('login')->with('error', __('users.admin_required'));
         }
 
         $iduser = (int) $iduser;
 
         // Validation de l'entrée
         if (!is_numeric($iduser)) {
-            return redirect()->route('users.index')->with('error', "ID utilisateur invalide. Type détecté : $iduserType");
+            $iduserType = gettype($iduser);
+            return redirect()->route('users.index')
+                ->with('error', __('users.invalid_user_id', ['type' => $iduserType]));
         }
     
-        
         // Utilisation d'une transaction pour garantir l'atomicité des opérations
         DB::transaction(function () use ($iduser) {
-            // Supprimer les notifications filtrées
+            // Marquer les notifications comme lues
             $notifications = Notification::whereJsonContains('data->user_id', $iduser)
-            ->where('type', 'App\Notifications\ProfileVerificationRequestNotification')
-            ->get();
+                ->where('type', 'App\\Notifications\\ProfileVerificationRequestNotification')
+                ->get();
     
             foreach ($notifications as $notification) {
-                // Mettre à jour la colonne read_at avec l'heure actuelle
                 $notification->update([
                     'read_at' => now(),
                 ]);
@@ -218,52 +246,46 @@ class UserController extends Controller
 
         $user = User::findOrFail($iduser);
  
-        return view('admin.users.demande', [ 
+        return view('admin.users.demande', [
             'user' => $user,
-        
         ]);
     }
 
     
     public function approvedProfile($iduser)
     {
-
         $user = Auth::user();
 
         // Vérification de l'authentification avant toute opération
         if (!$user || $user->profile_type !== 'admin') {
-            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+            return redirect()->route('login')->with('error', __('users.admin_required'));
         }
 
         $user = User::findOrFail($iduser);
         $user->update([
-            'profile_verifie'=>  'verifier'
+            'profile_verifie' => 'verifier'
         ]);
 
         return redirect()->route('users.index')
-        ->with('success', "Profil de l'utilisateur approuvé avec succès.");
-    
+            ->with('success', __('users.profile_approved'));
     }
 
-     
     public function notApprovedProfile($iduser)
     {
-
         $user = Auth::user();
 
         // Vérification de l'authentification avant toute opération
         if (!$user || $user->profile_type !== 'admin') {
-            return redirect()->route('login')->with('error', "Vous devez être connecté en tant qu'administrateur pour inviter des escorts.");
+            return redirect()->route('login')->with('error', __('users.admin_required'));
         }
 
         $user = User::findOrFail($iduser);
         $user->update([
-            'profile_verifie'=>  'non verifier'
+            'profile_verifie' => 'non verifier'
         ]);
 
         return redirect()->route('users.index')
-        ->with('success', "Profil de l'utilisateur n'est pas approuvé avec succès.");
-    
+            ->with('success', __('users.profile_not_approved'));
     }
 
     

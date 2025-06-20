@@ -51,4 +51,20 @@ return [
         'string' => 'Der Name des Inhabers muss eine Zeichenkette sein.',
         'max' => 'Der Name des Inhabers darf nicht länger als :max Zeichen sein.',
     ],
+    'required' => 'Das Feld :attribute ist erforderlich.',
+    'string' => 'Das Feld :attribute muss eine Zeichenkette sein.',
+    'email' => 'Das Feld :attribute muss eine gültige E-Mail-Adresse sein.',
+    'max' => [
+        'string' => 'Das Feld :attribute darf nicht länger als :max Zeichen sein.',
+    ],
+    'unique' => 'Der Wert des Feldes :attribute wird bereits verwendet.',
+    'confirmed' => 'Die Bestätigung des Feldes :attribute stimmt nicht überein.',
+    'array' => 'Das Feld :attribute muss ein Array sein.',
+    'exists' => 'Das ausgewählte :attribute ist ungültig.',
+    'attributes' => [
+        'pseudo' => 'Benutzername',
+        'email' => 'E-Mail-Adresse',
+        'password' => 'Passwort',
+        'roles' => 'Rollen',
+    ],
 ];
