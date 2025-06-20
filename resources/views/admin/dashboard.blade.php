@@ -169,8 +169,10 @@
                                     <div>
                                         <a :href="`{{ route('articles.index') }}/${article.id}`"
                                             class="font-medium text-gray-900 hover:text-blue-600"
-                                            x-text="article.title"></a>
-                                        <p class="mt-1 text-sm text-gray-500" x-text="article.excerpt"></p>
+                                            x-text="article.article.title['{{ app()->getLocale() }}']"></a>
+                                        <p class="mt-1 text-sm text-gray-500" x-text="article.article.excerpt['{{ app()->getLocale() }}'].length > 150 ? article.article.excerpt['{{ app()->getLocale() }}'].substring(0, 150) + '...' : article.article.excerpt['{{ app()->getLocale() }}']"></p>
+                                        
+
                                     </div>
                                     <div class="flex items-center space-x-2">
                                         <span class="rounded-full px-2 py-1 text-xs"

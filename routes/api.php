@@ -60,7 +60,8 @@ Route::prefix('admin/api')->group(function () {
                     'user' => [
                         'pseudo' => $article->user->pseudo,
                         'avatar' => 'https://ui-avatars.com/api/?name='.urlencode($article->user->pseudo).'&background=random'
-                    ]
+                    ],
+                    'article' => $article
                 ];
             });
     });

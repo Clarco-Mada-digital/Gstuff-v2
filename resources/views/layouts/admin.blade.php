@@ -140,6 +140,8 @@
                             article.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
                             article.excerpt.toLowerCase().includes(this.filters.search.toLowerCase());
 
+                        console.log(article.title);
+
                         return statusMatch && searchMatch;
                     });
                 },
@@ -244,6 +246,7 @@
                         const response = await fetch('/api/admin/api/articles/recent');
                         const data = await response.json();
                         this.recentArticles = data;
+                        console.log(this.recentArticles);
                     } catch (error) {
                         console.error('Error fetching recent articles:', error);
                     }
