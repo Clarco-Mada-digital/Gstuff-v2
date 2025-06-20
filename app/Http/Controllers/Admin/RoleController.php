@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -37,21 +38,32 @@ class RoleController extends Controller
     {
         $this->authorize('manage roles');
 
-        $request->validate([
-            'name' => 'required|unique:roles|max:255',
-            'permissions' => 'array',
-            'permissions.*' => 'exists:permissions,id'
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:roles,name',
+            ],
+            'permissions' => ['array'],
+            'permissions.*' => ['exists:permissions,id']
+        ], [
+            'name.required' => __('roles.validation.name_required'),
+            'name.unique' => __('roles.validation.name_unique'),
+            'name.max' => __('roles.validation.name_max'),
+            'permissions.array' => __('roles.validation.permissions_array'),
+            'permissions.*.exists' => __('roles.validation.permissions_exists'),
         ]);
         
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $validated['name']]);
         
-        if ($request->has('permissions')) {
-            $role->syncPermissions($request->permissions);
+        if (isset($validated['permissions'])) {
+            $role->syncPermissions($validated['permissions']);
         }
         
         return response()->json([
             'role' => $role,
-            'message' => 'Role creer avec success !'
+            'message' => __('roles.role_created')
         ]);
     }
 
@@ -76,28 +88,99 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        $this->authorize('manage roles');
+
+        // Empêcher la modification du rôle admin sauf par un admin
         if ($role->name === 'admin' && !auth()->user()->hasRole('admin')) {
-            abort(403);
+            return response()->json([
+                'success' => false,
+                'message' => __('roles.admin_role_protected')
+            ], 403);
         }
 
-        $request->validate([
-            'permissions.*' => 'exists:permissions,name'
+        $validated = $request->validate([
+            'name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('roles')->ignore($role->id),
+            ],
+            'permissions' => ['sometimes', 'array'],
+            'permissions.*' => ['exists:permissions,name']
+        ], [
+            'name.required' => __('roles.validation.name_required'),
+            'name.unique' => __('roles.validation.name_unique'),
+            'name.max' => __('roles.validation.name_max'),
+            'permissions.array' => __('roles.validation.permissions_array'),
+            'permissions.*.exists' => __('roles.validation.permissions_exists'),
+        ]);
+
+        if (isset($validated['name'])) {
+            $role->name = $validated['name'];
+            $role->save();
+        }
+
+        if (isset($validated['permissions'])) {
+            $role->syncPermissions($validated['permissions']);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => __('roles.role_updated'),
+            'role' => $role->load('permissions')
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+       public function destroy(string $id)
     {    
-        // Méthode 2 - Avec findOrFail (recommandée)
-        $role = Role::findOrFail($id);
-        $role->delete();
-        return redirect()->route('roles.index')->with('success', 'Rôle supprimé');
+        $this->authorize('manage roles');
         
-        // Méthode 3 - Avec suppression statique
-    //     Role::destroy($id);
-    //     return redirect()->route('roles.index')->with('success', 'Rôle supprimé');
-    // }
+        $role = Role::findOrFail($id);
+        
+        // Empêcher la suppression du rôle admin
+        if ($role->name === 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => __('roles.delete_admin_denied')
+            ], 403);
+        }
+        
+        // Empêcher un utilisateur de supprimer son propre rôle
+        if (auth()->user()->roles->contains('id', $role->id)) {
+            return response()->json([
+                'success' => false,
+                'message' => __('roles.delete_self_denied')
+            ], 403);
+        }
+        
+        try {
+            $role->delete();
+            
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => __('roles.role_deleted')
+                ]);
+            }
+            
+            return redirect()->route('roles.index')
+                ->with('success', __('roles.role_deleted'));
+                
+        } catch (\Exception $e) {
+            \Log::error('Error deleting role: ' . $e->getMessage());
+            
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
+            
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

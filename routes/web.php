@@ -139,8 +139,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     
     // Tags
     Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
-    Route::put('tags/{tag}', [TagController::class, 'update'])->name('tags.update');
-    Route::delete('tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+    Route::put('tags/{id}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
     Route::get('fetchTags', [TagController::class, 'fetchTags'])->name('tags.fetch');
     
     // Recherche taxonomy

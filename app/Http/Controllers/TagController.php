@@ -115,9 +115,22 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $tag)
+    public function destroy($id)
     {
+        $tag = Tag::find($id);
+        
+        if (!$tag) {
+            return response()->json([
+                'success' => false,
+                'message' => __('tag.error.tag_not_found')
+            ], 404);
+        }
+        
         $tag->delete();
-        return back()->with('success', __('tag.success.tag_deleted'));
+        
+        return response()->json([
+            'success' => true,
+            'message' => __('tag.success.tag_deleted')
+        ]);
     }
 }

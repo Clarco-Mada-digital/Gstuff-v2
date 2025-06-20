@@ -70,7 +70,18 @@ class TaxonomyController extends Controller
             'id' => 'nullable|exists:article_categories,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'lang' => 'required|string',
+            'lang' => 'required|string|in:' . implode(',', Locales::SUPPORTED_CODES),
+        ], [
+            'name.required' => __('validation.required', ['attribute' => __('taxonomy.fields.name')]),
+            'name.string' => __('validation.string', ['attribute' => __('taxonomy.fields.name')]),
+            'name.max' => __('validation.max.string', [
+                'attribute' => __('taxonomy.fields.name'),
+                'max' => 255
+            ]),
+            'description.string' => __('validation.string', ['attribute' => __('taxonomy.fields.description')]),
+            'lang.required' => __('validation.required', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.string' => __('validation.string', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.in' => __('validation.in', ['attribute' => __('taxonomy.fields.language')]),
         ]);
 
         $slug = Str::slug($request->name);
@@ -85,7 +96,7 @@ class TaxonomyController extends Controller
                 if ($verifierSlug->id != $request->id) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Une catégorie avec ce nom existe déjà.'
+                        'message' => __('taxonomy.validation.name_exists')
                     ], 422);
                 }
 
@@ -93,15 +104,21 @@ class TaxonomyController extends Controller
                 $sourceLocale = $request['lang']; // Langue source par défaut
                 // Traduire le contenu dans toutes les langues cibles
                 $translatedContentDescription = [];
-                foreach ($locales as $locale) {
-                    if ($locale !== $sourceLocale) {
-                        $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
-                    }else{
-                        $translatedContentDescription[$locale] = $request['description'];
-                    }
-                }
-                $request['description'] = $translatedContentDescription;
 
+
+
+                if($request['description']){
+                    foreach ($locales as $locale) {
+                        if ($locale !== $sourceLocale) {
+                            $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
+                        }else{
+                            $translatedContentDescription[$locale] = $request['description'];
+                        }
+                    }
+                    $request['description'] = $translatedContentDescription;
+    
+                }
+               
                 $translatedContentName = [];
                 foreach ($locales as $locale) {
                     if ($locale !== $sourceLocale) {
@@ -120,7 +137,7 @@ class TaxonomyController extends Controller
                 ]);
                 return response()->json([
                     'success' => true,
-                    'message' => 'Catégorie mise à jour avec succès',
+                    'message' => __('taxonomy.category_updated'),
                     'data' => $category->loadCount('articles')
                 ]);
             }
@@ -128,7 +145,7 @@ class TaxonomyController extends Controller
             if (ArticleCategory::where('slug', $slug)->exists()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Une catégorie avec ce nom existe déjà.'
+                    'message' => __('taxonomy.validation.name_exists')
                 ], 422);
             }
             
@@ -138,14 +155,18 @@ class TaxonomyController extends Controller
             $sourceLocale = $request['lang']; // Langue source par défaut
             // Traduire le contenu dans toutes les langues cibles
             $translatedContentDescription = [];
-            foreach ($locales as $locale) {
-                if ($locale !== $sourceLocale) {
-                    $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
-                }else{
-                    $translatedContentDescription[$locale] = $request['description'];
+            if($request['description']){
+                foreach ($locales as $locale) {
+                    if ($locale !== $sourceLocale) {
+                        $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
+                    }else{
+                        $translatedContentDescription[$locale] = $request['description'];
+                    }
                 }
+                $request['description'] = $translatedContentDescription;
             }
-            $request['description'] = $translatedContentDescription;
+           
+           
     
             $translatedContentName = [];
             foreach ($locales as $locale) {
@@ -168,7 +189,7 @@ class TaxonomyController extends Controller
     
             return response()->json([
                 'success' => true,
-                'message' => 'Catégorie créée avec succès',
+                'message' => __('taxonomy.category_created'),
                 'data' => $category->loadCount('articles')
             ]);
         }
@@ -205,183 +226,6 @@ class TaxonomyController extends Controller
 
 
 
-/**
- * Met à jour une catégorie existante
- */
-// public function updateCategory(Request $request)
-// {
-//     // Validation des entrées
-//     $validated = $request->validate([
-//         'id' => 'required|exists:article_categories,id',
-//         'name' => 'required|string|max:255',
-//         'description' => 'nullable|string',
-//         'lang' => 'required|string',
-//     ]);
-
-//     $category = ArticleCategory::findOrFail($validated['id']);
-//     $slug = Str::slug($validated['name']);
-
-//     // Vérifier si une autre catégorie existe avec le même slug
-//     $existingCategory = ArticleCategory::where('slug', $slug)
-//         ->where('id', '!=', $category->id)
-//         ->first();
-
-//     if ($existingCategory) {
-//         return response()->json([
-//             'success' => false,
-//             'message' => 'Une catégorie avec ce nom existe déjà.'
-//         ], 422);
-//     }
-
-//     // Récupérer les traductions existantes
-//     $locales = Locales::SUPPORTED_CODES;
-//     $sourceLocale = $validated['lang'];
-    
-//     // Décoder les champs JSON s'ils existent
-//     $name = is_string($category->name) ? json_decode($category->name, true) : ($category->name ?? []);
-//     $description = is_string($category->description) ? json_decode($category->description, true) : ($category->description ?? []);
-
-//     // Mettre à jour les traductions
-//     $name[$sourceLocale] = $validated['name'];
-//     if (isset($validated['description'])) {
-//         $description[$sourceLocale] = $validated['description'];
-//     }
-
-//     // Traduire dans les autres langues
-//     foreach ($locales as $locale) {
-//         if ($locale !== $sourceLocale) {
-//             if (!isset($name[$locale])) {
-//                 try {
-//                     $name[$locale] = $this->translateService->translate(
-//                         $validated['name'], 
-//                         $sourceLocale, 
-//                         $locale
-//                     );
-//                 } catch (\Exception $e) {
-//                     $name[$locale] = $validated['name'];
-//                 }
-//             }
-            
-//             if (isset($validated['description']) && !isset($description[$locale])) {
-//                 try {
-//                     $description[$locale] = $this->translateService->translate(
-//                         $validated['description'], 
-//                         $sourceLocale, 
-//                         $locale
-//                     );
-//                 } catch (\Exception $e) {
-//                     $description[$locale] = $validated['description'] ?? null;
-//                 }
-//             }
-//         }
-//     }
-
-//     // Mise à jour de la catégorie
-//     $category->update([
-//         'name' => $name,
-//         'slug' => $slug,
-//         'description' => $description,
-//     ]);
-
-//     return response()->json([
-//         'success' => true,
-//         'message' => 'Catégorie mise à jour avec succès',
-//         'data' => $category->loadCount('articles')
-//     ]);
-// }
-
-
-
-
-// /**
-//  * Met à jour une catégorie existante
-//  */
-// public function updateCategory(Request $request)
-// {
-//     // Validation des entrées
-//     $validated = $request->validate([
-//         'id' => 'required|exists:article_categories,id',
-//         'name' => 'required|string|max:255',
-//         'description' => 'nullable|string',
-//         'lang' => 'required|string',
-//     ]);
-
-//     $category = ArticleCategory::findOrFail($validated['id']);
-//     $slug = Str::slug($validated['name']);
-
-//     // Vérifier si une autre catégorie existe avec le même slug
-//     $existingCategory = ArticleCategory::where('slug', $slug)
-//         ->where('id', '!=', $category->id)
-//         ->first();
-
-//     if ($existingCategory) {
-//         return response()->json([
-//             'success' => false,
-//             'message' => 'Une catégorie avec ce nom existe déjà.'
-//         ], 422);
-//     }
-
-//     // Récupérer les traductions existantes
-//     $locales = Locales::SUPPORTED_CODES;
-//     $sourceLocale = $validated['lang'];
-//     $name = $category->name ?? [];
-//     $description = $category->description ?? [];
-
-//     // Mettre à jour les traductions
-//     $name[$sourceLocale] = $validated['name'];
-//     if (isset($validated['description'])) {
-//         $description[$sourceLocale] = $validated['description'];
-//     }
-
-//     // Traduire dans les autres langues
-//     foreach ($locales as $locale) {
-//         if ($locale !== $sourceLocale) {
-//             if (!isset($name[$locale])) {
-//                 try {
-//                     $name[$locale] = $this->translateService->translate(
-//                         $validated['name'], 
-//                         $sourceLocale, 
-//                         $locale
-//                     );
-//                 } catch (\Exception $e) {
-//                     $name[$locale] = $validated['name'];
-//                 }
-//             }
-            
-//             if (isset($validated['description']) && !isset($description[$locale])) {
-//                 try {
-//                     $description[$locale] = $this->translateService->translate(
-//                         $validated['description'], 
-//                         $sourceLocale, 
-//                         $locale
-//                     );
-//                 } catch (\Exception $e) {
-//                     $description[$locale] = $validated['description'];
-//                 }
-//             }
-//         }
-//     }
-
-//     // Mise à jour de la catégorie
-//     $category->update([
-//         'name' => $name,
-//         'slug' => $slug,
-//         'description' => $description,
-//     ]);
-
-//     return response()->json([
-//         'success' => true,
-//         'message' => 'Catégorie mise à jour avec succès',
-//         'data' => $category->loadCount('articles')
-//     ]);
-// }
-
-
-
-
-
-
-
 
     /**
      * Met à jour une catégorie existante
@@ -393,7 +237,17 @@ class TaxonomyController extends Controller
             'id' => 'required|exists:article_categories,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'lang' => 'required|string',
+            'lang' => 'required|string|in:' . implode(',', Locales::SUPPORTED_CODES),
+        ], [
+            'id.required' => __('validation.required', ['attribute' => 'ID']),
+            'id.exists' => __('validation.exists', ['attribute' => 'ID']),
+            'name.required' => __('validation.required', ['attribute' => __('taxonomy.fields.name')]),
+            'name.string' => __('validation.string', ['attribute' => __('taxonomy.fields.name')]),
+            'name.max' => __('validation.max.string', ['attribute' => __('taxonomy.fields.name'), 'max' => 255]),
+            'description.string' => __('validation.string', ['attribute' => __('taxonomy.fields.description')]),
+            'lang.required' => __('validation.required', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.string' => __('validation.string', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.in' => __('validation.in', ['attribute' => __('taxonomy.fields.language')]),
         ]);
         
     
@@ -408,7 +262,7 @@ class TaxonomyController extends Controller
         if ($existingCategory) {
             return response()->json([
                 'success' => false,
-                'message' => 'Une catégorie avec ce nom existe déjà.'
+                'message' => __('taxonomy.validation.name_exists')
             ], 422);
         }
 
@@ -416,15 +270,17 @@ class TaxonomyController extends Controller
         $sourceLocale = $request['lang']; // Langue source par défaut
         // Traduire le contenu dans toutes les langues cibles
         $translatedContentDescription = [];
-        foreach ($locales as $locale) {
-            if ($locale !== $sourceLocale) {
-                $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
-            }else{
-                $translatedContentDescription[$locale] = $request['description'];
+        if($request['description']){
+            foreach ($locales as $locale) {
+                if ($locale !== $sourceLocale) {
+                    $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
+                }else{
+                    $translatedContentDescription[$locale] = $request['description'];
+                }
             }
-        }
-        $request['description'] = $translatedContentDescription;
+            $request['description'] = $translatedContentDescription;
 
+        }
         $translatedContentName = [];
         foreach ($locales as $locale) {
             if ($locale !== $sourceLocale) {
@@ -443,61 +299,11 @@ class TaxonomyController extends Controller
         ]);
         return response()->json([
             'success' => true,
-            'message' => 'Catégorie mise à jour avec succès',
+            'message' => __('taxonomy.category_updated'),
             'data' => $category->loadCount('articles')
         ]);
     
 
-        // // Vérifier si la catégorie existe déjà
-        // if ($request->id) {
-        //     // $category = ArticleCategory::find($request->id);
-        //     if ($category) {
-
-        //         $verifierSlug = ArticleCategory::where('slug', $slug);
-
-        //         if ($verifierSlug->id != $request->id) {
-        //             return response()->json([
-        //                 'success' => false,
-        //                 'message' => 'Une catégorie avec ce nom existe déjà.'
-        //             ], 422);
-        //         }
-
-        //         $locales = Locales::SUPPORTED_CODES;
-        //         $sourceLocale = $request['lang']; // Langue source par défaut
-        //         // Traduire le contenu dans toutes les langues cibles
-        //         $translatedContentDescription = [];
-        //         foreach ($locales as $locale) {
-        //             if ($locale !== $sourceLocale) {
-        //                 $translatedContentDescription[$locale] = $this->translateService->translate($request['description'], $locale);
-        //             }else{
-        //                 $translatedContentDescription[$locale] = $request['description'];
-        //             }
-        //         }
-        //         $request['description'] = $translatedContentDescription;
-
-        //         $translatedContentName = [];
-        //         foreach ($locales as $locale) {
-        //             if ($locale !== $sourceLocale) {
-        //                 $translatedContentName[$locale] = $this->translateService->translate($request['name'], $locale);
-        //             }else{
-        //                 $translatedContentName[$locale] = $request['name'];
-        //             }
-        //         }
-        //         $request['name'] = $translatedContentName;
-
-
-        //         $category->update([
-        //             'name' => $request->name,
-        //             'slug' => $slug,
-        //             'description' => $request->description ?? null,
-        //         ]);
-        //         return response()->json([
-        //             'success' => true,
-        //             'message' => 'Catégorie mise à jour avec succès',
-        //             'data' => $category->loadCount('articles')
-        //         ]);
-        //     }
-        // }
     }
 
     /**
@@ -510,12 +316,12 @@ class TaxonomyController extends Controller
             
             return response()->json([
                 'success' => true,
-                'message' => 'La catégorie "' . $category->name . '" a été supprimée avec succès'
+                'message' => __('taxonomy.category_deleted')
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Impossible de supprimer la catégorie : ' . $e->getMessage(),
+                'message' => __('taxonomy.delete_error'),
                 'errors' => $e->getMessage()
             ], 500);
         }
@@ -536,7 +342,7 @@ class TaxonomyController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Tag mis à jour avec succès',
+            'message' => __('taxonomy.tag_updated'),
             'data' => $tag->loadCount('articles')
         ]);
     }
@@ -551,12 +357,12 @@ class TaxonomyController extends Controller
             
             return response()->json([
                 'success' => true,
-                'message' => 'Le tag "' . $tag->name . '" a été supprimé avec succès'
+                'message' => __('taxonomy.tag_deleted')
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Impossible de supprimer le tag : ' . $e->getMessage(),
+                'message' => __('taxonomy.delete_error'),
                 'errors' => $e->getMessage()
             ], 500);
         }
@@ -570,13 +376,23 @@ class TaxonomyController extends Controller
         $rules = [
             'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string',
+            'lang' => 'required|string|in:' . implode(',', Locales::SUPPORTED_CODES),
         ];
 
         if ($category) {
             $rules['name'] .= ',' . $category->id;
         }
 
-        return $request->validate($rules);
+        return $request->validate($rules, [
+            'name.required' => __('validation.required', ['attribute' => __('taxonomy.fields.name')]),
+            'name.string' => __('validation.string', ['attribute' => __('taxonomy.fields.name')]),
+            'name.max' => __('validation.max.string', ['attribute' => __('taxonomy.fields.name'), 'max' => 255]),
+            'name.unique' => __('taxonomy.validation.name_exists'),
+            'description.string' => __('validation.string', ['attribute' => __('taxonomy.fields.description')]),
+            'lang.required' => __('validation.required', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.string' => __('validation.string', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.in' => __('validation.in', ['attribute' => __('taxonomy.fields.language')]),
+        ]);
     }
 
     /**
@@ -585,14 +401,23 @@ class TaxonomyController extends Controller
     protected function validateTag(Request $request, ?Tag $tag = null)
     {
         $rules = [
-            'name' => 'required|string|max:255|unique:tags,name'
+            'name' => 'required|string|max:255|unique:tags,name',
+            'lang' => 'required|string|in:' . implode(',', Locales::SUPPORTED_CODES),
         ];
 
         if ($tag) {
             $rules['name'] .= ',' . $tag->id;
         }
 
-        return $request->validate($rules);
+        return $request->validate($rules, [
+            'name.required' => __('validation.required', ['attribute' => __('taxonomy.fields.name')]),
+            'name.string' => __('validation.string', ['attribute' => __('taxonomy.fields.name')]),
+            'name.max' => __('validation.max.string', ['attribute' => __('taxonomy.fields.name'), 'max' => 255]),
+            'name.unique' => __('taxonomy.validation.name_exists'),
+            'lang.required' => __('validation.required', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.string' => __('validation.string', ['attribute' => __('taxonomy.fields.language')]),
+            'lang.in' => __('validation.in', ['attribute' => __('taxonomy.fields.language')]),
+        ]);
     }
 
     /**
@@ -625,7 +450,7 @@ class TaxonomyController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Statut de la catégorie mis à jour',
+            'message' => __('taxonomy.status_updated'),
             'is_active' => $category->is_active
         ]);
     }
