@@ -2,6 +2,7 @@
 
 @php
     use Carbon\Carbon;
+    $noSpecial = __('profile.no_specified');
 @endphp
 
 @section('pageTitle')
@@ -49,7 +50,7 @@
                         d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11" />
                 </svg>{{ $salon->telephone ?? $no_phone }}</a>
             <div class="text-green-gs flex items-center justify-center gap-2">
-                <a href="{{ route('escortes') }}?selectedCanton={{ $salon->canton->id }}" class="flex items-center gap-1">
+                <a href="{{ route('escortes') }}?selectedCanton={{ $salon->canton->id ?? ''  }}" class="flex items-center gap-1">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none">
                         <path
                             d="M4 13.2864C2.14864 14.1031 1 15.2412 1 16.5C1 18.9853 5.47715 21 11 21C16.5228 21 21 18.9853 21 16.5C21 15.2412 19.8514 14.1031 18 13.2864M17 7C17 11.0637 12.5 13 11 16C9.5 13 5 11.0637 5 7C5 3.68629 7.68629 1 11 1C14.3137 1 17 3.68629 17 7ZM12 7C12 7.55228 11.5523 8 11 8C10.4477 8 10 7.55228 10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7Z"
@@ -238,10 +239,151 @@
                                 <div class="bg-green-gs h-0.5 flex-1"></div>
 
                             </div>
-                            <div class="flex w-full flex-wrap items-center gap-10">
-                                <span
-                                    class="text-green-gs font-dm-serif w-full text-center font-bold">{{ __('salon_profile.no_escort_associated') }}</span>
-                            </div>
+                            @if ($acceptedInvitations->isNotEmpty())
+                                <div class="relative w-full">
+                                    <div class="swiper-container professionals-swiper">
+                                        <div class="swiper-wrapper">
+                                            @foreach ($acceptedInvitations as $index => $acceptedInvitation)
+                                                <div class="swiper-slide">
+                                                    @if ($acceptedInvitation->type === 'associe au salon')
+                                                        <livewire:escort_card
+                                                            name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}"
+                                                            canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? $noSpecial }}"
+                                                            ville="{{ $acceptedInvitation->inviter->villeget->nom ?? $noSpecial }}"
+                                                            avatar="{{ $acceptedInvitation->inviter->avatar }}"
+                                                            escortId="{{ $acceptedInvitation->inviter->id }}"
+                                                            wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                                    @else
+                                                        <livewire:escort_card
+                                                            name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}"
+                                                            canton="{{ $acceptedInvitation->invited->cantonget->nom ?? $noSpecial }}"
+                                                            ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
+                                                            avatar="{{ $acceptedInvitation->invited->avatar }}"
+                                                            escortId="{{ $acceptedInvitation->invited->id }}"
+                                                            wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <!-- Navigation buttons -->
+                                        <button type="button"
+                                            class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-prev">
+                                            <span
+                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                                </svg>
+                                                <span class="sr-only">Previous</span>
+                                            </span>
+                                        </button>
+
+                                        <button type="button"
+                                            class="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-next">
+                                            <span
+                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                                </svg>
+                                                <span class="sr-only">Next</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="flex h-full w-full items-center justify-center">
+                                    <span class="text-green-gs font-dm-serif text-center font-bold">
+                                        {{ __('salon_profile.no_escort_associated') }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            @push('scripts')
+                            <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+                            <style>
+                                .professionals-swiper {
+                                    padding: 20px 60px;
+                                    position: relative;
+                                    width: 100%;
+                                    overflow: hidden;
+                                }
+                                .swiper-wrapper {
+                                    display: flex;
+                                    width: 100%;
+                                }
+                                .swiper-slide {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: flex-start;
+                                    width: 300px; /* Largeur fixe pour chaque carte */
+                                    height: auto;
+                                    flex-shrink: 0;
+                                }
+                                
+                                @media (max-width: 1024px) {
+                                    .swiper-slide {
+                                        width: 250px; /* Largeur réduite sur les tablettes */
+                                    }
+                                }
+                                
+                                @media (max-width: 640px) {
+                                    .swiper-slide {
+                                        width: 100%; /* Pleine largeur sur mobile */
+                                    }
+                                }
+                                .swiper-button-next,
+                                .swiper-button-prev {
+                                    position: absolute;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    z-index: 10;
+                                    padding: 0;
+                                    border: none;
+                                    background: transparent;
+                                }
+                                .swiper-button-next {
+                                    right: 0;
+                                }
+                                .swiper-button-prev {
+                                    left: 0;
+                                }
+                                .swiper-button-next:after,
+                                .swiper-button-prev:after {
+                                    font-size: 20px;
+                                    font-weight: bold;
+                                }
+                            </style>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const swiper = new Swiper('.professionals-swiper', {
+                                        slidesPerView: 'auto',
+                                        spaceBetween: 20,
+                                        centeredSlides: false,
+                                        freeMode: true,
+                                        loop: true,
+                                        autoplay: {
+                                            delay: 10000, // 10 secondes
+                                            disableOnInteraction: false,
+                                        },
+                                        navigation: {
+                                            nextEl: '.swiper-button-next',
+                                            prevEl: '.swiper-button-prev',
+                                        },
+                                        breakpoints: {
+                                            640: {
+                                                slidesPerView: 2,
+                                            },
+                                            1024: {
+                                                slidesPerView: 3,
+                                            },
+                                        },
+                                    });
+                                });
+                            </script>
+                            @endpush
 
                             {{-- Galerie privée --}}
                             @guest

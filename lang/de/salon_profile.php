@@ -24,7 +24,7 @@ return [
     'description' => 'Beschreibung',
     'our_professionals' => 'Unsere Fachkräfte',
     'no_escort_associated' => 'Derzeit keine Escort zugeordnet',
-    'login_to_see_private_content' => 'Melden Sie sich an, um den privaten Inhalt von Daniela zu sehen',
+    'login_to_see_private_content' => 'Melden Sie sich an, um privaten Inhalt zu sehen',
     'login_signup' => 'Anmelden / Registrieren',
     'open' => 'Offen',
     'closed' => 'Geschlossen',

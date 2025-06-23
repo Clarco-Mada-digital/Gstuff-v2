@@ -7,6 +7,7 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Invitation;
 
 class SalonController extends Controller
 {
@@ -24,6 +25,24 @@ class SalonController extends Controller
     $salon['categorie'] = Categorie::find($salon->categorie);
     $salon['service'] = Service::find($salon->service);
 
+
+    $acceptedInvitations = Invitation::where(function ($query) use ($salon) {
+      $query->where('inviter_id', $salon->id)
+            ->orWhere('invited_id', $salon->id); // Condition "OU" sur inviter_id et invited_id
+    })
+    ->whereIn('type', ['associe au salon', 'invite par salon', 'creer par salon']) // Types d'invitation
+    ->where('accepted', true) // Invitations acceptées
+    ->get()
+    ->map(function ($invitation) {
+        if ($invitation->type === 'associe au salon' || $invitation->type === 'creer par salon') {
+            $invitation->load('inviter.cantonget', 'inviter.villeget'); // Chargement des relations pour "associe au salon"
+        } elseif ($invitation->type === 'invite par salon') {
+            $invitation->load('invited.cantonget', 'invited.villeget'); // Chargement des relations pour "invite par salon"
+        }
+        return $invitation;
+    });
+  
+
     if (Auth::check()) {
       // $user = Auth::user()->load('canton');
       $user = Auth::user();
@@ -33,6 +52,7 @@ class SalonController extends Controller
       }else{
         return view('sp_salon', [
           'salon' => $salon,
+          'acceptedInvitations' => $acceptedInvitations,
       ]);
       }
     }
@@ -40,6 +60,7 @@ class SalonController extends Controller
     {
       return view('sp_salon', [
           'salon' => $salon,
+          'acceptedInvitations' => $acceptedInvitations,
       ]);
     }
 
