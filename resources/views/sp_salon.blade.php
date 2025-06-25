@@ -165,55 +165,74 @@
                             <div class="flex flex-wrap items-center gap-10">
                                 <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
 
-                                    <div class="font-dm-serif flex w-full items-center gap-3">
-                                        <img src="{{ asset('images/icons/escort_icon.svg') }}"
-                                            alt="{{ __('salon_profile.girls_icon') }}" />
-                                        <span>{{ __('salon_profile.number_of_girls') }} :
-                                            {{ $salon->nombre_filles ?? '-' }} {{ __('salon_profile.girls') }}</span>
+                                    <div class="font-dm-serif w-full">
+                                        <div class="flex items-start gap-3">
+                                            <img src="{{ asset('images/icons/escort_icon.svg') }}"
+                                                alt="{{ __('salon_profile.girls_icon') }}" class="mt-1 flex-shrink-0" />
+                                            <div class="whitespace-normal break-words max-w-full">
+                                                {{ __('salon_profile.number_of_girls') }} :
+                                                {{ $salon->nombre_filles ?? '-' }} {{ __('salon_profile.girls') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="font-dm-serif flex w-full items-center gap-3">
-                                        <img src="{{ asset('images/icons/langue_icon.svg') }}"
-                                            alt="{{ __('salon_profile.language_icon') }}" />
-                                        <span>
-                                            {{ __('salon_profile.language') }} :
-                                            @php
-                                                $languesArray = json_decode($salon->langues, true);
-                                            @endphp
-                                            {{ is_array($languesArray) ? implode(', ', $languesArray) : $salon->langues }}
-                                            @if ($salon->langues == null)
-                                                --
-                                            @endif
-                                        </span>
+                                    <div class="font-dm-serif w-full">
+                                        <div class="flex items-start gap-3">
+                                            <img src="{{ asset('images/icons/langue_icon.svg') }}"
+                                                alt="{{ __('salon_profile.language_icon') }}" class="mt-1 flex-shrink-0" />
+                                            <div class="w-full overflow-hidden">
+                                                <div>{{ __('salon_profile.language') }} :</div>
+                                                <div class="whitespace-normal break-all">
+                                                    @php
+                                                        $languesArray = json_decode($salon->langues, true);
+                                                    @endphp
+                                                    {{ is_array($languesArray) ? implode(', ', $languesArray) : $salon->langues }}
+                                                    @if ($salon->langues == null)
+                                                        --
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="font-dm-serif flex w-full items-center gap-3">
-                                        <img src="{{ asset('images/icons/tarif_icon.svg') }}"
-                                            alt="{{ __('salon_profile.rate_icon') }}" />
-                                        @if ($salon->tarif)
-                                            <span>{{ __('salon_profile.rates_from') }} {{ $salon->tarif ?? '-' }}.-CHF
-                                            </span>
-                                        @else
-                                            <span>{{ __('salon_profile.contact_for_rates') }}</span>
-                                        @endif
+                                    <div class="font-dm-serif w-full">
+                                        <div class="flex items-start gap-3">
+                                            <img src="{{ asset('images/icons/tarif_icon.svg') }}"
+                                                alt="{{ __('salon_profile.rate_icon') }}" class="mt-1 flex-shrink-0" />
+                                            <div class="whitespace-normal break-words max-w-full">
+                                                @if ($salon->tarif)
+                                                    {{ __('salon_profile.rates_from') }} {{ $salon->tarif ?? '-' }}.-CHF
+                                                @else
+                                                    {{ __('salon_profile.contact_for_rates') }}
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="font-dm-serif flex w-full items-center gap-3">
-                                        <img src="{{ asset('images/icons/cart_icon.svg') }}"
-                                            alt="{{ __('salon_profile.payment_icon') }}" />
-                                        <span>
-                                            {{ __('salon_profile.payment_methods') }} :
-                                            @php
-                                                $payementArray = json_decode($salon->paiement, true);
-                                            @endphp
-                                            {{ is_array($payementArray) ? implode(', ', $payementArray) : $salon->paiement }}
-                                            @if ($salon->paiement == null)
-                                                --
-                                            @endif
-                                        </span>
+                                    <div class="font-dm-serif w-full">
+                                        <div class="flex items-start gap-3">
+                                            <img src="{{ asset('images/icons/cart_icon.svg') }}"
+                                                alt="{{ __('salon_profile.payment_icon') }}" class="mt-1 flex-shrink-0" />
+                                            <div class="w-full">
+                                                <div>{{ __('salon_profile.payment_methods') }} :</div>
+                                                <div class="whitespace-normal break-words max-w-full overflow-hidden">
+                                                    @php
+                                                        $payementArray = json_decode($salon->paiement, true);
+                                                    @endphp
+                                                    {{ is_array($payementArray) ? implode(', ', $payementArray) : $salon->paiement }}
+                                                    @if ($salon->paiement == null)
+                                                        --
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="font-dm-serif flex w-full items-center gap-3">
-                                        <img src="{{ asset('images/icons/cart_icon.svg') }}"
-                                            alt="{{ __('salon_profile.other_contact_icon') }}" />
-                                        <span>{{ __('salon_profile.other_contact') }} :
-                                            {{ $salon->autre_contact ?? '-' }}</span>
+                                    <div class="font-dm-serif w-full">
+                                        <div class="flex items-start gap-3">
+                                            <img src="{{ asset('images/icons/cart_icon.svg') }}"
+                                                alt="{{ __('salon_profile.other_contact_icon') }}" class="mt-1 flex-shrink-0" />
+                                            <div class="whitespace-normal break-words max-w-full">
+                                                {{ __('salon_profile.other_contact') }} :
+                                                {{ $salon->autre_contact ?? '-' }}
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>

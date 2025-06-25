@@ -337,7 +337,7 @@
                     {{ __('profile.profile_improvement') }}
                 </button>
                 <a href="{{ route('profile.visibility.update') }}"
-                    class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer rounded-lg border border-gray-400 p-2 text-center text-sm hover:text-white">
+                    class="text-green-gs hover:bg-green-gs  my-2 w-[90%] cursor-pointer rounded-lg border border-gray-400 p-2 text-center text-sm hover:text-white">
                     {{ __('profile.profile_visibility') }}
                 </a>
                 @if ($user->profile_type === 'escorte')

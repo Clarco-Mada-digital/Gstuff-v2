@@ -1,6 +1,6 @@
 <div>
     <div class="mx-auto w-full md:w-[80%] -translate-y-[30%] xl:-translate-y-[50%]">
-        <div class="flex flex-wrap items-center justify-center gap-3 rounded-md bg-white p-2 shadow-lg xl:flex-nowrap">
+        <div class="flex flex-wrap items-center justify-center gap-3 rounded-md bg-white p-2 shadow-lg">
             @foreach (range('A', 'Z') as $letter)
                 <div>
                     <input wire:model.live='lettreSearche' 

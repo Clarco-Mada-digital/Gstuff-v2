@@ -170,7 +170,7 @@ return [
     'services_offered' => 'Services proposés',
     'categories' => 'Catégories',
     'edit' => 'Modifier',
-    'services_provided' => 'Services fournies',
+    'services_provided' => 'Services fournis',
 
     'associated_salon' => 'Salon associé',
     'invite_salon' => 'Inviter un salon',

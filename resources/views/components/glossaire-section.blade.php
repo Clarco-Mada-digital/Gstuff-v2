@@ -1,5 +1,6 @@
 {{-- Glossaire --}}
 <div class="relative w-full px-4 py-4 sm:px-6 lg:px-8">
+    
     <div class="relative">
         <!-- Conteneur des cartes avec défilement -->
         <div id="glossaire-container"

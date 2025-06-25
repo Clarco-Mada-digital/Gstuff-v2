@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('pageTitle')
-    {{ __('glossary.page_title') }}
+    {{ __('glossary.page_title') }}ds
 @endsection
 
 @section('content')

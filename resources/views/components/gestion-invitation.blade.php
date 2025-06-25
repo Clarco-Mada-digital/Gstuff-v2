@@ -17,13 +17,13 @@
             <div class="text-center text-sm font-medium text-gray-500 dark:text-gray-400">
                 <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700"
                     data-tabs-toggle="#tabs-content" role="tablist">
-                    <li class="me-2">
+                    <!-- <li class="me-2">
                         <a href="#" data-tabs-target="#recus"
                             class="active group inline-flex rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500"
                             aria-controls="recus" role="tab" aria-selected="true">
                             {{ __('invitations.tabs.received') }}
                         </a>
-                    </li>
+                    </li> -->
                     <li class="me-2">
                         <a href="#" data-tabs-target="#enAttente"
                             class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
@@ -42,7 +42,7 @@
             </div>
 
             <div id="tabs-content">
-                <div id="recus" class="p-4" role="tabpanel" aria-labelledby="dashboard-tab">
+                <!-- <div id="recus" class="p-4" role="tabpanel" aria-labelledby="dashboard-tab">
                     @if ($user->profile_type === 'escorte')
                         <div class="mx-auto mb-4 flex items-center">
                             <label for="simple-search-recus" class="sr-only">Search</label>
@@ -193,7 +193,7 @@
                             @endif
                         </ul>
                     @endif
-                </div>
+                </div> -->
 
                 <div id="enAttente" class="hidden p-4" role="tabpanel" aria-labelledby="profile-tab">
                     @if ($user->profile_type === 'escorte')
