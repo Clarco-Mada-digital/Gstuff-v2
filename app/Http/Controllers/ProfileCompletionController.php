@@ -567,8 +567,7 @@ class ProfileCompletionController extends Controller
  
        }
 
-
-        
+        $request->categorie? $request['categorie'] = (int)$request->categorie : null;
 
         $user->update($request->all());
 

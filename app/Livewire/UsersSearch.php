@@ -86,7 +86,7 @@ class UsersSearch extends Component
     }
 
     public function render()
-    {
+    {   
         $cacheKey = md5(serialize([
             $this->search,
             $this->selectedCanton,

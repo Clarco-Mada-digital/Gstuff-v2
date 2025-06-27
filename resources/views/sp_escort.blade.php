@@ -184,20 +184,6 @@
                                 alt="{{ __('escort_profile.origin_icon') }}" />
                             <span>{{ __('escort_profile.origin') }} : {{ $escort->origine ?? '-' }} </span>
                         </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/langue_icon.svg') }}"
-                                alt="{{ __('escort_profile.language_icon') }}" />
-                            <span>
-                                {{ __('escort_profile.language') }} :
-                                @php
-                                    $languesArray = json_decode($escort->langues, true);
-                                @endphp
-                                {{ is_array($languesArray) ? implode(', ', $languesArray) : $escort->langues }}
-                                @if ($escort->langues == null)
-                                    --
-                                @endif
-                            </span>
-                        </div>
 
                         <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/yeux_icon.svg') }}"
@@ -223,53 +209,58 @@
                             @endif
                         </div>
 
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/taille_icon.svg') }}"
-                                alt="{{ __('escort_profile.height_icon') }}" />
-                            <span>{{ __('escort_profile.height') }} : {{ $escort->tailles ?? '-' }} cm </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/poitrine_icon.svg') }}"
-                                alt="{{ __('escort_profile.bust_icon') }}" />
-                            <span>{{ __('escort_profile.bust') }} :
-                                {{ $escort->poitrine ? $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/mobilite.svg') }}"
-                                alt="{{ __('escort_profile.mobility_icon') }}" />
-                            <span>{{ __('escort_profile.mobility') }} :
-                                {{ $escort->mobilite ? $escort->mobilite->getTranslation('name', app()->getLocale()) : '-' }}</span>
-                        </div>
+                        <x-profile-info-item 
+                            icon="taille_icon.svg"
+                            :alt="__('escort_profile.height_icon')"
+                            :label="__('escort_profile.height')"
+                            :value="$escort->tailles"
+                            suffix="cm"
+                        />
 
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/mensuration.svg') }}"
-                                alt="{{ __('escort_profile.measurements_icon') }}" />
-                            <span>{{ __('escort_profile.measurements') }} :
-                                {{ $escort->mensuration ? $escort->mensuration->getTranslation('name', app()->getLocale()) : '-' }}</span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/taill_poit.svg') }}"
-                                alt="{{ __('escort_profile.bust_size_icon') }}" />
-                            <span>
-                                {{ __('escort_profile.bust_size') }} :
-                                {{ $escort->poitrine ? __('escort_profile.cup') . ' ' . $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
+                        <x-profile-info-item 
+                            icon="poitrine_icon.svg"
+                            :alt="__('escort_profile.bust_icon')"
+                            :label="__('escort_profile.bust')"
+                            :value="$escort->poitrine"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="mobilite.svg"
+                            :alt="__('escort_profile.mobility_icon')"
+                            :label="__('escort_profile.mobility')"
+                            :value="$escort->mobilite"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="mensuration.svg"
+                            :alt="__('escort_profile.measurements_icon')"
+                            :label="__('escort_profile.measurements')"
+                            :value="$escort->mensuration"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="taill_poit.svg"
+                            :alt="__('escort_profile.bust_size_icon')"
+                            :label="__('escort_profile.bust_size')"
+                            :value="$escort->poitrine"
+                            translation-path="name"
+                            :suffix="$escort->poitrine ? __('escort_profile.cup') : ''"
+                        />
+                        <!-- <div class="font-dm-serif flex w-full items-center gap-3">
                             <img src="{{ asset('images/icons/cart_icon.svg') }}"
                                 alt="{{ __('escort_profile.payment_icon') }}" />
                             <span>
                                 {{ __('escort_profile.payment_methods') }} :
-                                @php
-                                    $payementArray = json_decode($escort->paiement, true);
-                                @endphp
-                                {{ is_array($payementArray) ? implode(', ', $payementArray) : $escort->paiement }}
-                                @if ($escort->paiement == null)
-                                    --
-                                @endif
+                                {{$escort->paiement ?? '-' }}
                             </span>
-                        </div>
+                        </div> -->
+                        <x-info-display :items="$escort->langues" type="language" />
+
+
+                        <x-info-display :items="$escort->paiement" type="payment"/>
 
                     </div>
                 </div>
@@ -310,7 +301,6 @@
 
                 </div>
                 <div class="flex w-full flex-wrap items-center gap-10">
-
                     @if ($salonAssociers->isNotEmpty())
                         @foreach ($salonAssociers as $salonAssocier)
                             <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon }}"
