@@ -36,38 +36,15 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             {{ __('escort-search.discover_escorts') }}
         </h1>
         @if ($showFiltreCanton)
-            <div class="mb-3 flex w-full flex-col items-center justify-center gap-2 px-4 text-sm md:flex-row">
-                <select wire:model.live="selectedCanton" wire:change="chargeVille"
-                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
-                    <option selected value="">{{ __('escort-search.cantons') }}</option>
-                    @foreach ($cantons as $canton)
-                        <option wire:key='{{ $canton->id }}' value="{{ $canton->id }}"> {{ $canton->nom }} </option>
-                    @endforeach
-                </select>
-                <select wire:model.live="selectedVille"
-                    class="block w-full overflow-hidden truncate rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80"
-                    @if (!$villes) disabled @endif>
-                    <option selected value="">
-                        @if ($villes)
-                            {{ __('escort-search.cities') }}
-                        @else
-                            {{ __('escort-search.choose_canton') }}
-                        @endif
-                    </option>
-                    @foreach ($villes as $ville)
-                        <option wire:key='{{ $ville->id }}' value="{{ $ville->id }}"> {{ $ville->nom }}
-                        </option>
-                    @endforeach
-                </select>
-                <select wire:model.live='selectedGenre'
-                    class="block w-full overflow-hidden truncate rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 xl:w-80">
-                    <option selected value=''>{{ __('escort-search.gender') }}</option>
-                    @foreach ($genres as $genre)
-                        <option wire:key='{{ $genre->id }}' value="{{ $genre->id }}">
-                            {{ $genre->getTranslation('name', app()->getLocale()) }} </option>
-                    @endforeach
-                </select>
-            </div>
+            <x-escort-filters
+                :cantons="$cantons"
+                :villes="$villes"
+                :genres="$genres"
+                :selectedCanton="$selectedCanton"
+                :selectedVille="$selectedVille"
+                :selectedGenre="$selectedGenre"
+                class="mb-3"
+            />
         @endif
         @if ($approximite || $showClosestOnly)
             <div class="mx-auto mb-4 mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
