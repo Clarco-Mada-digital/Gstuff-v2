@@ -346,7 +346,7 @@
                     <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
                 @endif
 
-                <div class="mb-5 flex w-full flex-col items-center gap-0">
+                <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0">
                     <button x-on:click="pageSection='compte'"
                         :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''"
                         class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.my_account') }}</button>
