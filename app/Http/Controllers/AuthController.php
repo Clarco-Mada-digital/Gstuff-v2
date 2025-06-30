@@ -392,9 +392,7 @@ class AuthController extends Controller
             'lang' => 'required|in:fr,en-US,es,de,it' 
         ]);
 
-
-
-
+    
         // Langues cibles pour les traductions
         $locales = Locales::SUPPORTED_CODES;
         $sourceLocale = $request['lang']; // Langue source par défaut
@@ -441,7 +439,7 @@ class AuthController extends Controller
             'npa' => $request->npa,
             'canton' => $request->canton,
             'ville' => $request->ville,
-            'categorie_id' => $request->categorie,
+            'categorie' => $request->categorie,
             'pratique_sexuelle_id' => $request->pratique_sexuelle_id,
             'orientation_sexuelle_id' => $request->orientation_sexuelle_id,
             'service' => $request->service,
@@ -464,6 +462,8 @@ class AuthController extends Controller
             'apropos' => $request->apropos,
         ]);
 
+        
+
         // Création de l'invitation
         Invitation::create([
             'inviter_id' => $salon->id, // ID du salon qui invite
@@ -476,6 +476,7 @@ class AuthController extends Controller
             'salon_id' => $salon->id, // ID du salon qui invite
             'escorte_id' => $user->id,  // ID de l'utilisateur invité
         ]);
+        
 
         return response()->json(['status' => 200 ]);
     }

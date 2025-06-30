@@ -173,107 +173,94 @@
                 </div>
                 <div class="w-full">
                     <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/age_icon.svg') }}"
-                                alt="{{ __('escort_profile.age_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.age') }} : {{ Carbon::parse($escort->date_naissance)->age }}
-                                {{ __('escort_profile.years_old') }}</span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/origine_icon.svg') }}"
-                                alt="{{ __('escort_profile.origin_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.origin') }} : {{ $escort->origine ?? '-' }} </span>
-                        </div>
-                        <div class="font-dm-serif w-full">
-                            <div class="flex items-start gap-3">
-                                <img src="{{ asset('images/icons/langue_icon.svg') }}"
-                                    alt="{{ __('escort_profile.language_icon') }}" class="mt-1 flex-shrink-0" />
-                                <div class="w-full">
-                                    <div>{{ __('escort_profile.language') }} :</div>
-                                    <div class="whitespace-normal break-words max-w-full overflow-hidden">
-                                        @php
-                                            $languesArray = json_decode($escort->langues, true);
-                                        @endphp
-                                        {{ is_array($languesArray) ? implode(', ', $languesArray) : $escort->langues }}
-                                        @if ($escort->langues == null)
-                                            --
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-profile-info-item 
+                            icon="age_icon.svg"
+                            :alt="__('escort_profile.age_icon')"
+                            :label="__('escort_profile.age')"
+                            :value="Carbon::parse($escort->date_naissance)->age"
+                            suffix="{{ __('escort_profile.years_old') }}"
+                        />
 
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/yeux_icon.svg') }}"
-                                alt="{{ __('escort_profile.eye_color_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.eye_color') }} :
-                                {{ $escort->couleurYeux ? $escort->couleurYeux->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/cheveux_icon.svg') }}"
-                                alt="{{ __('escort_profile.hair_color_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.hair_color') }} :
-                                {{ $escort->couleurCheveux ? $escort->couleurCheveux->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/tarif_icon.svg') }}"
-                                alt="{{ __('escort_profile.rate_icon') }}" />
-                            @if ($escort->tarif)
-                                <span class="break-words">{{ __('escort_profile.rates_from') }} {{ $escort->tarif ?? '-' }} CHF </span>
-                            @else
-                                <span class="break-words">{{ __('escort_profile.contact_for_rates') }}</span>
-                            @endif
-                        </div>
 
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/taille_icon.svg') }}"
-                                alt="{{ __('escort_profile.height_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.height') }} : {{ $escort->tailles ?? '-' }} cm </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/poitrine_icon.svg') }}"
-                                alt="{{ __('escort_profile.bust_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.bust') }} :
-                                {{ $escort->poitrine ? $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/mobilite.svg') }}"
-                                alt="{{ __('escort_profile.mobility_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.mobility') }} :
-                                {{ $escort->mobilite ? $escort->mobilite->getTranslation('name', app()->getLocale()) : '-' }}</span>
-                        </div>
+                        <x-profile-info-item 
+                            icon="origine_icon.svg"
+                            :alt="__('escort_profile.origin_icon')"
+                            :label="__('escort_profile.origin')"
+                            :value="$escort->origine"
+                        />
 
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/mensuration.svg') }}"
-                                alt="{{ __('escort_profile.measurements_icon') }}" />
-                            <span class="break-words">{{ __('escort_profile.measurements') }} :
-                                {{ $escort->mensuration ? $escort->mensuration->getTranslation('name', app()->getLocale()) : '-' }}</span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/taill_poit.svg') }}"
-                                alt="{{ __('escort_profile.bust_size_icon') }}" />
-                            <span class="break-words">
-                                {{ __('escort_profile.bust_size') }} :
-                                {{ $escort->poitrine ? __('escort_profile.cup') . ' ' . $escort->poitrine->getTranslation('name', app()->getLocale()) : '-' }}
-                            </span>
-                        </div>
-                        <div class="font-dm-serif flex w-full items-center gap-3">
-                            <img src="{{ asset('images/icons/cart_icon.svg') }}"
-                                alt="{{ __('escort_profile.payment_icon') }}" />
-                            <span>
-                                {{ __('escort_profile.payment_methods') }} :
-                                @php
-                                    $payementArray = json_decode($escort->paiement, true);
-                                @endphp
-                                {{ is_array($payementArray) ? implode(', ', $payementArray) : $escort->paiement }}
-                                @if ($escort->paiement == null)
-                                    --
-                                @endif
-                            </span>
-                        </div>
+
+
+                        <x-profile-info-item 
+                            icon="yeux_icon.svg"
+                            :alt="__('escort_profile.eye_color_icon')"
+                            :label="__('escort_profile.eye_color')"
+                            :value="$escort->couleurYeux"
+                            translation-path="name"
+                        />
+                   
+
+                        <x-profile-info-item 
+                            icon="cheveux_icon.svg"
+                            :alt="__('escort_profile.hair_color_icon')"
+                            :label="__('escort_profile.hair_color')"
+                            :value="$escort->couleurCheveux"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="tarif_icon.svg"
+                            :alt="__('escort_profile.rate_icon')"
+                            :label="__('escort_profile.rates_from')"
+                            :value="$escort->tarif"
+                            suffix="CHF"
+                        />
+
+                        <x-profile-info-item 
+                            icon="taille_icon.svg"
+                            :alt="__('escort_profile.height_icon')"
+                            :label="__('escort_profile.height')"
+                            :value="$escort->tailles"
+                            suffix="cm"
+                        />
+
+                        <x-profile-info-item 
+                            icon="poitrine_icon.svg"
+                            :alt="__('escort_profile.bust_icon')"
+                            :label="__('escort_profile.bust')"
+                            :value="$escort->poitrine"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="mobilite.svg"
+                            :alt="__('escort_profile.mobility_icon')"
+                            :label="__('escort_profile.mobility')"
+                            :value="$escort->mobilite"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="mensuration.svg"
+                            :alt="__('escort_profile.measurements_icon')"
+                            :label="__('escort_profile.measurements')"
+                            :value="$escort->mensuration"
+                            translation-path="name"
+                        />
+
+                        <x-profile-info-item 
+                            icon="taill_poit.svg"
+                            :alt="__('escort_profile.bust_size_icon')"
+                            :label="__('escort_profile.bust_size')"
+                            :value="$escort->poitrine"
+                            translation-path="name"
+                            :suffix="$escort->poitrine ? __('escort_profile.cup') : ''"
+                        />
+                      
+                        <x-info-display :items="$escort->langues" type="language" />
+
+
+                        <x-info-display :items="$escort->paiement" type="payment"/>
 
                     </div>
                 </div>
@@ -303,6 +290,7 @@
                             {{ $service->getTranslation('nom', app()->getLocale()) }}
                         </span>
                     @endforeach
+
                 </div>
 
                 {{-- Associated Salon --}}
@@ -314,7 +302,6 @@
 
                 </div>
                 <div class="flex w-full flex-wrap items-center gap-10">
-
                     @if ($salonAssociers->isNotEmpty())
                         @foreach ($salonAssociers as $salonAssocier)
                             <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon }}"

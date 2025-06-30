@@ -45,7 +45,7 @@ return [
     'associated_salon' => 'Salone associato',
     'unknown' => 'Sconosciuto',
     'no_associated_salon' => 'Nessun salone associato per ora',
-    'connect_to_view_private_content' => 'Accedi per visualizzare i contenuti privati di Daniela',
+    'connect_to_view_private_content' => 'Accedi per visualizzare i contenuti privati',
     'connect_signup' => 'Accedi / Registrati',
     'no_services' => 'Nessun servizio disponibile',
 ];

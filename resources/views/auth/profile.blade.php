@@ -346,7 +346,7 @@
                     <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
                 @endif
 
-                <div class="mb-5 flex w-full flex-col items-center gap-0">
+                <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0">
                     <button x-on:click="pageSection='compte'"
                         :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''"
                         class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.my_account') }}</button>
@@ -1323,99 +1323,96 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
                             <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/age_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.age') }} : {{ Carbon::parse($user->date_naissance)->age }}
-                                        {{ __('profile.years_old') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.origin') }} :
-                                        {{ $user->origine ?? __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="language icon">
-                                    <span>
-                                        {{ __('profile.language') }} :
-                                        @php
-                                            $languesArray = json_decode($user->langues, true);
-                                        @endphp
-                                        {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
-                                        @if ($user->langues == null)
-                                            {{ __('profile.undefined') }}
-                                        @endif
-                                    </span>
-                                </div>
+                            
 
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.eye_color') }} :
-                                        {{ $user->couleurYeux ? $user->couleurYeux->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.hair_color') }} :
-                                        {{ $user->couleurCheveux ? $user->couleurCheveux->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    @if ($user->tarif)
-                                        <span>{{ __('profile.rate') }} {{ $user->tarif }} CHF</span>
-                                    @else
-                                        <span>{{ __('profile.contact_for_rates') }}</span>
-                                    @endif
-                                </div>
+                                <x-profile-info-item 
+                                    icon="age_icon.svg"
+                                    :alt="__('profile.age_icon')"
+                                    :label="__('profile.age')"
+                                    :value="Carbon::parse($user->date_naissance)->age"
+                                    suffix="{{ __('profile.years_old') }}"
+                                />
 
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/taille_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.height') }} : +/-
-                                        {{ $user->tailles ?? __('profile.undefined') }} {{ __('profile.cm') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/poitrine_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.bust') }} :
-                                        {{ $user->poitrine ? $user->poitrine->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/mobilite.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.mobility') }} :
-                                        {{ $user->mobilite ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
 
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/mensuration.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.measurements') }} :
-                                        {{ $user->mensuration ? $user->mensuration->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/taill_poit.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.bust_size') }} : {{ __('profile.bonnet') }}
-                                        {{ $user->taille_poitrine ?? __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>
-                                        {{ __('profile.payment_method') }} :
-                                        @php
-                                            $payementArray = json_decode($user->paiement, true);
-                                        @endphp
-                                        {{ is_array($payementArray) ? implode(', ', $payementArray) : $user->paiement }}
-                                        @if ($user->paiement == null)
-                                            {{ __('profile.undefined') }}
-                                        @endif
-                                    </span>
-                                </div>
+
+                           
+
+                                <x-profile-info-item 
+                                    icon="origine_icon.svg"
+                                    :alt="__('profile.origin_icon')"
+                                    :label="__('profile.origin')"
+                                    :value="$user->origine ?? __('profile.undefined')"
+                                />
+                               
+                                <x-profile-info-item 
+                                    icon="yeux_icon.svg"
+                                    :alt="__('profile.eye_color_icon')"
+                                    :label="__('profile.eye_color')"
+                                    :value="$user->couleurYeux ? $user->couleurYeux->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                />
+                                
+                                <x-profile-info-item 
+                                    icon="cheveux_icon.svg"
+                                    :alt="__('profile.hair_color_icon')"
+                                    :label="__('profile.hair_color')"
+                                    :value="$user->couleurCheveux ? $user->couleurCheveux->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                />
+                                
+                                <x-profile-info-item 
+                                    icon="tarif_icon.svg"
+                                    :alt="__('profile.rate_icon')"
+                                    :label="__('profile.rate')"
+                                    :value="$user->tarif ? $user->tarif : __('profile.contact_for_rates')"
+                                    :suffix="'CHF'"
+                                />
+                                
+                                <x-profile-info-item 
+                                    icon="taille_icon.svg"
+                                    :alt="__('profile.height_icon')"
+                                    :label="__('profile.height')"
+                                    :value="$user->tailles ?? __('profile.undefined') . ' ' . __('profile.cm')"
+                                />
+                                
+                
+                                <x-profile-info-item 
+                                    icon="poitrine_icon.svg"
+                                    :alt="__('profile.bust_icon')"
+                                    :label="__('profile.bust')"
+                                    :value="$user->poitrine ? $user->poitrine->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                />
+                                
+                              
+
+                                <x-profile-info-item 
+                                    icon="mobilite.svg"
+                                    :alt="__('profile.mobility_icon')"
+                                    :label="__('profile.mobility')"
+                                    :value="$user->mobilite ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                />
+                                
+                          
+
+                                <x-profile-info-item 
+                                    icon="mensuration.svg"
+                                    :alt="__('profile.measurements_icon')"
+                                    :label="__('profile.measurements')"
+                                    :value="$user->mensuration ? $user->mensuration->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                />
+                                
+                           
+                                <x-profile-info-item 
+                                    icon="taill_poit.svg"
+                                    :alt="__('profile.bust_size_icon')"
+                                    :label="__('profile.bust_size')"
+                                    :value="$user->taille_poitrine ?? __('profile.undefined')"
+                                />
+                                
+                           
+                                <x-info-display :items="$user->langues" type="language" />
+
+                                <x-info-display :items="$user->paiement" type="payment"/>
+
+                                
                             </div>
                         </div>
 
@@ -1578,73 +1575,54 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
                             <div class="grid w-full grid-cols-1 gap-5 xl:grid-cols-3">
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/origine_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>
-                                        {{ __('profile.category') }} :
-                                        @php
-                                            $locale = session('locale', 'fr');
-                                            $categoryName =
-                                                $user->categorie['nom'][$locale] ??
-                                                ($user->categorie['nom']['fr'] ?? ($user->categorie['nom'] ?? '-'));
-                                        @endphp
-                                        {{ $categoryName }}
-                                    </span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.number_of_girls') }} :
-                                        {{ $user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined') }}</span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/langue_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>
-                                        {{ __('profile.language') }} :
-                                        @php
-                                            $languesArray = json_decode($user->langues, true);
-                                        @endphp
-                                        {{ is_array($languesArray) ? implode(', ', $languesArray) : $user->langues }}
-                                        @if ($user->langues == null)
-                                            --
-                                        @endif
-                                    </span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/yeux_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.other_contact') }} : {{ $user->autre_contact ?? '-' }} </span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/cheveux_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>{{ __('profile.address') }} : {{ $user->adresse ?? '-' }} </span>
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/tarif_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    @if ($user->tarif)
-                                        <span>{{ __('profile.rates_from') }} {{ $user->tarif }} CHF</span>
-                                    @else
-                                        <span>{{ __('profile.contact_me_for_rates') }} </span>
-                                    @endif
-                                </div>
-                                <div class="font-dm-serif flex w-full items-center gap-3">
-                                    <img src="{{ asset('images/icons/cart_icon.svg') }}" alt="age icon"
-                                        srcset="age icon">
-                                    <span>
-                                        {{ __('profile.payment_method') }} :
-                                        @php
-                                            $payementArray = json_decode($user->paiement, true);
-                                        @endphp
-                                        {{ is_array($payementArray) ? implode(', ', $payementArray) : $user->paiement }}
-                                        @if ($user->paiement == null)
-                                            --
-                                        @endif
-                                    </span>
-                                </div>
+                                <x-profile-info-item 
+                                    icon="origine_icon.svg"
+                                    :alt="__('profile.age_icon')"
+                                    :label="__('profile.category')"
+                                    :value="$user->categorie['nom'][session('locale', 'fr')] ?? $user->categorie['nom']['fr'] ?? $user->categorie['nom'] ?? '-'"
+                                    suffix=""
+                                />
+                              
+                                <x-profile-info-item 
+                                    icon="escort_icon.svg"
+                                    :alt="__('profile.number_of_girls')"
+                                    :label="__('profile.number_of_girls')"
+                                    :value="$user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                    suffix=""
+                                />
+
+
+
+                                <x-profile-info-item 
+                                    icon="cart_icon.svg"
+                                    :alt="__('profile.other_contact')"
+                                    :label="__('profile.other_contact')"
+                                    :value="$user->autre_contact ?? '-'"
+                                    suffix=""
+                                />
+
+
+                                <x-profile-info-item 
+                                    icon="location.svg"
+                                    :alt="__('profile.address')"
+                                    :label="__('profile.address')"
+                                    :value="$user->adresse ?? '-'"
+                                    suffix=""
+                                />
+
+
+
+                                <x-profile-info-item 
+                                    icon="tarif_icon.svg"
+                                    :alt="__('profile.rates_from')"
+                                    :label="__('profile.rates_from')"
+                                    :value="$user->tarif ?? __('profile.undefined')"
+                                    suffix="CHF"
+                                />
+                                <x-info-display :items="$user->langues" type="language" />
+
+                                <x-info-display :items="$user->paiement" type="payment"/>
+
                             </div>
                         </div>
 
@@ -1838,7 +1816,7 @@
                         </div>
 
 
-                        {{-- Modale pour l'invitation escort --}}
+                        {{-- Modale pour invitation escort --}}
                         <div x-data="" x-init="" id="sendInvitationEscort"
                             tabindex="-1" aria-hidden="true"
                             class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">

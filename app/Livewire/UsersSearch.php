@@ -75,6 +75,19 @@ class UsersSearch extends Component
         $this->resetPage();
     }
 
+    public function resetFilters()
+    {
+        $this->reset([
+            'search',
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedCategories',
+            'page'
+        ]);
+        $this->villes = collect([]);
+    }
+
     private function getVisibleUsers($users)
     {
         $position = Location::get(request()->ip());
@@ -86,7 +99,7 @@ class UsersSearch extends Component
     }
 
     public function render()
-    {
+    {   
         $cacheKey = md5(serialize([
             $this->search,
             $this->selectedCanton,
