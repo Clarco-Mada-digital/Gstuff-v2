@@ -343,7 +343,7 @@
     @if ($glossaires != '[]')
         <div class="mx-auto my-10 lg:container">
             <div class="my-10 flex flex-wrap items-center justify-between px-5 lg:px-20">
-                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl">{{ __('home.glossary_articles') }}aaaaaa
+                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl">{{ __('home.glossary_articles') }}
                 </h3>
                 <div class="z-10 my-2 w-auto">
                      <a href="{{ url('glossaires') }}"

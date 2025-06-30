@@ -290,6 +290,7 @@
                             {{ $service->getTranslation('nom', app()->getLocale()) }}
                         </span>
                     @endforeach
+
                 </div>
 
                 {{-- Associated Salon --}}

@@ -80,7 +80,7 @@
                 <select name="article_category_id" id="article_category_id"
                     class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                     required>
-                    <option value="">Sélectionnez une catégorieaaa</option>
+                    <option value="">Sélectionnez une catégorie</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" @if ($article->category?->id == $category->id) selected @endif>
                             {{ $category->name }}</option>

@@ -32,8 +32,10 @@ class EscortController extends Controller
       
         $escort['categories'] = Categorie::find($escort->categorie);
         $serviceIds = explode(',', $escort->service);
-        $escort['service'] = Service::whereIn('id', $serviceIds)->get();
+        $escort['services'] = Service::whereIn('id', $serviceIds)->get();
         // $escort['service'] = Service::find($escort->service);
+        // dd($escort['service']);
+
 
 
         $salonAssociers = Invitation::where('invited_id', $escort->id)
