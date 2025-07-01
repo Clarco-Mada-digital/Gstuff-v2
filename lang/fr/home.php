@@ -22,7 +22,7 @@ return [
     'looking_for_fun' => 'A la recherche d\'un plaisir coquin ?',
 
     // About Gstuff
-    'find_escorts' => 'Trouver des escortes, masseuses et plus encore sur Gstuff !',
+    'find_escorts' => 'Trouver des escortes, masseuses et plus encore sur SupaGirl !',
     'partners_count' => '+ de 500 partenaires',
     'verified_profiles' => 'Profils vérifiés pour des rencontres authentiques.',
     'amateurs_count' => '+ de 300 amateurs',

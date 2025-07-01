@@ -17,8 +17,8 @@
         <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
         <div class="z-10 flex flex-col items-center justify-center">
             <h2
-                class="font-cormorant text-center text-4xl font-semibold text-white [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
-                {{ __('home.meetings') }} <span class="text-amber-400">{{ __('home.elegant_discreet') }}</span>
+                class="font-roboto-slab text-fieldBg text-center text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
+                {{ __('home.meetings') }} <span class="text-supaGirlRose">{{ __('home.elegant_discreet') }}</span>
                 {{ __('home.in_switzerland') }}</h2>
         </div>
         <div class="flex flex-col gap-2 text-black transition-all lg:flex-row">
@@ -26,8 +26,8 @@
                 <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                     class="z-10 flex items-center justify-center gap-1 transition-all">
                     <div
-                        class="hover:bg-green-gs flex w-64 items-center justify-center gap-1.5 rounded-md border border-amber-400 bg-white p-2.5 transition-all hover:text-white lg:w-56">
-                        <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.svg') }}"
+                        class="hover:bg-complementaryColorViolet hover:border-white hover:text-white flex w-64 items-center justify-center gap-1.5 rounded-md border border-supaGirlRose bg-white p-2.5 transition-all lg:w-56">
+                        <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}" class="w-8 h-8"
                             alt="icon service {{ $categorie['display_name'] }}" />
                         <span>
                             @php
@@ -43,12 +43,7 @@
             @endforeach
         </div>
         <div class="z-10">
-            <a href="{{ route('escortes') }}" type="button"
-                class="btn-gs-gradient flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-sm font-bold text-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">{{ __('home.see_all') }}
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z" />
-                </svg>
-            </a>
+            <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}"/>
         </div>
     </div>
 
@@ -58,16 +53,26 @@
         <div x-data="{ viewEscorte: true }" x-cloak>
 
             {{-- Switch salon escort Btn --}}
-            <ul
-                class="mx-auto flex w-full rounded-lg text-center text-xs font-medium text-gray-500 shadow-sm lg:w-[50%] lg:text-xl dark:divide-gray-700 dark:text-gray-400">
+            <ul class="mx-auto flex w-full rounded-lg text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl cursor-pointer">
                 <li class="w-full focus-within:z-10">
-                    <button @click="viewEscorte = true" :class="viewEscorte ? 'btn-gs-gradient' : ''"
-                        class="inline-block w-full rounded-s-lg border-r border-gray-200 bg-white p-4 text-xs font-bold hover:bg-gray-50 hover:text-gray-700 focus:outline-none md:text-sm lg:text-base dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
-                        aria-current="page">{{ __('home.top_escorts_today') }}</button>
+                    <button @click="viewEscorte = true" 
+                        :class="viewEscorte 
+                            ? 'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' 
+                            : 'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class=" cursor-pointer inline-block w-full rounded-s-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        :aria-current="viewEscorte ? 'page' : null">
+                        {{ __('home.top_escorts_today') }}
+                    </button>
                 </li>
                 <li class="w-full focus-within:z-10">
-                    <button @click="viewEscorte = false" :class="viewEscorte ? '' : 'btn-gs-gradient'"
-                        class="inline-block w-full rounded-e-lg border-r border-gray-200 bg-white p-4 text-xs font-bold hover:bg-gray-50 hover:text-gray-700 focus:outline-none md:text-sm lg:text-base dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">{{ __('home.the_salons') }}</button>
+                    <button @click="viewEscorte = false"
+                        :class="!viewEscorte 
+                            ? 'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' 
+                            : 'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class=" cursor-pointer inline-block w-full rounded-e-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        :aria-current="!viewEscorte ? 'page' : null">
+                        {{ __('home.the_salons') }}
+                    </button>
                 </li>
             </ul>
 
@@ -76,7 +81,7 @@
             <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-                <h3 class="font-dm-serif text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
+                <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
                 <div id="NewEscortContainer"
                     class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
@@ -107,7 +112,7 @@
             <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100" x-show="!viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-                <h3 class="font-dm-serif text-green-gs text-center text-2xl font-bold">{{ __('home.our_salons') }}</h3>
+                <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.our_salons') }}</h3>
                 <div id="OurSalonContainer"
                     class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
@@ -117,7 +122,7 @@
                             salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' />
                     @endforeach
                     @if ($salons == '[]')
-                        <h3 class="font-dm-serif text-green-gs w-full text-center text-3xl">{{ __('home.no_salon_yet') }}
+                        <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">{{ __('home.no_salon_yet') }}
                         </h3>
                     @endif
                 </div>
@@ -142,7 +147,7 @@
 
         {{-- Section listing escort --}}
         <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-            <h3 class="font-dm-serif text-green-gs text-center text-2xl font-bold lg:text-4xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold lg:text-4xl">
                 {{ __('home.looking_for_fun') }}</h3>
             <div id="listingContainer"
                 class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
@@ -187,25 +192,25 @@
         style="background: url('images/girl_deco_image.jpg') center center /cover">
         <div class="absolute right-0 top-0 z-0 h-full w-full bg-white/70"></div>
         <h3
-            class="font-dm-serif text-green-gs z-10 mx-2 my-4 text-center text-2xl font-bold md:text-3xl lg:text-4xl xl:text-5xl">
+            class="font-roboto-slab text-green-gs z-10 mx-2 my-4 text-center text-2xl font-bold md:text-3xl lg:text-4xl xl:text-5xl">
             {{ __('home.find_escorts') }}</h3>
         <div class="z-10 flex w-full flex-col items-center justify-center gap-2 px-4 py-6 md:flex-row">
 
             <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-[#618E8D] p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-dm-serif w-[70%] text-center">{{ __('home.partners_count') }}</span>
+                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
+                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.partners_count') }}</span>
                 <span
                     class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.verified_profiles') }}</span>
             </div>
             <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-[#618E8D] p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-dm-serif w-[70%] text-center">{{ __('home.amateurs_count') }}</span>
+                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
+                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.amateurs_count') }}</span>
                 <span
                     class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.amateur_experiences') }}</span>
             </div>
             <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-[#618E8D] p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-dm-serif w-[70%] text-center">{{ __('home.professional_salons_count') }}</span>
+                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
+                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.professional_salons_count') }}</span>
                 <span
                     class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.professional_salons_offer') }}</span>
             </div>
@@ -216,31 +221,31 @@
 
     <div class="w-full bg-white px-4 py-8 sm:px-6 lg:py-12">
         <div class="mx-auto max-w-4xl">
-            <h3 class="font-dm-serif text-green-gs text-center text-2xl font-bold md:text-4xl lg:text-5xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-4xl lg:text-5xl">
                 {{ __('home.become_escort_title') }}
             </h3>
-            <p class="mt-2 text-center text-gray-600">{{ __('home.become_escort_steps') }}</p>
+            <p class="font-roboto-slab mt-2 text-center text-[#4A5565]">{{ __('home.become_escort_steps') }}</p>
 
             <div class="relative mt-10">
                 <!-- Ligne de connexion (visible uniquement sur desktop) -->
                 <div
-                    class="left-1/5 bg-green-gs absolute right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform md:block">
+                    class="left-1/5 bg-supaGirlRose absolute right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform md:block">
                 </div>
 
                 <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
                     @php
                         $steps = [
                             [
-                                'icon' => asset('images/icons/icon_coeur.svg'),
+                                'icon' => asset('images/icons/icon_coeur.png'),
                                 'text' =>
                                     __('home.send_selfies') .
-                                    ' <a href="mailto:escort-gstuff@gstuff.ch" class="text-amber-500 hover:underline">escort-gstuff@gstuff.ch</a>',
+                                    ' <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline">escrot-supagir@supagirl.ch</a>',
                             ],
                             [
-                                'icon' => asset('images/icons/icon_coeur.svg'),
+                                'icon' => asset('images/icons/icon_coeur.png'),
                                 'text' => __('home.photo_shoot_appointment'),
                             ],
-                            ['icon' => asset('images/icons/icon_coeur.svg'), 'text' => __('home.publish_profile')],
+                            ['icon' => asset('images/icons/icon_coeur.png'), 'text' => __('home.publish_profile')],
                         ];
                     @endphp
 
@@ -248,7 +253,7 @@
                         <div class="flex flex-col items-center">
                             <img src="{{ $step['icon'] }}" alt=""
                                 class="z-10 mx-auto h-16 w-16 md:h-20 md:w-20">
-                            <div class="mt-4 text-center text-sm text-gray-700 md:text-base">
+                            <div class="font-roboto-slab mt-4 text-center text-sm text-gray-700 md:text-base">
                                 {!! $step['text'] !!}
                             </div>
                         </div>
@@ -264,7 +269,7 @@
 
     {{-- FAQ --}}
     <div class="container mx-auto flex flex-col items-center justify-center gap-10 p-4">
-        <h3 id="FAQ" class="font-dm-serif text-green-gs text-3xl lg:text-5xl">{{ __('home.frequent_questions') }}
+        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-3xl lg:text-5xl">{{ __('home.frequent_questions') }}
         </h3>
         <div id="accordion-collapse text-wrap w-full lg:min-w-[1114px]" data-accordion="collapse">
             <h2 id="accordion-collapse-heading-1" class="w-full lg:min-w-[1114px]">

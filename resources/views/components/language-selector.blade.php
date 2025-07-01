@@ -1,4 +1,4 @@
-<div class="mx-2 flex items-center space-x-1 md:space-x-0">
+<div class="mx-2 flex items-center space-x-1 md:space-x-0 text-roboto-slab">
     <button type="button" data-dropdown-toggle="language-dropdown-menu"
         class="inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
         @if (session('locale') == 'fr')
@@ -12,7 +12,7 @@
                     <path fill="#d80027" d="M345 0h167v512H345z" />
                 </g>
             </svg>
-            Fr
+            <span class="text-roboto-slab">Fr</span>
         @elseif(session('locale') == 'en-US')
             <svg aria-hidden="true" class="me-3 h-5 w-5 rounded-full" xmlns="http://www.w3.org/2000/svg"
                 id="flag-icon-css-us" viewBox="0 0 512 512">
@@ -126,7 +126,7 @@
                     <a href="{{ route('lang.switch', 'fr') }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem">
-                        <div class="inline-flex items-center">
+                        <div class="inline-flex items-center text-roboto-slab">
                             <svg class="me-2 h-3.5 w-3.5 rounded-full" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">
                                 <mask id="circleFlagsLangFr0">
@@ -148,7 +148,7 @@
                     <a href="{{ route('lang.switch', 'en-US') }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem">
-                        <div class="inline-flex items-center">
+                        <div class="inline-flex items-center text-roboto-slab">
                             <svg aria-hidden="true" class="me-2 h-3.5 w-3.5 rounded-full"
                                 xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-us" viewBox="0 0 512 512">
                                 <g fill-rule="evenodd">
@@ -174,7 +174,7 @@
                     <a href="{{ route('lang.switch', 'de') }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem">
-                        <div class="inline-flex items-center">
+                        <div class="inline-flex items-center text-roboto-slab">
                             <svg class="me-2 h-3.5 w-3.5 rounded-full" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-de" viewBox="0 0 512 512">
                                 <path fill="#ffce00" d="M0 341.3h512V512H0z" />
@@ -191,7 +191,7 @@
                     <a href="{{ route('lang.switch', 'it') }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem">
-                        <div class="inline-flex items-center">
+                        <div class="inline-flex items-center text-roboto-slab">
                             <svg class="me-2 h-3.5 w-3.5 rounded-full" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-it" viewBox="0 0 512 512">
                                 <g fill-rule="evenodd" stroke-width="1pt">
@@ -210,7 +210,7 @@
                     <a href="{{ route('lang.switch', 'es') }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem">
-                        <div class="inline-flex items-center">
+                        <div class="inline-flex items-center text-roboto-slab">
                             <svg class="me-2 h-3.5 w-3.5 rounded-full" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 64 64">
                                 <path fill="#ffce31"

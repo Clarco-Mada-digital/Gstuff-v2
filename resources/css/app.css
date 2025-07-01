@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 @import "tailwindcss";
 @source "../views";
@@ -8,7 +8,16 @@
     --font-dm: "DM+Sans", sans-serif;
     --font-dm-serif: "DM+Sans display", serif;
     --font-cormorant: "Cormorant Garamond", serif;
-    --color-green-gs: #05595B;
+    --font-roboto-slab: "Roboto Slab",  sans-serif;
+    --color-green-gs: #7F55B1;
+    /* --color-green-gs: #05595B; */
+     /* Palette principale */
+     --color-textColor: #101828;    /* Noir profond pour les titres */
+     --color-textColorParagraph: #848484;  /* Gris moyen pour les paragraphes */
+     --color-complementaryColorViolet: #7F55B1;   /* Violet vif */
+     --color-supaGirlRose: #FDA5D6; /* Rose vif */
+     --color-supaGirlRosePastel: #FED5E9;    /* Rose pâle */
+     --color-fieldBg: #FFF8FB;     /* Fond blanc rosé */
 }
 
 @layer components {
