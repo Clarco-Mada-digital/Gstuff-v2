@@ -112,19 +112,11 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             </select>
         @endif
 
-        <div class="mx-4 my-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:my-4">
-            @foreach ($categories as $categorie)
-                <div class="min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none">
-                    <input wire:model.live='selectedCategories' class="peer hidden" type="checkbox"
-                        id="escortCategorie{{ $categorie->id }}" name="{{ $categorie->nom }}"
-                        value="{{ $categorie->id }}">
-                    <label for="escortCategorie{{ $categorie->id }}"
-                        class="border-1 hover:bg-green-gs peer-checked:bg-green-gs block w-full cursor-pointer rounded-lg border-amber-400 bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 peer-checked:text-amber-400 sm:text-sm md:text-base">
-                        {{ $categorie->nom }}
-                    </label>
-                </div>
-            @endforeach
-        </div>
+        <x-category-select-escort 
+            :categories="$categories" 
+            :selectedCategories="$selectedCategories ?? []"
+            class="mx-4 my-3 md:my-4"
+        />
 
         <div class="mt-5 flex flex-wrap items-center justify-center gap-3 px-4 sm:gap-4">
 
@@ -210,32 +202,19 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
         </div>
 
-        <button wire:click="resetFilter"
-            class="font-dm-serif hover:bg-green-gs group my-2 flex items-center gap-2 rounded-lg border border-gray-400 bg-white p-2 text-gray-600 hover:text-white"
-            wire:loading.attr="disabled">
-            <span wire:loading.remove wire:target="resetFilter">
-                {{ __('escort-search.reset_filters') }}
-            </span>
-            <span wire:loading wire:target="resetFilter" class="flex items-center">
-                {{ __('escort-search.resetting') }}
-            </span>
-            <span wire:loading.remove wire:target="resetFilter">
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                    <path fill="currentColor"
-                        d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z" />
-                </svg>
-            </span>
-            <span wire:loading wire:target="resetFilter" class="ml-2">
-                <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                </svg>
-            </span>
-        </button>
+        <div class="flex justify-center mt-5    ">
+            <x-buttons.reset-button 
+                wire:click="resetFilter" 
+                class="w-56 m-auto p-2"
+                :loading-target="'resetFilter'"
+                translation="escort-search.reset_filters"
+                loading-translation="escort-search.resetting"
+            />
+        </div>
+
+      
+
+       
     </div>
 
 
