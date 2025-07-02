@@ -56,7 +56,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                     class="font-roboto-slab block text-sm font-medium text-gray-700">{{ __('escort-search.distance_km') }}
                                     {{ number_format($maxDistanceSelected, 0) }}</label>
                                 <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
-                                    <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-green-600"
+                                    <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-green-gs"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10"
                                             stroke="currentColor" stroke-width="4"></circle>
@@ -91,7 +91,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                     </span>
                                     <input type="range" wire:model.live="maxDistanceSelected"
                                         min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
-                                        class="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 sm:h-2">
+                                        class="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-opacity-50 sm:h-2">
                                     <span
                                         class="font-roboto-slab shrink-0 rounded-full bg-gray-100 px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm">
                                         {{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }} km

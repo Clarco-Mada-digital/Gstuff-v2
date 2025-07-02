@@ -5,43 +5,94 @@
     'selectedVille' => null,
     'onCantonChange' => 'chargeVille',
     'cantonModel' => 'selectedSalonCanton',
-    'villeModel' => 'selectedSalonVille'
+    'villeModel' => 'selectedSalonVille',
+    'class' => '',
+    'cantonId' => 'canton-select',
+    'villeId' => 'ville-select'
 ])
 
-<div class="flex w-full flex-col items-center justify-center space-y-4 px-4 text-sm sm:flex-row sm:space-x-4 sm:space-y-0">
+<div class="flex w-full flex-col items-center justify-center space-y-4 px-4 text-sm sm:flex-row sm:space-x-4 sm:space-y-0 {{ $class }} ">
     <!-- Canton Selector -->
     <div class="w-full min-w-[200px] max-w-xs">
-        <select 
-            wire:model.live="{{ $cantonModel }}" 
-            wire:change="{{ $onCantonChange }}"
-            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-        >
-            <option value="">{{ __('salon-search.cantons') }}</option>
-            @foreach ($cantons as $canton)
-                <option wire:key='{{ $canton->id }}' value="{{ $canton->id }}">{{ $canton->nom }}</option>
-            @endforeach
-        </select>
+       
+        <div class="relative">
+            <select 
+                wire:model.live="{{ $cantonModel }}" 
+                wire:change="{{ $onCantonChange }}"
+                id="{{ $cantonId }}" 
+                class="appearance-none w-full bg-white border-2 border-supaGirlRose rounded-lg py-2.5 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200 pr-10 cursor-pointer"
+            >
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __('salon-search.cantons') }}</option>
+                @foreach ($cantons as $canton)
+                    <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                        {{ $canton->nom }}
+                    </option>
+                @endforeach
+            </select>
+            
+        </div>
     </div>
 
     <!-- City Selector -->
     <div class="w-full min-w-[200px] max-w-xs">
-        <select 
-            wire:model.live="{{ $villeModel }}"
-            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            @if (!$villes) disabled @endif
-        >
-            <option value="">
-                @if ($villes)
-                    {{ __('salon-search.villes') }}
-                @else
-                    {{ __('salon-search.select_canton') }}
+        <div class="relative">
+            <select 
+                wire:model.live="{{ $villeModel }}"
+                id="{{ $villeId }}"
+                class="appearance-none w-full bg-white border-2 border-supaGirlRose rounded-lg py-2.5 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200 pr-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                @if (!$villes) disabled @endif
+            >
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
+                    {{ $villes ? __('salon-search.villes') : __('salon-search.select_canton') }}
+                </option>
+                @if (is_iterable($villes))
+                    @foreach ($villes as $ville)
+                        <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                            {{ $ville->nom }}
+                        </option>
+                    @endforeach
                 @endif
-            </option>
-            @if (is_iterable($villes))
-                @foreach ($villes as $ville)
-                    <option wire:key='{{ $ville->id }}' value="{{ $ville->id }}">{{ $ville->nom }}</option>
-                @endforeach
-            @endif
-        </select>
+            </select>
+        </div>
     </div>
 </div>
+
+<style>
+    /* Style de base pour les selects */
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    /* Style pour les options des selects */
+    select option {
+        background: white;
+        color: #7F55B1;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+    
+    /* Style pour l'option au survol */
+    select option:hover {
+        background-color: #FED5E9 !important;
+        color: #7F55B1 !important;
+    }
+    
+    /* Style pour l'option sélectionnée */
+    select option:checked {
+        background-color: #FED5E9 !important;
+        color: #7F55B1 !important;
+    }
+    
+    /* Style pour le placeholder */
+    select:invalid {
+        color: #7F55B1 !important;
+        opacity: 0.7;
+    }
+    
+    /* Style pour la liste déroulante (s'applique à certains navigateurs) */
+    select option:not(:checked) {
+        background-color: white;
+    }
+</style>
