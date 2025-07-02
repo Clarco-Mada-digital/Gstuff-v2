@@ -20,8 +20,8 @@ return [
     // CTA
     'looking_for_fun' => 'Looking for naughty fun?',
 
-    // About Gstuff
-    'find_escorts' => 'Find escorts, masseuses, and more on Gstuff!',
+    // About Supagirl
+    'find_escorts' => 'Find escorts, masseuses, and more on Supagirl!',
     'partners_count' => '+500 partners',
     'verified_profiles' => 'Verified profiles for authentic encounters.',
     'amateurs_count' => '+300 amateurs',
@@ -30,12 +30,12 @@ return [
     'professional_salons_offer' => 'Varied offers in secure professional settings.',
 
     // Become an escort
-    'become_escort_title' => 'How to become an escort on Gstuff?',
+    'become_escort_title' => 'How to become an escort on Supagirl?',
     'become_escort_steps' => 'Become an independent escort in 3 steps!',
     'send_selfies' => 'Send 5 selfies to',
     'photo_shoot_appointment' => 'Schedule a photo shoot',
     'publish_profile' => 'Publish your profile',
-    'signup_today' => 'Sign up today on Gstuff ...',
+    'signup_today' => 'Sign up today on Supagirl ...',
     'best_platform' => 'The best erotic platform in Switzerland!',
     'signup' => 'Sign up',
 
@@ -46,11 +46,11 @@ return [
     'frequent_questions' => 'Frequently asked questions',
     'photo_shoot_mandatory' => 'Is the photo shoot mandatory?',
     'apartments_rent' => 'Do you have apartments for rent?',
-    'unique_platform' => "Yes, that's what makes the platform so unique. All photos published on GStuff were taken by our team.",
+    'unique_platform' => "Yes, that's what makes the platform so unique. All photos published on Supagirl were taken by our team.",
     'no_apartments_for_escorts' => "We do not rent apartments for escorts.",
 
     'how_much_can_i_earn' => 'How much can I earn?',
-    'escort_monthly_income' => "The monthly income of escorts on Gstuff depends on many factors, but it can reach several tens of thousands of Swiss francs per month.",
+    'escort_monthly_income' => "The monthly income of escorts on Supagirl depends on many factors, but it can reach several tens of thousands of Swiss francs per month.",
 
     // Glossary Articles
     'glossary_articles' => "Glossary articles",

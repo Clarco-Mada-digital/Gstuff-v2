@@ -21,8 +21,8 @@ return [
     // CTA
     'looking_for_fun' => 'Alla ricerca di un piacere piccante?',
 
-    // About Gstuff
-    'find_escorts' => 'Trova escort, massaggiatrici e altro su Gstuff!',
+    // About Supagirl
+    'find_escorts' => 'Trova escort, massaggiatrici e altro su Supagirl!',
     'partners_count' => '+ di 500 partner',
     'verified_profiles' => 'Profili verificati per incontri autentici.',
     'amateurs_count' => '+ di 300 amatori',
@@ -31,14 +31,14 @@ return [
     'professional_salons_offer' => 'Offerte variegate in ambienti professionali sicuri.',
 
     // Diventa escort
-    'become_escort_title' => 'Come diventare un\'escort su Gstuff?',
+    'become_escort_title' => 'Come diventare un\'escort su Supagirl?',
     'become_escort_steps' => 'Diventa escort indipendente in 3 passaggi!',
     'send_selfies' => 'Invia 5 selfie a ',
     'photo_shoot_appointment' => 'Fissa un appuntamento per il servizio fotografico',
     'publish_profile' => 'Pubblica il tuo profilo',
 
 
-    'signup_today' => 'Iscriviti oggi stesso su Gstuff ...',
+    'signup_today' => 'Iscriviti oggi stesso su Supagirl ...',
     'best_platform' => 'La migliore piattaforma erotica in Svizzera!',
     'signup' => 'Iscriviti',
 
@@ -48,11 +48,11 @@ return [
     'frequent_questions' => 'Domande frequenti',
     'photo_shoot_mandatory' => 'Il servizio fotografico è obbligatorio?',
     'apartments_rent' => 'Avete appartamenti in affitto?',
-    'unique_platform' => "Sì, è questo che rende la piattaforma così unica. Tutte le foto pubblicate su GStuff sono state realizzate dal nostro team.",
+    'unique_platform' => "Sì, è questo che rende la piattaforma così unica. Tutte le foto pubblicate su Supagirl sono state realizzate dal nostro team.",
     'no_apartments_for_escorts' => "Non affittiamo appartamenti per le escort.",
 
     'how_much_can_i_earn' => 'Quanto posso guadagnare?',
-    'escort_monthly_income' => "Il reddito mensile delle escort su Gstuff dipende da molti fattori, ma può arrivare a decine di migliaia di franchi svizzeri al mese.",
+    'escort_monthly_income' => "Il reddito mensile delle escort su Supagirl dipende da molti fattori, ma può arrivare a decine di migliaia di franchi svizzeri al mese.",
 
     // Glossary Articles
     'glossary_articles' => "Articoli del glossario",

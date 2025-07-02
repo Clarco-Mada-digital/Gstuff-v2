@@ -29,7 +29,7 @@ return [
     'oops' => 'Oops!',
     'register' => 'INSCRIPTION',
     'partners_count' => '+ de 500 partenaires',
-    'partners_description' => 'Profils vérifiés pour des rencontres authentiques',
+    'partners_description' => 'Profils vérifiés pour des rencontres authentiques',  
     'amateurs_count' => '+ de 300 amateurs',
     'amateurs_description' => 'Expériences coquines avec des amateurs dédiés.',
     'professional_salons_count' => '+ de 200 salons professionnels',

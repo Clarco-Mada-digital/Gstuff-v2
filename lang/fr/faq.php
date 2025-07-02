@@ -2,16 +2,16 @@
 
 return [
     'title' => 'Foires Aux Questions',
-    'what_is_gstuff' => [
-        'question' => "Qu'est-ce que Gstuff.ch ?",
-        'answer' => "Gstuff.ch est un site suisse d'annonces érotiques. Il répertorie des travailleurs et travailleuses du sexe exerçant leur activité en Suisse.
+    'what_is_supagirl' => [
+        'question' => "Qu'est-ce que Supagirl.ch ?",
+        'answer' => "Supagirl.ch est un site suisse d'annonces érotiques. Il répertorie des travailleurs et travailleuses du sexe exerçant leur activité en Suisse.
 
-Il permet aux annonceurs de trouver une visibilité certaine auprès d'un public ouvert et respectueux. Il permet à chacun et chacune de naviguer sur le site et de trouver réponse à ses fantasmes. Gstuff se veut inclusif et dans ce sens, seul le plaisir compte.
+Il permet aux annonceurs de trouver une visibilité certaine auprès d'un public ouvert et respectueux. Il permet à chacun et chacune de naviguer sur le site et de trouver réponse à ses fantasmes. Supagirl se veut inclusif et dans ce sens, seul le plaisir compte.
 
-Naviguer sur Gstuff, c'est aussi n'avoir besoin que d'une seule ressource pour trouver tout ce qui attrait à la sexualité. Vous trouverez naturellement diverses informations en lien avec les services sexuels, mais également de l'information sur l'actualité érotique suisse, des liens utiles vers diverses administrations et un soutien par des professionnels de la sexologie si besoin."
+Naviguer sur Supagirl, c'est aussi n'avoir besoin que d'une seule ressource pour trouver tout ce qui attrait à la sexualité. Vous trouverez naturellement diverses informations en lien avec les services sexuels, mais également de l'information sur l'actualité érotique suisse, des liens utiles vers diverses administrations et un soutien par des professionnels de la sexologie si besoin."
     ],
     'advantages' => [
-        'question' => 'Quels sont les avantages de s\'inscrire sur Gstuff ?',
+        'question' => 'Quels sont les avantages de s\'inscrire sur Supagirl ?',
         'items' => [
             'S\'assurer une visibilité auprès du public vivant ou de passage en Suisse',
             'Une utilisation facile et intuitive',
@@ -19,15 +19,15 @@ Naviguer sur Gstuff, c'est aussi n'avoir besoin que d'une seule ressource pour t
             'Bénéficier de l\'expertise de professionnels dans le champ de la sexualité et de leur soutien si besoin',
             'Utiliser une plateforme dont les utilisateurs sont ouverts et respectueux'
         ],
-        'summary' => 'Pour résumer, Gstuff.ch c\'est la garantie d\'une plateforme qui marque sa différence non seulement par son apparence, mais aussi par la simplicité de son utilisation et la qualité des informations qui y figurent.'
+        'summary' => 'Pour résumer, Supagirl.ch c\'est la garantie d\'une plateforme qui marque sa différence non seulement par son apparence, mais aussi par la simplicité de son utilisation et la qualité des informations qui y figurent.'
     ],
     'requirements' => [
-        'question' => 'Quelles sont les 3 conditions requises pour s\'inscrire sur Gstuff ?',
+        'question' => 'Quelles sont les 3 conditions requises pour s\'inscrire sur Supagirl ?',
         'age' => 'Être majeur/e :',
-        'age_text' => 'Pour visiter le site, vous devez avoir l\'âge légal pour le faire. En Suisse, il vous faut avoir 18 ans révolus pour naviguer sur Gstuff. De même donc pour vous créer un profil ou passer une annonce, vous devez être majeur/e. Ceci est la seule condition si vous ne publiez pas d\'annonce.',
+        'age_text' => 'Pour visiter le site, vous devez avoir l\'âge légal pour le faire. En Suisse, il vous faut avoir 18 ans révolus pour naviguer sur Supagirl. De même donc pour vous créer un profil ou passer une annonce, vous devez être majeur/e. Ceci est la seule condition si vous ne publiez pas d\'annonce.',
         'age_note' => 'A noter qu\'il vous faut ne pas être sous tutelle ou curatelle également.',
         'work_in_switzerland' => 'Travailler en Suisse :',
-        'work_in_switzerland_text' => 'En effet, Gstuff est un site 100% Suisse. Seules les personnes proposant leurs services en Suisse peuvent publier une annonce sur Gstuff. Vous constaterez que seuls les cantons et villes suisses sont disponibles, lors de la création de votre profil.',
+        'work_in_switzerland_text' => 'En effet, Supagirl est un site 100% Suisse. Seules les personnes proposant leurs services en Suisse peuvent publier une annonce sur Supagirl. Vous constaterez que seuls les cantons et villes suisses sont disponibles, lors de la création de votre profil.',
         'phone_requirement' => 'Posséder un numéro de téléphone suisse',
         'phone_requirement_text' => 'Un téléphone soit mobile ou fixe.'
     ],
@@ -42,8 +42,8 @@ Naviguer sur Gstuff, c'est aussi n'avoir besoin que d'une seule ressource pour t
     ],
     'deactivate_profile' => [
         'question' => 'Comment désactiver mon profil pendant mon absence ?',
-        'text1' => 'Lorsque vous louez un espace sur Gstuff pour y faire figurer votre annonce, vous vous acquittez du montant correspondant au service souhaité. Par exemple, vous louez un espace pour un mois et vous vous payez le service pour un mois.',
-        'why_pay' => 'Mais pourquoi payer lors d\'une absence ? Gstuff a à coeur que vous puissiez profiter au maximum des prestations proposées, c\'est pourquoi, lorsque vous vous absentez, pour partir en vacances, prendre un peu de repos, ou pour toute autre raison vous appartenant, vous pouvez mettre votre profil en pause et ainsi réellement profiter de tout le temps acheté.',
+        'text1' => 'Lorsque vous louez un espace sur Supagirl pour y faire figurer votre annonce, vous vous acquittez du montant correspondant au service souhaité. Par exemple, vous louez un espace pour un mois et vous vous payez le service pour un mois.',
+        'why_pay' => 'Mais pourquoi payer lors d\'une absence ? Supagirl a à coeur que vous puissiez profiter au maximum des prestations proposées, c\'est pourquoi, lorsque vous vous absentez, pour partir en vacances, prendre un peu de repos, ou pour toute autre raison vous appartenant, vous pouvez mettre votre profil en pause et ainsi réellement profiter de tout le temps acheté.',
         'departure' => 'Lors de votre départ :',
         'departure_instructions' => 'Pour ce faire, il faut vous connecter et aller sur votre page de profil, puis sélectionner « Je mets mon profil en pause ». Dès lors, votre profil sera toujours visible par les utilisateurs, mais votre numéro de téléphone sera invisible afin que vous ne soyez pas dérangée.',
         'return' => 'A votre retour :',
@@ -51,7 +51,7 @@ Naviguer sur Gstuff, c'est aussi n'avoir besoin que d'une seule ressource pour t
     ],
     'help' => [
         'question' => 'Besoin d\'aide ? Contacts utiles',
-        'intro' => 'Gstuff vous fournit ci-dessous les adresses utiles pour plusieurs types de requêtes, sans que cela soit exhaustif. Si vous avez une requête spécifique et que vous ne trouvez pas la réponse ci-dessous, contactez-nous à',
+        'intro' => 'Supagirl vous fournit ci-dessous les adresses utiles pour plusieurs types de requêtes, sans que cela soit exhaustif. Si vous avez une requête spécifique et que vous ne trouvez pas la réponse ci-dessous, contactez-nous à',
         'police_info' => 'La brigade des mœurs traite les délits à caractère sexuel (viol, contrainte sexuelle, acte d\'ordre sexuel avec des enfants ou des personnes incapables de discernement ou de résistance, pornographie interdite et exhibitionnisme). En l\'absence du lien direct vers ce service, vous pouvez vous adresser au poste de la police cantonale du canton concerné (liste ci-dessous).',
         'phone_note' => 'NB : l\'indicatif téléphonique pour les appels vers les numéros suisses (mobiles et fixes) est : 0041 ou +41, suivi du numéro de téléphone à 9 chiffres.',
         'phone_example' => 'Exemple : 079 123 45 67 donnera',

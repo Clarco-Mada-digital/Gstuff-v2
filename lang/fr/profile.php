@@ -116,7 +116,7 @@ return [
     'update_cover_photo' => "Modifier photo de couverture",
     'update' => "Mettre à jour",
     'profile_completion' => "Votre profil est actuellement rempli à ",
-    'profile_completion_message' => 'Pour profiter pleinement des services offerts par Gstuff, nous vous recommandons vivement de compléter vos informations avec des données réelles. Chez Gstuff, nous nous engageons à respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici :',
+    'profile_completion_message' => 'Pour profiter pleinement des services offerts par Supagirl, nous vous recommandons vivement de compléter vos informations avec des données réelles. Chez Supagirl, nous nous engageons à respecter votre vie privée. Toutes les données collectées sont utilisées pour vous offrir une expérience optimale sur la plateforme. Consultez notre politique de confidentialité ici :',
     'privacy_policy' => 'Politique de confidentialité',
     'improve_profile' => 'Amélioré mon profil',
 
@@ -136,7 +136,7 @@ return [
     'profile_under_review' => "Votre profil est en cours de validation.",
 
     'send_verification_photo' => "Envoyer votre photo de vérification",
-    'verification_photo_instructions' => "Envoyez-nous une photo de vous en tenant un papier écrit << Gstuff>> et la date du jour à laquelle vous avez pris la photo",
+    'verification_photo_instructions' => "Envoyez-nous une photo de vous en tenant un papier écrit << Supagirl>> et la date du jour à laquelle vous avez pris la photo",
     'verification_image' => "Image de vérification",
     'send' => "Envoyer",
 

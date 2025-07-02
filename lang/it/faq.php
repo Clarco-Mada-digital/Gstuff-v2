@@ -2,16 +2,16 @@
 
 return [
     'title' => 'Domande Frequenti',
-    'what_is_gstuff' => [
-        'question' => 'Cos\'è Gstuff.ch?',
-        'answer' => "Gstuff.ch è un sito svizzero di annunci erotici. Elenca lavoratori e lavoratrici del sesso che esercitano la loro attività in Svizzera.
+    'what_is_supagirl' => [
+        'question' => 'Cos\'è Supagirl.ch?',
+        'answer' => "Supagirl.ch è un sito svizzero di annunci erotici. Elenca lavoratori e lavoratrici del sesso che esercitano la loro attività in Svizzera.
 
-Permette agli inserzionisti di trovare visibilità presso un pubblico aperto e rispettoso. Consente a chiunque di navigare sul sito e trovare risposta alle proprie fantasie. Gstuff vuole essere inclusivo e, in questo senso, conta solo il piacere.
+Permette agli inserzionisti di trovare visibilità presso un pubblico aperto e rispettoso. Consente a chiunque di navigare sul sito e trovare risposta alle proprie fantasie. Supagirl vuole essere inclusivo e, in questo senso, conta solo il piacere.
 
-Navigare su Gstuff significa avere una sola risorsa per tutto ciò che riguarda la sessualità. Troverai naturalmente varie informazioni relative ai servizi sessuali, ma anche aggiornamenti sulle notizie erotiche svizzere, link utili a varie amministrazioni e supporto da parte di professionisti della sessuologia se necessario."
+Navigare su Supagirl significa avere una sola risorsa per tutto ciò che riguarda la sessualità. Troverai naturalmente varie informazioni relative ai servizi sessuali, ma anche aggiornamenti sulle notizie erotiche svizzere, link utili a varie amministrazioni e supporto da parte di professionisti della sessuologia se necessario."
     ],
     'advantages' => [
-        'question' => 'Quali sono i vantaggi di registrarsi su Gstuff?',
+        'question' => 'Quali sono i vantaggi di registrarsi su Supagirl?',
         'items' => [
             'Assicurarsi visibilità presso il pubblico che vive o visita la Svizzera',
             'Utilizzo facile e intuitivo',
@@ -19,15 +19,15 @@ Navigare su Gstuff significa avere una sola risorsa per tutto ciò che riguarda 
             'Beneficiare dell\'esperienza di professionisti nel campo della sessualità e del loro supporto se necessario',
             'Utilizzare una piattaforma i cui utenti sono aperti e rispettosi'
         ],
-        'summary' => 'In sintesi, Gstuff.ch è la garanzia di una piattaforma che si distingue non solo per il suo aspetto, ma anche per la semplicità d\'uso e la qualità delle informazioni che contiene.'
+        'summary' => 'In sintesi, Supagirl.ch è la garanzia di una piattaforma che si distingue non solo per il suo aspetto, mais anche per la semplicità d\'uso e la qualità delle informazioni che contiene.'
     ],
     'requirements' => [
-        'question' => 'Quali sono i 3 requisiti per registrarsi su Gstuff?',
+        'question' => 'Quali sono i 3 requisiti per registrarsi su Supagirl?',
         'age' => 'Essere maggiorenni:',
-        'age_text' => 'Per visitare il sito, devi avere l\'età legale per farlo. In Svizzera, devi avere almeno 18 anni per navigare su Gstuff. Allo stesso modo, per creare un profilo o pubblicare un annuncio, devi essere maggiorenne. Questa è l\'unica condizione se non pubblichi un annuncio.',
+        'age_text' => 'Per visitare il sito, devi avere l\'età legale per farlo. In Svizzera, devi avere almeno 18 anni per navigare su Supagirl. Allo stesso modo, per creare un profilo o pubblicare un annuncio, devi essere maggiorenne. Questa è l\'unica condizione se non pubblichi un annuncio.',
         'age_note' => 'Tieni presente che non devi essere sotto tutela o curatela.',
         'work_in_switzerland' => 'Lavorare in Svizzera:',
-        'work_in_switzerland_text' => 'Infatti, Gstuff è un sito al 100% svizzero. Solo le persone che offrono i loro servizi in Svizzera possono pubblicare un annuncio su Gstuff. Noterai che solo i cantoni e le città svizzeri sono disponibili durante la creazione del tuo profilo.',
+        'work_in_switzerland_text' => 'Infatti, Supagirl è un sito al 100% svizzero. Solo le persone che offrono i loro servizi in Svizzera possono pubblicare un annuncio su Supagirl. Noterai che solo i cantoni e le città svizzeri sono disponibili durante la creazione del tuo profilo.',
         'phone_requirement' => 'Avere un numero di telefono svizzero',
         'phone_requirement_text' => 'Sia mobile che fisso.'
     ],
@@ -42,8 +42,8 @@ Navigare su Gstuff significa avere una sola risorsa per tutto ciò che riguarda 
     ],
     'deactivate_profile' => [
         'question' => 'Come disattivare il mio profilo durante la mia assenza?',
-        'text1' => 'Quando noleggi uno spazio su Gstuff per inserire il tuo annuncio, paghi l\'importo corrispondente al servizio desiderato. Ad esempio, noleggi uno spazio per un mese e paghi il servizio per un mese.',
-        'why_pay' => 'Ma perché pagare durante un\'assenza? A Gstuff sta a cuore che tu possa trarre il massimo vantaggio dai servizi offerti, motivo per cui, quando sei assente, che sia per le vacanze, per riposarti o per qualsiasi altro motivo personale, puoi mettere in pausa il tuo profilo e goderti così tutto il tempo che hai pagato.',
+        'text1' => 'Quando noleggi uno spazio su Supagirl per inserire il tuo annuncio, paghi l\'importo corrispondente al servizio desiderato. Ad esempio, noleggi uno spazio per un mese e paghi il servizio per un mese.',
+        'why_pay' => 'Ma perché pagare durante un\'assenza? A Supagirl sta a cuore che tu possa trarre il massimo vantaggio dai servizi offerti, motivo per cui, quando sei assente, che sia per le vacanze, per riposarti o per qualsiasi altro motivo personale, puoi mettere in pausa il tuo profilo e goderti così tutto il tempo che hai pagato.',
         'departure' => 'Alla partenza:',
         'departure_instructions' => 'Per farlo, accedi e vai alla pagina del tuo profilo, quindi seleziona "Metti in pausa il mio profilo". Da quel momento in poi, il tuo profilo sarà ancora visibile agli utenti, ma il tuo numero di telefono sarà nascosto in modo da non essere disturbato.',
         'return' => 'Al tuo ritorno:',
@@ -51,7 +51,7 @@ Navigare su Gstuff significa avere una sola risorsa per tutto ciò che riguarda 
     ],
     'help' => [
         'question' => 'Hai bisogno di aiuto? Contatti utili',
-        'intro' => 'Gstuff ti fornisce di seguito gli indirizzi utili per vari tipi di richieste, anche se questo elenco non è esaustivo. Se hai una richiesta specifica e non trovi la risposta qui sotto, contattaci a',
+        'intro' => 'Supagirl ti fornisce di seguito gli indirizzi utili per vari tipi di richieste, anche se questo elenco non è esaustivo. Se hai una richiesta specifica e non trovi la risposta qui sotto, contattaci a',
         'police_info' => 'La squadra del buoncostume si occupa di reati a sfondo sessuale (stupro, costrizione sessuale, atti sessuali con minori o persone incapaci di intendere o volere, pornografia vietata ed esibizionismo). In assenza di un collegamento diretto a questo servizio, puoi rivolgerti alla stazione di polizia cantonale del cantone interessato (elenco sotto).',
         'phone_note' => 'Nota: il prefisso telefonico per le chiamate verso i numeri svizzeri (cellulari e fissi) è: 0041 o +41, seguito dal numero di telefono a 9 cifre.',
         'phone_example' => 'Esempio: 079 123 45 67 darà',

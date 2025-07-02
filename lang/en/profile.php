@@ -114,7 +114,7 @@ return [
     'update_cover_photo' => 'Update cover photo',
     'update' => 'Update',
     'profile_completion' => 'Your profile is currently filled to ',
-    'profile_completion_message' => 'To fully enjoy the services offered by Gstuff, we strongly recommend that you complete your information with real data. At Gstuff, we are committed to respecting your privacy. All data collected is used to offer you an optimal experience on the platform. Consult our privacy policy here:',
+    'profile_completion_message' => 'To fully enjoy the services offered by Supagirl, we strongly recommend that you complete your information with real data. At Supagirl, we are committed to respecting your privacy. All data collected is used to offer you an optimal experience on the platform. Consult our privacy policy here:',
     'privacy_policy' => 'Privacy Policy',
     'improve_profile' => 'Improve my profile',
 
@@ -134,7 +134,7 @@ return [
     'profile_under_review' => 'Your profile is under review.',
 
     'send_verification_photo' => 'Send your verification photo',
-    'verification_photo_instructions' => 'Send us a photo of you holding a paper written << Gstuff>> and the date of the day you took the photo',
+    'verification_photo_instructions' => 'Send us a photo of you holding a paper written << Supagirl>> and the date of the day you took the photo',
     'verification_image' => 'Verification image',
     'send' => 'Send',
 

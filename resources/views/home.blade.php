@@ -267,78 +267,100 @@
 
     <x-CallToActionContact />
 
+    <style>
+        .accordion-button {
+            background-color: #FED5E9;
+            color: #6A7282;
+            transition: all 0.2s ease;
+        }
+        .accordion-button:hover, .accordion-button.active {
+            background-color: #FDA5D6 !important;
+            color: #7F55B1 !important;
+        }
+        .accordion-content {
+            background-color: #FFFAFC;
+            border-color: #E5E7EB;
+            color: #6A7282;
+        }
+    </style>
     {{-- FAQ --}}
     <div class="container mx-auto flex flex-col items-center justify-center gap-10 p-4">
         <h3 id="FAQ" class="font-roboto-slab text-green-gs text-3xl lg:text-5xl">{{ __('home.frequent_questions') }}
         </h3>
-        <div id="accordion-collapse text-wrap w-full lg:min-w-[1114px]" data-accordion="collapse">
-            <h2 id="accordion-collapse-heading-1" class="w-full lg:min-w-[1114px]">
-                <button type="button"
-                    class="flex w-full items-center justify-between gap-3 rounded-t-xl border border-b-0 border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
-                    data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
-                    aria-controls="accordion-collapse-body-1">
-                    <span class="flex items-center"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd"></path>
-                        </svg>{{ __('home.photo_shoot_mandatory') }}</span>
-                    <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-            </h2>
-            <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
-                <div class="border border-b-0 border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-900">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">{{ __('home.unique_platform') }}</p>
+        <div id="accordion-collapse" class="w-full lg:min-w-[1114px]" data-accordion="collapse">
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-1">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 rounded-t-xl border border-b-0 border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
+                        aria-controls="accordion-collapse-body-1">
+                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.photo_shoot_mandatory') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-1" aria-labelledby="accordion-collapse-heading-1">
+                    <div class="accordion-content border border-b-0 p-5">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.unique_platform') }}</p>
+                    </div>
                 </div>
             </div>
-            <h2 id="accordion-collapse-heading-2" class="w-full lg:min-w-[1114px]">
-                <button type="button"
-                    class="flex w-full items-center justify-between gap-3 border border-b-0 border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
-                    data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
-                    aria-controls="accordion-collapse-body-2">
-                    <span class="flex items-center"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd"></path>
-                        </svg>{{ __('home.apartments_rent') }}</span>
-                    <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-            </h2>
-            <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-                <div class="border border-b-0 border-gray-200 bg-white p-5 dark:border-gray-700">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">{{ __('home.no_apartments_for_escorts') }}</p>
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-2">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 border border-b-0 border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
+                        aria-controls="accordion-collapse-body-2">
+                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.apartments_rent') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
+                    <div class="accordion-content border border-b-0 p-5">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.no_apartments_for_escorts') }}</p>
+                    </div>
                 </div>
             </div>
-            <h2 id="accordion-collapse-heading-3" class="w-full lg:min-w-[1114px]">
-                <button type="button"
-                    class="flex w-full items-center justify-between gap-3 border border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 rtl:text-right dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800"
-                    data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
-                    aria-controls="accordion-collapse-body-3">
-                    <span class="flex items-center"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd"></path>
-                        </svg>{{ __('home.how_much_can_i_earn') }}</span>
-                    <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-            </h2>
-            <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
-                <div class="border border-t-0 border-gray-200 bg-white p-5 dark:border-gray-700">
-                    <p class="mb-2 text-gray-500 dark:text-gray-400">{{ __('home.escort_monthly_income') }}</p>
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-3">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 border border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
+                        aria-controls="accordion-collapse-body-3">
+                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.how_much_can_i_earn') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
+                    <div class="accordion-content border border-t-0 p-5">
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.escort_monthly_income') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -348,18 +370,20 @@
     @if ($glossaires != '[]')
         <div class="mx-auto my-10 lg:container">
             <div class="my-10 flex flex-wrap items-center justify-between px-5 lg:px-20">
-                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl">{{ __('home.glossary_articles') }}
+                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl font-roboto-slab">{{ __('home.glossary_articles') }}
                 </h3>
                 <div class="z-10 my-2 w-auto">
                      <a href="{{ url('glossaires') }}"
                     
                     type="button"
-                        class="btn-gs-gradient flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-sm font-bold text-black focus:outline-none focus:ring-4 focus:ring-blue-300 lg:text-base dark:focus:ring-blue-800">{{ __('home.see_more_articles') }}
+                        class="btn-complementaryColorViolet bg-complementaryColorViolet font-roboto-slab flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-sm font-bold text-black focus:outline-none focus:ring-4 focus:ring-blue-300 lg:text-base ">{{ __('home.see_more_articles') }}
                         <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path fill="currentColor"
                                 d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z" />
                         </svg>
                     </a>
+
+                    <x-btn href="{{ url('glossaires') }}" text="{{ __('home.see_more_articles') }}" />
                 </div>
             </div>
             <x-GlossaireSection />
@@ -369,6 +393,62 @@
 
 @section('extraScripts')
     <script>
+        // Script pour l'accordéon FAQ
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionButtons = document.querySelectorAll('[data-accordion-target]');
+            
+            // Fonction pour réinitialiser tous les boutons
+            function resetAllButtons() {
+                accordionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    const target = document.querySelector(btn.getAttribute('data-accordion-target'));
+                    if (target) target.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                    const icon = btn.querySelector('[data-accordion-icon]');
+                    if (icon) icon.classList.remove('rotate-180');
+                });
+            }
+            
+            // Initialisation
+            const firstButton = accordionButtons[0];
+            if (firstButton) {
+                const firstTarget = document.querySelector(firstButton.getAttribute('data-accordion-target'));
+                if (firstTarget) {
+                    firstTarget.classList.remove('hidden');
+                    firstButton.classList.add('active');
+                    firstButton.setAttribute('aria-expanded', 'true');
+                    const icon = firstButton.querySelector('[data-accordion-icon]');
+                    if (icon) icon.classList.add('rotate-180');
+                }
+            }
+            
+            // Gestion des clics
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = document.querySelector(this.getAttribute('data-accordion-target'));
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Fermer tous les autres accordéons
+                    resetAllButtons();
+                    
+                    // Basculer l'état actuel si nécessaire
+                    if (isExpanded) {
+                        this.classList.remove('active');
+                        this.setAttribute('aria-expanded', 'false');
+                        if (target) target.classList.add('hidden');
+                        const icon = this.querySelector('[data-accordion-icon]');
+                        if (icon) icon.classList.remove('rotate-180');
+                    } else {
+                        this.classList.add('active');
+                        this.setAttribute('aria-expanded', 'true');
+                        if (target) target.classList.remove('hidden');
+                        const icon = this.querySelector('[data-accordion-icon]');
+                        if (icon) icon.classList.add('rotate-180');
+                    }
+                });
+            });
+        });
+
         const EscortrightBtn = document.getElementById('arrowEscortScrollRight')
         const EscortleftBtn = document.getElementById('arrowEscortScrollLeft')
         const Escortcontainer = document.getElementById('NewEscortContainer')
