@@ -31,9 +31,9 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 }" x-init="fetchDropdownData()">
 
 
-    <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-[#E4F1F1]">
-        <h1 class="font-dm-serif text-green-gs mb-4 text-center text-3xl font-bold">
-            {{ __('escort-search.discover_escorts') }}
+    <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center bg-supaGirlRosePastel">
+        <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-3xl font-bold">
+        {{ __('escort-search.discover_escorts') }}
         </h1>
         @if ($showFiltreCanton)
             <x-escort-filters
