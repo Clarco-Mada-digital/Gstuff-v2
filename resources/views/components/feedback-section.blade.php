@@ -1,6 +1,6 @@
 <!-- resources/views/components/feedback-section.blade.php -->
 <div class="min-h-90 relative flex w-full items-center justify-center overflow-hidden py-10">
-    <div class="absolute right-0 top-0 z-0 h-full w-full bg-[#E4F1F1]"></div>
+    <div class="absolute right-0 top-0 z-0 h-full w-full bg-[#FFFAFC]"></div>
     <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden">
         @foreach ($listcommentApprouved as $index => $item)
             <div
@@ -17,9 +17,9 @@
                     <img class="h-12 w-12 rounded-full" src="{{ get_gravatar($item->user->email) }}" alt="Avatar" />
                     <div class="flex flex-col font-bold">
                         <span
-                            class="font-dm-serif text-base text-green-800 lg:text-2xl">{{ $item->user->pseudo ?? ($item->user->prenom ?? $item->user->nom_salon) }}</span>
+                            class="font-roboto-slab text-base text-green-gs lg:text-2xl">{{ $item->user->pseudo ?? ($item->user->prenom ?? $item->user->nom_salon) }}</span>
                         <span
-                            class="text-center text-sm lg:text-base xl:text-start">
+                            class="text-center text-sm font-roboto-slab text-textColorParagraph lg:text-base xl:text-start">
                             @if ($item->user->profile_type == 'escorte')
                                 {{ __('profile.escort') }}
                             @elseif ($item->user->profile_type == 'salon')
@@ -34,11 +34,11 @@
         @endforeach
     </div>
     <button onclick="prev()"
-        class="absolute left-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow xl:left-10">
+        class="absolute left-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-green-gs shadow xl:left-10 text-white">
         ←
     </button>
     <button onclick="next()"
-        class="absolute right-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow xl:right-10">
+        class="absolute right-1 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-green-gs shadow xl:right-10 text-white">
         →
     </button>
 </div>
