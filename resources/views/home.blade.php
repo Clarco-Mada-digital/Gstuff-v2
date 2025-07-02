@@ -373,16 +373,6 @@
                 <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl font-roboto-slab">{{ __('home.glossary_articles') }}
                 </h3>
                 <div class="z-10 my-2 w-auto">
-                     <a href="{{ url('glossaires') }}"
-                    
-                    type="button"
-                        class="btn-complementaryColorViolet bg-complementaryColorViolet font-roboto-slab flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-sm font-bold text-black focus:outline-none focus:ring-4 focus:ring-blue-300 lg:text-base ">{{ __('home.see_more_articles') }}
-                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z" />
-                        </svg>
-                    </a>
-
                     <x-btn href="{{ url('glossaires') }}" text="{{ __('home.see_more_articles') }}" />
                 </div>
             </div>

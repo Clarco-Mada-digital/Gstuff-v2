@@ -18,6 +18,8 @@
      --color-supaGirlRose: #FDA5D6; /* Rose vif */
      --color-supaGirlRosePastel: #FED5E9;    /* Rose pâle */
      --color-fieldBg: #FFF8FB;     /* Fond blanc rosé */
+     --color-bgFooter: #454E63;     /* Fond footer */
+     --color-bgCopyRight: #FFFAFC;     /* Fond footer */
 }
 
 @layer components {

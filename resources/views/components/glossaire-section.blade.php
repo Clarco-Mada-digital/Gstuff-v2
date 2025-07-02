@@ -12,17 +12,17 @@
                     <div
                         class="bg-green-gs h-full transform overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                         <div class="flex h-full flex-col p-6">
-                            <h4 class="font-dm-serif mb-3 line-clamp-2 text-xl font-bold text-white sm:text-2xl">
+                            <h4 class="font-roboto-slab mb-3 line-clamp-2 text-xl font-bold text-white sm:text-2xl">
                                 {{ $item->title }}
                             </h4>
-                            <p class="mb-4 line-clamp-3 flex-1 text-sm text-gray-200 sm:text-base">
+                            <p class="font-dm mb-4 line-clamp-3 flex-1 text-sm text-gray-200 sm:text-base">
                                 {!! strip_tags(Str::limit($item->excerpt, 120, '...')) !!}
                             </p>
                             <div class="mt-auto flex items-center justify-between border-t border-gray-200 pt-3">
-                                <span class="text-sm font-medium text-amber-300">
+                                <span class="font-dm text-sm font-medium text-supaGirlRosePastel">
                                     {{ __('home.read_more') }}
                                 </span>
-                                <svg class="h-5 w-5 transform text-amber-300 transition-transform group-hover:translate-x-1"
+                                <svg class="h-5 w-5 transform text-supaGirlRosePastel transition-transform group-hover:translate-x-1"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
@@ -37,7 +37,7 @@
 
         <!-- Bouton Précédent -->
         <button id="arrowScrollRight"
-            class="absolute -left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-green-700 shadow-lg transition-all duration-200 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            class="absolute -left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-green-gs shadow-lg transition-all duration-200 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-gs/65 focus:ring-offset-2"
             data-carousel-prev aria-label="{{ __('Précédent') }}">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -46,7 +46,7 @@
 
         <!-- Bouton Suivant -->
         <button id="arrowScrollLeft"
-            class="absolute -right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-green-700 shadow-lg transition-all duration-200 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            class="absolute -right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-green-gs shadow-lg transition-all duration-200 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-gs/65 focus:ring-offset-2"
             data-carousel-next aria-label="{{ __('Suivant') }}">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
