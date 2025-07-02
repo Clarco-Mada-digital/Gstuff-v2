@@ -24,7 +24,7 @@
         class="relative z-30 border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-900">
         <div x-data="{ 'showUserDrop': false }" class="container mx-auto flex items-center gap-3 p-4 lg:justify-between">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <img class="w-32 h-[3.875rem] lg:w-44" src="{{ asset('images/logoSupaG.png') }}" alt="Gstuff Logo" />
+                <img class="w-16 h-12 lg:w-44" src="{{ asset('images/logoSupaG.png') }}" alt="Gstuff Logo" />
             </a>
 
 
@@ -49,12 +49,11 @@
                     'absolute left-0 right-0 top-full bg-white dark:bg-gray-900 shadow-lg xl:relative xl:shadow-none': true
                 }">
                 <ul
-                    class="mt-4 flex flex-col font-roboto-slab  rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
+                    class="font-roboto-slab mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
                     <li>
-                    <a href="{{ route('escortes') }}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
+                        <a href="{{ route('escortes') }}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
                             data-dropdown-trigger="hover" data-dropdown-offset-distance="25"
-                            class="flex items-center rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent hover:text-complementaryColorViolet xl:hover:text-complementaryColorViolet transition-colors duration-200"
-                            aria-current="page">
+                            class="font-roboto-slab  flex items-center rounded-sm px-3 py-2 text-roboto-slab text-gray-900 hover:text-green-gs hover:bg-gray-100 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs ria-current="page">
                             {{ __('header.escorts') }}
                             <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
@@ -64,29 +63,34 @@
                         </a>
                     </li>
                     <li>
-                        <x-nav-link href="{{ route('salons') }}">
+                        <a href="{{ route('salons') }}"
+                            class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
                             {{ __('header.salons') }}
-                        </x-nav-link>
+                        </a>
                     </li>
                     <li>
-                        <x-nav-link href="{{ url('about') }}">
-                            {{ __('header.about') }}
-                        </x-nav-link>
+                        <a href="{{ url('about') }}"
+                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                        {{ __('header.about') }}
+                        </a>
                     </li>
                     <li>
-                        <x-nav-link href="{{ url('glossaires') }}">
-                            {{ __('header.glossary') }}
-                        </x-nav-link>
+                        <a href="{{ url('glossaires') }}"
+                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                        {{ __('header.glossary') }}
+                        </a>
                     </li>
                     <li>
-                        <x-nav-link href="{{ route('contact') }}">
-                            {{ __('header.contact') }}
-                        </x-nav-link>
+                        <a href="{{ route('contact') }}"
+                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                        {{ __('header.contact') }}
+                        </a>
                     </li>
                     <li>
-                        <x-nav-link href="{{ route('gallery.show') }}">
-                            {{ __('header.galleries') }}
-                        </x-nav-link>
+                        <a href="{{ route('gallery.show') }}"
+                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-gray-100 xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                        {{ __('header.galleries') }}
+                        </a>
                     </li>
                 </ul>
 
@@ -123,14 +127,15 @@
                 </a>
             </div>
 
+
             @guest
                 {{-- Btn de connexion --}}
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
-                    class="btn-complementaryColorViolet bg-complementaryColorViolet hidden rounded-lg px-4 py-2 text-center text-sm font-bold text-white focus:outline-none lg:order-1 xl:block">
+                    class="cursor-pointer btn-complementaryColorViolet bg-complementaryColorViolet hidden rounded-lg px-4 py-2 text-center text-sm font-bold text-white focus:outline-none lg:order-1 xl:block">
                     {{ __('header.login_register') }}
                 </button>
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
-                    class="inline-flex items-center rounded-full p-2 text-center text-sm font-medium text-complementaryColorViolet hover:bg-complementaryColorViolet  focus:outline-none xl:order-1 xl:hidden">
+                    class="cursor-pointer inline-flex items-center rounded-full p-2 text-center text-sm font-medium text-complementaryColorViolet hover:bg-complementaryColorViolet  focus:outline-none xl:order-1 xl:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M15 14c-2.67 0-8 1.33-8 4v2h16v-2c0-2.67-5.33-4-8-4m-9-4V7H4v3H1v2h3v3h2v-3h3v-2m6 2a4 4 0 0 0 4-4a4 4 0 0 0-4-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4" />
@@ -138,6 +143,7 @@
                     <span class="sr-only">Icon description</span>
                 </button>
             @endguest
+
 
             @auth
                 {{-- Notification icon and user presentation --}}

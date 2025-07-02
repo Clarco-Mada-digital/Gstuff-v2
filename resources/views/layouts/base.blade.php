@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ url('logo-icon.webp') }}" type="image/x-icon">
 
-    <title>SupaGirl - @yield('pageTitle')</title>
+    <title>Supagirl - @yield('pageTitle')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -129,52 +129,31 @@
     <div id="loader" class="absolute left-0 top-0 z-50 h-full w-full bg-white">
         <div
             class="fixed left-[50%] top-[50%] flex h-screen w-full -translate-x-[50%] -translate-y-[50%] items-center justify-center gap-4 text-5xl xl:text-6xl">
-            <span class="font-dm-serif text-complementaryColorViolet lettre">G</span>
-            <span class="font-dm-serif text-textColorParagraph lettre">S</span>
-            <span class="font-dm-serif text-textColorParagraph lettre">T</span>
-            <span class="font-dm-serif text-textColorParagraph lettre">U</span>
-            <span class="font-dm-serif text-textColorParagraph lettre">F</span>
-            <span class="font-dm-serif text-textColorParagraph lettre">F</span>
+            <span class="font-roboto-slab text-green-gs lettre">S</span>
+            <span class="font-roboto-slab lettre text-[#484848]">U</span>
+            <span class="font-roboto-slab lettre text-[#484848]">P</span>
+            <span class="font-roboto-slab lettre text-[#484848]">A</span>
+            <span class="font-roboto-slab lettre text-[#484848]">G</span>
+            <span class="font-roboto-slab lettre text-[#484848]">I</span>
+            <span class="font-roboto-slab lettre text-[#484848]">R</span>
+            <span class="font-roboto-slab lettre text-[#484848]">L</span>
         </div>
     </div>
 
     <!-- Vérification d'âge -->
-    <div id="age-verification" class="fixed inset-0 z-[9999] bg-textColor flex items-center justify-center opacity-0 transition-opacity duration-500">
+    <div id="age-verification" class="fixed inset-0 z-[9999] bg-textColor bg-opacity-90 flex items-center justify-center hidden">
         <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
-            <h2 class="text-roboto-slab text-2xl font-bold mb-6 text-textColor">Avez-vous plus de 18 ans ?</h2>
+            <h2 class="font-roboto-slab text-2xl font-bold mb-6 text-textColor">Avez-vous plus de 18 ans ?</h2>
             <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
-                <button id="confirm-age" class="btn-supagirlRose bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet font-bold py-2 px-6 rounded-sm transform transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-opacity-50">
+                <button id="confirm-age" class="font-roboto-slab bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet hover:text-white font-bold py-2 px-6 rounded">
                     Oui
                 </button>
-                <button id="deny-age" class="btn-supagirlRosePastel bg-fieldBg hover:bg-supaGirlRosePastel/80 border border-complementaryColorViolet text-complementaryColorViolet font-bold py-2 px-6 rounded-sm transform transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-supaGirlRosePastel focus:ring-opacity-50">
+                <button id="deny-age" class="font-roboto-slab bg-white border border-green-gs hover:bg-green-gs text-complementaryColorViolet hover:text-white font-bold py-2 px-6 rounded">
                     Non
                 </button>
             </div>
         </div>  
     </div>
-    
-    <!-- Conteneur principal masqué jusqu'à confirmation d'âge -->
-    <div id="main-content" style="display: none;">
-    
-   
-    
-    <style>
-    /* Animation de fade in up pour le texte */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .animate-fade-in-up {
-        animation: fadeInUp 0.5s ease-out forwards;
-    }
-    </style>
     
    
     <div x-data="{ imgModal: false, imgModalSrc: '', imgModalDesc: '' }">
@@ -473,53 +452,25 @@
         }">
         @livewire('chat')
     </div>
-    </div>
 
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-3"></div>
-
-
     <script>
-        // Vérification d'âge - s'exécute immédiatement
         document.addEventListener('DOMContentLoaded', function() {
+            // Vérifie si l'utilisateur a déjà confirmé son âge
             const hasConfirmedAge = localStorage.getItem('ageConfirmed');
             const ageVerification = document.getElementById('age-verification');
-            const mainContent = document.getElementById('main-content');
-            const loader = document.getElementById('loader');
             
-            // Afficher le contenu principal si l'âge est confirmé
-            function showMainContent() {
-                mainContent.style.display = 'block';
-                document.body.classList.remove('overflow-hidden');
-                if (loader) loader.style.display = 'none';
-            }
-            
-            // Si l'âge n'est pas confirmé, on affiche la vérification
             if (!hasConfirmedAge) {
-                // Afficher la vérification d'âge
-                ageVerification.style.opacity = '1';
-                document.body.classList.add('overflow-hidden');
-                
-                // Gestion du bouton "Oui"
-                document.getElementById('confirm-age').addEventListener('click', function() {
-                    localStorage.setItem('ageConfirmed', 'true');
-                    ageVerification.style.opacity = '0';
-                    ageVerification.style.pointerEvents = 'none';
-                    showMainContent();
-                });
-                
-                // Gestion du bouton "Non"
-                document.getElementById('deny-age').addEventListener('click', function() {
-                    window.location.href = 'https://www.youtube.com/watch?v=t0Q2otsqC4I';
+                // Affiche la modale après le chargement complet de la page
+                window.addEventListener('load', function() {
+                    document.getElementById('loader').classList.add('hidden');
+                    ageVerification.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
                 });
             } else {
-                // Si l'âge est déjà confirmé, on affiche directement le contenu
-                showMainContent();
-            }
-            
-            // Cacher le loader après le chargement
-            if (loader) {
+                // Cache le loader si l'âge est déjà confirmé
                 window.addEventListener('load', function() {
-                    loader.style.display = 'none';
+                    document.getElementById('loader').classList.add('hidden');
                 });
             }
 
