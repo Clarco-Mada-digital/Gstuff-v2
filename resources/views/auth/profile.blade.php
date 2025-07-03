@@ -10,8 +10,8 @@
 @section('content')
     <div x-data="{ couvertureForm: false }">
         <div class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
-            style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
-            <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
+            style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.png') }}) center center /cover;">
+            <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
                 class="absolute inset-0"></div>
             <div class="absolute bottom-2 right-4">
                 <button x-on:click.stop="couvertureForm = !couvertureForm"
