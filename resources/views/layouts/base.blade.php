@@ -243,12 +243,12 @@
 
                 <!-- Modal header -->
                 <div
-                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
+                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 ">
                     <h3 class="flex w-full items-center justify-center">
-                        <img class="w-[60%] sm:w-[25%] md:w-[20%]" src="{{ asset('images/logoSupa.png') }}" alt="Logo Gstuff" />
+                        <img class="w-[60%] sm:w-[25%] md:w-[20%]" src="{{ asset('images/logoSupa.png') }}" alt="Logo SupaGirl" />
                     </h3>
                     <button type="button"
-                        class="text-green-gs end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="text-green-gs end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-supaGirlRose hover:text-white"
                         data-modal-hide="authentication-modal">
                         <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -289,19 +289,24 @@
                             @csrf
                             <div>
                                 <label for="email"
-                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{{ __('login_form.email') }}
-                                    *</label>
+                                    class="mb-2 block text-sm font-roboto-slab  text-green-gs ">{{ __('login_form.email') }}
+                                    <span class="text-red-500">*</span></label>
                                 <input x-model="email" type="email" name="email" id="email"
-                                    class="@error('email') border-red-300 @enderror block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="@error('email') border-red-300 @enderror w-full
+                                    text-sm text-textColorParagraph rounded-lg border border-supaGirlRose border-2 ring-0 focus:border-supaGirlRose focus:ring-supaGirlRose"
                                     placeholder="name@company.com" required autocomplete="email" autofocus />
                             </div>
+
+
+
+
                             <div class="relative" x-data="{ 'pwdShow': true }">
                                 <label for="conex_pass"
-                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{{ __('login_form.password') }}
-                                    *</label>
+                                    class="mb-2 block text-sm font-roboto-slab text-green-gs">{{ __('login_form.password') }}
+                                    <span class="text-red-500">*</span></label>
                                 <input x-model="password" :type="pwdShow ? 'password' : 'text'" name="pass"
                                     id="conex_pass" placeholder="••••••••"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="@error('password') border-red-300 @enderror block w-full rounded-lg border border-supaGirlRose border-2 ring-0 focus:border-supaGirlRose focus:ring-supaGirlRose text-sm text-textColorParagraph"
                                     required />
                                 <div class="absolute bottom-3 right-0 flex items-center pr-3 text-sm leading-5">
                                     <svg class="h-4 text-gray-700" fill="none" @click="pwdShow = !pwdShow"
@@ -324,17 +329,21 @@
                                 <div class="flex items-start">
                                     <div class="flex h-5 items-center">
                                         <input x-model="remember" id="remember" type="checkbox" name="remember"
-                                            class="focus:ring-3 h-4 w-4 rounded-sm border border-gray-300 bg-gray-50 focus:ring-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-800 dark:focus:ring-amber-300 dark:focus:ring-offset-gray-800"
+                                            class="focus:ring-3 h-4 w-4 rounded-sm border border-gray-300 bg-gray-50 focus:ring-green-gs dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-800 dark:focus:ring-amber-300 dark:focus:ring-offset-gray-800"
                                             {{ old('remember') ? 'checked' : '' }} />
                                     </div>
                                     <label for="remember"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('login_form.remember_me') }}</label>
+                                        class="ms-2 text-sm font-roboto-slab text-textColorParagraph hover:text-green-gs ">{{ __('login_form.remember_me') }}</label>
                                 </div>
+
+            
                                 <a href="#" x-on:click="showloginForm = false"
-                                    class="text-green-gs dark:text-green-gs text-sm hover:text-amber-300 hover:underline">{{ __('login_form.forgot_password') }}</a>
+                                    class="text-green-gs dark:text-green-gs text-sm hover:text-green-gs hover:underline">{{ __('login_form.forgot_password') }}</a>
                             </div>
                             <button type="submit"
-                                class="bg-green-gs hover:text-green-gs dark:bg-green-gs dark:hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-amber-300 focus:outline-none">
+                                class="bg-green-gs font-roboto-slab border-2 border-green-gs hover:text-green-gs w-full rounded-lg px-5 py-2.5 text-center text-sm
+                                 font-medium text-white 
+                                hover:bg-fieldBg hover:text-green-gs hover:border hover:border-2 hover:border-green-gs focus:outline-none">
                                 <svg x-show="loadingRequest" aria-hidden="true"
                                     class="inline h-4 w-4 animate-spin fill-green-500 text-gray-200 dark:text-gray-600"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -348,18 +357,18 @@
                                 {{ __('login_form.login') }}
                             </button>
                             <div class="flex items-center justify-center">
-                                <div class="h-1 flex-1 bg-black"></div>
-                                <span class="font-dm-serif p-2 text-xl">{{ __('login_form.or') }}</span>
-                                <div class="h-1 flex-1 bg-black"></div>
+                                <div class="h-1 flex-1 bg-green-gs"></div>
+                                <span class="font-roboto-slab p-2 text-xl text-green-gs">{{ __('login_form.or') }}</span>
+                                <div class="h-1 flex-1 bg-green-gs"></div>
                             </div>
                             <div
                                 class="flex w-full flex-col items-center justify-center gap-2 py-5 text-sm transition-all lg:text-base">
                                 <a href="{{ route('registerForm') }}"
-                                    class="hover:text-green-gs w-full border border-amber-300 p-3 text-center hover:bg-amber-300">{{ __('login_form.register_free') }}</a>
+                                    class="hover:text-green-gs w-full border font-roboto-slab border-1 text-green-gs hover:text-white hover:bg-green-gs border-green-gs p-3 text-center hover:bg-green-gs hover:border-1 hover:border-green-gs">{{ __('login_form.register_free') }}</a>
                                 <a href="{{ route('escort_register') }}"
-                                    class="hover:text-green-gs w-full border border-amber-300 p-3 text-center hover:bg-amber-300">{{ __('login_form.register_escort') }}</a>
+                                    class="hover:text-green-gs w-full border font-roboto-slab border-1 text-green-gs hover:text-white hover:bg-green-gs border-green-gs p-3 text-center hover:bg-green-gs hover:border-1 hover:border-green-gs">{{ __('login_form.register_escort') }}</a>
                                 <a href="{{ route('salon_register') }}"
-                                    class="hover:text-green-gs w-full border border-amber-300 p-3 text-center hover:bg-amber-300">{{ __('login_form.register_professional') }}</a>
+                                    class="hover:text-green-gs w-full border font-roboto-slab border-1 text-green-gs hover:text-white hover:bg-green-gs border-green-gs p-3 text-center hover:bg-green-gs hover:border-1 hover:border-green-gs">{{ __('login_form.register_professional') }}</a>
                             </div>
                         </form>
 
@@ -370,10 +379,10 @@
                             @csrf
                             <div>
                                 <label for="res_email"
-                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{{ __('login_form.email') }}
-                                    *</label>
+                                    class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('login_form.email') }}
+                                    <span class="text-red-500">*</span></label>
                                 <input x-model="emailReset" type="email" name="res_email" id="res_email"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-textColorParagraph focus:border-green-gs focus:ring-green-gs"
                                     placeholder=" " required autofocus />
                             </div>
                             <a href="#" x-on:click="showloginForm = true"
@@ -393,8 +402,6 @@
                                 {{ __('login_form.reset_password') }}
                             </button>
                         </form>
-
-
                     </div>
                 @endguest
 
