@@ -3,10 +3,12 @@
 @section('pageTitle', __('contact.page_title'))
 
 @section('content')
-    <div class="py-50 relative w-full" style="background: url('images/girl_deco_image.jpg') center center /cover">
-        <div class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center bg-black/30">
-            <h2 class="font-dm-serif z-10 text-center text-3xl sm:text-4xl font-bold text-amber-400">{{ __('contact.contact_us') }}</h2>
-        </div>
+
+    <div class="relative flex h-[45vh] w-full items-center justify-center bg-cover bg-center"
+        style="background-image: url('../images/girl_deco_image.jpg')">
+        <div class="absolute inset-0 opacity-50 " style="background: linear-gradient(to right, var(--color-supaGirlRose), var(--color-green-gs));"></div>
+        <h1 class="relative z-10 font-roboto-slab px-4 text-center text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+            {{ __('contact.contact_us') }}</h1>
     </div>
 
     <div class="flex w-full items-center gap-5 py-5">
@@ -64,7 +66,7 @@
                             </svg>
                         </div>
                         <button id="showConseil" class="cursor-pointer">
-                            <h2 class="font-dm-serif text-green-gs text-center text-sm">{{ __('contact.need_info') }}</h2>
+                            <h2 class=" font-roboto-slab text-green-gs text-center text-sm">{{ __('contact.need_info') }}</h2>
                         </button>
                     </div>
                     <div id="comment" class="m-auto flex h-full w-[36%] flex-col items-center p-2">
@@ -176,7 +178,7 @@
                             </svg>
                             </div>
                         <button id="showConseil" class="cursor-pointer mx-4 ">
-                            <h2 class="font-dm-serif text-green-gs text-center text-sm sm:text-xl">{{ __('contact.need_info') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl">{{ __('contact.need_info') }}</h2>
                         </button>
                     </div>
                 @endif
@@ -185,15 +187,21 @@
             <div class="w-full px-4">
 
                 @if (auth()->user())
-                    <form id="commentaireForm" method="POST" class="flex hidden w-full flex-col gap-3"
+                    <form id="commentaireForm" method="POST" class="flex hidden w-full flex-col gap-3 font-roboto-slab"
                         action="{{ route('commentaires.store') }}">
                         @csrf
                         <div class="flex w-full flex-col gap-2">
                             <input type="hidden" name="lang" value="{{ session('locale', 'fr') }}">
-                            <label for="messageCommentaire">{{ __('contact.comment') }}</label>
+                            <label for="messageCommentaire" class="font-medium text-sm text-green-gs font-roboto-slab font-bold">{{ __('contact.comment') }}</label>
                             <textarea name="content" id="messageCommentaire" rows="10"
-                                class="rounded-lg border ring-0 focus:border-amber-400" placeholder="{{ __('contact.message_placeholder') }}"></textarea>
+                                class="font-roboto-slab text-textColorParagraph     rounded-lg border border-supaGirlRose border-2 ring-0 focus:border-supaGirlRose focus:ring-0 focus:ring-supaGirlRose" placeholder="{{ __('contact.message_placeholder') }}"></textarea>
                         </div>
+
+
+
+
+
+                        
                         <button type="submit"
                             class="bg-green-gs hover:bg-green-gs/70 w-full cursor-pointer rounded-lg p-3 text-center text-lg text-white">{{ __('contact.send') }}</button>
                     </form>
@@ -213,7 +221,7 @@
     <style>
         .myborder {
             background-color: rgba(247, 247, 247, 0.525);
-            border-bottom: 2px solid #056E5B;
+            border-bottom: 2px solid #7F55B1;
             /* Remplacez par la couleur de votre choix */
         }
     </style>

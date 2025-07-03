@@ -3,7 +3,7 @@
 @section('pageTitle', __('gallery.gallery'))
 
 @section('content')
-    <section class="relative mb-10 overflow-hidden rounded-xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 text-white shadow-xl">
+    <section class="relative mb-10 overflow-hidden rounded-xl bg-supaGirlRose text-white shadow-xl">
         <!-- Votre en-tête existant reste inchangé -->
         <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
             <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">{{ __('gallery.explore_share_feel') }}</h1>
@@ -22,13 +22,13 @@
 
     <div class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8" 
          x-data="galleryApp()">
-        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 md:flex-row">
+        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 md:flex-row font-roboto-slab">
             <!-- MENU LATERAL -->
             <aside class="space-y-2 md:w-1/5">
                 <!-- MOBILE TOGGLE -->
                 <div class="mb-4 md:hidden">
                     <button @click="openMenu = !openMenu"
-                        class="flex w-full items-center justify-between rounded-lg bg-gray-100 px-4 py-2 text-gray-800">
+                        class="flex w-full items-center justify-between rounded-lg bg-fieldBg px-4 py-2 text-green-gs">
                         <span>📁 {{ __('gallery.sections') }}</span>
                         <svg :class="{ 'rotate-180': openMenu }" class="h-4 w-4 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -130,7 +130,7 @@
                         document.body.style.overflow = 'auto';
                     }
                 })" x-transition x-cloak>
-                    <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-gray-800">📸 {{ __('gallery.user_stories') }}</h2>
+                    <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-green-gs">📸 {{ __('gallery.user_stories') }}</h2>
                     @if(count($usersWithStories) > 0)
                         <div class="flex space-x-6 overflow-x-auto pb-4 px-2">
                             @foreach ($usersWithStories as $user)
@@ -236,7 +236,7 @@
                 <!-- Galerie Publique -->
                 <section x-show="selectedTab === 'public'" x-transition>
                     <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-xl sm:text-3xl font-semibold text-gray-800">🌍 {{ __('gallery.public_gallery_title') }}</h2>
+                        <h2 class="text-xl sm:text-3xl font-semibold text-green-gs">🌍 {{ __('gallery.public_gallery_title') }}</h2>
                         
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
                             <!-- Filtre utilisateur amélioré -->
@@ -346,7 +346,7 @@
 
                 <!-- Galerie Privée -->
                 <section x-show="selectedTab === 'private'" x-transition>
-                    <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-gray-800">🔐 {{ __('gallery.private_gallery_title') }}</h2>
+                    <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-green-gs">🔐 {{ __('gallery.private_gallery_title') }}</h2>
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth

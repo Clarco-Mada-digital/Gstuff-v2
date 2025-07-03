@@ -245,7 +245,7 @@
                 <div
                     class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
                     <h3 class="flex w-full items-center justify-center">
-                        <img class="w-[60%] sm:w-[25%] md:w-[20%]" src="{{ asset('images/Logo_lg.png') }}" alt="Logo Gstuff" />
+                        <img class="w-[60%] sm:w-[25%] md:w-[20%]" src="{{ asset('images/logoSupa.png') }}" alt="Logo Gstuff" />
                     </h3>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
