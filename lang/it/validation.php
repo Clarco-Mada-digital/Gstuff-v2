@@ -8,7 +8,7 @@ return [
     'email' => [
         'required' => 'L\'indirizzo email è obbligatorio.',
         'email' => 'L\'indirizzo email deve essere un indirizzo valido.',
-        'unique' => 'Questo indirizzo email è già in uso.',
+        'only' => 'Questo indirizzo email è già in uso.',
     ],
     'password' => [
         'required' => 'La password è obbligatoria.',

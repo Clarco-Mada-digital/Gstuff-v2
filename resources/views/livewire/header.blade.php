@@ -24,7 +24,7 @@
         class="relative z-30 border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-900">
         <div x-data="{ 'showUserDrop': false }" class="container mx-auto flex items-center gap-3 p-4 lg:justify-between">
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <img class="w-16 h-12 lg:w-44" src="{{ asset('images/logoSupaG.png') }}" alt="Gstuff Logo" />
+                <img class="w-16 h-16 lg:w-44" src="{{ asset('images/image.png') }}" alt="Gstuff Logo" />
             </a>
 
 

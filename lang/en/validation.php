@@ -8,7 +8,7 @@ return [
     'email' => [
         'required' => 'The email address is required.',
         'email' => 'The email must be a valid email address.',
-        'unique' => 'The email has already been taken.',
+        'only' => 'The email has already been taken.',
     ],
     'password' => [
         'required' => 'The password is required.',

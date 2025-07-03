@@ -193,24 +193,18 @@
             {{ __('home.find_escorts') }}</h3>
         <div class="z-10 flex w-full flex-col items-center justify-center gap-2 px-4 py-6 md:flex-row">
 
-            <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.partners_count') }}</span>
-                <span
-                    class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.verified_profiles') }}</span>
-            </div>
-            <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.amateurs_count') }}</span>
-                <span
-                    class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.amateur_experiences') }}</span>
-            </div>
-            <div
-                class="flex w-full flex-col items-center justify-center gap-3 bg-complementaryColorViolet p-3 text-2xl font-bold text-white lg:h-[263px] lg:w-[367px] lg:text-4xl">
-                <span class="font-roboto-slab w-[70%] text-center">{{ __('home.professional_salons_count') }}</span>
-                <span
-                    class="mx-auto w-[75%] text-center text-sm font-normal lg:text-base">{{ __('home.professional_salons_offer') }}</span>
-            </div>
+            <x-stat-card 
+                :count="__('home.partners_count')" 
+                :description="__('home.verified_profiles')" 
+            />
+            <x-stat-card 
+                :count="__('home.amateurs_count')" 
+                :description="__('home.amateur_experiences')" 
+            />
+            <x-stat-card 
+                :count="__('home.professional_salons_count')" 
+                :description="__('home.professional_salons_offer')" 
+            />
 
         </div>
     </div>

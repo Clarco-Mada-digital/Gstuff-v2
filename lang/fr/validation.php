@@ -8,7 +8,7 @@ return [
     'email' => [
         'required' => 'L\'adresse email est requise.',
         'email' => 'L\'adresse email doit être une adresse valide.',
-        'unique' => 'Cette adresse email est déjà utilisée.',
+        'only' => 'Cette adresse email est déjà utilisée.',
     ],
     'password' => [
         'required' => 'Le mot de passe est requis.',

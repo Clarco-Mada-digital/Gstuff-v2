@@ -62,7 +62,7 @@ class AuthController extends Controller
             'profile_type.in' => __('validation.profile_type.in'),
             'email.required' => __('validation.email.required'),
             'email.email' => __('validation.email.email'),
-            'email.unique' => __('validation.email.unique'),
+            'email.only' => __('validation.email.only'),
             'password.required' => __('validation.password.required'),
             'password.confirmed' => __('validation.password.confirmed'),
             'password.min' => __('validation.password.min'),

@@ -8,7 +8,7 @@ return [
     'email' => [
         'required' => 'La dirección de correo electrónico es obligatoria.',
         'email' => 'La dirección de correo electrónico debe ser una dirección válida.',
-        'unique' => 'Esta dirección de correo electrónico ya está en uso.',
+        'only' => 'Esta dirección de correo electrónico ya está en uso.',
     ],
     'password' => [
         'required' => 'La contraseña es obligatoria.',
