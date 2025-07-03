@@ -9,7 +9,7 @@
 
 @section('content')
     <div x-data="{ couvertureForm: false }">
-        <div class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
+        <div class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden font-roboto-slab"
             style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.png') }}) center center /cover;">
             <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
                 class="absolute inset-0"></div>
@@ -23,7 +23,7 @@
                     </svg>
                 </button>
                 <div id="tooltip-cover-photo" role="tooltip"
-                    class="tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                    class="font-roboto-slab tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-supaGirlRosePastel px-2 py-1 text-xs font-medium text-textColor opacity-0 shadow-sm transition-opacity duration-300 ">
                     {{ __('profile.edit_cover_photo') }}
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
@@ -50,7 +50,7 @@
 
                         <!-- Modal Content -->
                         <div class="p-6">
-                            <h3 id="modal-title" class="font-dm-serif text-green-gs mb-6 text-center text-xl font-medium">
+                            <h3 id="modal-title" class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-medium">
                                 {{ __('profile.update_cover_photo') }}
                             </h3>
 
@@ -277,8 +277,8 @@
 
                     <div class='mt-6 flex w-full flex-col items-center'>
 
-                        <p class="mb-4 text-center text-xl font-bold text-gray-800">
-                            {{ $user->pseudo ?? ($user->prenom ?? $user->nom_salon) }}
+                        <p class="mb-4 text-center text-xl font-bold text-textColor font-roboto-slab">
+                            {{ $user->prenom ?? ($user->pseudo ?? $user->nom_salon) }}
                         </p>
                         <div class="text-green-gs flex w-full items-center justify-around gap-2">
 
@@ -291,7 +291,7 @@
                                         stroke-linejoin="round" />
                                 </svg>
                                 <span
-                                    class="text-gray-700">{{ $user->canton['nom'] ?? __('profile.not_specified') }}</span>
+                                    class="text-textColorParagraph font-roboto-slab">{{ $user->canton['nom'] ?? __('profile.not_specified') }}</span>
                             </div>
 
                             <a href="tel:{{ $user->telephone }}"
@@ -301,13 +301,13 @@
                                     <path fill="currentColor"
                                         d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21z" />
                                 </svg>
-                                <span class="text-gray-700">{{ $user->telephone ?? __('profile.not_specified') }}</span>
+                                <span class="text-textColorParagraph font-roboto-slab">{{ $user->telephone ?? __('profile.not_specified') }}</span>
                             </a>
 
                         </div>
 
                         @if ($user->profile_type == 'salon')
-                            <div class="mt-2 border-t border-gray-100 pt-4">
+                            <div class="mt-2 border-t border-supaGirlRosePastel pt-4">
                                 <div class="flex items-center gap-3 rounded-lg bg-green-50/30 p-2">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                                         <path fill="none" stroke="currentColor" stroke-linecap="round"
@@ -319,9 +319,9 @@
                                             stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
                                     </svg>
                                     <div>
-                                        <span class="font-medium text-green-800">{{ __('profile.recruitment') }} :</span>
+                                        <span class="font-medium text-textColor font-roboto-slab">{{ __('profile.recruitment') }} :</span>
                                         <span
-                                            class="ml-1 text-gray-700">{{ $user->recrutement ?? __('profile.not_specified') }}</span>
+                                            class="ml-1 text-textColorParagraph font-roboto-slab">{{ $user->recrutement ?? __('profile.not_specified') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -333,11 +333,11 @@
                 <hr class="h-2 w-full">
 
                 <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                    class="text-green-gs hover:bg-green-gs mx-2 my-2 w-[90%] cursor-pointer rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
+                    class="text-green-gs hover:bg-green-gs mx-2 my-2 w-[90%] cursor-pointer rounded-lg border border-supaGirlRose p-2 text-sm hover:text-white font-roboto-slab">
                     {{ __('profile.profile_improvement') }}
                 </button>
                 <a href="{{ route('profile.visibility.update') }}"
-                    class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer rounded-lg border border-gray-400 p-2 text-center text-sm hover:text-white">
+                    class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer rounded-lg border border-supaGirlRose p-2 text-center text-sm hover:text-white font-roboto-slab">
                     {{ __('profile.profile_visibility') }}
                 </a>
                 @if ($user->profile_type === 'escorte')
@@ -349,19 +349,19 @@
                 <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0">
                     <button x-on:click="pageSection='compte'"
                         :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.my_account') }}</button>
+                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.my_account') }}</button>
                     <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'"
                         :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.my_favorites') }}</button>
+                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.my_favorites') }}</button>
                     <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'"
                         :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.gallery') }}</button>
+                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.gallery') }}</button>
                     <button x-on:click="pageSection='discussion'"
                         :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs flex w-[90%] cursor-pointer items-center border-b border-gray-400 p-2 text-left font-bold hover:text-white">{{ __('profile.discussion') }}
+                        class="text-green-gs hover:bg-green-gs flex w-[90%] cursor-pointer items-center border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.discussion') }}
                         @if ($messageNoSeen > 0)
                             <span
-                                class="ms-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-200 text-xs font-semibold text-red-800">{{ $messageNoSeen }}</span>
+                                class="ms-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-200 text-xs font-semibold text-red-800 font-roboto-slab">{{ $messageNoSeen }}</span>
                         @endif
                     </button>
                     @if ($allrelation->isNotEmpty())
@@ -962,11 +962,11 @@
 
                         <div class="text-dm-serif w-full">
                             <!-- Titre (caché sur mobile, visible sur desktop) -->
-                            <span class="hidden font-bold md:inline">
+                            <span class="hidden font-bold md:inline font-roboto-slab">
                                 {{ __('profile.profile_completion') }} <span x-text="`${completionPercentage}%`"></span>
                             </span>
 
-                            <div class="my-1.5">
+                            <div class="my-1.5 font-roboto-slab">
                                 {{ __('profile.profile_completion_message') }}
                                 <a class="font-bold hover:underline" 
                                 href="{{ route('static.page', 'pdc') }}"
@@ -976,7 +976,7 @@
                             </div>
 
                             <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                                class="font-dm-serif text-green-gs hover:bg-green-gs mt-2 w-full rounded-lg border border-green-600 px-4 py-2 text-center font-bold transition-all hover:text-white md:w-auto md:px-2 md:py-1">
+                                class="font-roboto-slab text-green-gs hover:bg-green-gs mt-2 w-full rounded-lg border border-supaGirlRose px-4 py-2 text-center font-bold transition-all hover:text-white md:w-auto md:px-2 md:py-1">
                                 {{ __('profile.improve_profile') }}
                             </button>
                         </div>
@@ -994,51 +994,47 @@
                     <section x-show="pageSection=='compte'">
 
                         <div class="flex items-center justify-between py-5">
-                            <h2 class="font-dm-serif text-2xl font-bold">{{ __('profile.my_information') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.my_information') }}</h2>
                         </div>
                         <div class="grid grid-cols-2 items-center gap-10 md:grid-cols-4">
-                            <span class="flex items-center gap-2">
-                                <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
-                                </svg>
-                                {{ $user->prenom ?? ($user->nom_salon ?? ($user->pseudo ?? __('profile.undefined'))) }}
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16">
-                                    <path fill="currentColor" fill-rule="evenodd"
-                                        d="M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-9.75 2.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-1V7H7a.75.75 0 0 0 0 1.5h.25v2zM8 6a1 1 0 1 0 0-2a1 1 0 0 0 0 2"
-                                        clip-rule="evenodd" />
-                                </svg>
+                            <x-profile.info-item 
+                                :value="$user->prenom ?? ($user->nom_salon ?? ($user->pseudo ?? __('profile.undefined')))"
+                                icon-view-box="0 0 24 24"
+                                icon-path="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
+                            />
+
+                            <x-profile.info-item>
                                 {{ Carbon::parse($user->date_naissance)->age }} {{ __('profile.years_old') }}
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 256 256">
-                                    <path fill="currentColor"
-                                        d="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44" />
-                                </svg>
-                                {{ $user->genre ? $user->genre->getTranslation('name', app()->getLocale()) : __('profile.undefined')  }}
-                            </span>
-                            <span class="flex items-center gap-2">
-                                <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M4.35 20.7q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v8.425q-.875-1.275-2.187-1.975T16 10q-.5 0-1 .088t-1 .262v-3.5l-4-1.4v13.075zM20.6 22l-2.55-2.55q-.45.275-.962.413T16 20q-1.65 0-2.825-1.175T12 16t1.175-2.825T16 12t2.825 1.175T20 16q0 .575-.137 1.088t-.413.962L22 20.6zM16 18q.85 0 1.413-.5T18 16q.025-.85-.562-1.425T16 14t-1.425.575T14 16t.575 1.425T16 18" />
-                                </svg>
+                                <x-slot name="icon">
+                                    <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10s10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m.5-13H11v6l5.2 3.2l.8-1.3l-4.5-2.7V7z" />
+                                    </svg>
+                                </x-slot>
+                            </x-profile.info-item>
+
+                            <x-profile.info-item 
+                                :value="$user->genre ? $user->genre->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
+                                icon-view-box="0 0 256 256"
+                                icon-path="M208 20h-40a12 12 0 0 0 0 24h11l-15.64 15.67A68 68 0 1 0 108 178.92V192H88a12 12 0 0 0 0 24h20v16a12 12 0 0 0 24 0v-16h20a12 12 0 0 0 0-24h-20v-13.08a67.93 67.93 0 0 0 46.9-100.84L196 61v11a12 12 0 0 0 24 0V32a12 12 0 0 0-12-12m-88 136a44 44 0 1 1 44-44a44.05 44.05 0 0 1-44 44"
+                            />
+
+                            <x-profile.info-item>
                                 {{ $user->canton->nom ?? $user->cantonget->nom ?? __('profile.undefined') }} -
                                 {{ $user->ville->nom ?? $user->villeget->nom ?? __('profile.undefined') }}
-                            </span>
+                                <x-slot name="icon">
+                                    <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M4.35 20.7q-.5.2-.925-.112T3 19.75v-14q0-.325.188-.575T3.7 4.8L9 3l6 2.1l4.65-1.8q.5-.2.925.113T21 4.25v8.425q-.875-1.275-2.187-1.975T16 10q-.5 0-1 .088t-1 .262v-3.5l-4-1.4v13.075zM20.6 22l-2.55-2.55q-.45.275-.962.413T16 20q-1.65 0-2.825-1.175T12 16t1.175-2.825T16 12t2.825 1.175T20 16q0 .575-.137 1.088t-.413.962L22 20.6zM16 18q.85 0 1.413-.5T18 16q.025-.85-.562-1.425T16 14t-1.425.575T14 16t.575 1.425T16 18"/>
+                                    </svg>
+                                </x-slot>
+                            </x-profile.info-item>
                         </div>
 
                         <div class="flex items-center justify-center py-5 md:justify-start">
-                            <h2 class="font-dm-serif text-2xl font-bold">{{ __('profile.my_favorites') }}</h2>
+                            <h2 class="text-2xl font-bold font-roboto-slab text-green-gs">{{ __('profile.my_favorites') }}</h2>
                         </div>
                         <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2">
                             <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
-                                <h3 class="font-dm-serif text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
+                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
                                 @if ($escortFavorites != '[]')
                                     <div
                                         class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
@@ -1051,11 +1047,11 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <div>{{ __('profile.no_favorite_escorts') }}</div>
+                                    <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_escorts') }}</div>
                                 @endif
                             </div>
                             <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
-                                <h3 class="font-dm-serif text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
+                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
                                 @if ($salonFavorites != '[]')
                                     <div
                                         class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
@@ -1067,7 +1063,7 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <div>{{ __('profile.no_favorite_salons') }}</div>
+                                    <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_salons') }}</div>
                                 @endif
                             </div>
                         </div>
@@ -1081,12 +1077,12 @@
 
                     <section x-show="pageSection=='favoris'">
                         <div class="flex items-center gap-5 py-5">
-                            <h2 class="font-dm-serif text-2xl font-bold">{{ __('profile.my_favorites') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.my_favorites') }}</h2>
                             <div class="bg-green-gs h-1 w-full flex-1"></div>
                         </div>
                         <div class="grid w-full grid-cols-1">
                             <div class="relative flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                <h3 class="font-dm-serif text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
+                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
                                 @if ($escortFavorites != '[]')
                                     <div id="NewEscortContainer"
                                         class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-5"

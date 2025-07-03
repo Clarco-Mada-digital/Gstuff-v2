@@ -93,7 +93,7 @@
        <div class="flex items-center justify-center">
    
 
-        <h2 class="font-dm-serif text-center text-xl sm:text-2xl font-bold sm:text-left">{{ __('proximity.nearby_girls') }}</h2>
+        <h2 class="font-roboto-slab text-green-gs text-center text-xl sm:text-2xl font-bold sm:text-left">{{ __('proximity.nearby_girls') }}</h2>
        </div>
         
         @if($geo)
@@ -120,14 +120,14 @@
                  x-data="{ showPing: true }"
                  x-init="setTimeout(() => showPing = false, 3000)"
                  x-show="showPing"
-                 class="absolute inset-0 rounded-full bg-yellow-400 opacity-75"
+                 class="absolute inset-0 rounded-full bg-green-gs opacity-75"
                  :class="{ 'animate-ping-once': showPing }"
                  style="width: 3rem; height: 3rem; --tw-bg-opacity: 0.7;">
             </div>
             
             <button @click="toggleGeolocation"
-                    class="relative flex items-center justify-center w-12 h-12 transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50 rounded-full shadow-lg"
-                    :class="isActive ? 'bg-gradient-to-br from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500' : 'bg-gradient-to-br from-green-gs-300 to-green-gs-400 hover:from-green-gs-400 hover:to-green-gs-500'"
+                    class="relative flex items-center justify-center w-12 h-12 transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-green-gs focus:ring-opacity-50 rounded-full shadow-lg"
+                    :class="isActive ? 'bg-gradient-to-br from-supraGirlRosePastel/50 to-supraGirlRosePastel/100 hover:from-supraGirlRosePastel/150 hover:to-supraGirlRosePastel/200' : 'bg-gradient-to-br from-green-gs-300 to-green-gs-400 hover:from-green-gs-400 hover:to-green-gs-500'"
                     :title="isActive ? 'Localisation active' : 'Activer la localisation'"
                     x-tooltip.placement.top="isActive ? 'Désactiver la localisation' : 'Activer la localisation'">
                 
@@ -152,12 +152,12 @@
                 <!-- Animated checkmark when active -->
                 <div x-show="isActive" 
                      class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-3 h-3 bg-yellow-100 rounded-full animate-ping"></div>
+                    <div class="w-3 h-3 bg-green-gs rounded-full animate-ping"></div>
                 </div>
             </button>
             
             <!-- Tooltip text for better UX -->
-            <div x-show="!isActive" class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div x-show="!isActive" class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-supraGirlRose text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                 {{ __('proximity.activate_location') }}
             </div>
         </div>
@@ -165,15 +165,15 @@
     </div>
 
     @if($maxAvailableDistance > 0)
-    <div class="mb-6 px-4 py-3 h-[10vh] bg-white rounded-lg shadow-sm border border-gray-200" x-show="isActive">
+    <div class="mb-6 px-4 py-3 h-[10vh] bg-white rounded-lg shadow-sm border border-green-gs" x-show="isActive">
         <div class="flex items-center justify-between mb-2">
-            <label for="distance" class="block text-sm font-medium text-gray-700">{{ __('proximity.max_distance') }}</label>
+            <label for="distance" class="block text-sm font-medium text-textColorParagraph font-roboto-slab">{{ __('proximity.max_distance') }}</label>
             <div class="flex items-center">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mr-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-gs text-white font-roboto-slab mr-2">
                     <span x-text="$wire.selectedDistance.toFixed(1)"></span> km
                 </span>
                 <div wire:loading wire:target="selectedDistance" class="flex items-center">
-                    <svg class="h-4 w-4 animate-spin text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg class="h-4 w-4 animate-spin text-green-gs" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -189,13 +189,13 @@
                 step="0.01"
                 wire:model.live="selectedDistance"
                 wire:change="updateDistance(parseFloat($event.target.value))"
-                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-yellow-500"
+                class="w-full h-2 bg-textColorParagraph rounded-lg appearance-none cursor-pointer accent-green-gs-500"
             />
-            <div class="absolute left-0 right-0 -bottom-5 flex justify-between text-xs text-gray-500">
+            <div class="absolute left-0 right-0 -bottom-5 flex justify-between text-xs text-textColor font-roboto-slab">
                 <span>{{ number_format($minDistance, 1) }} km</span>
-                <span class="text-gray-400">|</span>
+                <span class="text-textColor">|</span>
                 <span class="font-medium">{{ __('proximity.distance_label') }}</span>
-                <span class="text-gray-400">|</span>
+                <span class="text-textColor">|</span>
                 <span>{{ number_format($maxAvailableDistance, 1) }} km</span>
             </div>
         </div>
@@ -222,7 +222,7 @@
             </div>
         @else
             <div class="flex items-center justify-center py-10">
-                <p class="text-lg text-gray-500">{{ __('proximity.no_results_found') }}</p>
+                <p class="text-lg text-textColorParagraph font-roboto-slab">{{ __('proximity.no_results_found') }}</p>
             </div>
         @endif
     </div>
