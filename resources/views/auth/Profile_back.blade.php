@@ -9,9 +9,9 @@
 
 @section('content')
     <div x-data="{ couvertureForm: false }">
-        <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
+        <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
             class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
-            style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
+            style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.png') }}) center center /cover;">
             <button x-on:click.stop="couvertureForm = !couvertureForm"
                 class="hover:text-green-gs absolute bottom-1 right-2 hidden items-end gap-2 rounded-md p-2 text-amber-300 shadow-xl md:flex"><svg
                     class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

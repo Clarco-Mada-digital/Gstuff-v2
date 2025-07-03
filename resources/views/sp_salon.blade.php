@@ -11,9 +11,9 @@
 
 @section('content')
     <div x-data="{}"
-        x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $salon->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.svg') }}', imgModalDesc: '' })"
+        x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $salon->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
         class="relative max-h-[30vh] min-h-[30vh] w-full overflow-hidden"
-        style="background: url({{ $salon->couverture_image ? asset('storage/couvertures/' . $salon->couverture_image) : asset('images/Logo_lg.svg') }}) center center /cover;">
+        style="background: url({{ $salon->couverture_image ? asset('storage/couvertures/' . $salon->couverture_image) : asset('images/Logo_lg.png') }}) center center /cover;">
     </div>
 
     <div class="container mx-auto flex flex-col justify-center xl:flex-row">

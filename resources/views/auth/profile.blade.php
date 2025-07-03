@@ -186,7 +186,7 @@
                                     <!-- Modal Content -->
                                     <div class="p-6">
                                         <h3 id="profile-modal-title"
-                                            class="font-dm-serif text-green-gs mb-6 text-center text-xl font-medium">
+                                            class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-medium">
                                             {{ __('profile.edit_profile_photo') }}
                                         </h3>
 
@@ -1118,7 +1118,7 @@
                                 @endif
                             </div>
                             <div class="flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                <h3 class="font-dm-serif text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
+                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
                                 @if ($salonFavorites != '[]')
                                     <div id="NewEscortContainer"
                                         class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-5"
@@ -1165,7 +1165,7 @@
                     {{-- Pour la vérification --}}
                     @if ($user->profile_verifie === 'verifier')
                         <div
-                            class="border-blue-gs text-blue-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-blue-gs font-roboto-slab text-blue-gs flex w-full items-center justify-between rounded-xl border p-5">
                             <p class="flex items-center">
                                 <i class="fas fa-check-circle text-blue-gs mr-2"></i>
                                 {{ __('profile.profile_verified') }}
@@ -1173,16 +1173,16 @@
                         </div>
                     @elseif($user->profile_verifie === 'non verifier')
                         <div
-                            class="border-green-gs text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
                             <p>{{ __('profile.profile_not_verified') }}</p>
                             <button data-modal-target="requestModal" data-modal-toggle="requestModal"
-                                class="btn-gs-gradient text-black">
+                                class="bg-green-gs font-roboto-slab text-white px-5 py-2 hover:bg-fieldBg hover:text-green-gs">
                                 {{ __('profile.send_request') }}
                             </button>
                         </div>
                     @elseif($user->profile_verifie === 'en cours')
                         <div
-                            class="border-green-gs text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
                             <p>{{ __('profile.profile_under_review') }}</p>
                         </div>
                     @endif
@@ -1290,9 +1290,10 @@
 
                         {{-- Storie --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('profile.stories') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.stories') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
-                            <button class="flex items-center gap-2 text-amber-400">
+                            <button 
+                            class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
                                 {{ __('profile.add') }}
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -1308,13 +1309,13 @@
 
                         {{-- Galerie --}}
                         <div class="flex w-full flex-wrap items-center gap-10">
-                            {{-- <span class="w-full text-center text-green-gs font-bold font-dm-serif">Aucun stories trovée !</span> --}}
+                            {{-- <span class="w-full text-center text-green-gs font-bold font-roboto-slab">Aucun stories trovée !</span> --}}
                             @livewire('gallery-manager', ['user' => $user], key($user->id))
                         </div>
 
                         {{-- A propos de moi --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('profile.about_me') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.about_me') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
@@ -1322,7 +1323,7 @@
                             
 
                                 <x-profile-info-item 
-                                    icon="age_icon.svg"
+                                    icon="age_icon.png"
                                     :alt="__('profile.age_icon')"
                                     :label="__('profile.age')"
                                     :value="Carbon::parse($user->date_naissance)->age"
@@ -1334,28 +1335,28 @@
                            
 
                                 <x-profile-info-item 
-                                    icon="origine_icon.svg"
+                                    icon="origine_icon.png"
                                     :alt="__('profile.origin_icon')"
                                     :label="__('profile.origin')"
                                     :value="$user->origine ?? __('profile.undefined')"
                                 />
                                
                                 <x-profile-info-item 
-                                    icon="yeux_icon.svg"
+                                    icon="yeux_icon.png"
                                     :alt="__('profile.eye_color_icon')"
                                     :label="__('profile.eye_color')"
                                     :value="$user->couleurYeux ? $user->couleurYeux->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
                                 />
                                 
                                 <x-profile-info-item 
-                                    icon="cheveux_icon.svg"
+                                    icon="cheveux_icon.png"
                                     :alt="__('profile.hair_color_icon')"
                                     :label="__('profile.hair_color')"
                                     :value="$user->couleurCheveux ? $user->couleurCheveux->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
                                 />
                                 
                                 <x-profile-info-item 
-                                    icon="tarif_icon.svg"
+                                    icon="tarif_icon.png"
                                     :alt="__('profile.rate_icon')"
                                     :label="__('profile.rate')"
                                     :value="$user->tarif ? $user->tarif : __('profile.contact_for_rates')"
@@ -1363,7 +1364,7 @@
                                 />
                                 
                                 <x-profile-info-item 
-                                    icon="taille_icon.svg"
+                                    icon="taille_icon.png"
                                     :alt="__('profile.height_icon')"
                                     :label="__('profile.height')"
                                     :value="$user->tailles ?? __('profile.undefined') . ' ' . __('profile.cm')"
@@ -1371,7 +1372,7 @@
                                 
                 
                                 <x-profile-info-item 
-                                    icon="poitrine_icon.svg"
+                                    icon="poitrine_icon.png"
                                     :alt="__('profile.bust_icon')"
                                     :label="__('profile.bust')"
                                     :value="$user->poitrine ? $user->poitrine->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
@@ -1380,7 +1381,7 @@
                               
 
                                 <x-profile-info-item 
-                                    icon="mobilite.svg"
+                                    icon="mobilite.png"
                                     :alt="__('profile.mobility_icon')"
                                     :label="__('profile.mobility')"
                                     :value="$user->mobilite ? $user->mobilite->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
@@ -1389,7 +1390,7 @@
                           
 
                                 <x-profile-info-item 
-                                    icon="mensuration.svg"
+                                    icon="mensuration.png"
                                     :alt="__('profile.measurements_icon')"
                                     :label="__('profile.measurements')"
                                     :value="$user->mensuration ? $user->mensuration->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
@@ -1397,7 +1398,7 @@
                                 
                            
                                 <x-profile-info-item 
-                                    icon="taill_poit.svg"
+                                    icon="taill_poit.png"
                                     :alt="__('profile.bust_size_icon')"
                                     :label="__('profile.bust_size')"
                                     :value="$user->taille_poitrine ?? __('profile.undefined')"
@@ -1415,25 +1416,25 @@
 
                         {{-- Description --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('profile.description') }}
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.description') }}
                             </h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
-                            <p class="text-justify">{{ $user->apropos ?? '-' }}</p>
+                            <p class="font-roboto-slab text-textColor text-justify text-sm">{{ $user->apropos ?? '-' }}</p>
                         </div>
 
                         {{-- Service --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                 {{ __('profile.services_offered') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
                         <div class="flex flex-col flex-wrap justify-center gap-5">
-                            <div class="font-dm-serif text-green-gs flex items-center gap-5 font-bold">
-                                {{ __('profile.categories') }}
+                            <div class="font-roboto-slab text-green-gs flex items-center gap-5 font-bold flex flex-wrap justify-between">
+                               <span> {{ __('profile.categories') }}</span>
                                 <button data-modal-target="editServiceModal" data-modal-toggle="editServiceModal"
-                                    class="flex items-center gap-2 text-amber-400">
+                                    class=" cursor-pointer flex items-center gap-2 text-green-gs bg-fieldBg hover:text-fieldBg hover:bg-green-gs px-2 py-1 text-sm rounded-sm">
                                     {{ __('profile.edit') }}
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path fill="currentColor"
@@ -1449,20 +1450,20 @@
                                 @if (count($categories) > 0)
                                     @foreach ($categories as $category)
                                         <span
-                                            class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">
+                                            class="border-supaGirlRose font-roboto-slab bg-fieldBg text-green-gs rounded-lg border px-3 py-1 hover:bg-green-gs hover:text-fieldBg">
                                             {{ $category->getTranslation('nom', app()->getLocale()) }}
                                         </span>
                                     @endforeach
                                 @else
-                                    <span class="text-gray-500">{{ __('profile.no_categories') }}</span>
+                                    <span class="text-textColorParagraph font-roboto-slab">{{ __('profile.no_categories') }}</span>
                                 @endif
                             </div>
 
-                            <div class="font-dm-serif text-green-gs flex items-center gap-5 font-bold">
-                                {{ __('profile.services_provided') }}
+                            <div class="font-roboto-slab text-green-gs flex items-center gap-5 font-bold flex flex-wrap justify-between">
+                              <span>  {{ __('profile.services_provided') }}</span>
                                 <button data-modal-target="editServiceModal" data-modal-toggle="editServiceModal"
-                                    class="flex items-center gap-2 text-amber-400">
-                                    {{ __('profile.edit') }}
+                                class=" cursor-pointer flex items-center gap-2 text-green-gs bg-fieldBg hover:text-fieldBg hover:bg-green-gs px-2 py-1 text-sm rounded-sm">
+                                {{ __('profile.edit') }}
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path fill="currentColor"
                                             d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
@@ -1477,23 +1478,23 @@
 
                                 @forelse($services as $service)
                                     <span
-                                        class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
-                                        {{ $service->getTranslation('nom', $locale, 'fr') }}
+                                    class="border-supaGirlRose font-roboto-slab bg-fieldBg text-green-gs rounded-lg border px-3 py-1 hover:bg-green-gs hover:text-fieldBg">
+                                    {{ $service->getTranslation('nom', $locale, 'fr') }}
                                     </span>
                                 @empty
-                                    <span class="text-gray-500">{{ __('profile.no_services') }}</span>
+                                    <span class="text-textColorParagraph font-roboto-slab">{{ __('profile.no_services') }}</span>
                                 @endforelse
                             </div>
                         </div>
 
                         {{-- Salon associé --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                 {{ __('profile.associated_salon') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                             <button data-modal-target="sendInvitationSalon" data-modal-toggle="sendInvitationSalon"
-                                class="flex cursor-pointer items-center gap-2 text-amber-400">
-                                {{ __('profile.invite_salon') }}
+                            class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
+                            {{ __('profile.invite_salon') }}
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
@@ -1521,7 +1522,7 @@
                                 @endforeach
                             @else
                                 <span
-                                    class="text-green-gs font-dm-serif w-full text-center font-bold">{{ __('profile.no_associated_salon') }}</span>
+                                    class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('profile.no_associated_salon') }}</span>
                             @endif
                         </div>
                         <!-- Modale pour l'invitation escort -->
@@ -1556,7 +1557,7 @@
 
                         {{-- Description --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('profile.description') }}
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.description') }}
                             </h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
@@ -1566,7 +1567,7 @@
 
                         {{-- A propos de moi --}}
                         <div class="flex items-center justify-between gap-5 py-5">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('profile.about_me') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.about_me') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
@@ -1629,7 +1630,7 @@
 
                         {{-- Escort associé --}}
                         <div class="hidden flex-col items-center justify-between gap-5 py-5 xl:flex xl:flex-row">
-                            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                 {{ __('profile.escort_of_salon') }}</h2>
                             <div class="bg-green-gs hidden h-0.5 flex-1 xl:block"></div>
                         </div>
@@ -1639,7 +1640,7 @@
                         <div class="mb-4 mt-10 flex w-full flex-wrap justify-around gap-4 px-4 xl:mt-0">
                             <!-- Colonne 1 -->
                             <div class="mb-4 w-full md:w-[48%]">
-                                <h2 class="font-dm-serif text-green-gs mb-2 text-center text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs mb-2 text-center text-2xl font-bold">
                                     {{ __('profile.created_escorts') }}</h2>
 
                                 @if ($escorteCreateBySalons->isNotEmpty())
@@ -1663,7 +1664,7 @@
                                             @else
                                                 <div class="flex h-full items-center justify-center">
                                                     <span
-                                                        class="text-green-gs font-dm-serif text-center text-sm font-bold xl:text-base">{{ __('profile.no_created_escorts') }}</span>
+                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold xl:text-base">{{ __('profile.no_created_escorts') }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -1715,7 +1716,7 @@
 
                             <!-- Colonne 2 -->
                             <div class="w-full md:w-[48%]">
-                                <h2 class="font-dm-serif text-green-gs mb-2 text-center text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs mb-2 text-center text-2xl font-bold">
                                     {{ __('profile.invited_escorts') }}</h2>
 
                                 @if ($acceptedInvitations->isNotEmpty())
@@ -1748,7 +1749,7 @@
                                             @else
                                                 <div class="flex h-full items-center justify-center">
                                                     <span
-                                                        class="text-green-gs font-dm-serif text-center text-sm font-bold xl:text-base">{{ __('profile.no_associated_escorts') }}</span>
+                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold xl:text-base">{{ __('profile.no_associated_escorts') }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -1842,7 +1843,7 @@
                 {{-- Section discussion --}}
                 <section x-show="pageSection=='discussion'">
                     <div class="flex items-center justify-between py-5">
-                        <h2 class="font-dm-serif my-5 mr-4 text-2xl font-bold">{{ __('profile.discussions') }}</h2>
+                        <h2 class="font-roboto-slab text-green-gs my-5 mr-4 text-2xl font-bold">{{ __('profile.discussions') }}</h2>
                         <div class="bg-green-gs mx-auto h-1 w-[90%]"></div>
                     </div>
                     <div class="container">

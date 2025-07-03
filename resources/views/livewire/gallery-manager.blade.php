@@ -2,7 +2,7 @@
     @keydown.right="if(fullscreen) navigateMedia(1)">
     <!-- Header -->
     <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-        <h2 class="font-dm-serif text-2xl font-bold">{{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
+        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                 {{ __('gallery_manage.private') }}
             @endif
         </h2>
@@ -10,19 +10,19 @@
         <div class="flex space-x-3">
             <!-- Boutons de vue -->
             <button @click="viewMode = 'grid'"
-                :class="{ 'text-blue-600 bg-blue-50': viewMode === 'grid', 'text-gray-500': viewMode !== 'grid' }"
+                :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs bg-green-gs/50': viewMode !== 'grid' }"
                 class="rounded-lg p-2 transition-colors hover:bg-gray-100">
                 <i class="fas fa-th-large"></i>
             </button>
             <button @click="viewMode = 'list'"
-                :class="{ 'text-blue-600 bg-blue-50': viewMode === 'list', 'text-gray-500': viewMode !== 'list' }"
+                :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'list', 'text-green-gs bg-green-gs/50': viewMode !== 'list' }"
                 class="rounded-lg p-2 transition-colors hover:bg-gray-100">
                 <i class="fas fa-list"></i>
             </button>
 
             <!-- Bouton ajout (seulement pour le propriétaire) -->
             @if (auth()->id() === $user->id && $isPublic)
-                <button @click="$wire.openModal()" class="btn-primary flex items-center">
+                <button @click="$wire.openModal()" class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
                     <i class="fas fa-plus mr-2"></i> {{ __('gallery_manage.add') }}
                 </button>
             @endif
@@ -31,7 +31,7 @@
 
     @if (!$isPublic && $user->id == auth()->user()->id)
         <span
-            class="text-green-gs font-dm-serif w-full text-center font-bold">{{ __('gallery_manage.video_limit_warning') }}</span>
+            class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('gallery_manage.video_limit_warning') }}</span>
     @endif
 
     <!-- Modal de confirmation de suppression -->
