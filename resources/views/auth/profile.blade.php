@@ -1444,15 +1444,21 @@
                             </div>
                             <div class="flex items-center gap-5">
                                 @php
+                                    $locale = session('locale', 'fr');
+
                                     $categories = $user->getCategoriesAttribute();
                                 @endphp
 
                                 @if (count($categories) > 0)
                                     @foreach ($categories as $category)
-                                        <span
-                                            class="border-supaGirlRose font-roboto-slab bg-fieldBg text-green-gs rounded-lg border px-3 py-1 hover:bg-green-gs hover:text-fieldBg">
-                                            {{ $category->getTranslation('nom', app()->getLocale()) }}
-                                        </span>
+                                        <x-service-badge 
+                                        :text="$category->getTranslation('nom', $locale, 'fr')"
+                                        color="green-gs"
+                                        hoverColor="fieldBg"
+                                        borderColor="supaGirlRose"
+                                        bgColor="fieldBg"
+                                        textHoverColor="fieldBg"
+                                    />
                                     @endforeach
                                 @else
                                     <span class="text-textColorParagraph font-roboto-slab">{{ __('profile.no_categories') }}</span>
@@ -1477,10 +1483,14 @@
                                 @endphp
 
                                 @forelse($services as $service)
-                                    <span
-                                    class="border-supaGirlRose font-roboto-slab bg-fieldBg text-green-gs rounded-lg border px-3 py-1 hover:bg-green-gs hover:text-fieldBg">
-                                    {{ $service->getTranslation('nom', $locale, 'fr') }}
-                                    </span>
+                                    <x-service-badge 
+                                        :text="$service->getTranslation('nom', $locale, 'fr')"
+                                        color="green-gs"
+                                        hoverColor="fieldBg"
+                                        borderColor="supaGirlRose"
+                                        bgColor="fieldBg"
+                                        textHoverColor="fieldBg"
+                                    />
                                 @empty
                                     <span class="text-textColorParagraph font-roboto-slab">{{ __('profile.no_services') }}</span>
                                 @endforelse
