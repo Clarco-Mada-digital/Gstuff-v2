@@ -18,7 +18,7 @@
                     class="hover:text-green-gs z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
                     data-tooltip-target="tooltip-cover-photo" data-tooltip-placement="top">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="currentColor"
+                        <path fill="#7F55B1"
                             d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
                     </svg>
                 </button>
@@ -308,21 +308,31 @@
 
                         @if ($user->profile_type == 'salon')
                             <div class="mt-2 border-t border-supaGirlRosePastel pt-4">
-                                <div class="flex items-center gap-3 rounded-lg bg-green-50/30 p-2">
+                                <div class="flex items-center gap-3 rounded-lg bg-fieldBg p-2">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        <path fill="none" stroke="#FDA5D6" stroke-linecap="round"
                                             stroke-linejoin="round"
                                             d="M24 43.5c9.043-3.117 15.488-10.363 16.5-19.589c.28-4.005.256-8.025-.072-12.027a2.54 2.54 0 0 0-2.467-2.366c-4.091-.126-8.846-.808-12.52-4.427a2.05 2.05 0 0 0-2.881 0c-3.675 3.619-8.43 4.301-12.52 4.427a2.54 2.54 0 0 0-2.468 2.366A79.4 79.4 0 0 0 7.5 23.911C8.51 33.137 14.957 40.383 24 43.5" />
                                         <circle cx="24" cy="20.206" r="4.299" fill="none"
-                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke="#FDA5D6" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path fill="none" stroke="#FDA5D6" stroke-linecap="round"
                                             stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
                                     </svg>
                                     <div>
-                                        <span class="font-medium text-textColor font-roboto-slab">{{ __('profile.recruitment') }} :</span>
-                                        <span
-                                            class="ml-1 text-textColorParagraph font-roboto-slab">{{ $user->recrutement ?? __('profile.not_specified') }}</span>
-                                    </div>
+                                        <span class="font-medium text-green-gs font-roboto-slab">{{ __('profile.recruitment') }} :</span>
+                                        
+                                         
+                                            @if ($user->recrutement == 'Ouvert')
+                                                <span
+                                            class="ml-1 text-supGirlRose font-roboto-slab">{{ __('salon_profile.open') }}</span>
+                                            @else
+                                                <span
+                                            class="ml-1 text-textColorParagraph font-roboto-slab">{{ __('salon_profile.closed')}}</span>
+                                            @endif
+                                       
+                                                            
+                                    
+                                        </div>
                                 </div>
                             </div>
                         @endif
@@ -330,7 +340,7 @@
                     </div>
                 </div>
                 
-                <hr class="h-2 w-full">
+                <hr class="h-2 w-full text-green-gs">
 
                 <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
                     class="text-green-gs hover:bg-green-gs mx-2 my-2 w-[90%] cursor-pointer rounded-lg border border-supaGirlRose p-2 text-sm hover:text-white font-roboto-slab">
@@ -1579,7 +1589,7 @@
                         <div class="flex flex-wrap items-center gap-10">
                             <div class="grid w-full grid-cols-1 gap-5 xl:grid-cols-3">
                                 <x-profile-info-item 
-                                    icon="origine_icon.svg"
+                                    icon="origine_icon.png"
                                     :alt="__('profile.age_icon')"
                                     :label="__('profile.category')"
                                     :value="$user->categorie['nom'][session('locale', 'fr')] ?? $user->categorie['nom']['fr'] ?? $user->categorie['nom'] ?? '-'"
@@ -1587,7 +1597,7 @@
                                 />
                               
                                 <x-profile-info-item 
-                                    icon="escort_icon.svg"
+                                    icon="escort_icon.png"
                                     :alt="__('profile.number_of_girls')"
                                     :label="__('profile.number_of_girls')"
                                     :value="$user->nombreFille ? $user->nombreFille->getTranslation('name', app()->getLocale()) : __('profile.undefined')"
@@ -1597,7 +1607,7 @@
 
 
                                 <x-profile-info-item 
-                                    icon="cart_icon.svg"
+                                    icon="cart_icon.png"
                                     :alt="__('profile.other_contact')"
                                     :label="__('profile.other_contact')"
                                     :value="$user->autre_contact ?? '-'"
@@ -1606,7 +1616,7 @@
 
 
                                 <x-profile-info-item 
-                                    icon="location.svg"
+                                    icon="locationByDistance.png"
                                     :alt="__('profile.address')"
                                     :label="__('profile.address')"
                                     :value="$user->adresse ?? '-'"
@@ -1616,7 +1626,7 @@
 
 
                                 <x-profile-info-item 
-                                    icon="tarif_icon.svg"
+                                    icon="tarif_icon.png"
                                     :alt="__('profile.rates_from')"
                                     :label="__('profile.rates_from')"
                                     :value="$user->tarif ?? __('profile.undefined')"
@@ -1646,7 +1656,7 @@
                         <div class="mb-4 mt-10 flex w-full flex-wrap justify-around gap-4 px-4 xl:mt-0">
                             <!-- Colonne 1 -->
                             <div class="mb-4 w-full md:w-[48%]">
-                                <h2 class="font-roboto-slab text-green-gs mb-2 text-center text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-supaGirlRose mb-2 text-center text-md font-bold">
                                     {{ __('profile.created_escorts') }}</h2>
 
                                 @if ($escorteCreateBySalons->isNotEmpty())
@@ -1670,7 +1680,7 @@
                                             @else
                                                 <div class="flex h-full items-center justify-center">
                                                     <span
-                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold xl:text-base">{{ __('profile.no_created_escorts') }}</span>
+                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold ">{{ __('profile.no_created_escorts') }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -1722,7 +1732,7 @@
 
                             <!-- Colonne 2 -->
                             <div class="w-full md:w-[48%]">
-                                <h2 class="font-roboto-slab text-green-gs mb-2 text-center text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-supaGirlRose mb-2 text-center text-md font-bold">
                                     {{ __('profile.invited_escorts') }}</h2>
 
                                 @if ($acceptedInvitations->isNotEmpty())
@@ -1755,7 +1765,7 @@
                                             @else
                                                 <div class="flex h-full items-center justify-center">
                                                     <span
-                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold xl:text-base">{{ __('profile.no_associated_escorts') }}</span>
+                                                        class="text-green-gs font-roboto-slab text-center text-sm font-bold ">{{ __('profile.no_associated_escorts') }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -1809,13 +1819,10 @@
                                 @endif
                             </div>
 
-                            <div class="mb-5 flex w-full items-center justify-between pt-10">
-                                <button data-modal-target="createEscorte" data-modal-toggle="createEscorte"
-                                    class="bg-green-gs cursor-pointer rounded-lg p-2 text-sm text-white hover:bg-green-800 xl:text-base">{{ __('profile.create_escort') }}</button>
-                                <button data-modal-target="sendInvitationEscort"
-                                    data-modal-toggle="sendInvitationEscort"
-                                    class="bg-green-gs cursor-pointer rounded-lg p-2 text-sm text-white hover:bg-green-800 xl:text-base">{{ __('profile.invite_escort') }}</button>
-                            </div>
+                            <x-profile.action-buttons 
+                                :createButtonText="__('profile.create_escort')"
+                                :inviteButtonText="__('profile.invite_escort')"
+                            />
                         </div>
 
 

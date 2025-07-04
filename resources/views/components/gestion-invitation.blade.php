@@ -2,25 +2,25 @@
 
 <div class="my-2 w-[90%]">
     <button data-modal-target="gestionInvitation" data-modal-toggle="gestionInvitation"
-        class="text-green-gs hover:bg-green-gs w-full cursor-pointer rounded-lg border border-gray-400 p-2 text-sm hover:text-white">Invitation</button>
+        class="text-green-gs hover:bg-green-gs w-full cursor-pointer rounded-lg border border-supaGirlRose p-2 text-sm font-roboto-slab hover:text-white">{{ __('invitations.title') }}</button>
 
     <div x-data="" x-init="" id="gestionInvitation" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
         <div class="max-h-[90vh] w-[90vw] overflow-y-auto rounded-lg bg-white p-6 shadow-lg xl:max-w-7xl">
             <div
-                class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 font-roboto-slab">
+                <h3 class="text-xl font-semibold text-gray-900 ">
                     {{ __('invitations.title') }}
                 </h3>
             </div>
 
-            <div class="text-center text-sm font-medium text-gray-500 dark:text-gray-400">
-                <ul class="flex flex-wrap border-b border-gray-200 dark:border-gray-700"
+            <div class="text-center text-sm font-medium text-gray-500 font-roboto-slab">
+                <ul class="flex flex-wrap border-b border-gray-200"
                     data-tabs-toggle="#tabs-content" role="tablist">
                   
                     <li class="me-2">
                         <a href="#" data-tabs-target="#enAttente"
-                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600"
                             aria-controls="enAttente" role="tab">
                             {{ __('invitations.tabs.pending') }}
                         </a>
@@ -39,7 +39,7 @@
               
 
                 <div id="enAttente" class="hidden p-4" role="tabpanel" aria-labelledby="profile-tab">
-                    @if ($user->profile_type === 'escorte')
+                      @if ($user->profile_type === 'escorte')
                         <div class="mx-auto flex items-center">
                             <label for="simple-search-pending-salon"
                                 class="sr-only">{{ __('invitations.search_placeholder') }}</label>
