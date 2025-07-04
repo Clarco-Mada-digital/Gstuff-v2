@@ -8,6 +8,7 @@ return [
     'send_message' => 'Nachricht senden',
     'no_phone' => 'Kein Telefon',
     'no_sms_contact' => 'Kein SMS-Kontakt',
+    'contact_via_sms' => 'Per SMS kontaktieren',
     'no_whatsapp_contact' => 'Kein WhatsApp-Kontakt',
     'no_email' => 'Keine E-Mail',
     'category' => 'Kategorie',

@@ -7,7 +7,7 @@
 
     <a 
         href="sms:{{ preg_replace('/[^0-9+]/', '', $phone) }}" 
-        class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white {{ $class }}"
+        class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white {{ $class }}"
     >
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path fill="currentColor"

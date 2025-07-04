@@ -64,18 +64,19 @@
                 :cantonName="$escort->canton['nom'] ?? null" 
                 :cityName="$escort->ville['nom'] ?? null"
             />
-            <hr class="h-2 w-full">
+            <hr class="h-2 w-full text-green-gs ">
+
 
             @auth
                 <button
-                    class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
+                    class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white">
                     <livewire:favorite-button :userId='$escort->id' wire:key='{{ $escort->id }}' />
                     {{ __('escort_profile.add_to_favorites') }}
                 </button>
             @endauth
             <button
                 @auth x-on:click="$dispatch('loadForSender', [{{ $escort->id }}])" @else data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" @endauth
-                class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
+                class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white">
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
@@ -292,16 +293,10 @@
 
                 {{-- Private Gallery --}}
                 @guest
-                    <div class="font-roboto-slab text-green-gs my-3 flex w-full flex-col items-center justify-center gap-5">
-                        <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M6 7.5a5.5 5.5 0 1 1 11 0a5.5 5.5 0 0 1-11 0M18 14c.69 0 1.25.56 1.25 1.25V16h-2.5v-.75c0-.69.56-1.25 1.25-1.25m3.25 2v-.75a3.25 3.25 0 0 0-6.5 0V16h-1.251v6.5h9V16zm-9.75 6H2v-2a6 6 0 0 1 6-6h3.5z" />
-                        </svg>
-                        <p class="text-center text-3xl font-extrabold">
-                            {{ __('escort_profile.connect_to_view_private_content') }}</p>
-                        <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
-                            class="font-roboto-slab bg-green-gs px-5 py-2 text-white rounded-lg font-bold">{{ __('escort_profile.connect_signup') }}</button>
-                    </div>
+                    <x-auth.login-required 
+                        :title="__('escort_profile.connect_to_view_private_content')"
+                        :buttonText="__('escort_profile.connect_signup')"
+                    />
                 @endguest
                 @auth
                     @livewire('gallery-manager', ['user' => $escort, 'isPublic' => false], key($escort->id))
