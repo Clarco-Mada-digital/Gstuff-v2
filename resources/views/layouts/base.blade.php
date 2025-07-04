@@ -524,6 +524,7 @@
         }
 
         function loginForm() {
+
             return {
                 email: '',
                 emailReset: '',
@@ -533,6 +534,9 @@
                 showloginForm: true,
                 loadingRequest: false,
                 status: true,
+                init() {
+            console.log("Initial state - showloginForm:", this.showloginForm);
+        },
                 async submitForm(reset = false) {
                     this.loadingRequest = true;
                     this.message = "";
