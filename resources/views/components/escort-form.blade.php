@@ -3,7 +3,7 @@
 <div class="mx-12 h-[90vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[85vw] xl:w-[80vw]">
     <div class="flex w-full flex-col items-center justify-center px-2 py-3">
         <div class="mb-3">
-            <h2 class="font-dm-serif text-center text-2xl font-bold">{{ __('profile.create_new_escort') }}</h2>
+            <h2 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('profile.create_new_escort') }}</h2>
         </div>
 
         <form id="createEscorteForm" class="mx-auto flex w-full flex-col">
