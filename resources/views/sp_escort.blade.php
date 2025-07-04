@@ -34,7 +34,7 @@
                 </span>
             </div>
             <div class="-mt-[25%] ml-3 flex flex-col items-center justify-center md:-mt-[10%] xl:-mt-[25%]">
-                <p class="flex items-center gap-2 font-bold">{{ Str::ucfirst($escort->prenom) }} @if ($escort->profile_verifie == 'verifier')
+                <p class="flex items-center gap-2 font-bold font-roboto-slab">{{ Str::ucfirst($escort->prenom) }} @if ($escort->profile_verifie == 'verifier')
                         <svg xmlns="http://www.w3.org/2000/svg" title="{{ __('escort_profile.verified_profile') }}"
                             class="h55 text-green-gs inline-block w-5" viewBox="0 0 24 24">
                             <path fill="currentColor"
@@ -45,11 +45,11 @@
                         </svg>
                     @endif
                 </p>
-                <p class="{{ $escort->isOnline() ? 'text-green-gs' : 'text-gray-500' }} text-sm">
+                <p class="{{ $escort->isOnline() ? 'text-green-gs' : 'text-gray-500' }} text-sm font-roboto-slab">
                     ({{ $escort->last_seen_for_humans }})
                 </p>
             </div>
-            <span class="font-dm-serif flex items-center gap-2 font-bold"><svg class="h-5 w-5"
+            <span class="font-roboto-slab flex items-center gap-2 font-bold"><svg class="h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18" />
@@ -58,7 +58,7 @@
                 $noPhoneText = __('escort_profile.no_phone');
             @endphp
 
-            <a href="tel:{{ $escort->telephone ?? '' }}" class="font-dm-serif flex items-center gap-2 font-bold">
+            <a href="tel:{{ $escort->telephone ?? '' }}" class="font-roboto-slab flex items-center gap-2 font-bold">
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M19.95 21q-3.125 0-6.187-1.35T8.2 15.8t-3.85-5.55T3 4.05V3h5.9l.925 5.025l-2.85 2.875q.55.975 1.225 1.85t1.45 1.625q.725.725 1.588 1.388T13.1 17l2.9-2.9l5 1.025V21zM16.5 11q-.425 0-.712-.288T15.5 10t.288-.712T16.5 9t.713.288t.287.712t-.288.713T16.5 11" />
@@ -66,7 +66,7 @@
                 {{ $escort->telephone ?? $noPhoneText }}
             </a>
 
-            <div class="text-green-gs flex items-center justify-center gap-2">
+            <div class="text-green-gs flex items-center justify-center gap-2 font-roboto-slab">
                 <a href="{{ route('escortes') }}?selectedCanton={{ $escort->canton->id ?? '' }}"
                     class="flex items-center gap-1"> <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 22 22" fill="none">
@@ -140,12 +140,19 @@
                 {{-- Category --}}
                 <div class="flex items-center gap-5 py-5">
 
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.category') }}</h2>
+                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.category') }}</h2>
                     <div class="flex items-center gap-5">
                         @foreach ($escort->getCategoriesAttribute() as $category)
-                            <span
-                                class="border-green-gs text-green-gs rounded-lg border px-2 hover:bg-amber-300">{{ $category->getTranslation('nom', app()->getLocale()) }}</span>
-                        @endforeach
+                            <x-service-badge 
+                                        :text="$category->getTranslation('nom', app()->getLocale())"
+                                        color="green-gs"
+                                        hoverColor="fieldBg"
+                                        borderColor="supaGirlRose"
+                                        bgColor="fieldBg"
+                                        textHoverColor="fieldBg"
+                                    />
+                       
+                                @endforeach
                     </div>
 
                 </div>
@@ -153,7 +160,7 @@
                 {{-- Stories --}}
                 <div class="flex items-center justify-between gap-5 py-5">
 
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.stories') }}</h2>
+                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.stories') }}</h2>
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                 </div>
@@ -167,14 +174,14 @@
                 {{-- About Me --}}
                 <div class="flex items-center justify-between gap-5 py-5">
 
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.about_me') }}</h2>
+                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.about_me') }}</h2>
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                 </div>
                 <div class="flex flex-wrap items-center gap-10">
                     <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                         <x-profile-info-item 
-                            icon="age_icon.svg"
+                            icon="age_icon.png"
                             :alt="__('escort_profile.age_icon')"
                             :label="__('escort_profile.age')"
                             :value="Carbon::parse($escort->date_naissance)->age"
@@ -183,7 +190,7 @@
 
 
                         <x-profile-info-item 
-                            icon="origine_icon.svg"
+                            icon="origine_icon.png"
                             :alt="__('escort_profile.origin_icon')"
                             :label="__('escort_profile.origin')"
                             :value="$escort->origine"
@@ -192,7 +199,7 @@
 
 
                         <x-profile-info-item 
-                            icon="yeux_icon.svg"
+                            icon="yeux_icon.png"
                             :alt="__('escort_profile.eye_color_icon')"
                             :label="__('escort_profile.eye_color')"
                             :value="$escort->couleurYeux"
@@ -201,7 +208,7 @@
                    
 
                         <x-profile-info-item 
-                            icon="cheveux_icon.svg"
+                            icon="cheveux_icon.png"
                             :alt="__('escort_profile.hair_color_icon')"
                             :label="__('escort_profile.hair_color')"
                             :value="$escort->couleurCheveux"
@@ -209,7 +216,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="tarif_icon.svg"
+                            icon="tarif_icon.png"
                             :alt="__('escort_profile.rate_icon')"
                             :label="__('escort_profile.rates_from')"
                             :value="$escort->tarif"
@@ -217,7 +224,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="taille_icon.svg"
+                            icon="taille_icon.png"
                             :alt="__('escort_profile.height_icon')"
                             :label="__('escort_profile.height')"
                             :value="$escort->tailles"
@@ -225,7 +232,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="poitrine_icon.svg"
+                            icon="poitrine_icon.png"
                             :alt="__('escort_profile.bust_icon')"
                             :label="__('escort_profile.bust')"
                             :value="$escort->poitrine"
@@ -233,7 +240,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="mobilite.svg"
+                            icon="mobilite.png"
                             :alt="__('escort_profile.mobility_icon')"
                             :label="__('escort_profile.mobility')"
                             :value="$escort->mobilite"
@@ -241,7 +248,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="mensuration.svg"
+                            icon="mensuration.png"
                             :alt="__('escort_profile.measurements_icon')"
                             :label="__('escort_profile.measurements')"
                             :value="$escort->mensuration"
@@ -249,7 +256,7 @@
                         />
 
                         <x-profile-info-item 
-                            icon="taill_poit.svg"
+                            icon="taill_poit.png"
                             :alt="__('escort_profile.bust_size_icon')"
                             :label="__('escort_profile.bust_size')"
                             :value="$escort->poitrine"
@@ -266,29 +273,29 @@
                 </div>
 
                 {{-- Description --}}
-                <div class="flex items-center justify-between gap-5 py-5">
-
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.description') }}</h2>
-                    <div class="bg-green-gs h-0.5 flex-1"></div>
-
-                </div>
-                <div class="flex flex-wrap items-center gap-10">
-                    <p class="text-justify">{{ $escort->apropos ?? '-' }}</p>
-                </div>
+                <x-profile.description 
+                    :title="__('escort_profile.description')"
+                    :content="$escort->apropos"
+                />
 
                 {{-- Services --}}
                 <div class="flex items-center justify-between gap-5 py-5">
 
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.services_offered') }}
+                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.services_offered') }}
                     </h2>
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     @foreach ($escort->services as $service)
-                        <span class="border-green-gs text-green-gs rounded-lg border px-2 py-1 text-sm hover:bg-amber-300">
-                            {{ $service->getTranslation('nom', app()->getLocale()) }}
-                        </span>
+                        <x-service-badge 
+                                        :text="$service->getTranslation('nom', app()->getLocale())"
+                                        color="green-gs"
+                                        hoverColor="fieldBg"
+                                        borderColor="supaGirlRose"
+                                        bgColor="fieldBg"
+                                        textHoverColor="fieldBg"
+                                    />
                     @endforeach
 
                 </div>
@@ -296,7 +303,7 @@
                 {{-- Associated Salon --}}
                 <div class="flex items-center justify-between gap-5 py-5">
 
-                    <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('escort_profile.associated_salon') }}
+                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.associated_salon') }}
                     </h2>
                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
@@ -313,14 +320,14 @@
                         @endforeach
                     @else
                         <span
-                            class="text-green-gs font-dm-serif w-full text-center font-bold">{{ __('escort_profile.no_associated_salon') }}</span>
+                            class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('escort_profile.no_associated_salon') }}</span>
                     @endif
 
                 </div>
 
                 {{-- Private Gallery --}}
                 @guest
-                    <div class="font-dm-serif text-green-gs my-3 flex w-full flex-col items-center justify-center gap-5">
+                    <div class="font-roboto-slab text-green-gs my-3 flex w-full flex-col items-center justify-center gap-5">
                         <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path fill="currentColor"
                                 d="M6 7.5a5.5 5.5 0 1 1 11 0a5.5 5.5 0 0 1-11 0M18 14c.69 0 1.25.56 1.25 1.25V16h-2.5v-.75c0-.69.56-1.25 1.25-1.25m3.25 2v-.75a3.25 3.25 0 0 0-6.5 0V16h-1.251v6.5h9V16zm-9.75 6H2v-2a6 6 0 0 1 6-6h3.5z" />
@@ -328,7 +335,7 @@
                         <p class="text-center text-3xl font-extrabold">
                             {{ __('escort_profile.connect_to_view_private_content') }}</p>
                         <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
-                            class="font-dm-serif btn-gs-gradient rounded-lg font-bold">{{ __('escort_profile.connect_signup') }}</button>
+                            class="font-roboto-slab bg-green-gs px-5 py-2 text-white rounded-lg font-bold">{{ __('escort_profile.connect_signup') }}</button>
                     </div>
                 @endguest
                 @auth

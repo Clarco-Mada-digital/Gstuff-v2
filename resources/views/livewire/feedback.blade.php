@@ -74,7 +74,7 @@
             }, 5000);
         }
     }"
-    class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-gray-200 p-1 sm:p-4 relative"
+    class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-fieldBg p-1 sm:p-4 relative"
 >
     <!-- Notifications flottantes -->
     <div 
@@ -134,27 +134,27 @@
             </button>
         </div>
     </div>
-    <div class="flex flex-col items-center justify-between gap-2 md:flex-row">
+    <div class="flex flex-col items-center justify-between gap-2 md:flex-row font-roboto-slab bg-fieldBg">
         <span
-            class="font-dm-serif text-green-gs text-center text-xl font-bold md:text-start">{{ __('feedback.recommendations_likes_rating') }}</span>
+            class="font-roboto-slab text-green-gs text-center text-xl font-bold md:text-start">{{ __('feedback.recommendations_likes_rating') }}</span>
         <span class="hidden items-center md:flex">
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
@@ -187,8 +187,8 @@
                         @for ($i = 1; $i <= 5; $i++)
                             <button type="button" class="text-xl">
                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                    fill="{{ $i <= $feedback->rating ? 'currentColor' : 'none' }}" stroke="currentColor"
-                                    class="h-5 w-5 text-yellow-500" viewBox="0 0 24 24">
+                                    fill="{{ $i <= $feedback->rating ? '#FDA5D6' : 'none' }}" stroke="#FDA5D6"
+                                    class="h-5 w-5 text-supaGirlRose" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
@@ -196,14 +196,14 @@
                         @endfor
                     </span>
                 </div>
-                <p>{{ $feedback->comment }}</p>
+                <p class="font-roboto-slab text-textColorParagraph text-sm">{{ $feedback->comment }}</p>
             </div>
         </div>
     @endforeach
     @auth
         <div class="flex flex-col justify-center gap-4 p-2 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 px-2 sm:px-0">{{ __('feedback.rating_given') }}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 px-2 sm:px-0">
+            <h2 class="text-xl font-bold text-green-gs mb-2 px-2 sm:px-0">{{ __('feedback.rating_given') }}</h2>
+            <p class="text-sm text-textColorParagraph mb-4 px-2 sm:px-0">
                 {{ __('feedback.rating_help') }}
             </p>
 
@@ -216,14 +216,14 @@
                         <button 
                             type="button" 
                             wire:click="$set('rating', {{ $i }})" 
-                            class="p-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50 rounded-full"
+                            class="p-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-opacity-50 rounded-full"
                             aria-label="{{ __('feedback.rate_star', ['rating' => $i]) }}"
                         >
                             <svg 
                                 xmlns="http://www.w3.org/2000/svg" 
                                 fill="{{ $i <= $rating ? 'currentColor' : 'none' }}"
-                                stroke="{{ $i <= $rating ? 'currentColor' : '#9CA3AF' }}" 
-                                class="h-8 w-8 {{ $i <= $rating ? 'text-yellow-500' : 'text-gray-300 dark:text-gray-600' }}" 
+                                stroke="{{ $i <= $rating ? 'currentColor' : '#FDA5D6' }}" 
+                                class="h-8 w-8 {{ $i <= $rating ? 'text-supaGirlRose' : 'text-gray-300' }}" 
                                 viewBox="0 0 24 24"
                             >
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="{{ $i <= $rating ? '0' : '2' }}" 
@@ -238,21 +238,21 @@
             <!-- Champ de commentaire -->
             <div class="w-full mb-4 transition-all duration-200 ease-in-out hover:shadow-lg p-2 rounded-sm ">
                 <div class="relative">
-                    <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="comment" class="block text-sm font-medium text-green-gs/80 mb-1 font-roboto-slab">
                         {{ __('feedback.your_comment') }}
                     </label>
                     <textarea 
                         wire:model.debounce.500ms="comment" 
                         id="comment" 
                         rows="4"
-                        class="w-full px-4 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 transition duration-200"
+                        class="w-full px-4 py-3 font-roboto-slab text-textColorParagraph bg-white border border-supaGirlRose rounded-lg focus:ring-2 focus:ring-supaGirlRose focus:border-supaGirlRose transition duration-200"
                         placeholder="{{ __('feedback.write_your_comment_placeholder') }}"
                         aria-describedby="comment-help"
                     ></textarea>
-                    <div id="comment-help" class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    <div id="comment-help" class="mt-1 text-xs text-textColorParagraph hidden sm:block font-roboto-slab">
                         {{ __('feedback.comment_help') }}
                     </div>
-                    <div class="absolute bottom-2 right-2 text-xs text-gray-400 hidden sm:block">
+                    <div class="absolute bottom-2 right-2 text-xs text-textColorParagraph hidden sm:block font-roboto-slab">
                         <span x-text="$wire.comment ? $wire.comment.length : 0"></span>/500
                     </div>
                 </div>
@@ -269,7 +269,7 @@
                     wire:loading.attr="disabled"
                     wire:loading.class="opacity-70 cursor-not-allowed"
                     type="button"
-                    class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 rounded-lg focus:ring-4 focus:ring-yellow-200 dark:focus:ring-yellow-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:from-yellow-400 disabled:to-yellow-500"
+                    class=" font-roboto-slab inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-green-gs to-green-gs hover:from-green-gs hover:to-green-gs rounded-lg focus:ring-4 focus:ring-green-gs focus:border-green-gs transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:from-green-gs disabled:to-green-gs"
                     @if($isDisabled) disabled @endif
                 >
                     <span wire:loading.remove wire:target="submit">
@@ -277,8 +277,8 @@
                     </span>
                     <span wire:loading wire:target="submit" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#FDA5D6" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="#FDA5D6" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                         {{ __('feedback.sending') }}...
                     </span>
