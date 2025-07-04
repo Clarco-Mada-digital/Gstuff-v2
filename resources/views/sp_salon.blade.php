@@ -127,9 +127,10 @@
                 <section>
 
                     <div class="min-w-3/4 py-5">
-                        <div class="text-green-gs font-dm-serif w-full text-right font-bold">
+                        <div class="text-green-gs font-roboto-slab w-full text-right font-bold">
                             <a
-                                href="{{ route('salons') . '?selectedSalonCategories=' . ($salon->categorie['id'] ?? '') }}">
+                                href="{{ route('salons') . '?selectedSalonCategories=' . ($salon->categorie['id'] ?? '') }}" 
+                                class="hover:text-green-gs">
 
                                 @php
                                     $locale = session('locale', 'fr');
@@ -140,7 +141,8 @@
                                 {{ Str::ucfirst($categoryName) }}
                             </a>
                             /
-                            <a href="{{ route('salons') . '?selectedSalonCanton=' . ($salon->canton['id'] ?? '') }}">
+                            <a href="{{ route('salons') . '?selectedSalonCanton=' . ($salon->canton['id'] ?? '') }}"
+                                class="hover:text-green-gs">
                                 {{ Str::ucfirst($salon->canton['nom'] ?? '') }}
                             </a>
                             /
@@ -157,7 +159,7 @@
                             {{-- A propos de moi --}}
                             <div class="flex items-center justify-between gap-5 py-5">
 
-                                <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                     {{ __('salon_profile.about_me') }}</h2>
                                 <div class="bg-green-gs h-0.5 flex-1"></div>
 
@@ -167,7 +169,7 @@
 
 
                                     <x-profile-info-item 
-                                        icon="escort_icon.svg"
+                                        icon="escort_icon.png"
                                         :alt="__('salon_profile.girls_icon')"
                                         :label="__('salon_profile.number_of_girls')"
                                         :value="$salon->nombre_filles"
@@ -175,7 +177,7 @@
                                     />
                                  
                                     <x-profile-info-item 
-                                        icon="tarif_icon.svg"
+                                        icon="tarif_icon.png"
                                         :alt="__('salon_profile.rate_icon')"
                                         :label="__('salon_profile.rates_from')"
                                         :value="$salon->tarif"
@@ -183,7 +185,7 @@
                                     />
 
                                     <x-profile-info-item 
-                                        icon="cart_icon.svg"
+                                        icon="cart_icon.png"
                                         :alt="__('salon_profile.other_contact_icon')"
                                         :label="__('salon_profile.other_contact')"
                                         :value="$salon->autre_contact"
@@ -198,21 +200,15 @@
                             </div>
 
                             {{-- Description --}}
-                            <div class="flex items-center justify-between gap-5 py-5">
-
-                                <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
-                                    {{ __('salon_profile.description') }}</h2>
-                                <div class="bg-green-gs h-0.5 flex-1"></div>
-
-                            </div>
-                            <div class="flex flex-wrap items-center gap-10">
-                                <p class="text-justify">{{ $salon->apropos ?? '-' }}</p>
-                            </div>
+                            <x-profile.description 
+                                :title="__('salon_profile.description')"
+                                :content="$salon->apropos"
+                            />
 
                             {{-- Escort associé --}}
                             <div class="flex items-center justify-between gap-5 py-5">
 
-                                <h2 class="font-dm-serif text-green-gs text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                     {{ __('salon_profile.our_professionals') }}</h2>
                                 <div class="bg-green-gs h-0.5 flex-1"></div>
 
