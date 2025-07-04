@@ -212,7 +212,7 @@
 
     <div class="w-full bg-white px-4 py-8 sm:px-6 lg:py-12">
         <div class="mx-auto max-w-4xl">
-            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-4xl lg:text-5xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-2xl lg:text-4xl ">
                 {{ __('home.become_escort_title') }}
             </h3>
             <p class="font-roboto-slab mt-2 text-center text-[#4A5565]">{{ __('home.become_escort_steps') }}</p>
@@ -230,7 +230,7 @@
                                 'icon' => asset('images/icons/icon_coeur.png'),
                                 'text' =>
                                     __('home.send_selfies') .
-                                    ' <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline">escrot-supagir@supagirl.ch</a>',
+                                    '<br> <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline">escrot-supagir@supagirl.ch</a>',
                             ],
                             [
                                 'icon' => asset('images/icons/icon_coeur.png'),
