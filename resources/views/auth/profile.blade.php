@@ -23,7 +23,7 @@
                     </svg>
                 </button>
                 <div id="tooltip-cover-photo" role="tooltip"
-                    class="font-roboto-slab tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-supaGirlRosePastel px-2 py-1 text-xs font-medium text-textColor opacity-0 shadow-sm transition-opacity duration-300 ">
+                    class="font-roboto-slab tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-supaGirlRosePastel px-2 py-1 text-xs font-roboto-slab text-textColor opacity-0 shadow-sm transition-opacity duration-300 ">
                     {{ __('profile.edit_cover_photo') }}
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
@@ -50,7 +50,7 @@
 
                         <!-- Modal Content -->
                         <div class="p-6">
-                            <h3 id="modal-title" class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-medium">
+                            <h3 id="modal-title" class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-roboto-slab">
                                 {{ __('profile.update_cover_photo') }}
                             </h3>
 
@@ -61,7 +61,7 @@
                                 <!-- Image Preview -->
                                 <div class="flex justify-center">
                                     <div
-                                        class="relative h-40 w-40 overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+                                        class="relative h-40 w-40 overflow-hidden rounded-lg border-2 border-dashed   border-gray-300 font-roboto-slab bg-gray-50">
                                         <template x-if="!imageUrl">
                                             <div class="flex h-full flex-col items-center justify-center p-4 text-center">
                                                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none"
@@ -83,14 +83,14 @@
                                 <!-- File Input -->
                                 <div class="mt-4">
                                     <label
-                                        class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                        class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed   border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
                                         <div class="flex items-center">
                                             <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24"
                                                 stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                             </svg>
-                                            <span class="ml-2 text-sm text-gray-700">
+                                            <span class="ml-2 text-sm text-green-gs">
                                                 <span
                                                     x-text="imageUrl ? '{{ __('profile.change_file') }}' : '{{ __('profile.select_file') }}'"></span>
                                                 <span
@@ -105,11 +105,11 @@
                                 <!-- Action Buttons -->
                                 <div class="mt-6 flex justify-end space-x-3">
                                     <button type="button" x-on:click="couvertureForm = false"
-                                        class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        class="rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                         {{ __('profile.cancel') }}
                                     </button>
                                     <button type="submit"
-                                        class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-roboto-slab text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                         <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -186,7 +186,7 @@
                                     <!-- Modal Content -->
                                     <div class="p-6">
                                         <h3 id="profile-modal-title"
-                                            class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-medium">
+                                            class="font-roboto-slab text-green-gs mb-6 text-center text-xl font-roboto-slab">
                                             {{ __('profile.edit_profile_photo') }}
                                         </h3>
 
@@ -197,7 +197,7 @@
                                             <!-- Image Preview -->
                                             <div class="flex justify-center">
                                                 <div
-                                                    class="relative h-40 w-40 overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50">
+                                                    class="relative h-40 w-40 overflow-hidden rounded-full border-2 border-dashed   border-gray-300 font-roboto-slab bg-gray-50">
                                                     <template x-if="!imageUrl">
                                                         <div
                                                             class="flex h-full flex-col items-center justify-center p-4 text-center">
@@ -221,7 +221,7 @@
                                             <!-- File Input -->
                                             <div class="mt-4">
                                                 <label
-                                                    class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                                    class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed   border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
                                                     <div class="flex items-center">
                                                         <svg class="h-6 w-6 text-amber-500" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -229,7 +229,7 @@
                                                                 stroke-width="2"
                                                                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                                         </svg>
-                                                        <span class="ml-2 text-sm text-gray-700">
+                                                        <span class="ml-2 text-sm text-green-gs">
                                                             <span
                                                                 x-text="imageUrl ? '{{ __('profile.change_file') }}' : '{{ __('profile.select_file') }}'"></span>
                                                             <span
@@ -244,11 +244,11 @@
                                             <!-- Action Buttons -->
                                             <div class="mt-6 flex justify-end space-x-3">
                                                 <button type="button" x-on:click="profileForm = false"
-                                                    class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    class="rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                                     {{ __('profile.cancel') }}
                                                 </button>
                                                 <button type="submit"
-                                                    class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-roboto-slab text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                                     <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -268,7 +268,7 @@
 
 
                             <div id="tooltip-profile-photo" role="tooltip"
-                                class="tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-gray-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                                class="tooltip invisible absolute z-10 inline-block whitespace-nowrap rounded-lg bg-green-gs px-2 py-1 text-xs font-roboto-slab text-white opacity-0 shadow-sm transition-opacity duration-300   ">
                                 {{ __('profile.edit_profile_photo') }}
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
@@ -319,7 +319,7 @@
                                             stroke-linejoin="round" d="M31.589 32.093a7.589 7.589 0 1 0-15.178 0" />
                                     </svg>
                                     <div>
-                                        <span class="font-medium text-green-gs font-roboto-slab">{{ __('profile.recruitment') }} :</span>
+                                        <span class="font-roboto-slab text-green-gs font-roboto-slab">{{ __('profile.recruitment') }} :</span>
                                         
                                          
                                             @if ($user->recrutement == 'Ouvert')
@@ -407,8 +407,8 @@
                         </template>
                     </div>
 
-                    <div class="w-full rounded-full bg-gray-200 dark:bg-gray-700">
-                        <div class="rounded-full bg-amber-600 p-0.5 text-center text-xs font-medium leading-none text-amber-100"
+                    <div class="w-full rounded-full bg-gray-200   ">
+                        <div class="rounded-full bg-amber-600 p-0.5 text-center text-xs font-roboto-slab leading-none text-amber-100"
                             :style="`width: ${completionPercentage}%`" x-text=`${completionPercentage}%`></div>
                     </div>
 
@@ -418,14 +418,13 @@
 
                         <!-- Étape 1: Informations personnelles -->
                         <div x-data="{ cantons: {{ $cantons }}, selectedCanton: {{ $user->canton?->id ?? 1 }}, villes: {{ $villes }}, availableVilles: {{ $villes }} }" x-show="currentStep === 0">
-                            <h2 class="mb-4 text-lg font-semibold">{{ __('profile.personal_information') }}</h2>
-                            <div class="mb-4">
+                            <div class="mb-4 mt-4">
                                 <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                                 @if ($user->profile_type !== 'salon')
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.genre') }}</label>
+                                <label class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.genre') }}</label>
                                 <div class="flex">
                                     <div id="states-button" data-dropdown-toggle="dropdown-states"
-                                        class="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-e-0 border-gray-300 bg-gray-50 px-4 py-2.5 text-center text-sm font-medium text-gray-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                        class="z-10 inline-flex shrink-0 items-center rounded-s-lg border border-e-0   border-gray-300 font-roboto-slab bg-gray-50 px-4 py-2.5 text-center text-sm font-roboto-slab text-gray-500 focus:outline-none        "
                                         type="button">
                                         <svg class="h-4 w-4 text-gray-500 dark:text-gray-400"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
@@ -435,7 +434,7 @@
                                     </div>
                                     
                                     <select name="genre_id" id="genre_id"
-                                        class="block w-full rounded-e-lg border border-s-0 border-gray-300 border-s-gray-100 bg-gray-50 p-2.5 ps-2 text-sm text-gray-900 dark:border-gray-600 dark:border-s-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                                        class="block w-full rounded-e-lg border border-s-0   border-gray-300 font-roboto-slab border-s-gray-100 bg-gray-50 p-2.5 ps-2 text-sm text-green-gs            ">
                                         <option hidden value=""> -- </option>
                                         @foreach ($genres as $genre)
                                             <option value="{{ $genre->id }}"
@@ -454,9 +453,9 @@
                                     $intituledata = ['madame', 'monsieur', 'mademoiselle', 'autre'];
                                     @endphp
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{  __('salon_register_form.title') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{  __('salon_register_form.title') }}</label>
                                     <select name="intitule" id="intitule"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         @foreach ($intituledata as $intitule)
                                             <option value={{ $intitule }}
@@ -467,16 +466,16 @@
                                 </div>
                                 <div class="mb-4">
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.owner_name') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.owner_name') }}</label>
                                     <input type="text" name="nom_proprietaire"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                         value="{{ $user->nom_proprietaire }}">
                                 </div>
                             @endif
                             @if ($user->profile_type == 'escorte')
                                 <div class="mb-4">
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.name') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.name') }}</label>
                                     <div class="relative">
                                         <div
                                             class="pointer-events-none absolute inset-y-0 start-0 top-0 flex items-center ps-3.5">
@@ -488,7 +487,7 @@
                                         </div>
                                         <input type="text" id="name" name="prenom"
                                             aria-describedby="helper-text-explanation"
-                                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                            class="block w-full rounded-lg border   border-gray-300 font-roboto-slab bg-gray-50 p-2.5 ps-10 text-sm text-green-gs focus:border-blue-500 focus:ring-blue-500            dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                             value="{{ $user->prenom }}" />
                                     </div>
                                 </div>
@@ -496,14 +495,14 @@
                             @if ($user->profile_type == 'invite')
                                 <div class="mb-4">
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.pseudo') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.pseudo') }}</label>
                                     <input type="text" name="pseudo"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                         value="{{ $user->pseudo }}">
                                 </div>
                             @endif
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.email') }}</label>
+                                <label class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.email') }}</label>
                                 <div class="relative">
                                     <div
                                         class="pointer-events-none absolute inset-y-0 start-0 top-0 flex items-center ps-3.5">
@@ -515,13 +514,13 @@
                                     </div>
                                     <input type="email" id="email" name="email"
                                         aria-describedby="helper-text-explanation"
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                        class="block w-full rounded-lg border   border-gray-300 font-roboto-slab bg-gray-50 p-2.5 ps-10 text-sm text-green-gs focus:border-blue-500 focus:ring-blue-500            dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         value="{{ $user->email }}" />
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.phone_number') }}</label>
+                                    class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.phone_number') }}</label>
                                 <div class="relative">
                                     <div
                                         class="pointer-events-none absolute inset-y-0 start-0 top-0 flex items-center ps-3.5">
@@ -533,75 +532,78 @@
                                     </div>
                                     <input type="text" id="phone-input" name="telephone"
                                         aria-describedby="helper-text-explanation"
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                        class="block w-full rounded-lg border   border-gray-300 font-roboto-slab bg-gray-50 p-2.5 ps-10 text-sm text-green-gs focus:border-blue-500 focus:ring-blue-500            dark:focus:border-blue-500 dark:focus:ring-blue-500"
                                         value="{{ $user->telephone }}" />
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.address') }}</label>
-                                <input type="text" name="adresse"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    value="{{ $user->adresse }}">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.npa') }}</label>
-                                <input type="text" name="npa"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    value="{{ $user->npa }}">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.canton') }}</label>
-                                <select x-model="selectedCanton"
-                                    x-on:change="villes = availableVilles.filter(ville => ville.canton_id == selectedCanton)"
-                                    name="canton" id="canton"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                    <option hidden value=""> -- </option>
-                                    <template x-for="canton in cantons" :key="canton.id">
-                                        <option :value=canton.id
-                                            :selected="'{{ $user->canton['id'] ?? '' }}' == canton.id ? true : false"
-                                            x-text="canton.nom"></option>
-                                    </template>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.city') }}</label>
-                                <select name="ville" id="ville"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    onchange="localStorage.setItem('villeNom', this.options[this.selectedIndex].text);">
-                                    <option hidden value=""> -- </option>
-                                    <template x-for="ville in villes" :key="ville.id">
-                                        <option :value=ville.id
-                                            :selected="'{{ $user->ville }}' == ville.id ? true : false"
-                                            x-text="ville.nom"></option>
-                                    </template>
-                                </select>
-                            </div>
+                            <x-form.input 
+                                name="adresse"
+                                :label="__('profile.address')"
+                                :value="$user->adresse"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+                            <x-form.input 
+                                name="npa"
+                                :label="__('profile.npa')"
+                                :value="$user->npa"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+                           
+                            <x-form.location-select
+                                :cantons="$cantons"
+                                :villes="$villes"
+                                :selectedCanton="$user->canton['id'] ?? null"
+                                :selectedVille="$user->ville"
+                                :cantonLabel="__('profile.canton')"
+                                :villeLabel="__('profile.city')"
+                                required
+                                class="space-y-4"
+                            />
                         </div>
 
                         <!-- Étape 2: Informations professionnelles -->
-                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2" :class="userType == 'invite' ? 'hidden' : ''"
+                        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 pt-4" :class="userType == 'invite' ? 'hidden' : ''"
                             x-show="currentStep === 1">
-                            <h2 class="col-span-2 mb-4 text-lg font-semibold">{{ __('profile.professional_information') }}
-                            </h2>
                             @if ($user->profile_type == 'salon')
+                                <x-form.select-field
+                                    name="categorie"
+                                    :label="__('profile.category')"
+                                    :options="$salon_categories"
+                                    option-value="id"
+                                    option-label="nom"
+                                    :selected="$user->categorie['id'] ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+
+                                @php
+                                    $recrutements = [
+                                        ['id' => 'Ouvert', 'nom' => 'Ouvert'],
+                                        ['id' => 'Fermé', 'nom' => 'Fermé'],
+                                    ];
+                                @endphp
+
+                                <x-form.select-field
+                                    name="recrutement"
+                                    :label="__('profile.recruitment')"
+                                    :options="$recrutements"
+                                    option-value="id"
+                                    option-label="nom"
+                                    :selected="$user->recrutement ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+
+
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.category') }}</label>
-                                    <select name="categorie" id="salon_categorie"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($salon_categories as $categorie)
-                                            <option value={{ $categorie['id'] }}
-                                                @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.recruitment') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.recruitment') }}</label>
                                     <select name="recrutement" id="recrutement"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                         <option hidden value=""> -- </option>
                                         <option value="Ouvert" @if ($user->recrutement == 'Ouvert') selected @endif>Ouvert
                                         </option>
@@ -609,263 +611,282 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.number_of_girls') }}</label>
-                                    <select name="nombre_fille_id" id="nombre_fille_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($nombre_filles as $nb_fille)
-                                            <option value="{{ $nb_fille->id }}"
-                                                @if ($user->nombre_fille_id == $nb_fille->id) selected @endif>
-                                                {{ $nb_fille->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
+
+
+
+                                <x-form.select-field
+                                    name="nombre_fille_id"
+                                    :label="__('profile.number_of_girls')"
+                                    :options="$nombre_filles"
+                                    option-value="id"
+                                    option-label="name"
+                                    :translatable="true"
+                                    translation-key="name"
+                                    :selected="$user->nombre_fille_id"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                >
+                                    <option hidden value=""> -- </option>
+                                </x-form.select-field>
                             @endif
                             <!-- ESCORTE -->
                             @if ($user->profile_type == 'escorte')
+
+                            <x-form.select-field
+                                    name="categorie"
+                                    :label="__('profile.category')"
+                                    :options="$escort_categories"
+                                    option-value="id"
+                                    option-label="nom"
+                                    :selected="$user->categorie['id'] ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+                                <x-form.select-field
+                                    name="pratique_sexuelle_id"
+                                    :label="__('profile.sexual_practices')"
+                                    :options="$pratiquesSexuelles"
+                                    option-value="id"
+                                    option-label="name"
+                                    :translatable="true"
+                                    translation-key="name"
+                                    :selected="$user->pratique_sexuelle_id"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                >
+                                    <option hidden value=""> -- </option>
+                                </x-form.select-field>
+
+
+                                <x-form.select-field
+                                    name="orientation_sexuelle_id"
+                                    :label="__('profile.sexual_orientation')"
+                                    :options="$oriantationSexuelles"
+                                    option-value="id"
+                                    option-label="name"
+                                    :translatable="true"
+                                    translation-key="name"
+                                    :selected="$user->orientation_sexuelle_id"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                >
+                                    <option hidden value=""> -- </option>
+                                </x-form.select-field>
+
+                                
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.category') }}</label>
-                                    <select name="categorie" id="escort_categorie"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($escort_categories as $categorie)
-                                            <option value={{ $categorie['id'] }}
-                                                @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.sexual_practices') }}</label>
-                                    <select name="pratique_sexuelle_id" id="pratique_sexuelle_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($pratiquesSexuelles as $pratique)
-                                            <option value="{{ $pratique->id }}"
-                                                @if ($user->pratique_sexuelle_id == $pratique->id) selected @endif>
-                                                {{ $pratique->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.sexual_orientation') }}</label>
-                                    <select name="orientation_sexuelle_id" id="orientation_sexuelle_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($oriantationSexuelles as $oriantation)
-                                            <option value="{{ $oriantation->id }}"
-                                                @if ($user->orientation_sexuelle_id == $oriantation->id) selected @endif>
-                                                {{ $oriantation->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.services') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.services') }}</label>
                                     <x-select_object_multiple name="service" :options="$services" :value="$user->service"
                                         label="Mes services" />
                                 </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.height') }}</label>
-                                    <input
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        type="number" name="tailles" id="tailles"
-                                        placeholder="{{ __('profile.height_placeholder') }}"
-                                        value="{{ $user->tailles }}">
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.origin') }}</label>
-                                    <select name="origine" id="origine"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($origines as $origine)
-                                            <option value="{{ $origine }}"
-                                                @if ($user->origine == $origine) selected @endif>{{ $origine }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.eye_color') }}</label>
-                                    <select name="couleur_yeux_id" id="couleur_yeux_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($couleursYeux as $yeux)
-                                            <option value="{{ $yeux->id }}"
-                                                @if ($user->couleur_yeux_id == $yeux->id) selected @endif>
-                                                {{ $yeux->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.hair_color') }}</label>
-                                    <select name="couleur_cheveux_id" id="couleur_cheveux_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($couleursCheveux as $cheveux)
-                                            <option value="{{ $cheveux->id }}"
-                                                @if ($user->couleur_cheveux_id == $cheveux->id) selected @endif>
-                                                {{ $cheveux->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.measurements') }}</label>
-                                    <select name="mensuration_id" id="mensuration_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($mensurations as $mensuration)
-                                            <option value="{{ $mensuration->id }}"
-                                                @if ($user->mensuration_id == $mensuration->id) selected @endif>
-                                                {{ $mensuration->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.bust') }}</label>
-                                    <select name="poitrine_id" id="poitrine_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($poitrines as $poitrine)
-                                            <option value="{{ $poitrine->id }}"
-                                                @if ($user->poitrine_id == $poitrine->id) selected @endif>
-                                                {{ $poitrine->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.bust_size') }}</label>
-                                    <select id="taille_poitrine" name="taille_poitrine"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($taillesPoitrine as $taillePoitrine)
-                                            <option value="{{ $taillePoitrine }}"
-                                                @if ($user->taille_poitrine == $taillePoitrine) selected @endif>{{ $taillePoitrine }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.pubic_hair') }}</label>
-                                    <select id="pubis_type_id" name="pubis_type_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($pubis as $pubi)
-                                            <option value="{{ $pubi->id }}"
-                                                @if ($user->pubis_type_id == $pubi->id) selected @endif>
-                                                {{ $pubi->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.tattoos') }}</label>
-                                    <select id="tatoo_id" name="tatoo_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($tatouages as $tatou)
-                                            <option value="{{ $tatou->id }}"
-                                                @if ($user->tatoo_id == $tatou->id) selected @endif>
-                                                {{ $tatou->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('profile.mobility') }}</label>
-                                    <select id="mobilite_id" name="mobilite_id"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($mobilites as $mobilite)
-                                            <option value="{{ $mobilite->id }}"
-                                                @if ($user->mobilite_id == $mobilite->id) selected @endif>
-                                                {{ $mobilite->getTranslation('name', app()->getLocale()) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
+                                <x-form.input 
+                                name="tailles"
+                                :label="__('profile.height')"
+                                :value="$user->tailles"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                type="number"
+                                />
+
+                                <x-form.select-field
+                                    name="origine"
+                                    :label="__('profile.origin')"
+                                    :options="$origines"
+                                    option-value="id"
+                                    option-label="nom"
+                                    :selected="$user->origine ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+                            
+
+
+                                <x-form.select-field
+                                    name="couleur_yeux_id"
+                                    :label="__('profile.eye_color')"
+                                    :options="$couleursYeux"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->couleur_yeux_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+
+                                <x-form.select-field
+                                    name="couleur_cheveux_id"
+                                    :label="__('profile.hair_color')"
+                                    :options="$couleursCheveux"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->couleur_cheveux_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+
+
+                               
+                                <x-form.select-field
+                                    name="mensuration_id"
+                                    :label="__('profile.measurements')"
+                                    :options="$mensurations"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->mensuration_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                                
+                                <x-form.select-field
+                                    name="poitrine_id"
+                                    :label="__('profile.bust')"
+                                    :options="$poitrines"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->poitrine_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                                
+                                <x-form.select-field
+                                    name="taille_poitrine"
+                                    :label="__('profile.bust_size')"
+                                    :options="$taillesPoitrine"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->taille_poitrine ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                               
+                                <x-form.select-field
+                                    name="pubis_type_id"
+                                    :label="__('profile.pubic_hair')"
+                                    :options="$pubis"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->pubis_type_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                              
+                                <x-form.select-field
+                                    name="tatoo_id"
+                                    :label="__('profile.tattoos')"
+                                    :options="$tatouages"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->tatoo_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                              
+                                
+                                
+                                <x-form.select-field
+                                    name="mobilite_id"
+                                    :label="__('profile.mobility')"
+                                    :options="$mobilites"
+                                    option-value="id"
+                                    option-label="name"
+                                    :selected="$user->mobilite_id ?? null"
+                                    required
+                                    container-class="col-span-2 mb-4 md:col-span-1"
+                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                                />
+                                
+                                
+                                
                             @endif
 
                            
                             <div class="col-span-2 mb-4 md:col-span-1">
                                 <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.language') }}</label>
+                                    class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.language') }}</label>
                                 <x-select_multiple name="langues" :options="$langues" :value="explode(',', $user->langues)"
                                     label="Langue parler" />
                             </div>
+
+                    
                             <div class="col-span-2 mb-4 md:col-span-1">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.rate') }}</label>
+                                <label class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.rate') }}</label>
                                 <select id="tarif" name="tarif"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                    <option hidden> -- </option>
+                                    class="mt-1 block w-full rounded-md text-textColorParagraph border-supaGirlRosePastel/50 font-roboto-slab shadow-sm">
+                                    <option hidden value=""> -- </option>
                                     @foreach ($tarifs as $tarif)
-                                        <option value="{{ $tarif }}"
-                                            @if ($user->tarif == $tarif) selected @endif>
-                                            {{ __('profile.price_from', ['price' => $tarif]) }}</option>
+                                        <option value="{{ $tarif }}" {{ $user->tarif == $tarif ? 'selected' : '' }}>
+                                            {{ __('profile.price_from', ['price' => $tarif]) }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
+
+
+
+
+
+
                             <div class="col-span-2 mb-4 md:col-span-1">
                                 <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.payment_method') }}</label>
+                                    class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.payment_method') }}</label>
                                 <x-select_multiple name="paiement" :options="$paiements" :value="explode(',', $user->paiement)"
                                     label="Paiment" />
                             </div>
                             <div class="col-span-2 mb-4">
-                                <label class="block text-sm font-medium text-gray-700">{{ __('profile.about') }}</label>
+                                <label class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.about') }}</label>
                                 <textarea rows="4" name="apropos"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-amber-500 dark:focus:ring-amber-500">{{ $user->apropos ?? '' }}</textarea>
+                                    class="block w-full rounded-lg border   border-supaGirlRosePastel/50 font-roboto-slab bg-gray-50 text-sm text-textColorParagraph focus:border-supaGirlRosePastel/50 focus:ring-supaGirlRosePastel/50">{{ $user->apropos ?? '' }}</textarea>
                             </div>
                         </div>
 
                         <!-- Étape 3: Informations complémentaires -->
-                        <div
+                        <div class="pt-4"
                             @if ($user->profile_type == 'invite') x-show="currentStep === 1" @else x-show="currentStep === 2" @endif>
-                            <h2 class="mb-4 text-lg font-semibold">{{ __('profile.additional_information') }}</h2>
-                            <div class="mb-4">
-                                <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.other_contact') }}</label>
-                                <input type="text" name="autre_contact"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    value="{{ $user->autre_contact }}" />
-                            </div>
-                            <div class="mb-4">
-                                <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.address_complement') }}</label>
-                                <input type="text" name="complement_adresse"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    value="{{ $user->complement_adresse }}" />
-                            </div>
-                            <div class="mb-4">
-                                <label
-                                    class="block text-sm font-medium text-gray-700">{{ __('profile.website_link') }}</label>
-                                <input type="url" name="lien_site_web"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                    value="{{ $user->lien_site_web }}" />
-                            </div>
-
+                            <x-form.input 
+                                name="autre_contact"
+                                :label="__('profile.other_contact')"
+                                :value="$user->autre_contact"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+                            
+                            <x-form.input 
+                                name="complement_adresse"
+                                :label="__('profile.address_complement')"
+                                :value="$user->complement_adresse"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+                            
+                           
+                            
+                            <x-form.input 
+                                name="lien_site_web"
+                                :label="__('profile.website_link')"
+                                :value="$user->lien_site_web"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+                            
+                           
                             <x-location-selector user='{{ $user->id }}' />
 
                         </div>
@@ -873,20 +894,20 @@
                         <!-- Boutons de navigation -->
                         <div class="mt-6 flex justify-between gap-2 text-sm md:text-base">
                             <button type="button" @click="prevStep"
-                                class="rounded-md bg-gray-300 px-4 py-2 text-gray-700" x-show="currentStep > 0">
+                                class="rounded-md bg-gray-300 px-4 py-2 text-green-gs font-roboto-slab" x-show="currentStep > 0">
                                 {{ __('profile.previous') }}
                             </button>
                             <button type="button" @click="saveAndQuit"
-                                class="rounded-md bg-amber-500 px-4 py-2 text-white"
+                                class="rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
                                 x-show="currentStep < steps.length - 1">
                                 {{ __('profile.save_and_quit') }}
                             </button>
-                            <button type="button" @click="nextStep" class="rounded-md bg-blue-500 px-4 py-2 text-white"
+                            <button type="button" @click="nextStep" class="rounded-md bg-supaGirlRosePastel text-green-gs px-4 py-2 font-roboto-slab"
                                 x-show="currentStep < steps.length - 1">
                                 {{ __('profile.next') }}
                             </button>
                             <button id="addInfoSubmit" type="submit"
-                                class="rounded-md bg-green-500 px-4 py-2 text-white"
+                                class="rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
                                 x-show="currentStep === steps.length - 1">
                                 {{ __('profile.submit') }}
                             </button>
@@ -905,9 +926,9 @@
                         @csrf
                         <div class="col-span-2 mb-4 md:col-span-1">
                             <label
-                                class="block text-sm font-medium text-gray-700">{{ __('profile.category') }}</label>
+                                class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.category') }}</label>
                             <select name="categorie" id="escort_categorie"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 <option hidden value=""> -- </option>
                                 @foreach ($escort_categories as $categorie)
                                     <option value={{ $categorie['id'] }}
@@ -918,7 +939,7 @@
                         </div>
                         <div class="col-span-2 mb-4 md:col-span-1">
                             <label
-                                class="block text-sm font-medium text-gray-700">{{ __('profile.services') }}</label>
+                                class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.services') }}</label>
                             <x-select_object_multiple name="service" :options="$services" :value="$user->service"
                                 label="Mes services" />
                         </div>
@@ -1207,7 +1228,7 @@
                             <div class="relative rounded-xl bg-white p-6 shadow-2xl">
                                 <!-- Close button -->
                                 <button type="button"
-                                    class="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+                                    class="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-green-gs"
                                     data-modal-hide="requestModal">
                                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1223,7 +1244,7 @@
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
-                                    <h3 class="mb-2 text-xl font-bold text-gray-900">
+                                    <h3 class="mb-2 text-xl font-bold text-green-gs">
                                         {{ __('profile.send_verification_photo') }}
                                     </h3>
                                     <p class="text-sm text-gray-600">
@@ -1241,7 +1262,7 @@
                                         <div class="group relative">
                                             <div x-show="!imageUrl" class="space-y-4">
                                                 <div
-                                                    class="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 text-center transition-colors group-hover:border-green-400">
+                                                    class="flex flex-col items-center justify-center rounded-xl border-2 border-dashed   border-gray-300 font-roboto-slab bg-gray-50 p-8 text-center transition-colors group-hover:border-green-400">
                                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
