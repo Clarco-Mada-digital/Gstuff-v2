@@ -29,7 +29,7 @@ class StorieMediaViewer extends Component
     public function loadStories()
     {
         $this->stories = Story::where('user_id', auth()->id())
-            ->where('expires_at', '>', now())
+            // ->where('expires_at', '>', now())
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -88,8 +88,40 @@ class StorieMediaViewer extends Component
         session()->flash('message', 'Story supprimée avec succès.');
     }
 
+    public function republishStory($storyId)
+    {
+        $story = Story::findOrFail($storyId);
+        
+        // Mettre à jour la date d'expiration (24h à partir de maintenant)
+        $story->update([
+            'expires_at' => now()->addDay()
+        ]);
+        
+        // Recharger la liste des stories
+        $this->loadStories();
+        
+        // Afficher un message de succès
+        session()->flash('message', 'Story republiée avec succès pour 24h.');
+    }
+    
+    public function isExpired($story)
+    {
+        if (!isset($story->expires_at)) {
+            return false;
+        }
+        
+        // Si c'est une chaîne, on la convertit en objet Carbon
+        $expiresAt = is_string($story->expires_at) 
+            ? \Carbon\Carbon::parse($story->expires_at)
+            : $story->expires_at;
+            
+        return $expiresAt->isPast();
+    }
+
     public function render()
     {
-        return view('livewire.storie-media-viewer');
+        return view('livewire.storie-media-viewer', [
+            'isExpired' => \Closure::fromCallable([$this, 'isExpired'])
+        ]);
     }
 }

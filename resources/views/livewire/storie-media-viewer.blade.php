@@ -15,7 +15,7 @@
                         </video>
                     @endif
                 </div>
-                <div class="relative">
+                <div class="absolute top-0 right-0">
                     <button onclick="showDeleteModal({{ $story->id }})"
                             class="absolute -right-1 -top-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600 transition-colors z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,6 +23,18 @@
                         </svg>
                     </button>
                 </div>
+                
+                @if($isExpired($story))
+                <div class="absolute bottom-0 right-0">
+                    <button wire:click="republishStory({{ $story->id }})"
+                            class="absolute -right-1 -bottom-1 rounded-full bg-green-500 p-1 text-white hover:bg-green-600 transition-colors z-10"
+                            title="Republier cette story">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
+                </div>
+                @endif
                 
                 <!-- Modale de confirmation -->
                 <div id="deleteModal-{{ $story->id }}" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-50 p-4">
