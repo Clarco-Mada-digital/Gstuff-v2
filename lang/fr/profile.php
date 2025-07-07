@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'recruitment_open' => 'Ouvert',
+    'recruitment_closed' => 'Ferme',
     'escort' => 'Escorte',
     'salon' => 'Salon',
     'invited' => 'Invitée',

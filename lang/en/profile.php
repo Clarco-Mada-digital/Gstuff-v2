@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'recruitment_open' => 'Open',
+    'recruitment_closed' => 'Close',
     'success' => [
         'profile_updated' => 'Profile updated successfully!',
         'profile_photo_updated' => 'Profile photo updated successfully.',

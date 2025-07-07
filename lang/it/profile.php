@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'recruitment_open' => 'Aperto',
+    'recruitment_closed' => 'Chiuso',
+    'escort' => 'Escort',
+    'salon' => 'Salone',
+    'invited' => 'Invitata',
     'success' => [
         'profile_updated' => 'Profilo aggiornato con successo!',
         'profile_photo_updated' => 'Foto del profilo aggiornata con successo.',

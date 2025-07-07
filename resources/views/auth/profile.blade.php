@@ -448,29 +448,46 @@
                             </div>
                            
                             @if ($user->profile_type == 'salon')
-                            <div class="col-span-2 mb-4 md:col-span-1">
                             @php
                                     $intituledata = ['madame', 'monsieur', 'mademoiselle', 'autre'];
                                     @endphp
-                                    <label
-                                        class="block text-sm font-roboto-slab text-green-gs">{{  __('salon_register_form.title') }}</label>
-                                    <select name="intitule" id="intitule"
-                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        @foreach ($intituledata as $intitule)
+
+  
+                                <x-form.select
+                                name="intitule"
+                                :label="__('salon_register_form.title')"
+                                :selected="$user->intitule ?? null"
+                            >
+                                <option value="">--</option>
+                                @foreach ($intituledata as $intitule)
                                             <option value={{ $intitule }}
                                                 @if ($user->intitule ? $user->intitule == $intitule : false) selected @endif>{{ __('salon_register_form.' . $intitule) }}
                                             </option>
                                         @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label
-                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.owner_name') }}</label>
-                                    <input type="text" name="nom_proprietaire"
-                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                        value="{{ $user->nom_proprietaire }}">
-                                </div>
+                            </x-form.select>
+
+                                <x-form.input 
+                                name="nom_proprietaire"
+                                :label="__('profile.owner_name')"
+                                :value="$user->nom_proprietaire"
+                                input-class="text-textColorParagraph border-supaGirlRosePastel/50"
+                            />
+
+                             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             @endif
                             @if ($user->profile_type == 'escorte')
                                 <div class="mb-4">
@@ -580,8 +597,8 @@
 
                                 @php
                                     $recrutements = [
-                                        ['id' => 'Ouvert', 'nom' => 'Ouvert'],
-                                        ['id' => 'Fermé', 'nom' => 'Fermé'],
+                                        ['id' => 'Ouvert', 'nom' => __('profile.recruitment_open')],
+                                        ['id' => 'Fermé', 'nom' => __('profile.recruitment_closed')],
                                     ];
                                 @endphp
 
@@ -596,24 +613,6 @@
                                     container-class="col-span-2 mb-4 md:col-span-1"
                                     select-class="text-textColorParagraph border-supaGirlRosePastel/50"
                                 />
-
-
-
-                                <div class="col-span-2 mb-4 md:col-span-1">
-                                    <label
-                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.recruitment') }}</label>
-                                    <select name="recrutement" id="recrutement"
-                                        class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                        <option hidden value=""> -- </option>
-                                        <option value="Ouvert" @if ($user->recrutement == 'Ouvert') selected @endif>Ouvert
-                                        </option>
-                                        <option value="Fermé" @if ($user->recrutement == 'Fermé') selected @endif>Fermer
-                                        </option>
-                                    </select>
-                                </div>
-
-
-
 
                                 <x-form.select-field
                                     name="nombre_fille_id"
