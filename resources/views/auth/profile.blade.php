@@ -1331,6 +1331,7 @@
                                 </svg>
                             </button>
                         </div>
+                        {{-- 
                         <div class="flex flex-wrap items-center gap-10">
                             @livewire('create-story')
                             @livewire('stories-viewer', ['userViewStorie' => $user->id], key($user->id))
@@ -1338,16 +1339,31 @@
                                 <h3 class="mb-2 text-lg font-semibold">Mes Stories</h3>
                                 @livewire('storie-media-viewer', [], key('storie-media-viewer-'.now()->timestamp))
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- StoriesTest --}}
-                        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">Test Storie</h2>
+                        @php $user = Auth()->user(); @endphp
 
+                        <div class="flex flex-wrap items-center gap-10">
                         <button x-on:click="storyForm = true ; console.log('test', storyForm)" type="button"
-                            class="flex h-20 w-20 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
+                            class="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
                             data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
-                            <h1>Storie add</h1>
+                            <div class="border-green-gs relative h-24 w-24 cursor-pointer rounded-full border-2">
+                                <img @if ($avatar = $user->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+                                    @else
+                                    src="{{ asset('images/icon_logo.png') }}" @endif
+                                    class="h-full w-full rounded-full object-cover" alt="{{ __('profile.add_story') }}">
+                                <div
+                                    class="text-green-gs absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-full bg-gray-300/50 text-2xl font-bold">
+                                    +</div>
+                            </div>
                         </button>
+
+                        @livewire('storie-media-viewer', [], key('storie-media-viewer-'.now()->timestamp))
+
+
+
+                        </div>
                         <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
                                 x-trap.inert.noscroll="storyForm" x-on:keydown.esc.window="storyForm = false"
                                 x-on:click.self="storyForm = false"
