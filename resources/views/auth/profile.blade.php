@@ -1336,7 +1336,7 @@
                             @livewire('stories-viewer', ['userViewStorie' => $user->id], key($user->id))
                             <div class="mt-4 w-full">
                                 <h3 class="mb-2 text-lg font-semibold">Mes Stories</h3>
-                                @livewire('storie-media-viewer')
+                                @livewire('storie-media-viewer', [], key('storie-media-viewer-'.now()->timestamp))
                             </div>
                         </div>
 
