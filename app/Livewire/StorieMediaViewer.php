@@ -18,9 +18,7 @@ class StorieMediaViewer extends Component
     public $media;
     public $mediaUrl;
     public $isImage = true;
-    public $userId;
     
-    protected $listeners = ['storyAdded' => 'loadStories'];
 
     public function mount()
     {
@@ -29,11 +27,9 @@ class StorieMediaViewer extends Component
 
     public function loadStories()
     {
-        $this->stories = Story::where('user_id', $this->userId)
+        $this->stories = Story::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
-            
-        $this->emit('storiesUpdated');
     }
 
     public function getStoriesData()
@@ -47,26 +43,6 @@ class StorieMediaViewer extends Component
                 'expires_at' => $story->expires_at
             ];
         });
-    }
-
-    public function openStory($index)
-    {
-        // Cette méthode n'est plus utilisée directement, mais conservée pour la rétrocompatibilité
-        $this->currentIndex = $index;
-        $this->activeStory = $this->stories[$index];
-        $this->mediaUrl = Storage::url($this->activeStory->media_path);
-        $this->isImage = $this->activeStory->media_type === 'image';
-        $this->showModal = true;
-        
-        // Émettre un événement personnalisé pour le JavaScript natif
-        $this->dispatchBrowserEvent('open-story', [
-            'index' => $index,
-            'story' => [
-                'id' => $this->activeStory->id,
-                'media_url' => $this->mediaUrl,
-                'media_type' => $this->activeStory->media_type
-            ]
-        ]);
     }
 
     public function nextStory()
