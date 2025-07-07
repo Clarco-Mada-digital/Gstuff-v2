@@ -21,6 +21,7 @@ use App\Http\Controllers\SalonController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\StoryController;
 
 use App\Http\Controllers\DistanceMaxController;
 
@@ -189,7 +190,7 @@ Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updat
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
 Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
-
+Route::post('/stories', [StoryController::class, 'store'])->name('stories.store');
 
 
 // ============================== Routes necessite une authentification ===========================================

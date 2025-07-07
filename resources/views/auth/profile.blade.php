@@ -128,7 +128,7 @@
 
 
 
-        <div x-data="{ pageSection: $persist('compte'), userType: '{{ $user->profile_type }}', completionPercentage: 0, dropdownData: '', fetchCompletionPercentage() { fetch('/profile-completion-percentage').then(response => response.json()).then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data').then(response => response.json()).then(data => { this.dropdownData = data; }); } }" x-init="fetchCompletionPercentage()"
+        <div x-data="{ pageSection: $persist('compte'), userType: '{{ $user->profile_type }}', completionPercentage: 0, dropdownData: '', storyForm: false, fetchCompletionPercentage() { fetch('/profile-completion-percentage').then(response => response.json()).then(data => { this.completionPercentage = data.percentage; }); }, fetchDropdownData() { fetch('/dropdown-data').then(response => response.json()).then(data => { this.dropdownData = data; }); } }" x-init="fetchCompletionPercentage()"
             class="container mx-auto flex flex-col justify-center xl:flex-row">
 
             {{-- Left section profile --}}
@@ -1336,6 +1336,108 @@
                             @livewire('stories-viewer', ['userViewStorie' => $user->id], key($user->id))
                         </div>
 
+                        {{-- StoriesTest --}}
+                        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">Test Storie</h2>
+
+                        <button x-on:click="storyForm = true ; console.log('test', storyForm)" type="button"
+                            class="flex h-20 w-20 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
+                            data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
+                            <h1>Storie add</h1>
+                        </button>
+
+
+
+
+                        <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
+                                x-trap.inert.noscroll="storyForm" x-on:keydown.esc.window="storyForm = false"
+                                x-on:click.self="storyForm = false"
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+                                role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+
+                                <!-- Modal Dialog -->
+                                <div x-show="storyForm" x-data="mediaViewer('')"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
+
+
+
+
+
+                                <!-- Close Button -->
+                                <button type="button" x-on:click="storyForm = false"
+                                    class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                                    <span class="sr-only">Close</span>
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <!-- Modal Content -->
+                                <div class="p-6">
+                                    <h3 id="story-modal-title" class="mb-6 text-center text-xl font-bold text-gray-900">
+                                        Add a Story
+                                    </h3>
+                                    <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data" class="space-y-6">
+                                        @csrf
+                                        <!-- Media Preview -->
+                                        <div class="flex justify-center">
+                                            <div class="relative h-64 w-full overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+                                                <template x-if="!mediaUrl">
+                                                    <div class="flex h-full flex-col items-center justify-center p-4 text-center">
+                                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                        <span class="mt-2 block text-sm text-gray-600">Media Preview</span>
+                                                    </div>
+                                                </template>
+                                                <template x-if="mediaUrl">
+                                                    <div x-show="isImage" class="h-full w-full">
+                                                        <img :src="mediaUrl" class="h-full w-full object-cover" alt="Media Preview">
+                                                    </div>
+                                                    <div x-show="!isImage" class="h-full w-full">
+                                                        <video :src="mediaUrl" class="h-full w-full object-cover" controls></video>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <!-- File Input -->
+                                        <div class="mt-4">
+                                            <label class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                                <div class="flex items-center">
+                                                    <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                    </svg>
+                                                    <span class="ml-2 text-sm text-gray-700">
+                                                        <span x-text="mediaUrl ? 'Change File' : 'Select File'"></span>
+                                                        <span class="block text-xs text-gray-500">Image or Video</span>
+                                                    </span>
+                                                </div>
+                                                <input name="media" type="file" accept="image/*,video/*" x-on:change="fileChosen($event)" class="hidden" required>
+                                            </label>
+                                        </div>
+                                        <!-- Action Buttons -->
+                                        <div class="mt-6 flex justify-end space-x-3">
+                                            <button type="button" x-on:click="storyForm = false" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="inline-flex items-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                <svg x-show="!mediaUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                </svg>
+                                                <span x-text="mediaUrl ? 'Update' : 'Upload'"></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
 
                         {{-- Galerie --}}
                         <div class="flex w-full flex-wrap items-center gap-10">
@@ -1946,6 +2048,27 @@
                 }
             }
         }
+
+        function mediaViewer(src = '') {
+            return {
+                mediaUrl: src,
+                isImage: true,
+                fileChosen(event) {
+                    this.fileToDataUrl(event, (result) => {
+                        this.mediaUrl = result;
+                        this.isImage = event.target.files[0].type.startsWith('image/');
+                    });
+                },
+                fileToDataUrl(event, callback) {
+                    if (!event.target.files.length) return;
+                    let file = event.target.files[0];
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = e => callback(e.target.result);
+                }
+            }
+        }
+
 
         function storyPlayer() {
             return {
