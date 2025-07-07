@@ -4,7 +4,7 @@
         @forelse($stories as $index => $story)
             <div wire:key="story-{{ $story->id }}" class="relative flex-shrink-0">
                 <div class="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-amber-500"
-                     wire:click="openStory({{ $index }})">
+                onclick="openStory({{ $index }})">
                     @if($story->media_type === 'image')
                         <img src="{{ Storage::url($story->media_path) }}" 
                              alt="Story" 
@@ -55,6 +55,35 @@
                         </div>
                     </div>
                 </div>
+
+                
+            <!-- Modal de visualisation -->
+            <div id="storyModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90 p-4">
+            <div class="relative flex items-center justify-center h-full w-full max-w-2xl">
+                <img id="storyImage" src="" alt="Story" class="max-h-full max-w-full object-contain hidden">
+                <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden" controls autoplay></video>
+            </div>
+            <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- Bouton précédent -->
+            <button id="previousButton" onclick="previousStory()" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <!-- Bouton suivant -->
+            <button id="nextButton" onclick="nextStory()" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+
+
             </div>
         @empty
             <div class="w-full py-8 text-center text-gray-500">
@@ -215,5 +244,118 @@
             }
         }
     });
+
+    let stories = @json($stories);
+        let currentIndex = 0;
+
+        function openStory(index) {
+            currentIndex = index;
+            const story = stories[currentIndex];
+            const modal = document.getElementById('storyModal');
+            const storyImage = document.getElementById('storyImage');
+            const storyVideo = document.getElementById('storyVideo');
+            const previousButton = document.getElementById('previousButton');
+            const nextButton = document.getElementById('nextButton');
+
+            if (story.media_type === 'image') {
+                storyImage.src = '{{ Storage::url("") }}' + story.media_path;
+                storyImage.classList.remove('hidden');
+                storyVideo.classList.add('hidden');
+            } else {
+                storyVideo.src = '{{ Storage::url("") }}' + story.media_path;
+                storyVideo.classList.remove('hidden');
+                storyImage.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+
+            // Show or hide previous and next buttons based on current index
+            previousButton.style.display = currentIndex > 0 ? 'block' : 'none';
+            nextButton.style.display = currentIndex < stories.length - 1 ? 'block' : 'none';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('storyModal');
+            modal.classList.add('hidden');
+        }
+
+        function nextStory() {
+            if (currentIndex < stories.length - 1) {
+                openStory(currentIndex + 1);
+            } else {
+                closeModal();
+            }
+        }
+
+        function previousStory() {
+            if (currentIndex > 0) {
+                openStory(currentIndex - 1);
+            }
+        }
+
+        // Gestion du clic en dehors de la modale
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('storyModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Navigation au clavier pour les stories
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('storyModal');
+            if (!modal.classList.contains('hidden')) {
+                if (event.key === 'ArrowLeft') {
+                    previousStory();
+                } else if (event.key === 'ArrowRight') {
+                    nextStory();
+                } else if (event.key === 'Escape') {
+                    closeModal();
+                }
+            }
+        });
+
+
+    function closeModal() {
+        const modal = document.getElementById('storyModal');
+        modal.classList.add('hidden');
+    }
+
+    function nextStory() {
+        if (currentIndex < stories.length - 1) {
+            openStory(currentIndex + 1);
+        } else {
+            closeModal();
+        }
+    }
+
+    function previousStory() {
+        if (currentIndex > 0) {
+            openStory(currentIndex - 1);
+        }
+    }
+
+    // Gestion du clic en dehors de la modale
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('storyModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Navigation au clavier pour les stories
+    document.addEventListener('keydown', function(event) {
+        if (!document.getElementById('storyModal').classList.contains('hidden')) {
+            if (event.key === 'ArrowLeft') {
+                previousStory();
+            } else if (event.key === 'ArrowRight') {
+                nextStory();
+            } else if (event.key === 'Escape') {
+                closeModal();
+            }
+        }
+    });
+
+
 </script>
 @endpush
