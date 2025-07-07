@@ -1334,6 +1334,10 @@
                         <div class="flex flex-wrap items-center gap-10">
                             @livewire('create-story')
                             @livewire('stories-viewer', ['userViewStorie' => $user->id], key($user->id))
+                            <div class="mt-4 w-full">
+                                <h3 class="mb-2 text-lg font-semibold">Mes Stories</h3>
+                                @livewire('storie-media-viewer')
+                            </div>
                         </div>
 
                         {{-- StoriesTest --}}
@@ -1344,10 +1348,6 @@
                             data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
                             <h1>Storie add</h1>
                         </button>
-
-
-
-
                         <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
                                 x-trap.inert.noscroll="storyForm" x-on:keydown.esc.window="storyForm = false"
                                 x-on:click.self="storyForm = false"
@@ -1436,7 +1436,6 @@
                             </div>
                         </div>
 
-                        
 
 
                         {{-- Galerie --}}
