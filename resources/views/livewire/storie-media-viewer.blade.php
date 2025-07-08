@@ -1,7 +1,41 @@
-<div class="container mx-auto p-4">
+<div x-data="{ storyForm: false }">
+
+<div class="flex items-center justify-between gap-5 py-5">
+                            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.stories') }}</h2>
+                            <div class="bg-green-gs h-0.5 flex-1"></div>
+                            <button  x-on:click="storyForm = true"
+                            class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
+                                {{ __('profile.add') }}
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6.525q.5 0 .75.313t.25.687t-.262.688T11.5 5H5v14h14v-6.525q0-.5.313-.75t.687-.25t.688.25t.312.75V19q0 .825-.587 1.413T19 21zm4-7v-2.425q0-.4.15-.763t.425-.637l8.6-8.6q.3-.3.675-.45t.75-.15q.4 0 .763.15t.662.45L22.425 3q.275.3.425.663T23 4.4t-.137.738t-.438.662l-8.6 8.6q-.275.275-.637.438t-.763.162H10q-.425 0-.712-.288T9 14m12.025-9.6l-1.4-1.4zM11 13h1.4l5.8-5.8l-.7-.7l-.725-.7L11 11.575zm6.5-6.5l-.725-.7zl.7.7z" />
+                                </svg>
+                            </button>
+                        </div>
+
+
+<div class="container mx-auto p-4" >
+    <div class="flex flex-wrap items-center gap-10">
+
+    @php $user = Auth()->user(); @endphp
+    <button x-on:click="storyForm = true ; console.log('test', storyForm)" type="button"
+                            class="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
+                            data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
+                            <div class="border-green-gs relative h-24 w-24 cursor-pointer rounded-full border-2">
+                                <img @if ($avatar = $user->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
+                                    @else
+                                    src="{{ asset('images/icon_logo.png') }}" @endif
+                                    class="h-full w-full rounded-full object-cover" alt="{{ __('profile.add_story') }}">
+                                <div
+                                    class="text-green-gs absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-full bg-gray-300/50 text-2xl font-bold">
+                                    +</div>
+                            </div>
+                        </button>
+
         <!-- Liste des miniatures des stories -->
         <div id="storiesContainer" class="flex space-x-4 overflow-x-auto py-4 px-2">
             <!-- Les stories seront ajoutées ici dynamiquement -->
+        </div>
         </div>
 
         <!-- Message de confirmation -->
@@ -33,10 +67,96 @@
                 </svg>
             </button>
         </div>
+
+        <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
+                                x-trap.inert.noscroll="storyForm" x-on:keydown.esc.window="storyForm = false"
+                                x-on:click.self="storyForm = false"
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+                                role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+
+                                <!-- Modal Dialog -->
+                                <div x-show="storyForm" x-data="mediaViewer('')"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-95"
+                                    class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
+
+                                <!-- Close Button -->
+                                <button type="button" x-on:click="storyForm = false"
+                                    class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                                    <span class="sr-only">Close</span>
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <!-- Modal Content -->
+                                <div class="p-6">
+                                    <h3 id="story-modal-title" class="mb-6 text-center text-xl font-bold text-gray-900">
+                                        Add a Story
+                                    </h3>
+                                    <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data" class="space-y-6">
+                                        @csrf
+                                        <!-- Media Preview -->
+                                        <div class="flex justify-center">
+                                            <div class="relative h-64 w-full overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+                                                <template x-if="!mediaUrl">
+                                                    <div class="flex h-full flex-col items-center justify-center p-4 text-center">
+                                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                        <span class="mt-2 block text-sm text-gray-600">Media Preview</span>
+                                                    </div>
+                                                </template>
+                                                <template x-if="mediaUrl">
+                                                    <div x-show="isImage" class="h-full w-full">
+                                                        <img :src="mediaUrl" class="h-full w-full object-cover" alt="Media Preview">
+                                                    </div>
+                                                    <div x-show="!isImage" class="h-full w-full">
+                                                        <video :src="mediaUrl" class="h-full w-full object-cover" controls></video>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <!-- File Input -->
+                                        <div class="mt-4">
+                                            <label class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                                <div class="flex items-center">
+                                                    <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                    </svg>
+                                                    <span class="ml-2 text-sm text-gray-700">
+                                                        <span x-text="mediaUrl ? 'Change File' : 'Select File'"></span>
+                                                        <span class="block text-xs text-gray-500">Image or Video</span>
+                                                    </span>
+                                                </div>
+                                                <input name="media" type="file" accept="image/*,video/*" x-on:change="fileChosen($event)" class="hidden" required>
+                                            </label>
+                                        </div>
+                                        <!-- Action Buttons -->
+                                        <div class="mt-6 flex justify-end space-x-3">
+                                            <button type="button" x-on:click="storyForm = false" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="inline-flex items-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                <svg x-show="!mediaUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                </svg>
+                                                <span x-text="mediaUrl ? 'Update' : 'Upload'"></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
     </div>
+</div>
 
     <script>
         let stories = @json($stories);
+        console.log("storie data : ",stories);
         let currentIndex = 0;
 
         // Fonction pour afficher les stories
@@ -64,7 +184,7 @@
                     </div>
                     ${isExpired(story) ? `
                     <div class="absolute bottom-0 right-0">
-                        <button onclick="republishStory(${story.id})" class="absolute -right-1 -bottom-1 rounded-full bg-green-500 p-1 text-white hover:bg-green-600 transition-colors z-10" title="Republier cette story">
+                        <button onclick="republishStory(${story.id})"  class="absolute -right-1 -bottom-1 rounded-full bg-green-500 p-1 text-white hover:bg-green-600 transition-colors z-10" title="Republier cette story">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
@@ -144,18 +264,59 @@
         function confirmDelete(storyId) {
             hideDeleteModal(storyId);
             // Logique pour supprimer la story
-            console.log(`Story ${storyId} supprimée`);
-            // Actualiser la liste des stories
-            stories = stories.filter(story => story.id !== storyId);
-            displayStories();
-            showConfirmationMessage('Story supprimée avec succès.');
+
+            axios.delete(`/stories/${storyId}`)
+            .then(response => {
+                console.log(response.data);
+                // Actualiser la liste des stories
+                stories = stories.filter(story => story.id !== storyId);
+                displayStories();
+                showConfirmationMessage('Story supprimée avec succès.');
+                console.log(`Story ${storyId} supprimée`);
+            })
+            .catch(error => {
+                console.error(error);
+                showConfirmationMessage('Une erreur est survenue lors de la suppression de la story.');
+            });
         }
 
         // Fonction pour republier une story
         function republishStory(storyId) {
             // Logique pour republier la story
-            console.log(`Story ${storyId} republiée`);
-            showConfirmationMessage('Story republiée avec succès pour 24h.');
+            console.log(`Republishing story ${storyId}`);
+            
+            axios.post(`/stories/${storyId}/status`)
+            .then(response => {
+                if (response.data.success) {
+                    // Mettre à jour la story dans le tableau local
+                    const storyIndex = stories.findIndex(s => s.id == storyId);
+                    if (storyIndex !== -1) {
+                        stories[storyIndex] = response.data.story;
+                    }
+                    
+                    // Trier les stories par expires_at (décroissant) puis par created_at (décroissant)
+                    stories.sort((a, b) => {
+                        const dateA = new Date(a.expires_at);
+                        const dateB = new Date(b.expires_at);
+                        if (dateA > dateB) return -1;
+                        if (dateA < dateB) return 1;
+                        
+                        // Si les dates d'expiration sont égales, trier par created_at
+                        const createdA = new Date(a.created_at);
+                        const createdB = new Date(b.created_at);
+                        return createdB - createdA;
+                    });
+                    
+                    // Rafraîchir l'affichage
+                    displayStories();
+                    showConfirmationMessage(response.data.message);
+                    console.log(`Story ${storyId} republiée avec succès`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la republication:', error);
+                showConfirmationMessage('Une erreur est survenue lors de la republication de la story.');
+            });
         }
 
         // Fonction pour afficher un message de confirmation
@@ -252,6 +413,27 @@
                 }
             }
         });
+
+        // Fonction pour uploader une story
+        function mediaViewer(src = '') {
+            return {
+                mediaUrl: src,
+                isImage: true,
+                fileChosen(event) {
+                    this.fileToDataUrl(event, (result) => {
+                        this.mediaUrl = result;
+                        this.isImage = event.target.files[0].type.startsWith('image/');
+                    });
+                },
+                fileToDataUrl(event, callback) {
+                    if (!event.target.files.length) return;
+                    let file = event.target.files[0];
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = e => callback(e.target.result);
+                }
+            }
+        }
 
         // Afficher les stories au chargement de la page
         displayStories();

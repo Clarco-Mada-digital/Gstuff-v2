@@ -28,6 +28,7 @@ class StorieMediaViewer extends Component
     public function loadStories()
     {
         $this->stories = Story::where('user_id', auth()->user()->id)
+            ->orderBy('expires_at', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
     }

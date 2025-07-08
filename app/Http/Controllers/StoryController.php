@@ -43,4 +43,34 @@ class StoryController extends Controller
 
         return redirect()->back()->with('success', 'Votre story a été publiée avec succès !');
     }
+
+
+    public function destroy($id)
+    {
+        $story = Story::findOrFail($id);
+        $story->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Story deleted successfully',
+            'data' => [
+                'id' => $story->id,
+                'media_url' => Storage::url($story->media_path),
+                'media_type' => $story->media_type,
+                'created_at' => $story->created_at->toDateTimeString()
+            ]
+        ], 200);
+    }
+
+    public function updateStatus($id)
+    {
+        $story = Story::findOrFail($id);
+        $story->expires_at = now()->addDays(1);
+        $story->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Story republiée avec succès pour 24h.',
+            'story' => $story->fresh()
+        ]);
+    }
 }

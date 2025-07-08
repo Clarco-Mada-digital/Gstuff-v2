@@ -191,6 +191,8 @@ Route::get('/profile-completion-percentage', [ProfileCompletionController::class
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
 Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
 Route::post('/stories', [StoryController::class, 'store'])->name('stories.store');
+Route::delete('/stories/{id}', [StoryController::class, 'destroy'])->name('stories.destroy');
+Route::post('/stories/{id}/status', [StoryController::class, 'updateStatus'])->name('stories.updateStatus');
 
 
 // ============================== Routes necessite une authentification ===========================================
