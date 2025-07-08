@@ -15,9 +15,13 @@
 
 
 <div class="container mx-auto p-4" >
-    <div class="flex flex-wrap items-center gap-10">
+    <div class="flex  items-center gap-10">
 
     @php $user = Auth()->user(); @endphp
+
+    
+
+    @if ($stories->count() == 0)
     <button x-on:click="storyForm = true ; console.log('test', storyForm)" type="button"
                             class="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
                             data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
@@ -31,9 +35,11 @@
                                     +</div>
                             </div>
                         </button>
+                        @endif
+   
 
         <!-- Liste des miniatures des stories -->
-        <div id="storiesContainer" class="flex space-x-4 overflow-x-auto py-4 px-2">
+        <div id="storiesContainer" class="flex space-x-4 space-y-4 flex-wrap py-4 px-2">
             <!-- Les stories seront ajoutées ici dynamiquement -->
         </div>
         </div>
@@ -49,19 +55,19 @@
                 <img id="storyImage" src="" alt="Story" class="max-h-full max-w-full object-contain hidden">
                 <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden" controls autoplay></video>
             </div>
-            <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+            <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
             <!-- Bouton précédent -->
-            <button id="previousButton" onclick="previousStory()" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+            <button id="previousButton" onclick="previousStory()" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-gray-300 p-2 text-white hover:bg-supaGirlRose">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
             <!-- Bouton suivant -->
-            <button id="nextButton" onclick="nextStory()" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70">
+            <button id="nextButton" onclick="nextStory()" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -114,8 +120,35 @@
                                                     <div x-show="isImage" class="h-full w-full">
                                                         <img :src="mediaUrl" class="h-full w-full object-cover" alt="Media Preview">
                                                     </div>
-                                                    <div x-show="!isImage" class="h-full w-full">
-                                                        <video :src="mediaUrl" class="h-full w-full object-cover" controls></video>
+                                                   {{-- <div x-show="isImage" class="h-full w-full flex items-center justify-center">
+                                                    <img :src="mediaUrl" class="max-h-full max-w-full object-contain" alt="Media Preview">--}}
+                                                </template>
+                                                <template x-if="mediaUrl && !isImage">
+                                                    <div class="h-full w-full relative">
+                                                        <video 
+                                                            :src="mediaUrl" 
+                                                            class="h-full w-full object-contain" 
+                                                            controls
+                                                            playsinline
+                                                            preload="metadata"
+                                                            @loadeddata="$el.play().catch(e => console.log('Auto-play prevented:', e))"
+                                                        >
+                                                            Votre navigateur ne prend pas en charge la lecture de vidéos.
+                                                        </video>
+                                                        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                                                            <button 
+                                                                type="button" 
+                                                                class="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-lg transition-all"
+                                                                @click="const video = $event.target.closest('div').querySelector('video'); video.paused ? video.play() : video.pause();"
+                                                            >
+                                                                <svg x-show="!$el.closest('div').querySelector('video').paused" class="h-8 w-8 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                                </svg>
+                                                                <svg x-show="$el.closest('div').querySelector('video').paused" class="h-8 w-8 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </template>
                                             </div>
@@ -171,8 +204,8 @@
             }
 
             container.innerHTML = stories.map((story, index) => `
-                <div class="relative flex-shrink-0">
-                    <div class="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-amber-500" onclick="openStory(${index})">
+                <div class="relative flex-shrink-0 h-24 w-24">
+                    <div class="relative h-24 w-24 cursor-pointer overflow-hidden rounded-full border-2 border-green-gs" onclick="openStory(${index})">
                         ${story.media_type === 'image' ?
                             `<img src="${'{{ Storage::url("") }}' + story.media_path}" alt="Story" class="h-full w-full object-cover">` :
                             `<video class="h-full w-full object-cover" muted><source src="${'{{ Storage::url("") }}' + story.media_path}" type="video/mp4"></video>`}
@@ -186,7 +219,7 @@
                     </div>
                     ${isExpired(story) ? `
                     <div class="absolute bottom-0 right-0">
-                        <button onclick="republishStory(${story.id})"  class="absolute -right-1 -bottom-1 rounded-full bg-green-500 p-1 text-white hover:bg-green-600 transition-colors z-10" title="Republier cette story">
+                        <button onclick="republishStory(${story.id})"  class="absolute -right-1 -bottom-1 rounded-full bg-supaGirlRose p-1 text-white hover:bg-green-gs transition-colors z-10" title="Republier cette story">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
