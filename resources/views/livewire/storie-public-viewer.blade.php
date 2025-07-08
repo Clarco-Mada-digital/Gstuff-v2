@@ -53,8 +53,8 @@
             
             <!-- Contenu de la story -->
             <div class="relative flex items-center justify-center h-[80vh] w-full max-w-2xl">
-                <img id="storyImage" src="" alt="Story" class="max-h-full max-w-full object-contain hidden">
-                <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden" autoplay playsinline onended="videoEnded()"></video>
+                <img id="storyImage" src="" alt="Story" class="max-h-full max-w-full object-contain hidden cursor-pointer" onclick="togglePause()">
+                <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden cursor-pointer" autoplay playsinline onended="videoEnded()" onclick="togglePause()"></video>
             </div>
             <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,9 +84,14 @@
     let currentIndex = 0;
     let progressInterval;
     let startTime;
+    let isPaused = false;
+    let remainingTime = 0;
     const STORY_DURATION = 10000; // 10 secondes
 
     function startProgressBar() {
+        // Si on est en pause, on ne fait rien
+        if (isPaused) return;
+        
         // S'assurer que la barre de progression actuelle est à 0% avant de démarrer
         const currentProgress = document.getElementById(`progress-${currentIndex}`);
         if (currentProgress) {
@@ -96,15 +101,19 @@
             
             // Démarrer l'animation après un court délai
             setTimeout(() => {
-                currentProgress.style.transition = `width ${STORY_DURATION}ms linear`;
+                const duration = remainingTime > 0 ? remainingTime : STORY_DURATION;
+                currentProgress.style.transition = `width ${duration}ms linear`;
                 currentProgress.style.width = '100%';
             }, 10);
         }
 
         // Démarrer le minuteur pour la prochaine story
         clearInterval(progressInterval);
-        startTime = Date.now();
+        startTime = Date.now() - (STORY_DURATION - (remainingTime > 0 ? remainingTime : STORY_DURATION));
         progressInterval = setInterval(updateProgress, 100);
+        
+        // Réinitialiser le temps restant
+        remainingTime = 0;
     }
 
     function updateProgress() {
@@ -127,6 +136,10 @@
     }
 
     function openStory(index) {
+        // Réactiver le défilement automatique lors de l'ouverture d'une nouvelle story
+        isPaused = false;
+        remainingTime = 0;
+        
         // Arrêter la vidéo en cours si elle existe
         const currentVideo = document.getElementById('storyVideo');
         if (currentVideo) {
@@ -196,6 +209,8 @@
         }
         
         clearInterval(progressInterval);
+        isPaused = false;
+        remainingTime = 0;
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         
@@ -211,7 +226,44 @@
         nextStory();
     }
 
+    function togglePause() {
+        const currentProgress = document.getElementById(`progress-${currentIndex}`);
+        const storyVideo = document.getElementById('storyVideo');
+        
+        if (isPaused) {
+            // Reprendre la lecture
+            isPaused = false;
+            if (storyVideo && storyVideo.paused) {
+                storyVideo.play().catch(e => console.error('Erreur de lecture vidéo:', e));
+            }
+            startProgressBar();
+        } else {
+            // Mettre en pause
+            isPaused = true;
+            clearInterval(progressInterval);
+            if (storyVideo && !storyVideo.paused) {
+                storyVideo.pause();
+            }
+            
+            // Calculer le temps restant
+            if (currentProgress) {
+                const computedStyle = window.getComputedStyle(currentProgress);
+                const width = parseFloat(computedStyle.width);
+                const totalWidth = currentProgress.parentElement.offsetWidth;
+                const progressPercent = (width / totalWidth) * 100;
+                remainingTime = STORY_DURATION * (1 - (progressPercent / 100));
+                
+                // Mettre en pause l'animation CSS
+                currentProgress.style.transition = 'none';
+                currentProgress.style.width = `${progressPercent}%`;
+                void currentProgress.offsetWidth; // Force le recalcul du style
+            }
+        }
+    }
+
     function nextStory() {
+        isPaused = false; // Réactiver le défilement automatique
+        remainingTime = 0; // Réinitialiser le temps restant
         clearInterval(progressInterval);
         if (currentIndex < stories.length - 1) {
             openStory(currentIndex + 1);
@@ -221,6 +273,8 @@
     }
 
     function previousStory() {
+        isPaused = false; // Réactiver le défilement automatique
+        remainingTime = 0; // Réinitialiser le temps restant
         clearInterval(progressInterval);
         if (currentIndex > 0) {
             openStory(currentIndex - 1);
