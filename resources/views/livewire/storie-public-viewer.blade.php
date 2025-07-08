@@ -39,10 +39,22 @@
         </div>
 
     <!-- Modal de visualisation -->
-        <div id="storyModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90 p-4">
-            <div class="relative flex items-center justify-center h-full w-full max-w-2xl">
+        <div id="storyModal" class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black bg-opacity-90 p-4">
+            <!-- Barre de progression -->
+            <div class="w-full max-w-2xl mb-4">
+                <div class="flex gap-1">
+                    @foreach($storiesData as $index => $story)
+                        <div class="h-1 flex-1 bg-gray-600 rounded-full overflow-hidden">
+                            <div id="progress-{{ $index }}" class="h-full bg-green-gs" style="width: 0%; transition: width 15s linear;"></div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            <!-- Contenu de la story -->
+            <div class="relative flex items-center justify-center h-[80vh] w-full max-w-2xl">
                 <img id="storyImage" src="" alt="Story" class="max-h-full max-w-full object-contain hidden">
-                <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden" controls autoplay></video>
+                <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden" autoplay playsinline onended="videoEnded()"></video>
             </div>
             <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,8 +82,63 @@
 <script>
     let stories = @json($storiesData);
     let currentIndex = 0;
+    let progressInterval;
+    let startTime;
+    const STORY_DURATION = 10000; // 10 secondes
+
+    function startProgressBar() {
+        // S'assurer que la barre de progression actuelle est à 0% avant de démarrer
+        const currentProgress = document.getElementById(`progress-${currentIndex}`);
+        if (currentProgress) {
+            currentProgress.style.width = '0%';
+            currentProgress.style.transition = 'none';
+            void currentProgress.offsetWidth; // Force le recalcul du style
+            
+            // Démarrer l'animation après un court délai
+            setTimeout(() => {
+                currentProgress.style.transition = `width ${STORY_DURATION}ms linear`;
+                currentProgress.style.width = '100%';
+            }, 10);
+        }
+
+        // Démarrer le minuteur pour la prochaine story
+        clearInterval(progressInterval);
+        startTime = Date.now();
+        progressInterval = setInterval(updateProgress, 100);
+    }
+
+    function updateProgress() {
+        const elapsed = Date.now() - startTime;
+        const progress = (elapsed / STORY_DURATION) * 100;
+        
+        if (progress >= 100) {
+            nextStory();
+        }
+    }
+
+    function resetAllProgressBars() {
+        // Réinitialiser toutes les barres de progression
+        document.querySelectorAll('[id^="progress-"]').forEach(progress => {
+            progress.style.width = '0%';
+            progress.style.transition = 'none';
+            // Forcer le recalcul du style
+            void progress.offsetWidth;
+        });
+    }
 
     function openStory(index) {
+        // Arrêter la vidéo en cours si elle existe
+        const currentVideo = document.getElementById('storyVideo');
+        if (currentVideo) {
+            currentVideo.pause();
+            currentVideo.currentTime = 0;
+            // Supprimer l'ancien gestionnaire d'événement pour éviter les doublons
+            currentVideo.onloadeddata = null;
+        }
+        
+        // Arrêter tout intervalle en cours
+        clearInterval(progressInterval);
+        
         currentIndex = index;
         const story = stories[currentIndex];
         const modal = document.getElementById('storyModal');
@@ -80,18 +147,38 @@
         const previousButton = document.getElementById('previousButton');
         const nextButton = document.getElementById('nextButton');
 
+        // Réinitialiser toutes les barres de progression
+        resetAllProgressBars();
+
+        // Afficher la modal avant de charger le média
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
         if (story.media_type === 'image') {
             storyImage.src = story.media_url;
             storyImage.classList.remove('hidden');
             storyVideo.classList.add('hidden');
+            // Démarrer la barre de progression pour les images après un court délai
+            // pour s'assurer que la transition CSS est réinitialisée
+            setTimeout(() => startProgressBar(), 50);
         } else {
             storyVideo.src = story.media_url;
             storyVideo.classList.remove('hidden');
             storyImage.classList.add('hidden');
+            
+            // Pour les vidéos, démarrer la barre de progression après le chargement
+            storyVideo.onloadeddata = function() {
+                // Réinitialiser à nouveau pour être sûr
+                resetAllProgressBars();
+                // Démarrer la barre de progression
+                startProgressBar();
+                // Lancer la lecture de la vidéo
+                storyVideo.play().catch(e => console.error('Erreur de lecture vidéo:', e));
+            };
+            
+            // Gérer la fin de la vidéo
+            storyVideo.onended = videoEnded;
         }
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
 
         // Gérer la visibilité des boutons de navigation
         previousButton.style.display = currentIndex > 0 ? 'block' : 'none';
@@ -102,17 +189,30 @@
         const modal = document.getElementById('storyModal');
         const storyVideo = document.getElementById('storyVideo');
         
-        // Arrêter la vidéo en cours
+        // Arrêter la vidéo en cours et le minuteur
         if (storyVideo) {
             storyVideo.pause();
             storyVideo.currentTime = 0;
         }
         
+        clearInterval(progressInterval);
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+        
+        // Réinitialiser les barres de progression
+        document.querySelectorAll('[id^="progress-"]').forEach(progress => {
+            progress.style.width = '0%';
+            progress.style.transition = 'none';
+        });
+    }
+
+    function videoEnded() {
+        // Appelé quand une vidéo se termine
+        nextStory();
     }
 
     function nextStory() {
+        clearInterval(progressInterval);
         if (currentIndex < stories.length - 1) {
             openStory(currentIndex + 1);
         } else {
@@ -121,6 +221,7 @@
     }
 
     function previousStory() {
+        clearInterval(progressInterval);
         if (currentIndex > 0) {
             openStory(currentIndex - 1);
         }
