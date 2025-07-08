@@ -124,15 +124,9 @@
                 </div>
 
                 {{-- Stories --}}
-                <div class="flex items-center justify-between gap-5 py-5">
+                @livewire('storie-public-viewer', ['userViewStorie' => $escort->id], key($escort->id))
 
-                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.stories') }}</h2>
-                    <div class="bg-green-gs h-0.5 flex-1"></div>
 
-                </div>
-                <div class="flex flex-wrap items-center gap-10">
-                    @livewire('stories-viewer', ['userViewStorie' => $escort->id], key($escort->id))
-                </div>
 
                 {{-- Gallery --}}
                 @livewire('gallery-manager', ['user' => $escort], key($escort->id))

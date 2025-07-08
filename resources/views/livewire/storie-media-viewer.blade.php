@@ -61,7 +61,7 @@
                 </svg>
             </button>
             <!-- Bouton précédent -->
-            <button id="previousButton" onclick="previousStory()" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-gray-300 p-2 text-white hover:bg-supaGirlRose">
+            <button id="previousButton" onclick="previousStory()" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
