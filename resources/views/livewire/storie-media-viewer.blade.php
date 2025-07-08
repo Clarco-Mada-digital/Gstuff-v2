@@ -219,11 +219,17 @@
                     </div>
                     ${isExpired(story) ? `
                     <div class="absolute bottom-0 right-0">
-                        <button onclick="republishStory(${story.id})"  class="absolute -right-1 -bottom-1 rounded-full bg-supaGirlRose p-1 text-white hover:bg-green-gs transition-colors z-10" title="Republier cette story">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                        </button>
+                        <div class="group relative inline-block">
+                            <button onclick="republishStory(${story.id})" class="absolute -right-1 -bottom-1 rounded-full bg-supaGirlRose p-1 text-white hover:bg-green-gs transition-colors z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button>
+                            <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-20">
+                                {{ __('storie_media_viewer.republish_tooltip') }}
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                            </div>
+                        </div>
                     </div>` : ''}
                     <!-- Modale de confirmation -->
                     <div id="deleteModal-${story.id}" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 p-4 backdrop-blur-sm">

@@ -12,20 +12,21 @@ return [
     'uploading' => 'Téléchargement...',
     
     // Messages de confirmation
-    'story_created' => 'Story créée avec succès.',
-    'story_republished' => 'Story republiée avec succès pour 24h.',
-    'story_deleted' => 'Story supprimée avec succès.',
+    'story_created' => 'Storie créée avec succès.',
+    'story_republished' => 'Storie republiée avec succès pour 24h.',
+    'story_deleted' => 'Storie supprimée avec succès.',
     
     // Confirmation de suppression
-    'delete_confirm_title' => 'Supprimer la story',
-    'delete_confirm_message' => 'Êtes-vous sûr de vouloir supprimer cette story ? Cette action est irréversible.',
+    'delete_confirm_title' => 'Supprimer la storie',
+    'delete_confirm_message' => 'Êtes-vous sûr de vouloir supprimer cette storie ? Cette action est irréversible.',
     'delete_confirm_cancel' => 'Annuler',
     'delete_confirm_confirm' => 'Supprimer',
     
     // États
-    'no_stories' => 'Aucune story disponible. Ajoutez votre première story !',
+    'no_stories' => 'Aucune storie disponible. Ajoutez votre première storie !',
     'error_occurred' => 'Une erreur est survenue',
     
     // Actions
-    'republish' => 'Republier'
+    'republish' => 'Republier',
+    'republish_tooltip' => 'Republier cette storie pour 24h'
 ];

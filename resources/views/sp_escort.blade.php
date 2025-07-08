@@ -126,8 +126,6 @@
                 {{-- Stories --}}
                 @livewire('storie-public-viewer', ['userViewStorie' => $escort->id], key($escort->id))
 
-
-
                 {{-- Gallery --}}
                 @livewire('gallery-manager', ['user' => $escort], key($escort->id))
 
