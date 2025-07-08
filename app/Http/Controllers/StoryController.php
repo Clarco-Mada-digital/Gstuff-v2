@@ -31,7 +31,7 @@ class StoryController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Story created successfully',
+                'message' => __('storie_media_viewer.story_created'),
                 'data' => [
                     'id' => $story->id,
                     'media_url' => Storage::url($path),
@@ -51,7 +51,7 @@ class StoryController extends Controller
         $story->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Story deleted successfully',
+            'message' => __('storie_media_viewer.story_deleted'),
             'data' => [
                 'id' => $story->id,
                 'media_url' => Storage::url($story->media_path),
@@ -69,7 +69,7 @@ class StoryController extends Controller
         
         return response()->json([
             'success' => true,
-            'message' => 'Story republiée avec succès pour 24h.',
+            'message' => __('storie_media_viewer.story_republished'),
             'story' => $story->fresh()
         ]);
     }

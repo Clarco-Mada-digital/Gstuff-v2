@@ -68,7 +68,7 @@
             </button>
         </div>
 
-        <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
+                            <div x-cloak x-show="storyForm" x-transition.opacity.duration.300ms
                                 x-trap.inert.noscroll="storyForm" x-on:keydown.esc.window="storyForm = false"
                                 x-on:click.self="storyForm = false"
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
@@ -82,7 +82,7 @@
                                     x-transition:leave="transition ease-in duration-150"
                                     x-transition:leave-start="opacity-100 scale-100"
                                     x-transition:leave-end="opacity-0 scale-95"
-                                    class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
+                                    class="relative w-full max-w-lg rounded-xl bg-white shadow-xl">
 
                                 <!-- Close Button -->
                                 <button type="button" x-on:click="storyForm = false"
@@ -94,8 +94,8 @@
                                 </button>
                                 <!-- Modal Content -->
                                 <div class="p-6">
-                                    <h3 id="story-modal-title" class="mb-6 text-center text-xl font-bold text-gray-900">
-                                        Add a Story
+                                    <h3 id="story-modal-title" class="mb-6 text-center text-xl font-bold text-green-gs font-roboto-slab">
+                                       {{ __('storie_media_viewer.add_story') }}
                                     </h3>
                                     <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data" class="space-y-6">
                                         @csrf
@@ -107,7 +107,7 @@
                                                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                         </svg>
-                                                        <span class="mt-2 block text-sm text-gray-600">Media Preview</span>
+                                                        <span class="mt-2 block text-sm text-gray-600">{{ __('storie_media_viewer.media_preview') }}</span>
                                                     </div>
                                                 </template>
                                                 <template x-if="mediaUrl">
@@ -122,14 +122,14 @@
                                         </div>
                                         <!-- File Input -->
                                         <div class="mt-4">
-                                            <label class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                            <label class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-green-gs hover:bg-green-gs/50">
                                                 <div class="flex items-center">
-                                                    <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <svg class="h-6 w-6 text-green-gs" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                                     </svg>
                                                     <span class="ml-2 text-sm text-gray-700">
-                                                        <span x-text="mediaUrl ? 'Change File' : 'Select File'"></span>
-                                                        <span class="block text-xs text-gray-500">Image or Video</span>
+                                                        <span x-text="mediaUrl ? `{{ __('storie_media_viewer.change_file') }}` : `{{ __('storie_media_viewer.select_file_Title') }}`"></span>
+                                                        <span class="block text-xs text-gray-500">{{ __('storie_media_viewer.select_file') }}</span>
                                                     </span>
                                                 </div>
                                                 <input name="media" type="file" accept="image/*,video/*" x-on:change="fileChosen($event)" class="hidden" required>
@@ -138,13 +138,15 @@
                                         <!-- Action Buttons -->
                                         <div class="mt-6 flex justify-end space-x-3">
                                             <button type="button" x-on:click="storyForm = false" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                                Cancel
+                                                {{ __('storie_media_viewer.cancel') }}
                                             </button>
-                                            <button type="submit" class="inline-flex items-center rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                            <button type="submit" class="inline-flex items-center rounded-lg bg-green-gs px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-gs/90 focus:outline-none focus:ring-2 focus:ring-green-gs/50 focus:ring-offset-2">
                                                 <svg x-show="!mediaUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                                                 </svg>
-                                                <span x-text="mediaUrl ? 'Update' : 'Upload'"></span>
+                                                <span >
+                                                    {{ __('storie_media_viewer.publish') }}
+                                                </span>
                                             </button>
                                         </div>
                                     </form>
@@ -164,7 +166,7 @@
             const container = document.getElementById('storiesContainer');
 
             if (stories.length === 0) {
-                container.innerHTML = '<div class="w-full py-8 text-center text-gray-500">Aucune story disponible. Ajoutez votre première story !</div>';
+                container.innerHTML = '<div class="w-full py-8 text-center text-gray-500">{{ __('storie_media_viewer.no_stories') }}</div>';
                 return;
             }
 
@@ -191,16 +193,16 @@
                         </button>
                     </div>` : ''}
                     <!-- Modale de confirmation -->
-                    <div id="deleteModal-${story.id}" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-50 p-4">
+                    <div id="deleteModal-${story.id}" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
                         <div class="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl transition-all duration-200 opacity-0 scale-95" id="modalContent-${story.id}">
-                            <h3 class="text-lg font-medium text-gray-900">Supprimer la story</h3>
-                            <p class="mt-2 text-sm text-gray-600">Êtes-vous sûr de vouloir supprimer cette story ? Cette action est irréversible.</p>
+                            <h3 class="text-lg font-medium text-gray-900">{{ __('storie_media_viewer.delete_confirm_title') }}</h3>
+                            <p class="mt-2 text-sm text-gray-600">{{ __('storie_media_viewer.delete_confirm_message') }}</p>
                             <div class="mt-6 flex justify-end space-x-3">
                                 <button type="button" onclick="hideDeleteModal(${story.id})" class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                    Annuler
+                                    {{ __('storie_media_viewer.delete_confirm_cancel') }}
                                 </button>
                                 <button type="button" onclick="confirmDelete(${story.id})" class="rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                                    Supprimer
+                                    {{ __('storie_media_viewer.delete_confirm_confirm') }}
                                 </button>
                             </div>
                         </div>
@@ -271,7 +273,7 @@
                 // Actualiser la liste des stories
                 stories = stories.filter(story => story.id !== storyId);
                 displayStories();
-                showConfirmationMessage('Story supprimée avec succès.');
+                showConfirmationMessage(response.data.message);
                 console.log(`Story ${storyId} supprimée`);
             })
             .catch(error => {
