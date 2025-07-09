@@ -38,15 +38,18 @@
 
                 <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="md:flex items-center justify-center gap-2 w-full">
                     <!-- Tab Stories -->
+                    @if(count($usersWithStories) > 0)
                     <button @click="selectedTab = 'stories'; openMenu = false"
                         :class="selectedTab === 'stories' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-700'"
                         class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-pink-100">
-                        📸 Stories
+                        📸 {{ __('gallery.stories') }}
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($usersWithStories) }}"></span>
                     </button>
+                    @endif
 
                     <!-- Tab Galerie publique -->
+                    @if(count($publicGallery) > 0)
                     <button @click="selectedTab = 'public'; openMenu = false"
                         :class="selectedTab === 'public' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
                         class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-blue-100">
@@ -54,8 +57,10 @@
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($publicGallery) }}"></span>
                     </button>
+                    @endif
 
                     <!-- Tab Galerie privée -->
+                    @if(count($privateGallery) > 0)
                     <button @click="selectedTab = 'private'; openMenu = false"
                         :class="selectedTab === 'private' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700'"
                         class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-gray-200">
@@ -63,6 +68,7 @@
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($privateGallery) }}"></span>
                     </button>
+                    @endif
                 </div>
             </aside>
 
