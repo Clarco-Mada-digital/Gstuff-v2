@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Canton;
+use App\Models\Genre;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -520,17 +523,50 @@ class AuthController extends Controller
                 ];
             });
 
+        // Récupérer les genres actifs depuis la base de données
+        $genres = Genre::where('is_active', true)->get();
+        
+        // Récupérer tous les médias publics et privés avec leurs relations
+        $publicGalleries = Gallery::where('is_public', true)
+            ->with(['user', 'user.genre'])
+            ->get()
+            ->shuffle()
+            ->all();
+            
+        $privateGalleries = Gallery::where('is_public', false)
+            ->with(['user', 'user.genre'])
+            ->get()
+            ->shuffle()
+            ->all();
+        
+        // Pagination manuelle
+        $publicPage = LengthAwarePaginator::resolveCurrentPage();
+        $privatePage = LengthAwarePaginator::resolveCurrentPage('private_page');
+        
+        $perPage = 12;
+        
+        $publicPaginated = new LengthAwarePaginator(
+            array_slice($publicGalleries, ($publicPage - 1) * $perPage, $perPage),
+            count($publicGalleries),
+            $perPage,
+            $publicPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+        
+        $privatePaginated = new LengthAwarePaginator(
+            array_slice($privateGalleries, ($privatePage - 1) * $perPage, $perPage),
+            count($privateGalleries),
+            $perPage,
+            $privatePage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath(), 'pageName' => 'private_page']
+        );
+        
         return view('gallery', [
             'usersWithStories' => $usersWithStories,
             'usersWithMedia' => User::has('galleries')->get(),
-            'publicGallery' => Gallery::where('is_public', true)
-                ->with('user')
-                ->latest()
-                ->paginate(12),
-            'privateGallery' => Gallery::where('is_public', false)
-                ->with('user')
-                ->latest()
-                ->paginate(12),
+            'publicGallery' => $publicPaginated,
+            'privateGallery' => $privatePaginated,
+            'genres' => $genres
         ]);
     }
 

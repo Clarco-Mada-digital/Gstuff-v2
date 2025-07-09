@@ -193,30 +193,83 @@
         open: false,
         src: '',
         type: '',
-        show(src, type) {
+        currentIndex: 0,
+        mediaList: [],
+        show(src, type, mediaList = [], index = 0) {
+            this.mediaList = mediaList;
+            this.currentIndex = index;
             this.src = src;
             this.type = type;
             this.open = true;
+            
+            // Gestion des touches du clavier
+            document.addEventListener('keydown', this.handleKeyDown);
         },
         close() {
             this.open = false;
             this.src = '';
             this.type = '';
+            this.mediaList = [];
+            this.currentIndex = 0;
+            
+            // Nettoyer l'écouteur d'événements
+            document.removeEventListener('keydown', this.handleKeyDown);
+        },
+        nextMedia() {
+            if (this.mediaList.length > 0 && this.currentIndex < this.mediaList.length - 1) {
+                this.currentIndex++;
+                const media = this.mediaList[this.currentIndex];
+                this.src = media.src;
+                this.type = media.type;
+            }
+        },
+        prevMedia() {
+            if (this.mediaList.length > 0 && this.currentIndex > 0) {
+                this.currentIndex--;
+                const media = this.mediaList[this.currentIndex];
+                this.src = media.src;
+                this.type = media.type;
+            }
+        },
+        handleKeyDown(e) {
+            if (e.key === 'ArrowRight') this.nextMedia();
+            if (e.key === 'ArrowLeft') this.prevMedia();
         }
-        }" x-ref="lightbox" x-on:media-open.window="show($event.detail.src, $event.detail.type)"
-        x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-        <div class="relative w-full max-w-3xl overflow-hidden rounded-xl bg-white shadow-xl">
-            <template x-if="type === 'image'">
-                <img :src="src" alt="media" class="h-auto w-full object-contain">
-            </template>
-            <template x-if="type === 'video'">
-                <video controls autoplay class="h-auto w-full bg-black">
-                    <source :src="src" type="video/mp4">
-                </video>
-            </template>
+    }" x-ref="lightbox" x-on:media-open.window="show($event.detail.src, $event.detail.type, $event.detail.mediaList, $event.detail.index)"
+    x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+        <div class="relative w-auto max-w-full overflow-hidden rounded-xl bg-transparent shadow-xl">
+            <!-- Flèche gauche -->
+            <button x-show="mediaList.length > 1 && currentIndex > 0" @click.stop="prevMedia()"
+                class="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white hover:bg-black/70 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <!-- Contenu média -->
+            <div class="relative">
+                <template x-if="type === 'image'">
+                    <img :src="src" alt="media" class="max-h-[90vh] w-auto max-w-full object-cover">
+                </template>
+                <template x-if="type === 'video'">
+                    <video controls autoplay class="max-h-[90vh] w-auto max-w-full bg-black">
+                        <source :src="src" type="video/mp4">
+                    </video>
+                </template>
+            </div>
+
+            <!-- Flèche droite -->
+            <button x-show="mediaList.length > 1 && currentIndex < mediaList.length - 1" @click.stop="nextMedia()"
+                class="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white hover:bg-black/70 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Bouton de fermeture -->
             <button @click="close"
-                class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-xl font-bold text-white">
+                class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-xl font-bold text-white hover:bg-black/70 focus:outline-none">
                 &times;
             </button>
         </div>

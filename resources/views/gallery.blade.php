@@ -20,11 +20,10 @@
         </div>
     </section>
 
-    <div class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8" 
-         x-data="galleryApp()">
-        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 md:flex-row font-roboto-slab">
+    <div x-data="galleryApp()" class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8" >
+        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 font-roboto-slab">
             <!-- MENU LATERAL -->
-            <aside class="space-y-2 md:w-1/5">
+            <aside class="space-y-2 w-full">
                 <!-- MOBILE TOGGLE -->
                 <div class="mb-4 md:hidden">
                     <button @click="openMenu = !openMenu"
@@ -37,7 +36,7 @@
                     </button>
                 </div>
 
-                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="space-y-2 md:block">
+                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="md:flex items-center justify-center gap-2 w-full">
                     <!-- Tab Stories -->
                     <button @click="selectedTab = 'stories'; openMenu = false"
                         :class="selectedTab === 'stories' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-700'"
@@ -105,7 +104,7 @@
                     startProgress() {
                         clearInterval(this.interval);
                         this.progress = 0;
-                        const duration = 5000; // 5 seconds per story
+                        const duration = 15000; // 15 secondes par story
                         const steps = 100;
                         const stepTime = duration / steps;
                         
@@ -240,7 +239,7 @@
                         
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
                             <!-- Filtre utilisateur amélioré -->
-                            <div class="relative w-full md:w-64">
+                            <!-- <div class="relative w-full md:w-64">
                                 <div class="relative">
                                     <div @click="userFilter.open = !userFilter.open"
                                          class="flex items-center justify-between p-2 border border-gray-300 rounded-md cursor-pointer bg-white">
@@ -263,7 +262,7 @@
                                              fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                         </svg>
-                                    </div>
+                                    </div> 
 
                                     <div x-show="userFilter.open" @click.away="userFilter.open = false"
                                          class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border max-h-60 overflow-auto">
@@ -294,7 +293,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Filtre par type de média -->
                             <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
@@ -302,12 +301,25 @@
                                 <option value="image">{{ __('gallery.images') }}</option>
                                 <option value="video">{{ __('gallery.videos') }}</option>
                             </select>
+                            
+                            <!-- Filtre par genre -->
+                            <select x-model="genreTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
+                                <option value="">Tout</option>
+                                @foreach($genres as $genre)
+                                    <option value="{{ $genre->name['fr'] ?? $genre->slug }}">
+                                        {{ $genre->name['fr'] ?? $genre->slug }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($publicGallery as $media)
-                            <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}')"
+                            @php
+                                $userGenre = $media->user->genre->name['fr'] ?? null;
+                            @endphp
+                            <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
                                 class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                 @if ($media->type === 'image')
                                     <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
@@ -403,6 +415,7 @@
             loggedIn: @json(auth()->check()),        
             openMenu: false,
             mediaTypeFilter: '',
+            genreTypeFilter: '',
             
             userFilter: {
                 allUsers: @json($usersWithMedia->map(function($user) {
@@ -453,21 +466,52 @@
                 }
             },
             
-            shouldShowMedia(userId, mediaType) {
+            shouldShowMedia(userId, mediaType, genreType) {
                 // Conversion robuste des IDs en strings
                 const selectedUsersStrings = this.userFilter.selectedUsers.map(String);
                 const userIdString = String(userId);
 
+                // Trouver l'utilisateur correspondant
+                const user = @json($publicGallery->items()).find(item => item.user.id == userId);
+                
                 const userMatch = selectedUsersStrings.length === 0 || 
                                 selectedUsersStrings.includes(userIdString);
                 
                 const typeMatch = !this.mediaTypeFilter || this.mediaTypeFilter === mediaType;
+                
+                // Vérifier le genre de l'utilisateur
+                let genreMatch = true;
+                if (this.genreTypeFilter && user && user.user.genre) {
+                    // Vérifier si le nom du genre correspond au filtre (en minuscules pour la casse)
+                    const genreName = user.user.genre.name?.fr?.toLowerCase() || '';
+                    genreMatch = genreName === this.genreTypeFilter.toLowerCase();
+                }
 
-                return userMatch && typeMatch;
+                return userMatch && typeMatch && genreMatch;
             },
             
             openMedia(src, type) {
-                this.$dispatch('media-open', { src, type });
+                // Créer un tableau de tous les médias visibles
+                const mediaElements = Array.from(document.querySelectorAll('[x-show*="shouldShowMedia"]'));
+                const mediaList = mediaElements
+                    .filter(el => el.offsetParent !== null) // Seulement les éléments visibles
+                    .map(el => {
+                        const img = el.querySelector('img, video source');
+                        return {
+                            src: img ? (img.src || img.parentElement.src) : '',
+                            type: img ? (img.tagName === 'IMG' ? 'image' : 'video') : ''
+                        };
+                    });
+                
+                // Trouver l'index du média actuel
+                const currentIndex = mediaList.findIndex(media => media.src.includes(src.split('/').pop()));
+                
+                this.$dispatch('media-open', { 
+                    src, 
+                    type,
+                    mediaList,
+                    index: currentIndex !== -1 ? currentIndex : 0
+                });
             },
         }
     }
