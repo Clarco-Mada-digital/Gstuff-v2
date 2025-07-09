@@ -195,6 +195,10 @@
         type: '',
         currentIndex: 0,
         mediaList: [],
+        init() {
+            // Créer une référence liée pour le contexte this
+            this.handleKeyDown = this.handleKeyDown.bind(this);
+        },
         show(src, type, mediaList = [], index = 0) {
             this.mediaList = mediaList;
             this.currentIndex = index;
@@ -202,8 +206,11 @@
             this.type = type;
             this.open = true;
             
-            // Gestion des touches du clavier
-            document.addEventListener('keydown', this.handleKeyDown);
+            // Désactiver le défilement de la page
+            document.body.style.overflow = 'hidden';
+            
+            // Ajouter l'écouteur d'événement avec la référence liée
+            window.addEventListener('keydown', this.handleKeyDown);
         },
         close() {
             this.open = false;
@@ -212,28 +219,82 @@
             this.mediaList = [];
             this.currentIndex = 0;
             
-            // Nettoyer l'écouteur d'événements
-            document.removeEventListener('keydown', this.handleKeyDown);
+            // Réactiver le défilement de la page
+            document.body.style.overflow = 'auto';
+            
+            // Supprimer l'écouteur d'événement
+            window.removeEventListener('keydown', this.handleKeyDown);
         },
         nextMedia() {
             if (this.mediaList.length > 0 && this.currentIndex < this.mediaList.length - 1) {
                 this.currentIndex++;
-                const media = this.mediaList[this.currentIndex];
-                this.src = media.src;
-                this.type = media.type;
+                this.updateMedia();
+            } else if (this.mediaList.length > 0) {
+                // Revenir au premier média si on est à la fin
+                this.currentIndex = 0;
+                this.updateMedia();
             }
         },
         prevMedia() {
             if (this.mediaList.length > 0 && this.currentIndex > 0) {
                 this.currentIndex--;
-                const media = this.mediaList[this.currentIndex];
+                this.updateMedia();
+            } else if (this.mediaList.length > 0) {
+                // Aller au dernier média si on est au début
+                this.currentIndex = this.mediaList.length - 1;
+                this.updateMedia();
+            }
+        },
+        updateMedia() {
+            const media = this.mediaList[this.currentIndex];
+            if (media) {
                 this.src = media.src;
                 this.type = media.type;
+                
+                // Mettre en pause la vidéo précédente si nécessaire
+                const prevVideo = document.querySelector('video');
+                if (prevVideo) {
+                    prevVideo.pause();
+                }
             }
         },
         handleKeyDown(e) {
-            if (e.key === 'ArrowRight') this.nextMedia();
-            if (e.key === 'ArrowLeft') this.prevMedia();
+            // Ignorer si on est dans un champ de formulaire
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+            
+            switch(e.key) {
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    e.preventDefault();
+                    this.nextMedia();
+                    break;
+                case 'ArrowLeft':
+                case 'q':
+                case 'Q':
+                    e.preventDefault();
+                    this.prevMedia();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    this.close();
+                    break;
+                case ' ':
+                case 'Spacebar':
+                    // Mettre en pause/lecture la vidéo si c'est une vidéo
+                    const video = document.querySelector('video');
+                    if (video) {
+                        e.preventDefault();
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    }
+                    break;
+            }
         }
     }" x-ref="lightbox" x-on:media-open.window="show($event.detail.src, $event.detail.type, $event.detail.mediaList, $event.detail.index)"
     x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
