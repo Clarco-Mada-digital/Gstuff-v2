@@ -9,7 +9,7 @@
         <div class="max-h-[90vh] w-[90vw] overflow-y-auto rounded-lg bg-white p-6 shadow-lg xl:max-w-7xl">
             <div
                 class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 font-roboto-slab">
-                <h3 class="text-xl font-semibold text-gray-900 ">
+                <h3 class="text-xl font-semibold text-green-gs font-roboto-slab">
                     {{ __('invitations.title') }}
                 </h3>
             </div>
@@ -20,14 +20,14 @@
                   
                     <li class="me-2">
                         <a href="#" data-tabs-target="#enAttente"
-                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600"
+                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-green-gs/50  hover:text-green-gs"
                             aria-controls="enAttente" role="tab">
                             {{ __('invitations.tabs.pending') }}
                         </a>
                     </li>
                     <li class="me-2">
                         <a href="#" data-tabs-target="#accepter"
-                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-green-gs/50 hover:text-green-gs"
                             aria-controls="accepter" role="tab">
                             {{ __('invitations.tabs.accepted') }}
                         </a>
@@ -53,7 +53,7 @@
                                     </svg>
                                 </div>
                                 <input type="text" id="simple-search-pending-salon"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    class="block w-full font-roboto-slab text-green-gs rounded-lg border border-2 border-supaGirlRose bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs"
                                     placeholder="{{ __('invitations.search_placeholder') }}"
                                     oninput="filterSalons(this.value, 'pending')">
                             </div>
@@ -127,7 +127,8 @@
                                     </svg>
                                 </div>
                                 <input type="text" id="simple-search-pending-salon"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    class="block w-full rounded-lg border border-supaGirlRose border-2 font-roboto-slab text-green-gs bg-gray-50 p-2.5 ps-10 text-sm  focus:border-green-gs focus:ring-green-gs 
+                                    "
                                     placeholder="{{ __('invitations.search_placeholder') }}"
                                     oninput="filterSalons(this.value, 'pending')">
                             </div>
@@ -204,13 +205,14 @@
                                 </svg>
                             </div>
                             <input type="text" id="simple-search-pending-Salon"
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                class="block w-full rounded-lg border border-supaGirlRose border-2 font-roboto-slab text-green-gs bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs 
+                              "
                                 placeholder="{{ __('invitations.search_placeholder') }}"
                                 oninput="filterSalonsAccepter(this.value)">
                         </div>
                     </div>
                     <ul id="salon-list-accepted"
-                        class="h-[30vh] divide-y divide-gray-200 overflow-y-auto p-5 md:h-[35vh] xl:h-[40vh] dark:divide-gray-700">
+                        class="h-[30vh] divide-y divide-gray-200 overflow-y-auto p-5 md:h-[35vh] xl:h-[40vh] ">
                         @if ($salonAssociers->isNotEmpty())
                             @foreach ($salonAssociers as $salonAssocier)
                                 @if ($user->profile_type === 'salon')

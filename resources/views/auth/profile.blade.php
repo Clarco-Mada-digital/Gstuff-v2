@@ -15,7 +15,7 @@
                 class="absolute inset-0"></div>
             <div class="absolute bottom-2 right-4">
                 <button x-on:click.stop="couvertureForm = !couvertureForm"
-                    class="hover:text-green-gs z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
+                    class="cursor-pointer hover:text-green-gs z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
                     data-tooltip-target="tooltip-cover-photo" data-tooltip-placement="top">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="#7F55B1"
@@ -40,7 +40,7 @@
                         class="relative w-full max-w-md rounded-xl bg-white shadow-xl">
                         <!-- Close Button -->
                         <button type="button" x-on:click="couvertureForm = false"
-                            class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                            class="cursor-pointer absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
                             <span class="sr-only">{{ __('profile.close') }}</span>
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -83,9 +83,10 @@
                                 <!-- File Input -->
                                 <div class="mt-4">
                                     <label
-                                        class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed   border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                        class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed  
+                                         border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-green-gs hover:bg-fieldBg">
                                         <div class="flex items-center">
-                                            <svg class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24"
+                                            <svg class="h-6 w-6 text-green-gs" fill="none" viewBox="0 0 24 24"
                                                 stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -105,11 +106,12 @@
                                 <!-- Action Buttons -->
                                 <div class="mt-6 flex justify-end space-x-3">
                                     <button type="button" x-on:click="couvertureForm = false"
-                                        class="rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        class="cursor-pointer rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                         {{ __('profile.cancel') }}
                                     </button>
                                     <button type="submit"
-                                        class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-roboto-slab text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        class="cursor-pointer bg-green-gs font-roboto-slab inline-flex items-center rounded-lg px-4 py-2 text-sm font-roboto-slab text-white
+                                         shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2">
                                         <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -146,7 +148,7 @@
 
                         <div class="relative">
                             <button x-on:click="profileForm = true" type="button"
-                                class="absolute bottom-2 right-4 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white shadow-md transition-colors hover:bg-gray-100"
+                                class="cursor-pointer absolute bottom-2 right-4 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-white shadow-md transition-colors hover:bg-gray-100"
                                 data-tooltip-target="tooltip-profile-photo" data-tooltip-placement="top">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 24 24">
@@ -175,7 +177,7 @@
 
                                     <!-- Close Button -->
                                     <button type="button" x-on:click="profileForm = false"
-                                        class="absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+                                        class="cursor-pointer absolute right-3 top-3 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
                                         <span class="sr-only">{{ __('profile.close') }}</span>
                                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -197,7 +199,8 @@
                                             <!-- Image Preview -->
                                             <div class="flex justify-center">
                                                 <div
-                                                    class="relative h-40 w-40 overflow-hidden rounded-full border-2 border-dashed   border-gray-300 font-roboto-slab bg-gray-50">
+                                                    class="relative h-40 w-40 overflow-hidden rounded-full border-2 border-dashed 
+                                                      border-gray-300 font-roboto-slab bg-gray-50">
                                                     <template x-if="!imageUrl">
                                                         <div
                                                             class="flex h-full flex-col items-center justify-center p-4 text-center">
@@ -221,9 +224,10 @@
                                             <!-- File Input -->
                                             <div class="mt-4">
                                                 <label
-                                                    class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed   border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-amber-500 hover:bg-amber-50">
+                                                    class="flex cursor-pointer items-center justify-between rounded-lg border-2 border-dashed 
+                                                      border-gray-300 font-roboto-slab bg-white p-4 transition-colors hover:border-green-gs hover:bg-fieldBg">
                                                     <div class="flex items-center">
-                                                        <svg class="h-6 w-6 text-amber-500" fill="none"
+                                                        <svg class="h-6 w-6 text-green-gs" fill="none"
                                                             viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
@@ -244,11 +248,13 @@
                                             <!-- Action Buttons -->
                                             <div class="mt-6 flex justify-end space-x-3">
                                                 <button type="button" x-on:click="profileForm = false"
-                                                    class="rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    class="cursor-pointer rounded-lg border   border-gray-300 font-roboto-slab bg-white px-4 py-2 text-sm font-roboto-slab text-green-gs shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                                     {{ __('profile.cancel') }}
                                                 </button>
                                                 <button type="submit"
-                                                    class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-roboto-slab text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    class="cursor-pointer bg-green-gs font-roboto-slab inline-flex items-center rounded-lg px-4 py-2 text-sm 
+                                                    font-roboto-slab text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2
+                                                     focus:ring-green-gs focus:ring-offset-2">
                                                     <svg x-show="!imageUrl" class="-ml-0.5 mr-2 h-4 w-4" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -893,20 +899,20 @@
                         <!-- Boutons de navigation -->
                         <div class="mt-6 flex justify-between gap-2 text-sm md:text-base">
                             <button type="button" @click="prevStep"
-                                class="rounded-md bg-gray-300 px-4 py-2 text-green-gs font-roboto-slab" x-show="currentStep > 0">
+                                class="cursor-pointer rounded-md bg-gray-300 px-4 py-2 text-green-gs font-roboto-slab" x-show="currentStep > 0">
                                 {{ __('profile.previous') }}
                             </button>
                             <button type="button" @click="saveAndQuit"
-                                class="rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
+                                class="cursor-pointer rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
                                 x-show="currentStep < steps.length - 1">
                                 {{ __('profile.save_and_quit') }}
                             </button>
-                            <button type="button" @click="nextStep" class="rounded-md bg-supaGirlRosePastel text-green-gs px-4 py-2 font-roboto-slab"
+                            <button type="button" @click="nextStep" class="cursor-pointer rounded-md bg-supaGirlRosePastel text-green-gs px-4 py-2 font-roboto-slab"
                                 x-show="currentStep < steps.length - 1">
                                 {{ __('profile.next') }}
                             </button>
                             <button id="addInfoSubmit" type="submit"
-                                class="rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
+                                class="cursor-pointer rounded-md bg-green-gs text-white px-4 py-2 font-roboto-slab"
                                 x-show="currentStep === steps.length - 1">
                                 {{ __('profile.submit') }}
                             </button>
@@ -943,7 +949,7 @@
                                 label="Mes services" />
                         </div>
                         <button type="submit"
-                            class="btn-gs-gradient inline-flex items-center rounded-lg px-4 py-2 text-sm font-bold text-black shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
+                            class="cursor-pointer bg-green-gs inline-flex items-center rounded-lg px-4 py-2 text-sm font-bold text-black shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
                             <i class="fas fa-paper-plane mr-2"></i>
                             {{ __('profile.submit') }}
                         </button>
@@ -963,7 +969,7 @@
 
                     <!-- Header de l'accordéon (toujours visible sur mobile) -->
                     <button @click="isOpen = !isOpen"
-                        class="flex w-full items-center justify-between p-4 text-left md:hidden">
+                        class="cursor-pointer flex w-full items-center justify-between p-4 text-left md:hidden">
                         <div class="flex items-center">
                             <svg class="me-3 h-4 w-4 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
@@ -1006,7 +1012,7 @@
                             </div>
 
                             <button data-modal-target="addInfoProf" data-modal-toggle="addInfoProf"
-                                class="font-roboto-slab text-green-gs hover:bg-green-gs mt-2 w-full rounded-lg border border-supaGirlRose px-4 py-2 text-center font-bold transition-all hover:text-white md:w-auto md:px-2 md:py-1">
+                                class="cursor-pointer font-roboto-slab text-green-gs hover:bg-green-gs mt-2 w-full rounded-lg border border-supaGirlRose px-4 py-2 text-center font-bold transition-all hover:text-white md:w-auto md:px-2 md:py-1">
                                 {{ __('profile.improve_profile') }}
                             </button>
                         </div>
@@ -1206,7 +1212,7 @@
                             class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
                             <p>{{ __('profile.profile_not_verified') }}</p>
                             <button data-modal-target="requestModal" data-modal-toggle="requestModal"
-                                class="bg-green-gs font-roboto-slab text-white px-5 py-2 hover:bg-fieldBg hover:text-green-gs">
+                                class="cursor-pointer bg-green-gs font-roboto-slab text-white px-5 py-2 hover:bg-fieldBg hover:text-green-gs">
                                 {{ __('profile.send_request') }}
                             </button>
                         </div>
@@ -1227,7 +1233,7 @@
                             <div class="relative rounded-xl bg-white p-6 shadow-2xl">
                                 <!-- Close button -->
                                 <button type="button"
-                                    class="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-green-gs"
+                                    class="cursor-pointer absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-green-gs"
                                     data-modal-hide="requestModal">
                                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1243,10 +1249,10 @@
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
-                                    <h3 class="mb-2 text-xl font-bold text-green-gs">
+                                    <h3 class="mb-2 text-xl font-bold text-green-gs font-roboto-slab">
                                         {{ __('profile.send_verification_photo') }}
                                     </h3>
-                                    <p class="text-sm text-gray-600">
+                                    <p class="text-sm text-gray-600 font-roboto-slab">
                                         {{ __('profile.verification_photo_instructions') }}
                                     </p>
                                 </div>
@@ -1282,7 +1288,7 @@
                                                     <img :src="imageUrl" alt="Aperçu de l'image"
                                                         class="mx-auto h-40 w-40 rounded-xl border-2 border-gray-200 object-cover shadow-sm">
                                                     <button type="button" @click="imageUrl = ''"
-                                                        class="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600">
+                                                        class="cursor-pointer absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600">
                                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                 d="M6 18L18 6M6 6l12 12" />
@@ -1302,7 +1308,8 @@
                                         <!-- Submit button -->
                                         <div class="mt-6">
                                             <button type="submit"
-                                                class="btn-gs-gradient w-full transform rounded-lg px-5 py-3 font-bold text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                                                class="cursor-pointer bg-green-gs w-full transform rounded-lg px-5 py-3 font-bold text-white shadow-md transition-all
+                                                 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-gs/50 focus:ring-offset-2 disabled:opacity-50"
                                                 :disabled="!imageUrl">
                                                 <i class="fas fa-paper-plane mr-2"></i>
                                                 {{ __('profile.send') }}
@@ -1696,7 +1703,7 @@
                                         <div class="z-30 my-3 flex justify-center space-x-3 rtl:space-x-reverse">
                                             @foreach ($escorteCreateBySalons as $index => $acceptedInvitation)
                                                 <button type="button"
-                                                    class="{{ $index === 0 ? 'bg-blue-500' : 'bg-gray-300' }} h-3 w-3 rounded-full"
+                                                    class="{{ $index === 0 ? 'bg-blue-500' : 'bg-gray-300' }} cursor-pointer h-3 w-3 rounded-full"
                                                     aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                                                     aria-label="Slide {{ $index + 1 }}"
                                                     data-carousel-slide-to="{{ $index }}"></button>
@@ -1705,10 +1712,10 @@
                                         <!-- Slider controls -->
                                         <!-- Bouton PREV -->
                                         <button type="button"
-                                            class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+                                            class="cursor-pointer group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
                                             data-carousel-prev>
                                             <span
-                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                class="bg-green-gs cursor-pointer group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
                                                 <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -1720,10 +1727,10 @@
 
                                         <!-- Bouton NEXT -->
                                         <button type="button"
-                                            class="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+                                            class="cursor-pointer group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
                                             data-carousel-next>
                                             <span
-                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                class="bg-green-gs cursor-pointer group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
                                                 <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round"
@@ -1782,7 +1789,7 @@
                                             @if ($acceptedInvitations->isNotEmpty())
                                                 @foreach ($acceptedInvitations as $index => $acceptedInvitation)
                                                     <button type="button"
-                                                        class="{{ $index === 0 ? 'bg-green-gs' : 'bg-gray-400' }} h-3 w-3 rounded-full"
+                                                        class="{{ $index === 0 ? 'bg-green-gs' : 'bg-gray-400' }} cursor-pointer h-3 w-3 rounded-full"
                                                         aria-current="{{ $index === 0 ? 'true' : 'false' }}"
                                                         aria-label="Slide {{ $index + 1 }}"
                                                         data-carousel-slide-to="{{ $index }}"></button>
@@ -1792,7 +1799,7 @@
                                         <!-- Slider controls -->
                                         <!-- Bouton PREV -->
                                         <button type="button"
-                                            class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+                                            class="cursor-pointer group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
                                             data-carousel-prev>
                                             <span
                                                 class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">

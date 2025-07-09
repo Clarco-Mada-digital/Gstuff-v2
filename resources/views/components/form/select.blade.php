@@ -14,9 +14,6 @@
     @if($label)
         <label for="{{ $name }}" class="{{ $labelClass }}">
             {{ $label }}
-            @if($required)
-                <span class="text-red-500">*</span>
-            @endif
         </label>
     @endif
     
