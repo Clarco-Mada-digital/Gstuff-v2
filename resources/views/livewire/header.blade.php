@@ -102,28 +102,20 @@
 
             {{-- Search --}}
             <div class="ml-auto mr-0 flex xl:order-1">
-                <a href="{{ route('search') }}"
-                    class="border border-supaGirlRose me-1 rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 md:hidden">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M19.0002 19.0002L14.6572 14.6572M14.6572 14.6572C15.4001 13.9143 15.9894 13.0324 16.3914 12.0618C16.7935 11.0911 17.0004 10.0508 17.0004 9.00021C17.0004 7.9496 16.7935 6.90929 16.3914 5.93866C15.9894 4.96803 15.4001 4.08609 14.6572 3.34321C13.9143 2.60032 13.0324 2.01103 12.0618 1.60898C11.0911 1.20693 10.0508 1 9.00021 1C7.9496 1 6.90929 1.20693 5.93866 1.60898C4.96803 2.01103 4.08609 2.60032 3.34321 3.34321C1.84288 4.84354 1 6.87842 1 9.00021C1 11.122 1.84288 13.1569 3.34321 14.6572C4.84354 16.1575 6.87842 17.0004 9.00021 17.0004C11.122 17.0004 13.1569 16.1575 14.6572 14.6572Z"
-                            stroke="#05595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <a href="{{ route('search') }}" 
+                   class="group flex h-10 w-10 items-center justify-center rounded-full bg-pink-50 transition-colors hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2"
+                   title="{{ __('header.search_placeholder') }}">
+                    <svg class="h-5 w-5 text-pink-500 transition-colors group-hover:text-pink-600" 
+                         viewBox="0 0 20 20" 
+                         fill="none" 
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.0002 19.0002L14.6572 14.6572M14.6572 14.6572C15.4001 13.9143 15.9894 13.0324 16.3914 12.0618C16.7935 11.0911 17.0004 10.0508 17.0004 9.00021C17.0004 7.9496 16.7935 6.90929 16.3914 5.93866C15.9894 4.96803 15.4001 4.08609 14.6572 3.34321C13.9143 2.60032 13.0324 2.01103 12.0618 1.60898C11.0911 1.20693 10.0508 1 9.00021 1C7.9496 1 6.90929 1.20693 5.93866 1.60898C4.96803 2.01103 4.08609 2.60032 3.34321 3.34321C1.84288 4.84354 1 6.87842 1 9.00021C1 11.122 1.84288 13.1569 3.34321 14.6572C4.84354 16.1575 6.87842 17.0004 9.00021 17.0004C11.122 17.0004 13.1569 16.1575 14.6572 14.6572Z" 
+                              stroke="currentColor" 
+                              stroke-width="1.5" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round" />
                     </svg>
-                    <span class="sr-only">Search</span>
-                </a>
-                <a href="{{ route('search') }}" class="relative hidden md:block w-52">
-                    <div id="search-navbar"
-                        class="focus:ring-green-gs block w-full rounded-xl border border-supaGirlRose bg-[#FFFAFC] p-2 pe-10 text-sm text-supaGirlRose focus:border-blue-500 text-roboto-slab ">{{ __('header.search_placeholder') }}</div>
-                    <div class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-supaGirlRose">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M19.0002 19.0002L14.6572 14.6572M14.6572 14.6572C15.4001 13.9143 15.9894 13.0324 16.3914 12.0618C16.7935 11.0911 17.0004 10.0508 17.0004 9.00021C17.0004 7.9496 16.7935 6.90929 16.3914 5.93866C15.9894 4.96803 15.4001 4.08609 14.6572 3.34321C13.9143 2.60032 13.0324 2.01103 12.0618 1.60898C11.0911 1.20693 10.0508 1 9.00021 1C7.9496 1 6.90929 1.20693 5.93866 1.60898C4.96803 2.01103 4.08609 2.60032 3.34321 3.34321C1.84288 4.84354 1 6.87842 1 9.00021C1 11.122 1.84288 13.1569 3.34321 14.6572C4.84354 16.1575 6.87842 17.0004 9.00021 17.0004C11.122 17.0004 13.1569 16.1575 14.6572 14.6572Z"
-                                stroke="#FDA5D6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <span class="sr-only">Search icon</span>
-                    </div>  
+                    <span class="sr-only">{{ __('header.search_placeholder') }}</span>
                 </a>
             </div>
 
