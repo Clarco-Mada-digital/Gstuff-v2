@@ -6,14 +6,16 @@
     </div>
   </div>
 
-    <div class="w-full px-10  py-15 flex min-h-72 flex-col items-center justify-center bg-[#E4F1F1]">
-        <h1 class="font-dm-serif text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
+    <div class="w-full px-10  py-15 flex min-h-72 flex-col items-center justify-center bg-supaGirlRosePastel">
+        <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
             {{ __('user-search.title') }}</h1>
+            
         <form wire:submit.prevent="search" class="w-full xl:w-1/2 2xl:w-1/2 sm:w-2/3 container flex flex-col gap-5">
-            <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search" id="userName-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500" placeholder="{{__('user-search.search_placeholder')}}" />
+            <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search" id="userName-search" 
+            class="block w-full p-2 ps-10  text-green-gs font-roboto-slab border border-2 border-supaGirlRose rounded-lg bg-gray-50 px-3 py-2 focus:border-supaGirlRose/50 focus:ring-supaGirlRose/50 focus:border-transparent" placeholder="{{__('user-search.search_placeholder')}}" />
 
             <!-- Filtres de recherche -->
-            <div class="flex w-full flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+            <div class="flex w-full flex-col items-center justify-center space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <div class="w-full min-w-[200px] max-w-xs">
                     <x-selects.canton-select 
                         :cantons="$cantons"
@@ -39,7 +41,7 @@
             </div>
 
             <!-- Catégories Salons -->
-            <div class="flex flex-wrap items-center justify-center gap-2 mb-3 font-bold text-sm xl:text-base">
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-2 font-bold text-sm xl:text-base">
                 <x-category-checkbox 
                     :categories="$salonCategories"
                     :selected-values="$selectedCategories"

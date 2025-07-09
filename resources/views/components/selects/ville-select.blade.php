@@ -9,7 +9,7 @@
 
 <div class="{{ $class }}">
     @if($label)
-        <label for="{{ $id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label for="{{ $id }}" class="block text-sm font-medium text-green-gs mb-1">
             {{ $label }}
         </label>
     @endif
@@ -17,7 +17,7 @@
         wire:model.live="selectedVille" 
         id="{{ $id }}" 
         {{ $disabled || ($villes && $villes->isEmpty()) ? 'disabled' : '' }}
-        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-gray-50 px-3 py-2 text-green-gs font-roboto-slab focus:border-supaGirlRose/50 focus:ring-supaGirlRose/50 focus:border-transparent"
     >
         <option value="">{{ $villes->isEmpty() ? __('user-search.choose_canton') : __('user-search.cities') }}</option>
         @foreach ($villes as $ville)
