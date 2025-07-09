@@ -19,7 +19,7 @@
     $displayAltText = $altText ?? $defaultAlt;
     $displayTitle = $title ?? $defaultTitle;
 @endphp
-
+@if($items)
 <div class="font-roboto-slab text-textColor flex w-full items-center gap-3">
     @if($icon && $displayIconPath)
         <img 
@@ -47,3 +47,4 @@
         @endif
     </div>
 </div>
+@endif

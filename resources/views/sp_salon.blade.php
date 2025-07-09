@@ -182,12 +182,11 @@
                             </div>
 
                             {{-- Description --}}
-                            @if ($salon->apropos)
+                           
                             <x-profile.description 
                                 :title="__('salon_profile.description')"
                                 :content="$salon->apropos"
                             />
-                            @endif
                             {{-- Escort associé --}}
 
                             @if ($acceptedInvitations->isNotEmpty())

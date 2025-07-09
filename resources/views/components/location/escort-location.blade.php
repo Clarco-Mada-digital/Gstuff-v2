@@ -4,7 +4,7 @@
     'cityName' => null,
     'class' => ''
 ])
-
+@if($cantonId)
 <div class="text-green-gs flex items-center justify-center gap-2 font-roboto-slab {{ $class }} hover:text-green-gs">
     @if($cantonId && $cantonName)
         <a href="{{ route('escortes') }}?selectedCanton={{ $cantonId }}" 
@@ -29,3 +29,4 @@
         </span>
     @endif
 </div>
+@endif
