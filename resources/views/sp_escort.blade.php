@@ -231,34 +231,37 @@
                 </div>
 
                 {{-- Description --}}
-                <x-profile.description 
-                    :title="__('escort_profile.description')"
-                    :content="$escort->apropos"
-                />
-
+                @if($escort->apropos)
+                    <x-profile.description 
+                        :title="__('escort_profile.description')"
+                        :content="$escort->apropos"
+                    />
+                @endif
                 {{-- Services --}}
-                <div class="flex items-center justify-between gap-5 py-5">
+                @if($escort->services->isNotEmpty())
+                    <div class="flex items-center justify-between gap-5 py-5">
 
-                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.services_offered') }}
-                    </h2>
-                    <div class="bg-green-gs h-0.5 flex-1"></div>
+                        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.services_offered') }}
+                        </h2>
+                        <div class="bg-green-gs h-0.5 flex-1"></div>
 
-                </div>
-                <div class="flex flex-wrap items-center gap-2">
-                    @foreach ($escort->services as $service)
-                        <x-service-badge 
-                                        :text="$service->getTranslation('nom', app()->getLocale())"
-                                        color="green-gs"
-                                        hoverColor="fieldBg"
-                                        borderColor="supaGirlRose"
-                                        bgColor="fieldBg"
-                                        textHoverColor="fieldBg"
-                                    />
-                    @endforeach
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        @foreach ($escort->services as $service)
+                            <x-service-badge 
+                                            :text="$service->getTranslation('nom', app()->getLocale())"
+                                            color="green-gs"
+                                            hoverColor="fieldBg"
+                                            borderColor="supaGirlRose"
+                                            bgColor="fieldBg"
+                                            textHoverColor="fieldBg"
+                                        />
+                        @endforeach
 
-                </div>
-
+                    </div>
+                @endif
                 {{-- Associated Salon --}}
+                @if($salonAssociers->isNotEmpty())
                 <div class="flex items-center justify-between gap-5 py-5">
 
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.associated_salon') }}
@@ -283,12 +286,16 @@
 
                 </div>
 
+
+                @endif
                 {{-- Private Gallery --}}
                 @guest
+                <div class="flex items-center justify-center my-10">
                     <x-auth.login-required 
                         :title="__('escort_profile.connect_to_view_private_content')"
                         :buttonText="__('escort_profile.connect_signup')"
                     />
+                </div>
                 @endguest
                 @auth
                     @livewire('gallery-manager', ['user' => $escort, 'isPublic' => false], key($escort->id))
