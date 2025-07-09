@@ -94,7 +94,7 @@ class MessengerController extends Controller
             $getRecords = '';
             
             if ($records->isEmpty()) {
-                $getRecords = "<p class='text-center'>".__('chat.no_results')."</p>";
+                $getRecords = "<p class='text-center text-textColorParagraph font-roboto-slab text-sm'>".__('chat.no_results')."</p>";
             } else {
                 foreach ($records as $record) {
                     $getRecords .= view('messenger.components.search-item', ['record' => $record])->render();
@@ -336,7 +336,7 @@ class MessengerController extends Controller
            }
 
        }else {
-           $contacts = "<p class='text-center no_contact'>" . __('messenger.contact_list_empty') . "</p>";
+           $contacts = "<p class='text-center no_contact text-textColorParagraph font-roboto-slab text-sm'>" . __('messenger.contact_list_empty') . "</p>";
        }
 
        return response()->json([

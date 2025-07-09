@@ -3,10 +3,10 @@
     <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30vw]">
         <!-- Header -->
         <div class="flex items-center justify-between p-4">
-            <h1 class="text-xl font-bold text-gray-800">{{ __('messenger.messenger') }}</h1>
+            <h1 class="text-xl font-bold text-green-gs font-roboto-slab">{{ __('messenger.messenger') }}</h1>
 
             <button x-on:click="modalIsOpen = true" type="button"
-                class="bg-green-gs hover:bg-green-gs-dark focus:ring-green-gs-light dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light block rounded-lg px-3 py-1.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+                class="cursor-pointer bg-green-gs hover:bg-green-gs-dark focus:ring-green-gs-light dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light block rounded-lg px-3 py-1.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -40,7 +40,7 @@
                             </div>
                             <div>
                                 <template x-if="searchResults.length === 0">
-                                    <div class="p-4 text-center text-gray-500">
+                                    <div class="p-4 text-center text-textColorParagraph font-roboto-slab text-sm">
                                         {{ __('messenger.no_results_found') }}
                                     </div>
                                 </template>
@@ -51,7 +51,7 @@
                                         <div x-on:click="loadChat(result.id) ; modalIsOpen = false ; "
                                             class="hover:bg-green-gs flex cursor-pointer items-center rounded-sm p-3 hover:text-white">
                                             <img :src="result.avatar ? `{{ asset('storage/avatars') }}/` + result.avatar :
-                                                '/icon-logo.png'"
+                                                '/logo-icon.webp'"
                                                 :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result
                                                     .nom_salon"
                                                 class="h-10 w-10 rounded-full object-cover">
@@ -94,18 +94,18 @@
 
         <!-- Favoris -->
         <div class="mb-2">
-            <h2 class="mb-2 rounded-t-sm bg-gray-100 px-4 py-2 font-semibold text-gray-700">
+            <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 font-roboto-slab px-4 py-2  text-green-gs">
                 {{ __('messenger.favorites') }}</h2>
             <div class="flex space-x-2 overflow-x-auto p-2">
                 <template x-if="favorites.length === 0">
-                    <div class="p-4 text-center text-gray-500">
+                    <div class="p-4 flex items-center justify-center text-center  text-sm text-textColorParagraph font-roboto-slab">
                         {{ __('messenger.no_favorites') }}
                     </div>
                 </template>
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
                         class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden">
-                        <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/icon-logo.png'"
+                        <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/logo-icon.webp'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="h-12 w-12 rounded-full object-cover">
                         <span x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon "></span>
@@ -116,7 +116,7 @@
 
         <!-- Liste des contacts -->
         <div class="relative mb-2 flex-1">
-            <h2 class="mb-2 rounded-t-sm bg-gray-100 px-4 py-2 font-semibold text-gray-700">
+            <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 font-roboto-slab px-4 py-2 text-green-gs">
                 {{ __('messenger.contacts') }}</h2>
             <div x-show="!loadingContacts" id="contacts-list" class="h-[15vh] divide-y overflow-y-auto md:h-[30vh]">
 
@@ -136,7 +136,7 @@
 
         <div x-show="currentChat" class="flex items-center justify-between rounded-sm bg-gray-100 p-4">
             <div class="flex items-center space-x-3">
-                <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/icon-logo.png'"
+                <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/logo-icon.webp'"
                     :alt="currentChatUser.pseudo" class="h-10 w-10 rounded-full">
                 <div>
                     <h2 x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon"
@@ -177,7 +177,7 @@
                 <!-- Avatar et nom -->
                 <div class="mb-6 text-center">
                     <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` :
-                        '/icon-logo.png'"
+                        '/logo-icon.webp'"
                         :alt="currentChatUser.pseudo"
                         class="mx-auto mb-4 h-24 w-24 rounded-full border-4 border-blue-100 object-cover">
                     <h3 class="text-xl font-bold text-gray-800"
@@ -250,7 +250,7 @@
         <!-- Messages -->
         <div x-show="currentChat" x-transition:enter="transition ease-out duration-300 "
             x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-            class="flex-1 overflow-y-auto bg-gray-50 p-4" id="messages-container">
+            class="flex-1 overflow-y-auto bg-gray-50 p-4" id="messages-coverer">
             <div x-show="loadingMessages"
                 class="flex h-[30vh] items-center justify-center py-4 text-center md:h-[40vh]">
                 <i class="fas fa-spinner fa-spin text-primary"></i>
@@ -323,15 +323,13 @@
         </div>
 
         <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex h-[45vh] items-center justify-center bg-gray-50 md:h-[60vh]">
+        <div x-show="!currentChat" class="flex h-[45vh] items-center justify-center bg-fieldBg md:h-[60vh]">
             <div class="p-6 text-center">
                 <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
                     <i class="fas fa-comments text-3xl text-gray-400"></i>
                 </div>
-                <!-- <h3 class="mb-2 text-lg font-semibold text-gray-700">{{ __('messenger.no_chat_selected') }}</h3>
-                <p class="text-sm text-gray-500">{{ __('messenger.select_contact_to_start') }}</p> -->
-                <h3 class="mb-2 text-xl font-semibold text-gray-700">{{ __('messenger.no_conversation') }}</h3>
-                <p class="text-gray-500">{{ __('messenger.select_conversation') }}</p>
+                <h3 class="mb-2 text-xl font-semibold text-textColorParagraph font-roboto-slab">{{ __('messenger.no_conversation') }}</h3>
+                <p class="text-textColorParagraph font-roboto-slab">{{ __('messenger.select_conversation') }}</p>
             </div>
         </div>
     </div>
