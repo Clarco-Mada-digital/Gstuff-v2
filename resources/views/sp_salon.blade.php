@@ -182,80 +182,84 @@
                             </div>
 
                             {{-- Description --}}
+                            @if ($salon->apropos)
                             <x-profile.description 
                                 :title="__('salon_profile.description')"
                                 :content="$salon->apropos"
                             />
-
-                            {{-- Escort associé --}}
-                            <div class="flex items-center justify-between gap-5 py-5">
-
-                                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
-                                    {{ __('salon_profile.our_professionals') }}</h2>
-                                <div class="bg-green-gs h-0.5 flex-1"></div>
-
-                            </div>
-                            @if ($acceptedInvitations->isNotEmpty())
-                                <div class="relative w-full">
-                                    <div class="swiper-container professionals-swiper">
-                                        <div class="swiper-wrapper">
-                                            @foreach ($acceptedInvitations as $index => $acceptedInvitation)
-                                                <div class="swiper-slide">
-                                                    @if ($acceptedInvitation->type === 'associe au salon')
-                                                        <livewire:escort_card
-                                                            name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}"
-                                                            canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? $noSpecial }}"
-                                                            ville="{{ $acceptedInvitation->inviter->villeget->nom ?? $noSpecial }}"
-                                                            avatar="{{ $acceptedInvitation->inviter->avatar }}"
-                                                            escortId="{{ $acceptedInvitation->inviter->id }}"
-                                                            wire:key="{{ $acceptedInvitation->inviter->id }}" />
-                                                    @else
-                                                        <livewire:escort_card
-                                                            name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}"
-                                                            canton="{{ $acceptedInvitation->invited->cantonget->nom ?? $noSpecial }}"
-                                                            ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
-                                                            avatar="{{ $acceptedInvitation->invited->avatar }}"
-                                                            escortId="{{ $acceptedInvitation->invited->id }}"
-                                                            wire:key="{{ $acceptedInvitation->invited->id }}" />
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <!-- Navigation buttons -->
-                                        <button type="button"
-                                            class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-prev">
-                                            <span
-                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
-                                                <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                                                </svg>
-                                                <span class="sr-only">Previous</span>
-                                            </span>
-                                        </button>
-
-                                        <button type="button"
-                                            class="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-next">
-                                            <span
-                                                class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
-                                                <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                                                </svg>
-                                                <span class="sr-only">Next</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="flex h-full w-full items-center justify-center">
-                                    <span class="text-green-gs font-dm-serif text-center font-bold">
-                                        {{ __('salon_profile.no_escort_associated') }}
-                                    </span>
-                                </div>
                             @endif
+                            {{-- Escort associé --}}
+
+                            @if ($acceptedInvitations->isNotEmpty())
+                                <div class="flex items-center justify-between gap-5 py-5">
+
+                                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                                        {{ __('salon_profile.our_professionals') }}</h2>
+                                    <div class="bg-green-gs h-0.5 flex-1"></div>
+
+                                </div>
+                                @if ($acceptedInvitations->isNotEmpty())
+                                    <div class="relative w-full">
+                                        <div class="swiper-container professionals-swiper">
+                                            <div class="swiper-wrapper">
+                                                @foreach ($acceptedInvitations as $index => $acceptedInvitation)
+                                                    <div class="swiper-slide">
+                                                        @if ($acceptedInvitation->type === 'associe au salon')
+                                                            <livewire:escort_card
+                                                                name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}"
+                                                                canton="{{ $acceptedInvitation->inviter->cantonget->nom ?? $noSpecial }}"
+                                                                ville="{{ $acceptedInvitation->inviter->villeget->nom ?? $noSpecial }}"
+                                                                avatar="{{ $acceptedInvitation->inviter->avatar }}"
+                                                                escortId="{{ $acceptedInvitation->inviter->id }}"
+                                                                wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                                        @else
+                                                            <livewire:escort_card
+                                                                name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}"
+                                                                canton="{{ $acceptedInvitation->invited->cantonget->nom ?? $noSpecial }}"
+                                                                ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
+                                                                avatar="{{ $acceptedInvitation->invited->avatar }}"
+                                                                escortId="{{ $acceptedInvitation->invited->id }}"
+                                                                wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <!-- Navigation buttons -->
+                                            <button type="button"
+                                                class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-prev">
+                                                <span
+                                                    class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                    <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                                    </svg>
+                                                    <span class="sr-only">Previous</span>
+                                                </span>
+                                            </button>
+
+                                            <button type="button"
+                                                class="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-next">
+                                                <span
+                                                    class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                    <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                                    </svg>
+                                                    <span class="sr-only">Next</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex h-full w-full items-center justify-center">
+                                        <span class="text-green-gs font-dm-serif text-center font-bold">
+                                            {{ __('salon_profile.no_escort_associated') }}
+                                        </span>
+                                    </div>
+                                @endif
+                            @endif  
 
                             @push('scripts')
                             <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
