@@ -46,7 +46,8 @@ class UsersSearch extends Component
         $this->salonCategories = Categorie::where('type', 'salon')->get();
         $this->escortCategories = Categorie::where('type', 'escort')->get();
         $this->page = request()->get('page', 1);
-        $this->genres= Genre::all();
+        $listeGenresExist = User::where('profile_type', 'escorte')->pluck('genre_id')->unique();
+        $this->genres= Genre::whereIn('id', $listeGenresExist)->get();
     }
 
     public function updatingSearch()

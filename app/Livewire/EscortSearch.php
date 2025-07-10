@@ -192,7 +192,10 @@ class EscortSearch extends Component
         $this->availableVilles = Ville::all();
         $this->categories = Categorie::where('type', 'escort')->get();
         $serviceQuery = Service::query();
-        $this->genres = Genre::all();
+
+
+        $listeGenresExist = User::where('profile_type', 'escorte')->pluck('genre_id')->unique();
+        $this->genres = Genre::whereIn('id', $listeGenresExist)->get();
 
         // Détection du pays via IP
         $position = Location::get(request()->ip());
