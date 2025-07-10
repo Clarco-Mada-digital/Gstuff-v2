@@ -41,4 +41,8 @@ return [
     'distance_km' => 'Distanza (km)',
     'filter_by_closest_only' => 'Escort sexy nelle vicinanze',
     'resetting' => 'Reimpostazione...',
+    'other' => 'Vedi dettagli',
+    'petite' => 'Piccola',
+    'moyenne' => 'Media',
+    'grosse' => 'Grande',
 ];

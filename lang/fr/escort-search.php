@@ -40,4 +40,8 @@ return [
     'distance_km' => 'Distance (km)',
     'filter_by_closest_only' => 'Les escortes hot pres de moi',
     'resetting' => 'Réinitialisation...',
+    'other' => 'Voir en détail',
+    'petite' => 'Petite',
+    'moyenne' => 'Moyenne',
+    'grosse' => 'Grosse',
 ];

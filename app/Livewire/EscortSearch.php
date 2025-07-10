@@ -48,6 +48,8 @@ class EscortSearch extends Component
     public $latitudeUser;
     public $longitudeUser;
 
+    public $autre = false;
+
     #[Url]
     public $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
 
@@ -264,6 +266,12 @@ class EscortSearch extends Component
                                         'moyenne' => ['D', 'E', 'F'],
                                         'grosse' => ['G', 'H'],
                                     ];
+
+                                    if ($value == 'autre') {
+                                        $this->autre = true;
+                                    } else {
+                                        $this->autre = false;
+                                    }
                                     
                                     // Vérifier si la valeur recherchée existe comme clé dans $poitrineValues
                                     if (array_key_exists($value, $poitrineValues)) {
@@ -277,9 +285,6 @@ class EscortSearch extends Component
                                     }
                                     break;
                                 case 'taille_poitrine_detail':
-                                    if ($this->autreFiltres['taille_poitrine'] != 'autre') {
-                                        $this->autreFiltres['taille_poitrine_detail'] = '';
-                                    }
                                     $q->where('taille_poitrine', 'LIKE', "%{$value}%");
                                     break;
                                 case 'mobilite':

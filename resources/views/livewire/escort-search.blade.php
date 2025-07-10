@@ -335,6 +335,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                 <option value="poitrine.id" x-text="poitrine.name[currentLocale]"></option>
                             </template>
                         </select>
+
+
+
+
                         <select wire:model.live="autreFiltres.pubis" id="pubis" name="pubus"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.pubic_hair') }} </option>
@@ -349,24 +353,47 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                 <option value="tatous.id" x-text="tatous.name[currentLocale]"></option>
                             </template>
                         </select>
+
+
+
+
+
+
                         <select wire:model.live="autreFiltres.taille_poitrine" id="poitrine" name="poitrine"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.breast_size') }} </option>
-                            <option value="petite">Petite</option>
-                            <option value="moyenne">Moyenne</option>
-                            <option value="grosse">Grosse</option>
-                            <option value="autre">Voir en détail</option>
+                            <option value="petite">{{ __('escort-search.petite') }}</option>
+                            <option value="moyenne">{{ __('escort-search.moyenne') }}</option>
+                            <option value="grosse">{{ __('escort-search.grosse') }}</option>
+                            <option value="autre">{{ __('escort-search.other') }}</option>
                             {{-- <template x-for="poitrine in dropdownData['taillesPoitrine']">
                                 <option value="poitrine" x-text="poitrine"></option>
                             </template> --}}
                         </select>
-                        <select x-show="autreFiltres.taille_poitrine == 'autre'" wire:model.live="autreFiltres.taille_poitrine_detail" id="poitrine" name="poitrine_detail"
+                        @if($autre)
+                        <select wire:model.live="autreFiltres.taille_poitrine_detail" id="poitrine" name="poitrine_detail"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
-                        <option :selected="autreFiltres.taille_poitrine === 'autre'" value=""> {{ __('escort-search.breast_size') }} </option>                          
+                        <option :selected="autreFiltres.taille_poitrine === 'autre'" value="">{{ __('escort-search.breast_size') }}</option>                          
                             <template x-for="poitrine in dropdownData['taillesPoitrine']">
-                                <option value="poitrine" x-text="poitrine"></option>
+                                <option :value="poitrine" x-text="poitrine"></option>
                             </template>
                         </select>
+                        @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <select wire:model.live="autreFiltres.mobilite" id="mobilite" name="mobilite"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.escort_mobility') }} </option>

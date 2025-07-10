@@ -40,4 +40,8 @@ return [
     'distance_km' => 'Distance (km)',
     'filter_by_closest_only' => 'Hot escorts near me',
     'resetting' => 'Resetting...',
+    'other' => 'See details',
+    'petite' => 'Small',
+    'moyenne' => 'Medium',
+    'grosse' => 'Large',
 ];

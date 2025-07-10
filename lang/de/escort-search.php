@@ -41,4 +41,8 @@ return [
     'distance_km' => 'Entfernung (km)',
     'filter_by_closest_only' => 'Heiße Escorts in meiner Nähe',
     'resetting' => 'Zurücksetzen...',
+    'other' => 'Details anzeigen',
+    'petite' => 'Klein',
+    'moyenne' => 'Mittel',
+    'grosse' => 'Groß',
 ];

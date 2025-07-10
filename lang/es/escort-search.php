@@ -41,4 +41,8 @@ return [
     'distance_km' => 'Distancia (km)',
     'filter_by_closest_only' => 'Escorts calientes cerca de mí',
     'resetting' => 'Restableciendo...',
+    'other' => 'Ver detalles',
+    'petite' => 'Pequeña',
+    'moyenne' => 'Mediana',
+    'grosse' => 'Grande',
 ];
