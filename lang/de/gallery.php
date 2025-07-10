@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // Filter
+    'all' => 'Alle',
+    
     // Kopfzeile
     'explore_share_feel' => 'Entdecken. Teilen. Fühlen',
     'header_subtitle' => 'Ihre wertvollsten Momente erwachen hier zum Leben, zwischen <strong>kurzen Geschichten</strong> und <strong>faszinierenden Galerien</strong>. Tauchen Sie ein in das Universum geteilter Emotionen.',

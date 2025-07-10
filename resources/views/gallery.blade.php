@@ -334,7 +334,7 @@
                             
                             <!-- Filtre par genre -->
                             <select x-model="genreTypeFilter" class="rounded-md border border-supaGirlRose text-green-gs p-2 w-full md:w-64">
-                                <option value="">Tout</option>
+                                <option value="">{{ __('gallery.all') }}</option>
                                 @foreach($genres as $genre)
                                     <option value="{{ $genre->name['fr'] ?? $genre->slug }}">
                                         {{ $genre->getTranslation('name', app()->getLocale()) }}

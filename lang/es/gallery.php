@@ -1,6 +1,9 @@
 <?php
 
 return [
+    // Filtros
+    'all' => 'Todo',
+    
     // En-tête
     'explore_share_feel' => 'Explora. Comparte. Siente',
     'header_subtitle' => 'Tus momentos más preciados cobran vida aquí, entre <strong>historias instantáneas</strong> y <strong>galerías cautivadoras</strong>. Sumérgete en el universo de las emociones compartidas.',
