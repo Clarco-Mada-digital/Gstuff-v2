@@ -283,13 +283,15 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         {{ __('escort-search.other_filters') }}</h3>
                     <div
                         class="grid w-full grid-cols-1 items-center justify-between gap-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
-                        <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
-                            class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
-                            <option selected value="">{{ __('escort-search.origin') }}</option>
-                            <template x-for="origine in dropdownData['origines']">
-                                <option :value="origine" x-text="origine"></option>
-                            </template>
-                        </select>
+                        <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
+                            <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
+                                class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                                <option selected value="">{{ __('escort-search.origin') }}</option>
+                                <template x-for="origine in dropdownData['origines']">
+                                    <option :value="origine" x-text="origine"></option>
+                                </template>
+                            </select>
+                        </template>
                         <!-- Debug Info -->
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
