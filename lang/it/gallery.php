@@ -2,7 +2,7 @@
 
 return [
     // Intestazione
-    'explore_share_feel' => 'Esplora. Condividi. Senti 📸',
+    'explore_share_feel' => 'Esplora. Condividi. Senti',
     'header_subtitle' => 'I tuoi momenti più preziosi prendono vita qui, tra <strong>storie istantanee</strong> e <strong>gallerie accattivanti</strong>. Immergiti nell\'universo delle emozioni condivise.',
     
     // Schede

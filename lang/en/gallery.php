@@ -2,7 +2,7 @@
 
 return [
     // Header
-    'explore_share_feel' => 'Explore. Share. Feel 📸',
+    'explore_share_feel' => 'Explore. Share. Feel',
     'header_subtitle' => 'Your most precious moments come to life here – between <strong>instant stories</strong> and <strong>captivating galleries</strong>. Dive into the universe of shared emotions.',
     
     // Tabs

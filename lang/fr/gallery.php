@@ -2,7 +2,7 @@
 
 return [
     // En-tête
-    'explore_share_feel' => 'Explorez. Partagez. Ressentez 📸',
+    'explore_share_feel' => 'Explorez. Partagez. Ressentez',
     'header_subtitle' => 'Vos moments les plus précieux prennent vie ici – entre <strong>stories instantanées</strong> et <strong>galeries captivantes</strong>. Plongez dans l\'univers des émotions partagées.',
     
     // Onglets

@@ -3,7 +3,7 @@
 @section('pageTitle', __('gallery.gallery'))
 
 @section('content')
-    <section class="relative mb-10 overflow-hidden rounded-xl bg-supaGirlRose text-white shadow-xl">
+    <section class="relative mb-10 overflow-hidden rounded-xl bg-supaGirlRose text-white shadow-xl font-roboto-slab">
         <!-- Votre en-tête existant reste inchangé -->
         <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
             <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">{{ __('gallery.explore_share_feel') }}</h1>
@@ -11,19 +11,19 @@
         </div>
 
         <!-- Illustration décorative -->
-        <div class="pointer-events-none absolute bottom-0 right-0 opacity-20">
+        {{-- <div class="pointer-events-none absolute bottom-0 right-0 opacity-20">
             <svg viewBox="0 0 200 200" class="h-64 w-64 translate-x-12 translate-y-12 transform">
                 <path fill="white"
                     d="M40.6,-71.1C51.1,-66.2,58.8,-51.5,64.3,-37.1C69.7,-22.6,73,-8.3,73.5,6.2C73.9,20.7,71.4,35.3,63.8,47.8C56.2,60.3,43.5,70.7,29.3,73.6C15.2,76.5,-0.5,71.8,-16.4,66.6C-32.3,61.3,-48.5,55.4,-59.6,44.1C-70.7,32.8,-76.8,16.4,-76.3,0.3C-75.8,-15.9,-68.6,-31.8,-58.3,-44.3C-48.1,-56.8,-34.8,-65.9,-20.2,-69.8C-5.6,-73.7,10.2,-72.3,24.6,-71.2C39,-70.1,52.1,-69.9,40.6,-71.1Z"
                     transform="translate(100 100)" />
             </svg>
-        </div>
+        </div> --}}
     </section>
 
-    <div x-data="galleryApp()" class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8" >
+    <div x-data="galleryApp()" class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8 font-roboto-slab" >
         <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 font-roboto-slab">
             <!-- MENU LATERAL -->
-            <aside class="space-y-2 w-full">
+            <aside class="space-y-2 w-full flex justify-center items-center">
                 <!-- MOBILE TOGGLE -->
                 <div class="mb-4 md:hidden">
                     <button @click="openMenu = !openMenu"
@@ -36,13 +36,16 @@
                     </button>
                 </div>
 
-                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="md:flex items-center justify-center gap-2 w-full">
+                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="md:flex gap-0 items-center justify-center w-1/2">
                     <!-- Tab Stories -->
                     @if(count($usersWithStories) > 0)
                     <button @click="selectedTab = 'stories'; openMenu = false"
-                        :class="selectedTab === 'stories' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-700'"
-                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-pink-100">
-                        📸 {{ __('gallery.stories') }}
+                        :class="selectedTab === 'stories' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
+                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        <span class="flex items-center"> 
+                            <img src="{{ asset('images/icons/stories_galery_icon.png') }}" alt="Stories Gallery" class="w-6 h-6 mr-2">
+                            {{ __('gallery.stories') }}
+                        </span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($usersWithStories) }}"></span>
                     </button>
@@ -51,9 +54,12 @@
                     <!-- Tab Galerie publique -->
                     @if(count($publicGallery) > 0)
                     <button @click="selectedTab = 'public'; openMenu = false"
-                        :class="selectedTab === 'public' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'"
-                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-blue-100">
-                        🌍 {{ __('gallery.public_gallery') }}
+                        :class="selectedTab === 'public' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
+                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        <span class="flex items-center">
+                            <img src="{{ asset('images/icons/public_galery_icon.png') }}" alt="Public Gallery" class="w-6 h-6 mr-2">
+                            {{ __('gallery.public_gallery') }}
+                        </span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($publicGallery) }}"></span>
                     </button>
@@ -62,9 +68,11 @@
                     <!-- Tab Galerie privée -->
                     @if(count($privateGallery) > 0)
                     <button @click="selectedTab = 'private'; openMenu = false"
-                        :class="selectedTab === 'private' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700'"
-                        class="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left font-medium transition hover:bg-gray-200">
-                        🔐 {{ __('gallery.private_gallery') }}
+                        :class="selectedTab === 'private' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
+                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        <span class="flex items-center"> 
+                            <img src="{{ asset('images/icons/privacy_galery_icon.png') }}" alt="Private Gallery" class="w-6 h-6 mr-2">
+                            {{ __('gallery.private_gallery') }}</span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($privateGallery) }}"></span>
                     </button>
@@ -135,28 +143,39 @@
                         document.body.style.overflow = 'auto';
                     }
                 })" x-transition x-cloak>
-                    <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-green-gs">📸 {{ __('gallery.user_stories') }}</h2>
+                    <h2 class="mb-6 text-xl sm:text-3xl font-semibold text-green-gs flex items-center justify-center"> {{ __('gallery.user_stories') }}</h2>
                     @if(count($usersWithStories) > 0)
                         <div class="flex space-x-6 overflow-x-auto pb-4 px-2">
                             @foreach ($usersWithStories as $user)
-                                <div class="flex-shrink-0 text-center relative group cursor-pointer" 
-                                     @click="openStory({{ json_encode($user) }});">
-                                    <div class="relative">
-                                        <div class="mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-pink-500 shadow-lg group-hover:border-pink-600 transition-all duration-300">
-                                            <img src="{{ $user['avatar'] }}"
-                                                alt="{{ $user['name'] }}"
-                                                class="h-full w-full object-cover"
-                                                loading="lazy">
-                                            @if($user['stories_count'] > 0)
-                                                <div class="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full h-8 w-8 flex items-center justify-center text-xs font-bold shadow-md">
-                                                    {{ $user['stories_count'] }}
-                                                </div>
-                                            @endif
-                                        </div>
+                                <div class="relative flex flex-col items-center w-60 h-96 rounded-xl overflow-hidden cursor-pointer"
+                                    @click="openStory({{ json_encode($user) }});">
+                                    <div class="relative w-full h-full overflow-hidden shadow-lg group-hover:border-green-gs transition-all duration-300">
+                                        <img src="{{ $user['stories'][0]['media_path'] }}"
+                                            alt="{{ $user['name'] }}"
+                                            class="h-full w-full object-cover"
+                                            loading="lazy">
+                                        @if (str_contains($user['stories'][0]['media_type'], 'video'))
+                                            <div class="absolute inset-0 flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197.661a.5.5 0 01-.784-.394L9 7.616V6.868a.5.5 0 01.5-.5h.697a.5.5 0 01.5.5v.737l.257.434a.5.5 0 01-.212.662l-3.498 2.799a.5.5 0 01-.784-.394z" />
+                                                </svg>
+                                            </div>
+                                        @endif
+                                        <a href="{{ route('show_escort', $user['id']) }}" class="absolute bottom-0 left-0 right-0 flex items-center p-2">
+                                            <div class="relative h-10 w-10 rounded-full border-2 border-green-gs shadow-lg group-hover:border-green-gs transition-all duration-300">
+                                                <img src="{{ $user['avatar'] }}"
+                                                    alt="{{ $user['name'] }}"
+                                                    class="h-full w-full object-cover rounded-full"
+                                                    loading="lazy">
+                                                <span class="absolute bottom-0 -right-2 rounded-full bg-pink-500 w-4 h-4 flex items-center justify-center text-xs text-white">
+                                                    {{ count($user['stories']) }}
+                                                </span>
+                                            </div>
+                                            <span class="text-white text-sm font-medium ml-2 truncate max-w-[8rem]">
+                                                {{ $user['name'] }}
+                                            </span>
+                                        </a>
                                     </div>
-                                    <span class="mt-2 block text-sm font-medium text-gray-700 truncate max-w-[6rem]">
-                                        {{ $user['name'] }}
-                                    </span>
                                 </div>
                             @endforeach
                         </div>
@@ -241,7 +260,7 @@
                 <!-- Galerie Publique -->
                 <section x-show="selectedTab === 'public'" x-transition>
                     <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-xl sm:text-3xl font-semibold text-green-gs">🌍 {{ __('gallery.public_gallery_title') }}</h2>
+                        <h2 class="text-xl sm:text-3xl font-semibold text-green-gs flex items-center"><img src="{{ asset('images/icons/public_galery_icon.png') }}" alt="Public Gallery" class="w-8 h-8 mr-2"> {{ __('gallery.public_gallery_title') }}</h2>
                         
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
                             <!-- Filtre utilisateur amélioré -->
@@ -302,14 +321,14 @@
                             </div> -->
 
                             <!-- Filtre par type de média -->
-                            <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
+                            {{-- <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
                                 <option value="">{{ __('gallery.all_types') }}</option>
                                 <option value="image">{{ __('gallery.images') }}</option>
                                 <option value="video">{{ __('gallery.videos') }}</option>
-                            </select>
+                            </select> --}}
                             
                             <!-- Filtre par genre -->
-                            <select x-model="genreTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
+                            <select x-model="genreTypeFilter" class="rounded-md border border-supaGirlRose text-green-gs p-2 w-full md:w-64">
                                 <option value="">Tout</option>
                                 @foreach($genres as $genre)
                                     <option value="{{ $genre->name['fr'] ?? $genre->slug }}">
@@ -320,13 +339,13 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    <div class="w-[355px] h-[348px] grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($publicGallery as $media)
                             @php
                                 $userGenre = $media->user->genre->name['fr'] ?? null;
                             @endphp
                             <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
-                                class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                 @if ($media->type === 'image')
                                     <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
                                         src="{{ asset('storage/' . $media->path) }}" 
@@ -343,14 +362,11 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="flex items-center justify-between px-3">
+                                <div class="absolute bottom-0 left-0 flex items-center justify-between px-3 text-white font-bold font-roboto-slab">
                                     <span class="my-2">{{ $media->user->prenom }}</span>
                                     <a href="{{ route('show_escort', $media->user->id) }}"
                                     class="my-2 ms-3" title="{{ __('gallery.view_profile') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
+                                        <img src="{{ asset('images/icons/galery_show_icon.svg') }}" alt="Show Profile" class="w-5 h-5">
                                     </a>
                                 </div>
                             </div>
@@ -364,11 +380,11 @@
 
                 <!-- Galerie Privée -->
                 <section x-show="selectedTab === 'private'" x-transition>
-                    <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-green-gs">🔐 {{ __('gallery.private_gallery_title') }}</h2>
+                    <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-green-gs flex items-center justify-center"> {{ __('gallery.private_gallery_title') }}</h2>
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth
-                                <div class="cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                <div class="relative w-[355px] h-[348px] cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                     @if ($media->type === 'image')
                                         <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
                                              src="{{ asset('storage/' . $media->path) }}" 
@@ -384,10 +400,17 @@
                                             </div>
                                         </div>
                                     @endif
+                                    <div class="absolute bottom-0 left-0 flex items-center justify-between px-3 text-white font-bold font-roboto-slab">
+                                        <span class="my-2">{{ $media->user->prenom }}</span>
+                                        <a href="{{ route('show_escort', $media->user->id) }}"
+                                        class="my-2 ms-3" title="{{ __('gallery.view_profile') }}">
+                                            <img src="{{ asset('images/icons/galery_show_icon.svg') }}" alt="Show Profile" class="w-5 h-5">
+                                        </a>
+                                    </div>
                                 </div>
                             @endauth
                             @guest
-                                <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
+                                <div class="w-[355px] h-[348px] relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
                                     @if ($media->type === 'image')
                                         <img class="blur-md grayscale brightness-75 h-60 w-full object-cover transition duration-300"
                                             src="{{ asset('storage/' . $media->path) }}" alt="Privé">
