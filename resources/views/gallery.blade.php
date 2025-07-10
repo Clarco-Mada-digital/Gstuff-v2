@@ -118,7 +118,7 @@
                     startProgress() {
                         clearInterval(this.interval);
                         this.progress = 0;
-                        const duration = 15000; // 15 secondes par story
+                        const duration = 10000; // 10 secondes par story
                         const steps = 100;
                         const stepTime = duration / steps;
                         
@@ -190,30 +190,35 @@
                              x-transition:leave-end="opacity-0"
                              @keydown.escape.window="closeViewer">
                             
-                            <div class="relative w-full max-w-md h-full max-h-[90vh] flex items-center">
+                            <div class="relative w-full h-full max-h-[90vh] flex items-center">
                                 <!-- Close button -->
-                                <button @click="closeViewer" class="absolute top-4 right-4 text-white text-2xl z-10">
-                                    &times;
+                                <button @click="closeViewer" class="absolute right-4 top-2 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
                                 </button>
                                 
                                 <!-- Navigation buttons -->
                                 <button x-show="currentStoryIndex > 0" 
-                                        @click="previousStory" 
-                                        class="absolute left-4 text-white text-2xl z-10">
-                                    &larr;
+                                @click="previousStory"  class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                    </svg>
                                 </button>
-                                
+                          
+
                                 <button x-show="currentStoryIndex < currentUser.stories.length - 1" 
-                                        @click="nextStory" 
-                                        class="absolute right-4 text-white text-2xl z-10">
-                                    &rarr;
+                                @click="nextStory"  class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
                                 </button>
                                 
                                 <!-- Progress bar -->
-                                <div class="absolute top-4 left-4 right-4 flex space-x-1 z-10">
+                                <div class="absolute top-2 left-4 right-4 flex space-x-1 z-10 max-w-md mx-auto">
                                     <template x-for="(story, index) in currentUser.stories" :key="index">
                                         <div class="h-1 flex-1 bg-gray-600 rounded-full">
-                                            <div class="h-full bg-white rounded-full transition-all duration-100" 
+                                            <div class="h-full bg-green-gs rounded-full transition-all duration-100" 
                                                  :class="{'w-full': index < currentStoryIndex, 'w-0': index > currentStoryIndex}"
                                                  :style="index === currentStoryIndex ? 'width: ' + progress + '%' : ''">
                                             </div>
@@ -222,7 +227,7 @@
                                 </div>
                                 
                                 <!-- Story content -->
-                                <div class="w-full h-full flex items-center justify-center">
+                                <div class="w-full max-w-2xl mx-auto h-[80vh] flex items-center justify-center">
                                     <template x-if="currentUser.stories[currentStoryIndex].media_type === 'image'">
                                         <img :src="currentUser.stories[currentStoryIndex].media_path" 
                                              class="max-h-full max-w-full object-contain" 
@@ -239,13 +244,13 @@
                                 </div>
                                 
                                 <!-- User info -->
-                                <div class="absolute bottom-4 left-4 right-4 text-white text-left z-10">
+                                <!-- <div class="absolute bottom-2 mx-auto text-white text-left z-10">
                                     <div class="flex items-center space-x-2">
                                         <img :src="currentUser.avatar" 
                                              class="h-10 w-10 rounded-full border-2 border-white">
                                         <span x-text="currentUser.name" class="font-semibold"></span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     @else
@@ -332,29 +337,32 @@
                                 <option value="">Tout</option>
                                 @foreach($genres as $genre)
                                     <option value="{{ $genre->name['fr'] ?? $genre->slug }}">
-                                        {{ $genre->name['fr'] ?? $genre->slug }}
+                                        {{ $genre->getTranslation('name', app()->getLocale()) }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                    <div class="w-[355px] h-[348px] grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    <div class="w-full h-[348px] grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($publicGallery as $media)
                             @php
                                 $userGenre = $media->user->genre->name['fr'] ?? null;
                             @endphp
                             <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
-                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl h-full flex flex-col">
                                 @if ($media->type === 'image')
-                                    <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
-                                        src="{{ asset('storage/' . $media->path) }}" 
-                                        class="h-60 w-full object-cover" alt="media">
+                                    <div class="flex-1 overflow-hidden">
+                                        <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
+                                            src="{{ asset('storage/' . $media->path) }}" 
+                                            class="h-full w-full object-cover object-center" 
+                                            alt="media">
+                                    </div>
                                 @elseif($media->type === 'video')
-                                    <div class="relative">
+                                    <div class="relative flex-1">
                                         <video @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')" 
                                             muted autoplay loop
-                                            class="pointer-events-none h-60 w-full object-cover brightness-75">
+                                            class="h-full w-full object-cover object-center brightness-75">
                                             <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                         </video>
                                         <div class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white">
@@ -362,10 +370,10 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="absolute bottom-0 left-0 flex items-center justify-between px-3 text-white font-bold font-roboto-slab">
-                                    <span class="my-2">{{ $media->user->prenom }}</span>
+                                <div class="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2 bg-gradient-to-t from-black/80 to-transparent text-white font-bold font-roboto-slab">
+                                    <span class="truncate">{{ $media->user->prenom }}</span>
                                     <a href="{{ route('show_escort', $media->user->id) }}"
-                                    class="my-2 ms-3" title="{{ __('gallery.view_profile') }}">
+                                    class="ml-2 flex-shrink-0" title="{{ __('gallery.view_profile') }}">
                                         <img src="{{ asset('images/icons/galery_show_icon.svg') }}" alt="Show Profile" class="w-5 h-5">
                                     </a>
                                 </div>

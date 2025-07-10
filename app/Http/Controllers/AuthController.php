@@ -523,10 +523,7 @@ class AuthController extends Controller
                 ];
             });
 
-        // Récupérer les genres actifs depuis la base de données
-        $genres = Genre::where('is_active', true)->get();
-        
-        // Récupérer tous les médias publics et privés avec leurs relations
+        // Récupérer d'abord les galeries avec leurs utilisateurs et genres
         $publicGalleries = Gallery::where('is_public', true)
             ->with(['user', 'user.genre'])
             ->get()
@@ -538,6 +535,19 @@ class AuthController extends Controller
             ->get()
             ->shuffle()
             ->all();
+            
+        // Récupérer les IDs des genres qui ont des galeries
+        $genreIds = [];
+        foreach (array_merge($publicGalleries, $privateGalleries) as $gallery) {
+            if ($gallery->user && $gallery->user->genre_id) {
+                $genreIds[] = $gallery->user->genre_id;
+            }
+        }
+        
+        // Récupérer les genres uniques qui ont des galeries
+        $genres = Genre::whereIn('id', array_unique($genreIds))->get();
+
+       
         
         // Pagination manuelle
         $publicPage = LengthAwarePaginator::resolveCurrentPage();
