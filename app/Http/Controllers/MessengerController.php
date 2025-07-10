@@ -220,7 +220,7 @@ class MessengerController extends Controller
             'tempID' => $request->temporaryMsgId,
             'success' => true,
             'message_text' => __('chat.message_sent')
-        ]);
+        ], 200);
     }
 
     function messageCard($message, $attachment = false)

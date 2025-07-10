@@ -2193,6 +2193,9 @@
                             }
                         }
 
+
+                        console.log("response.data send message", response.data);
+
                         // Ajouter le nouveau message
                         let messagesList = document.getElementById('messages-list');
                         messagesList.insertAdjacentHTML('beforeend', response.data.message);
@@ -2202,11 +2205,17 @@
                         this.clearAttachment();
                         this.loadContacts();
 
-                        // Scroll vers le bas
-                        this.scrollToBottom();
+                        // Attendre que le DOM soit mis à jour avant de faire défiler
+                        this.$nextTick(() => {
+                            setTimeout(() => {
+                                this.scrollToBottom();
+                            }, 100);
+                        });
+                        
+                        showToast(response.data.message_text, 'success');
                     } catch (error) {
-                        console.error(error);
-                        showToast('Erreur lors de l\'envoi du message', 'error');
+                        console.error("error send message", error);
+                        // showToast('Erreur lors de l\'envoi du message', 'error');
                     } finally {
                         // Désactiver l'état de chargement dans tous les cas
                         this.sendingMessage = false;
@@ -2237,8 +2246,10 @@
                 },
 
                 scrollToBottom() {
-                    const container = document.getElementById('messages-container');
-                    container.scrollTop = container.scrollHeight;
+                    const container = document.getElementById('messages-coverer');
+                    if (container) {
+                        container.scrollTop = container.scrollHeight;
+                    }
                 },
 
                 async toggleFavorite(userId) {

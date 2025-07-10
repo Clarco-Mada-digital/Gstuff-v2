@@ -1,6 +1,6 @@
 <div class="h-[90vh] md:flex md:h-[60vh] md:justify-between" x-data="messenger()" x-init="init()">
     <!-- Sidebar -->
-    <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30vw]">
+    <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30%]">
         <!-- Header -->
         <div class="flex items-center justify-between p-4">
             <h1 class="text-xl font-bold text-green-gs font-roboto-slab">{{ __('messenger.messenger') }}</h1>
@@ -15,6 +15,7 @@
 
         </div>
 
+        <!-- Message et recherche -->
         <div>
             <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="modalIsOpen"
                 x-on:keydown.esc.window="modalIsOpen = false" x-on:click.self="modalIsOpen = false"
@@ -49,17 +50,17 @@
                                         x-for="result in searchResults.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)"
                                         :key="result.id">
                                         <div x-on:click="loadChat(result.id) ; modalIsOpen = false ; "
-                                            class="hover:bg-green-gs flex cursor-pointer items-center rounded-sm p-3 hover:text-white">
+                                            class="hover:bg-supaGirlRosePastel/50 font-roboto-slab flex cursor-pointer items-center rounded-sm p-3 hover:text-green-gs">
                                             <img :src="result.avatar ? `{{ asset('storage/avatars') }}/` + result.avatar :
                                                 '/logo-icon.webp'"
                                                 :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result
                                                     .nom_salon"
                                                 class="h-10 w-10 rounded-full object-cover">
                                             <div class="ml-3">
-                                                <h3 class="font-bold font-medium hover:text-white"
+                                                <h3 class="font-bold font-medium text-green-gs hover:text-green-gs font-roboto-slab"
                                                     x-text="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon">
                                                 </h3>
-                                                <p class="text-xs text-gray-500 hover:text-gray-300"
+                                                <p class="text-xs text-textColorParagraph hover:text-green-gs font-roboto-slab"
                                                     x-text="result.profile_type"></p>
                                             </div>
                                         </div>
@@ -71,15 +72,15 @@
                                 <!-- Pagination Controls -->
                                 <div class="mt-2 flex justify-center space-x-2" x-show="searchResults.length > 0">
                                     <button @click="currentPage = Math.max(1, currentPage - 1)"
-                                        class="rounded bg-gray-100 px-4 py-2 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="rounded bg-green-gs px-4 py-2 hover:bg-green-gs/80 text-white font-roboto-slab hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === 1">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
                                     <span x-text="currentPage + ' / ' + Math.ceil(searchResults.length / itemsPerPage)"
-                                        class="rounded bg-gray-100 px-4 py-2 text-sm"></span>
+                                        class="rounded bg-green-gs px-4 py-2 text-sm text-white font-roboto-slab"></span>
                                     <button
                                         @click="currentPage = Math.min(Math.ceil(searchResults.length / itemsPerPage), currentPage + 1)"
-                                        class="rounded bg-gray-100 px-4 py-2 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="rounded bg-green-gs px-4 py-2 hover:bg-green-gs/80 text-white font-roboto-slab hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === Math.ceil(searchResults.length / itemsPerPage)">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
@@ -104,11 +105,12 @@
                 </template>
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
-                        class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden">
+                        class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden
+                         ">
                         <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/logo-icon.webp'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="h-12 w-12 rounded-full object-cover">
-                        <span x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon "></span>
+                        <span class="font-roboto-slab text-textColorParagraph text-sm" x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon " ></span>
                     </div>
                 </template>
             </div>
@@ -123,37 +125,37 @@
                 <!-- Les contacts seront chargés ici -->
             </div>
             <div x-show="loadingContacts" class="flex h-[15vh] items-center justify-center p-4 text-center md:h-[30vh]">
-                <i class="fas fa-spinner fa-spin text-primary"></i>
+                <i class="fas fa-spinner fa-spin text-supaGirlRosePastel"></i>
             </div>
         </div>
     </div>
 
     <!-- Zone de chat principale -->
-    <div class="relative h-[75vh] w-full md:h-full md:w-[60vw]">
+    <div class="relative h-[75vh] w-full md:h-full md:w-[70%]">
 
-        <h2 class="mb-2 rounded-t-sm bg-gray-100 px-4 py-2 font-semibold text-gray-700 md:hidden">
+        <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 px-4 py-2 font-semibold text-green-gs md:hidden">
             {{ __('messenger.messages') }}</h2>
 
-        <div x-show="currentChat" class="flex items-center justify-between rounded-sm bg-gray-100 p-4">
+        <div x-show="currentChat" class="flex items-center justify-between rounded-sm bg-supaGirlRosePastel p-4">
             <div class="flex items-center space-x-3">
                 <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/logo-icon.webp'"
                     :alt="currentChatUser.pseudo" class="h-10 w-10 rounded-full">
                 <div>
                     <h2 x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon"
-                        class="font-semibold"></h2>
-                    <p x-text="currentChatUser.status" class="text-xs text-gray-500"></p>
+                        class="font-semibold font-roboto-slab text-green-gs"></h2>
+                    <p x-text="currentChatUser.status" class="text-xs text-textColorParagraph font-roboto-slab"></p>
                 </div>
             </div>
             <div class="flex items-center space-x-2">
                 <button @click="toggleFavorite(currentChatUser.id)"
-                    class="cursor-pointer p-2 text-gray-500 hover:text-yellow-500" aria-label="Ajouter aux favoris">
+                    class="cursor-pointer p-2 text-supaGirlRose hover:text-green-gs" aria-label="Ajouter aux favoris">
                     <i
                         :class="{
-                            'fas fa-star text-yellow-500': isFavorite(currentChatUser.id),
+                            'fas fa-star text-supaGirlRose': isFavorite(currentChatUser.id),
                             'far fa-star': !isFavorite(currentChatUser.id)
                         }"></i>
                 </button>
-                <button @click="toggleInfoPanel()" class="cursor-pointer p-2 text-gray-500 hover:text-blue-500"
+                <button @click="toggleInfoPanel()" class="cursor-pointer p-2 text-supaGirlRose hover:text-green-gs"
                     aria-label="{{ __('messenger.user_info_panel') }}">
                     <i class="fas fa-info-circle"></i>
                 </button>
@@ -250,10 +252,10 @@
         <!-- Messages -->
         <div x-show="currentChat" x-transition:enter="transition ease-out duration-300 "
             x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-            class="flex-1 overflow-y-auto bg-gray-50 p-4" id="messages-coverer">
+            class="flex-1 overflow-y-auto bg-fieldBg p-4" id="messages-coverer">
             <div x-show="loadingMessages"
-                class="flex h-[30vh] items-center justify-center py-4 text-center md:h-[40vh]">
-                <i class="fas fa-spinner fa-spin text-primary"></i>
+                class="flex h-[30vh] items-center justify-center py-4 text-center md:h-[40vh] ">
+                <i class="fas fa-spinner fa-spin text-supaGirlRose"></i>
             </div>
             <div x-show="!loadingMessages" id="messages-list" class="h-[30vh] space-y-3 overflow-y-auto md:h-[40vh]">
                 <!-- Les messages seront chargés ici -->
@@ -273,12 +275,12 @@
 
 
         <!-- Input d'envoi -->
-        <div x-show='currentChat' class="rounded-b-sm border-t bg-white px-3 pb-3 pt-4 shadow-sm">
+        <div x-show='currentChat' class="rounded-b-sm border-t-2 border-supaGirlRose   bg-white px-3 pb-3 pt-4 shadow-sm">
 
             <!-- Formulaire d'envoi -->
             <form @submit.prevent="sendMessage(); clearAttachment();" class="flex items-center gap-2">
                 <!-- Bouton pièce jointe -->
-                <label class="hover:text-primary cursor-pointer p-2 text-gray-500">
+                <label class="hover:text-green-gs cursor-pointer p-2 text-supaGirlRose">
                     <i class="fas fa-paperclip"></i>
                     <input type="file" @change="handleFileUpload" class="attachment-input hidden"
                         accept="image/*">
@@ -287,12 +289,12 @@
                 <!-- Champ de message -->
                 <div class="relative flex-1">
                     <textarea x-model="newMessage" rows="1" placeholder="{{ __('messenger.type_message') }}"
-                        class="w-full resize-none overflow-hidden rounded-full border border-gray-300 p-3 pr-10 focus:outline-none"
-                        @input="autoResize($el)"></textarea>
+                        class="w-full h-12 resize-none overflow-hidden rounded-full border border-supaGirlRose border-1 p-3 pr-10 focus:outline-none text-textColor font-roboto-slab focus:border-green-gs focus:ring-green-gs focus:ring-2"
+                        style="min-height: 48px; max-height: 48px;"></textarea>
 
                     <!-- Bouton emoji -->
                     <button type="button" @click="showEmojiPicker = !showEmojiPicker"
-                        class="absolute right-3 top-3 text-gray-400 hover:text-yellow-500">
+                        class="absolute right-3 top-3 text-supaGirlRose hover:text-green-gs">
                         <i class="far fa-smile"></i>
                     </button>
 
@@ -312,7 +314,7 @@
                 <!-- Bouton d'envoi -->
                 <button type="submit" :disabled="(!newMessage.trim() && !fileToUpload) || sendingMessage"
                     :class="{
-                        'btn-gs-gradient': (newMessage.trim() || fileToUpload) && !sendingMessage,
+                        'bg-green-gs hover:bg-green-gs/80 text-white': (newMessage.trim() || fileToUpload) && !sendingMessage,
                         'bg-gray-300 cursor-not-allowed': (!newMessage.trim() && !fileToUpload) || sendingMessage
                     }"
                     class="text-back flex h-12 w-12 items-center justify-center rounded-full p-3">
@@ -323,7 +325,7 @@
         </div>
 
         <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex h-[45vh] items-center justify-center bg-fieldBg md:h-[60vh]">
+        <div x-show="!currentChat" class="flex h-[45vh]  items-center justify-center bg-fieldBg md:h-[60vh] w-full">
             <div class="p-6 text-center">
                 <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
                     <i class="fas fa-comments text-3xl text-gray-400"></i>

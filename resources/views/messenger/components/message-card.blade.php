@@ -4,9 +4,11 @@
 
 <div class="{{ $isSender ? 'justify-end' : 'justify-start' }} mb-3 flex w-full px-2 sm:px-4" data-id="{{ $message->id }}"
     x-data="{ showMenu: false }">
-    <div class="{{ $isSender ? 'justify-end' : 'justify-start' }} flex w-full items-start">
+    <div class="{{ $isSender ? 'justify-end' : 'justify-start' }} flex w-[70%] items-start">
         <div
-            class="flex max-w-full items-start sm:max-w-[85%] md:max-w-[80%] lg:max-w-[75%] xl:max-w-[70%] 2xl:max-w-[65%]">
+            class="flex max-w-full items-start">
+
+            <!-- Sender message -->
             @if ($message->from_id === auth()->user()->id)
                 <div class="relative mr-2 flex-shrink-0 self-center">
                     <button @click.stop="showMenu = !showMenu"
@@ -24,8 +26,10 @@
                     </div>
                 </div>
             @endif
+
+            <!-- Receiver message -->
             <div
-                class="{{ $isSender ? 'bg-[#6366f1] text-white' : 'bg-white' }} rounded-lg p-2 shadow-sm sm:p-3 sm:shadow">
+                class="{{ $isSender ? 'bg-supaGirlRosePastel text-green-gs ' : 'bg-white' }} font-roboto-slab rounded-lg p-2 shadow-sm sm:p-3 sm:shadow overflow-hidden">
                 @if ($attachment)
                     <div class="relative">
                         <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ asset(json_decode($message->attachment)) }}', imgModalDesc: '' })"
@@ -35,13 +39,13 @@
                     </div>
                 @endif
                 @if ($message->body)
-                    <p class="break-words pr-6 text-sm sm:text-base">{{ $message->body }}</p>
+                    <p class="break-words pr-6 text-sm sm:text-base overflow-auto max-w-full whitespace-pre-wrap">{{ $message->body }}</p>
                     <p
-                        class="{{ $isSender ? 'text-blue-100' : 'text-gray-500' }} xs:text-xs mt-1 flex items-center text-[10px]">
+                        class="{{ $isSender ? 'text-textColor' : 'text-gray-500' }} font-roboto-slab xs:text-xs mt-1 flex items-center text-[10px]">
                         {{ $message->created_at->format('H:i') }}
                         @if ($isSender)
                             <i
-                                class="fas {{ $message->seen ? 'fa-check-double text-blue-300' : 'fa-check' }} ml-1 text-xs"></i>
+                                class="fas {{ $message->seen ? 'fa-check-double text-green-gs' : 'fa-check' }} ml-1 text-xs"></i>
                         @endif
                     </p>
                 @endif
