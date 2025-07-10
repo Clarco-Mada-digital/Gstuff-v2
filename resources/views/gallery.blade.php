@@ -3,7 +3,7 @@
 @section('pageTitle', __('gallery.gallery'))
 
 @section('content')
-    <section class="relative mb-10 overflow-hidden rounded-xl bg-supaGirlRose text-white shadow-xl font-roboto-slab">
+    <section class="relative mb-10 overflow-hidden bg-supaGirlRosePastel shadow-xl font-roboto-slab text-green-gs">
         <!-- Votre en-tête existant reste inchangé -->
         <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
             <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">{{ __('gallery.explore_share_feel') }}</h1>
