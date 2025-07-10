@@ -148,7 +148,7 @@
                         <div class="flex space-x-6 overflow-x-auto pb-4 px-2">
                             @foreach ($usersWithStories as $user)
                                 <div class="relative flex flex-col items-center w-60 h-96 rounded-xl overflow-hidden cursor-pointer"
-                                    @click="openStory({{ json_encode($user) }});">
+                                    @click.stop="openStory({{ json_encode($user) }});">
                                     <div class="relative w-full h-full overflow-hidden shadow-lg group-hover:border-green-gs transition-all duration-300">
                                         <img src="{{ $user['stories'][0]['media_path'] }}"
                                             alt="{{ $user['name'] }}"
