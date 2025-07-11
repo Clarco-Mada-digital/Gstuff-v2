@@ -169,6 +169,7 @@
 
                 // Déclencher l'événement de changement pour Livewire
                 select.dispatchEvent(new Event('change'));
+                
             });
         });
 

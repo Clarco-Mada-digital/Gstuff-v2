@@ -2,7 +2,7 @@
     'villes' => [],
     'selectedVille' => null,
     'class' => '',
-    'id' => 'escort-ville-selector',
+    'id' => 'ville-search',
     'label' => null,
 ])
 
@@ -13,99 +13,272 @@
         </label>
     @endif
     <div class="relative">
-        <select 
-            wire:model.live="selectedVille"
-            id="{{ $id }}" 
-            class="appearance-none w-full bg-white border-2 border-supaGirlRose rounded-lg py-2.5 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200 pr-10 cursor-pointer"
-            @if(!$villes || $villes->isEmpty()) disabled @endif
-        >
-            <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
-                @if($villes && $villes->isNotEmpty())
-                    {{ __('salon-search.villes') }}
-                @else
-                    {{ __('salon-search.select_canton') }}
-                @endif
-            </option>
-            @if(is_iterable($villes))
+        <div class="custom-ville-select-wrapper">
+            <select wire:model.live="selectedVille" id="{{ $id }}" class="hidden">
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
+                    @if(count($villes) > 0)
+                        {{ __('salon-search.villes') }}
+                    @else
+                        {{ __('salon-search.select_canton') }}
+                    @endif
+                </option>
                 @foreach($villes as $ville)
                     <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
-            @endif
-        </select>
+            </select>
+            <div class="custom-ville-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border border-2 border-supaGirlRose font-roboto-slab">
+                <div class="flex justify-between items-center">
+                    <div class="selected-ville-option" id="{{ $id }}-selected-option">
+                        @if($selectedVille)
+                            {{ collect($villes)->firstWhere('id', $selectedVille)['nom'] ?? __('salon-search.villes') }}
+                        @elseif(count($villes) > 0)
+                            {{ __('salon-search.villes') }}
+                        @else
+                            {{ __('salon-search.select_canton') }}
+                        @endif
+                    </div>
+                    <i class="fas fa-chevron-down ville-arrow-icon text-green-gs font-roboto-slab"></i>
+                </div>
+                @if(count($villes) > 0)
+                <div class="custom-ville-options">
+                    <div class="search-ville-container">
+                        <input type="text" id="{{ $id }}-search" class="search-ville-input w-full bg-white rounded-lg border-b border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                    </div>
+                    <div class="options-ville-list">
+                        @foreach($villes as $ville)
+                            <div class="custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}</div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
-    /* Style de base pour le select */
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+    .custom-ville-select-wrapper {
+        position: relative;
     }
-
-    /* Style pour les options du select */
-    select option {
-        background: white;
+    .custom-ville-select {
+        position: relative;
+        width: 100%;
+    }
+    .selected-ville-option {
         color: #7F55B1;
-        padding: 8px 12px;
+    }
+    .custom-ville-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 300px;
+        overflow-y: auto;
+        background: white;
+        border: 2px solid #FED5E9;
+        border-radius: 0.5rem;
+        z-index: 1000;
+        margin-top: 0.5rem;
+    }
+    .custom-ville-options.show {
+        display: block;
+    }
+    .search-ville-container {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1001;
+        padding: 0.5rem;
+    }
+    .options-ville-list {
+        max-height: 250px;
+    }
+    .custom-ville-option {
+        padding: 0.5rem 1rem;
+        color: #7F55B1;
         cursor: pointer;
     }
-    
-    /* Style pour l'option au survol */
-    select option:hover {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .custom-ville-option:hover {
+        background-color: #FED5E9;
     }
-    
-    /* Style pour l'option sélectionnée */
-    select option:checked {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .custom-ville-option.selected {
+        background-color: #FED5E9;
     }
-    
-    /* Style pour le placeholder */
-    select:invalid {
-        color: #7F55B1 !important;
-        opacity: 0.7;
-    }
-    
-    /* Style pour la liste déroulante (s'applique à certains navigateurs) */
-    select option:not(:checked) {
-        background-color: white;
-    }
-    
-    /* Style pour le select désactivé */
-    select:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-        background-color: #f3f4f6;
+    .search-ville-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        outline: none;
     }
 </style>
 
 <script>
-    // Script pour améliorer le style des options au survol
-    document.addEventListener('DOMContentLoaded', function() {
-        const select = document.getElementById('{{ $id }}');
-        
-        if (select) {
-            // Gestionnaire pour le survol sur mobile/tactile
-            select.addEventListener('mousemove', function(e) {
-                if (e.target.tagName === 'OPTION') {
-                    e.target.style.backgroundColor = '#FED5E9';
-                }
+    console.log('=== Script chargé ===');
+    console.log('Livewire disponible:', typeof window.Livewire !== 'undefined');
+
+    let isInitialized = false; // Drapeau pour vérifier si l'initialisation a déjà été effectuée
+
+    function initVilleSelect() {
+        if (isInitialized) {
+            console.log('Initialisation déjà effectuée');
+            return;
+        }
+
+        console.log('=== Initialisation du sélecteur de villes ===');
+        const select = document.getElementById('ville-search');
+        if (!select) {
+            console.error('Élément select non trouvé avec l\'ID: ville-search');
+            return;
+        }
+        console.log('Élément select trouvé:', select);
+
+        const customSelect = document.querySelector('.custom-ville-select');
+        const selectedOption = document.getElementById('ville-search-selected-option');
+        const searchInput = document.getElementById('ville-search-search');
+        const customOptions = document.querySelector('.custom-ville-options');
+        const arrowIcon = document.querySelector('.ville-arrow-icon');
+
+        console.log('Éléments trouvés:', {
+            customSelect: !!customSelect,
+            selectedOption: !!selectedOption,
+            searchInput: !!searchInput,
+            customOptions: !!customOptions,
+            arrowIcon: !!arrowIcon
+        });
+
+        if (!customOptions || !searchInput) {
+            console.error('Éléments manquants:', {
+                customOptions: !customOptions,
+                searchInput: !searchInput
             });
-            
-            // Réinitialiser les styles quand on quitte le select
-            select.addEventListener('mouseleave', function() {
-                const options = select.querySelectorAll('option');
-                options.forEach(option => {
-                    if (!option.selected) {
-                        option.style.backgroundColor = 'white';
+            return;
+        }
+
+        function attachOptionEvents() {
+            const options = document.querySelectorAll('.custom-ville-option');
+            options.forEach(option => {
+                option.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Empêcher la propagation de l'événement
+                    console.log('Option cliquée:', this.textContent);
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    select.value = value;
+                    selectedOption.textContent = text;
+                    searchInput.value = '';
+                    customOptions.classList.remove('show');
+                    if (arrowIcon) {
+                        arrowIcon.classList.remove('fa-chevron-up');
+                        arrowIcon.classList.add('fa-chevron-down');
                     }
+                    const eventChange = new Event('change', { bubbles: true });
+                    select.dispatchEvent(eventChange);
                 });
             });
         }
+
+        attachOptionEvents();
+
+        let isCustomSelectClicked = false;
+
+        customSelect.addEventListener('click', function(event) {
+            if (isCustomSelectClicked) {
+                return;
+            }
+
+            isCustomSelectClicked = true;
+
+            console.log('Sélecteur personnalisé cliqué');
+            event.stopPropagation(); // Empêcher la propagation de l'événement
+
+            const isShowing = customOptions.classList.toggle('show');
+            console.log('Classe "show" ajoutée:', isShowing);
+
+            searchInput.focus();
+
+            if (arrowIcon) {
+                if (isShowing) {
+                    arrowIcon.classList.remove('fa-chevron-down');
+                    arrowIcon.classList.add('fa-chevron-up');
+                } else {
+                    arrowIcon.classList.remove('fa-chevron-up');
+                    arrowIcon.classList.add('fa-chevron-down');
+                }
+            }
+
+            setTimeout(() => {
+                isCustomSelectClicked = false;
+            }, 200);
+        });
+
+        searchInput.addEventListener('click', function(event) {
+            console.log('Input de recherche cliqué');
+            event.stopPropagation(); // Empêcher la propagation de l'événement
+        });
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const options = document.querySelectorAll('.custom-ville-option');
+            options.forEach(option => {
+                const optionText = option.textContent.toLowerCase();
+                option.style.display = optionText.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            console.log('Document cliqué');
+            if (!event.target.closest('.custom-ville-select') && !event.target.closest('.custom-ville-options')) {
+                customOptions.classList.remove('show');
+                if (arrowIcon) {
+                    arrowIcon.classList.remove('fa-chevron-up');
+                    arrowIcon.classList.add('fa-chevron-down');
+                }
+            }
+        });
+
+        isInitialized = true; // Marquer l'initialisation comme effectuée
+    }
+
+    // Gestionnaire d'événements pour les mises à jour Livewire
+    function handleLivewireUpdate() {
+        console.log('=== Mise à jour Livewire détectée ===');
+        setTimeout(initVilleSelect, 300);
+    }
+
+    // Initialisation au chargement du DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('=== DOM chargé ===');
+        initVilleSelect();
     });
+
+    // Gestion des événements Livewire
+    if (window.Livewire) {
+        console.log('Livewire détecté, configuration des hooks...');
+
+        // Au chargement initial de Livewire
+        document.addEventListener('livewire:load', function() {
+            console.log('=== Livewire chargé ===');
+            initVilleSelect();
+        });
+
+        // Après chaque mise à jour du DOM par Livewire
+        Livewire.hook('morph.updated', () => {
+            console.log('=== Mise à jour du DOM par Livewire ===');
+            handleLivewireUpdate();
+        });
+
+        // Après chaque message traité par Livewire
+        Livewire.hook('message.processed', (message, component) => {
+            console.log('=== Message Livewire traité ===', {
+                message: message,
+                component: component
+            });
+            handleLivewireUpdate();
+        });
+    } else {
+        console.warn('Livewire non détecté, certaines fonctionnalités pourraient ne pas fonctionner');
+    }
 </script>
+
