@@ -17,19 +17,18 @@
         class="z-20 hidden w-full max-w-sm divide-y divide-gray-100 rounded-lg bg-white shadow-sm dark:divide-gray-700 dark:bg-gray-800"
         aria-labelledby="dropdownNotificationButton">
         <div
-            class="block rounded-t-lg bg-gray-50 px-4 py-2 text-center font-medium text-gray-700 dark:bg-gray-800 dark:text-white">
+            class="block rounded-t-lg bg-supaGirlRosePastel px-4 py-2 text-center font-medium font-roboto-slab text-green-gs ">
             {{ __('notification.notifications') }}
         </div>
-        <div class="divide-y divide-gray-100 dark:divide-gray-700 ">
+        <div class="divide-y divide-fieldBg">
             @forelse($unreadNotifications as $notification)
                 <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['url'] ?? '#' }}" wire:key="{{ $notification->id }}"
-                    class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    class="flex px-4 py-3 hover:bg-fieldBg font-roboto-slab"
                     >
                     <div class="shrink-0">
-                        <img class="h-11 w-11 rounded-full" src="{{ asset('images/icons/user_icon.svg') }}"
-                            alt="Robert image">
+                        <i class="fas fa-user-circle text-4xl text-supaGirlRose"></i>
                         <div
-                            class="absolute -mt-5 ms-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-purple-500 dark:border-gray-800">
+                            class="absolute -mt-5 ms-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-green-gs ">
                             <svg class="h-2 w-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 14">
                                 <path
@@ -49,28 +48,28 @@
                             @endphp
                             
                             @if($isProfileCompletion && isset($data['percent']))
-                                <span class="font-semibold text-gray-900 dark:text-white">
+                                <span class="font-semibold text-gray-900 font-roboto-slab ">
                                     {{ __('notification.profileCompletion.title', ['percent' => $data['percent']]) }}
                                 </span>
-                                <span>
+                                <span class="font-roboto-slab text-sm">
                                     {{ __('notification.profileCompletion.message', ['percent' => $data['percent']]) }}
                                 </span>
                             @elseif($isEscortInvitation && isset($data['inviter_name']))
-                                <span class="font-semibold text-gray-900 dark:text-white">
+                                <span class="font-semibold text-gray-900  ">
                                     {{ __('notification.escortInvitation.title') }} 
                                 </span>
                                 <span>
                                     {{ __('notification.escortInvitation.message', ['inviter_name' => $data['inviter_name']]) }}
                                 </span>
                             @elseif($isProfileVerificationRequest && isset($data['user_name']))
-                                <span class="font-semibold text-gray-900 dark:text-white">
+                                <span class="font-semibold text-gray-900  ">
                                     {{ __('notification.profileVerificationRequest.title') }} 
                                 </span>
                                 <span>
                                     {{ __('notification.profileVerificationRequest.message', ['user_name' => $data['user_name']]) }}
                                 </span>
                             @elseif(isset($data['title'], $data['message']))
-                                <span class="font-semibold text-gray-900 dark:text-white">
+                                <span class="font-semibold text-gray-900 font-roboto-slab ">
                                     {{ $data['title'] ?? '' }}
                                 </span>
                                 <span>
@@ -83,7 +82,7 @@
                             @endif
                             
                         </div>
-                        <div class="text-xs text-blue-600 dark:text-blue-500" wire:click="markAsRead('{{ $notification->id }}')">
+                        <div class="text-xs text-green-gs hover:text-green-gs font-roboto-slab" wire:click="markAsRead('{{ $notification->id }}')">
                             {{ $notification->created_at->diffForHumans() }}
                         </div>
                     </div>
@@ -93,9 +92,9 @@
             @endforelse
         </div>
         <a wire:click="markAsReadAll()"
-            class="block rounded-b-lg bg-gray-50 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+            class="block rounded-b-lg bg-supaGirlRosePastel py-2 text-center text-sm font-medium font-roboto-slab text-green-gs hover:bg-supaGirlRosePastel/80">
             <div class="inline-flex items-center">
-                <svg class="me-2 h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                <svg class="me-2 h-4 w-4 text-white " aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
                     <path
                         d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
