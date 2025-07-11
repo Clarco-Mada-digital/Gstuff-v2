@@ -37,7 +37,7 @@
                 </div>
                 <div class="custom-options">
                     <div class="search-container">
-                        <input type="text" id="{{ $id }}-search" class="w-full bg-white border-b border-supaGirlRose py-2 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="Rechercher...">
+                        <input type="text" id="{{ $id }}-search" class="w-full bg-white rounded-lg border-b-1 border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
                     </div>
                     <div class="options-list">
                         @foreach ($cantons as $canton)
@@ -84,7 +84,6 @@
         background: white;
         z-index: 1001;
         padding: 0.5rem;
-        border-bottom: 1px solid #FED5E9;
     }
     .options-list {
         max-height: 250px;
