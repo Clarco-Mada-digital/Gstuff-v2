@@ -14,84 +14,174 @@
         </label>
     @endif
     <div class="relative">
-        <select 
-            wire:model.live="selectedCanton" 
-            wire:change="{{ $chargeVille }}"
-            id="{{ $id }}" 
-            class="appearance-none w-full bg-white border-2 border-supaGirlRose rounded-lg py-2.5 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200 pr-10 cursor-pointer"
-        >
-            <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __('user-search.cantons') }}</option>
-            @foreach ($cantons as $canton)
-                <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
-                    {{ $canton->nom }}
-                </option>
-            @endforeach
-        </select>
+        <div class="custom-select-wrapper">
+            <select
+                wire:model.live="selectedCanton"
+                wire:change="{{ $chargeVille }}"
+                id="{{ $id }}"
+                class="hidden"
+            >
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __('user-search.cantons') }}</option>
+                @foreach ($cantons as $canton)
+                    <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                        {{ $canton->nom }}
+                    </option>
+                @endforeach
+            </select>
+            <div class="custom-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border border-2 border-supaGirlRose font-roboto-slab">
+                <div class="flex justify-between items-center">
+                    <div class="selected-option" id="{{ $id }}-selected-option">
+                        {{ $selectedCanton ? $cantons->firstWhere('id', $selectedCanton)->nom : __('user-search.cantons') }}
+                    </div>
+                    <i class="fas fa-chevron-down arrow-icon text-green-gs font-roboto-slab"></i>
+                </div>
+                <div class="custom-options">
+                    <div class="search-container">
+                        <input type="text" id="{{ $id }}-search" class="w-full bg-white border-b border-supaGirlRose py-2 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="Rechercher...">
+                    </div>
+                    <div class="options-list">
+                        @foreach ($cantons as $canton)
+                            <div class="custom-option" data-value="{{ $canton->id }}">{{ $canton->nom }}</div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-
-
 <style>
-    /* Style de base pour le select */
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+    .custom-select-wrapper {
+        position: relative;
     }
-
-    /* Style pour les options du select */
-    select option {
-        background: white;
+    .custom-select {
+        position: relative;
+        width: 100%;
+    }
+    .selected-option {
         color: #7F55B1;
-        padding: 8px 12px;
+    }
+    .custom-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 300px;
+        overflow-y: auto;
+        background: white;
+        border: 2px solid #FED5E9;
+        border-radius: 0.5rem;
+        z-index: 1000;
+        margin-top: 0.5rem;
+    }
+    .custom-options.show {
+        display: block;
+    }
+    .search-container {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1001;
+        padding: 0.5rem;
+        border-bottom: 1px solid #FED5E9;
+    }
+    .options-list {
+        max-height: 250px;
+    }
+    .custom-option {
+        padding: 0.5rem 1rem;
+        color: #7F55B1;
         cursor: pointer;
     }
-    
-    /* Style pour l'option au survol */
-    select option:hover {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .custom-option:hover {
+        background-color: #FED5E9;
     }
-    
-    /* Style pour l'option sélectionnée */
-    select option:checked {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .custom-option.selected {
+        background-color: #FED5E9;
     }
-    
-    /* Style pour le placeholder */
-    select:invalid {
-        color: #7F55B1 !important;
-        opacity: 0.7;
-    }
-    
-    /* Style pour la liste déroulante (s'applique à certains navigateurs) */
-    select option:not(:checked) {
-        background-color: white;
+    #{{ $id }}-search {
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        outline: none;
     }
 </style>
 
 <script>
-    // Script pour améliorer le style des options au survol
     document.addEventListener('DOMContentLoaded', function() {
         const select = document.getElementById('{{ $id }}');
-        
-        // Gestionnaire pour le survol sur mobile/tactile
-        select.addEventListener('mousemove', function(e) {
-            if (e.target.tagName === 'OPTION') {
-                e.target.style.backgroundColor = '#FED5E9';
+        const customSelect = document.querySelector('.custom-select');
+        const selectedOption = document.getElementById('{{ $id }}-selected-option');
+        const searchInput = document.getElementById('{{ $id }}-search');
+        const customOptions = document.querySelector('.custom-options');
+        const options = document.querySelectorAll('.custom-option');
+        const arrowIcon = document.querySelector('.arrow-icon');
+
+        // Afficher/Masquer les options personnalisées
+        customSelect.addEventListener('click', function(event) {
+            event.stopPropagation();
+            customOptions.classList.toggle('show');
+            searchInput.focus();
+
+            // Changer l'icône de la flèche
+            if (customOptions.classList.contains('show')) {
+                arrowIcon.classList.remove('fa-chevron-down');
+                arrowIcon.classList.add('fa-chevron-up');
+            } else {
+                arrowIcon.classList.remove('fa-chevron-up');
+                arrowIcon.classList.add('fa-chevron-down');
             }
         });
-        
-        // Réinitialiser les styles quand on quitte le select
-        select.addEventListener('mouseleave', function() {
-            const options = select.querySelectorAll('option');
+
+        // Empêcher la fermeture du champ de recherche lors du clic
+        searchInput.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+
+        // Filtrer les options en fonction de la recherche
+        searchInput.addEventListener('input', function(event) {
+            event.stopPropagation();
+            const searchTerm = searchInput.value.toLowerCase();
             options.forEach(option => {
-                if (!option.selected) {
-                    option.style.backgroundColor = 'white';
+                const optionText = option.textContent.toLowerCase();
+                if (optionText.includes(searchTerm)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
                 }
             });
+        });
+
+        // Sélectionner une option
+        options.forEach(option => {
+            option.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const value = option.getAttribute('data-value');
+                const text = option.textContent;
+                select.value = value;
+                selectedOption.textContent = text;
+                searchInput.value = ''; // Réinitialiser le champ de recherche
+                customOptions.classList.remove('show'); // Fermer les options
+
+                // Réinitialiser l'icône de la flèche
+                arrowIcon.classList.remove('fa-chevron-up');
+                arrowIcon.classList.add('fa-chevron-down');
+
+                // Déclencher l'événement de changement pour Livewire
+                select.dispatchEvent(new Event('change'));
+            });
+        });
+
+        // Masquer les options lorsque l'on clique en dehors
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.custom-select') && !event.target.closest('.custom-options')) {
+                customOptions.classList.remove('show');
+
+                // Réinitialiser l'icône de la flèche
+                arrowIcon.classList.remove('fa-chevron-up');
+                arrowIcon.classList.add('fa-chevron-down');
+            }
         });
     });
 </script>
