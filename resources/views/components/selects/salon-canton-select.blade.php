@@ -1,34 +1,30 @@
 @props([
     'cantons' => [],
     'selectedCanton' => null,
-    'chargeVille' => null,
+    'onChange' => 'chargeVille',
+    'model' => 'selectedSalonCanton',
+    'id' => 'salon-canton-select',
     'class' => '',
-    'id' => 'canton-search',
-    'label' => null,
+    'placeholder' => 'salon-search.cantons'
 ])
 
 <div class="relative {{ $class }}">
-    @if($label)
-        <label for="{{ $id }}" class="block text-sm font-medium text-green-gs mb-2 font-roboto-slab">
-            {{ $label }}
-        </label>
-    @endif
     <div class="relative">
         <div class="custom-select-wrapper">
             <select
-                wire:model.live="selectedCanton"
-                wire:change="{{ $chargeVille }}"
+                wire:model.live="{{ $model }}"
+                wire:change="{{ $onChange }}"
                 id="{{ $id }}"
                 class="hidden"
             >
-                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __('user-search.cantons') }}</option>
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __($placeholder) }}</option>
                 @foreach ($cantons as $canton)
                     <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $canton->nom }}
                     </option>
                 @endforeach
             </select>
-            <div class="custom-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border border-2 border-supaGirlRose font-roboto-slab">
+            <div class="custom-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border-2 border-supaGirlRose font-roboto-slab">
                 <div class="flex justify-between items-center">
                     <div class="selected-option" id="{{ $id }}-selected-option">
                         {{ $selectedCanton && $cantons->firstWhere('id', $selectedCanton) ? $cantons->firstWhere('id', $selectedCanton)->nom : __('user-search.cantons') }}
@@ -37,7 +33,7 @@
                 </div>
                 <div class="custom-options">
                     <div class="search-container">
-                        <input type="text" id="{{ $id }}-search" class="w-full bg-white rounded-lg border-b-1 border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                        <input type="text" id="{{ $id }}-search" class="w-full bg-white rounded-lg border-b-1 border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('common.search') }}">
                     </div>
                     <div class="options-list">
                         @foreach ($cantons as $canton)
@@ -169,7 +165,6 @@
 
                 // Déclencher l'événement de changement pour Livewire
                 select.dispatchEvent(new Event('change'));
-                
             });
         });
 
@@ -177,7 +172,6 @@
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.custom-select') && !event.target.closest('.custom-options')) {
                 customOptions.classList.remove('show');
-
                 // Réinitialiser l'icône de la flèche
                 arrowIcon.classList.remove('fa-chevron-up');
                 arrowIcon.classList.add('fa-chevron-down');
