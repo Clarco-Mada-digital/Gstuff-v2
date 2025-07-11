@@ -30,6 +30,7 @@
             :villes="$villes"
             :model="$villeModel"
             :id="$villeId"
+            :selectedVille="$selectedVille"
             class="w-full"
         />
     </div>

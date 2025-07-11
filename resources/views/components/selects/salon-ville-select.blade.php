@@ -1,60 +1,305 @@
 @props([
     'villes' => [],
+    'selectedVille' => null,
     'model' => 'selectedSalonVille',
     'id' => 'salon-ville-select',
     'class' => '',
     'placeholder' => 'salon-search.villes',
-    'disabledPlaceholder' => 'salon-search.select_canton'
+    'disabledPlaceholder' => 'salon-search.select_canton',
+    'label' => null
 ])
 
-<div class="w-full min-w-[200px] max-w-xs {{ $class }}">
+<div class="relative {{ $class }}">
+    @if($label)
+        <label for="{{ $id }}" class="block text-sm font-medium text-green-gs mb-2 font-roboto-slab">
+            {{ $label }}
+        </label>
+    @endif
     <div class="relative">
-        <select 
-            wire:model.live="{{ $model }}"
-            id="{{ $id }}"
-            class="appearance-none w-full bg-white border-2 border-supaGirlRose rounded-lg py-2.5 px-4 text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200 pr-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            @if (!$villes || count($villes) === 0) disabled @endif
-        >
-            <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
-                {{ $villes && count($villes) > 0 ? __($placeholder) : __($disabledPlaceholder) }}
-            </option>
-            @if (is_iterable($villes) && count($villes) > 0)
-                @foreach ($villes as $ville)
+        <div class="salon-custom-ville-select-wrapper">
+            @php
+                $villes = is_array($villes) || $villes instanceof Countable ? $villes : [];
+                $hasVilles = count($villes) > 0;
+            @endphp
+            <select 
+                wire:model.live="{{ $model }}" 
+                id="{{ $id }}" 
+                class="hidden"
+                @if (!$hasVilles) disabled @endif
+            >
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
+                    @if($hasVilles)
+                        {{ __($placeholder) }}
+                    @else
+                        {{ __($disabledPlaceholder) }}
+                    @endif
+                </option>
+                @foreach($villes as $ville)
                     <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
-            @endif
-        </select>
+            </select>
+            <div class="salon-custom-ville-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border-2 border-supaGirlRose font-roboto-slab">
+                <div class="flex justify-between items-center">
+                    <div class="salon-selected-ville-option" id="{{ $id }}-selected-option">
+                        @if($selectedVille)
+                            @php
+                                $selected = collect($villes)->firstWhere('id', $selectedVille);
+                            @endphp
+                            {{ $selected->nom ?? __($placeholder) }}
+                        @elseif($hasVilles)
+                            {{ __($placeholder) }}
+                        @else
+                            {{ __($disabledPlaceholder) }}
+                        @endif
+                    </div>
+                    <i class="fas fa-chevron-down salon-ville-arrow-icon text-green-gs font-roboto-slab"></i>
+                </div>
+                @if($hasVilles)
+                <div class="salon-custom-ville-options">
+                    <div class="salon-search-ville-container">
+                        <input type="text" id="{{ $id }}-search" class="salon-search-ville-input w-full bg-white rounded-lg border-b border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                    </div>
+                    <div class="salon-options-ville-list">
+                        @foreach($villes as $ville)
+                            <div class="salon-custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}</div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
-    #{{ $id }} {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+    .salon-custom-ville-select-wrapper {
+        position: relative;
     }
-
-    #{{ $id }} option {
-        background: white;
+    .salon-custom-ville-select {
+        position: relative;
+        width: 100%;
+    }
+    .salon-selected-ville-option {
         color: #7F55B1;
-        padding: 8px 12px;
+    }
+    .salon-custom-ville-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 300px;
+        overflow-y: auto;
+        background: white;
+        border: 2px solid #FED5E9;
+        border-radius: 0.5rem;
+        z-index: 1000;
+        margin-top: 0.5rem;
+    }
+    .salon-custom-ville-options.show {
+        display: block;
+    }
+    .salon-search-ville-container {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 1001;
+        padding: 0.5rem;
+    }
+    .salon-options-ville-list {
+        max-height: 250px;
+    }
+    .salon-custom-ville-option {
+        padding: 0.5rem 1rem;
+        color: #7F55B1;
         cursor: pointer;
     }
-    
-    #{{ $id }} option:hover {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .salon-custom-ville-option:hover {
+        background-color: #FED5E9;
     }
-    
-    #{{ $id }} option:checked {
-        background-color: #FED5E9 !important;
-        color: #7F55B1 !important;
+    .salon-custom-ville-option.selected {
+        background-color: #FED5E9;
     }
-    
-    #{{ $id }}:invalid {
-        color: #7F55B1 !important;
-        opacity: 0.7;
+    .salon-search-ville-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        outline: none;
     }
 </style>
+
+<script>
+    console.log('=== Script salon-ville-select chargé ===');
+    console.log('Livewire disponible:', typeof window.Livewire !== 'undefined');
+
+    let isInitialized = false;
+
+    function initVilleSelect() {
+        if (isInitialized) {
+            console.log('Initialisation déjà effectuée');
+            return;
+        }
+
+        console.log('=== Initialisation du sélecteur de villes salon ===');
+        const select = document.getElementById('{{ $id }}');
+        if (!select) {
+            console.error('Élément select non trouvé avec l\'ID: {{ $id }}');
+            return;
+        }
+        console.log('Élément select trouvé:', select);
+
+        const customSelect = document.querySelector('.salon-custom-ville-select');
+        const selectedOption = document.getElementById('{{ $id }}-selected-option');
+        const searchInput = document.getElementById('{{ $id }}-search');
+        const customOptions = document.querySelector('.salon-custom-ville-options');
+        const arrowIcon = document.querySelector('.salon-ville-arrow-icon');
+
+        console.log('Éléments trouvés:', {
+            customSelect: !!customSelect,
+            selectedOption: !!selectedOption,
+            searchInput: !!searchInput,
+            customOptions: !!customOptions,
+            arrowIcon: !!arrowIcon
+        });
+
+        if (!customOptions || !searchInput) {
+            console.error('Éléments manquants:', {
+                customOptions: !customOptions,
+                searchInput: !searchInput
+            });
+            return;
+        }
+
+        function attachOptionEvents() {
+            const options = document.querySelectorAll('.salon-custom-ville-option');
+            options.forEach(option => {
+                option.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    console.log('Option cliquée:', this.textContent);
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    select.value = value;
+                    if (selectedOption) {
+                        selectedOption.textContent = text;
+                    }
+                    searchInput.value = '';
+                    customOptions.classList.remove('show');
+                    if (arrowIcon) {
+                        arrowIcon.classList.remove('fa-chevron-up');
+                        arrowIcon.classList.add('fa-chevron-down');
+                    }
+                    const eventChange = new Event('change', { bubbles: true });
+                    select.dispatchEvent(eventChange);
+                });
+            });
+        }
+
+        attachOptionEvents();
+
+        let isCustomSelectClicked = false;
+
+        if (customSelect) {
+            customSelect.addEventListener('click', function(event) {
+                if (isCustomSelectClicked) {
+                    return;
+                }
+
+                isCustomSelectClicked = true;
+                console.log('Sélecteur personnalisé cliqué');
+                event.stopPropagation();
+
+                const isShowing = customOptions.classList.toggle('show');
+                console.log('Classe "show" ajoutée:', isShowing);
+
+                if (searchInput) {
+                    searchInput.focus();
+                }
+
+                if (arrowIcon) {
+                    if (isShowing) {
+                        arrowIcon.classList.remove('fa-chevron-down');
+                        arrowIcon.classList.add('fa-chevron-up');
+                    } else {
+                        arrowIcon.classList.remove('fa-chevron-up');
+                        arrowIcon.classList.add('fa-chevron-down');
+                    }
+                }
+
+                setTimeout(() => {
+                    isCustomSelectClicked = false;
+                }, 200);
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('click', function(event) {
+                console.log('Input de recherche cliqué');
+                event.stopPropagation();
+            });
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const options = document.querySelectorAll('.salon-custom-ville-option');
+                options.forEach(option => {
+                    const optionText = option.textContent.toLowerCase();
+                    option.style.display = optionText.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        }
+
+        document.addEventListener('click', function(event) {
+            console.log('Document cliqué');
+            if (!event.target.closest('.salon-custom-ville-select') && !event.target.closest('.salon-custom-ville-options')) {
+                customOptions.classList.remove('show');
+                if (arrowIcon) {
+                    arrowIcon.classList.remove('fa-chevron-up');
+                    arrowIcon.classList.add('fa-chevron-down');
+                }
+            }
+        });
+
+        isInitialized = true;
+    }
+
+    // Gestionnaire d'événements pour les mises à jour Livewire
+    function handleLivewireUpdate() {
+        console.log('=== Mise à jour Livewire détectée ===');
+        setTimeout(initVilleSelect, 300);
+    }
+
+    // Initialisation au chargement du DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('=== DOM chargé ===');
+        initVilleSelect();
+    });
+
+    // Gestion des événements Livewire
+    if (window.Livewire) {
+        console.log('Livewire détecté, configuration des hooks...');
+
+        // Au chargement initial de Livewire
+        document.addEventListener('livewire:load', function() {
+            console.log('=== Livewire chargé ===');
+            initVilleSelect();
+        });
+
+        // Après chaque mise à jour du DOM par Livewire
+        Livewire.hook('morph.updated', () => {
+            console.log('=== Mise à jour du DOM par Livewire ===');
+            handleLivewireUpdate();
+        });
+
+        // Après chaque message traité par Livewire
+        Livewire.hook('message.processed', (message, component) => {
+            console.log('=== Message Livewire traité ===', {
+                message: message,
+                component: component
+            });
+            handleLivewireUpdate();
+        });
+    } else {
+        console.warn('Livewire non détecté, certaines fonctionnalités pourraient ne pas fonctionner');
+    }
+</script>
