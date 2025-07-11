@@ -249,18 +249,62 @@
             });
         }
 
-        document.addEventListener('click', function(event) {
-            console.log('Document cliqué');
-            if (!event.target.closest('.salon-custom-ville-select') && !event.target.closest('.salon-custom-ville-options')) {
-                customOptions.classList.remove('show');
-                if (arrowIcon) {
-                    arrowIcon.classList.remove('fa-chevron-up');
-                    arrowIcon.classList.add('fa-chevron-down');
+        // Fonction pour fermer tous les menus déroulants
+        function closeAllDropdowns(exceptElement = null) {
+            document.querySelectorAll('.salon-custom-ville-options').forEach(dropdown => {
+                if (!exceptElement || !dropdown.contains(exceptElement)) {
+                    dropdown.classList.remove('show');
                 }
+            });
+            
+            document.querySelectorAll('.salon-ville-arrow-icon').forEach(icon => {
+                if (!exceptElement || !icon.closest('.salon-custom-ville-select')?.contains(exceptElement)) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        }
+
+        // Gestionnaire de clic global
+        function handleDocumentClick(event) {
+            const clickedElement = event.target;
+            const isVilleSelect = clickedElement.closest('.salon-custom-ville-select');
+            const isVilleOptions = clickedElement.closest('.salon-custom-ville-options');
+            const isSearchInput = clickedElement.classList.contains('salon-search-ville-input');
+
+            // Si on clique en dehors d'un sélecteur de ville
+            if (!isVilleSelect && !isVilleOptions) {
+                closeAllDropdowns();
+                return;
             }
-        });
+
+            // Si on clique sur un sélecteur de ville différent
+            if (isVilleSelect && !isSearchInput) {
+                const currentSelect = clickedElement.closest('.salon-custom-ville-select');
+                const currentOptions = currentSelect?.querySelector('.salon-custom-ville-options');
+                
+                // Si le menu est déjà ouvert, on le ferme
+                if (currentOptions?.classList.contains('show')) {
+                    closeAllDropdowns();
+                    return;
+                }
+                
+                // Sinon, on ferme tous les autres menus d'abord
+                closeAllDropdowns(currentSelect);
+            }
+        }
+
+        // Ajout de l'écouteur d'événements avec capture pour une meilleure détection
+        document.addEventListener('click', handleDocumentClick, true);
 
         isInitialized = true;
+        
+        // Nettoyage lors de la suppression du composant
+        document.addEventListener('livewire:before-update', () => {
+            if (typeof handleDocumentClick === 'function') {
+                document.removeEventListener('click', handleDocumentClick, true);
+            }
+        });
     }
 
     // Gestionnaire d'événements pour les mises à jour Livewire

@@ -168,14 +168,59 @@
             });
         });
 
-        // Masquer les options lorsque l'on clique en dehors
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.custom-select') && !event.target.closest('.custom-options')) {
-                customOptions.classList.remove('show');
-                // Réinitialiser l'icône de la flèche
-                arrowIcon.classList.remove('fa-chevron-up');
-                arrowIcon.classList.add('fa-chevron-down');
+        // Fonction pour fermer tous les menus déroulants
+        function closeAllDropdowns(exceptElement = null) {
+            document.querySelectorAll('.custom-options').forEach(dropdown => {
+                if (!exceptElement || !dropdown.contains(exceptElement)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            document.querySelectorAll('.arrow-icon').forEach(icon => {
+                if (!exceptElement || !icon.closest('.custom-select')?.contains(exceptElement)) {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        }
+
+        // Gestionnaire de clic global
+        function handleDocumentClick(event) {
+            const clickedElement = event.target;
+            const isCantonSelect = clickedElement.closest('.custom-select');
+            const isCantonOptions = clickedElement.closest('.custom-options');
+            const isSearchInput = clickedElement.id && clickedElement.id.endsWith('-search');
+
+            // Si on clique en dehors d'un sélecteur de canton
+            if (!isCantonSelect && !isCantonOptions) {
+                closeAllDropdowns();
+                return;
             }
-        });
+
+            // Si on clique sur un sélecteur de canton différent
+            if (isCantonSelect && !isSearchInput) {
+                const currentSelect = clickedElement.closest('.custom-select');
+                const currentOptions = currentSelect?.querySelector('.custom-options');
+                
+                // Si le menu est déjà ouvert, on le ferme
+                if (currentOptions?.classList.contains('show')) {
+                    closeAllDropdowns();
+                    return;
+                }
+                
+                // Sinon, on ferme tous les autres menus d'abord
+                closeAllDropdowns(currentSelect);
+            }
+        }
+
+        // Ajout de l'écouteur d'événements avec capture pour une meilleure détection
+        document.addEventListener('click', handleDocumentClick, true);
+    });
+
+    // Nettoyage lors de la suppression du composant
+    document.addEventListener('livewire:before-update', () => {
+        if (typeof handleDocumentClick === 'function') {
+            document.removeEventListener('click', handleDocumentClick, true);
+        }
     });
 </script>
