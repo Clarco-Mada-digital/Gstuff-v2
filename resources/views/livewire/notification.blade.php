@@ -1,6 +1,7 @@
 <div x-data="{ userType: '{{ Auth::user()->profile_type }}' }">
     <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" type="button"
-        class="relative inline-flex cursor-pointer items-center rounded-full bg-gray-200 p-2 text-center text-sm font-medium focus:outline-none xl:order-1">
+        class="relative inline-flex cursor-pointer items-center rounded-full bg-supaGirlRosePastel p-2 text-center text-sm font-medium 
+        hover:bg-supaGirlRosePastel/80 focus:outline-none xl:order-1 text-green-gs font-roboto-slab">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path fill="currentColor"
                 d="M5 19q-.425 0-.712-.288T4 18t.288-.712T5 17h1v-7q0-2.075 1.25-3.687T10.5 4.2v-.7q0-.625.438-1.062T12 2t1.063.438T13.5 3.5v.7q2 .5 3.25 2.113T18 10v7h1q.425 0 .713.288T20 18t-.288.713T19 19zm7 3q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22" />

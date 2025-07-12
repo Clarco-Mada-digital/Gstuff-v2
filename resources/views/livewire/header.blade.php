@@ -142,7 +142,8 @@
                 <div class="flex items-center gap-3 xl:order-1">
                     @livewire('notification')
                     <button id="dropdownHoverUser" data-dropdown-toggle="dropdownUser"
-                        class="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-gray-200 px-2 py-1.5 text-center font-bold focus:outline-none xl:order-1"
+                        class="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-fieldBg border border-1 border-supaGirlRose hover:border-supaGirlRose/50 px-2 py-1.5 text-center
+                         font-bold focus:outline-none xl:order-1"
                         type="button">
                         <img class="h-7 w-7 rounded-full"
                             @if ($avatar = auth()->user()->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
@@ -160,34 +161,53 @@
 
                     <!-- Dropdown menu -->
                     <div id="dropdownUser"
-                        class="z-10 hidden w-44 divide-y divide-gray-400 rounded-lg bg-gray-300 shadow-sm dark:bg-gray-700">
+                        class="z-10 hidden w-44 divide-y divide-gray-400 rounded-lg bg-fieldBg border border-1 border-supaGirlRose shadow-sm ">
                         <ul x-data="{ pageSection: $persist('compte') }" class="text-green-gs py-2 text-sm font-bold dark:text-gray-200"
                             aria-labelledby="dropdownHoverUser">
 
                             <li>
                                 <a x-on:click="pageSection='compte'" href="{{ route('profile.index') }}"
-                                    class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">{{ __('header.my_account') }}</a>
+                                    class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                        <i class="fas fa-user-circle text-xs"></i>
+                                    </span>{{ __('header.my_account') }}
+                                </a>
                             </li>
                             <div x-show="userType=='invite'">
                                 <li>
                                     <a x-on:click="pageSection='favoris'" href="{{ route('profile.index') }}"
-                                        class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">{{ __('header.my_favorites') }}</a>
+                                        class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                            <i class="fas fa-heart text-xs"></i>
+                                        </span>{{ __('header.my_favorites') }}
+                                    </a>
                                 </li>
                             </div>
                             <div x-show="!userType=='invite'">
                                 <li>
                                     <a x-on:click="pageSection='galerie'" href="{{ route('profile.index') }}"
-                                        class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">{{ __('header.my_gallery') }}</a>
+                                        class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                            <i class="fas fa-images text-xs"></i>
+                                        </span>{{ __('header.my_gallery') }}
+                                    </a>
                                 </li>
                             </div>
                             <li>
                                 <a x-on:click="pageSection='discussion'" href="{{ route('profile.index') }}"
-                                    class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">{{ __('header.discussion') }}</a>
+                                    class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                        <i class="fas fa-comments text-xs"></i>
+                                    </span>{{ __('header.discussion') }}
+                                </a>
                             </li>
                             @if (Auth::user()->createbysalon)
                                 <li>
                                     <a href="{{ route('salon.revenirSalon', ['id' => $salonCreator->id]) }}"
-                                        class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">
+                                        class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                            <i class="fas fa-store text-xs"></i>
+                                        </span>
                                         <h2>{{ __('header.go_to') }} {{ $salonCreator->nom_salon }}</h2>
                                     </a>
                                 </li>
@@ -195,8 +215,10 @@
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                                    class="block px-4 py-2 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-900 dark:hover:text-white">
-                                    {{ __('header.logout') }}
+                                    class="flex items-center px-4 py-2 hover:bg-supaGirlRosePastel text-green-gs font-roboto-slab text-sm font-[500]">
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-supaGirlRose text-green-gs mr-2">
+                                        <i class="fas fa-sign-out-alt text-xs text-green-gs"></i>
+                                    </span>{{ __('header.logout') }}
                                 </a>
                             </li>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
