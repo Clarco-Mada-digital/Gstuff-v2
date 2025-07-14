@@ -1,4 +1,2880 @@
 [
+ 
+  {
+    "nom_canton": "Fribourg",
+    "villeListe": [
+      {
+        "nom_ville": "Alterswil"
+      },
+      {
+        "nom_ville": "Arconciel"
+      },
+      {
+        "nom_ville": "Attalens"
+      },
+      {
+        "nom_ville": "Auboranges"
+      },
+      {
+        "nom_ville": "Autafond"
+      },
+      {
+        "nom_ville": "Autigny"
+      },
+      {
+        "nom_ville": "Avry"
+      },
+      {
+        "nom_ville": "Barberêche"
+      },
+      {
+        "nom_ville": "Bas-Intyamon"
+      },
+      {
+        "nom_ville": "Bas-Vully"
+      },
+      {
+        "nom_ville": "Belfaux"
+      },
+      {
+        "nom_ville": "Billens-Hennens"
+      },
+      {
+        "nom_ville": "Bois-d'Amont"
+      },
+      {
+        "nom_ville": "Bossonnens"
+      },
+      {
+        "nom_ville": "Botterens"
+      },
+      {
+        "nom_ville": "Bourg-en-Lavaux"
+      },
+      {
+        "nom_ville": "Broc"
+      },
+      {
+        "nom_ville": "Brünisried"
+      },
+      {
+        "nom_ville": "Bulle"
+      },
+      {
+        "nom_ville": "Bussy   "
+      },
+      {
+        "nom_ville": "Bösingen"
+      },
+      {
+        "nom_ville": "Büchslen"
+      },
+      {
+        "nom_ville": "Cerniat   "
+      },
+      {
+        "nom_ville": "Chapelle  Glâne "
+      },
+      {
+        "nom_ville": "Charmey"
+      },
+      {
+        "nom_ville": "Cheiry"
+      },
+      {
+        "nom_ville": "Cheyres"
+      },
+      {
+        "nom_ville": "Cheyres-Châbles"
+      },
+      {
+        "nom_ville": "Châbles"
+      },
+      {
+        "nom_ville": "Châtel-Saint-Denis"
+      },
+      {
+        "nom_ville": "Châtel-sur-Montsalvens"
+      },
+      {
+        "nom_ville": "Châtillon   "
+      },
+      {
+        "nom_ville": "Châtonnaye"
+      },
+      {
+        "nom_ville": "Chénens"
+      },
+      {
+        "nom_ville": "Chésopelloz"
+      },
+      {
+        "nom_ville": "Corbières"
+      },
+      {
+        "nom_ville": "Corminboeuf"
+      },
+      {
+        "nom_ville": "Corpataux-Magnedens"
+      },
+      {
+        "nom_ville": "Corserey"
+      },
+      {
+        "nom_ville": "Cottens   "
+      },
+      {
+        "nom_ville": "Courgevaux"
+      },
+      {
+        "nom_ville": "Courlevon"
+      },
+      {
+        "nom_ville": "Courtepin"
+      },
+      {
+        "nom_ville": "Cressier   "
+      },
+      {
+        "nom_ville": "Crésuz"
+      },
+      {
+        "nom_ville": "Cugy   "
+      },
+      {
+        "nom_ville": "Delley-Portalban"
+      },
+      {
+        "nom_ville": "Domdidier"
+      },
+      {
+        "nom_ville": "Dompierre   "
+      },
+      {
+        "nom_ville": "Düdingen"
+      },
+      {
+        "nom_ville": "Echarlens"
+      },
+      {
+        "nom_ville": "Ecublens   "
+      },
+      {
+        "nom_ville": "Ependes   "
+      },
+      {
+        "nom_ville": "Estavayer"
+      },
+      {
+        "nom_ville": "Estavayer-le-Lac"
+      },
+      {
+        "nom_ville": "Farvagny"
+      },
+      {
+        "nom_ville": "Ferpicloz"
+      },
+      {
+        "nom_ville": "Font"
+      },
+      {
+        "nom_ville": "Fribourg"
+      },
+      {
+        "nom_ville": "Fräschels"
+      },
+      {
+        "nom_ville": "Fétigny"
+      },
+      {
+        "nom_ville": "Galmiz"
+      },
+      {
+        "nom_ville": "Gempenach"
+      },
+      {
+        "nom_ville": "Giffers"
+      },
+      {
+        "nom_ville": "Givisiez"
+      },
+      {
+        "nom_ville": "Gletterens"
+      },
+      {
+        "nom_ville": "Goumoëns"
+      },
+      {
+        "nom_ville": "Grandvillard"
+      },
+      {
+        "nom_ville": "Granges  Veveyse "
+      },
+      {
+        "nom_ville": "Granges-Paccot"
+      },
+      {
+        "nom_ville": "Grangettes"
+      },
+      {
+        "nom_ville": "Greng"
+      },
+      {
+        "nom_ville": "Grolley"
+      },
+      {
+        "nom_ville": "Gruyères"
+      },
+      {
+        "nom_ville": "Gurmels"
+      },
+      {
+        "nom_ville": "Haut-Intyamon"
+      },
+      {
+        "nom_ville": "Haut-Vully"
+      },
+      {
+        "nom_ville": "Hauterive   "
+      },
+      {
+        "nom_ville": "Hauteville"
+      },
+      {
+        "nom_ville": "Heitenried"
+      },
+      {
+        "nom_ville": "Jaun"
+      },
+      {
+        "nom_ville": "Jeuss"
+      },
+      {
+        "nom_ville": "Kerzers"
+      },
+      {
+        "nom_ville": "Kleinbösingen"
+      },
+      {
+        "nom_ville": "La Brillaz"
+      },
+      {
+        "nom_ville": "La Folliaz"
+      },
+      {
+        "nom_ville": "La Roche"
+      },
+      {
+        "nom_ville": "La Sonnaz"
+      },
+      {
+        "nom_ville": "La Verrerie"
+      },
+      {
+        "nom_ville": "Le Châtelard"
+      },
+      {
+        "nom_ville": "Le Flon"
+      },
+      {
+        "nom_ville": "Le Glèbe"
+      },
+      {
+        "nom_ville": "Le Mouret"
+      },
+      {
+        "nom_ville": "Le Pâquier   "
+      },
+      {
+        "nom_ville": "Les Montets"
+      },
+      {
+        "nom_ville": "Lully   "
+      },
+      {
+        "nom_ville": "Lurtigen"
+      },
+      {
+        "nom_ville": "Léchelles"
+      },
+      {
+        "nom_ville": "Marly"
+      },
+      {
+        "nom_ville": "Marsens"
+      },
+      {
+        "nom_ville": "Massonnens"
+      },
+      {
+        "nom_ville": "Matran"
+      },
+      {
+        "nom_ville": "Meyriez"
+      },
+      {
+        "nom_ville": "Misery-Courtion"
+      },
+      {
+        "nom_ville": "Montagny   "
+      },
+      {
+        "nom_ville": "Montanaire"
+      },
+      {
+        "nom_ville": "Montet  Glâne "
+      },
+      {
+        "nom_ville": "Montilliez"
+      },
+      {
+        "nom_ville": "Morat"
+      },
+      {
+        "nom_ville": "Morens   "
+      },
+      {
+        "nom_ville": "Morlon"
+      },
+      {
+        "nom_ville": "Muntelier"
+      },
+      {
+        "nom_ville": "Murist"
+      },
+      {
+        "nom_ville": "Ménières"
+      },
+      {
+        "nom_ville": "Mézières   "
+      },
+      {
+        "nom_ville": "Neyruz   "
+      },
+      {
+        "nom_ville": "Noréaz"
+      },
+      {
+        "nom_ville": "Nuvilly"
+      },
+      {
+        "nom_ville": "Oberschrot"
+      },
+      {
+        "nom_ville": "Pierrafortscha"
+      },
+      {
+        "nom_ville": "Plaffeien"
+      },
+      {
+        "nom_ville": "Plasselb"
+      },
+      {
+        "nom_ville": "Pont-en-Ogoz"
+      },
+      {
+        "nom_ville": "Pont-la-Ville"
+      },
+      {
+        "nom_ville": "Ponthaux"
+      },
+      {
+        "nom_ville": "Prez"
+      },
+      {
+        "nom_ville": "Prez-vers-Noréaz"
+      },
+      {
+        "nom_ville": "Prévondavaux"
+      },
+      {
+        "nom_ville": "Rechthalten"
+      },
+      {
+        "nom_ville": "Remaufens"
+      },
+      {
+        "nom_ville": "Riaz"
+      },
+      {
+        "nom_ville": "Ried bei Kerzers"
+      },
+      {
+        "nom_ville": "Romont   "
+      },
+      {
+        "nom_ville": "Rossens   "
+      },
+      {
+        "nom_ville": "Rue"
+      },
+      {
+        "nom_ville": "Rueyres-les-Prés"
+      },
+      {
+        "nom_ville": "Russy"
+      },
+      {
+        "nom_ville": "Saint-Aubin   "
+      },
+      {
+        "nom_ville": "Saint-Martin   "
+      },
+      {
+        "nom_ville": "Salvenach"
+      },
+      {
+        "nom_ville": "Schmitten   "
+      },
+      {
+        "nom_ville": "Semsales"
+      },
+      {
+        "nom_ville": "Senèdes"
+      },
+      {
+        "nom_ville": "Siviriez"
+      },
+      {
+        "nom_ville": "Sorens"
+      },
+      {
+        "nom_ville": "St.Antoni"
+      },
+      {
+        "nom_ville": "St.Silvester"
+      },
+      {
+        "nom_ville": "St.Ursen"
+      },
+      {
+        "nom_ville": "Surpierre"
+      },
+      {
+        "nom_ville": "Sâles"
+      },
+      {
+        "nom_ville": "Sévaz"
+      },
+      {
+        "nom_ville": "Tafers"
+      },
+      {
+        "nom_ville": "Tentlingen"
+      },
+      {
+        "nom_ville": "Torny"
+      },
+      {
+        "nom_ville": "Treyvaux"
+      },
+      {
+        "nom_ville": "Tévenon"
+      },
+      {
+        "nom_ville": "Ueberstorf"
+      },
+      {
+        "nom_ville": "Ulmiz"
+      },
+      {
+        "nom_ville": "Ursy"
+      },
+      {
+        "nom_ville": "Val-de-Charmey"
+      },
+      {
+        "nom_ville": "Vallon"
+      },
+      {
+        "nom_ville": "Vaulruz"
+      },
+      {
+        "nom_ville": "Vernay"
+      },
+      {
+        "nom_ville": "Villarepos"
+      },
+      {
+        "nom_ville": "Villars-sur-Glâne"
+      },
+      {
+        "nom_ville": "Villarsel-sur-Marly"
+      },
+      {
+        "nom_ville": "Villarvolard"
+      },
+      {
+        "nom_ville": "Villaz"
+      },
+      {
+        "nom_ville": "Villaz-Saint-Pierre"
+      },
+      {
+        "nom_ville": "Villeneuve   "
+      },
+      {
+        "nom_ville": "Villorsonnens"
+      },
+      {
+        "nom_ville": "Vuadens"
+      },
+      {
+        "nom_ville": "Vuarmarens"
+      },
+      {
+        "nom_ville": "Vuissens"
+      },
+      {
+        "nom_ville": "Vuisternens-devant-Romont"
+      },
+      {
+        "nom_ville": "Vuisternens-en-Ogoz"
+      },
+      {
+        "nom_ville": "Vully-les-Lacs"
+      },
+      {
+        "nom_ville": "Wallenried"
+      },
+      {
+        "nom_ville": "Wünnewil-Flamatt"
+      },
+      {
+        "nom_ville": "Zumholz"
+      }
+    ],
+    "code": "FR",
+    "villeNombre": 180,
+    "geoLocation": {
+      "lat": 46.8055656,
+      "lon": 7.1612669,
+      "display_name": "Fribourg, District de la Sarine, Fribourg, Suisse"
+    }
+  },
+
+  {
+    "nom_canton": "Jura",
+    "villeListe": [
+      {
+        "nom_ville": "Alle"
+      },
+      {
+        "nom_ville": "Asuel"
+      },
+      {
+        "nom_ville": "Basse-Allaine"
+      },
+      {
+        "nom_ville": "Bassecourt"
+      },
+      {
+        "nom_ville": "Beurnevésin"
+      },
+      {
+        "nom_ville": "Boncourt"
+      },
+      {
+        "nom_ville": "Bonfol"
+      },
+      {
+        "nom_ville": "Bourrignon"
+      },
+      {
+        "nom_ville": "Boécourt"
+      },
+      {
+        "nom_ville": "Bressaucourt"
+      },
+      {
+        "nom_ville": "Buix"
+      },
+      {
+        "nom_ville": "Bure"
+      },
+      {
+        "nom_ville": "Charmoille"
+      },
+      {
+        "nom_ville": "Chevenez"
+      },
+      {
+        "nom_ville": "Châtillon "
+      },
+      {
+        "nom_ville": "Clos du Doubs"
+      },
+      {
+        "nom_ville": "Coeuve"
+      },
+      {
+        "nom_ville": "Corban"
+      },
+      {
+        "nom_ville": "Cornol"
+      },
+      {
+        "nom_ville": "Courchapoix"
+      },
+      {
+        "nom_ville": "Courchavon"
+      },
+      {
+        "nom_ville": "Courfaivre"
+      },
+      {
+        "nom_ville": "Courgenay"
+      },
+      {
+        "nom_ville": "Courrendlin"
+      },
+      {
+        "nom_ville": "Courroux"
+      },
+      {
+        "nom_ville": "Courtedoux"
+      },
+      {
+        "nom_ville": "Courtemaîche"
+      },
+      {
+        "nom_ville": "Courtételle"
+      },
+      {
+        "nom_ville": "Damphreux"
+      },
+      {
+        "nom_ville": "Damvant"
+      },
+      {
+        "nom_ville": "Delémont"
+      },
+      {
+        "nom_ville": "Develier"
+      },
+      {
+        "nom_ville": "Ederswiler"
+      },
+      {
+        "nom_ville": "Epauvillers"
+      },
+      {
+        "nom_ville": "Epiquerez"
+      },
+      {
+        "nom_ville": "Fahy"
+      },
+      {
+        "nom_ville": "Fontenais"
+      },
+      {
+        "nom_ville": "Fregiécourt"
+      },
+      {
+        "nom_ville": "Glovelier"
+      },
+      {
+        "nom_ville": "Goumois"
+      },
+      {
+        "nom_ville": "Grandfontaine"
+      },
+      {
+        "nom_ville": "Haute-Ajoie"
+      },
+      {
+        "nom_ville": "Haute-Sorne"
+      },
+      {
+        "nom_ville": "La Baroche"
+      },
+      {
+        "nom_ville": "La Chaux-des-Breuleux"
+      },
+      {
+        "nom_ville": "Lajoux "
+      },
+      {
+        "nom_ville": "Le Bémont "
+      },
+      {
+        "nom_ville": "Le Noirmont"
+      },
+      {
+        "nom_ville": "Le Peuchapatte"
+      },
+      {
+        "nom_ville": "Les Bois"
+      },
+      {
+        "nom_ville": "Les Breuleux"
+      },
+      {
+        "nom_ville": "Les Enfers"
+      },
+      {
+        "nom_ville": "Les Genevez "
+      },
+      {
+        "nom_ville": "Les Pommerats"
+      },
+      {
+        "nom_ville": "Lugnez"
+      },
+      {
+        "nom_ville": "Mervelier"
+      },
+      {
+        "nom_ville": "Mettembert"
+      },
+      {
+        "nom_ville": "Miécourt"
+      },
+      {
+        "nom_ville": "Montenol"
+      },
+      {
+        "nom_ville": "Montfaucon"
+      },
+      {
+        "nom_ville": "Montfavergier"
+      },
+      {
+        "nom_ville": "Montignez"
+      },
+      {
+        "nom_ville": "Montmelon"
+      },
+      {
+        "nom_ville": "Montsevelier"
+      },
+      {
+        "nom_ville": "Movelier"
+      },
+      {
+        "nom_ville": "Muriaux"
+      },
+      {
+        "nom_ville": "Ocourt"
+      },
+      {
+        "nom_ville": "Pleigne"
+      },
+      {
+        "nom_ville": "Pleujouse"
+      },
+      {
+        "nom_ville": "Porrentruy"
+      },
+      {
+        "nom_ville": "Rebeuvelier"
+      },
+      {
+        "nom_ville": "Roche-d'Or"
+      },
+      {
+        "nom_ville": "Rocourt"
+      },
+      {
+        "nom_ville": "Rossemaison"
+      },
+      {
+        "nom_ville": "Réclère"
+      },
+      {
+        "nom_ville": "Saignelégier"
+      },
+      {
+        "nom_ville": "Saint-Brais"
+      },
+      {
+        "nom_ville": "Saint-Ursanne"
+      },
+      {
+        "nom_ville": "Saulcy"
+      },
+      {
+        "nom_ville": "Seleute"
+      },
+      {
+        "nom_ville": "Soubey"
+      },
+      {
+        "nom_ville": "Soulce"
+      },
+      {
+        "nom_ville": "Soyhières"
+      },
+      {
+        "nom_ville": "Undervelier"
+      },
+      {
+        "nom_ville": "Val Terbi"
+      },
+      {
+        "nom_ville": "Vellerat"
+      },
+      {
+        "nom_ville": "Vendlincourt"
+      },
+      {
+        "nom_ville": "Vermes"
+      },
+      {
+        "nom_ville": "Vicques"
+      }
+    ],
+    "code": "JU",
+    "villeNombre": 89,
+    "geoLocation": {
+      "lat": 47.3566699,
+      "lon": 7.1598893,
+      "display_name": "Jura, Suisse"
+    }
+  },
+
+  {
+    "nom_canton": "Neuchâtel",
+    "villeListe": [
+      {
+        "nom_ville": "Auvernier"
+      },
+      {
+        "nom_ville": "Bevaix"
+      },
+      {
+        "nom_ville": "Boudevilliers"
+      },
+      {
+        "nom_ville": "Boudry"
+      },
+      {
+        "nom_ville": "Boveresse"
+      },
+      {
+        "nom_ville": "Brot-Dessous"
+      },
+      {
+        "nom_ville": "Brot-Plamboz"
+      },
+      {
+        "nom_ville": "Buttes"
+      },
+      {
+        "nom_ville": "Bôle"
+      },
+      {
+        "nom_ville": "Cernier"
+      },
+      {
+        "nom_ville": "Chézard-Saint-Martin"
+      },
+      {
+        "nom_ville": "Coffrane"
+      },
+      {
+        "nom_ville": "Colombier "
+      },
+      {
+        "nom_ville": "Corcelles-Cormondrèche"
+      },
+      {
+        "nom_ville": "Cornaux"
+      },
+      {
+        "nom_ville": "Cortaillod"
+      },
+      {
+        "nom_ville": "Couvet"
+      },
+      {
+        "nom_ville": "Cressier "
+      },
+      {
+        "nom_ville": "Dombresson"
+      },
+      {
+        "nom_ville": "Enges"
+      },
+      {
+        "nom_ville": "Engollon"
+      },
+      {
+        "nom_ville": "Fenin-Vilars-Saules"
+      },
+      {
+        "nom_ville": "Fleurier"
+      },
+      {
+        "nom_ville": "Fontainemelon"
+      },
+      {
+        "nom_ville": "Fontaines "
+      },
+      {
+        "nom_ville": "Fresens"
+      },
+      {
+        "nom_ville": "Gorgier"
+      },
+      {
+        "nom_ville": "Hauterive "
+      },
+      {
+        "nom_ville": "La Brévine"
+      },
+      {
+        "nom_ville": "La Chaux-de-Fonds"
+      },
+      {
+        "nom_ville": "La Chaux-du-Milieu"
+      },
+      {
+        "nom_ville": "La Côte-aux-Fées"
+      },
+      {
+        "nom_ville": "La Grande Béroche"
+      },
+      {
+        "nom_ville": "La Sagne"
+      },
+      {
+        "nom_ville": "La Tène"
+      },
+      {
+        "nom_ville": "Le Cerneux-Péquignot"
+      },
+      {
+        "nom_ville": "Le Landeron"
+      },
+      {
+        "nom_ville": "Le Locle"
+      },
+      {
+        "nom_ville": "Le Pâquier "
+      },
+      {
+        "nom_ville": "Les Bayards"
+      },
+      {
+        "nom_ville": "Les Brenets"
+      },
+      {
+        "nom_ville": "Les Geneveys-sur-Coffrane"
+      },
+      {
+        "nom_ville": "Les Hauts-Geneveys"
+      },
+      {
+        "nom_ville": "Les Planchettes"
+      },
+      {
+        "nom_ville": "Les Ponts-de-Martel"
+      },
+      {
+        "nom_ville": "Les Verrières"
+      },
+      {
+        "nom_ville": "Lignières"
+      },
+      {
+        "nom_ville": "Marin-Epagnier"
+      },
+      {
+        "nom_ville": "Milvignes"
+      },
+      {
+        "nom_ville": "Montalchez"
+      },
+      {
+        "nom_ville": "Montmollin"
+      },
+      {
+        "nom_ville": "Môtiers "
+      },
+      {
+        "nom_ville": "Neuchâtel"
+      },
+      {
+        "nom_ville": "Noiraigue"
+      },
+      {
+        "nom_ville": "Peseux"
+      },
+      {
+        "nom_ville": "Rochefort"
+      },
+      {
+        "nom_ville": "Saint-Aubin-Sauges"
+      },
+      {
+        "nom_ville": "Saint-Blaise"
+      },
+      {
+        "nom_ville": "Saint-Sulpice "
+      },
+      {
+        "nom_ville": "Savagnier"
+      },
+      {
+        "nom_ville": "Thielle-Wavre"
+      },
+      {
+        "nom_ville": "Val-de-Ruz"
+      },
+      {
+        "nom_ville": "Val-de-Travers"
+      },
+      {
+        "nom_ville": "Valangin"
+      },
+      {
+        "nom_ville": "Vaumarcus"
+      },
+      {
+        "nom_ville": "Villiers"
+      }
+    ],
+    "code": "NE",
+    "villeNombre": 66,
+    "geoLocation": {
+      "lat": 46.9895828,
+      "lon": 6.9292641,
+      "display_name": "Neuchâtel, Suisse"
+    }
+  },
+
+  {
+    "nom_canton": "Genève",
+    "villeListe": [
+      {
+        "nom_ville": "Aire-la-Ville"
+      },
+      {
+        "nom_ville": "Anières"
+      },
+      {
+        "nom_ville": "Avully"
+      },
+      {
+        "nom_ville": "Avusy"
+      },
+      {
+        "nom_ville": "Bardonnex"
+      },
+      {
+        "nom_ville": "Bellevue"
+      },
+      {
+        "nom_ville": "Bernex"
+      },
+      {
+        "nom_ville": "Carouge "
+      },
+      {
+        "nom_ville": "Cartigny"
+      },
+      {
+        "nom_ville": "Chancy"
+      },
+      {
+        "nom_ville": "Choulex"
+      },
+      {
+        "nom_ville": "Chêne-Bougeries"
+      },
+      {
+        "nom_ville": "Chêne-Bourg"
+      },
+      {
+        "nom_ville": "Collex-Bossy"
+      },
+      {
+        "nom_ville": "Collonge-Bellerive"
+      },
+      {
+        "nom_ville": "Cologny"
+      },
+      {
+        "nom_ville": "Confignon"
+      },
+      {
+        "nom_ville": "Corsier "
+      },
+      {
+        "nom_ville": "Céligny"
+      },
+      {
+        "nom_ville": "Dardagny"
+      },
+      {
+        "nom_ville": "Genthod"
+      },
+      {
+        "nom_ville": "Genève"
+      },
+      {
+        "nom_ville": "Gy"
+      },
+      {
+        "nom_ville": "Hermance"
+      },
+      {
+        "nom_ville": "Jussy"
+      },
+      {
+        "nom_ville": "Laconnex"
+      },
+      {
+        "nom_ville": "Lancy"
+      },
+      {
+        "nom_ville": "Le Grand-Saconnex"
+      },
+      {
+        "nom_ville": "Meinier"
+      },
+      {
+        "nom_ville": "Meyrin"
+      },
+      {
+        "nom_ville": "Onex"
+      },
+      {
+        "nom_ville": "Perly-Certoux"
+      },
+      {
+        "nom_ville": "Plan-les-Ouates"
+      },
+      {
+        "nom_ville": "Pregny-Chambésy"
+      },
+      {
+        "nom_ville": "Presinge"
+      },
+      {
+        "nom_ville": "Puplinge"
+      },
+      {
+        "nom_ville": "Russin"
+      },
+      {
+        "nom_ville": "Satigny"
+      },
+      {
+        "nom_ville": "Soral"
+      },
+      {
+        "nom_ville": "Thônex"
+      },
+      {
+        "nom_ville": "Troinex"
+      },
+      {
+        "nom_ville": "Vandoeuvres"
+      },
+      {
+        "nom_ville": "Vernier"
+      },
+      {
+        "nom_ville": "Versoix"
+      },
+      {
+        "nom_ville": "Veyrier"
+      }
+    ],
+    "code": "GE",
+    "villeNombre": 45,
+    "geoLocation": {
+      "lat": 46.2017559,
+      "lon": 6.1466014,
+      "display_name": "Genève, Suisse"
+    }
+  },
+
+  {
+    "nom_canton": "Valais",
+    "villeListe": [
+      {
+        "nom_ville": "Agarn"
+      },
+      {
+        "nom_ville": "Albinen"
+      },
+      {
+        "nom_ville": "Anniviers"
+      },
+      {
+        "nom_ville": "Arbaz"
+      },
+      {
+        "nom_ville": "Ardon"
+      },
+      {
+        "nom_ville": "Ausserberg"
+      },
+      {
+        "nom_ville": "Ayent"
+      },
+      {
+        "nom_ville": "Ayer"
+      },
+      {
+        "nom_ville": "Bagnes"
+      },
+      {
+        "nom_ville": "Baltschieder"
+      },
+      {
+        "nom_ville": "Bellwald"
+      },
+      {
+        "nom_ville": "Betten"
+      },
+      {
+        "nom_ville": "Bettmeralp"
+      },
+      {
+        "nom_ville": "Binn"
+      },
+      {
+        "nom_ville": "Birgisch"
+      },
+      {
+        "nom_ville": "Bister"
+      },
+      {
+        "nom_ville": "Bitsch"
+      },
+      {
+        "nom_ville": "Blatten"
+      },
+      {
+        "nom_ville": "Blitzingen"
+      },
+      {
+        "nom_ville": "Bourg-Saint-Pierre"
+      },
+      {
+        "nom_ville": "Bovernier"
+      },
+      {
+        "nom_ville": "Bratsch"
+      },
+      {
+        "nom_ville": "Brig-Glis"
+      },
+      {
+        "nom_ville": "Bürchen"
+      },
+      {
+        "nom_ville": "Chalais"
+      },
+      {
+        "nom_ville": "Chamoson"
+      },
+      {
+        "nom_ville": "Champéry"
+      },
+      {
+        "nom_ville": "Chandolin"
+      },
+      {
+        "nom_ville": "Charrat"
+      },
+      {
+        "nom_ville": "Chermignon"
+      },
+      {
+        "nom_ville": "Chippis"
+      },
+      {
+        "nom_ville": "Collombey-Muraz"
+      },
+      {
+        "nom_ville": "Collonges"
+      },
+      {
+        "nom_ville": "Conthey"
+      },
+      {
+        "nom_ville": "Crans-Montana"
+      },
+      {
+        "nom_ville": "Dorénaz"
+      },
+      {
+        "nom_ville": "Eggerberg"
+      },
+      {
+        "nom_ville": "Eischoll"
+      },
+      {
+        "nom_ville": "Eisten"
+      },
+      {
+        "nom_ville": "Embd"
+      },
+      {
+        "nom_ville": "Ergisch"
+      },
+      {
+        "nom_ville": "Ernen"
+      },
+      {
+        "nom_ville": "Erschmatt"
+      },
+      {
+        "nom_ville": "Evionnaz"
+      },
+      {
+        "nom_ville": "Evolène"
+      },
+      {
+        "nom_ville": "Ferden"
+      },
+      {
+        "nom_ville": "Fiesch"
+      },
+      {
+        "nom_ville": "Fieschertal"
+      },
+      {
+        "nom_ville": "Filet"
+      },
+      {
+        "nom_ville": "Finhaut"
+      },
+      {
+        "nom_ville": "Fully"
+      },
+      {
+        "nom_ville": "Gampel"
+      },
+      {
+        "nom_ville": "Gampel-Bratsch"
+      },
+      {
+        "nom_ville": "Goms"
+      },
+      {
+        "nom_ville": "Grafschaft"
+      },
+      {
+        "nom_ville": "Grengiols"
+      },
+      {
+        "nom_ville": "Grimentz"
+      },
+      {
+        "nom_ville": "Grimisuat"
+      },
+      {
+        "nom_ville": "Grächen"
+      },
+      {
+        "nom_ville": "Grône"
+      },
+      {
+        "nom_ville": "Guttet-Feschel"
+      },
+      {
+        "nom_ville": "Hohtenn"
+      },
+      {
+        "nom_ville": "Hérémence"
+      },
+      {
+        "nom_ville": "Icogne"
+      },
+      {
+        "nom_ville": "Inden"
+      },
+      {
+        "nom_ville": "Isérables"
+      },
+      {
+        "nom_ville": "Kippel"
+      },
+      {
+        "nom_ville": "Lalden"
+      },
+      {
+        "nom_ville": "Lax"
+      },
+      {
+        "nom_ville": "Lens"
+      },
+      {
+        "nom_ville": "Les Agettes"
+      },
+      {
+        "nom_ville": "Leuk"
+      },
+      {
+        "nom_ville": "Leukerbad"
+      },
+      {
+        "nom_ville": "Leytron"
+      },
+      {
+        "nom_ville": "Liddes"
+      },
+      {
+        "nom_ville": "Martigny"
+      },
+      {
+        "nom_ville": "Martigny-Combe"
+      },
+      {
+        "nom_ville": "Martisberg"
+      },
+      {
+        "nom_ville": "Mase"
+      },
+      {
+        "nom_ville": "Massongex"
+      },
+      {
+        "nom_ville": "Mex  "
+      },
+      {
+        "nom_ville": "Miège"
+      },
+      {
+        "nom_ville": "Mollens  "
+      },
+      {
+        "nom_ville": "Mont-Noble"
+      },
+      {
+        "nom_ville": "Montana"
+      },
+      {
+        "nom_ville": "Monthey"
+      },
+      {
+        "nom_ville": "Mund"
+      },
+      {
+        "nom_ville": "Mörel"
+      },
+      {
+        "nom_ville": "Mörel-Filet"
+      },
+      {
+        "nom_ville": "Münster-Geschinen"
+      },
+      {
+        "nom_ville": "Naters"
+      },
+      {
+        "nom_ville": "Nax"
+      },
+      {
+        "nom_ville": "Nendaz"
+      },
+      {
+        "nom_ville": "Niedergesteln"
+      },
+      {
+        "nom_ville": "Niederwald"
+      },
+      {
+        "nom_ville": "Noble-Contrée"
+      },
+      {
+        "nom_ville": "Oberems"
+      },
+      {
+        "nom_ville": "Obergesteln"
+      },
+      {
+        "nom_ville": "Obergoms"
+      },
+      {
+        "nom_ville": "Oberwald"
+      },
+      {
+        "nom_ville": "Orsières"
+      },
+      {
+        "nom_ville": "Port-Valais"
+      },
+      {
+        "nom_ville": "Randa"
+      },
+      {
+        "nom_ville": "Randogne"
+      },
+      {
+        "nom_ville": "Raron"
+      },
+      {
+        "nom_ville": "Reckingen-Gluringen"
+      },
+      {
+        "nom_ville": "Riddes"
+      },
+      {
+        "nom_ville": "Ried-Brig"
+      },
+      {
+        "nom_ville": "Riederalp"
+      },
+      {
+        "nom_ville": "Saas Almagell"
+      },
+      {
+        "nom_ville": "Saas Balen"
+      },
+      {
+        "nom_ville": "Saas Fee"
+      },
+      {
+        "nom_ville": "Saas Grund"
+      },
+      {
+        "nom_ville": "Saillon"
+      },
+      {
+        "nom_ville": "Saint-Gingolph"
+      },
+      {
+        "nom_ville": "Saint-Jean"
+      },
+      {
+        "nom_ville": "Saint-Luc"
+      },
+      {
+        "nom_ville": "Saint-Léonard"
+      },
+      {
+        "nom_ville": "Saint-Martin  "
+      },
+      {
+        "nom_ville": "Saint-Maurice"
+      },
+      {
+        "nom_ville": "Salgesch"
+      },
+      {
+        "nom_ville": "Salins"
+      },
+      {
+        "nom_ville": "Salvan"
+      },
+      {
+        "nom_ville": "Savièse"
+      },
+      {
+        "nom_ville": "Saxon"
+      },
+      {
+        "nom_ville": "Sembrancher"
+      },
+      {
+        "nom_ville": "Sierre"
+      },
+      {
+        "nom_ville": "Simplon"
+      },
+      {
+        "nom_ville": "Sion"
+      },
+      {
+        "nom_ville": "St.Niklaus"
+      },
+      {
+        "nom_ville": "Stalden  "
+      },
+      {
+        "nom_ville": "Staldenried"
+      },
+      {
+        "nom_ville": "Steg"
+      },
+      {
+        "nom_ville": "Steg-Hohtenn"
+      },
+      {
+        "nom_ville": "Termen"
+      },
+      {
+        "nom_ville": "Trient"
+      },
+      {
+        "nom_ville": "Troistorrents"
+      },
+      {
+        "nom_ville": "Turtmann"
+      },
+      {
+        "nom_ville": "Turtmann-Unterems"
+      },
+      {
+        "nom_ville": "Täsch"
+      },
+      {
+        "nom_ville": "Törbel"
+      },
+      {
+        "nom_ville": "Ulrichen"
+      },
+      {
+        "nom_ville": "Unterbäch"
+      },
+      {
+        "nom_ville": "Unterems"
+      },
+      {
+        "nom_ville": "Val de Bagnes"
+      },
+      {
+        "nom_ville": "Val-d'Illiez"
+      },
+      {
+        "nom_ville": "Varen"
+      },
+      {
+        "nom_ville": "Venthône"
+      },
+      {
+        "nom_ville": "Vernamiège"
+      },
+      {
+        "nom_ville": "Vernayaz"
+      },
+      {
+        "nom_ville": "Vex"
+      },
+      {
+        "nom_ville": "Veyras"
+      },
+      {
+        "nom_ville": "Veysonnaz"
+      },
+      {
+        "nom_ville": "Vionnaz"
+      },
+      {
+        "nom_ville": "Visp"
+      },
+      {
+        "nom_ville": "Visperterminen"
+      },
+      {
+        "nom_ville": "Vissoie"
+      },
+      {
+        "nom_ville": "Vollèges"
+      },
+      {
+        "nom_ville": "Vouvry"
+      },
+      {
+        "nom_ville": "Vérossaz"
+      },
+      {
+        "nom_ville": "Vétroz"
+      },
+      {
+        "nom_ville": "Wiler  Lötschen "
+      },
+      {
+        "nom_ville": "Zeneggen"
+      },
+      {
+        "nom_ville": "Zermatt"
+      },
+      {
+        "nom_ville": "Zwischbergen"
+      }
+    ],
+    "code": "VS",
+    "villeNombre": 165,
+    "geoLocation": {
+      "lat": 46.2303063,
+      "lon": 7.6605757,
+      "display_name": "Valais, Suisse"
+    }
+  },
+
+  {
+    "nom_canton": "Vaud",
+    "villeListe": [
+      {
+        "nom_ville": "Aclens"
+      },
+      {
+        "nom_ville": "Agiez"
+      },
+      {
+        "nom_ville": "Aigle"
+      },
+      {
+        "nom_ville": "Allaman"
+      },
+      {
+        "nom_ville": "Apples"
+      },
+      {
+        "nom_ville": "Arnex-sur-Nyon"
+      },
+      {
+        "nom_ville": "Arnex-sur-Orbe"
+      },
+      {
+        "nom_ville": "Arzier"
+      },
+      {
+        "nom_ville": "Assens"
+      },
+      {
+        "nom_ville": "Aubonne"
+      },
+      {
+        "nom_ville": "Avenches"
+      },
+      {
+        "nom_ville": "Ballaigues"
+      },
+      {
+        "nom_ville": "Ballens"
+      },
+      {
+        "nom_ville": "Bassins"
+      },
+      {
+        "nom_ville": "Baulmes"
+      },
+      {
+        "nom_ville": "Bavois"
+      },
+      {
+        "nom_ville": "Begnins"
+      },
+      {
+        "nom_ville": "Bellerive  "
+      },
+      {
+        "nom_ville": "Belmont-Broye"
+      },
+      {
+        "nom_ville": "Belmont-sur-Lausanne"
+      },
+      {
+        "nom_ville": "Belmont-sur-Yverdon"
+      },
+      {
+        "nom_ville": "Bercher"
+      },
+      {
+        "nom_ville": "Berolle"
+      },
+      {
+        "nom_ville": "Bettens"
+      },
+      {
+        "nom_ville": "Bex"
+      },
+      {
+        "nom_ville": "Bioley-Magnoux"
+      },
+      {
+        "nom_ville": "Bioley-Orjulaz"
+      },
+      {
+        "nom_ville": "Bière"
+      },
+      {
+        "nom_ville": "Blonay"
+      },
+      {
+        "nom_ville": "Blonay - Saint-Légier"
+      },
+      {
+        "nom_ville": "Bofflens"
+      },
+      {
+        "nom_ville": "Bogis-Bossey"
+      },
+      {
+        "nom_ville": "Bonvillars"
+      },
+      {
+        "nom_ville": "Borex"
+      },
+      {
+        "nom_ville": "Bottens"
+      },
+      {
+        "nom_ville": "Bougy-Villars"
+      },
+      {
+        "nom_ville": "Boulens"
+      },
+      {
+        "nom_ville": "Bournens"
+      },
+      {
+        "nom_ville": "Boussens"
+      },
+      {
+        "nom_ville": "Bremblens"
+      },
+      {
+        "nom_ville": "Brenles"
+      },
+      {
+        "nom_ville": "Bretigny-sur-Morrens"
+      },
+      {
+        "nom_ville": "Bretonnières"
+      },
+      {
+        "nom_ville": "Buchillon"
+      },
+      {
+        "nom_ville": "Bullet"
+      },
+      {
+        "nom_ville": "Bursinel"
+      },
+      {
+        "nom_ville": "Bursins"
+      },
+      {
+        "nom_ville": "Burtigny"
+      },
+      {
+        "nom_ville": "Bussigny-près-Lausanne"
+      },
+      {
+        "nom_ville": "Bussigny-sur-Oron"
+      },
+      {
+        "nom_ville": "Bussy-Chardonney"
+      },
+      {
+        "nom_ville": "Bussy-sur-Moudon"
+      },
+      {
+        "nom_ville": "Carrouge  "
+      },
+      {
+        "nom_ville": "Cerniaz  "
+      },
+      {
+        "nom_ville": "Chabrey"
+      },
+      {
+        "nom_ville": "Chamblon"
+      },
+      {
+        "nom_ville": "Champagne"
+      },
+      {
+        "nom_ville": "Champtauroz"
+      },
+      {
+        "nom_ville": "Champvent"
+      },
+      {
+        "nom_ville": "Chanéaz"
+      },
+      {
+        "nom_ville": "Chapelle-sur-Moudon"
+      },
+      {
+        "nom_ville": "Chardonne"
+      },
+      {
+        "nom_ville": "Chavannes-de-Bogis"
+      },
+      {
+        "nom_ville": "Chavannes-des-Bois"
+      },
+      {
+        "nom_ville": "Chavannes-le-Chêne"
+      },
+      {
+        "nom_ville": "Chavannes-le-Veyron"
+      },
+      {
+        "nom_ville": "Chavannes-près-Renens"
+      },
+      {
+        "nom_ville": "Chavannes-sur-Moudon"
+      },
+      {
+        "nom_ville": "Chavornay"
+      },
+      {
+        "nom_ville": "Chesalles-sur-Moudon"
+      },
+      {
+        "nom_ville": "Chesalles-sur-Oron"
+      },
+      {
+        "nom_ville": "Cheseaux-Noréaz"
+      },
+      {
+        "nom_ville": "Cheseaux-sur-Lausanne"
+      },
+      {
+        "nom_ville": "Chessel"
+      },
+      {
+        "nom_ville": "Chevilly"
+      },
+      {
+        "nom_ville": "Chevroux"
+      },
+      {
+        "nom_ville": "Chexbres"
+      },
+      {
+        "nom_ville": "Chigny"
+      },
+      {
+        "nom_ville": "Château-d'Oex"
+      },
+      {
+        "nom_ville": "Châtillens"
+      },
+      {
+        "nom_ville": "Chéserex"
+      },
+      {
+        "nom_ville": "Chêne-Pâquier"
+      },
+      {
+        "nom_ville": "Clarmont"
+      },
+      {
+        "nom_ville": "Coinsins"
+      },
+      {
+        "nom_ville": "Colombier  "
+      },
+      {
+        "nom_ville": "Combremont-le-Grand"
+      },
+      {
+        "nom_ville": "Combremont-le-Petit"
+      },
+      {
+        "nom_ville": "Commugny"
+      },
+      {
+        "nom_ville": "Concise"
+      },
+      {
+        "nom_ville": "Constantine"
+      },
+      {
+        "nom_ville": "Coppet"
+      },
+      {
+        "nom_ville": "Corbeyrier"
+      },
+      {
+        "nom_ville": "Corcelles-le-Jorat"
+      },
+      {
+        "nom_ville": "Corcelles-près-Concise"
+      },
+      {
+        "nom_ville": "Corcelles-près-Payerne"
+      },
+      {
+        "nom_ville": "Corcelles-sur-Chavornay"
+      },
+      {
+        "nom_ville": "Correvon"
+      },
+      {
+        "nom_ville": "Corseaux"
+      },
+      {
+        "nom_ville": "Corsier-sur-Vevey"
+      },
+      {
+        "nom_ville": "Cossonay"
+      },
+      {
+        "nom_ville": "Cottens  "
+      },
+      {
+        "nom_ville": "Crans-près-Céligny"
+      },
+      {
+        "nom_ville": "Crassier"
+      },
+      {
+        "nom_ville": "Cremin"
+      },
+      {
+        "nom_ville": "Crissier"
+      },
+      {
+        "nom_ville": "Cronay"
+      },
+      {
+        "nom_ville": "Croy"
+      },
+      {
+        "nom_ville": "Cuarnens"
+      },
+      {
+        "nom_ville": "Cuarny"
+      },
+      {
+        "nom_ville": "Cudrefin"
+      },
+      {
+        "nom_ville": "Cugy  "
+      },
+      {
+        "nom_ville": "Cully"
+      },
+      {
+        "nom_ville": "Curtilles"
+      },
+      {
+        "nom_ville": "Daillens"
+      },
+      {
+        "nom_ville": "Denens"
+      },
+      {
+        "nom_ville": "Denezy"
+      },
+      {
+        "nom_ville": "Denges"
+      },
+      {
+        "nom_ville": "Dizy"
+      },
+      {
+        "nom_ville": "Dommartin"
+      },
+      {
+        "nom_ville": "Dompierre  "
+      },
+      {
+        "nom_ville": "Donneloye"
+      },
+      {
+        "nom_ville": "Duillier"
+      },
+      {
+        "nom_ville": "Dully"
+      },
+      {
+        "nom_ville": "Démoret"
+      },
+      {
+        "nom_ville": "Echallens"
+      },
+      {
+        "nom_ville": "Echandens"
+      },
+      {
+        "nom_ville": "Echichens"
+      },
+      {
+        "nom_ville": "Eclagnens"
+      },
+      {
+        "nom_ville": "Eclépens"
+      },
+      {
+        "nom_ville": "Ecoteaux"
+      },
+      {
+        "nom_ville": "Ecublens  "
+      },
+      {
+        "nom_ville": "Epalinges"
+      },
+      {
+        "nom_ville": "Ependes  "
+      },
+      {
+        "nom_ville": "Epesses"
+      },
+      {
+        "nom_ville": "Essert-Pittet"
+      },
+      {
+        "nom_ville": "Essert-sous-Champvent"
+      },
+      {
+        "nom_ville": "Essertes"
+      },
+      {
+        "nom_ville": "Essertines-sur-Rolle"
+      },
+      {
+        "nom_ville": "Essertines-sur-Yverdon"
+      },
+      {
+        "nom_ville": "Etagnières"
+      },
+      {
+        "nom_ville": "Etoy"
+      },
+      {
+        "nom_ville": "Eysins"
+      },
+      {
+        "nom_ville": "Faoug"
+      },
+      {
+        "nom_ville": "Ferlens  "
+      },
+      {
+        "nom_ville": "Ferreyres"
+      },
+      {
+        "nom_ville": "Fey"
+      },
+      {
+        "nom_ville": "Fiez"
+      },
+      {
+        "nom_ville": "Fontaines-sur-Grandson"
+      },
+      {
+        "nom_ville": "Fontanezier"
+      },
+      {
+        "nom_ville": "Forel  Lavaux "
+      },
+      {
+        "nom_ville": "Forel-sur-Lucens"
+      },
+      {
+        "nom_ville": "Founex"
+      },
+      {
+        "nom_ville": "Froideville"
+      },
+      {
+        "nom_ville": "Féchy"
+      },
+      {
+        "nom_ville": "Genolier"
+      },
+      {
+        "nom_ville": "Gibloux"
+      },
+      {
+        "nom_ville": "Giez"
+      },
+      {
+        "nom_ville": "Gilly"
+      },
+      {
+        "nom_ville": "Gimel"
+      },
+      {
+        "nom_ville": "Gingins"
+      },
+      {
+        "nom_ville": "Givrins"
+      },
+      {
+        "nom_ville": "Gland"
+      },
+      {
+        "nom_ville": "Gollion"
+      },
+      {
+        "nom_ville": "Gossens"
+      },
+      {
+        "nom_ville": "Goumoens-la-Ville"
+      },
+      {
+        "nom_ville": "Goumoens-le-Jux"
+      },
+      {
+        "nom_ville": "Grancy"
+      },
+      {
+        "nom_ville": "Grandcour"
+      },
+      {
+        "nom_ville": "Grandevent"
+      },
+      {
+        "nom_ville": "Grandson"
+      },
+      {
+        "nom_ville": "Grandvaux"
+      },
+      {
+        "nom_ville": "Granges-près-Marnand"
+      },
+      {
+        "nom_ville": "Grens"
+      },
+      {
+        "nom_ville": "Gressy"
+      },
+      {
+        "nom_ville": "Gryon"
+      },
+      {
+        "nom_ville": "Hautemorges"
+      },
+      {
+        "nom_ville": "Henniez"
+      },
+      {
+        "nom_ville": "Hermenches"
+      },
+      {
+        "nom_ville": "Jongny"
+      },
+      {
+        "nom_ville": "Jorat-Menthue"
+      },
+      {
+        "nom_ville": "Jorat-Mézières"
+      },
+      {
+        "nom_ville": "Jouxtens-Mézery"
+      },
+      {
+        "nom_ville": "Juriens"
+      },
+      {
+        "nom_ville": "L'Abbaye"
+      },
+      {
+        "nom_ville": "L'Abergement"
+      },
+      {
+        "nom_ville": "L'Isle"
+      },
+      {
+        "nom_ville": "La Chaux  Cossonay "
+      },
+      {
+        "nom_ville": "La Praz"
+      },
+      {
+        "nom_ville": "La Rippe"
+      },
+      {
+        "nom_ville": "La Sarraz"
+      },
+      {
+        "nom_ville": "La Tour-de-Peilz"
+      },
+      {
+        "nom_ville": "Lausanne"
+      },
+      {
+        "nom_ville": "Lavey-Morcles"
+      },
+      {
+        "nom_ville": "Lavigny"
+      },
+      {
+        "nom_ville": "Le Chenit"
+      },
+      {
+        "nom_ville": "Le Lieu"
+      },
+      {
+        "nom_ville": "Le Mont-sur-Lausanne"
+      },
+      {
+        "nom_ville": "Le Vaud"
+      },
+      {
+        "nom_ville": "Les Clées"
+      },
+      {
+        "nom_ville": "Les Cullayes"
+      },
+      {
+        "nom_ville": "Les Tavernes"
+      },
+      {
+        "nom_ville": "Les Thioleyres"
+      },
+      {
+        "nom_ville": "Leysin"
+      },
+      {
+        "nom_ville": "Lignerolle"
+      },
+      {
+        "nom_ville": "Lonay"
+      },
+      {
+        "nom_ville": "Longirod"
+      },
+      {
+        "nom_ville": "Lovatens"
+      },
+      {
+        "nom_ville": "Lucens"
+      },
+      {
+        "nom_ville": "Luins"
+      },
+      {
+        "nom_ville": "Lully  "
+      },
+      {
+        "nom_ville": "Lussery-Villars"
+      },
+      {
+        "nom_ville": "Lussy-sur-Morges"
+      },
+      {
+        "nom_ville": "Lutry"
+      },
+      {
+        "nom_ville": "Malapalud"
+      },
+      {
+        "nom_ville": "Maracon"
+      },
+      {
+        "nom_ville": "Marchissy"
+      },
+      {
+        "nom_ville": "Marnand"
+      },
+      {
+        "nom_ville": "Martherenges"
+      },
+      {
+        "nom_ville": "Mathod"
+      },
+      {
+        "nom_ville": "Mauborget"
+      },
+      {
+        "nom_ville": "Mauraz"
+      },
+      {
+        "nom_ville": "Mex  "
+      },
+      {
+        "nom_ville": "Mies"
+      },
+      {
+        "nom_ville": "Missy"
+      },
+      {
+        "nom_ville": "Moiry"
+      },
+      {
+        "nom_ville": "Mollens  "
+      },
+      {
+        "nom_ville": "Molondin"
+      },
+      {
+        "nom_ville": "Monnaz"
+      },
+      {
+        "nom_ville": "Mont-Vully"
+      },
+      {
+        "nom_ville": "Mont-la-Ville"
+      },
+      {
+        "nom_ville": "Mont-sur-Rolle"
+      },
+      {
+        "nom_ville": "Montagny-près-Yverdon"
+      },
+      {
+        "nom_ville": "Montaubion-Chardonney"
+      },
+      {
+        "nom_ville": "Montcherand"
+      },
+      {
+        "nom_ville": "Montherod"
+      },
+      {
+        "nom_ville": "Montmagny"
+      },
+      {
+        "nom_ville": "Montpreveyres"
+      },
+      {
+        "nom_ville": "Montreux"
+      },
+      {
+        "nom_ville": "Montricher"
+      },
+      {
+        "nom_ville": "Morges"
+      },
+      {
+        "nom_ville": "Morrens  "
+      },
+      {
+        "nom_ville": "Moudon"
+      },
+      {
+        "nom_ville": "Mur  "
+      },
+      {
+        "nom_ville": "Mutrux"
+      },
+      {
+        "nom_ville": "Mézery-près-Donneloye"
+      },
+      {
+        "nom_ville": "Mézières  "
+      },
+      {
+        "nom_ville": "Naz"
+      },
+      {
+        "nom_ville": "Neyruz-sur-Moudon"
+      },
+      {
+        "nom_ville": "Novalles"
+      },
+      {
+        "nom_ville": "Noville"
+      },
+      {
+        "nom_ville": "Nyon"
+      },
+      {
+        "nom_ville": "Ogens"
+      },
+      {
+        "nom_ville": "Oleyres"
+      },
+      {
+        "nom_ville": "Ollon"
+      },
+      {
+        "nom_ville": "Onnens  "
+      },
+      {
+        "nom_ville": "Oppens"
+      },
+      {
+        "nom_ville": "Orbe"
+      },
+      {
+        "nom_ville": "Orges"
+      },
+      {
+        "nom_ville": "Ormont-Dessous"
+      },
+      {
+        "nom_ville": "Ormont-Dessus"
+      },
+      {
+        "nom_ville": "Orny"
+      },
+      {
+        "nom_ville": "Oron"
+      },
+      {
+        "nom_ville": "Oron-la-Ville"
+      },
+      {
+        "nom_ville": "Oron-le-Châtel"
+      },
+      {
+        "nom_ville": "Orzens"
+      },
+      {
+        "nom_ville": "Oulens-sous-Echallens"
+      },
+      {
+        "nom_ville": "Oulens-sur-Lucens"
+      },
+      {
+        "nom_ville": "Pailly"
+      },
+      {
+        "nom_ville": "Palézieux"
+      },
+      {
+        "nom_ville": "Pampigny"
+      },
+      {
+        "nom_ville": "Paudex"
+      },
+      {
+        "nom_ville": "Payerne"
+      },
+      {
+        "nom_ville": "Peney-le-Jorat"
+      },
+      {
+        "nom_ville": "Penthalaz"
+      },
+      {
+        "nom_ville": "Penthaz"
+      },
+      {
+        "nom_ville": "Penthéréaz"
+      },
+      {
+        "nom_ville": "Perroy"
+      },
+      {
+        "nom_ville": "Peyres-Possens"
+      },
+      {
+        "nom_ville": "Pizy"
+      },
+      {
+        "nom_ville": "Poliez-Pittet"
+      },
+      {
+        "nom_ville": "Poliez-le-Grand"
+      },
+      {
+        "nom_ville": "Pompaples"
+      },
+      {
+        "nom_ville": "Pomy"
+      },
+      {
+        "nom_ville": "Prahins"
+      },
+      {
+        "nom_ville": "Prangins"
+      },
+      {
+        "nom_ville": "Premier"
+      },
+      {
+        "nom_ville": "Prilly"
+      },
+      {
+        "nom_ville": "Provence"
+      },
+      {
+        "nom_ville": "Préverenges"
+      },
+      {
+        "nom_ville": "Prévonloup"
+      },
+      {
+        "nom_ville": "Puidoux"
+      },
+      {
+        "nom_ville": "Pully"
+      },
+      {
+        "nom_ville": "Rances"
+      },
+      {
+        "nom_ville": "Renens  "
+      },
+      {
+        "nom_ville": "Rennaz"
+      },
+      {
+        "nom_ville": "Reverolle"
+      },
+      {
+        "nom_ville": "Riex"
+      },
+      {
+        "nom_ville": "Rivaz"
+      },
+      {
+        "nom_ville": "Roche  "
+      },
+      {
+        "nom_ville": "Rolle"
+      },
+      {
+        "nom_ville": "Romainmôtier-Envy"
+      },
+      {
+        "nom_ville": "Romairon"
+      },
+      {
+        "nom_ville": "Romanel-sur-Lausanne"
+      },
+      {
+        "nom_ville": "Romanel-sur-Morges"
+      },
+      {
+        "nom_ville": "Ropraz"
+      },
+      {
+        "nom_ville": "Rossenges"
+      },
+      {
+        "nom_ville": "Rossinière"
+      },
+      {
+        "nom_ville": "Rougemont"
+      },
+      {
+        "nom_ville": "Rovray"
+      },
+      {
+        "nom_ville": "Rueyres"
+      },
+      {
+        "nom_ville": "Saint-Barthélemy  "
+      },
+      {
+        "nom_ville": "Saint-Cergue"
+      },
+      {
+        "nom_ville": "Saint-Cierges"
+      },
+      {
+        "nom_ville": "Saint-George"
+      },
+      {
+        "nom_ville": "Saint-Livres"
+      },
+      {
+        "nom_ville": "Saint-Légier-La Chiésaz"
+      },
+      {
+        "nom_ville": "Saint-Oyens"
+      },
+      {
+        "nom_ville": "Saint-Prex"
+      },
+      {
+        "nom_ville": "Saint-Saphorin  Lavaux "
+      },
+      {
+        "nom_ville": "Saint-Saphorin-sur-Morges"
+      },
+      {
+        "nom_ville": "Saint-Sulpice  "
+      },
+      {
+        "nom_ville": "Sainte-Croix"
+      },
+      {
+        "nom_ville": "Sarzens"
+      },
+      {
+        "nom_ville": "Sassel"
+      },
+      {
+        "nom_ville": "Saubraz"
+      },
+      {
+        "nom_ville": "Savigny"
+      },
+      {
+        "nom_ville": "Seigneux"
+      },
+      {
+        "nom_ville": "Senarclens"
+      },
+      {
+        "nom_ville": "Sergey"
+      },
+      {
+        "nom_ville": "Servion"
+      },
+      {
+        "nom_ville": "Signy-Avenex"
+      },
+      {
+        "nom_ville": "Sottens"
+      },
+      {
+        "nom_ville": "Suchy"
+      },
+      {
+        "nom_ville": "Sugnens"
+      },
+      {
+        "nom_ville": "Sullens"
+      },
+      {
+        "nom_ville": "Suscévaz"
+      },
+      {
+        "nom_ville": "Syens"
+      },
+      {
+        "nom_ville": "Sévery"
+      },
+      {
+        "nom_ville": "Tannay"
+      },
+      {
+        "nom_ville": "Tartegnin"
+      },
+      {
+        "nom_ville": "Thierrens"
+      },
+      {
+        "nom_ville": "Tolochenaz"
+      },
+      {
+        "nom_ville": "Trey"
+      },
+      {
+        "nom_ville": "Treycovagnes"
+      },
+      {
+        "nom_ville": "Treytorrens  Payerne "
+      },
+      {
+        "nom_ville": "Trélex"
+      },
+      {
+        "nom_ville": "Ursins"
+      },
+      {
+        "nom_ville": "Valbroye"
+      },
+      {
+        "nom_ville": "Valeyres-sous-Montagny"
+      },
+      {
+        "nom_ville": "Valeyres-sous-Rances"
+      },
+      {
+        "nom_ville": "Valeyres-sous-Ursins"
+      },
+      {
+        "nom_ville": "Vallamand"
+      },
+      {
+        "nom_ville": "Vallorbe"
+      },
+      {
+        "nom_ville": "Vaugondry"
+      },
+      {
+        "nom_ville": "Vaulion"
+      },
+      {
+        "nom_ville": "Vaux-sur-Morges"
+      },
+      {
+        "nom_ville": "Vevey"
+      },
+      {
+        "nom_ville": "Veytaux"
+      },
+      {
+        "nom_ville": "Vich"
+      },
+      {
+        "nom_ville": "Villars-Bramard"
+      },
+      {
+        "nom_ville": "Villars-Burquin"
+      },
+      {
+        "nom_ville": "Villars-Epeney"
+      },
+      {
+        "nom_ville": "Villars-Mendraz"
+      },
+      {
+        "nom_ville": "Villars-Sainte-Croix"
+      },
+      {
+        "nom_ville": "Villars-Tiercelin"
+      },
+      {
+        "nom_ville": "Villars-le-Comte"
+      },
+      {
+        "nom_ville": "Villars-le-Grand"
+      },
+      {
+        "nom_ville": "Villars-le-Terroir"
+      },
+      {
+        "nom_ville": "Villars-sous-Champvent"
+      },
+      {
+        "nom_ville": "Villars-sous-Yens"
+      },
+      {
+        "nom_ville": "Villarzel"
+      },
+      {
+        "nom_ville": "Villeneuve  "
+      },
+      {
+        "nom_ville": "Villette  Lavaux "
+      },
+      {
+        "nom_ville": "Vinzel"
+      },
+      {
+        "nom_ville": "Vuarrens"
+      },
+      {
+        "nom_ville": "Vucherens"
+      },
+      {
+        "nom_ville": "Vufflens-la-Ville"
+      },
+      {
+        "nom_ville": "Vufflens-le-Château"
+      },
+      {
+        "nom_ville": "Vugelles-La Mothe"
+      },
+      {
+        "nom_ville": "Vuibroye"
+      },
+      {
+        "nom_ville": "Vuiteboeuf"
+      },
+      {
+        "nom_ville": "Vulliens"
+      },
+      {
+        "nom_ville": "Vullierens"
+      },
+      {
+        "nom_ville": "Yens"
+      },
+      {
+        "nom_ville": "Yverdon-les-Bains"
+      },
+      {
+        "nom_ville": "Yvonand"
+      },
+      {
+        "nom_ville": "Yvorne"
+      }
+    ],
+    "code": "VD",
+    "villeNombre": 387,
+    "geoLocation": {
+      "lat": 46.6356963,
+      "lon": 6.5320717,
+      "display_name": "Vaud, Suisse"
+    }
+  },
+
+
   {
     "nom_canton": "Appenzell Rh.-E",
     "villeListe": [
@@ -2359,705 +5235,7 @@
       "display_name": "Suisse"
     }
   },
-  {
-    "nom_canton": "Fribourg",
-    "villeListe": [
-      {
-        "nom_ville": "Alterswil"
-      },
-      {
-        "nom_ville": "Arconciel"
-      },
-      {
-        "nom_ville": "Attalens"
-      },
-      {
-        "nom_ville": "Auboranges"
-      },
-      {
-        "nom_ville": "Autafond"
-      },
-      {
-        "nom_ville": "Autigny"
-      },
-      {
-        "nom_ville": "Avry"
-      },
-      {
-        "nom_ville": "Barberêche"
-      },
-      {
-        "nom_ville": "Bas-Intyamon"
-      },
-      {
-        "nom_ville": "Bas-Vully"
-      },
-      {
-        "nom_ville": "Belfaux"
-      },
-      {
-        "nom_ville": "Billens-Hennens"
-      },
-      {
-        "nom_ville": "Bois-d'Amont"
-      },
-      {
-        "nom_ville": "Bossonnens"
-      },
-      {
-        "nom_ville": "Botterens"
-      },
-      {
-        "nom_ville": "Bourg-en-Lavaux"
-      },
-      {
-        "nom_ville": "Broc"
-      },
-      {
-        "nom_ville": "Brünisried"
-      },
-      {
-        "nom_ville": "Bulle"
-      },
-      {
-        "nom_ville": "Bussy  FR "
-      },
-      {
-        "nom_ville": "Bösingen"
-      },
-      {
-        "nom_ville": "Büchslen"
-      },
-      {
-        "nom_ville": "Cerniat  FR "
-      },
-      {
-        "nom_ville": "Chapelle  Glâne "
-      },
-      {
-        "nom_ville": "Charmey"
-      },
-      {
-        "nom_ville": "Cheiry"
-      },
-      {
-        "nom_ville": "Cheyres"
-      },
-      {
-        "nom_ville": "Cheyres-Châbles"
-      },
-      {
-        "nom_ville": "Châbles"
-      },
-      {
-        "nom_ville": "Châtel-Saint-Denis"
-      },
-      {
-        "nom_ville": "Châtel-sur-Montsalvens"
-      },
-      {
-        "nom_ville": "Châtillon  FR "
-      },
-      {
-        "nom_ville": "Châtonnaye"
-      },
-      {
-        "nom_ville": "Chénens"
-      },
-      {
-        "nom_ville": "Chésopelloz"
-      },
-      {
-        "nom_ville": "Corbières"
-      },
-      {
-        "nom_ville": "Corminboeuf"
-      },
-      {
-        "nom_ville": "Corpataux-Magnedens"
-      },
-      {
-        "nom_ville": "Corserey"
-      },
-      {
-        "nom_ville": "Cottens  FR "
-      },
-      {
-        "nom_ville": "Courgevaux"
-      },
-      {
-        "nom_ville": "Courlevon"
-      },
-      {
-        "nom_ville": "Courtepin"
-      },
-      {
-        "nom_ville": "Cressier  FR "
-      },
-      {
-        "nom_ville": "Crésuz"
-      },
-      {
-        "nom_ville": "Cugy  FR "
-      },
-      {
-        "nom_ville": "Delley-Portalban"
-      },
-      {
-        "nom_ville": "Domdidier"
-      },
-      {
-        "nom_ville": "Dompierre  FR "
-      },
-      {
-        "nom_ville": "Düdingen"
-      },
-      {
-        "nom_ville": "Echarlens"
-      },
-      {
-        "nom_ville": "Ecublens  FR "
-      },
-      {
-        "nom_ville": "Ependes  FR "
-      },
-      {
-        "nom_ville": "Estavayer"
-      },
-      {
-        "nom_ville": "Estavayer-le-Lac"
-      },
-      {
-        "nom_ville": "Farvagny"
-      },
-      {
-        "nom_ville": "Ferpicloz"
-      },
-      {
-        "nom_ville": "Font"
-      },
-      {
-        "nom_ville": "Fribourg"
-      },
-      {
-        "nom_ville": "Fräschels"
-      },
-      {
-        "nom_ville": "Fétigny"
-      },
-      {
-        "nom_ville": "Galmiz"
-      },
-      {
-        "nom_ville": "Gempenach"
-      },
-      {
-        "nom_ville": "Giffers"
-      },
-      {
-        "nom_ville": "Givisiez"
-      },
-      {
-        "nom_ville": "Gletterens"
-      },
-      {
-        "nom_ville": "Goumoëns"
-      },
-      {
-        "nom_ville": "Grandvillard"
-      },
-      {
-        "nom_ville": "Granges  Veveyse "
-      },
-      {
-        "nom_ville": "Granges-Paccot"
-      },
-      {
-        "nom_ville": "Grangettes"
-      },
-      {
-        "nom_ville": "Greng"
-      },
-      {
-        "nom_ville": "Grolley"
-      },
-      {
-        "nom_ville": "Gruyères"
-      },
-      {
-        "nom_ville": "Gurmels"
-      },
-      {
-        "nom_ville": "Haut-Intyamon"
-      },
-      {
-        "nom_ville": "Haut-Vully"
-      },
-      {
-        "nom_ville": "Hauterive  FR "
-      },
-      {
-        "nom_ville": "Hauteville"
-      },
-      {
-        "nom_ville": "Heitenried"
-      },
-      {
-        "nom_ville": "Jaun"
-      },
-      {
-        "nom_ville": "Jeuss"
-      },
-      {
-        "nom_ville": "Kerzers"
-      },
-      {
-        "nom_ville": "Kleinbösingen"
-      },
-      {
-        "nom_ville": "La Brillaz"
-      },
-      {
-        "nom_ville": "La Folliaz"
-      },
-      {
-        "nom_ville": "La Roche"
-      },
-      {
-        "nom_ville": "La Sonnaz"
-      },
-      {
-        "nom_ville": "La Verrerie"
-      },
-      {
-        "nom_ville": "Le Châtelard"
-      },
-      {
-        "nom_ville": "Le Flon"
-      },
-      {
-        "nom_ville": "Le Glèbe"
-      },
-      {
-        "nom_ville": "Le Mouret"
-      },
-      {
-        "nom_ville": "Le Pâquier  FR "
-      },
-      {
-        "nom_ville": "Les Montets"
-      },
-      {
-        "nom_ville": "Lully  FR "
-      },
-      {
-        "nom_ville": "Lurtigen"
-      },
-      {
-        "nom_ville": "Léchelles"
-      },
-      {
-        "nom_ville": "Marly"
-      },
-      {
-        "nom_ville": "Marsens"
-      },
-      {
-        "nom_ville": "Massonnens"
-      },
-      {
-        "nom_ville": "Matran"
-      },
-      {
-        "nom_ville": "Meyriez"
-      },
-      {
-        "nom_ville": "Misery-Courtion"
-      },
-      {
-        "nom_ville": "Montagny  FR "
-      },
-      {
-        "nom_ville": "Montanaire"
-      },
-      {
-        "nom_ville": "Montet  Glâne "
-      },
-      {
-        "nom_ville": "Montilliez"
-      },
-      {
-        "nom_ville": "Morat"
-      },
-      {
-        "nom_ville": "Morens  FR "
-      },
-      {
-        "nom_ville": "Morlon"
-      },
-      {
-        "nom_ville": "Muntelier"
-      },
-      {
-        "nom_ville": "Murist"
-      },
-      {
-        "nom_ville": "Ménières"
-      },
-      {
-        "nom_ville": "Mézières  FR "
-      },
-      {
-        "nom_ville": "Neyruz  FR "
-      },
-      {
-        "nom_ville": "Noréaz"
-      },
-      {
-        "nom_ville": "Nuvilly"
-      },
-      {
-        "nom_ville": "Oberschrot"
-      },
-      {
-        "nom_ville": "Pierrafortscha"
-      },
-      {
-        "nom_ville": "Plaffeien"
-      },
-      {
-        "nom_ville": "Plasselb"
-      },
-      {
-        "nom_ville": "Pont-en-Ogoz"
-      },
-      {
-        "nom_ville": "Pont-la-Ville"
-      },
-      {
-        "nom_ville": "Ponthaux"
-      },
-      {
-        "nom_ville": "Prez"
-      },
-      {
-        "nom_ville": "Prez-vers-Noréaz"
-      },
-      {
-        "nom_ville": "Prévondavaux"
-      },
-      {
-        "nom_ville": "Rechthalten"
-      },
-      {
-        "nom_ville": "Remaufens"
-      },
-      {
-        "nom_ville": "Riaz"
-      },
-      {
-        "nom_ville": "Ried bei Kerzers"
-      },
-      {
-        "nom_ville": "Romont  FR "
-      },
-      {
-        "nom_ville": "Rossens  FR "
-      },
-      {
-        "nom_ville": "Rue"
-      },
-      {
-        "nom_ville": "Rueyres-les-Prés"
-      },
-      {
-        "nom_ville": "Russy"
-      },
-      {
-        "nom_ville": "Saint-Aubin  FR "
-      },
-      {
-        "nom_ville": "Saint-Martin  FR "
-      },
-      {
-        "nom_ville": "Salvenach"
-      },
-      {
-        "nom_ville": "Schmitten  FR "
-      },
-      {
-        "nom_ville": "Semsales"
-      },
-      {
-        "nom_ville": "Senèdes"
-      },
-      {
-        "nom_ville": "Siviriez"
-      },
-      {
-        "nom_ville": "Sorens"
-      },
-      {
-        "nom_ville": "St.Antoni"
-      },
-      {
-        "nom_ville": "St.Silvester"
-      },
-      {
-        "nom_ville": "St.Ursen"
-      },
-      {
-        "nom_ville": "Surpierre"
-      },
-      {
-        "nom_ville": "Sâles"
-      },
-      {
-        "nom_ville": "Sévaz"
-      },
-      {
-        "nom_ville": "Tafers"
-      },
-      {
-        "nom_ville": "Tentlingen"
-      },
-      {
-        "nom_ville": "Torny"
-      },
-      {
-        "nom_ville": "Treyvaux"
-      },
-      {
-        "nom_ville": "Tévenon"
-      },
-      {
-        "nom_ville": "Ueberstorf"
-      },
-      {
-        "nom_ville": "Ulmiz"
-      },
-      {
-        "nom_ville": "Ursy"
-      },
-      {
-        "nom_ville": "Val-de-Charmey"
-      },
-      {
-        "nom_ville": "Vallon"
-      },
-      {
-        "nom_ville": "Vaulruz"
-      },
-      {
-        "nom_ville": "Vernay"
-      },
-      {
-        "nom_ville": "Villarepos"
-      },
-      {
-        "nom_ville": "Villars-sur-Glâne"
-      },
-      {
-        "nom_ville": "Villarsel-sur-Marly"
-      },
-      {
-        "nom_ville": "Villarvolard"
-      },
-      {
-        "nom_ville": "Villaz"
-      },
-      {
-        "nom_ville": "Villaz-Saint-Pierre"
-      },
-      {
-        "nom_ville": "Villeneuve  FR "
-      },
-      {
-        "nom_ville": "Villorsonnens"
-      },
-      {
-        "nom_ville": "Vuadens"
-      },
-      {
-        "nom_ville": "Vuarmarens"
-      },
-      {
-        "nom_ville": "Vuissens"
-      },
-      {
-        "nom_ville": "Vuisternens-devant-Romont"
-      },
-      {
-        "nom_ville": "Vuisternens-en-Ogoz"
-      },
-      {
-        "nom_ville": "Vully-les-Lacs"
-      },
-      {
-        "nom_ville": "Wallenried"
-      },
-      {
-        "nom_ville": "Wünnewil-Flamatt"
-      },
-      {
-        "nom_ville": "Zumholz"
-      }
-    ],
-    "code": "FR",
-    "villeNombre": 180,
-    "geoLocation": {
-      "lat": 46.8055656,
-      "lon": 7.1612669,
-      "display_name": "Fribourg, District de la Sarine, Fribourg, Suisse"
-    }
-  },
-  {
-    "nom_canton": "Genève",
-    "villeListe": [
-      {
-        "nom_ville": "Aire-la-Ville"
-      },
-      {
-        "nom_ville": "Anières"
-      },
-      {
-        "nom_ville": "Avully"
-      },
-      {
-        "nom_ville": "Avusy"
-      },
-      {
-        "nom_ville": "Bardonnex"
-      },
-      {
-        "nom_ville": "Bellevue"
-      },
-      {
-        "nom_ville": "Bernex"
-      },
-      {
-        "nom_ville": "Carouge  GE "
-      },
-      {
-        "nom_ville": "Cartigny"
-      },
-      {
-        "nom_ville": "Chancy"
-      },
-      {
-        "nom_ville": "Choulex"
-      },
-      {
-        "nom_ville": "Chêne-Bougeries"
-      },
-      {
-        "nom_ville": "Chêne-Bourg"
-      },
-      {
-        "nom_ville": "Collex-Bossy"
-      },
-      {
-        "nom_ville": "Collonge-Bellerive"
-      },
-      {
-        "nom_ville": "Cologny"
-      },
-      {
-        "nom_ville": "Confignon"
-      },
-      {
-        "nom_ville": "Corsier  GE "
-      },
-      {
-        "nom_ville": "Céligny"
-      },
-      {
-        "nom_ville": "Dardagny"
-      },
-      {
-        "nom_ville": "Genthod"
-      },
-      {
-        "nom_ville": "Genève"
-      },
-      {
-        "nom_ville": "Gy"
-      },
-      {
-        "nom_ville": "Hermance"
-      },
-      {
-        "nom_ville": "Jussy"
-      },
-      {
-        "nom_ville": "Laconnex"
-      },
-      {
-        "nom_ville": "Lancy"
-      },
-      {
-        "nom_ville": "Le Grand-Saconnex"
-      },
-      {
-        "nom_ville": "Meinier"
-      },
-      {
-        "nom_ville": "Meyrin"
-      },
-      {
-        "nom_ville": "Onex"
-      },
-      {
-        "nom_ville": "Perly-Certoux"
-      },
-      {
-        "nom_ville": "Plan-les-Ouates"
-      },
-      {
-        "nom_ville": "Pregny-Chambésy"
-      },
-      {
-        "nom_ville": "Presinge"
-      },
-      {
-        "nom_ville": "Puplinge"
-      },
-      {
-        "nom_ville": "Russin"
-      },
-      {
-        "nom_ville": "Satigny"
-      },
-      {
-        "nom_ville": "Soral"
-      },
-      {
-        "nom_ville": "Thônex"
-      },
-      {
-        "nom_ville": "Troinex"
-      },
-      {
-        "nom_ville": "Vandoeuvres"
-      },
-      {
-        "nom_ville": "Vernier"
-      },
-      {
-        "nom_ville": "Versoix"
-      },
-      {
-        "nom_ville": "Veyrier"
-      }
-    ],
-    "code": "GE",
-    "villeNombre": 45,
-    "geoLocation": {
-      "lat": 46.2017559,
-      "lon": 6.1466014,
-      "display_name": "Genève, Suisse"
-    }
-  },
+
   {
     "nom_canton": "Glaris",
     "villeListe": [
@@ -3140,10 +5318,10 @@
         "nom_ville": "Riedern"
       },
       {
-        "nom_ville": "Rüti  GL "
+        "nom_ville": "Rüti "
       },
       {
-        "nom_ville": "Schwanden  GL "
+        "nom_ville": "Schwanden "
       },
       {
         "nom_ville": "Schwändi"
@@ -3413,7 +5591,7 @@
         "nom_ville": "Leggia"
       },
       {
-        "nom_ville": "Lohn  GR "
+        "nom_ville": "Lohn "
       },
       {
         "nom_ville": "Lostallo"
@@ -3569,7 +5747,7 @@
         "nom_ville": "Rothenbrunnen"
       },
       {
-        "nom_ville": "Roveredo  GR "
+        "nom_ville": "Roveredo "
       },
       {
         "nom_ville": "Rueun"
@@ -3635,7 +5813,7 @@
         "nom_ville": "Schluein"
       },
       {
-        "nom_ville": "Schmitten  GR "
+        "nom_ville": "Schmitten "
       },
       {
         "nom_ville": "Schnaus"
@@ -3830,7 +6008,7 @@
         "nom_ville": "Waltensburg/Vuorz"
       },
       {
-        "nom_ville": "Wiesen  GR "
+        "nom_ville": "Wiesen "
       },
       {
         "nom_ville": "Zernez"
@@ -3853,285 +6031,7 @@
       "display_name": "Grisons, Suisse"
     }
   },
-  {
-    "nom_canton": "Jura",
-    "villeListe": [
-      {
-        "nom_ville": "Alle"
-      },
-      {
-        "nom_ville": "Asuel"
-      },
-      {
-        "nom_ville": "Basse-Allaine"
-      },
-      {
-        "nom_ville": "Bassecourt"
-      },
-      {
-        "nom_ville": "Beurnevésin"
-      },
-      {
-        "nom_ville": "Boncourt"
-      },
-      {
-        "nom_ville": "Bonfol"
-      },
-      {
-        "nom_ville": "Bourrignon"
-      },
-      {
-        "nom_ville": "Boécourt"
-      },
-      {
-        "nom_ville": "Bressaucourt"
-      },
-      {
-        "nom_ville": "Buix"
-      },
-      {
-        "nom_ville": "Bure"
-      },
-      {
-        "nom_ville": "Charmoille"
-      },
-      {
-        "nom_ville": "Chevenez"
-      },
-      {
-        "nom_ville": "Châtillon  JU "
-      },
-      {
-        "nom_ville": "Clos du Doubs"
-      },
-      {
-        "nom_ville": "Coeuve"
-      },
-      {
-        "nom_ville": "Corban"
-      },
-      {
-        "nom_ville": "Cornol"
-      },
-      {
-        "nom_ville": "Courchapoix"
-      },
-      {
-        "nom_ville": "Courchavon"
-      },
-      {
-        "nom_ville": "Courfaivre"
-      },
-      {
-        "nom_ville": "Courgenay"
-      },
-      {
-        "nom_ville": "Courrendlin"
-      },
-      {
-        "nom_ville": "Courroux"
-      },
-      {
-        "nom_ville": "Courtedoux"
-      },
-      {
-        "nom_ville": "Courtemaîche"
-      },
-      {
-        "nom_ville": "Courtételle"
-      },
-      {
-        "nom_ville": "Damphreux"
-      },
-      {
-        "nom_ville": "Damvant"
-      },
-      {
-        "nom_ville": "Delémont"
-      },
-      {
-        "nom_ville": "Develier"
-      },
-      {
-        "nom_ville": "Ederswiler"
-      },
-      {
-        "nom_ville": "Epauvillers"
-      },
-      {
-        "nom_ville": "Epiquerez"
-      },
-      {
-        "nom_ville": "Fahy"
-      },
-      {
-        "nom_ville": "Fontenais"
-      },
-      {
-        "nom_ville": "Fregiécourt"
-      },
-      {
-        "nom_ville": "Glovelier"
-      },
-      {
-        "nom_ville": "Goumois"
-      },
-      {
-        "nom_ville": "Grandfontaine"
-      },
-      {
-        "nom_ville": "Haute-Ajoie"
-      },
-      {
-        "nom_ville": "Haute-Sorne"
-      },
-      {
-        "nom_ville": "La Baroche"
-      },
-      {
-        "nom_ville": "La Chaux-des-Breuleux"
-      },
-      {
-        "nom_ville": "Lajoux  JU "
-      },
-      {
-        "nom_ville": "Le Bémont  JU "
-      },
-      {
-        "nom_ville": "Le Noirmont"
-      },
-      {
-        "nom_ville": "Le Peuchapatte"
-      },
-      {
-        "nom_ville": "Les Bois"
-      },
-      {
-        "nom_ville": "Les Breuleux"
-      },
-      {
-        "nom_ville": "Les Enfers"
-      },
-      {
-        "nom_ville": "Les Genevez  JU "
-      },
-      {
-        "nom_ville": "Les Pommerats"
-      },
-      {
-        "nom_ville": "Lugnez"
-      },
-      {
-        "nom_ville": "Mervelier"
-      },
-      {
-        "nom_ville": "Mettembert"
-      },
-      {
-        "nom_ville": "Miécourt"
-      },
-      {
-        "nom_ville": "Montenol"
-      },
-      {
-        "nom_ville": "Montfaucon"
-      },
-      {
-        "nom_ville": "Montfavergier"
-      },
-      {
-        "nom_ville": "Montignez"
-      },
-      {
-        "nom_ville": "Montmelon"
-      },
-      {
-        "nom_ville": "Montsevelier"
-      },
-      {
-        "nom_ville": "Movelier"
-      },
-      {
-        "nom_ville": "Muriaux"
-      },
-      {
-        "nom_ville": "Ocourt"
-      },
-      {
-        "nom_ville": "Pleigne"
-      },
-      {
-        "nom_ville": "Pleujouse"
-      },
-      {
-        "nom_ville": "Porrentruy"
-      },
-      {
-        "nom_ville": "Rebeuvelier"
-      },
-      {
-        "nom_ville": "Roche-d'Or"
-      },
-      {
-        "nom_ville": "Rocourt"
-      },
-      {
-        "nom_ville": "Rossemaison"
-      },
-      {
-        "nom_ville": "Réclère"
-      },
-      {
-        "nom_ville": "Saignelégier"
-      },
-      {
-        "nom_ville": "Saint-Brais"
-      },
-      {
-        "nom_ville": "Saint-Ursanne"
-      },
-      {
-        "nom_ville": "Saulcy"
-      },
-      {
-        "nom_ville": "Seleute"
-      },
-      {
-        "nom_ville": "Soubey"
-      },
-      {
-        "nom_ville": "Soulce"
-      },
-      {
-        "nom_ville": "Soyhières"
-      },
-      {
-        "nom_ville": "Undervelier"
-      },
-      {
-        "nom_ville": "Val Terbi"
-      },
-      {
-        "nom_ville": "Vellerat"
-      },
-      {
-        "nom_ville": "Vendlincourt"
-      },
-      {
-        "nom_ville": "Vermes"
-      },
-      {
-        "nom_ville": "Vicques"
-      }
-    ],
-    "code": "JU",
-    "villeNombre": 89,
-    "geoLocation": {
-      "lat": 47.3566699,
-      "lon": 7.1598893,
-      "display_name": "Jura, Suisse"
-    }
-  },
+ 
   {
     "nom_canton": "Lucerne",
     "villeListe": [
@@ -4139,7 +6039,7 @@
         "nom_ville": "Adligenswil"
       },
       {
-        "nom_ville": "Aesch  LU "
+        "nom_ville": "Aesch "
       },
       {
         "nom_ville": "Alberswil"
@@ -4199,7 +6099,7 @@
         "nom_ville": "Ermensee"
       },
       {
-        "nom_ville": "Eschenbach  LU "
+        "nom_ville": "Eschenbach "
       },
       {
         "nom_ville": "Escholzmatt"
@@ -4241,7 +6141,7 @@
         "nom_ville": "Gunzwil"
       },
       {
-        "nom_ville": "Hasle  LU "
+        "nom_ville": "Hasle "
       },
       {
         "nom_ville": "Hergiswil bei Willisau"
@@ -4292,7 +6192,7 @@
         "nom_ville": "Malters"
       },
       {
-        "nom_ville": "Marbach  LU "
+        "nom_ville": "Marbach "
       },
       {
         "nom_ville": "Mauensee"
@@ -4346,7 +6246,7 @@
         "nom_ville": "Retschwil"
       },
       {
-        "nom_ville": "Rickenbach  LU "
+        "nom_ville": "Rickenbach "
       },
       {
         "nom_ville": "Roggliswil"
@@ -4388,7 +6288,7 @@
         "nom_ville": "Sempach"
       },
       {
-        "nom_ville": "Sulz  LU "
+        "nom_ville": "Sulz "
       },
       {
         "nom_ville": "Sursee"
@@ -4427,7 +6327,7 @@
         "nom_ville": "Wolhusen"
       },
       {
-        "nom_ville": "Zell  LU "
+        "nom_ville": "Zell "
       }
     ],
     "code": "LU",
@@ -4438,216 +6338,7 @@
       "display_name": "Lucerne, Suisse"
     }
   },
-  {
-    "nom_canton": "Neuchâtel",
-    "villeListe": [
-      {
-        "nom_ville": "Auvernier"
-      },
-      {
-        "nom_ville": "Bevaix"
-      },
-      {
-        "nom_ville": "Boudevilliers"
-      },
-      {
-        "nom_ville": "Boudry"
-      },
-      {
-        "nom_ville": "Boveresse"
-      },
-      {
-        "nom_ville": "Brot-Dessous"
-      },
-      {
-        "nom_ville": "Brot-Plamboz"
-      },
-      {
-        "nom_ville": "Buttes"
-      },
-      {
-        "nom_ville": "Bôle"
-      },
-      {
-        "nom_ville": "Cernier"
-      },
-      {
-        "nom_ville": "Chézard-Saint-Martin"
-      },
-      {
-        "nom_ville": "Coffrane"
-      },
-      {
-        "nom_ville": "Colombier  NE "
-      },
-      {
-        "nom_ville": "Corcelles-Cormondrèche"
-      },
-      {
-        "nom_ville": "Cornaux"
-      },
-      {
-        "nom_ville": "Cortaillod"
-      },
-      {
-        "nom_ville": "Couvet"
-      },
-      {
-        "nom_ville": "Cressier  NE "
-      },
-      {
-        "nom_ville": "Dombresson"
-      },
-      {
-        "nom_ville": "Enges"
-      },
-      {
-        "nom_ville": "Engollon"
-      },
-      {
-        "nom_ville": "Fenin-Vilars-Saules"
-      },
-      {
-        "nom_ville": "Fleurier"
-      },
-      {
-        "nom_ville": "Fontainemelon"
-      },
-      {
-        "nom_ville": "Fontaines  NE "
-      },
-      {
-        "nom_ville": "Fresens"
-      },
-      {
-        "nom_ville": "Gorgier"
-      },
-      {
-        "nom_ville": "Hauterive  NE "
-      },
-      {
-        "nom_ville": "La Brévine"
-      },
-      {
-        "nom_ville": "La Chaux-de-Fonds"
-      },
-      {
-        "nom_ville": "La Chaux-du-Milieu"
-      },
-      {
-        "nom_ville": "La Côte-aux-Fées"
-      },
-      {
-        "nom_ville": "La Grande Béroche"
-      },
-      {
-        "nom_ville": "La Sagne"
-      },
-      {
-        "nom_ville": "La Tène"
-      },
-      {
-        "nom_ville": "Le Cerneux-Péquignot"
-      },
-      {
-        "nom_ville": "Le Landeron"
-      },
-      {
-        "nom_ville": "Le Locle"
-      },
-      {
-        "nom_ville": "Le Pâquier  NE "
-      },
-      {
-        "nom_ville": "Les Bayards"
-      },
-      {
-        "nom_ville": "Les Brenets"
-      },
-      {
-        "nom_ville": "Les Geneveys-sur-Coffrane"
-      },
-      {
-        "nom_ville": "Les Hauts-Geneveys"
-      },
-      {
-        "nom_ville": "Les Planchettes"
-      },
-      {
-        "nom_ville": "Les Ponts-de-Martel"
-      },
-      {
-        "nom_ville": "Les Verrières"
-      },
-      {
-        "nom_ville": "Lignières"
-      },
-      {
-        "nom_ville": "Marin-Epagnier"
-      },
-      {
-        "nom_ville": "Milvignes"
-      },
-      {
-        "nom_ville": "Montalchez"
-      },
-      {
-        "nom_ville": "Montmollin"
-      },
-      {
-        "nom_ville": "Môtiers  NE "
-      },
-      {
-        "nom_ville": "Neuchâtel"
-      },
-      {
-        "nom_ville": "Noiraigue"
-      },
-      {
-        "nom_ville": "Peseux"
-      },
-      {
-        "nom_ville": "Rochefort"
-      },
-      {
-        "nom_ville": "Saint-Aubin-Sauges"
-      },
-      {
-        "nom_ville": "Saint-Blaise"
-      },
-      {
-        "nom_ville": "Saint-Sulpice  NE "
-      },
-      {
-        "nom_ville": "Savagnier"
-      },
-      {
-        "nom_ville": "Thielle-Wavre"
-      },
-      {
-        "nom_ville": "Val-de-Ruz"
-      },
-      {
-        "nom_ville": "Val-de-Travers"
-      },
-      {
-        "nom_ville": "Valangin"
-      },
-      {
-        "nom_ville": "Vaumarcus"
-      },
-      {
-        "nom_ville": "Villiers"
-      }
-    ],
-    "code": "NE",
-    "villeNombre": 66,
-    "geoLocation": {
-      "lat": 46.9895828,
-      "lon": 6.9292641,
-      "display_name": "Neuchâtel, Suisse"
-    }
-  },
+ 
   {
     "nom_canton": "Nidwald",
     "villeListe": [
@@ -4670,10 +6361,10 @@
         "nom_ville": "Ennetmoos"
       },
       {
-        "nom_ville": "Hergiswil  NW "
+        "nom_ville": "Hergiswil "
       },
       {
-        "nom_ville": "Oberdorf  NW "
+        "nom_ville": "Oberdorf "
       },
       {
         "nom_ville": "Stans"
@@ -4739,10 +6430,10 @@
         "nom_ville": "Amden"
       },
       {
-        "nom_ville": "Andwil  SG "
+        "nom_ville": "Andwil "
       },
       {
-        "nom_ville": "Au  SG "
+        "nom_ville": "Au "
       },
       {
         "nom_ville": "Bad Ragaz"
@@ -4751,10 +6442,10 @@
         "nom_ville": "Balgach"
       },
       {
-        "nom_ville": "Benken  SG "
+        "nom_ville": "Benken "
       },
       {
-        "nom_ville": "Berg  SG "
+        "nom_ville": "Berg "
       },
       {
         "nom_ville": "Berneck"
@@ -4766,7 +6457,7 @@
         "nom_ville": "Brunnadern"
       },
       {
-        "nom_ville": "Buchs  SG "
+        "nom_ville": "Buchs "
       },
       {
         "nom_ville": "Bütschwil"
@@ -4793,10 +6484,10 @@
         "nom_ville": "Ernetschwil"
       },
       {
-        "nom_ville": "Eschenbach  SG "
+        "nom_ville": "Eschenbach "
       },
       {
-        "nom_ville": "Eschenbach  SG "
+        "nom_ville": "Eschenbach "
       },
       {
         "nom_ville": "Flawil"
@@ -4826,7 +6517,7 @@
         "nom_ville": "Gommiswald"
       },
       {
-        "nom_ville": "Gossau  SG "
+        "nom_ville": "Gossau "
       },
       {
         "nom_ville": "Grabs"
@@ -4844,7 +6535,7 @@
         "nom_ville": "Kaltbrunn"
       },
       {
-        "nom_ville": "Kirchberg  SG "
+        "nom_ville": "Kirchberg "
       },
       {
         "nom_ville": "Krinau"
@@ -4856,7 +6547,7 @@
         "nom_ville": "Lütisburg"
       },
       {
-        "nom_ville": "Marbach  SG "
+        "nom_ville": "Marbach "
       },
       {
         "nom_ville": "Mels"
@@ -4895,7 +6586,7 @@
         "nom_ville": "Oberhelfenschwil"
       },
       {
-        "nom_ville": "Oberriet  SG "
+        "nom_ville": "Oberriet "
       },
       {
         "nom_ville": "Oberuzwil"
@@ -4907,7 +6598,7 @@
         "nom_ville": "Quarten"
       },
       {
-        "nom_ville": "Rapperswil  SG "
+        "nom_ville": "Rapperswil "
       },
       {
         "nom_ville": "Rapperswil-Jona"
@@ -4928,7 +6619,7 @@
         "nom_ville": "Rorschacherberg"
       },
       {
-        "nom_ville": "Rüthi  SG "
+        "nom_ville": "Rüthi "
       },
       {
         "nom_ville": "Sargans"
@@ -4958,7 +6649,7 @@
         "nom_ville": "St.Peterzell"
       },
       {
-        "nom_ville": "Stein  SG "
+        "nom_ville": "Stein "
       },
       {
         "nom_ville": "Steinach"
@@ -5003,10 +6694,10 @@
         "nom_ville": "Widnau"
       },
       {
-        "nom_ville": "Wil  SG "
+        "nom_ville": "Wil "
       },
       {
-        "nom_ville": "Wil  SG "
+        "nom_ville": "Wil "
       },
       {
         "nom_ville": "Wildhaus"
@@ -5018,7 +6709,7 @@
         "nom_ville": "Wittenbach"
       },
       {
-        "nom_ville": "Zuzwil  SG "
+        "nom_ville": "Zuzwil "
       }
     ],
     "code": "SG",
@@ -5033,10 +6724,10 @@
     "nom_canton": "Schaffhouse",
     "villeListe": [
       {
-        "nom_ville": "Altdorf  SH "
+        "nom_ville": "Altdorf "
       },
       {
-        "nom_ville": "Bargen  SH "
+        "nom_ville": "Bargen "
       },
       {
         "nom_ville": "Beggingen"
@@ -5045,10 +6736,10 @@
         "nom_ville": "Beringen"
       },
       {
-        "nom_ville": "Bibern  SH "
+        "nom_ville": "Bibern "
       },
       {
-        "nom_ville": "Buch  SH "
+        "nom_ville": "Buch "
       },
       {
         "nom_ville": "Buchberg"
@@ -5075,7 +6766,7 @@
         "nom_ville": "Hemmental"
       },
       {
-        "nom_ville": "Lohn  SH "
+        "nom_ville": "Lohn "
       },
       {
         "nom_ville": "Löhningen"
@@ -5093,7 +6784,7 @@
         "nom_ville": "Oberhallau"
       },
       {
-        "nom_ville": "Opfertshofen  SH "
+        "nom_ville": "Opfertshofen "
       },
       {
         "nom_ville": "Ramsen"
@@ -5114,7 +6805,7 @@
         "nom_ville": "Stein am Rhein"
       },
       {
-        "nom_ville": "Stetten  SH "
+        "nom_ville": "Stetten "
       },
       {
         "nom_ville": "Thayngen"
@@ -5171,7 +6862,7 @@
         "nom_ville": "Innerthal"
       },
       {
-        "nom_ville": "Küssnacht  SZ "
+        "nom_ville": "Küssnacht "
       },
       {
         "nom_ville": "Lachen"
@@ -5222,7 +6913,7 @@
         "nom_ville": "Vorderthal"
       },
       {
-        "nom_ville": "Wangen  SZ "
+        "nom_ville": "Wangen "
       },
       {
         "nom_ville": "Wollerau"
@@ -5243,7 +6934,7 @@
         "nom_ville": "Aedermannsdorf"
       },
       {
-        "nom_ville": "Aeschi  SO "
+        "nom_ville": "Aeschi "
       },
       {
         "nom_ville": "Aetigkofen"
@@ -5261,7 +6952,7 @@
         "nom_ville": "Balsthal"
       },
       {
-        "nom_ville": "Beinwil  SO "
+        "nom_ville": "Beinwil "
       },
       {
         "nom_ville": "Bellach"
@@ -5273,7 +6964,7 @@
         "nom_ville": "Biberist"
       },
       {
-        "nom_ville": "Bibern  SO "
+        "nom_ville": "Bibern "
       },
       {
         "nom_ville": "Biezwil"
@@ -5303,7 +6994,7 @@
         "nom_ville": "Bättwil"
       },
       {
-        "nom_ville": "Büren  SO "
+        "nom_ville": "Büren "
       },
       {
         "nom_ville": "Büsserach"
@@ -5333,7 +7024,7 @@
         "nom_ville": "Eppenberg-Wöschnau"
       },
       {
-        "nom_ville": "Erlinsbach  SO "
+        "nom_ville": "Erlinsbach "
       },
       {
         "nom_ville": "Erschwil"
@@ -5408,7 +7099,7 @@
         "nom_ville": "Hofstetten-Flüh"
       },
       {
-        "nom_ville": "Holderbank  SO "
+        "nom_ville": "Holderbank "
       },
       {
         "nom_ville": "Horriwil"
@@ -5429,7 +7120,7 @@
         "nom_ville": "Kammersrohr"
       },
       {
-        "nom_ville": "Kappel  SO "
+        "nom_ville": "Kappel "
       },
       {
         "nom_ville": "Kestenholz"
@@ -5492,7 +7183,7 @@
         "nom_ville": "Metzerlen-Mariastein"
       },
       {
-        "nom_ville": "Mühledorf  SO "
+        "nom_ville": "Mühledorf "
       },
       {
         "nom_ville": "Mümliswil-Ramiswil"
@@ -5510,7 +7201,7 @@
         "nom_ville": "Niedergösgen"
       },
       {
-        "nom_ville": "Niederwil  SO "
+        "nom_ville": "Niederwil "
       },
       {
         "nom_ville": "Nuglar-St.Pantaleon"
@@ -5522,7 +7213,7 @@
         "nom_ville": "Oberbuchsiten"
       },
       {
-        "nom_ville": "Oberdorf  SO "
+        "nom_ville": "Oberdorf "
       },
       {
         "nom_ville": "Obergerlafingen"
@@ -5546,7 +7237,7 @@
         "nom_ville": "Recherswil"
       },
       {
-        "nom_ville": "Rickenbach  SO "
+        "nom_ville": "Rickenbach "
       },
       {
         "nom_ville": "Riedholz"
@@ -5555,7 +7246,7 @@
         "nom_ville": "Rodersdorf"
       },
       {
-        "nom_ville": "Rohr  SO "
+        "nom_ville": "Rohr "
       },
       {
         "nom_ville": "Rüttenen"
@@ -5597,7 +7288,7 @@
         "nom_ville": "Unterramsern"
       },
       {
-        "nom_ville": "Walterswil  SO "
+        "nom_ville": "Walterswil "
       },
       {
         "nom_ville": "Wangen bei Olten"
@@ -5612,7 +7303,7 @@
         "nom_ville": "Winznau"
       },
       {
-        "nom_ville": "Wisen  SO "
+        "nom_ville": "Wisen "
       },
       {
         "nom_ville": "Witterswil"
@@ -5660,7 +7351,7 @@
         "nom_ville": "Basadingen-Schlattingen"
       },
       {
-        "nom_ville": "Berg  TG "
+        "nom_ville": "Berg "
       },
       {
         "nom_ville": "Berlingen"
@@ -5687,7 +7378,7 @@
         "nom_ville": "Bussnang"
       },
       {
-        "nom_ville": "Bürglen  TG "
+        "nom_ville": "Bürglen "
       },
       {
         "nom_ville": "Diessenhofen"
@@ -5789,7 +7480,7 @@
         "nom_ville": "Müllheim"
       },
       {
-        "nom_ville": "Münchwilen  TG "
+        "nom_ville": "Münchwilen "
       },
       {
         "nom_ville": "Münsterlingen"
@@ -5807,10 +7498,10 @@
         "nom_ville": "Raperswilen"
       },
       {
-        "nom_ville": "Rickenbach  TG "
+        "nom_ville": "Rickenbach "
       },
       {
-        "nom_ville": "Roggwil  TG "
+        "nom_ville": "Roggwil "
       },
       {
         "nom_ville": "Romanshorn"
@@ -5825,7 +7516,7 @@
         "nom_ville": "Scherzingen"
       },
       {
-        "nom_ville": "Schlatt  TG "
+        "nom_ville": "Schlatt "
       },
       {
         "nom_ville": "Schönholzerswilen"
@@ -5873,7 +7564,7 @@
         "nom_ville": "Wigoltingen"
       },
       {
-        "nom_ville": "Wilen  TG "
+        "nom_ville": "Wilen "
       },
       {
         "nom_ville": "Wuppenau"
@@ -6607,1686 +8298,7 @@
       "display_name": "Uri, Suisse"
     }
   },
-  {
-    "nom_canton": "Valais",
-    "villeListe": [
-      {
-        "nom_ville": "Agarn"
-      },
-      {
-        "nom_ville": "Albinen"
-      },
-      {
-        "nom_ville": "Anniviers"
-      },
-      {
-        "nom_ville": "Arbaz"
-      },
-      {
-        "nom_ville": "Ardon"
-      },
-      {
-        "nom_ville": "Ausserberg"
-      },
-      {
-        "nom_ville": "Ayent"
-      },
-      {
-        "nom_ville": "Ayer"
-      },
-      {
-        "nom_ville": "Bagnes"
-      },
-      {
-        "nom_ville": "Baltschieder"
-      },
-      {
-        "nom_ville": "Bellwald"
-      },
-      {
-        "nom_ville": "Betten"
-      },
-      {
-        "nom_ville": "Bettmeralp"
-      },
-      {
-        "nom_ville": "Binn"
-      },
-      {
-        "nom_ville": "Birgisch"
-      },
-      {
-        "nom_ville": "Bister"
-      },
-      {
-        "nom_ville": "Bitsch"
-      },
-      {
-        "nom_ville": "Blatten"
-      },
-      {
-        "nom_ville": "Blitzingen"
-      },
-      {
-        "nom_ville": "Bourg-Saint-Pierre"
-      },
-      {
-        "nom_ville": "Bovernier"
-      },
-      {
-        "nom_ville": "Bratsch"
-      },
-      {
-        "nom_ville": "Brig-Glis"
-      },
-      {
-        "nom_ville": "Bürchen"
-      },
-      {
-        "nom_ville": "Chalais"
-      },
-      {
-        "nom_ville": "Chamoson"
-      },
-      {
-        "nom_ville": "Champéry"
-      },
-      {
-        "nom_ville": "Chandolin"
-      },
-      {
-        "nom_ville": "Charrat"
-      },
-      {
-        "nom_ville": "Chermignon"
-      },
-      {
-        "nom_ville": "Chippis"
-      },
-      {
-        "nom_ville": "Collombey-Muraz"
-      },
-      {
-        "nom_ville": "Collonges"
-      },
-      {
-        "nom_ville": "Conthey"
-      },
-      {
-        "nom_ville": "Crans-Montana"
-      },
-      {
-        "nom_ville": "Dorénaz"
-      },
-      {
-        "nom_ville": "Eggerberg"
-      },
-      {
-        "nom_ville": "Eischoll"
-      },
-      {
-        "nom_ville": "Eisten"
-      },
-      {
-        "nom_ville": "Embd"
-      },
-      {
-        "nom_ville": "Ergisch"
-      },
-      {
-        "nom_ville": "Ernen"
-      },
-      {
-        "nom_ville": "Erschmatt"
-      },
-      {
-        "nom_ville": "Evionnaz"
-      },
-      {
-        "nom_ville": "Evolène"
-      },
-      {
-        "nom_ville": "Ferden"
-      },
-      {
-        "nom_ville": "Fiesch"
-      },
-      {
-        "nom_ville": "Fieschertal"
-      },
-      {
-        "nom_ville": "Filet"
-      },
-      {
-        "nom_ville": "Finhaut"
-      },
-      {
-        "nom_ville": "Fully"
-      },
-      {
-        "nom_ville": "Gampel"
-      },
-      {
-        "nom_ville": "Gampel-Bratsch"
-      },
-      {
-        "nom_ville": "Goms"
-      },
-      {
-        "nom_ville": "Grafschaft"
-      },
-      {
-        "nom_ville": "Grengiols"
-      },
-      {
-        "nom_ville": "Grimentz"
-      },
-      {
-        "nom_ville": "Grimisuat"
-      },
-      {
-        "nom_ville": "Grächen"
-      },
-      {
-        "nom_ville": "Grône"
-      },
-      {
-        "nom_ville": "Guttet-Feschel"
-      },
-      {
-        "nom_ville": "Hohtenn"
-      },
-      {
-        "nom_ville": "Hérémence"
-      },
-      {
-        "nom_ville": "Icogne"
-      },
-      {
-        "nom_ville": "Inden"
-      },
-      {
-        "nom_ville": "Isérables"
-      },
-      {
-        "nom_ville": "Kippel"
-      },
-      {
-        "nom_ville": "Lalden"
-      },
-      {
-        "nom_ville": "Lax"
-      },
-      {
-        "nom_ville": "Lens"
-      },
-      {
-        "nom_ville": "Les Agettes"
-      },
-      {
-        "nom_ville": "Leuk"
-      },
-      {
-        "nom_ville": "Leukerbad"
-      },
-      {
-        "nom_ville": "Leytron"
-      },
-      {
-        "nom_ville": "Liddes"
-      },
-      {
-        "nom_ville": "Martigny"
-      },
-      {
-        "nom_ville": "Martigny-Combe"
-      },
-      {
-        "nom_ville": "Martisberg"
-      },
-      {
-        "nom_ville": "Mase"
-      },
-      {
-        "nom_ville": "Massongex"
-      },
-      {
-        "nom_ville": "Mex  "
-      },
-      {
-        "nom_ville": "Miège"
-      },
-      {
-        "nom_ville": "Mollens  "
-      },
-      {
-        "nom_ville": "Mont-Noble"
-      },
-      {
-        "nom_ville": "Montana"
-      },
-      {
-        "nom_ville": "Monthey"
-      },
-      {
-        "nom_ville": "Mund"
-      },
-      {
-        "nom_ville": "Mörel"
-      },
-      {
-        "nom_ville": "Mörel-Filet"
-      },
-      {
-        "nom_ville": "Münster-Geschinen"
-      },
-      {
-        "nom_ville": "Naters"
-      },
-      {
-        "nom_ville": "Nax"
-      },
-      {
-        "nom_ville": "Nendaz"
-      },
-      {
-        "nom_ville": "Niedergesteln"
-      },
-      {
-        "nom_ville": "Niederwald"
-      },
-      {
-        "nom_ville": "Noble-Contrée"
-      },
-      {
-        "nom_ville": "Oberems"
-      },
-      {
-        "nom_ville": "Obergesteln"
-      },
-      {
-        "nom_ville": "Obergoms"
-      },
-      {
-        "nom_ville": "Oberwald"
-      },
-      {
-        "nom_ville": "Orsières"
-      },
-      {
-        "nom_ville": "Port-Valais"
-      },
-      {
-        "nom_ville": "Randa"
-      },
-      {
-        "nom_ville": "Randogne"
-      },
-      {
-        "nom_ville": "Raron"
-      },
-      {
-        "nom_ville": "Reckingen-Gluringen"
-      },
-      {
-        "nom_ville": "Riddes"
-      },
-      {
-        "nom_ville": "Ried-Brig"
-      },
-      {
-        "nom_ville": "Riederalp"
-      },
-      {
-        "nom_ville": "Saas Almagell"
-      },
-      {
-        "nom_ville": "Saas Balen"
-      },
-      {
-        "nom_ville": "Saas Fee"
-      },
-      {
-        "nom_ville": "Saas Grund"
-      },
-      {
-        "nom_ville": "Saillon"
-      },
-      {
-        "nom_ville": "Saint-Gingolph"
-      },
-      {
-        "nom_ville": "Saint-Jean"
-      },
-      {
-        "nom_ville": "Saint-Luc"
-      },
-      {
-        "nom_ville": "Saint-Léonard"
-      },
-      {
-        "nom_ville": "Saint-Martin  "
-      },
-      {
-        "nom_ville": "Saint-Maurice"
-      },
-      {
-        "nom_ville": "Salgesch"
-      },
-      {
-        "nom_ville": "Salins"
-      },
-      {
-        "nom_ville": "Salvan"
-      },
-      {
-        "nom_ville": "Savièse"
-      },
-      {
-        "nom_ville": "Saxon"
-      },
-      {
-        "nom_ville": "Sembrancher"
-      },
-      {
-        "nom_ville": "Sierre"
-      },
-      {
-        "nom_ville": "Simplon"
-      },
-      {
-        "nom_ville": "Sion"
-      },
-      {
-        "nom_ville": "St.Niklaus"
-      },
-      {
-        "nom_ville": "Stalden  "
-      },
-      {
-        "nom_ville": "Staldenried"
-      },
-      {
-        "nom_ville": "Steg"
-      },
-      {
-        "nom_ville": "Steg-Hohtenn"
-      },
-      {
-        "nom_ville": "Termen"
-      },
-      {
-        "nom_ville": "Trient"
-      },
-      {
-        "nom_ville": "Troistorrents"
-      },
-      {
-        "nom_ville": "Turtmann"
-      },
-      {
-        "nom_ville": "Turtmann-Unterems"
-      },
-      {
-        "nom_ville": "Täsch"
-      },
-      {
-        "nom_ville": "Törbel"
-      },
-      {
-        "nom_ville": "Ulrichen"
-      },
-      {
-        "nom_ville": "Unterbäch"
-      },
-      {
-        "nom_ville": "Unterems"
-      },
-      {
-        "nom_ville": "Val de Bagnes"
-      },
-      {
-        "nom_ville": "Val-d'Illiez"
-      },
-      {
-        "nom_ville": "Varen"
-      },
-      {
-        "nom_ville": "Venthône"
-      },
-      {
-        "nom_ville": "Vernamiège"
-      },
-      {
-        "nom_ville": "Vernayaz"
-      },
-      {
-        "nom_ville": "Vex"
-      },
-      {
-        "nom_ville": "Veyras"
-      },
-      {
-        "nom_ville": "Veysonnaz"
-      },
-      {
-        "nom_ville": "Vionnaz"
-      },
-      {
-        "nom_ville": "Visp"
-      },
-      {
-        "nom_ville": "Visperterminen"
-      },
-      {
-        "nom_ville": "Vissoie"
-      },
-      {
-        "nom_ville": "Vollèges"
-      },
-      {
-        "nom_ville": "Vouvry"
-      },
-      {
-        "nom_ville": "Vérossaz"
-      },
-      {
-        "nom_ville": "Vétroz"
-      },
-      {
-        "nom_ville": "Wiler  Lötschen "
-      },
-      {
-        "nom_ville": "Zeneggen"
-      },
-      {
-        "nom_ville": "Zermatt"
-      },
-      {
-        "nom_ville": "Zwischbergen"
-      }
-    ],
-    "code": "VS",
-    "villeNombre": 165,
-    "geoLocation": {
-      "lat": 46.2303063,
-      "lon": 7.6605757,
-      "display_name": "Valais, Suisse"
-    }
-  },
-  {
-    "nom_canton": "Vaud",
-    "villeListe": [
-      {
-        "nom_ville": "Aclens"
-      },
-      {
-        "nom_ville": "Agiez"
-      },
-      {
-        "nom_ville": "Aigle"
-      },
-      {
-        "nom_ville": "Allaman"
-      },
-      {
-        "nom_ville": "Apples"
-      },
-      {
-        "nom_ville": "Arnex-sur-Nyon"
-      },
-      {
-        "nom_ville": "Arnex-sur-Orbe"
-      },
-      {
-        "nom_ville": "Arzier"
-      },
-      {
-        "nom_ville": "Assens"
-      },
-      {
-        "nom_ville": "Aubonne"
-      },
-      {
-        "nom_ville": "Avenches"
-      },
-      {
-        "nom_ville": "Ballaigues"
-      },
-      {
-        "nom_ville": "Ballens"
-      },
-      {
-        "nom_ville": "Bassins"
-      },
-      {
-        "nom_ville": "Baulmes"
-      },
-      {
-        "nom_ville": "Bavois"
-      },
-      {
-        "nom_ville": "Begnins"
-      },
-      {
-        "nom_ville": "Bellerive  "
-      },
-      {
-        "nom_ville": "Belmont-Broye"
-      },
-      {
-        "nom_ville": "Belmont-sur-Lausanne"
-      },
-      {
-        "nom_ville": "Belmont-sur-Yverdon"
-      },
-      {
-        "nom_ville": "Bercher"
-      },
-      {
-        "nom_ville": "Berolle"
-      },
-      {
-        "nom_ville": "Bettens"
-      },
-      {
-        "nom_ville": "Bex"
-      },
-      {
-        "nom_ville": "Bioley-Magnoux"
-      },
-      {
-        "nom_ville": "Bioley-Orjulaz"
-      },
-      {
-        "nom_ville": "Bière"
-      },
-      {
-        "nom_ville": "Blonay"
-      },
-      {
-        "nom_ville": "Blonay - Saint-Légier"
-      },
-      {
-        "nom_ville": "Bofflens"
-      },
-      {
-        "nom_ville": "Bogis-Bossey"
-      },
-      {
-        "nom_ville": "Bonvillars"
-      },
-      {
-        "nom_ville": "Borex"
-      },
-      {
-        "nom_ville": "Bottens"
-      },
-      {
-        "nom_ville": "Bougy-Villars"
-      },
-      {
-        "nom_ville": "Boulens"
-      },
-      {
-        "nom_ville": "Bournens"
-      },
-      {
-        "nom_ville": "Boussens"
-      },
-      {
-        "nom_ville": "Bremblens"
-      },
-      {
-        "nom_ville": "Brenles"
-      },
-      {
-        "nom_ville": "Bretigny-sur-Morrens"
-      },
-      {
-        "nom_ville": "Bretonnières"
-      },
-      {
-        "nom_ville": "Buchillon"
-      },
-      {
-        "nom_ville": "Bullet"
-      },
-      {
-        "nom_ville": "Bursinel"
-      },
-      {
-        "nom_ville": "Bursins"
-      },
-      {
-        "nom_ville": "Burtigny"
-      },
-      {
-        "nom_ville": "Bussigny-près-Lausanne"
-      },
-      {
-        "nom_ville": "Bussigny-sur-Oron"
-      },
-      {
-        "nom_ville": "Bussy-Chardonney"
-      },
-      {
-        "nom_ville": "Bussy-sur-Moudon"
-      },
-      {
-        "nom_ville": "Carrouge  "
-      },
-      {
-        "nom_ville": "Cerniaz  "
-      },
-      {
-        "nom_ville": "Chabrey"
-      },
-      {
-        "nom_ville": "Chamblon"
-      },
-      {
-        "nom_ville": "Champagne"
-      },
-      {
-        "nom_ville": "Champtauroz"
-      },
-      {
-        "nom_ville": "Champvent"
-      },
-      {
-        "nom_ville": "Chanéaz"
-      },
-      {
-        "nom_ville": "Chapelle-sur-Moudon"
-      },
-      {
-        "nom_ville": "Chardonne"
-      },
-      {
-        "nom_ville": "Chavannes-de-Bogis"
-      },
-      {
-        "nom_ville": "Chavannes-des-Bois"
-      },
-      {
-        "nom_ville": "Chavannes-le-Chêne"
-      },
-      {
-        "nom_ville": "Chavannes-le-Veyron"
-      },
-      {
-        "nom_ville": "Chavannes-près-Renens"
-      },
-      {
-        "nom_ville": "Chavannes-sur-Moudon"
-      },
-      {
-        "nom_ville": "Chavornay"
-      },
-      {
-        "nom_ville": "Chesalles-sur-Moudon"
-      },
-      {
-        "nom_ville": "Chesalles-sur-Oron"
-      },
-      {
-        "nom_ville": "Cheseaux-Noréaz"
-      },
-      {
-        "nom_ville": "Cheseaux-sur-Lausanne"
-      },
-      {
-        "nom_ville": "Chessel"
-      },
-      {
-        "nom_ville": "Chevilly"
-      },
-      {
-        "nom_ville": "Chevroux"
-      },
-      {
-        "nom_ville": "Chexbres"
-      },
-      {
-        "nom_ville": "Chigny"
-      },
-      {
-        "nom_ville": "Château-d'Oex"
-      },
-      {
-        "nom_ville": "Châtillens"
-      },
-      {
-        "nom_ville": "Chéserex"
-      },
-      {
-        "nom_ville": "Chêne-Pâquier"
-      },
-      {
-        "nom_ville": "Clarmont"
-      },
-      {
-        "nom_ville": "Coinsins"
-      },
-      {
-        "nom_ville": "Colombier  "
-      },
-      {
-        "nom_ville": "Combremont-le-Grand"
-      },
-      {
-        "nom_ville": "Combremont-le-Petit"
-      },
-      {
-        "nom_ville": "Commugny"
-      },
-      {
-        "nom_ville": "Concise"
-      },
-      {
-        "nom_ville": "Constantine"
-      },
-      {
-        "nom_ville": "Coppet"
-      },
-      {
-        "nom_ville": "Corbeyrier"
-      },
-      {
-        "nom_ville": "Corcelles-le-Jorat"
-      },
-      {
-        "nom_ville": "Corcelles-près-Concise"
-      },
-      {
-        "nom_ville": "Corcelles-près-Payerne"
-      },
-      {
-        "nom_ville": "Corcelles-sur-Chavornay"
-      },
-      {
-        "nom_ville": "Correvon"
-      },
-      {
-        "nom_ville": "Corseaux"
-      },
-      {
-        "nom_ville": "Corsier-sur-Vevey"
-      },
-      {
-        "nom_ville": "Cossonay"
-      },
-      {
-        "nom_ville": "Cottens  "
-      },
-      {
-        "nom_ville": "Crans-près-Céligny"
-      },
-      {
-        "nom_ville": "Crassier"
-      },
-      {
-        "nom_ville": "Cremin"
-      },
-      {
-        "nom_ville": "Crissier"
-      },
-      {
-        "nom_ville": "Cronay"
-      },
-      {
-        "nom_ville": "Croy"
-      },
-      {
-        "nom_ville": "Cuarnens"
-      },
-      {
-        "nom_ville": "Cuarny"
-      },
-      {
-        "nom_ville": "Cudrefin"
-      },
-      {
-        "nom_ville": "Cugy  "
-      },
-      {
-        "nom_ville": "Cully"
-      },
-      {
-        "nom_ville": "Curtilles"
-      },
-      {
-        "nom_ville": "Daillens"
-      },
-      {
-        "nom_ville": "Denens"
-      },
-      {
-        "nom_ville": "Denezy"
-      },
-      {
-        "nom_ville": "Denges"
-      },
-      {
-        "nom_ville": "Dizy"
-      },
-      {
-        "nom_ville": "Dommartin"
-      },
-      {
-        "nom_ville": "Dompierre  "
-      },
-      {
-        "nom_ville": "Donneloye"
-      },
-      {
-        "nom_ville": "Duillier"
-      },
-      {
-        "nom_ville": "Dully"
-      },
-      {
-        "nom_ville": "Démoret"
-      },
-      {
-        "nom_ville": "Echallens"
-      },
-      {
-        "nom_ville": "Echandens"
-      },
-      {
-        "nom_ville": "Echichens"
-      },
-      {
-        "nom_ville": "Eclagnens"
-      },
-      {
-        "nom_ville": "Eclépens"
-      },
-      {
-        "nom_ville": "Ecoteaux"
-      },
-      {
-        "nom_ville": "Ecublens  "
-      },
-      {
-        "nom_ville": "Epalinges"
-      },
-      {
-        "nom_ville": "Ependes  "
-      },
-      {
-        "nom_ville": "Epesses"
-      },
-      {
-        "nom_ville": "Essert-Pittet"
-      },
-      {
-        "nom_ville": "Essert-sous-Champvent"
-      },
-      {
-        "nom_ville": "Essertes"
-      },
-      {
-        "nom_ville": "Essertines-sur-Rolle"
-      },
-      {
-        "nom_ville": "Essertines-sur-Yverdon"
-      },
-      {
-        "nom_ville": "Etagnières"
-      },
-      {
-        "nom_ville": "Etoy"
-      },
-      {
-        "nom_ville": "Eysins"
-      },
-      {
-        "nom_ville": "Faoug"
-      },
-      {
-        "nom_ville": "Ferlens  "
-      },
-      {
-        "nom_ville": "Ferreyres"
-      },
-      {
-        "nom_ville": "Fey"
-      },
-      {
-        "nom_ville": "Fiez"
-      },
-      {
-        "nom_ville": "Fontaines-sur-Grandson"
-      },
-      {
-        "nom_ville": "Fontanezier"
-      },
-      {
-        "nom_ville": "Forel  Lavaux "
-      },
-      {
-        "nom_ville": "Forel-sur-Lucens"
-      },
-      {
-        "nom_ville": "Founex"
-      },
-      {
-        "nom_ville": "Froideville"
-      },
-      {
-        "nom_ville": "Féchy"
-      },
-      {
-        "nom_ville": "Genolier"
-      },
-      {
-        "nom_ville": "Gibloux"
-      },
-      {
-        "nom_ville": "Giez"
-      },
-      {
-        "nom_ville": "Gilly"
-      },
-      {
-        "nom_ville": "Gimel"
-      },
-      {
-        "nom_ville": "Gingins"
-      },
-      {
-        "nom_ville": "Givrins"
-      },
-      {
-        "nom_ville": "Gland"
-      },
-      {
-        "nom_ville": "Gollion"
-      },
-      {
-        "nom_ville": "Gossens"
-      },
-      {
-        "nom_ville": "Goumoens-la-Ville"
-      },
-      {
-        "nom_ville": "Goumoens-le-Jux"
-      },
-      {
-        "nom_ville": "Grancy"
-      },
-      {
-        "nom_ville": "Grandcour"
-      },
-      {
-        "nom_ville": "Grandevent"
-      },
-      {
-        "nom_ville": "Grandson"
-      },
-      {
-        "nom_ville": "Grandvaux"
-      },
-      {
-        "nom_ville": "Granges-près-Marnand"
-      },
-      {
-        "nom_ville": "Grens"
-      },
-      {
-        "nom_ville": "Gressy"
-      },
-      {
-        "nom_ville": "Gryon"
-      },
-      {
-        "nom_ville": "Hautemorges"
-      },
-      {
-        "nom_ville": "Henniez"
-      },
-      {
-        "nom_ville": "Hermenches"
-      },
-      {
-        "nom_ville": "Jongny"
-      },
-      {
-        "nom_ville": "Jorat-Menthue"
-      },
-      {
-        "nom_ville": "Jorat-Mézières"
-      },
-      {
-        "nom_ville": "Jouxtens-Mézery"
-      },
-      {
-        "nom_ville": "Juriens"
-      },
-      {
-        "nom_ville": "L'Abbaye"
-      },
-      {
-        "nom_ville": "L'Abergement"
-      },
-      {
-        "nom_ville": "L'Isle"
-      },
-      {
-        "nom_ville": "La Chaux  Cossonay "
-      },
-      {
-        "nom_ville": "La Praz"
-      },
-      {
-        "nom_ville": "La Rippe"
-      },
-      {
-        "nom_ville": "La Sarraz"
-      },
-      {
-        "nom_ville": "La Tour-de-Peilz"
-      },
-      {
-        "nom_ville": "Lausanne"
-      },
-      {
-        "nom_ville": "Lavey-Morcles"
-      },
-      {
-        "nom_ville": "Lavigny"
-      },
-      {
-        "nom_ville": "Le Chenit"
-      },
-      {
-        "nom_ville": "Le Lieu"
-      },
-      {
-        "nom_ville": "Le Mont-sur-Lausanne"
-      },
-      {
-        "nom_ville": "Le Vaud"
-      },
-      {
-        "nom_ville": "Les Clées"
-      },
-      {
-        "nom_ville": "Les Cullayes"
-      },
-      {
-        "nom_ville": "Les Tavernes"
-      },
-      {
-        "nom_ville": "Les Thioleyres"
-      },
-      {
-        "nom_ville": "Leysin"
-      },
-      {
-        "nom_ville": "Lignerolle"
-      },
-      {
-        "nom_ville": "Lonay"
-      },
-      {
-        "nom_ville": "Longirod"
-      },
-      {
-        "nom_ville": "Lovatens"
-      },
-      {
-        "nom_ville": "Lucens"
-      },
-      {
-        "nom_ville": "Luins"
-      },
-      {
-        "nom_ville": "Lully  "
-      },
-      {
-        "nom_ville": "Lussery-Villars"
-      },
-      {
-        "nom_ville": "Lussy-sur-Morges"
-      },
-      {
-        "nom_ville": "Lutry"
-      },
-      {
-        "nom_ville": "Malapalud"
-      },
-      {
-        "nom_ville": "Maracon"
-      },
-      {
-        "nom_ville": "Marchissy"
-      },
-      {
-        "nom_ville": "Marnand"
-      },
-      {
-        "nom_ville": "Martherenges"
-      },
-      {
-        "nom_ville": "Mathod"
-      },
-      {
-        "nom_ville": "Mauborget"
-      },
-      {
-        "nom_ville": "Mauraz"
-      },
-      {
-        "nom_ville": "Mex  "
-      },
-      {
-        "nom_ville": "Mies"
-      },
-      {
-        "nom_ville": "Missy"
-      },
-      {
-        "nom_ville": "Moiry"
-      },
-      {
-        "nom_ville": "Mollens  "
-      },
-      {
-        "nom_ville": "Molondin"
-      },
-      {
-        "nom_ville": "Monnaz"
-      },
-      {
-        "nom_ville": "Mont-Vully"
-      },
-      {
-        "nom_ville": "Mont-la-Ville"
-      },
-      {
-        "nom_ville": "Mont-sur-Rolle"
-      },
-      {
-        "nom_ville": "Montagny-près-Yverdon"
-      },
-      {
-        "nom_ville": "Montaubion-Chardonney"
-      },
-      {
-        "nom_ville": "Montcherand"
-      },
-      {
-        "nom_ville": "Montherod"
-      },
-      {
-        "nom_ville": "Montmagny"
-      },
-      {
-        "nom_ville": "Montpreveyres"
-      },
-      {
-        "nom_ville": "Montreux"
-      },
-      {
-        "nom_ville": "Montricher"
-      },
-      {
-        "nom_ville": "Morges"
-      },
-      {
-        "nom_ville": "Morrens  "
-      },
-      {
-        "nom_ville": "Moudon"
-      },
-      {
-        "nom_ville": "Mur  "
-      },
-      {
-        "nom_ville": "Mutrux"
-      },
-      {
-        "nom_ville": "Mézery-près-Donneloye"
-      },
-      {
-        "nom_ville": "Mézières  "
-      },
-      {
-        "nom_ville": "Naz"
-      },
-      {
-        "nom_ville": "Neyruz-sur-Moudon"
-      },
-      {
-        "nom_ville": "Novalles"
-      },
-      {
-        "nom_ville": "Noville"
-      },
-      {
-        "nom_ville": "Nyon"
-      },
-      {
-        "nom_ville": "Ogens"
-      },
-      {
-        "nom_ville": "Oleyres"
-      },
-      {
-        "nom_ville": "Ollon"
-      },
-      {
-        "nom_ville": "Onnens  "
-      },
-      {
-        "nom_ville": "Oppens"
-      },
-      {
-        "nom_ville": "Orbe"
-      },
-      {
-        "nom_ville": "Orges"
-      },
-      {
-        "nom_ville": "Ormont-Dessous"
-      },
-      {
-        "nom_ville": "Ormont-Dessus"
-      },
-      {
-        "nom_ville": "Orny"
-      },
-      {
-        "nom_ville": "Oron"
-      },
-      {
-        "nom_ville": "Oron-la-Ville"
-      },
-      {
-        "nom_ville": "Oron-le-Châtel"
-      },
-      {
-        "nom_ville": "Orzens"
-      },
-      {
-        "nom_ville": "Oulens-sous-Echallens"
-      },
-      {
-        "nom_ville": "Oulens-sur-Lucens"
-      },
-      {
-        "nom_ville": "Pailly"
-      },
-      {
-        "nom_ville": "Palézieux"
-      },
-      {
-        "nom_ville": "Pampigny"
-      },
-      {
-        "nom_ville": "Paudex"
-      },
-      {
-        "nom_ville": "Payerne"
-      },
-      {
-        "nom_ville": "Peney-le-Jorat"
-      },
-      {
-        "nom_ville": "Penthalaz"
-      },
-      {
-        "nom_ville": "Penthaz"
-      },
-      {
-        "nom_ville": "Penthéréaz"
-      },
-      {
-        "nom_ville": "Perroy"
-      },
-      {
-        "nom_ville": "Peyres-Possens"
-      },
-      {
-        "nom_ville": "Pizy"
-      },
-      {
-        "nom_ville": "Poliez-Pittet"
-      },
-      {
-        "nom_ville": "Poliez-le-Grand"
-      },
-      {
-        "nom_ville": "Pompaples"
-      },
-      {
-        "nom_ville": "Pomy"
-      },
-      {
-        "nom_ville": "Prahins"
-      },
-      {
-        "nom_ville": "Prangins"
-      },
-      {
-        "nom_ville": "Premier"
-      },
-      {
-        "nom_ville": "Prilly"
-      },
-      {
-        "nom_ville": "Provence"
-      },
-      {
-        "nom_ville": "Préverenges"
-      },
-      {
-        "nom_ville": "Prévonloup"
-      },
-      {
-        "nom_ville": "Puidoux"
-      },
-      {
-        "nom_ville": "Pully"
-      },
-      {
-        "nom_ville": "Rances"
-      },
-      {
-        "nom_ville": "Renens  "
-      },
-      {
-        "nom_ville": "Rennaz"
-      },
-      {
-        "nom_ville": "Reverolle"
-      },
-      {
-        "nom_ville": "Riex"
-      },
-      {
-        "nom_ville": "Rivaz"
-      },
-      {
-        "nom_ville": "Roche  "
-      },
-      {
-        "nom_ville": "Rolle"
-      },
-      {
-        "nom_ville": "Romainmôtier-Envy"
-      },
-      {
-        "nom_ville": "Romairon"
-      },
-      {
-        "nom_ville": "Romanel-sur-Lausanne"
-      },
-      {
-        "nom_ville": "Romanel-sur-Morges"
-      },
-      {
-        "nom_ville": "Ropraz"
-      },
-      {
-        "nom_ville": "Rossenges"
-      },
-      {
-        "nom_ville": "Rossinière"
-      },
-      {
-        "nom_ville": "Rougemont"
-      },
-      {
-        "nom_ville": "Rovray"
-      },
-      {
-        "nom_ville": "Rueyres"
-      },
-      {
-        "nom_ville": "Saint-Barthélemy  "
-      },
-      {
-        "nom_ville": "Saint-Cergue"
-      },
-      {
-        "nom_ville": "Saint-Cierges"
-      },
-      {
-        "nom_ville": "Saint-George"
-      },
-      {
-        "nom_ville": "Saint-Livres"
-      },
-      {
-        "nom_ville": "Saint-Légier-La Chiésaz"
-      },
-      {
-        "nom_ville": "Saint-Oyens"
-      },
-      {
-        "nom_ville": "Saint-Prex"
-      },
-      {
-        "nom_ville": "Saint-Saphorin  Lavaux "
-      },
-      {
-        "nom_ville": "Saint-Saphorin-sur-Morges"
-      },
-      {
-        "nom_ville": "Saint-Sulpice  "
-      },
-      {
-        "nom_ville": "Sainte-Croix"
-      },
-      {
-        "nom_ville": "Sarzens"
-      },
-      {
-        "nom_ville": "Sassel"
-      },
-      {
-        "nom_ville": "Saubraz"
-      },
-      {
-        "nom_ville": "Savigny"
-      },
-      {
-        "nom_ville": "Seigneux"
-      },
-      {
-        "nom_ville": "Senarclens"
-      },
-      {
-        "nom_ville": "Sergey"
-      },
-      {
-        "nom_ville": "Servion"
-      },
-      {
-        "nom_ville": "Signy-Avenex"
-      },
-      {
-        "nom_ville": "Sottens"
-      },
-      {
-        "nom_ville": "Suchy"
-      },
-      {
-        "nom_ville": "Sugnens"
-      },
-      {
-        "nom_ville": "Sullens"
-      },
-      {
-        "nom_ville": "Suscévaz"
-      },
-      {
-        "nom_ville": "Syens"
-      },
-      {
-        "nom_ville": "Sévery"
-      },
-      {
-        "nom_ville": "Tannay"
-      },
-      {
-        "nom_ville": "Tartegnin"
-      },
-      {
-        "nom_ville": "Thierrens"
-      },
-      {
-        "nom_ville": "Tolochenaz"
-      },
-      {
-        "nom_ville": "Trey"
-      },
-      {
-        "nom_ville": "Treycovagnes"
-      },
-      {
-        "nom_ville": "Treytorrens  Payerne "
-      },
-      {
-        "nom_ville": "Trélex"
-      },
-      {
-        "nom_ville": "Ursins"
-      },
-      {
-        "nom_ville": "Valbroye"
-      },
-      {
-        "nom_ville": "Valeyres-sous-Montagny"
-      },
-      {
-        "nom_ville": "Valeyres-sous-Rances"
-      },
-      {
-        "nom_ville": "Valeyres-sous-Ursins"
-      },
-      {
-        "nom_ville": "Vallamand"
-      },
-      {
-        "nom_ville": "Vallorbe"
-      },
-      {
-        "nom_ville": "Vaugondry"
-      },
-      {
-        "nom_ville": "Vaulion"
-      },
-      {
-        "nom_ville": "Vaux-sur-Morges"
-      },
-      {
-        "nom_ville": "Vevey"
-      },
-      {
-        "nom_ville": "Veytaux"
-      },
-      {
-        "nom_ville": "Vich"
-      },
-      {
-        "nom_ville": "Villars-Bramard"
-      },
-      {
-        "nom_ville": "Villars-Burquin"
-      },
-      {
-        "nom_ville": "Villars-Epeney"
-      },
-      {
-        "nom_ville": "Villars-Mendraz"
-      },
-      {
-        "nom_ville": "Villars-Sainte-Croix"
-      },
-      {
-        "nom_ville": "Villars-Tiercelin"
-      },
-      {
-        "nom_ville": "Villars-le-Comte"
-      },
-      {
-        "nom_ville": "Villars-le-Grand"
-      },
-      {
-        "nom_ville": "Villars-le-Terroir"
-      },
-      {
-        "nom_ville": "Villars-sous-Champvent"
-      },
-      {
-        "nom_ville": "Villars-sous-Yens"
-      },
-      {
-        "nom_ville": "Villarzel"
-      },
-      {
-        "nom_ville": "Villeneuve  "
-      },
-      {
-        "nom_ville": "Villette  Lavaux "
-      },
-      {
-        "nom_ville": "Vinzel"
-      },
-      {
-        "nom_ville": "Vuarrens"
-      },
-      {
-        "nom_ville": "Vucherens"
-      },
-      {
-        "nom_ville": "Vufflens-la-Ville"
-      },
-      {
-        "nom_ville": "Vufflens-le-Château"
-      },
-      {
-        "nom_ville": "Vugelles-La Mothe"
-      },
-      {
-        "nom_ville": "Vuibroye"
-      },
-      {
-        "nom_ville": "Vuiteboeuf"
-      },
-      {
-        "nom_ville": "Vulliens"
-      },
-      {
-        "nom_ville": "Vullierens"
-      },
-      {
-        "nom_ville": "Yens"
-      },
-      {
-        "nom_ville": "Yverdon-les-Bains"
-      },
-      {
-        "nom_ville": "Yvonand"
-      },
-      {
-        "nom_ville": "Yvorne"
-      }
-    ],
-    "code": "VD",
-    "villeNombre": 387,
-    "geoLocation": {
-      "lat": 46.6356963,
-      "lon": 6.5320717,
-      "display_name": "Vaud, Suisse"
-    }
-  },
+
   {
     "nom_canton": "Zoug",
     "villeListe": [

@@ -32,9 +32,6 @@ class CantonVilleSeeder extends Seeder
             // Créer le canton
             $canton = Canton::create([
                 'nom' => $cantonData['nom_canton'],
-                // 'code' => $cantonData['code'] ?? null,
-                // 'latitude' => $cantonData['geoLocation']['lat'] ?? null,
-                // 'longitude' => $cantonData['geoLocation']['lon'] ?? null,
             ]);
 
             // Préparer les données des villes pour l'insertion en masse
@@ -43,8 +40,6 @@ class CantonVilleSeeder extends Seeder
                 $villes[] = [
                     'nom' => trim($villeData['nom_ville']),
                     'canton_id' => $canton->id,
-                    // 'created_at' => now(),
-                    // 'updated_at' => now(),
                 ];
             }
 
