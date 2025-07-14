@@ -9,18 +9,18 @@
         <!-- Sidebar -->
         <div class="fixed inset-y-0 left-0 z-20 w-64 transform bg-white pt-20 shadow-lg transition-transform duration-300 ease-in-out"
             :class="{ '-translate-x-full': !sidebarOpen }" {{-- @click.away="sidebarOpen = false" --}}>
-            <div class="flex h-16 items-center justify-center bg-blue-600 px-4 text-white">
-                <span class="text-xl font-bold">{{ __('admin_panel.admin_panel') }}</span>
+            <div class="flex h-16 items-center justify-center bg-supaGirlRose px-4 text-white">
+                <span class="text-xl font-bold font-roboto-slab text-green-gs ">{{ __('admin_panel.admin_panel') }}</span>
             </div>
             <nav class="mt-6">
                 <template x-for="(item, index) in menuItems" :key="index">
                     <a :href="item.route"
-                        class="flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
-                        :class="{ 'bg-blue-50 text-blue-600 border-r-4 border-blue-600': isActive(item.route) }">
+                        class="flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-green-gs/80 font-roboto-slab"
+                        :class="{ 'bg-blue-50 text-green-gs/80 border-r-4 border-green-gs/80': isActive(item.route) }">
                         <span x-text="item.icon" class="mr-3"></span>
                         <span x-text="item.label"></span>
                         <template x-if="item.badge">
-                            <span class="ml-auto rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800"
+                            <span class="ml-auto rounded-full bg-green-gs/20 px-2 py-1 text-xs text-green-gs"
                                 x-text="item.badge"></span>
                         </template>
                     </a>

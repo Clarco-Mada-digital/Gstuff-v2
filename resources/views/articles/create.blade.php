@@ -6,7 +6,7 @@
 
 @section('admin-content')
     <div x-data="articleForm()" x-init="init()" class="mx-auto max-w-4xl px-4 py-8" x-cloak>
-        <h1 class="mb-6 text-3xl font-bold text-gray-800">{{ __('create_article.create_new_article') }}</h1>
+        <h1 class="mb-6 text-3xl font-bold text-green-gs font-roboto-slab">{{ __('create_article.create_new_article') }}</h1>
 
         <form action="{{ route('articles.store') }}" method="POST" class="rounded-lg bg-white p-6 shadow-md">
             @csrf
@@ -16,7 +16,7 @@
             <!-- Titre -->
             <div class="mb-6">
                 <label for="title"
-                    class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.title') }}*</label>
+                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.title') }}*</label>
                 <input type="text" name="title" id="title" x-model="title" x-on:focusout="generateSlug()"
                     class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                     required>
@@ -29,9 +29,9 @@
             <!-- Slug -->
             <div class="mb-6">
                 <label for="slug"
-                    class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.slug') }}*</label>
+                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.slug') }}*</label>
                 <input type="text" name="slug" id="slug" x-model="slug"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
                     required>
                 <p class="mt-1 text-sm text-gray-500">{{ __('create_article.url_friendly_version') }}</p>
                 @error('slug')
@@ -43,9 +43,9 @@
             <!-- Excerpt -->
             <div class="mb-6">
                 <label for="excerpt"
-                    class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.excerpt') }}*</label>
+                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.excerpt') }}*</label>
                 <textarea name="excerpt" id="excerpt"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
                     required></textarea>
                 @error('excerpt')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -56,11 +56,11 @@
             <!-- Contenu -->
             <div x-data="app()" x-init="init($refs.wysiwyg)" class="mb-6">
                 <label for="content"
-                    class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.content') }}*</label>
+                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.content') }}*</label>
                 <textarea x-model="content" name="content" id="content" rows="10" class="hidden" required></textarea>
                 <div class="mx-auto w-full max-w-6xl rounded-xl bg-white text-black">
                     <div class="overflow-hidden rounded-md border border-gray-200">
-                        <div class="flex w-full border-b border-gray-200 text-xl text-gray-600">
+                        <div class="flex w-full border-b border-gray-200 text-xl text-green-gs font-roboto-slab">
                             <button type="button"
                                 class="h-10 w-10 border-r border-gray-200 outline-none hover:text-indigo-500 focus:outline-none active:bg-gray-50"
                                 @click="format('bold')">
@@ -171,9 +171,9 @@
             <!-- Catégorie -->
             <div class="mb-6">
                 <label for="article_category_id"
-                    class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.category') }}*</label>
+                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.category') }}*</label>
                 <select name="article_category_id" id="article_category_id"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab"
                     required>
                     <option value="">{{ __('create_article.select_category') }}</option>
                     @foreach ($categories as $category)
@@ -188,13 +188,13 @@
 
             <!-- Tags - Nouvelle implémentation -->
             <div class="mb-6">
-                <label class="mb-2 block text-sm font-medium text-gray-700">{{ __('create_article.tags') }}</label>
+                <label class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.tags') }}</label>
 
                 <!-- Champ de recherche et sélection -->
                 <div class="relative mb-3">
                     <input type="text" x-model="tagSearch" x-on:input.debounce.300ms="searchTags()"
                         x-on:keydown.enter.prevent="handleTagEnter" x-ref="tagInput"
-                        class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab"
                         placeholder="{{ __('create_article.search_or_add_tags') }}">
 
                     <!-- Suggestions de tags -->
@@ -243,9 +243,9 @@
             <div class="mb-6">
                 <div class="flex items-center">
                     <input type="checkbox" name="is_published" id="is_published" value="1" x-model="isPublished"
-                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        class="h-4 w-4 rounded border-gray-300 text-green-gs font-roboto-slab focus:ring-green-gs">
                     <label for="is_published"
-                        class="ml-2 block text-sm text-gray-700">{{ __('create_article.publish_article') }}</label>
+                        class="ml-2 block text-sm text-gray-700 font-roboto-slab">{{ __('create_article.publish_article') }}</label>
                 </div>
             </div>
 
@@ -254,7 +254,7 @@
                 <label for="published_at"
                     class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.publication_date') }}</label>
                 <input type="datetime-local" name="published_at" id="published_at" x-model="publishedAt"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500">
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab">
                 @error('published_at')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                             class="font-medium">{{ __('create_article.oops') }}!</span> {{ $message }}</p>
@@ -263,7 +263,7 @@
 
             <!-- Bouton de soumission -->
             <div class="flex justify-end">
-                <button type="submit" class="btn-gs-gradient rounded-lg transition">
+                <button type="submit" class="bg-green-gs text-white px-4 py-2 text-sm font-roboto-slab hover:bg-white hover:text-green-gs transition rounded-lg">
                     {{ __('create_article.create_article') }}
                 </button>
             </div>
