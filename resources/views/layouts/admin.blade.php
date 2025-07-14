@@ -7,7 +7,7 @@
 @section('content')
     <div x-data="dashboard()">
         <!-- Sidebar -->
-        <div class="fixed inset-y-0 left-0 z-20 w-64 transform bg-white pt-20 shadow-lg transition-transform duration-300 ease-in-out"
+        <div class="fixed inset-y-0 left-0 z-20 w-64 transform bg-white pt-32 shadow-lg transition-transform duration-300 ease-in-out"
             :class="{ '-translate-x-full': !sidebarOpen }" {{-- @click.away="sidebarOpen = false" --}}>
             <div class="flex h-16 items-center justify-center bg-supaGirlRose px-4 text-white">
                 <span class="text-xl font-bold font-roboto-slab text-green-gs ">{{ __('admin_panel.admin_panel') }}</span>

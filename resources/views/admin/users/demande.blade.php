@@ -1,13 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Voir le demande')
+@section('title', __('profile_verification.page_title'))
 
 @section('admin-content')
-    <div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-6 lg:px-8 font-roboto-slab">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">Voire le demande de l'utilisateur</h1>
-            <a href="{{ route('users.index') }}" class="btn-secondary">
-                <i class="fas fa-arrow-left mr-2"></i> Retour
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('profile_verification.page_title') }}</h1>
+            <a href="{{ route('users.index') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
+                <i class="fas fa-arrow-left mr-2"></i> {{ __('profile_verification.back') }}
             </a>
         </div>
 
@@ -16,26 +17,26 @@
             <div class="w-[50%]">
                 <div class="flex flex-col pb-3">
                     <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <i class="fas fa-user-tag mr-2"></i> Profil type
+                        <i class="fas fa-user-tag mr-2"></i> {{ __('profile_verification.profile_type') }}
                     </dt>
                     <dd class="text-lg font-semibold">{{ $user->profile_type }}</dd>
                 </div>
 
                 <div class="flex flex-col py-3">
                     <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <i class="fas fa-user mr-2"></i> Nom
+                        <i class="fas fa-user mr-2"></i> {{ __('profile_verification.name') }}
                     </dt>
                     <dd class="text-lg font-semibold">{{ $user->prenom }}</dd>
                 </div>
                 <div class="flex flex-col pt-3">
                     <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <i class="fas fa-envelope mr-2"></i> Email
+                        <i class="fas fa-envelope mr-2"></i> {{ __('profile_verification.email') }}
                     </dt>
                     <dd class="text-lg font-semibold">{{ $user->email }}</dd>
                 </div>
                 <div class="flex flex-col py-3">
                     <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                        <i class="fas fa-map-marker-alt mr-2"></i> Adresse
+                        <i class="fas fa-map-marker-alt mr-2"></i> {{ __('profile_verification.address') }}
                     </dt>
                     <dd class="text-lg font-semibold">{{ $user->adresse }}</dd>
                 </div>
@@ -58,16 +59,18 @@
             @if ($user->profile_verifie !== 'verifier')
                 <a href="{{ route('users.approvedProfile', $user->id) }}">
                     <button type="submit"
-                        class="btn-gs-gradient rounded-md px-4 py-2 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        <i class="fas fa-check-circle mr-2"></i> Approuver
+                        class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
+                        <i class="fas fa-check-circle mr-2"></i> {{ __('profile_verification.actions.approve') }}
                     </button>
                 </a>
             @else
                 <a href="{{ route('users.notApprovedProfile', $user->id) }}">
                     <button type="submit"
-                        class="rounded-md bg-gray-200 px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        onclick="return confirm('Êtes-vous sûr de vouloir rejeter ce demande ?')">
-                        <i class="fas fa-times-circle mr-2"></i> Rejeter
+                        class="bg-white border border-green-gs px-4 py-2 text-green-gs font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md"
+                        onclick="return confirm('{{ __('profile_verification.actions.reject_confirm') }}')">
+                        <i class="fas fa-times-circle mr-2"></i> {{ __('profile_verification.actions.reject') }}
                     </button>
                 </a>
             @endif

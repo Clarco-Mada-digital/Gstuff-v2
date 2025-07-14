@@ -4,14 +4,15 @@
     <div x-data="articleManager()" x-init="init()" class="px-4 py-6 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">{{ __('article_management.article_management') }}</h1>
-            <a href="{{ route('articles.create') }}" class="btn-gs-gradient rounded-md">
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('article_management.article_management') }}</h1>
+            <a href="{{ route('articles.create') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
                 + {{ __('article_management.new_article') }}
             </a>
         </div>
 
         <!-- Filters -->
-        <div class="mb-6 rounded-lg bg-white p-4 shadow">
+        <div class="mb-6 rounded-lg bg-white p-4 shadow font-roboto-slab">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <!-- Status Filter -->
                 <div>
@@ -49,7 +50,7 @@
         </div>
 
         <!-- Articles Table -->
-        <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div class="overflow-hidden bg-white shadow sm:rounded-lg font-roboto-slab">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>

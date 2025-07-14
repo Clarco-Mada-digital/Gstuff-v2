@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 @section('pageTitle')
     {{ __('comments.comments_management') }}
 @endsection
@@ -7,13 +11,13 @@
 @section('admin-content')
     <div x-data="{ selectedTab: 'approved' }" class="container mx-auto min-h-[100vh] px-4 py-8 pt-16">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-800">{{ __('comments.comments_management') }}</h1>
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('comments.comments_management') }}</h1>
         </div>
 
-        <nav class="bg-gray-50 dark:bg-gray-700">
+        <nav class="bg-gray-50 dark:bg-gray-700 font-roboto-slab">
             <div class="max-w-screen-xl px-4 py-3">
                 <div class="flex items-center">
-                    <ul class="flex flex-row space-x-8 text-sm font-medium">
+                    <ul class="flex flex-row space-x-8 text-sm font-medium font-roboto-slab">
                         <li>
                             <a href="#" @click="selectedTab = 'approved'"
                                 :class="{ 'bg-blue-500 text-white': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
@@ -35,21 +39,21 @@
 
         {{-- Pour les commentaires approuvés --}}
         <div x-show="selectedTab === 'approved'" class="px-4 py-3">
-            <h2 class="mb-5">{{ __('comments.approved_comments_list') }}</h2>
+            <h2 class="mb-5 font-roboto-slab">{{ __('comments.approved_comments_list') }}</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.email') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.content') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.date') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.status') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.actions') }}</th>
                     </tr>
                 </thead>
@@ -70,18 +74,18 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ $commentaire->user->email }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-gray-500">{{ $commentaire->user->email }}</td>
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
                                 <div class="flex flex-wrap gap-1">
-                                    {{ $commentaire->content }}
+                                    {{ Str::limit($commentaire->content, 80, '...') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
                                 <div class="flex flex-wrap gap-1">
                                     {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
                                 @if ($commentaire->read_at)
                                     <p class="text-xs text-green-500">{{ __('comments.read') }} :
                                         {{ $commentaire->read_at }}</p>
@@ -92,7 +96,7 @@
                             <td class="whitespace-nowrap px-6 py-4 font-medium">
                                 <a href="{{ route('commentaires.show', $commentaire->id) }}"
                                     class="mr-3 text-green-600 hover:text-green-900">
-                                    <i class="fas fa-eye"></i> {{ __('comments.view') }}
+                                    <i class="fas fa-eye"></i>
                                 </a>
                                 <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST"
                                     class="inline">
@@ -100,7 +104,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900"
                                         onclick="return confirm('{{ __('comments.delete_confirmation') }}')">
-                                        <i class="fas fa-trash"></i> {{ __('comments.delete') }}
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -127,25 +131,25 @@
 
         {{-- Pour les commentaires non approuvés --}}
         <div x-show="selectedTab === 'non-approved'" class="px-4 py-3">
-            <h2 class="mb-5">{{ __('comments.non_approved_comments_list') }}</h2>
+            <h2 class="mb-5 font-roboto-slab">{{ __('comments.non_approved_comments_list') }}</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.email') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.content') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.date') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.status') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
                             {{ __('comments.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody class="divide-y divide-gray-200 bg-white font-roboto-slab">
                     @foreach ($commentairesNotApproved as $commentaire)
                         <tr class="non-approved-item">
                             <td class="whitespace-nowrap px-6 py-4">
@@ -164,7 +168,7 @@
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ $commentaire->user->email }}</td>
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex flex-wrap gap-1">
-                                    {{ $commentaire->getTranslation('content', session('locale', 'fr')) ?: 'Traduction non disponible' }}
+                                    {{ Str::limit($commentaire->content, 80, '...') }}
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
@@ -183,7 +187,7 @@
                             <td class="whitespace-nowrap px-6 py-4 font-medium">
                                 <a href="{{ route('commentaires.show', $commentaire->id) }}"
                                     class="mr-3 text-green-600 hover:text-green-900">
-                                    <i class="fas fa-eye"></i> {{ __('comments.view') }}
+                                    <i class="fas fa-eye"></i>
                                 </a>
                                 <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST"
                                     class="inline">
@@ -191,7 +195,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900"
                                         onclick="return confirm('{{ __('comments.delete_confirmation') }}')">
-                                        <i class="fas fa-trash"></i> {{ __('comments.delete') }}
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </td>

@@ -5,25 +5,26 @@
 @section('admin-content')
     <div x-data="userManagement()" class="px-4 sm:px-6 md:py-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">{{ __('user_management.user_management') }}</h1>
-            <a href="{{ route('users.create') }}" class="btn-gs-gradient rounded-md font-bold shadow-md">
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('user_management.user_management') }}</h1>
+            <a href="{{ route('users.create') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
                 <i class="fas fa-plus mr-2"></i> {{ __('user_management.new_user') }}
             </a>
         </div>
 
-        <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">   
+            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-fieldBg">
                 <div>
-                    <h2>{{ __('user_management.profile_verification') }}</h2>
+                    <h2 class="text-lg font-bold text-green-gs font-roboto-slab">{{ __('user_management.profile_verification') }}</h2>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <input x-model="searchNotif" type="text" placeholder="{{ __('user_management.search') }}..."
-                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-blue-500 focus:ring-blue-500">
+                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-green-gs focus:ring-green-gs">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                     <select x-model="statusFilter"
-                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-green-gs focus:ring-green-gs">
                         <option value="">{{ __('user_management.all_statuses') }}</option>
                         <option value="verifier">{{ __('user_management.verified') }}</option>
                         <option value="en cours">{{ __('user_management.in_progress') }}</option>
@@ -58,7 +59,7 @@
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <div class="flex items-center">
                                             <div
-                                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
                                                 {{ substr($notification['user']->pseudo ?? ($notification['user']->prenom ?? ($notification['user']->nom_salon ?? '')), 0, 1) }}
                                             </div>
                                             <div class="ml-4">
@@ -134,21 +135,21 @@
             </div>
         </div>
 
-        <div class="mt-5 overflow-hidden rounded-lg bg-white shadow">
+        <div class="mt-5 overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
 
-            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-fieldBg">
                 <div>
-                    <h2>{{ __('user_management.user_list') }}</h2>
+                    <h2 class="text-lg font-bold text-green-gs font-roboto-slab">{{ __('user_management.user_list') }}</h2>
                 </div>
                 <div class="flex items-center space-x-4">
 
                     <div class="relative">
                         <input x-model="search" type="text" placeholder="{{ __('user_management.search') }}..."
-                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-blue-500 focus:ring-blue-500">
+                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-green-gs focus:ring-green-gs">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                     <select x-model="roleFilter"
-                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-green-gs focus:ring-green-gs">
                         <option value="">{{ __('user_management.all_roles') }}</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}">{{ $role->name }}</option>

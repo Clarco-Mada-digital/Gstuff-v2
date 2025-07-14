@@ -3,24 +3,26 @@
 @section('admin-content')
     <div x-data="{ ...taxonomyManager(), showDeleteModal: false, itemToDelete: null, deleteType: null }" x-init="init()" class="container mx-auto px-4 py-8">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold">{{ __('taxonomy.taxonomy_management') }}</h1>
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('taxonomy.taxonomy_management') }}</h1>
             <div class="flex space-x-3">
-                <button @click="openModal('category')" class="btn-gs-gradient rounded-md">
+                <button @click="openModal('category')" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
                     {{ __('taxonomy.new_category') }}
                 </button>
-                <button @click="openModal('tag')" class="btn-gs-gradient rounded-md">
+                <button @click="openModal('tag')" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
                     {{ __('taxonomy.new_tag') }}
                 </button>
             </div>
         </div>
 
         <!-- Tabs Navigation -->
-        <div class="mb-6 border-b border-gray-200">
+        <div class="mb-6 border-b border-gray-200 font-roboto-slab">
             <nav class="-mb-px flex space-x-8">
                 <button @click="activeTab = 'categories'"
                     :class="activeTab === 'categories' ? 'border-blue-500 text-blue-600' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium font-roboto-slab">
                     {{ __('taxonomy.categories') }}
                 </button>
                 <button @click="activeTab = 'tags'"
@@ -33,15 +35,15 @@
         </div>
 
         <!-- Categories Table -->
-        <div x-show="activeTab === 'categories'" x-transition class="overflow-hidden rounded-lg bg-white shadow">
+        <div x-show="activeTab === 'categories'" x-transition class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
                             {{ __('taxonomy.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
                             {{ __('taxonomy.articles') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
                             {{ __('taxonomy.actions') }}</th>
                     </tr>
                 </thead>
@@ -73,11 +75,11 @@
         </div>
 
         <!-- Tags Table -->
-        <div x-show="activeTab === 'tags'" x-transition class="overflow-hidden rounded-lg bg-white shadow">
+        <div x-show="activeTab === 'tags'" x-transition class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
                             {{ __('taxonomy.name') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.articles') }}</th>
