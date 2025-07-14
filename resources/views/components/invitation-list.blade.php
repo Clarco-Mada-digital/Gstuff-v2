@@ -2,7 +2,7 @@
 
 @if ($invitationsRecus->isNotEmpty())
     <div class="flex items-center justify-between gap-5 py-5">
-        <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('invitations.title') }}</h2>
+        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('invitations.title') }}</h2>
         <div class="bg-green-gs h-0.5 flex-1"></div>
     </div>
 
@@ -24,22 +24,23 @@
                             </div>
                             <div>
                                 @if ($type === 'escorte')
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 font-roboto-slab ">
                                        {{ __('invitations.invitation_received.salon', ['name' => $invitationsRecu->inviter->nom_salon ?? $invitationsRecu->inviter->prenom ?? $invitationsRecu->inviter->pseudo]) }}
                                     </p>
                                 @else
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    <p class="text-sm text-gray-500 font-roboto-slab ">
                                        {{ __('invitations.invitation_received.escort', ['name' => $invitationsRecu->inviter->prenom ?? $invitationsRecu->inviter->pseudo]) }}
                                     </p>
                                 @endif
-                                <span class="text-xs text-blue-600 dark:text-blue-500">
+                                <span class="text-xs text-supaGirlRose font-roboto-slab">
                                     {{ \Carbon\Carbon::parse($invitationsRecu->created_at)->translatedFormat('d F Y') }}
                                 </span>
                             </div>
                         </div>
                         <!-- Bouton pour ouvrir le modal et afficher les détails de l'invitation -->
                         <button
-                            class="bg-green-gs flex w-32 cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm text-white hover:bg-green-800 xl:text-base"
+                            class="bg-green-gs flex w-32 cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm text-white hover:bg-green-gs/80
+                            font-roboto-slab "
                             data-modal-target="detailInvitation" data-modal-toggle="detailInvitation"
                             x-on:click="$dispatch('invitation-detail', {
                             id: '{{ $invitationsRecu->id }}',
@@ -69,7 +70,7 @@
         <!-- Modal -->
         <div
             class="z-100 mx-auto h-[30vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[70vw] xl:w-[40vw]">
-            <h2 class="font-dm-serif text-green-gs text-2xl font-bold">{{ __('invitations.detailAll.title') }}</h2>
+            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('invitations.detailAll.title') }}</h2>
 
             <div class="mt-4 flex flex-wrap items-center justify-between">
                 <div class="me-3 h-32 w-32 rounded-xl">
@@ -78,14 +79,14 @@
                         class="h-full w-full rounded-full object-cover object-center" alt="Avatar salon">
                 </div>
                 <div class="w-[50%]">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.nomSalon') }} : <span
-                            class="font-medium text-gray-900 dark:text-white" x-text="nomSalon"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.email') }} : <span
-                            class="font-medium text-gray-900 dark:text-white" x-text="email"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.date') }} : <span
-                            class="font-medium text-gray-900 dark:text-white" x-text="date"></span></p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('invitations.detailAll.type') }} : <span
-                            class="font-medium text-gray-900 dark:text-white" x-text="type"></span></p>
+                    <p class="text-sm text-gray-500 font-roboto-slab  ">{{ __('invitations.detailAll.nomSalon') }} : <span
+                            class="font-medium text-gray-900 " x-text="nomSalon"></span></p>
+                    <p class="text-sm text-gray-500 font-roboto-slab  ">{{ __('invitations.detailAll.email') }} : <span
+                            class="font-medium text-gray-900 " x-text="email"></span></p>
+                    <p class="text-sm text-gray-500 font-roboto-slab  ">{{ __('invitations.detailAll.date') }} : <span
+                            class="font-medium text-gray-900 " x-text="date"></span></p>
+                    <!-- <p class="text-sm text-gray-500  ">{{ __('invitations.detailAll.type') }} : <span
+                            class="font-medium text-gray-900 " x-text="type"></span></p> -->
                 </div>
             </div>
             <div class="flex items-center justify-end gap-4">
@@ -93,7 +94,7 @@
                 <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST"
                     class="inline">
                     @csrf
-                    <button class="rounded-sm bg-red-300 px-4 py-2 text-black hover:bg-red-400">
+                    <button class="cursor-pointer rounded-sm bg-white px-4 py-2 text-green-gs hover:bg-fieldBg font-roboto-slab shadow-sm">
                         {{ __('invitations.detailAll.action.decline') }}
                     </button>
                 </form>
@@ -101,7 +102,7 @@
                 <form :action="`{{ route('accepter.invitation', ':id') }}`.replace(':id', id)" method="POST"
                     class="inline">
                     @csrf
-                    <button class="btn-gs-gradient rounded-sm px-4 py-2 text-black hover:bg-green-700">
+                    <button class="cursor-pointer rounded-sm bg-green-gs px-4 py-2 text-white font-roboto-slab hover:bg-green-gs/80">
                         {{ __('invitations.detailAll.action.accept') }}
                     </button>
                 </form>
