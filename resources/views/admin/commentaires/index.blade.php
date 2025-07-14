@@ -20,15 +20,15 @@
                     <ul class="flex flex-row space-x-8 text-sm font-medium font-roboto-slab">
                         <li>
                             <a href="#" @click="selectedTab = 'approved'"
-                                :class="{ 'bg-blue-500 text-white': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
-                                class="flex items-center rounded px-4 py-2 hover:bg-blue-300">
+                                :class="{ 'bg-supaGirlRose text-green-gs': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
+                                class="flex items-center rounded px-4 py-2 hover:bg-supaGirlRose">
                                 <i class="fas fa-check-circle mr-2"></i> {{ __('comments.approved') }}
                             </a>
                         </li>
                         <li>
                             <a href="#" @click="selectedTab = 'non-approved'"
-                                :class="{ 'bg-blue-500 text-white': selectedTab === 'non-approved', 'text-gray-900 dark:text-white': selectedTab !== 'non-approved' }"
-                                class="flex items-center rounded px-4 py-2 hover:bg-blue-300">
+                                :class="{ 'bg-supaGirlRose text-green-gs': selectedTab === 'non-approved', 'text-gray-900 dark:text-white': selectedTab !== 'non-approved' }"
+                                class="flex items-center rounded px-4 py-2 hover:bg-supaGirlRose">
                                 <i class="fas fa-times-circle mr-2"></i> {{ __('comments.non_approved') }}
                             </a>
                         </li>
@@ -64,28 +64,28 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-green-gs text-sm font-roboto-slab">
                                         {{ substr($commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon), 0, 1) }}
                                     </div>
                                     <div class="ml-4">
-                                        <div class="font-medium text-gray-900">
+                                        <div class="font-medium text-gray-900 font-roboto-slab text-sm">
                                             {{ $commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-gray-500">{{ $commentaire->user->email }}</td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
-                                <div class="flex flex-wrap gap-1">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-gray-500 text-sm">{{ $commentaire->user->email }}</td>
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
+                                <div class="flex flex-wrap gap-1 text-sm">
                                     {{ Str::limit($commentaire->content, 80, '...') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
-                                <div class="flex flex-wrap gap-1">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
+                                <div class="flex flex-wrap gap-1 text-sm">
                                     {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab">
+                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
                                 @if ($commentaire->read_at)
                                     <p class="text-xs text-green-500">{{ __('comments.read') }} :
                                         {{ $commentaire->read_at }}</p>
@@ -155,28 +155,28 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-green-gs text-sm font-roboto-slab">
                                         {{ substr($commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon), 0, 1) }}
                                     </div>
                                     <div class="ml-4">
-                                        <div class="font-medium text-gray-900">
+                                        <div class="font-medium text-gray-900 font-roboto-slab text-sm">
                                             {{ $commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ $commentaire->user->email }}</td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <div class="flex flex-wrap gap-1">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500 text-sm">{{ $commentaire->user->email }}</td>
+                            <td class="whitespace-nowrap px-6 py-4 text-sm">
+                                <div class="flex flex-wrap gap-1 text-sm">
                                     {{ Str::limit($commentaire->content, 80, '...') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                                <div class="flex flex-wrap gap-1">
+                            <td class="whitespace-nowrap px-6 py-4 text-sm">
+                                <div class="flex flex-wrap gap-1 text-sm">
                                     {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            <td class="whitespace-nowrap px-6 py-4 text-sm">
                                 @if ($commentaire->read_at)
                                     <p class="text-xs text-green-500">{{ __('comments.read') }} :
                                         {{ $commentaire->read_at }}</p>
@@ -184,7 +184,7 @@
                                     <p class="text-xs text-red-500">{{ __('comments.not_read') }}</p>
                                 @endif
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-sm">
                                 <a href="{{ route('commentaires.show', $commentaire->id) }}"
                                     class="mr-3 text-green-600 hover:text-green-900">
                                     <i class="fas fa-eye"></i>
