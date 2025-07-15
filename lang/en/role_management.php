@@ -13,4 +13,5 @@ return [
     'role_name' => 'Role Name',
     'cancel' => 'Cancel',
     'create' => 'Create',
+    'update' => 'Update',
 ];

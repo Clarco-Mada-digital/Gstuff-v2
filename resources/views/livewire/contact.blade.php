@@ -11,6 +11,7 @@
 
             <x-form.input-field 
                     name="name"
+                    wire:model="name"
                     :label="__('contact.name')"
                     :value="old('name')"
                     autocomplete="name"
@@ -23,6 +24,7 @@
                 <x-form.input-field 
                     name="email"
                     type="email"
+                    wire:model="email"
                     :label="__('contact.email')"
                     :value="old('email')"
                     autocomplete="email"
@@ -39,6 +41,7 @@
 
         <x-form.input-field 
                     name="subject"
+                    wire:model="subject"
                     :label="__('contact.subject')"
                     :value="old('subject')"
                     autocomplete="subject"

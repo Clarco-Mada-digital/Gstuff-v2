@@ -12,4 +12,5 @@ return [
     'role_name' => 'Nom du rôle',
     'cancel' => 'Annuler',
     'create' => 'Créer',
+    'update' => 'Mettre à jour',
 ];

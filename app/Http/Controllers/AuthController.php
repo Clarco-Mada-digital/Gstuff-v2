@@ -195,7 +195,7 @@ class AuthController extends Controller
         $user->save();
 
         // Envoyer l'email de réinitialisation (vous devrez configurer Mailtrap ou un service d'email réel)
-        // Mail::to($user->email)->send(new PasswordResetMail($user, $token));
+        Mail::to($user->email)->send(new PasswordResetMail($user, $token));
 
         return response()->json([
             'success' => true, 
