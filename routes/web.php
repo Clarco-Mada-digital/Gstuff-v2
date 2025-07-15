@@ -191,6 +191,9 @@ Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])
 Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
 
 
+
+
+
 // ============================== Routes Profile ===========================================
 // Profile
 Route::get('/profile', [AuthController::class, 'profile'])->name('profile');

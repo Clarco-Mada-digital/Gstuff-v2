@@ -483,10 +483,10 @@
                             class="space-y-4" action="{{ route('reset_password') }}" method="POST">
                             @csrf
                             <div>
-                                <label for="res_email"
+                                <label for="emailReset"
                                     class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('login_form.email') }}
                                     *</label>
-                                <input x-model="emailReset" type="email" name="res_email" id="res_email"
+                                <input x-model="emailReset" type="email" name="emailReset" id="emailReset"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
                                     placeholder=" " required autofocus />
                             </div>
@@ -653,6 +653,7 @@
                     this.message = "";
                     if (reset) {
                         Resetform = document.getElementById('resetPwdForm');
+                        console.log("emailreset", this.emailReset);
                         try {
                             const response = await fetch(Resetform.action, {
                                 method: Resetform.method,

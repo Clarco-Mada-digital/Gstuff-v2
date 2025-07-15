@@ -182,25 +182,28 @@ class AuthController extends Controller
 
     public function sendPasswordResetLink(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:users,email'
-        ], [
-            'email.exists' => __('auth.email_not_found')
-        ]);
 
-        $user = User::where('email', $request->email)->first();
-        $token = Str::random(60); // Générer un token unique
+       
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => __('auth.user_not_found')
+            ], 404);
+        }
+        $token = Str::random(60);
         $user->password_reset_token = $token;
-        $user->password_reset_expiry = now()->addHour(); // Token expire dans 1 heure
+        $user->password_reset_expiry = now()->addHour();
         $user->save();
 
-        // Envoyer l'email de réinitialisation (vous devrez configurer Mailtrap ou un service d'email réel)
+        // Temporairement désactivé pour le débogage
         Mail::to($user->email)->send(new PasswordResetMail($user, $token));
-
         return response()->json([
-            'success' => true, 
+            'success' => true,
             'message' => __('auth.reset_link_sent')
         ]);
+        
     }
 
     public function showPasswordResetForm(string $token)
