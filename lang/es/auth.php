@@ -24,11 +24,21 @@ return [
     
     // Password Reset
     'password' => [
-        'reset' => '¡Su contraseña ha sido restablecida!',
-        'sent' => '¡Hemos enviado por correo electrónico el enlace para restablecer su contraseña!',
-        'throttled' => 'Por favor, espere antes de volver a intentarlo.',
-        'token' => 'Este token de restablecimiento de contraseña no es válido.',
+        'reset' => '¡Tu contraseña ha sido restablecida!',
+        'sent' => '¡Hemos enviado un enlace para restablecer tu contraseña a tu correo electrónico!',
+        'throttled' => 'Por favor, espera antes de volver a intentarlo.',
+        'token' => 'Este token de restablecimiento de contraseña es inválido.',
         'user' => 'No podemos encontrar un usuario con esa dirección de correo electrónico.',
+        'reset_password' => 'Restablecer contraseña',
+        'reset_password_instructions' => 'Introduce tu nueva contraseña para restablecer tu cuenta.',
+        'email' => 'Dirección de correo electrónico',
+        'password' => 'Nueva contraseña',
+        'confirm_password' => 'Confirmar contraseña',
+        'reset_password_button' => 'Restablecer contraseña',
+        'user_not_found' => 'No se encontró ningún usuario con esta dirección de correo electrónico.',
+        'reset_link_sent' => 'Se ha enviado un enlace de restablecimiento a tu dirección de correo electrónico.',
+        'invalid_token' => 'El token de restablecimiento de contraseña es inválido o ha expirado.',
+        'password_reset_success' => '¡Tu contraseña ha sido restablecida con éxito!',
     ],
     
     // Email Verification

@@ -28,7 +28,17 @@ return [
         'sent' => 'We have emailed your password reset link!',
         'throttled' => 'Please wait before retrying.',
         'token' => 'This password reset token is invalid.',
-        'user' => 'We can\'t find a user with that email address.',
+        'user' => 'We can\'t find a user with that e-mail address.',
+        'reset_password' => 'Reset Password',
+        'reset_password_instructions' => 'Enter your new password to reset your account.',
+        'email' => 'Email Address',
+        'password' => 'New Password',
+        'confirm_password' => 'Confirm Password',
+        'reset_password_button' => 'Reset Password',
+        'user_not_found' => 'No user found with this email address.',
+        'reset_link_sent' => 'A reset link has been sent to your email address.',
+        'invalid_token' => 'Password reset token is invalid or expired.',
+        'password_reset_success' => 'Your password has been successfully reset!',
     ],
     
     // Email Verification

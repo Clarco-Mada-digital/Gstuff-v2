@@ -2,7 +2,7 @@
 
 @php use Carbon\Carbon; @endphp
 
-@section('pageTitle', __('auth.reset_password'))
+@section('pageTitle', __('auth.password.reset_password'))
 
 @section('content')
 <div>
@@ -26,13 +26,13 @@
             @endif
 
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-amber-50 to-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg space-y-6">
+    <div class="max-w-lg w-full bg-white p-8 rounded-xl shadow-lg space-y-6">
         <div class="text-center">
             <h2 class="text-3xl font-roboto-slab text-green-gs">
-                {{ is_string(__('auth.reset_password')) ? __('auth.reset_password') : 'Reset Password' }}
+                {{ __('auth.password.reset_password') }}
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                {{ __('auth.reset_password_instructions') }}
+                {{ __('auth.password.reset_password_instructions') }}
             </p>
         </div>
         <form class="mt-8 space-y-6" action="{{ route('password.reset') }}" method="POST">
@@ -42,22 +42,22 @@
            
             <div class="rounded-md shadow-sm space-y-4">
                 <div>
-                    <label for="email" class="block text-sm font-roboto-slab text-green-gs">{{ is_string(__('auth.email')) ? __('auth.email') : 'Email' }}</label>
+                    <label for="email" class="block text-sm font-roboto-slab text-green-gs">{{ __('auth.password.email') }}</label>
                     <input id="email" name="email" type="email" autocomplete="email" required
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-gs focus:border-green-gs sm:text-sm"
-                           placeholder="{{ is_string(__('auth.email')) ? __('auth.email') : 'Email' }}">
+                           placeholder="{{ __('auth.password.email') }}">
                 </div>
                 <div>
-                    <label for="password" class="block text-sm font-roboto-slab text-green-gs">{{ is_string(__('auth.password')) ? __('auth.password') : 'Password' }}</label>
+                    <label for="password" class="block text-sm font-roboto-slab text-green-gs">{{ __('auth.password.password') }}</label>
                     <input id="password" name="password" type="password" autocomplete="new-password" required
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-gs focus:border-green-gs sm:text-sm"
-                           placeholder="{{ is_string(__('auth.password')) ? __('auth.password') : 'Password' }}">
+                           placeholder="{{ __('auth.password.password') }}">
                 </div>
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-roboto-slab text-green-gs">{{ is_string(__('auth.confirm_password')) ? __('auth.confirm_password') : 'Confirm Password' }}</label>
+                    <label for="password_confirmation" class="block text-sm font-roboto-slab text-green-gs">{{ __('auth.password.confirm_password') }}</label>
                     <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-gs focus:border-green-gs sm:text-sm"
-                           placeholder="{{ is_string(__('auth.confirm_password')) ? __('auth.confirm_password') : 'Confirm Password' }}">
+                           placeholder="{{ __('auth.password.confirm_password') }}">
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                 <button type="submit"
                         class=" cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-md
                          shadow-sm text-sm font-roboto-slab text-white bg-green-gs hover:bg-green-gs/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-gs transition duration-150 ease-in-out">
-                    {{ is_string(__('auth.reset_password')) ? __('auth.reset_password') : 'Reset Password' }}
+                    {{ __('auth.password.reset_password_button') }}
                 </button>
             </div>
         </form>

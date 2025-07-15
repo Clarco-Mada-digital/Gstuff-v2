@@ -29,6 +29,16 @@ return [
         'throttled' => 'Veuillez patienter avant de réessayer.',
         'token' => 'Ce jeton de réinitialisation est invalide.',
         'user' => 'Aucun utilisateur trouvé avec cette adresse email.',
+        'reset_password' => 'Réinitialiser le mot de passe',
+        'reset_password_instructions' => 'Entrez votre nouveau mot de passe pour réinitialiser votre compte.',
+        'email' => 'Adresse email',
+        'password' => 'Nouveau mot de passe',
+        'confirm_password' => 'Confirmer le mot de passe',
+        'reset_password_button' => 'Réinitialiser le mot de passe',
+        'user_not_found' => 'Aucun utilisateur trouvé avec cette adresse email.',
+        'reset_link_sent' => 'Un lien de réinitialisation a été envoyé à votre adresse email.',
+        'invalid_token' => 'Token de réinitialisation invalide ou expiré.',
+        'password_reset_success' => 'Votre mot de passe a été réinitialisé avec succès !',
     ],
     
     // Email Verification

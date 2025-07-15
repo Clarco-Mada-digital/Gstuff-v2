@@ -25,10 +25,20 @@ return [
     // Password Reset
     'password' => [
         'reset' => 'Ihr Passwort wurde zurückgesetzt!',
-        'sent' => 'Wir haben Ihnen einen Link zum Zurücksetzen des Passworts per E-Mail gesendet!',
+        'sent' => 'Wir haben Ihnen einen Link zur Zurücksetzung des Passworts per E-Mail gesendet!',
         'throttled' => 'Bitte warten Sie, bevor Sie es erneut versuchen.',
-        'token' => 'Dieser Token zum Zurücksetzen des Passworts ist ungültig.',
+        'token' => 'Dieses Token zur Zurücksetzung des Passworts ist ungültig.',
         'user' => 'Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.',
+        'reset_password' => 'Passwort zurücksetzen',
+        'reset_password_instructions' => 'Geben Sie Ihr neues Passwort ein, um Ihr Konto zurückzusetzen.',
+        'email' => 'E-Mail-Adresse',
+        'password' => 'Neues Passwort',
+        'confirm_password' => 'Passwort bestätigen',
+        'reset_password_button' => 'Passwort zurücksetzen',
+        'user_not_found' => 'Kein Benutzer mit dieser E-Mail-Adresse gefunden.',
+        'reset_link_sent' => 'Ein Zurücksetzungslink wurde an Ihre E-Mail-Adresse gesendet.',
+        'invalid_token' => 'Das Token zur Zurücksetzung des Passworts ist ungültig oder abgelaufen.',
+        'password_reset_success' => 'Ihr Passwort wurde erfolgreich zurückgesetzt!',
     ],
     
     // Email Verification
