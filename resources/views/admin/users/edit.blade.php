@@ -3,10 +3,11 @@
 @section('title', __('users.edit_user'))
 
 @section('admin-content')
-    <div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-6 lg:px-8 font-roboto-slab">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-gray-900">{{ __('users.edit_user') }}</h1>
-            <a href="{{ route('users.index') }}" class="btn-secondary">
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('users.edit_user') }}</h1>
+            <a href="{{ route('users.index') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
                 <i class="fas fa-arrow-left mr-2"></i> {{ __('users.back') }}
             </a>
         </div>
@@ -18,7 +19,7 @@
             <div class="mb-6 rounded-lg bg-white p-6 shadow">
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                        <label for="pseudo" class="mb-1 block text-sm font-medium text-gray-700">
+                        <label for="pseudo" class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">
                             {{ __('users.pseudo') }} *
                         </label>
                         <input type="text" name="pseudo" id="pseudo" value="{{ old('pseudo', $user->pseudo) }}"
@@ -30,7 +31,7 @@
                     </div>
 
                     <div>
-                        <label for="email" class="mb-1 block text-sm font-medium text-gray-700">
+                        <label for="email" class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">
                             {{ __('users.email') }} *
                         </label>
                         <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
@@ -42,7 +43,7 @@
                     </div>
 
                     <div>
-                        <label for="password" class="mb-1 block text-sm font-medium text-gray-700">
+                        <label for="password" class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">
                             {{ __('users.new_password') }}
                         </label>
                         <input type="password" name="password" id="password"
@@ -55,7 +56,7 @@
                     </div>
 
                     <div>
-                        <label for="password_confirmation" class="mb-1 block text-sm font-medium text-gray-700">
+                        <label for="password_confirmation" class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">
                             {{ __('users.confirm_password') }}
                         </label>
                         <input type="password" name="password_confirmation" id="password_confirmation"
@@ -66,14 +67,14 @@
             </div>
 
             <div class="mb-6 rounded-lg bg-white p-6 shadow">
-                <h2 class="mb-4 text-lg font-medium text-gray-900">{{ __('users.roles') }}</h2>
+                <h2 class="mb-4 text-lg font-medium text-green-gs font-roboto-slab">{{ __('users.roles') }}</h2>
                 <div class="space-y-3">
                     @foreach ($roles as $role)
                         <div class="flex items-center">
                             <input type="checkbox" name="roles[]" id="role-{{ $role->id }}" value="{{ $role->id }}"
                                 class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                 {{ in_array($role->id, $user->roles->pluck('id')->toArray()) ? 'checked' : '' }}>
-                            <label for="role-{{ $role->id }}" class="ml-3 block text-sm font-medium text-gray-700">
+                            <label for="role-{{ $role->id }}" class="ml-3 block text-sm font-medium text-green-gs font-roboto-slab">
                                 <span class="bg-{{ $role->color }}-100 text-{{ $role->color }}-800 rounded-full px-2 py-1 text-xs">
                                     {{ $role->name }}
                                 </span>
@@ -89,11 +90,11 @@
 
             <div class="flex justify-end space-x-3">
                 <a href="{{ route('users.index') }}"
-                    class="rounded-md bg-gray-200 px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    class="rounded-md bg-gray-200 px-4 py-2 text-green-gs font-roboto-slab shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2">
                     {{ __('users.cancel') }}
                 </a>
                 <button type="submit"
-                    class="btn-gs-gradient rounded-md px-4 py-2 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    class="bg-green-gs text-white px-4 py-2 font-roboto-slab rounded-md shadow-sm hover:bg-green-gs/80 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2">
                     <i class="fas fa-save mr-2"></i> {{ __('users.save') }}
                 </button>
             </div>

@@ -46,8 +46,10 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                                <a href="{{ route('roles.edit', $role) }}"
-                                    class="mr-3 text-green-gs hover:text-white hover:bg-green-gs/80">{{ __('role_management.edit') }}</a>
+                            <a href="{{ route('roles.edit', $role->id) }}" class="mr-3 text-green-gs hover:text-white hover:bg-green-gs/80">
+                                {{ __('role_management.edit') }}
+                            </a>
+
                                 @if ($role->name !== 'admin')
                                     <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline">
                                         @csrf

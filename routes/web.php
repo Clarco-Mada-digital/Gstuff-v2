@@ -87,6 +87,16 @@ Route::get('/static-pages', [StaticPageController::class, 'index'])->name('stati
 // Roles
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
+
+
+// Route::put('/roles/{role:id}', [RoleController::class, 'update'])->name('roles.edit');
+// Route::get('/roles/{role}/edit', [RoleController::class, 'editRole'])->name('roles.editRoleview');
+Route::get('/roles/{role}/edit', [RoleController::class, 'editRole'])->name('roles.edit');
+
+Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+
+
+
 Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
 Route::delete('/roles-destroy/{role:id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 

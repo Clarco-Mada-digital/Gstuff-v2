@@ -267,7 +267,10 @@
                 cancelButtonText: '{{ __("user_management.cancel") }}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${userId}`).submit();
+                    const form = document.getElementById(`delete-form-${userId}`);
+                    form.submit();
+                    console.log('Deleted' , userId);
+                    console.log('Deleted' , form);
                 }
             });
         }

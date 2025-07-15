@@ -204,6 +204,9 @@ class UserController extends Controller
             return back()->with('error', __('users.cannot_delete_admin'));
         }
 
+        // Delete associated stories first
+        $user->stories()->delete();
+        
         $user->delete();
         
         return redirect()->route('users.index')

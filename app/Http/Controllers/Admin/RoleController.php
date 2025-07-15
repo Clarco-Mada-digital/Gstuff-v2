@@ -83,24 +83,32 @@ class RoleController extends Controller
         //
     }
 
+    public function editRole($id)
+    {
+        $this->authorize('manage roles');
+        
+        $role = Role::findOrFail($id)->load('permissions');
+        $permissions = Permission::all();
+        
+        return view('admin.roles.editRole', compact('role', 'permissions'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Role $role)
     {
+        \Log::info('Updating role', ['role_id' => $role->id, 'role_name' => $role->name]);
+        \Log::info('Request data', ['all' => $request->all()]);
         $this->authorize('manage roles');
 
         // Empêcher la modification du rôle admin sauf par un admin
         if ($role->name === 'admin' && !auth()->user()->hasRole('admin')) {
-            return response()->json([
-                'success' => false,
-                'message' => __('roles.admin_role_protected')
-            ], 403);
+            return redirect()->route('roles.index')->with('error', __('roles.admin_role_protected'));
         }
 
         $validated = $request->validate([
             'name' => [
-                'sometimes',
                 'required',
                 'string',
                 'max:255',
@@ -125,11 +133,7 @@ class RoleController extends Controller
             $role->syncPermissions($validated['permissions']);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => __('roles.role_updated'),
-            'role' => $role->load('permissions')
-        ]);
+        return redirect()->route('roles.index')->with('success', __('roles.role_updated'));
     }
 
     /**
