@@ -213,7 +213,7 @@ class AuthController extends Controller
                      ->first();
 
         if (!$user) {
-            return redirect()->route('password.request')
+            return redirect()->route('home')
                 ->withErrors(['token' => __('auth.invalid_token')]);
         }
 
@@ -234,7 +234,8 @@ class AuthController extends Controller
                      ->first();
 
         if (!$user) {
-            return back()->withInput()->withErrors(['token' => 'Token de réinitialisation invalide ou expiré.']);
+            return redirect()->route('home')
+                ->withErrors(['token' => __('auth.invalid_token')]);
         }
 
         $user->password = Hash::make($request->password);
@@ -242,7 +243,8 @@ class AuthController extends Controller
         $user->password_reset_expiry = null;
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Mot de passe réinitialisé avec succès. Veuillez vous connecter avec votre nouveau mot de passe.');
+        return redirect()->route('home')
+            ->with('success', __('auth.password_reset_success'));
     }
 
 

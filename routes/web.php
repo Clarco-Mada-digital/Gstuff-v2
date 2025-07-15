@@ -188,6 +188,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
 Route::get('/escort-register', function(){ $genres = Genre::all(); return view('auth.escort_register', compact('genres'));})->name('escort_register');
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
+Route::get('/reset-password/{token}', [AuthController::class, 'showPasswordResetForm'])->name('password.reset.form');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::get('/salon-register', function(){return view('auth.salon_register');})->name('salon_register');
 
 
