@@ -42,17 +42,32 @@ class ArticleController extends Controller
 
     public function updateStatus(Article $article)
     {
-        $article->update([
-            'is_published' => !$article->is_published
-        ]);
+        try {
+            if (!auth()->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthenticated.'
+                ], 401);
+            }
+            
+            $article->update([
+                'is_published' => !$article->is_published
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'is_published' => $article->is_published,
-            'message' => $article->is_published 
-                ? __('article.published')
-                : __('article.unpublished')
-        ]);
+            return response()->json([
+                'success' => true,
+                'is_published' => $article->is_published,
+                'message' => $article->is_published 
+                    ? __('article.published')
+                    : __('article.unpublished')
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error updating article status: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the article status.'
+            ], 500);
+        }
     }
 
     public function indexJson()

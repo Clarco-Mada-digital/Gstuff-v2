@@ -302,20 +302,34 @@
                                 method: 'PATCH',
                                 headers: {
                                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                    'Accept': 'application/json'
-                                }
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                credentials: 'same-origin'
                             });
 
-                            const data = await response.json();
+                            if (!response.ok) {
+                                const errorData = await response.json().catch(() => ({}));
+                                throw new Error(errorData.message || 'Erreur lors de la mise à jour du statut');
+                            }
 
-                            if (response.ok) {
+                            const data = await response.json();
+                            
+                            if (data.success) {
                                 article.is_published = data.is_published;
                                 this.showToast('success', data.message);
                             } else {
                                 throw new Error(data.message || 'Erreur lors de la mise à jour');
                             }
                         } catch (error) {
-                            this.showToast('error', error.message);
+                            console.error('Error toggling article status:', error);
+                            this.showToast('error', error.message || 'Une erreur est survenue. Veuillez réessayer.');
+                            
+                            // Force reload if unauthorized to refresh auth state
+                            if (error.message.includes('Unauthenticated') || error.message.includes('401')) {
+                                window.location.reload();
+                            }
                         }
                     },
 
