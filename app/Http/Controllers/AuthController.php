@@ -189,7 +189,7 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => __('auth.user_not_found')
+                'message' => __('auth.password.user_not_found')
             ], 404);
         }
         $token = Str::random(60);

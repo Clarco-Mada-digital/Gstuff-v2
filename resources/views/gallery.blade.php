@@ -344,25 +344,25 @@
                         </div>
                     </div>
 
-                    <div class="w-full h-[348px] grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    <div class="w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($publicGallery as $media)
                             @php
                                 $userGenre = $media->user->genre->name['fr'] ?? null;
                             @endphp
                             <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
-                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl h-full flex flex-col">
+                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl flex flex-col  ">
                                 @if ($media->type === 'image')
-                                    <div class="flex-1 overflow-hidden">
+                                    <div class="flex-1 overflow-hidden h-[348px] ">
                                         <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
                                             src="{{ asset('storage/' . $media->path) }}" 
-                                            class="h-full w-full object-cover object-center" 
+                                            class="h-[348px] w-full object-cover object-center" 
                                             alt="media">
                                     </div>
                                 @elseif($media->type === 'video')
-                                    <div class="relative flex-1">
+                                    <div class="relative flex-1 h-full w-full">
                                         <video @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')" 
                                             muted autoplay loop
-                                            class="h-full w-full object-cover object-center brightness-75">
+                                            class="h-[348px] w-full object-cover object-center brightness-75">
                                             <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                         </video>
                                         <div class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white">
