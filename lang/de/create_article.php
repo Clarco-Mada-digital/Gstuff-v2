@@ -22,4 +22,5 @@ return [
     'tag_name' => 'Name des Tags',
     'cancel' => 'Abbrechen',
     'oops' => 'Hoppla',
+    'back' => 'Zurück',
 ];

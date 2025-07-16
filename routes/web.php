@@ -138,8 +138,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
     Route::post('/articles/update/{article:id}', [ArticleController::class, 'update'])->name('articles.update');
     Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
 
+    // Route::get('/articles/{article:id}', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::get('/articles/{article:id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     // Catégories
     Route::post('categories', [AdminTaxonomyController::class, 'storeCategory'])->name('categories.store');
     Route::put('categories/{category}', [AdminTaxonomyController::class, 'updateCategory'])->name('categories.update');

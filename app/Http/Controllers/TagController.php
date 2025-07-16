@@ -45,7 +45,8 @@ class TagController extends Controller
             'name' => $validated['name'],
             'slug' => Str::slug($validated['name'])
         ]);
-        
+
+    
         return response()->json([
             'tag' => $tag,
             'message' => __('tag.success.tag_created'),

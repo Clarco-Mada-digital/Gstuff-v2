@@ -22,4 +22,5 @@ return [
     'tag_name' => 'Nombre de la etiqueta',
     'cancel' => 'Cancelar',
     'oops' => 'Oops',
+    'back' => 'Volver',
 ];

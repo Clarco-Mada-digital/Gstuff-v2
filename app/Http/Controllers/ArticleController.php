@@ -161,7 +161,7 @@ class ArticleController extends Controller
             }
 
             // Retour à la liste des articles avec succès
-            return redirect()->route('articles.index')
+            return redirect()->route('articles.admin')
                             ->with('success', __('article.stored'));
         } catch (\Exception $e) {
             // Gestion des erreurs en cas de problème lors de la création
@@ -258,7 +258,7 @@ class ArticleController extends Controller
             }
 
             // Retour à la liste des articles avec succès
-            return redirect()->route('glossaires.show', ['article' => $article->slug])
+            return redirect()->route('articles.admin')
                             ->with('success', __('article.updated'));
         } catch (\Exception $e) {
             // Gestion des erreurs en cas de problème lors de la mise à jour

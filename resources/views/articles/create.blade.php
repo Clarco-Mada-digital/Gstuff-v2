@@ -5,8 +5,14 @@
 @endsection
 
 @section('admin-content')
-    <div x-data="articleForm()" x-init="init()" class="mx-auto max-w-4xl px-4 py-8" x-cloak>
-        <h1 class="mb-6 text-3xl font-bold text-green-gs font-roboto-slab">{{ __('create_article.create_new_article') }}</h1>
+    <div x-data="articleForm()" x-init="init()" class="mx-auto max-w-4xl px-4 py-8 font-roboto-slab" x-cloak>
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('create_article.create_new_article') }}</h1>
+            <a href="{{ route('articles.admin') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
+            rounded-md  shadow-md">
+                <i class="fas fa-arrow-left mr-2"></i> {{ __('create_article.back') }}
+            </a>
+        </div>
 
         <form action="{{ route('articles.store') }}" method="POST" class="rounded-lg bg-white p-6 shadow-md">
             @csrf
@@ -18,7 +24,7 @@
                 <label for="title"
                     class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.title') }}*</label>
                 <input type="text" name="title" id="title" x-model="title" x-on:focusout="generateSlug()"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
                     required>
                 @error('title')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -202,7 +208,7 @@
                         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
                         <template x-for="tag in tagSuggestions" :key="tag.id">
                             <div x-on:click="addTag(tag)"
-                                class="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-blue-50">
+                                class="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-green-gs">
                                 <span x-text="tag.name"></span>
                                 <span class="text-xs text-gray-500">{{ __('create_article.exists') }}</span>
                             </div>
@@ -212,13 +218,13 @@
 
                 <!-- Option pour créer un nouveau tag -->
                 <div x-show="showCreateTagOption" x-transition class="mb-3">
-                    <div class="flex items-center justify-between rounded-md bg-blue-50 p-3">
+                    <div class="flex items-center justify-between rounded-md bg-gray-50 p-3">
                         <span class="text-sm">
                             {{ __('create_article.tag_does_not_exist') }}
                             "<span x-text="tagSearch" class="font-medium"></span>"
                         </span>
                         <button type="button" x-on:click="openCreateTagModal()"
-                            class="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
+                            class="rounded bg-green-gs px-3 py-1 text-sm text-white hover:bg-green-gs/80">
                             {{ __('create_article.create_tag') }}
                         </button>
                     </div>
@@ -227,10 +233,10 @@
                 <!-- Tags sélectionnés -->
                 <div class="flex flex-wrap gap-2">
                     <template x-for="tag in selectedTags" :key="tag.id">
-                        <div class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800">
+                        <div class="inline-flex items-center rounded-full bg-supaGirlRosePastel px-3 py-1 text-sm text-green-gs font-roboto-slab">
                             <span x-text="tag.name"></span>
                             <button type="button" x-on:click="removeTag(tag.id)"
-                                class="ml-2 text-blue-600 hover:text-blue-800">
+                                class="ml-2 text-green-gs hover:text-green-gs">
                                 &times;
                             </button>
                             <input type="hidden" name="tags[]" x-bind:value="tag.id">
@@ -269,15 +275,17 @@
             </div>
         </form>
 
+        <!-- icici -->
+
         <!-- Modale de création de tag -->
         <div x-show="showTagModal" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div x-on:click.away="closeCreateTagModal" class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h3 class="mb-4 text-lg font-medium text-gray-900">{{ __('create_article.create_new_tag') }}</h3>
+                <h3 class="mb-4 text-lg font-medium text-green-gs font-roboto-slab">{{ __('create_article.create_new_tag') }}</h3>
 
                 <div class="mb-4">
                     <label for="newTagName"
-                        class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.tag_name') }}*</label>
+                        class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.tag_name') }}*</label>
                     <input type="text" id="newTagName" x-model="tagSearch"
                         class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                         required>
@@ -288,7 +296,7 @@
                         class="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50">
                         {{ __('create_article.cancel') }}
                     </button>
-                    <button type="button" x-on:click="createNewTag" class="btn-gs-gradient rounded-md">
+                    <button type="button" x-on:click="createNewTag" class="rounded-md bg-green-gs text-white px-4 py-2 text-sm font-roboto-slab hover:bg-white hover:text-green-gs transition">
                         {{ __('create_article.create_tag') }}
                     </button>
                 </div>
@@ -507,6 +515,7 @@
                         });
 
                         const data = await response.json();
+                        console.log("ici",data);
 
                         if (!response.ok) {
                             if (response.status === 422 && data.errors) {
@@ -518,10 +527,10 @@
                         // const newTag = await response.json();
 
                         // Ajouter le nouveau tag aux tags disponibles
-                        this.availableTags.push(data);
+                        this.availableTags.push(data.tag);
 
                         // Sélectionner le nouveau tag
-                        this.addTag(data);
+                        this.addTag(data.tag);
 
                         // Fermer la modale
                         this.closeCreateTagModal();

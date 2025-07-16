@@ -120,7 +120,7 @@
                             <td class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                 <div class="flex justify-end space-x-2">
                                     <!-- Bouton Éditer -->
-                                    <a :href="`{{ route('articles.index') }}/${article.id}`"
+                                    <a :href="`/admin/articles/${article.id}/edit`"
                                         class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-1.5 text-xs font-medium text-white shadow-sm transition-colors duration-150 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-4 w-4" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -184,7 +184,7 @@
                         <h3 class="mb-4 text-lg font-medium leading-6 text-gray-900">
                             {{ __('article_management.confirm_deletion') }}</h3>
                         <p class="text-gray-600">
-                            {{ __('article_management.confirm_deletion_message', ['title' => '<span x-text="selectedArticle?.title"></span>']) }}
+                            {{ __('article_management.confirm_deletion_message', ['title' => ' ']) }}
                         </p>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
