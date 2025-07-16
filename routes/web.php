@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StaticPageController;
 use App\Http\Controllers\Admin\TaxonomyController as AdminTaxonomyController;
+use App\Http\Controllers\Admin\TaxonomyController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
@@ -153,7 +154,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
     Route::put('tags/{id}', [TagController::class, 'update'])->name('tags.update');
     Route::delete('tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
-    Route::get('fetchTags', [TagController::class, 'fetchTags'])->name('tags.fetch');
+    Route::get('fetchTags', [AdminTaxonomyController::class, 'fetchTags'])->name('tags.fetch');
     
     // Recherche taxonomy
     Route::get('taxonomy', [AdminTaxonomyController::class, 'index'])->name('taxonomy');

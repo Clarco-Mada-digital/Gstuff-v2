@@ -20,15 +20,15 @@
         <div class="mb-6 border-b border-gray-200 font-roboto-slab">
             <nav class="-mb-px flex space-x-8">
                 <button @click="activeTab = 'categories'"
-                    :class="activeTab === 'categories' ? 'border-blue-500 text-blue-600' :
+                    :class="activeTab === 'categories' ? 'border-green-gs text-green-gs' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                     class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium font-roboto-slab">
                     {{ __('taxonomy.categories') }}
                 </button>
                 <button @click="activeTab = 'tags'"
-                    :class="activeTab === 'tags' ? 'border-blue-500 text-blue-600' :
+                    :class="activeTab === 'tags' ? 'border-green-gs text-green-gs' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium font-roboto-slab">
                     {{ __('taxonomy.tags') }}
                 </button>
             </nav>
@@ -357,6 +357,9 @@
                             });
 
                             const data = await response.json();
+
+                            console.log("data all",data);
+                            this.fetchData();
 
                          
 
