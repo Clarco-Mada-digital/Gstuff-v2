@@ -3,6 +3,8 @@
 return [
     // Interfaccia
     'static_pages' => 'Pagine Statiche',
+    'edit_static_page' => 'Modifica Pagina',
+    'back' => 'Indietro',
     'new_page' => 'Nuova Pagina',
     'title' => 'Titolo',
     'content' => 'Contenuto',
