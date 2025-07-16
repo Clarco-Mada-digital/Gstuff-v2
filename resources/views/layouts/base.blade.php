@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Supagirl - @yield('pageTitle')">
+    <meta name="keywords" content="Supagirl, @yield('pageTitle')">
+    <meta name="author" content="Supagirl">
     <link rel="shortcut icon" href="{{ url('logo-icon.webp') }}" type="image/x-icon">
 
     <title>Supagirl - @yield('pageTitle')</title>
