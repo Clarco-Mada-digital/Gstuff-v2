@@ -164,7 +164,7 @@
                         'sm:max-w-lg': modalType === 'category'
                     }">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <h3 class="mb-4 text-lg font-medium leading-6 text-gray-900" x-text="modalTitle"></h3>
+                        <h3 class="mb-4 text-lg font-roboto-slab leading-6 text-green-gs" x-text="modalTitle"></h3>
 
                         <!-- Formulaire de création -->
                         <form x-show="!isEditing" @submit.prevent="submitForm">
@@ -173,15 +173,15 @@
                                 <input type="hidden" name="lang" x-model="formData.lang = '{{ app()->getLocale() }}'">
                                 <div class="mb-4">
                                     <label for="category_name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.category_name') }}</label>
                                     <input type="text" id="category_name" x-model="formData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
                                 </div>
                                 <div class="mb-4">
                                     <label for="category_description"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_description') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.category_description') }}</label>
                                     <textarea id="category_description" x-model="formData.description" rows="3"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"></textarea>
                                 </div>
                             </div>
 
@@ -189,9 +189,9 @@
                             <div x-show="modalType === 'tag'">
                                 <div class="mb-4">
                                     <label for="tag_name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.tag_name') }}</label>
+                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.tag_name') }}</label>
                                     <input type="text" id="tag_name" x-model="formData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
                                 </div>
                             </div>
                         </form>
@@ -204,15 +204,15 @@
                                 <input type="hidden" name="id" x-model="updateFormData.id">
                                 <div class="mb-4">
                                     <label for="update_category_name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_name') }}</label>
+                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.category_name') }}</label>
                                     <input type="text" id="update_category_name" x-model="updateFormData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
                                 </div>
                                 <div class="mb-4">
                                     <label for="update_category_description"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.category_description') }}</label>
+                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.category_description') }}</label>
                                     <textarea id="update_category_description" x-model="updateFormData.description" rows="3"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"></textarea>
                                 </div>
                             </div>
 
@@ -221,20 +221,20 @@
                                 <input type="hidden" name="id" x-model="updateFormData.id">
                                 <div class="mb-4">
                                     <label for="update_tag_name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('taxonomy.tag_name') }}</label>
+                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.tag_name') }}</label>
                                     <input type="text" id="update_tag_name" x-model="updateFormData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 font-roboto-slab">
                         <button type="button" @click="submitForm"
-                            class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-gs px-4 py-2 text-base  text-white shadow-sm hover:bg-green-gs/80 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                             {{ __('taxonomy.save_button') }}
                         </button>
                         <button type="button" @click="closeModal"
-                            class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
+                            class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
                             {{ __('taxonomy.cancel_button') }}
                         </button>
                     </div>
