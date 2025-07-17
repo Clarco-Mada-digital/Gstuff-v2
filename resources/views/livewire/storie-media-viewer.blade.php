@@ -1,10 +1,10 @@
 <div x-data="{ storyForm: false }">
 
-<div class="flex items-center justify-between gap-5 py-5">
+<div class="flex items-center justify-between gap-5 py-5 font-roboto-slab">
                             <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.stories') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                             <button  x-on:click="storyForm = true"
-                            class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
+                            class="flex items-center gap-2 text-green-gs hover:text-green-gs hover:bg-fieldBg    px-5 py-2 bg-supaGirlRose rounded-md cursor-pointer">
                                 {{ __('profile.add') }}
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -22,7 +22,7 @@
     
 
     @if ($stories->count() == 0)
-    <button x-on:click="storyForm = true ; console.log('test', storyForm)" type="button"
+    <button x-on:click="storyForm = true ;" type="button"
                             class="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white bg-red-500 shadow-md transition-colors hover:bg-gray-100"
                             data-tooltip-target="tooltip-add-story" data-tooltip-placement="top">
                             <div class="border-green-gs relative h-24 w-24 cursor-pointer rounded-full border-2">

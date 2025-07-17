@@ -30,7 +30,7 @@
 
                     <!-- Bouton ajout (seulement pour le propriétaire) -->
                     @if (auth()->id() === $user->id && $isPublic)
-                        <button @click="$wire.openModal()" class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
+                        <button @click="$wire.openModal()" class="flex items-center gap-2 text-green-gs hover:text-green-gs hover:bg-fieldBg px-5 py-2 bg-supaGirlRose rounded-md  font-roboto-slab cursor-pointer">
                             <i class="fas fa-plus mr-2"></i> {{ __('gallery_manage.add') }}
                         </button>
                     @endif
@@ -844,32 +844,42 @@
     <div x-show="fullscreen" x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+        x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
         @click.away="fullscreen = false" @keydown.escape.window="fullscreen = false">
 
         <template x-if="currentMedia">
-            <div class="relative w-full max-w-6xl">
+            <div class="relative w-full">
                 <!-- Bouton précédent -->
                 <button @click.stop="navigateMedia(-1)"
-                    class="absolute left-4 top-1/2 z-10 -translate-y-1/2 p-3 text-white transition-colors hover:text-blue-300"
+                
+                     class="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose"
                     :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex <= 0 }"
                     :disabled="currentMediaIndex <= 0">
-                    <i class="fas fa-chevron-left text-3xl"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
                 </button>
+
+               
 
                 <!-- Bouton suivant -->
                 <button @click.stop="navigateMedia(1)"
-                    class="absolute right-4 top-1/2 z-10 -translate-y-1/2 p-3 text-white transition-colors hover:text-blue-300"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose"
                     :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex >= mediaCount - 1 }"
                     :disabled="currentMediaIndex >= mediaCount - 1">
-                    <i class="fas fa-chevron-right text-3xl"></i>
-                </button>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+                 </button>
 
                 <!-- Bouton fermer -->
-                <button @click="fullscreen = false"
-                    class="absolute right-4 top-4 z-10 text-white hover:text-gray-300">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
+                
+
+                <button @click="fullscreen = false" class="absolute right-4 top-4 z-10 rounded-full bg-supaGirlRose p-2 text-green-gs hover:text-white hover:bg-green-gs">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
                 <!-- Contenu média -->
                 <div class="relative overflow-hidden rounded-lg bg-black">
