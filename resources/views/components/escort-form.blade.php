@@ -1,6 +1,6 @@
 @props(['user'])
 
-<div class="mx-12 h-[90vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[85vw] xl:w-[80vw]">
+<div class="mx-12 h-[90vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[85vw] xl:w-[80vw] font-roboto-slab text-green-gs">
     <div class="flex w-full flex-col items-center justify-center px-2 py-3">
         <div class="mb-3">
             <h2 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('profile.create_new_escort') }}</h2>
@@ -16,10 +16,10 @@
                     <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                     <div class="mb-1">
                         <label
-                            class="@error('prenom') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.first_name') }}
+                            class="@error('prenom') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.first_name') }}
                             <span class="text-red-500">*</span></label>
                         <input type="text" name="prenom"
-                            class="@error('prenom') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('prenom') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             placeholder=" " value="{{ old('prenom') }}" autocomplete="prenom" required />
                         @error('prenom')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -29,10 +29,10 @@
 
                     <div class="mb-1">
                         <label for="floating_email"
-                            class="@error('email') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.email') }}
+                            class="@error('email') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.email') }}
                             <span class="text-red-500">*</span></label>
                         <input type="email" name="email" id="floating_email"
-                            class="@error('email') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('email') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             placeholder=" " value="{{ old('email') }}" autocomplete="email" required />
                         @error('email')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -42,10 +42,10 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('genre_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.gender') }}
+                            class="@error('genre_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.gender') }}
                             <span class="text-red-500">*</span></label>
                         <select name="genre_id" id="floating_intitule"
-                            class="@error('genre_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('genre_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($genres as $genre)
                                 <option value="{{ $genre->id }}">
@@ -60,10 +60,10 @@
 
                     <div class="mb-1">
                         <label for="floating_date_naissance"
-                            class="@error('date_naissance') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.birth_date') }}
+                            class="@error('date_naissance') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.birth_date') }}
                             <span class="text-red-500">*</span></label>
                         <input type="date" name="date_naissance" id="floating_date_naissance"
-                            class="@error('date_naissance') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('date_naissance') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             placeholder=" " value="{{ old('date_naissance') }}" autocomplete="date_naissance"
                             required />
                         @error('date_naissance')
@@ -74,17 +74,17 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('telephone') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.phone_number') }}</label>
+                            class="@error('telephone') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.phone_number') }}</label>
                         <input type="text" id="phone_input" name="telephone"
-                            class="@error('telephone') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('telephone') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             value="{{ old('telephone') }}">
                     </div>
 
                     <div class="mb-1">
                         <label
-                            class="@error('adresse') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.address') }}</label>
+                            class="@error('adresse') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.address') }}</label>
                         <input type="text" name="adresse"
-                            class="@error('adresse') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('adresse') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             value="{{ old('adresse') }}">
                         @error('adresse')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -94,9 +94,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('npa') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.zip_code') }}</label>
+                            class="@error('npa') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.zip_code') }}</label>
                         <input type="text" name="npa"
-                            class="@error('npa') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('npa') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             value="{{ old('npa') }}">
                         @error('npa')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -106,9 +106,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('canton') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.canton') }}</label>
+                            class="@error('canton') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.canton') }}</label>
                         <select name="canton" id="cantonselect"
-                            class="@error('canton') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('canton') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             onchange="filterVilles()">
                             <option hidden value=""> -- </option>
                             @foreach ($cantons as $canton)
@@ -123,9 +123,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('ville') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.city') }}</label>
+                            class="@error('ville') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.city') }}</label>
                         <select name="ville" id="villeselect"
-                            class="@error('ville') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('ville') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             onchange="localStorage.setItem('villeNom', this.options[this.selectedIndex].text);">
                             <option hidden value=""> -- </option>
                         </select>
@@ -137,9 +137,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('categorie') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.category') }}</label>
+                            class="@error('categorie') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.category') }}</label>
                         <select name="categorie" id="escort_categorie"
-                            class="@error('categorie') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('categorie') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($escortCategories as $categorie)
                                 <option value="{{ $categorie['id'] }}">{{ $categorie['nom'] }}</option>
@@ -153,9 +153,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('pratique_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_practices') }}</label>
+                            class="@error('pratique_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.sexual_practices') }}</label>
                         <select name="pratique_sexuelle_id" id="pratique_sexuelle_id"
-                            class="@error('pratique_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('pratique_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($pratiquesSexuelles as $pratique)
                                 <option value="{{ $pratique->id }}">
@@ -170,9 +170,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('orientation_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.sexual_orientation') }}</label>
+                            class="@error('orientation_sexuelle_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.sexual_orientation') }}</label>
                         <select name="orientation_sexuelle_id" id="orientation_sexuelle_id"
-                            class="@error('orientation_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('orientation_sexuelle_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($orientationSexuelles as $oriantation)
                                 <option value="{{ $oriantation->id }}">
@@ -187,9 +187,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('tailles') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.height') }}</label>
+                            class="@error('tailles') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.height') }}</label>
                         <input
-                            class="@error('tailles') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500"
+                            class="@error('tailles') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
                             type="number" name="tailles" id="taille" placeholder="taille en cm"
                             value="{{ old('tailles') }}">
                         @error('tailles')
@@ -200,9 +200,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('pubis_type_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.pubic_hair') }}</label>
+                            class="@error('pubis_type_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.pubic_hair') }}</label>
                         <select id="pubis_type_id" name="pubis_type_id"
-                            class="@error('pubis_type_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('pubis_type_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($pubis as $pubi)
                                 <option value="{{ $pubi->id }}">
@@ -217,9 +217,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('origine') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.origin') }}</label>
+                            class="@error('origine') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.origin') }}</label>
                         <select name="origine" id="origine"
-                            class="@error('origine') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('origine') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($origines as $origine)
                                 <option value="{{ $origine }}">{{ $origine }}</option>
@@ -233,9 +233,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('couleur_yeux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.eye_color') }}</label>
+                            class="@error('couleur_yeux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.eye_color') }}</label>
                         <select name="couleur_yeux_id" id="couleur_yeux_id"
-                            class="@error('couleur_yeux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('couleur_yeux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursYeux as $yeux)
                                 <option value="{{ $yeux->id }}">
@@ -250,9 +250,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('couleur_cheveux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.hair_color') }}</label>
+                            class="@error('couleur_cheveux_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.hair_color') }}</label>
                         <select name="couleur_cheveux_id" id="couleur_cheveux_id"
-                            class="@error('couleur_cheveux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('couleur_cheveux_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($couleursCheveux as $cheveux)
                                 <option value="{{ $cheveux->id }}">
@@ -267,9 +267,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('mensuration_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.measurements') }}</label>
+                            class="@error('mensuration_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.measurements') }}</label>
                         <select name="mensuration_id" id="mensuration_id"
-                            class="@error('mensuration_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('mensuration_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($mensurations as $mensuration)
                                 <option value="{{ $mensuration->id }}">
@@ -284,9 +284,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('poitrine_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.bust') }}</label>
+                            class="@error('poitrine_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.bust') }}</label>
                         <select name="poitrine_id" id="poitrine_id"
-                            class="@error('poitrine_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('poitrine_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($poitrines as $poitrine)
                                 <option value="{{ $poitrine->id }}">
@@ -303,9 +303,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('taille_poitrine') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.bust_size') }}</label>
+                            class="@error('taille_poitrine') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.bust_size') }}</label>
                         <select id="taille_poitrine" name="taille_poitrine"
-                            class="@error('taille_poitrine') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('taille_poitrine') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($taillesPoitrine as $taillePoitrine)
                                 <option value="{{ $taillePoitrine }}">{{ $taillePoitrine }}</option>
@@ -319,9 +319,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('tatoo_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.tattoos') }}</label>
+                            class="@error('tatoo_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.tattoos') }}</label>
                         <select id="tatoo_id" name="tatoo_id"
-                            class="@error('tatoo_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('tatoo_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($tatouages as $tatou)
                                 <option value="{{ $tatou->id }}">
@@ -336,9 +336,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('mobilite_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.mobility') }}</label>
+                            class="@error('mobilite_id') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.mobility') }}</label>
                         <select id="mobilete" name="mobilite_id"
-                            class="@error('mobilite_id') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('mobilite_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
                             @foreach ($mobilites as $mobilite)
                                 <option value="{{ $mobilite->id }}">
@@ -353,9 +353,9 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('tarif') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.rate') }}</label>
+                            class="@error('tarif') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.rate') }}</label>
                         <select id="tarif" name="tarif"
-                            class="@error('tarif') border-red-500 @enderror mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                            class="@error('tarif') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden> -- </option>
                             @foreach ($tarifs as $tarif)
                                 <option value="{{ $tarif }}">
@@ -370,7 +370,7 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('paiement') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.payment_method') }}</label>
+                            class="@error('paiement') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.payment_method') }}</label>
                         <x-select_multiple name="paiement" :options="$paiements" :value="old('paiement', [])" label="Paiment" />
                         @error('paiement')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -381,7 +381,7 @@
                 <div class="w-full md:grid md:grid-cols-2 md:gap-4">
                     <div class="mb-1">
                         <label
-                            class="@error('service') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.services') }}</label>
+                            class="@error('service') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.services') }}</label>
                         <x-select_object_multiple name="service" :options="$services" :value="old('service', [])"
                             label="Mes services" />
                         @error('service')
@@ -392,7 +392,7 @@
 
                     <div class="mb-1">
                         <label
-                            class="@error('langues') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-gray-700">{{ __('profile.languages') }}</label>
+                            class="@error('langues') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.languages') }}</label>
                         <x-select_multiple name="langues" :options="$langues" :value="old('langues', [])" label="Langue parlée" />
                         @error('langues')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -402,9 +402,9 @@
                 </div>
                 <div class="mb-1">
                     <label
-                        class="@error('apropos') text-red-700 dark:text-red-500 @enderror mb-1 block text-sm font-medium text-gray-700">{{ __('profile.about') }}</label>
+                        class="@error('apropos') text-red-700 dark:text-red-500 @enderror mb-1 block text-sm font-medium text-green-gs ">{{ __('profile.about') }}</label>
                     <textarea rows="5" name="apropos"
-                        class="@error('apropos') border-red-500 @enderror block w-full rounded-lg border border-gray-300 bg-gray-50 py-2 text-sm text-gray-900 focus:border-amber-500 focus:ring-amber-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-amber-500 dark:focus:ring-amber-500">{{ old('apropos') }}</textarea>
+                        class="@error('apropos') border-red-500 @enderror block w-full rounded-lg border border-supaGirlRose border-2 bg-gray-50 py-2 text-sm text-gray-900 focus:border-green-gsfocus:ring-green-gsdark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gsdark:focus:ring-amber-500">{{ old('apropos') }}</textarea>
                     @error('apropos')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                 class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
@@ -413,7 +413,7 @@
             </div>
 
             <button type="submit"
-                class="rounded-lg bg-amber-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-4 focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-600">{{ __('profile.create') }}</button>
+                class="rounded-lg bg-green-gs px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-gs/80 focus:outline-none focus:ring-4 focus:ring-green-gs">{{ __('profile.create') }}</button>
         </form>
     </div>
 </div>

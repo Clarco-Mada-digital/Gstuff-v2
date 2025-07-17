@@ -2,7 +2,8 @@
 
     <div class="group relative mt-1">
         <!-- Conteneur d'entrée avec styles améliorés -->
-        <div class="focus-within:ring-green-gs focus-within:border-green-gs flex flex-wrap gap-2 rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition-all duration-200 focus-within:ring-2 hover:border-gray-400"
+        <div class="focus-within:ring-green-gs focus-within:border-green-gs flex flex-wrap gap-2 rounded-lg border border-supaGirlRose border-2 px-3 py-2 shadow-sm transition-all duration-200 focus-within:ring-2
+         hover:border-green-gs"
             :class="{ 'ring-2 ring-green-gs border-green-gs': isOpen }">
 
             <!-- Badges des options sélectionnées -->
@@ -42,7 +43,7 @@
         </div>
 
         <!-- Liste déroulante des options avec styles améliorés -->
-        <div class="absolute z-20 mt-1 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+        <div class="absolute z-20 mt-1 w-full rounded-lg bg-fieldBg shadow-lg ring-1 ring-supaGirlRosePastel ring-opacity-5"
             x-show="isOpen && filteredOptions.length > 0" x-transition:enter="transition ease-out duration-100"
             x-transition:enter-start="transform opacity-0 scale-95"
             x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
@@ -50,10 +51,10 @@
             x-transition:leave-end="transform opacity-0 scale-95" @click.away="isOpen = false" style="display: none;">
             <ul class="max-h-60 overflow-auto py-1 text-sm focus:outline-none">
                 <template x-for="(option, index) in filteredOptions" :key="index">
-                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 hover:bg-blue-50"
-                        :class="{ 'bg-blue-100': isSelected(option) }" @click.stop="selectOption(option)">
+                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-textColorParagraph hover:bg-supaGirlRose"
+                        :class="{ 'bg-supaGirlRose': isSelected(option) }" @click.stop="selectOption(option)">
                         <div class="flex items-center">
-                            <span x-text="option" class="block truncate font-medium"></span>
+                            <span x-text="option" class="block truncate font-roboto-slab"></span>
                             <span x-show="isSelected(option)"
                                 class="absolute inset-y-0 right-0 flex items-center pr-4 text-green-600">
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
