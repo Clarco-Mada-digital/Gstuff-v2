@@ -362,19 +362,76 @@
                     <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
                 @endif
 
-                <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0">
+                <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0 font-roboto-slab   ">
                     <button x-on:click="pageSection='compte'"
-                        :class="pageSection == 'compte' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.my_account') }}</button>
+                        :class="pageSection == 'compte' ? 'bg-supaGirlRose text-green-gs rounded-md' : ''"
+                        class=" flex items-center text-green-gs hover:bg-supaGirlRose w-[90%] cursor-pointer border-b border-supaGirlRose bg-fieldBg rounded-t-lg hover:rounded-lg p-2 text-left font-bold hover:text-green-gs font-roboto-slab">
+                        
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="25" height="25" rx="12.5"  
+                            :fill= "pageSection == 'compte' ? '#454E63' : '#FED5E9'" 
+                            />
+                            <path d="M12.5 6C13.362 6 14.1886 6.34241 14.7981 6.9519C15.4076 7.5614 15.75 8.38805 15.75 9.25C15.75 10.112 15.4076 10.9386 14.7981 11.5481C14.1886 12.1576 13.362 12.5 12.5 12.5C11.638 12.5 10.8114 12.1576 10.2019 11.5481C9.59241 10.9386 9.25 10.112 9.25 9.25C9.25 8.38805 9.59241 7.5614 10.2019 6.9519C10.8114 6.34241 11.638 6 12.5 6ZM12.5 7.625C12.069 7.625 11.6557 7.7962 11.351 8.10095C11.0462 8.4057 10.875 8.81902 10.875 9.25C10.875 9.68098 11.0462 10.0943 11.351 10.399C11.6557 10.7038 12.069 10.875 12.5 10.875C12.931 10.875 13.3443 10.7038 13.649 10.399C13.9538 10.0943 14.125 9.68098 14.125 9.25C14.125 8.81902 13.9538 8.4057 13.649 8.10095C13.3443 7.7962 12.931 7.625 12.5 7.625ZM12.5 13.3125C14.6694 13.3125 19 14.3931 19 16.5625V19H6V16.5625C6 14.3931 10.3306 13.3125 12.5 13.3125ZM12.5 14.8562C10.0869 14.8562 7.54375 16.0425 7.54375 16.5625V17.4563H17.4563V16.5625C17.4563 16.0425 14.9131 14.8562 12.5 14.8562Z"
+                             :fill= "pageSection == 'compte' ? '#FED5E9' : '#7F55B1'" />
+                        </svg>
+                        <span class="ml-2 font-roboto-slab">{{ __('profile.my_account') }}</span>
+                        
+                        
+                        
+                    </button>
                     <button x-show="userType == 'invite'" x-on:click="pageSection='favoris'"
-                        :class="pageSection == 'favoris' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.my_favorites') }}</button>
-                    <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'"
-                        :class="pageSection == 'galerie' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.gallery') }}</button>
+                        :class="pageSection == 'favoris' ? 'bg-supaGirlRose text-green-gs rounded-md' : ''"
+                        class="flex items-center text-green-gs hover:bg-supaGirlRose w-[90%] cursor-pointer border-b border-supaGirlRose bg-fieldBg rounded-t-lg hover:rounded-lg p-2 text-left font-bold hover:text-green-gs font-roboto-slab">
+                        
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="25" height="25" rx="12.5"  
+                            :fill= "pageSection == 'favoris' ? '#454E63' : '#FED5E9'" 
+                            />
+                            <path d="M12.5 7C14 5.5 16.5 5.5 18 7C19.5 8.5 19.5 11 18 12.5L12.5 18L7 12.5C5.5 11 5.5 8.5 7 7C8.5 5.5 11 5.5 12.5 7Z" 
+                            stroke= "#7F55B1"
+                            :stroke= "pageSection == 'favoris' ? '#FED5E9' : '#7F55B1'"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"/>
+                        </svg>
+                        <span class="ml-2 font-roboto-slab">{{ __('profile.my_favorites') }}</span>
+                        
+                    </button>
+                    
+                    
+                        <button x-show="userType != 'invite'" x-on:click="pageSection='galerie'"
+                        :class="pageSection == 'galerie' ? 'bg-supaGirlRose text-green-gs rounded-md' : ''"
+                        class="flex items-center text-green-gs hover:bg-supaGirlRose w-[90%] cursor-pointer border-b border-supaGirlRose bg-fieldBg rounded-t-lg hover:rounded-lg p-2 text-left font-bold hover:text-green-gs font-roboto-slab">
+                        
+                        <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="0.763672" width="25" height="25" rx="12.5" 
+                        :fill= "pageSection == 'galerie' ? '#454E63' : '#FED5E9'" 
+                        />
+                        <path d="M17.4152 10.0137C17.4501 9.81452 17.441 9.61008 17.3885 9.41478C17.336 9.21947 17.2414 9.03802 17.1113 8.88317C16.9812 8.72831 16.8188 8.6038 16.6355 8.51838C16.4522 8.43296 16.2524 8.3887 16.0502 8.3887H8.94947C8.74723 8.3887 8.54744 8.43296 8.36413 8.51838C8.18081 8.6038 8.01842 8.72831 7.88834 8.88317C7.75826 9.03802 7.66365 9.21947 7.61115 9.41478C7.55866 9.61008 7.54954 9.81452 7.58445 10.0137M16.0749 8.3887C16.0931 8.21969 16.1028 8.13584 16.1028 8.06629C16.1035 7.74499 15.9852 7.4348 15.7707 7.19558C15.5562 6.95636 15.2607 6.80504 14.9413 6.77082C14.8724 6.76367 14.7879 6.76367 14.6189 6.76367H10.3808C10.2118 6.76367 10.1266 6.76367 10.0577 6.77082C9.73826 6.80504 9.44277 6.95636 9.22827 7.19558C9.01377 7.4348 8.89546 7.74499 8.89617 8.06629C8.89617 8.13584 8.90527 8.22034 8.92412 8.3887M6.24933 14.4292C5.95878 12.3726 5.81382 11.3449 6.43003 10.6787C7.04624 10.0137 8.14346 10.0137 10.3366 10.0137H14.6631C16.8562 10.0137 17.9534 10.0137 18.5696 10.6793C19.1858 11.3449 19.0402 12.3726 18.7503 14.4292L18.476 16.3793C18.2485 17.9913 18.1348 18.7979 17.5517 19.2809C16.9686 19.7639 16.1087 19.7639 14.3881 19.7639H10.6115C8.89162 19.7639 8.03101 19.7639 7.44795 19.2809C6.86489 18.7979 6.75114 17.9919 6.52363 16.3793L6.24933 14.4292Z" 
+                        :stroke="pageSection == 'galerie' ? '#FED5E9' : '#7F55B1'"/>
+                        <path d="M15.425 13.9139C15.9635 13.9139 16.4 13.4774 16.4 12.9389C16.4 12.4004 15.9635 11.9639 15.425 11.9639C14.8865 11.9639 14.45 12.4004 14.45 12.9389C14.45 13.4774 14.8865 13.9139 15.425 13.9139Z"
+                         :stroke="pageSection == 'galerie' ? '#FED5E9' : '#7F55B1'"/>
+                        <path d="M17.7001 18.4635L15.8254 17.0666C15.2209 16.6168 14.32 16.572 13.6544 16.9587L13.4815 17.0595C13.0187 17.3286 12.3895 17.2837 11.9904 16.9529L9.495 14.8878C8.99709 14.4757 8.19823 14.4536 7.66847 14.8371L6.80786 15.4611"
+                         :stroke="pageSection == 'galerie' ? '#FED5E9' : '#7F55B1'" stroke-linecap="round"/>
+                        </svg>
+
+                        <span class="ml-2 font-roboto-slab">{{ __('profile.gallery') }}</span>
+
+                        </button>
                     <button x-on:click="pageSection='discussion'"
-                        :class="pageSection == 'discussion' ? 'bg-green-gs text-white rounded-md' : ''"
-                        class="text-green-gs hover:bg-green-gs flex w-[90%] cursor-pointer items-center border-b border-gray-400 p-2 text-left font-bold hover:text-white font-roboto-slab">{{ __('profile.discussion') }}
+                        :class="pageSection == 'discussion' ? 'bg-supaGirlRose text-green-gs rounded-md' : ''"
+                        class="flex items-center text-green-gs hover:bg-supaGirlRose w-[90%] cursor-pointer border-b border-supaGirlRose bg-fieldBg rounded-t-lg hover:rounded-lg p-2 text-left font-bold hover:text-green-gs font-roboto-slab">
+                        <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="0.526367" width="25" height="25" rx="12.5" 
+                        :fill= "pageSection == 'discussion' ? '#454E63' : '#FED5E9'" 
+                        />
+                        <path d="M18.2916 11.1658L8.56986 6.30327C8.18619 6.11225 7.75297 6.04424 7.32926 6.10852C6.90554 6.17281 6.51196 6.36625 6.20216 6.66248C5.89237 6.9587 5.68144 7.3433 5.59814 7.76383C5.51484 8.18436 5.56322 8.62036 5.73668 9.01238L7.40326 12.7426C7.44107 12.8328 7.46055 12.9296 7.46055 13.0274C7.46055 13.1252 7.44107 13.222 7.40326 13.3122L5.73668 17.0425C5.59551 17.3597 5.53583 17.7072 5.56306 18.0534C5.5903 18.3996 5.70359 18.7335 5.89263 19.0248C6.08168 19.316 6.34048 19.5554 6.64554 19.7212C6.95059 19.8869 7.29221 19.9738 7.63935 19.9739C7.9645 19.9706 8.2848 19.8947 8.5768 19.7516L18.2985 14.8891C18.6433 14.7155 18.9332 14.4496 19.1357 14.1208C19.3383 13.7921 19.4455 13.4136 19.4455 13.0274C19.4455 12.6413 19.3383 12.2627 19.1357 11.934C18.9332 11.6053 18.6433 11.3393 18.2985 11.1658H18.2916ZM17.6735 13.6456L7.95184 18.5082C7.82418 18.5695 7.68083 18.5903 7.54102 18.5678C7.4012 18.5453 7.2716 18.4806 7.1696 18.3823C7.06759 18.2841 6.99806 18.1569 6.97031 18.018C6.94257 17.8791 6.95795 17.735 7.01439 17.6051L8.67402 13.8749C8.6955 13.8251 8.71405 13.774 8.72957 13.7221H13.514C13.6982 13.7221 13.8748 13.6489 14.0051 13.5186C14.1353 13.3883 14.2084 13.2116 14.2084 13.0274C14.2084 12.8432 14.1353 12.6665 14.0051 12.5362C13.8748 12.406 13.6982 12.3328 13.514 12.3328H8.72957C8.71405 12.2808 8.6955 12.2298 8.67402 12.18L7.01439 8.44971C6.95795 8.31979 6.94257 8.17571 6.97031 8.0368C6.99806 7.89788 7.06759 7.77077 7.1696 7.67251C7.2716 7.57425 7.4012 7.50954 7.54102 7.48704C7.68083 7.46455 7.82418 7.48536 7.95184 7.54668L17.6735 12.4092C17.7873 12.4675 17.8827 12.556 17.9494 12.6651C18.016 12.7742 18.0513 12.8996 18.0513 13.0274C18.0513 13.1553 18.016 13.2806 17.9494 13.3897C17.8827 13.4988 17.7873 13.5874 17.6735 13.6456Z" 
+                        :fill="pageSection == 'discussion' ? '#FED5E9' : '#7F55B1'"/>
+                        </svg>
+
+                        <span class="ml-2 font-roboto-slab">{{ __('profile.discussion') }}</span>
+
+                        </button>
                         @if ($messageNoSeen > 0)
                             <span
                                 class="ms-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-200 text-xs font-semibold text-red-800 font-roboto-slab">{{ $messageNoSeen }}</span>
