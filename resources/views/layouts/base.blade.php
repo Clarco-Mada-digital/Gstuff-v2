@@ -302,17 +302,15 @@
     }" x-ref="lightbox" x-on:media-open.window="show($event.detail.src, $event.detail.type, $event.detail.mediaList, $event.detail.index)"
     x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-        <div class="relative w-auto max-w-full overflow-hidden rounded-xl bg-transparent shadow-xl">
-            <!-- Flèche gauche -->
-            <button x-show="mediaList.length > 1 && currentIndex > 0" @click.stop="prevMedia()"
-                class="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white hover:bg-black/70 focus:outline-none">
+    <button  @click="close" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-
+      <div class="relative w-full ">
+      <div class="relative w-auto max-w-full overflow-hidden rounded-xl bg-transparent shadow-xl">
             <!-- Contenu média -->
-            <div class="relative">
+            <div class="relative w-full  flex items-center justify-center">
                 <template x-if="type === 'image'">
                     <img :src="src" alt="media" class="max-h-[90vh] w-auto max-w-full object-cover">
                 </template>
@@ -323,20 +321,26 @@
                 </template>
             </div>
 
-            <!-- Flèche droite -->
-            <button x-show="mediaList.length > 1 && currentIndex < mediaList.length - 1" @click.stop="nextMedia()"
-                class="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white hover:bg-black/70 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- Bouton précédent -->
+            <button  x-show="mediaList.length > 1 && currentIndex > 0" @click.stop="prevMedia()"
+            class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <!-- Bouton suivant -->
+            <button x-show="mediaList.length > 1 && currentIndex < mediaList.length - 1" @click.stop="nextMedia()" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
 
             <!-- Bouton de fermeture -->
-            <button @click="close"
-                class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-xl font-bold text-white hover:bg-black/70 focus:outline-none">
-                &times;
-            </button>
+           
+
+            
         </div>
+      </div>
     </div>
 
 
