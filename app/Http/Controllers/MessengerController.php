@@ -325,7 +325,9 @@ class MessengerController extends Controller
        'users.visible_countries',
        'users.last_seen_at',        
        'users.createbysalon',
-       'users.silhouette_id')->get( );
+       'users.silhouette_id',
+       'users.password_reset_token',
+       'users.password_reset_expiry')->get( );
 
        
 
