@@ -429,13 +429,15 @@
                         :fill="pageSection == 'discussion' ? '#FED5E9' : '#7F55B1'"/>
                         </svg>
 
-                        <span class="ml-2 font-roboto-slab">{{ __('profile.discussion') }}</span>
-
-                        </button>
+                        <span class="ml-2 font-roboto-slab">{{ __('profile.discussion') }}
                         @if ($messageNoSeen > 0)
                             <span
                                 class="ms-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-200 text-xs font-semibold text-red-800 font-roboto-slab">{{ $messageNoSeen }}</span>
                         @endif
+                        </span>
+
+                        </button>
+                       
                     </button>
                     @if ($allrelation->isNotEmpty())
                         <x-gestion-escorte-creer :allrelation="$allrelation" />
@@ -1585,7 +1587,7 @@
                                 {{ __('profile.associated_salon') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                             <button data-modal-target="sendInvitationSalon" data-modal-toggle="sendInvitationSalon"
-                            class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
+                            class="flex items-center gap-2 text-green-gs hover:text-green-gs hover:bg-fieldBg px-5 py-2 bg-supaGirlRose rounded-md cursor-pointer font-roboto-slab">
                             {{ __('profile.invite_salon') }}
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path fill="currentColor"

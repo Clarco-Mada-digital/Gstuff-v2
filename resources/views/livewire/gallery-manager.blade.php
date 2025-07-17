@@ -721,15 +721,15 @@
     
     <!-- Modal d'ajout/édition -->
     <x-modal wire:model="showModal" maxWidth="2xl">
-        <div class="p-6">
-            <h3 class="mb-4 text-xl font-semibold">
+        <div class="p-6 font-roboto-slab">
+            <h3 class="mb-4 text-xl font-semibold text-green-gs font-roboto-slab">
                 {{ $selectedMedia ? __('gallery_manage.edit_media') : __('gallery_manage.add_media') }}
             </h3>
 
             <form wire:submit.prevent="saveMedia">
                 <div class="space-y-4">
                     <div>
-                        <label class="mb-1 block text-sm font-medium text-gray-700">{{ __('gallery_manage.title') }}
+                        <label class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.title') }}
                             *</label>
                         <input type="text" wire:model="title" class="w-full rounded-lg border-gray-300">
                         @error('title')
@@ -739,14 +739,14 @@
 
                     <div>
                         <label
-                            class="mb-1 block text-sm font-medium text-gray-700">{{ __('gallery_manage.description') }}</label>
+                            class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.description') }}</label>
                         <textarea wire:model="description" rows="3" class="w-full rounded-lg border-gray-300"></textarea>
                     </div>
 
                     @if (!$selectedMedia)
                         <div>
                             <label
-                                class="mb-1 block text-sm font-medium text-gray-700">{{ __('gallery_manage.media') }}
+                                class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.media') }}
                                 *</label>
                             <div x-data="{ isUploading: false, progress: 0, isDragging: false }" x-on:livewire-upload-start="isUploading = true"
                                 x-on:livewire-upload-finish="isUploading = false"
@@ -755,11 +755,11 @@
                                 @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false"
                                 @drop.prevent="isDragging = false; $wire.uploadMultiple('media', $event.dataTransfer.files)">
                                 <div class="rounded-lg border-2 border-dashed border-gray-300 p-4 text-center"
-                                    :class="{ 'border-blue-500 bg-blue-50': isDragging, 'border-gray-300': !isDragging }">
+                                    :class="{ 'border-green-gs bg-green-gs/10': isDragging, 'border-gray-300': !isDragging }">
                                     <input type="file" wire:model="media" multiple accept="image/*,video/*"
                                         class="hidden" id="galleryUpload">
                                     <label for="galleryUpload" class="cursor-pointer">
-                                        <i class="fas fa-cloud-upload-alt mb-2 text-3xl text-blue-500"></i>
+                                        <i class="fas fa-cloud-upload-alt mb-2 text-3xl text-green-gs"></i>
                                         <p class="text-sm text-gray-600">{{ __('gallery_manage.drag_drop') }}</p>
                                         <p class="mt-1 text-xs text-gray-500">
                                             {{ __('gallery_manage.supported_formats') }}</p>
@@ -821,18 +821,20 @@
 
                     <div class="flex items-center">
                         <input type="checkbox" wire:model="isPublic" id="isPublic"
-                            class="rounded border-gray-300 text-blue-600">
+                            class="rounded border-gray-300 text-green-gs">
                         <label for="isPublic"
-                            class="ml-2 text-sm text-gray-700">{{ __('gallery_manage.make_public') }}</label>
+                            class="ml-2 text-sm text-green-gs">{{ __('gallery_manage.make_public') }}</label>
                     </div>
                 </div>
 
                 <div class="mt-6 flex justify-end space-x-3">
                     <button type="button" @click="$wire.showModal = false"
-                        class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200">
+                        class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-green-gs transition-colors hover:bg-gray-200">
                         {{ __('gallery_manage.cancel') }}
                     </button>
-                    <button type="submit" class="btn-gs-gradient rounded">
+                    <button type="submit" class="bg-green-gs
+                     rounded px-4 py-2 text-sm font-medium text-white transition-colors 
+                     hover:bg-green-gs/80 rounded-sm">
                         {{ $selectedMedia ? __('gallery_manage.update') : __('gallery_manage.save') }}
                     </button>
                 </div>
