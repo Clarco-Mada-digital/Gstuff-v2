@@ -315,6 +315,8 @@
                             }
 
                             const data = await response.json();
+
+                            console.log(data);
                             
                             if (data.success) {
                                 article.is_published = data.is_published;

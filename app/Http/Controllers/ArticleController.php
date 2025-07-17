@@ -40,9 +40,11 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function updateStatus(Article $article)
+    public function updateStatus($id)
     {
         try {
+
+            
             if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
@@ -50,6 +52,7 @@ class ArticleController extends Controller
                 ], 401);
             }
             
+            $article = Article::findOrFail($id);
             $article->update([
                 'is_published' => !$article->is_published
             ]);
