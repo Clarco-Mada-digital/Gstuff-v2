@@ -1,19 +1,19 @@
 @props(['salonsNoInvited', 'listInvitationSalon'])
 
-<div class="mx-auto h-[60vh] w-full rounded-lg bg-white p-6 shadow-lg md:h-[55vh] md:w-[70vw] xl:h-[60vh] xl:w-[50vw]">
+<div class="mx-auto h-[60vh] w-full rounded-lg bg-white p-6 shadow-lg md:h-[55vh] md:w-[70vw] xl:h-[60vh] xl:w-[50vw] font-roboto-slab">
     <ul class="mb-5 divide-x divide-gray-200 rounded-lg text-center text-sm font-medium text-gray-500 shadow sm:flex dark:divide-gray-700 dark:text-gray-400"
         data-tabs-toggle="#tabs-content-salon" role="tablist">
         <li class="flex-1">
             <button id="new-invitation-tab-salon" data-tabs-target="#new-invitation-salon" type="button" role="tab"
                 aria-controls="new-invitation-salon" aria-selected="true"
-                class="w-full rounded-l-lg bg-gray-100 p-4 text-blue-700 dark:bg-gray-800 dark:text-blue-500">
+                class="w-full rounded-l-lg bg-gray-100 p-4 text-green-gs dark:bg-gray-800 dark:text-green-gs">
                 {{ __('profile.new_invitation') }}
             </button>
         </li>
         <li class="flex-1">
             <button id="pending-invitation-tab-salon" data-tabs-target="#pending-invitation-salon" type="button"
                 role="tab" aria-controls="pending-invitation-salon" aria-selected="false"
-                class="w-full bg-white p-4 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-800">
+                class="w-full bg-white p-4 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-800 dark:text-green-gs">
                 {{ __('profile.pending_invitation') }}
             </button>
         </li>
@@ -34,7 +34,7 @@
                         </svg>
                     </div>
                     <input type="text" id="simple-search-new-salon"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs "
                         placeholder="{{ __('profile.search_placeholder') }}" oninput="filterSalons(this.value, 'new')">
                 </div>
             </div>
@@ -88,7 +88,7 @@
                         </svg>
                     </div>
                     <input type="text" id="simple-search-pending-salon"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs"
                         placeholder="{{ __('profile.search_placeholder') }}"
                         oninput="filterSalons(this.value, 'pending')">
                 </div>

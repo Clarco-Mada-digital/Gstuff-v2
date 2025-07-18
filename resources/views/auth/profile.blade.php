@@ -1183,7 +1183,7 @@
                             <label
                                 class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.category') }}</label>
                             <select name="categorie" id="escort_categorie"
-                                class="mt-1 block w-full rounded-md   border-gray-300 font-roboto-slab shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="mt-1 block w-full rounded-md   border-supaGirlRose font-roboto-slab shadow-sm focus:border-green-gs focus:ring-green-gs">
                                 <option hidden value=""> -- </option>
                                 @foreach ($escort_categories as $categorie)
                                     <option value={{ $categorie['id'] }}
@@ -1199,7 +1199,7 @@
                                 label="Mes services" />
                         </div>
                         <button type="submit"
-                            class="cursor-pointer bg-green-gs inline-flex items-center rounded-lg px-4 py-2 text-sm font-bold text-black shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
+                            class="cursor-pointer bg-green-gs inline-flex items-center rounded-lg px-4 py-2 text-sm font-bold text-white shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 disabled:opacity-50">
                             <i class="fas fa-paper-plane mr-2"></i>
                             {{ __('profile.submit') }}
                         </button>
