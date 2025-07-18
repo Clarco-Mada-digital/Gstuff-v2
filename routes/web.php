@@ -188,6 +188,13 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/log-out', [AuthController::class, 'logout'])->name('logout');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/registerForm', [AuthController::class, 'showRegistrationForm'])->name('registerForm');
+
+// Route pour servir les émojis
+Route::get('/emojis.json', function() {
+    return response()->file(public_path('emojis.json'), [
+        'Content-Type' => 'application/json'
+    ]);
+})->name('emojis.json');
 Route::get('/escort-register', function(){ $genres = Genre::all(); return view('auth.escort_register', compact('genres'));})->name('escort_register');
 Route::post('/reset_password', [AuthController::class, 'sendPasswordResetLink'])->name('reset_password');
 Route::get('/reset-password/{token}', [AuthController::class, 'showPasswordResetForm'])->name('password.reset.form');
