@@ -293,10 +293,10 @@
                 />
 
                 <!-- Bouton d'envoi -->
-                <button type="submit" :disabled="(!newMessage.trim() && !fileToUpload) || sendingMessage"
+                <button type="submit" :disabled="(newMessage.length === 0 && !fileToUpload) || sendingMessage"
                     :class="{
-                        'bg-green-gs hover:bg-green-gs/80 text-white': (newMessage.trim() || fileToUpload) && !sendingMessage,
-                        'bg-gray-300 cursor-not-allowed': (!newMessage.trim() && !fileToUpload) || sendingMessage
+                        'bg-green-gs hover:bg-green-gs/80 text-white': (newMessage.length > 0 || fileToUpload) && !sendingMessage,
+                        'bg-gray-300 cursor-not-allowed': (newMessage.length === 0 && !fileToUpload) || sendingMessage
                     }"
                     class="text-back flex h-12 w-12 items-center justify-center rounded-full p-3">
                     <i x-show="!sendingMessage" class="fas fa-paper-plane"></i>
