@@ -1,6 +1,9 @@
 <?php
 
 return [
+    "phoneError" => "Die Telefonnummer muss genau 10 Ziffern enthalten",
+    "phoneHelp" => "Format: 10 Ziffern (z.B. 0761234567)",
+    
     'recruitment_open' => 'Offen',
     'recruitment_closed' => 'Geschlossen',
     'escort' => 'Escort',

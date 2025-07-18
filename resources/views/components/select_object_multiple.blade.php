@@ -10,7 +10,7 @@
             <template x-for="(option, index) in selectedOptions" :key="index">
                 <div class="group relative">
                     <span
-                        class="bg-green-gs hover:bg-supaGirlRose flex items-center whitespace-nowrap rounded-sm py-1.5 pl-3 text-sm font-medium text-green-gs shadow-sm transition-colors">
+                        class="bg-green-gs hover:bg-supaGirlRose flex items-center whitespace-nowrap rounded-sm py-1.5 pl-3 text-sm font-medium text-white hover:text-green-gs shadow-sm transition-colors">
                         <span
                             x-text="option.nom?.['{{ app()->getLocale() }}'] ?? option.nom?.['fr'] ?? option.nom"></span>
                         <button type="button"

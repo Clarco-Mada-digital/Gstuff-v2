@@ -1,6 +1,9 @@
 <?php
 
 return [
+    "phoneError" => "The phone number must contain exactly 10 digits",
+    "phoneHelp" => "Format: 10 digits (e.g. 0612345678)",
+    
     'recruitment_open' => 'Open',
     'recruitment_closed' => 'Close',
     'success' => [

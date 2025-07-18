@@ -235,20 +235,185 @@
                
             </div>
 
-            <!-- Champ de commentaire -->
-            <div class="w-full mb-4 transition-all duration-200 ease-in-out hover:shadow-lg p-2 rounded-sm ">
+            <!-- Champ de commentaire avec sélecteur d'émojis -->
+            <div class="w-full mb-4 transition-all duration-200 ease-in-out hover:shadow-lg p-2 rounded-sm "
+                 x-data="{
+                    showEmojiPicker: false,
+                    activeCategory: 'smileys_emotion',
+                    searchQuery: '',
+                    searchResults: [],
+                    allEmojis: [
+                        @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                            @foreach($emojiCategories as $category)
+                                @foreach($category['emojis'] as $emoji)
+                                    {
+                                        char: '{{ $emoji['char'] }}',
+                                        name: '{{ $emoji['name'] }}',
+                                        slug: '{{ $category['slug'] }}',
+                                        category: '{{ $category['name'] }}'
+                                    },
+                                @endforeach
+                            @endforeach
+                        @endif
+                    ],
+                    init() {
+                        this.$watch('showEmojiPicker', value => {
+                            if (value) {
+                                this.searchQuery = '';
+                                this.searchResults = [];
+                            }
+                        });
+                    },
+                    search() {
+                        if (!this.searchQuery.trim()) {
+                            this.searchResults = [];
+                            return;
+                        }
+                        
+                        const query = this.searchQuery.toLowerCase().trim();
+                        this.searchResults = this.allEmojis.filter(emoji => 
+                            emoji.name.toLowerCase().includes(query)
+                        );
+                    },
+                    insertEmoji(emoji) {
+                        const textarea = this.$refs.commentTextarea;
+                        const start = textarea.selectionStart;
+                        const end = textarea.selectionEnd;
+                        const currentComment = this.$wire.get('comment') || '';
+                        const before = currentComment.substring(0, start);
+                        const after = currentComment.substring(end, currentComment.length);
+                        const newComment = before + emoji + after;
+                        
+                        // Mise à jour de la valeur via Livewire
+                        this.$wire.set('comment', newComment, true);
+                        
+                        // Mise à jour de la position du curseur
+                        this.$nextTick(() => {
+                            const newPos = start + emoji.length;
+                            textarea.focus();
+                            textarea.setSelectionRange(newPos, newPos);
+                        });
+                        
+                        this.showEmojiPicker = false;
+                    },
+                    filteredEmojis() {
+                        if (this.searchQuery) {
+                            return this.searchResults;
+                        }
+                        return this.allEmojis.filter(emoji => 
+                            emoji.slug === this.activeCategory
+                        );
+                    }
+                }">
                 <div class="relative">
                     <label for="comment" class="block text-sm font-medium text-green-gs/80 mb-1 font-roboto-slab">
                         {{ __('feedback.your_comment') }}
                     </label>
-                    <textarea 
-                        wire:model.debounce.500ms="comment" 
-                        id="comment" 
-                        rows="4"
-                        class="w-full px-4 py-3 font-roboto-slab text-textColorParagraph bg-white border border-supaGirlRose rounded-lg focus:ring-2 focus:ring-supaGirlRose focus:border-supaGirlRose transition duration-200"
-                        placeholder="{{ __('feedback.write_your_comment_placeholder') }}"
-                        aria-describedby="comment-help"
-                    ></textarea>
+                    <div class="relative">
+                        <textarea 
+                            wire:model.debounce.500ms="comment" 
+                            x-ref="commentTextarea"
+                            id="comment" 
+                            rows="4"
+                            class="w-full px-4 py-3 pr-10 font-roboto-slab text-textColorParagraph bg-white border border-supaGirlRose rounded-lg focus:ring-2 focus:ring-supaGirlRose focus:border-supaGirlRose transition duration-200"
+                            placeholder="{{ __('feedback.write_your_comment_placeholder') }}"
+                            aria-describedby="comment-help"
+                        ></textarea>
+                        
+                        <!-- Bouton du sélecteur d'émojis -->
+                        <button 
+                            type="button" 
+                            @click="showEmojiPicker = !showEmojiPicker"
+                            class="absolute right-2 bottom-2 text-supaGirlRose hover:text-green-gs focus:outline-none"
+                            :class="{ 'text-green-gs': showEmojiPicker }"
+                            :title="__('Select emoji')"
+                        >
+                            <i class="far fa-smile text-lg"></i>
+                        </button>
+
+                        <!-- Sélecteur d'émojis -->
+                        <div 
+                            x-show="showEmojiPicker" 
+                            @click.away="showEmojiPicker = false"
+                            class="absolute bottom-full right-0 z-10 mb-2 w-80 rounded-lg border border-supaGirlRose bg-white shadow-lg"
+                            style="display: none;"
+                            x-cloak
+                        >
+                            <!-- Barre de recherche -->
+                            <div class="border-b border-supaGirlRosePastel p-2">
+                                <input 
+                                    type="text" 
+                                    x-model="searchQuery" 
+                                    @input="search()"
+                                    placeholder="{{ __('Search emojis...') }}"
+                                    class="w-full rounded-md border border-supaGirlRosePastel px-3 py-1.5 text-sm focus:border-green-gs focus:outline-none focus:ring-1 focus:ring-green-gs"
+                                >
+                            </div>
+
+                            <!-- Catégories -->
+                            <div class="flex overflow-x-auto border-b border-gray-200 bg-fieldBg px-2" x-show="!searchQuery">
+                                @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                    @foreach($emojiCategories as $category)
+                                        <button 
+                                            type="button"
+                                            @click="activeCategory = '{{ $category['slug'] }}'"
+                                            :class="{ 'border-b-2 border-green-gs text-green-gs': activeCategory === '{{ $category['slug'] }}', 'text-gray-600 hover:text-gray-800': activeCategory !== '{{ $category['slug'] }}' }"
+                                            class="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium transition-colors"
+                                            :title="'{{ $category['name'] }}'"
+                                        >
+                                            {{ $category['emojis'][0]['char'] ?? '' }}
+                                        </button>
+                                    @endforeach
+                                @endif
+                            </div>
+
+                            <!-- Grille d'émojis -->
+                            <div class="h-64 overflow-y-auto p-2">
+                                <template x-if="searchQuery">
+                                    <div class="search-results grid grid-cols-8 gap-1">
+                                        <template x-for="emoji in searchResults" :key="emoji.char">
+                                            <button 
+                                                type="button"
+                                                @click="insertEmoji(emoji.char)"
+                                                class="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100"
+                                                :title="emoji.name"
+                                            >
+                                                <span x-text="emoji.char"></span>
+                                            </button>
+                                        </template>
+                                        <div x-show="searchResults.length === 0" class="col-span-8 p-4 text-center text-gray-500">
+                                            {{ __('No emojis found for') }} "<span x-text="searchQuery"></span>"
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <template x-if="!searchQuery">
+                                    <div class="emoji-category">
+                                        @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                            @foreach($emojiCategories as $category)
+                                                <div x-show="activeCategory === '{{ $category['slug'] }}'" class="space-y-2">
+                                                    <h3 class="text-xs font-semibold text-gray-500">{{ $category['name'] }}</h3>
+                                                    <div class="grid grid-cols-8 gap-1">
+                                                        @foreach($category['emojis'] as $emoji)
+                                                            <button 
+                                                                type="button"
+                                                                @click="insertEmoji('{{ $emoji['char'] }}')"
+                                                                class="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100"
+                                                                title="{{ $emoji['name'] }}"
+                                                            >
+                                                                {{ $emoji['char'] }}
+                                                            </button>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div id="comment-help" class="mt-1 text-xs text-textColorParagraph hidden sm:block font-roboto-slab">
                         {{ __('feedback.comment_help') }}
                     </div>
