@@ -172,7 +172,7 @@
                 class="fixed inset-0 z-50 flex h-full w-full items-center justify-center overflow-hidden bg-black/90 p-2">
                 <div @click.stop class="flex max-h-[90vh] w-full max-w-[90vw] flex-col overflow-auto">
                     <div class="z-50">
-                        <button @click="imgModal = false" class="float-right pr-2 pt-2 outline-none focus:outline-none">
+                        <button @click="imgModal = false" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
                             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18"
                                 height="18" viewBox="0 0 18 18">
                                 <path
@@ -180,6 +180,7 @@
                                 </path>
                             </svg>
                         </button>
+
                     </div>
                     <div class="flex w-full items-center justify-center p-2">
                         <img class="max-h-[80vh] w-full max-w-[75vw] object-contain object-center"

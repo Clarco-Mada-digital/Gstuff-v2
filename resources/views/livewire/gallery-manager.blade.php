@@ -18,12 +18,12 @@
                 <div class="flex space-x-3">
                     <!-- Boutons de vue -->
                     <button @click="viewMode = 'grid'"
-                        :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs bg-green-gs/50': viewMode !== 'grid' }"
+                        :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs ': viewMode !== 'grid' }"
                         class="rounded-lg p-2 transition-colors hover:bg-gray-100">
                         <i class="fas fa-th-large"></i>
                     </button>
                     <button @click="viewMode = 'list'"
-                        :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'list', 'text-green-gs bg-green-gs/50': viewMode !== 'list' }"
+                        :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'list', 'text-green-gs ': viewMode !== 'list' }"
                         class="rounded-lg p-2 transition-colors hover:bg-gray-100">
                         <i class="fas fa-list"></i>
                     </button>
@@ -139,7 +139,7 @@
                             <div class="ml-4 min-w-0 flex-1">
                                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: __('gallery_manage.no_description') }}</p>
+                                    {{ $media->description ?: ''}}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
@@ -302,7 +302,7 @@
                             <div class="ml-4 min-w-0 flex-1">
                                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: __('gallery_manage.no_description') }}</p>
+                                    {{ $media->description ?: ' ' }}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
@@ -467,7 +467,7 @@
                             <div class="ml-4 min-w-0 flex-1">
                                 <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: __('gallery_manage.no_description') }}</p>
+                                    {{ $media->description ?: ' ' }}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
@@ -634,7 +634,7 @@
                                 <div class="ml-4 min-w-0 flex-1">
                                     <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
                                     <p class="truncate text-xs text-gray-500">
-                                        {{ $media->description ?: __('gallery_manage.no_description') }}</p>
+                                        {{ $media->description ?: ' ' }}</p>
                                     <div class="mt-1 flex items-center text-xs text-gray-400">
                                         <span class="flex items-center">
                                             <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>

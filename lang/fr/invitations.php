@@ -5,7 +5,7 @@ return [
     'tabs' => [
         'received' => 'Reçus',
         'pending' => 'En attente',
-        'accepted' => 'Accepter'
+        'accepted' => 'Acceptée'
     ],
     'search_placeholder' => 'Chercher le nom ou email ...',
     'no_invitations' => 'Aucune invitation reçue.',

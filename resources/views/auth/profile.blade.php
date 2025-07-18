@@ -1451,7 +1451,7 @@
                     {{-- Pour la vérification --}}
                     @if ($user->profile_verifie === 'verifier')
                         <div
-                            class="border-blue-gs font-roboto-slab text-blue-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-blue-gs font-roboto-slab text-blue-gs flex w-full items-center justify-between rounded-xl border p-5 mb-5">
                             <p class="flex items-center">
                                 <i class="fas fa-check-circle text-blue-gs mr-2"></i>
                                 {{ __('profile.profile_verified') }}
@@ -1459,7 +1459,7 @@
                         </div>
                     @elseif($user->profile_verifie === 'non verifier')
                         <div
-                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5 mb-5">
                             <p>{{ __('profile.profile_not_verified') }}</p>
                             <button data-modal-target="requestModal" data-modal-toggle="requestModal"
                                 class="cursor-pointer bg-green-gs font-roboto-slab text-white px-5 py-2 hover:bg-fieldBg hover:text-green-gs">
@@ -1468,7 +1468,7 @@
                         </div>
                     @elseif($user->profile_verifie === 'en cours')
                         <div
-                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5">
+                            class="border-green-gs font-roboto-slab text-green-gs flex w-full items-center justify-between rounded-xl border p-5 mb-5">
                             <p>{{ __('profile.profile_under_review') }}</p>
                         </div>
                     @endif

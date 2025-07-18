@@ -60,7 +60,7 @@
                             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 <input id="salon-{{ $salon->id }}" name="salon_ids[]" type="checkbox"
                                     value="{{ $salon->id }}"
-                                    class="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">
+                                    class="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-green-gs focus:ring-2 focus:ring-green-gs dark:border-gray-600 ">
                             </div>
                         </div>
                     </li>
@@ -68,7 +68,7 @@
             </ul>
             <div class="flex justify-center">
                 <button type="submit"
-                    class="bg-green-gs border-green-gs my-2 w-full rounded-lg border p-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    class="bg-green-gs border-green-gs my-2 w-full rounded-lg border p-2.5 text-sm font-medium text-white hover:bg-green-gs/80 focus:outline-none focus:ring-4 focus:ring-green-gs/80 md:w-auto ">
                     {{ __('profile.send_request') }}
                 </button>
             </div>

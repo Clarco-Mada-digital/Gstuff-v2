@@ -198,11 +198,11 @@ return [
 
     'escort_of_salon' => 'Escorte du salon',
     'created_escorts' => 'Escortes créées',
-    'no_created_escorts' => "Aucun escort créé",
+    'no_created_escorts' => "Aucune escorte créée",
     'invited_escorts' => 'Invitée du salon',
-    'no_associated_escorts' => "Aucun escort associé",
-    'create_escort' => 'Créer un escort',
-    'invite_escort' => 'Invité un escort',
+    'no_associated_escorts' => "Aucune escorte associée",
+    'create_escort' => 'Créer une escorte',
+    'invite_escort' => 'Inviter une escorte',
 
     'new_invitation' => 'Nouvelle invitation',
     'pending_invitation' => 'Invitation en attente',

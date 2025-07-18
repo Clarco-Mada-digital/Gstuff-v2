@@ -1,12 +1,12 @@
 @props(['escortsNoInvited', 'listInvitation'])
 
-<div class="mx-auto h-[60vh] w-full rounded-lg bg-white p-6 shadow-lg md:h-[55vh] md:w-[70vw] xl:h-[60vh] xl:w-[50vw]">
+<div class="mx-auto h-[60vh] w-full rounded-lg bg-white p-6 shadow-lg md:h-[55vh] md:w-[70vw] xl:h-[60vh] xl:w-[50vw] font-roboto-slab">
     <ul class="mb-5 divide-x divide-gray-200 rounded-lg text-center text-sm font-medium text-gray-500 shadow sm:flex dark:divide-gray-700 dark:text-gray-400"
         data-tabs-toggle="#tabs-content" role="tablist">
         <li class="flex-1">
             <button id="new-invitation-tab" data-tabs-target="#new-invitation" type="button" role="tab"
                 aria-controls="new-invitation" aria-selected="true"
-                class="w-full rounded-l-lg bg-gray-100 p-4 text-blue-700 dark:bg-gray-800 dark:text-blue-500">
+                class="w-full rounded-l-lg bg-gray-100 p-4 text-green-gs dark:bg-gray-800 dark:text-blue-500">
                 {{ __('profile.new_invitation') }}
             </button>
         </li>
@@ -34,7 +34,7 @@
                         </svg>
                     </div>
                     <input type="text" id="simple-search-new"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         placeholder="{{ __('profile.search_placeholder') }}" oninput="filterEscorts(this.value, 'new')">
                 </div>
             </div>
@@ -60,7 +60,7 @@
                             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 <input id="escort-{{ $escort->id }}" name="escort_ids[]" type="checkbox"
                                     value="{{ $escort->id }}"
-                                    class="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">
+                                    class="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-green-gs focus:ring-2 focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600">
                             </div>
                         </div>
                     </li>
@@ -68,7 +68,7 @@
             </ul>
             <div class="flex justify-center">
                 <button type="submit"
-                    class="bg-green-gs border-green-gs my-2 w-full rounded-lg border p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    class="bg-green-gs border-green-gs my-2 w-full rounded-lg border p-2.5 text-sm font-medium text-white hover:bg-green-gs/80 focus:outline-none focus:ring-4 focus:ring-blue-300 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     {{ __('profile.send_request') }}
                 </button>
             </div>
@@ -87,7 +87,7 @@
                         </svg>
                     </div>
                     <input type="text" id="simple-search-pending"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         placeholder="{{ __('profile.search_placeholder') }}"
                         oninput="filterEscorts(this.value, 'pending')">
                 </div>
