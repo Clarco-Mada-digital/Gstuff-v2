@@ -41,12 +41,40 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Share emoji data with all views
-        $emojiPath = database_path('seeders/dataJson/data-ordered-emoji.json');
+        $emojiPath = database_path('seeders/dataJson/emojis.json');
         if (File::exists($emojiPath)) {
-            $emojis = json_decode(File::get($emojiPath), true);
-            View::share('emojis', $emojis);
+            $emojiData = json_decode(File::get($emojiPath), true);
+            
+            // Flatten the emoji data for simple access
+            $allEmojis = [];
+            $categories = [];
+            
+            foreach ($emojiData as $category) {
+                $categoryName = $category['name'];
+                $categorySlug = $category['slug'];
+                $categoryEmojis = [];
+                
+                foreach ($category['emojis'] as $emoji) {
+                    $allEmojis[] = $emoji['emoji'];
+                    $categoryEmojis[] = [
+                        'char' => $emoji['emoji'],
+                        'name' => $emoji['name'],
+                        'slug' => $emoji['slug']
+                    ];
+                }
+                
+                $categories[] = [
+                    'name' => $categoryName,
+                    'slug' => $categorySlug,
+                    'emojis' => $categoryEmojis
+                ];
+            }
+            
+            View::share('emojiCategories', $categories);
+            View::share('allEmojis', $allEmojis);
         } else {
-            View::share('emojis', []);
+            View::share('emojiCategories', []);
+            View::share('allEmojis', []);
         }
     }
 }
