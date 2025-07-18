@@ -1,4 +1,4 @@
-<div class="w-full" x-data="gallery()" x-init="initGallery()" x-cloak @keydown.left="if(fullscreen) navigateMedia(-1)"
+<div class="w-full my-10" x-data="gallery()" x-init="initGallery()" x-cloak @keydown.left="if(fullscreen) navigateMedia(-1)"
     @keydown.right="if(fullscreen) navigateMedia(1)">
     <!-- Header -->
 

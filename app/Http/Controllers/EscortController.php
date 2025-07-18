@@ -12,6 +12,7 @@ use App\Models\Invitation;
 use App\Models\Favorite;
 use App\Models\Commentaire;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Gallery;
 
 
 use App\Models\Message;
@@ -27,6 +28,14 @@ class EscortController extends Controller
     public function show($id)
     {
         $escort = User::find($id);
+
+        $galleryCount = Gallery::where('user_id', $escort->id)->where('is_public', false)->count();
+
+        $escort['galleryCount'] = $galleryCount;
+
+
+
+        
         $escort['canton'] = Canton::find($escort->canton);
         $escort['ville'] = Ville::find($escort->ville);
       

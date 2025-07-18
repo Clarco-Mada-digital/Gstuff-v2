@@ -289,6 +289,8 @@
 
                 @endif
                 {{-- Private Gallery --}}
+
+                @if($escort->galleryCount > 0)
                 @guest
                 <div class="flex items-center justify-center my-10">
                     <x-auth.login-required 
@@ -297,6 +299,7 @@
                     />
                 </div>
                 @endguest
+                @endif
                 @auth
                     @livewire('gallery-manager', ['user' => $escort, 'isPublic' => false], key($escort->id))
                 @endauth
