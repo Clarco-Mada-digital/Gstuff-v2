@@ -2,7 +2,7 @@
     $cantons = App\Models\Canton::withCount('users')->orderBy('users_count', 'desc')->get();
 @endphp
 <div>
-    <div class="bg-bgFooter relative z-30 mt-10 min-h-[375px] w-full transition-all">
+    <div class="bg-bgFooter relative z-30 mt-10 min-h-[375px] w-full font-roboto-slab transition-all">
         <div class="container mx-auto flex flex-col items-center justify-center gap-12 px-4 py-16 text-sm text-white sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:py-20 xl:gap-24 xl:px-8 xl:text-base">
             <div class="flex w-full max-w-xs flex-col items-center gap-4 text-center sm:max-w-md lg:max-w-none lg:items-start lg:text-left">
                 <a href="{{ route('home') }}" class="w-full max-w-[240px]">
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div
-        class="font-dm relative z-30 flex items-center justify-center bg-bgCopyRight py-7 text-xs text-white transition-all lg:text-base text-textColor">
+        class="font-roboto-slab relative z-30 flex items-center justify-center bg-bgCopyRight py-7 text-xs text-white transition-all lg:text-base text-textColor">
         <p class="text-textColor">Copyright {{ now()->year }} - <a href="{{ route('home') }}" class="mx-2 text-supaGirlRose"> Supagirl </a>
         <a href="{{ route('static.page', 'pdc') }}" class="mx-2 text-supaGirlRose">{{ __('footer.privacy_policy') }}</a>
     </div>

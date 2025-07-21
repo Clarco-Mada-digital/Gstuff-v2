@@ -101,7 +101,7 @@
 </head>
 
 <body
-    class="font-dm relative min-h-[100vh] w-full overflow-x-hidden text-sm font-normal antialiased transition-all md:text-base">
+    class="font-roboto-slab relative min-h-[100vh] w-full overflow-x-hidden text-sm font-normal antialiased transition-all md:text-base">
     @if (session('success'))
         <div id="sessionAlert"
             class="absolute top-3 mb-4 flex items-center rounded-lg bg-green-50 p-4 text-green-800 ring-2 dark:bg-gray-800 dark:text-green-400"

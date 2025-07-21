@@ -12,8 +12,8 @@
             @foreach ($invitationsRecus as $invitationsRecu)
                 <li class="border-b border-gray-100 dark:border-gray-600">
                     <a href="#"
-                        class="flex w-full items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
-                        <div class="flex items-center">
+                        class="flex w-full flex-wrap items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <div class="flex items-center flex-wrap">
                             <div class="me-3 h-11 w-11 rounded-full">
                                 <img x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatar = $invitationsRecu->inviter->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : 'images/icon_logo.png', imgModalDesc: '' })"
                                     class="h-full w-full rounded-full object-cover object-center"
@@ -40,7 +40,7 @@
                         <!-- Bouton pour ouvrir le modal et afficher les détails de l'invitation -->
                         <button
                             class="bg-green-gs flex w-32 cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm text-white hover:bg-green-gs/80
-                            font-roboto-slab "
+                            font-roboto-slab mt-4"
                             data-modal-target="detailInvitation" data-modal-toggle="detailInvitation"
                             x-on:click="$dispatch('invitation-detail', {
                             id: '{{ $invitationsRecu->id }}',
@@ -66,10 +66,10 @@
     <div x-data="{ id: '', avatar: '', nomSalon: '', date: '', type: '', email: '' }"
         x-on:invitation-detail.window="id = $event.detail.id; avatar = $event.detail.avatar; nomSalon = $event.detail.nomSalon; date = $event.detail.date; type = $event.detail.type; email = $event.detail.email"
         id="detailInvitation" tabindex="-1" aria-hidden="true"
-        class="z-90 fixed left-0 right-0 top-0 hidden h-full w-full items-center justify-center backdrop-blur-sm">
+        class="z-90 fixed left-0 right-0 top-0 hidden h-full w-full items-center justify-center backdrop-blur-s px-4 ">
         <!-- Modal -->
         <div
-            class="z-100 mx-auto h-[30vh] w-full overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[70vw] xl:w-[40vw]">
+            class="z-100 mx-auto  w-full font-roboto-slab overflow-y-auto rounded-lg bg-white p-6 shadow-lg md:w-[70vw] xl:w-[40vw]">
             <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('invitations.detailAll.title') }}</h2>
 
             <div class="mt-4 flex flex-wrap items-center justify-between">
@@ -89,7 +89,7 @@
                             class="font-medium text-gray-900 " x-text="type"></span></p> -->
                 </div>
             </div>
-            <div class="flex items-center justify-end gap-4">
+            <div class="flex items-center justify-center gap-4 mt-4">
                 <!-- Bouton pour refuser l'invitation -->
                 <form :action="`{{ route('annuler.invitation', ':id') }}`.replace(':id', id)" method="POST"
                     class="inline">

@@ -97,6 +97,7 @@ class GalleryManager extends Component
             $this->type = $this->selectedMedia->type;
         }
         
+        
         $this->showModal = true;
     }
 

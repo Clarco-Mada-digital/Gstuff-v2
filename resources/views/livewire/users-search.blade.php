@@ -84,10 +84,11 @@
         <div class="mt-8 flex justify-center items-center space-x-2">
             {{-- Premier/Précédent --}}
             <button 
+            class="cursor-pointer font-roboto-slab text-green-gs border border-green-gs rounded px-4 py-2 hover:bg-supaGirlRosePastel"
                 wire:click="previousPage"
                 @disabled($users->onFirstPage())
                 class="px-4 py-2 border rounded {{ $users->onFirstPage() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100' }}">
-                &larr; {{ __('user-search.previous') }}
+                <i class="fas fa-arrow-left"></i>
             </button>
 
             {{-- Pages --}}
@@ -95,7 +96,7 @@
                 @foreach($users->getUrlRange(1, $users->lastPage()) as $page => $url)
                     <button
                         wire:click="gotoPage({{ $page }})"
-                        class="w-10 h-10 flex items-center justify-center border rounded {{ $users->currentPage() === $page ? 'bg-blue-500 text-white' : 'hover:bg-gray-100' }}">
+                        class="w-10 h-10 flex cursor-pointer items-center justify-center border rounded  font-roboto-slab border-green-gs text-green-gs {{ $users->currentPage() === $page ? 'bg-green-gs text-white' : 'hover:bg-gray-100' }}">
                         {{ $page }}
                     </button>
                 @endforeach
@@ -104,9 +105,10 @@
             {{-- Suivant/Dernier --}}
             <button 
                 wire:click="nextPage"
+                class="cursor-pointer font-roboto-slab text-green-gs border border-green-gs rounded px-4 py-2 hover:bg-supaGirlRosePastel"
                 @disabled(!$users->hasMorePages())
                 class="px-4 py-2 border rounded {{ !$users->hasMorePages() ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100' }}">
-                {{ __('user-search.next') }} &rarr;
+                <i class="fas fa-arrow-right"></i>
             </button>
         </div>
         @endif
