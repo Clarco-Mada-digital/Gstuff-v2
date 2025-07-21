@@ -25,4 +25,5 @@ return [
     'update' => 'Update',
     'save' => 'Save',
     'video_not_supported' => 'Your browser does not support videos.',
+    'upload_success' => 'Media has been successfully added.',
 ];

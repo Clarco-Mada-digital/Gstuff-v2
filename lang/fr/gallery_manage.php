@@ -25,4 +25,5 @@ return [
     'update' => 'Mettre à jour',
     'save' => 'Enregistrer',
     'video_not_supported' => 'Votre navigateur ne supporte pas les vidéos.',
+    'upload_success' => 'Les médias ont été ajoutés avec succès.',
 ];

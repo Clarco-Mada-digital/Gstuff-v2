@@ -20,7 +20,7 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
         <div class="w-full max-w-2xl rounded-lg bg-white p-6 font-roboto-slab shadow-xl">
-            <h3 class="mb-4 text-xl font-semibold text-green-gs">aaaaaaaaa
+            <h3 class="mb-4 text-xl font-semibold text-green-gs">
                 {{ __('gallery_manage.add_media') }}
             </h3>
 

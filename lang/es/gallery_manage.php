@@ -25,4 +25,5 @@ return [
     'update' => 'Actualizar',
     'save' => 'Guardar',
     'video_not_supported' => 'Tu navegador no soporta videos.',
+    'upload_success' => 'Los medios se han añadido correctamente.',
 ];
