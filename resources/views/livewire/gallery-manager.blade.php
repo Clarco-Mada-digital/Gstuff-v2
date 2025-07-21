@@ -30,9 +30,10 @@
 
                     <!-- Bouton ajout (seulement pour le propriétaire) -->
                     @if (auth()->id() === $user->id && $isPublic)
-                        <button @click="$wire.openModal()" class="flex items-center gap-2 text-green-gs hover:text-green-gs hover:bg-fieldBg px-5 py-2 bg-supaGirlRose rounded-md  font-roboto-slab cursor-pointer">
-                            <i class="fas fa-plus mr-2"></i> {{ __('gallery_manage.add') }}
-                        </button>
+                       
+                        <x-modal-gallery />
+
+
                     @endif
                 </div>
             </div>
@@ -719,128 +720,6 @@
     </div>
 
     
-    <!-- Modal d'ajout/édition -->
-    <x-modal wire:model="showModal" maxWidth="2xl">
-        <div class="p-6 font-roboto-slab">
-            <h3 class="mb-4 text-xl font-semibold text-green-gs font-roboto-slab">
-                {{ $selectedMedia ? __('gallery_manage.edit_media') : __('gallery_manage.add_media') }}
-            </h3>
-
-            <form wire:submit.prevent="saveMedia">
-                <div class="space-y-4">
-                    <div>
-                        <label class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.title') }}
-                            *</label>
-                        <input type="text" wire:model="title" class="w-full rounded-lg border-gray-300">
-                        @error('title')
-                            <span class="text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label
-                            class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.description') }}</label>
-                        <textarea wire:model="description" rows="3" class="w-full rounded-lg border-gray-300"></textarea>
-                    </div>
-
-                    @if (!$selectedMedia)
-                        <div>
-                            <label
-                                class="mb-1 block text-sm font-medium text-green-gs">{{ __('gallery_manage.media') }}
-                                *</label>
-                            <div x-data="{ isUploading: false, progress: 0, isDragging: false }" x-on:livewire-upload-start="isUploading = true"
-                                x-on:livewire-upload-finish="isUploading = false"
-                                x-on:livewire-upload-error="isUploading = false"
-                                x-on:livewire-upload-progress="progress = $event.detail.progress"
-                                @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false"
-                                @drop.prevent="isDragging = false; $wire.uploadMultiple('media', $event.dataTransfer.files)">
-                                <div class="rounded-lg border-2 border-dashed border-gray-300 p-4 text-center"
-                                    :class="{ 'border-green-gs bg-green-gs/10': isDragging, 'border-gray-300': !isDragging }">
-                                    <input type="file" wire:model="media" multiple accept="image/*,video/*"
-                                        class="hidden" id="galleryUpload">
-                                    <label for="galleryUpload" class="cursor-pointer">
-                                        <i class="fas fa-cloud-upload-alt mb-2 text-3xl text-green-gs"></i>
-                                        <p class="text-sm text-gray-600">{{ __('gallery_manage.drag_drop') }}</p>
-                                        <p class="mt-1 text-xs text-gray-500">
-                                            {{ __('gallery_manage.supported_formats') }}</p>
-                                    </label>
-                                </div>
-
-                                <template x-if="isUploading">
-                                    <div class="mt-2">
-                                        <div class="h-2 overflow-hidden rounded-full bg-gray-200">
-                                            <div class="h-full bg-blue-500" :style="`width: ${progress}%`"></div>
-                                        </div>
-                                        <p class="mt-1 text-xs text-gray-500"
-                                            x-text="`{{ __('gallery_manage.uploading') }}... ${progress}%`"></p>
-                                    </div>
-                                </template>
-
-                                @error('media.*')
-                                    <span class="text-sm text-red-500">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <!-- Prévisualisations -->
-                        <template x-if="$wire.previews.length > 0">
-                            <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                                <template x-for="(preview, index) in $wire.previews" :key="index">
-                                    <div class="group relative overflow-hidden rounded-lg border">
-                                        <!-- {{ __('gallery_manage.image') }} -->
-                                        <template x-if="preview.type === 'image'">
-                                            <img :src="preview.url" :alt="preview.name"
-                                                class="h-32 w-full object-cover">
-                                        </template>
-
-                                        <!-- {{ __('gallery_manage.video') }} -->
-                                        <template x-if="preview.type === 'video'">
-                                            <div class="flex h-32 w-full items-center justify-center bg-gray-200">
-                                                <i class="fas fa-video text-2xl text-gray-400"></i>
-                                            </div>
-                                        </template>
-
-                                        <!-- Infos -->
-                                        <div class="absolute inset-x-0 bottom-0 bg-black/70 p-2 text-white">
-                                            <p class="truncate text-xs" x-text="preview.name"></p>
-                                            <div class="mt-1 h-1 rounded-full bg-gray-600">
-                                                <div class="h-full rounded-full bg-blue-500"
-                                                    :style="'width: ' + ($wire.uploadProgress[index] || 0) + '%'"></div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Bouton supprimer -->
-                                        <button type="button" @click="$wire.removePreview(index)"
-                                            class="absolute right-2 top-2 rounded-full bg-white/80 p-1 opacity-0 transition-opacity group-hover:opacity-100">
-                                            <i class="fas fa-times text-sm text-red-600"></i>
-                                        </button>
-                                    </div>
-                                </template>
-                            </div>
-                        </template>
-                    @endif
-
-                    <div class="flex items-center">
-                        <input type="checkbox" wire:model="isPublic" id="isPublic"
-                            class="rounded border-gray-300 text-green-gs">
-                        <label for="isPublic"
-                            class="ml-2 text-sm text-green-gs">{{ __('gallery_manage.make_public') }}</label>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" @click="$wire.showModal = false"
-                        class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-green-gs transition-colors hover:bg-gray-200">
-                        {{ __('gallery_manage.cancel') }}
-                    </button>
-                    <button type="submit" class="bg-green-gs
-                     rounded px-4 py-2 text-sm font-medium text-white transition-colors 
-                     hover:bg-green-gs/80 rounded-sm">
-                        {{ $selectedMedia ? __('gallery_manage.update') : __('gallery_manage.save') }}
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-modal>
 
     <!-- Modal de visualisation -->
     <div x-show="fullscreen" x-transition:enter="transition ease-out duration-300"

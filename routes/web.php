@@ -23,6 +23,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\MediaController;
 
 use App\Http\Controllers\DistanceMaxController;
 
@@ -221,6 +222,9 @@ Route::post('/stories/{id}/status', [StoryController::class, 'updateStatus'])->n
 
 // ============================== Routes necessite une authentification ===========================================
 Route::middleware('auth')->group(function () {
+    // Media uploads
+    Route::post('/media/upload', [MediaController::class, 'storeGallery'])->name('media.upload');
+    
     // Profile
     Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index');
     // Messenger

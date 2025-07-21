@@ -21,6 +21,7 @@ class GalleryManager extends Component
     public $type = 'image';
     public $selectedMedia;
     public $showModal = false;
+    public $showModalAdd = false;
     public $previews = [];
     public $uploadProgress;
     public $galleries;
@@ -96,9 +97,15 @@ class GalleryManager extends Component
             $this->isPublic = $this->selectedMedia->is_public;
             $this->type = $this->selectedMedia->type;
         }
+
+     
         
         
         $this->showModal = true;
+    }
+
+    public function modaladd(){
+        $this->showModalAdd = true;
     }
 
     public function saveMedia()
@@ -197,7 +204,17 @@ class GalleryManager extends Component
     {
         $media = Gallery::findOrFail($mediaId);
         
-        Storage::disk('public')->delete([$media->path, $media->thumbnail_path]);
+        // Créer un tableau des fichiers à supprimer en excluant les valeurs null
+        $filesToDelete = array_filter([
+            $media->path,
+            $media->thumbnail_path
+        ]);
+        
+        // Supprimer uniquement si le tableau n'est pas vide
+        if (!empty($filesToDelete)) {
+            Storage::disk('public')->delete($filesToDelete);
+        }
+        
         $media->delete();
         
         $this->dispatch('galleryUpdated');
