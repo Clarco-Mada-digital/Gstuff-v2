@@ -14,17 +14,96 @@ class MediaService
     protected $imageManager;
     protected $ffmpegConfig;
 
+    /**
+     * Initialise le service de gestion des médias avec la configuration appropriée.
+     * 
+     * Configuration requise :
+     * 
+     * 1. Pour Windows :
+     *    - Télécharger FFmpeg depuis https://ffmpeg.org/download.html
+     *    - Extraire le contenu dans C:\\ffmpeg
+     *    - Ajouter C:\\ffmpeg\\bin aux variables d'environnement PATH
+     *    - Redémarrer l'ordinateur ou la session utilisateur
+     *    - Vérifier l'installation avec `ffmpeg -version` dans CMD
+     *
+     * 2. Pour Linux (Ubuntu/Debian) :
+     *    ```bash
+     *    # Mettre à jour les paquets
+     *    sudo apt update
+     *    
+     *    # Installer FFmpeg et les dépendances
+     *    sudo apt install -y ffmpeg \
+     *        php-gd \
+     *        php-zip \
+     *        libavcodec-extra \
+     *        libavformat-dev \
+     *        libx264-dev
+     *    
+     *    # Installer PHP-FFMpeg via Composer
+     *    composer require php-ffmpeg/php-ffmpeg
+     *    
+     *    # Vérifier l'installation
+     *    which ffmpeg     # Doit retourner /usr/bin/ffmpeg
+     *    which ffprobe    # Doit retourner /usr/bin/ffprobe
+     *    ```
+     *
+     * 3. Vérification de l'environnement :
+     *    - PHP 8.0 ou supérieur requis
+     *    - Extension GD activée (php.ini: extension=gd)
+     *    - Suffisamment d'espace disque pour le traitement des fichiers temporaires
+     *    - Permissions d'écriture sur les dossiers de stockage
+     *
+     * @throws \RuntimeException Si FFmpeg n'est pas installé ou accessible
+     */
     public function __construct()
     {
-        // Utilisation du driver GD au lieu d'Imagick
+        // Initialisation du gestionnaire d'images avec le driver GD
         $this->imageManager = new ImageManager(Driver::class);
         
+        // Détection du système d'exploitation
+        $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+        
+        // Configuration des chemins FFmpeg selon l'OS
         $this->ffmpegConfig = [
-            'ffmpeg.binaries'  => 'C:/ffmpeg/bin/ffmpeg.exe',
-            'ffprobe.binaries' => 'C:/ffmpeg/bin/ffprobe.exe',
-            'timeout'          => 3600,
-            'ffmpeg.threads'   => 12,
+            'ffmpeg.binaries'  => $isWindows 
+                ? 'C:\\ffmpeg\\bin\\ffmpeg.exe' 
+                : '/usr/bin/ffmpeg',
+                
+            'ffprobe.binaries' => $isWindows
+                ? 'C:\\ffmpeg\\bin\\ffprobe.exe'
+                : '/usr/bin/ffprobe',
+                
+            'timeout'          => 3600,  // 1 heure de timeout
+            'ffmpeg.threads'   => 0,     // 0 = utiliser tous les cœurs disponibles
         ];
+        
+        // Vérification de l'installation de FFmpeg
+        $this->checkFFmpegInstallation();
+    }
+    
+    /**
+     * Vérifie que FFmpeg est correctement installé et accessible
+     * 
+     * @throws \RuntimeException Si FFmpeg n'est pas installé ou accessible
+     */
+    protected function checkFFmpegInstallation(): void
+    {
+        $ffmpegPath = $this->ffmpegConfig['ffmpeg.binaries'];
+        $ffprobePath = $this->ffmpegConfig['ffprobe.binaries'];
+        
+        if (!file_exists($ffmpegPath) || !is_executable($ffmpegPath)) {
+            throw new \RuntimeException(
+                "FFmpeg n'est pas installé ou n'est pas accessible à l'emplacement : " . $ffmpegPath . "\n" .
+                "Veuillez installer FFmpeg et configurer les chemins correctement."
+            );
+        }
+        
+        if (!file_exists($ffprobePath) || !is_executable($ffprobePath)) {
+            throw new \RuntimeException(
+                "FFprobe n'est pas installé ou n'est pas accessible à l'emplacement : " . $ffprobePath . "\n" .
+                "FFprobe est nécessaire pour l'analyse des métadonnées des vidéos."
+            );
+        }
     }
 
     /**
