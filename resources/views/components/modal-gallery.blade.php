@@ -75,14 +75,14 @@
                     <!-- Preview Container -->
                     <div class="mt-4">
                         <div x-show="files.length > 0" class="mb-2 text-sm text-gray-600" x-text="`${files.length} {{ __('gallery_manage.files_selected') }}, ${totalSizeFormatted}`"></div>
-                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 max-h-[30vh] overflow-y-auto">
                             <template x-for="(file, index) in files" :key="index">
-                                <div class="relative rounded-lg border border-gray-200 overflow-hidden">
+                                <div class="relative rounded-lg border border-gray-200 overflow-hidden h-[100px]">
                                     <template x-if="file.type.startsWith('image')">
-                                        <img :src="file.preview" class="h-32 w-full object-cover" :alt="file.name">
+                                        <img :src="file.preview" class="h-full w-full object-cover" :alt="file.name">
                                     </template>
                                     <template x-if="file.type.startsWith('video')">
-                                        <video class="h-32 w-full object-cover" controls>
+                                        <video class="h-full w-full object-cover" controls>
                                             <source :src="file.preview" :type="file.type">
                                         </video>
                                     </template>
