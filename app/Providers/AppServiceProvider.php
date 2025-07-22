@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\File;
+use App\Services\MediaService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
         // User::observe(UserObserver::class);
         $this->app->singleton(\App\Services\DeepLTranslateService::class, function ($app) {
             return new \App\Services\DeepLTranslateService();
+        });
+
+        $this->app->bind(MediaService::class, function ($app) {
+            return new MediaService();
         });
     }
 
