@@ -26,4 +26,5 @@ return [
     'save' => 'Enregistrer',
     'video_not_supported' => 'Votre navigateur ne supporte pas les vidéos.',
     'upload_success' => 'Les médias ont été ajoutés avec succès.',
+    'files_selected' => 'Fichiers sélectionnés',
 ];

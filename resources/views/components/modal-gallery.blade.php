@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <!-- Preview Container -->
+                    <!-- Example 01 -->
                     <!-- <div class="mt-4">
                         <div x-show="files.length > 0" class="mb-2 text-sm text-gray-600" x-text="`${files.length} {{ __('gallery_manage.files_selected') }}, ${totalSizeFormatted}`"></div>
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 max-h-[30vh] overflow-y-auto">
@@ -97,7 +97,7 @@
                     </div> -->
 
 
-                    <!-- Remplacer la section de prévisualisation existante par : -->
+                    <!-- Example 02 -->
                     <div class="mt-4" x-show="files && files.length > 0">
                         <div class="mb-2 text-sm text-gray-600" 
                             x-text="`${files.length} {{ __('gallery_manage.files_selected') }}, ${totalSizeFormatted}`">
@@ -265,6 +265,7 @@ document.addEventListener('alpine:init', () => {
             this.processFiles(files);
         },
 
+        // Example 01
         // async processFiles(fileList) {
         //     console.log('Processing files:', fileList.length);
             
@@ -314,42 +315,44 @@ document.addEventListener('alpine:init', () => {
 //     console.log('Files after $nextTick:', this.files);
 // },
 
-async processFiles(fileList) {
-    console.log('Processing files:', fileList.length);
-    
-    // Convertir FileList en tableau
-    const filesArray = Array.from(fileList);
-    
-    // Filtrer et préparer les fichiers
-    const newFiles = [];
-    
-    for (const file of filesArray) {
-        // Vérifier le type de fichier
-        if (!file.type.match('image.*') && !file.type.match('video.*')) {
-            console.warn('Invalid file type:', file.type);
-            continue;
-        }
-        
-        // Créer un nouvel objet avec les propriétés nécessaires
-        const fileWithPreview = {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            preview: URL.createObjectURL(file),
-            file: file  // Conserver la référence au fichier original pour l'upload
-        };
-        
-        newFiles.push(fileWithPreview);
-    }
+        // Example 02
 
-    // Mettre à jour la liste des fichiers
-    this.files = [...this.files, ...newFiles];
-    
-    console.log('Files ready:', this.files);
-    
-    // Forcer la mise à jour du DOM
-    await this.$nextTick();
-},
+        async processFiles(fileList) {
+            console.log('Processing files:', fileList.length);
+            
+            // Convertir FileList en tableau
+            const filesArray = Array.from(fileList);
+            
+            // Filtrer et préparer les fichiers
+            const newFiles = [];
+            
+            for (const file of filesArray) {
+                // Vérifier le type de fichier
+                if (!file.type.match('image.*') && !file.type.match('video.*')) {
+                    console.warn('Invalid file type:', file.type);
+                    continue;
+                }
+                
+                // Créer un nouvel objet avec les propriétés nécessaires
+                const fileWithPreview = {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    preview: URL.createObjectURL(file),
+                    file: file  // Conserver la référence au fichier original pour l'upload
+                };
+                
+                newFiles.push(fileWithPreview);
+            }
+
+            // Mettre à jour la liste des fichiers
+            this.files = [...this.files, ...newFiles];
+            
+            console.log('Files ready:', this.files);
+            
+            // Forcer la mise à jour du DOM
+            await this.$nextTick();
+        },
 
         removeFile(index) {
             console.log('Removing file at index:', index);
@@ -357,6 +360,7 @@ async processFiles(fileList) {
             this.files.splice(index, 1);
         },
 
+        // Example 01
         // async uploadMedia() {
         //     if (this.files.length === 0) {
         //         console.error('No files to upload');
@@ -442,85 +446,87 @@ async processFiles(fileList) {
         //     }
         // },
 
+        // Example 02
+
         async uploadMedia() {
-    if (this.files.length === 0) {
-        console.error('No files to upload');
-        return;
-    }
+            if (this.files.length === 0) {
+                console.error('No files to upload');
+                return;
+            }
 
-    this.isUploading = true;
-    this.progress = 0;
-    this.errors = {};
+            this.isUploading = true;
+            this.progress = 0;
+            this.errors = {};
 
-    const formData = new FormData();
-    
-    // Ajouter les champs du formulaire
-    formData.append('title', this.$refs.uploadForm.querySelector('[name="title"]').value);
-    formData.append('description', this.$refs.uploadForm.querySelector('[name="description"]').value || '');
-    
-    // Convertir is_public en booléen
-    const isPublic = this.$refs.uploadForm.querySelector('[name="is_public"]').checked;
-    formData.append('is_public', isPublic ? '1' : '0');
-    
-    // Ajouter les fichiers à FormData
-    this.files.forEach((fileObj, index) => {
-        formData.append(`media[${index}]`, fileObj.file); // Utiliser fileObj.file qui contient l'objet File original
-    });
-    
-    console.log('Form data prepared:', {
-        title: formData.get('title'),
-        description: formData.get('description'),
-        is_public: formData.get('is_public'),
-        files: this.files.map(f => f.name)
-    });
+            const formData = new FormData();
+            
+            // Ajouter les champs du formulaire
+            formData.append('title', this.$refs.uploadForm.querySelector('[name="title"]').value);
+            formData.append('description', this.$refs.uploadForm.querySelector('[name="description"]').value || '');
+            
+            // Convertir is_public en booléen
+            const isPublic = this.$refs.uploadForm.querySelector('[name="is_public"]').checked;
+            formData.append('is_public', isPublic ? '1' : '0');
+            
+            // Ajouter les fichiers à FormData
+            this.files.forEach((fileObj, index) => {
+                formData.append(`media[${index}]`, fileObj.file); // Utiliser fileObj.file qui contient l'objet File original
+            });
+            
+            console.log('Form data prepared:', {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                is_public: formData.get('is_public'),
+                files: this.files.map(f => f.name)
+            });
 
-    try {
-        console.log('Starting file upload...');
-        
-        const response = await fetch('{{ route('media.upload') }}', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: formData
-        });
+            try {
+                console.log('Starting file upload...');
+                
+                const response = await fetch('{{ route('media.upload') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                });
 
 
-        // Handle redirect response
-        if (response.redirected) {
-            // If the response is a redirect, follow it
-            window.location.href = response.url;
-            return;
-        }
+                // Handle redirect response
+                if (response.redirected) {
+                    // If the response is a redirect, follow it
+                    window.location.href = response.url;
+                    return;
+                }
 
-        // Gérer la réponse
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Upload failed');
-        }
+                // Gérer la réponse
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Upload failed');
+                }
 
-        const data = await response.json();
-        console.log('Upload successful:', data);
-        
-        // Réinitialiser le formulaire et fermer la modale
-        this.resetForm();
-        this.closeModal();
-        
-        // Émettre un événement pour notifier le composant parent
-        this.$dispatch('media-uploaded', { data });
-        
-        // Afficher un message de succès
-        this.showToast('{{ __("gallery_manage.media_added") }}', 'success');
-        
-    } catch (error) {
-        console.error('Upload error:', error);
-        this.errors.upload = error.message || 'An error occurred during upload';
-        this.showToast(this.errors.upload, 'error');
-    } finally {
-        this.isUploading = false;
-    }
-},
+                const data = await response.json();
+                console.log('Upload successful:', data);
+                
+                // Réinitialiser le formulaire et fermer la modale
+                this.resetForm();
+                this.closeModal();
+                
+                // Émettre un événement pour notifier le composant parent
+                this.$dispatch('media-uploaded', { data });
+                
+                // Afficher un message de succès
+                this.showToast('{{ __("gallery_manage.media_added") }}', 'success');
+                
+            } catch (error) {
+                console.error('Upload error:', error);
+                this.errors.upload = error.message || 'An error occurred during upload';
+                this.showToast(this.errors.upload, 'error');
+            } finally {
+                this.isUploading = false;
+            }
+        },
 
         resetForm() {
             this.files = [];

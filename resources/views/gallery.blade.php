@@ -394,15 +394,18 @@
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth
-                                <div class="relative w-[355px] h-[348px] cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                <div class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                     @if ($media->type === 'image')
+                                        <div class="flex-1 overflow-hidden h-[348px] ">
                                         <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
-                                             src="{{ asset('storage/' . $media->path) }}" 
-                                             class="h-60 w-full object-cover" alt="media">
+                                            src="{{ asset('storage/' . $media->path) }}" 
+                                            class="h-[348px] w-full object-cover object-center" 
+                                            alt="media">
+                                    </div>
                                     @elseif($media->type === 'video')
                                         <div class="relative">
                                             <video @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')" 
-                                                   muted class="pointer-events-none h-60 w-full object-cover brightness-75">
+                                                   muted class="pointer-events-none h-[348px] w-full object-cover brightness-75">
                                                 <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                             </video>
                                             <div class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white">
@@ -420,13 +423,13 @@
                                 </div>
                             @endauth
                             @guest
-                                <div class="w-[355px] h-[348px] relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
+                                <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
                                     @if ($media->type === 'image')
-                                        <img class="blur-md grayscale brightness-75 h-60 w-full object-cover transition duration-300"
+                                        <img class="blur-md grayscale brightness-75 h-[348px] w-full object-cover transition duration-300"
                                             src="{{ asset('storage/' . $media->path) }}" alt="Privé">
                                     @elseif ($media->type === 'video')
                                         <div class="blur-md grayscale brightness-75">
-                                            <video class="h-60 w-full object-cover transition duration-300">
+                                            <video class="h-[348px] w-full object-cover transition duration-300">
                                                 <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                                 Votre navigateur ne supporte pas la vidéo.
                                             </video>
