@@ -3,43 +3,43 @@
             id="openModalBtn"
             class="flex items-center gap-2 text-green-gs hover:text-green-gs hover:bg-fieldBg px-5 py-2 bg-supaGirlRose rounded-md font-roboto-slab cursor-pointer"
         >
-            <i class="fas fa-plus mr-2"></i> Add Media
+            <i class="fas fa-plus mr-2"></i>{{ __('gallery_manage.add') }}
         </button>
 
         <div id="galleryModal" class="modal">
         <div id="modalOverlay" class="modal-overlay">
-            <div class="w-full max-w-2xl rounded-lg bg-white p-6 font-roboto-slab shadow-xl">
+            <div class="w-2xl rounded-lg bg-white p-6 font-roboto-slab shadow-xl mt-10">
                 <h3 class="mb-4 text-xl font-semibold text-green-gs">
-                    Add Media
+                    {{ __('gallery_manage.add_media') }}
                 </h3>
                 <form id="uploadForm" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="space-y-4">
                         <div>
                             <label class="mb-1 block text-sm font-medium text-green-gs">
-                                Title *
+                                {{ __('gallery_manage.title') }} *
                             </label>
                             <input type="text" name="title" id="mediaTitle" required class="w-full rounded-lg border-gray-300">
                             <div id="titleError" class="mt-1 text-sm text-red-500 hidden"></div>
                         </div>
                         <div>
                             <label class="mb-1 block text-sm font-medium text-green-gs">
-                                Description
+                                {{ __('gallery_manage.description') }}
                             </label>
                             <textarea name="description" id="mediaDescription" rows="3" class="w-full rounded-lg border-gray-300"></textarea>
                         </div>
                         <div>
                             <label class="mb-1 block text-sm font-medium text-green-gs">
-                                Media *
+                                {{ __('gallery_manage.media') }} *
                             </label>
                             <div class="upload-container">
                                 <div class="rounded-lg border-2 border-dashed border-gray-300 p-4 text-center" id="dropZone">
                                     <input type="file" name="media[]" multiple accept="image/*,video/*" class="hidden" id="galleryUpload">
                                     <label for="galleryUpload" class="cursor-pointer">
                                         <i class="fas fa-cloud-upload-alt mb-2 text-3xl text-green-gs"></i>
-                                        <p class="text-sm text-gray-600">Drag and drop your files here</p>
+                                        <p class="text-sm text-gray-600">{{ __('gallery_manage.drag_drop') }}</p>
                                         <p class="mt-1 text-xs text-gray-500">
-                                            Supported formats: JPEG, PNG, GIF, MP4
+                                            {{ __('gallery_manage.supported_formats') }}
                                         </p>
                                     </label>
                                 </div>
@@ -47,7 +47,7 @@
                                     <div class="h-2 overflow-hidden rounded-full bg-gray-200">
                                         <div id="progressBar" class="h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
                                     </div>
-                                    <p id="progressText" class="mt-1 text-xs text-gray-500">Uploading... 0%</p>
+                                    <p id="progressText" class="mt-1 text-xs text-gray-500">{{ __('gallery_manage.uploading') }}... 0%</p>
                                 </div>
                                 <div id="fileError" class="mt-1 text-sm text-red-500 hidden"></div>
                             </div>
@@ -59,23 +59,23 @@
                             <input type="checkbox" name="is_public_checkbox" id="isPublic" class="rounded border-gray-300 text-green-gs" checked>
                             <input type="hidden" name="is_public" id="isPublicHidden" value="1">
                             <label for="isPublic" class="ml-2 text-sm text-green-gs">
-                                Make Public
+                                {{ __('gallery_manage.make_public') }}
                             </label>
                         </div>
 
                     </div>
                     <div class="mt-6 flex justify-end space-x-3">
                         <button type="button" id="closeModalBtn" class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-green-gs transition-colors hover:bg-gray-200 disabled:opacity-50">
-                            Cancel
+                            {{ __('gallery_manage.cancel') }}
                         </button>
                         <button type="submit" id="submitBtn" class="bg-green-gs rounded px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-gs/80 disabled:opacity-50">
-                            <span id="submitBtnText">Save</span>
+                            <span id="submitBtnText">{{ __('gallery_manage.save') }}</span>
                             <span id="submitBtnLoading" class="flex items-center hidden">
                                 <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Uploading
+                                {{ __('gallery_manage.uploading') }}
                             </span>
                         </button>
                     </div>
@@ -219,7 +219,7 @@ const initializeGalleryModal = () => {
     const renderFilesPreview = () => {
         filesPreviewContainer.innerHTML = `
             <div class="mb-2 text-sm text-gray-600">
-                ${files.length} files selected, ${formatTotalSize()}
+                ${files.length} {{ __('gallery_manage.files_selected') }}, ${formatTotalSize()}
             </div>
             <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 max-h-[30vh] overflow-y-auto">
                 ${files.map((file, index) => `
