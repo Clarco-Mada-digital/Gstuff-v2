@@ -6,6 +6,7 @@
         $isConnected = auth()->check() && $user->id == auth()->user()->id;
     @endphp
 
+    <div >
     <!-- Si le gallery est public -->
     @if ($isPublic)
         @if ($isConnected)
@@ -662,7 +663,7 @@
 
 
 <!-- Modal d'ajout/édition -->
-<x-modal wire:model="showModal" maxWidth="2xl">
+    <x-modal wire:model="showModal" maxWidth="2xl">
         <div class="p-6 font-roboto-slab">
             <h3 class="mb-4 text-xl font-semibold text-green-gs font-roboto-slab">
                 {{ $selectedMedia ? __('gallery_manage.edit_media') : __('gallery_manage.add_media') }}
@@ -811,7 +812,7 @@
                         class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200">
                         {{ __('gallery_manage.cancel') }}
                     </button>
-                    <button @click="$wire.deleteMedia(mediaToDelete); showDeleteModal = false"
+                    <button @click="deleteFunc(); showDeleteModal = false"
                         class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700">
                         <i class="fas fa-trash mr-2"></i> {{ __('gallery_manage.delete') }}
                     </button>
@@ -887,5 +888,7 @@
                 </div>
             </div>
         </template>
+    </div>
+
     </div>
 </div>

@@ -27,4 +27,12 @@ return [
     'video_not_supported' => 'Il tuo browser non supporta i video.',
     'upload_success' => 'I media sono stati aggiunti con successo.',
     'files_selected' => 'File selezionati',
+    'delete_success' => 'Il media è stato eliminato con successo.',
+    'delete_error' => 'Si è verificato un errore durante l\'eliminazione del media.',
+    'quota_exceeded' => 'Hai raggiunto il limite di :max :images immagini e :videos video. Elimina dei media per aggiungerne di nuovi.',
+    'some_files_skipped' => 'Alcuni file non sono stati elaborati.',
+    'file_processing_error' => 'Errore durante l\'elaborazione del file: :filename',
+    'quota_reached' => 'Limite di :limit :type raggiunto. Alcuni file non sono stati elaborati.',
+    'quota_exceededImage' => 'Hai raggiunto il limite di 10 immagini. Elimina dei media per aggiungerne di nuovi.',
+    'quota_exceededVideo' => 'Hai raggiunto il limite di 10 video. Elimina dei media per aggiungerne di nuovi.',
 ];

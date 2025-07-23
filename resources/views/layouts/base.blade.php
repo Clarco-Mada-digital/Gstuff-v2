@@ -865,6 +865,33 @@
                         description: media.description
                     };
                 },
+
+                async deleteFunc() {
+
+                    try {
+                        const response = await fetch(`/profile/media/${this.mediaToDelete}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: {}
+                        });
+
+                        if (response.redirected) {
+                            window.location.reload();
+                        } else if (response.ok) {
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Une erreur est survenue lors de la suppression du média.');
+                    }
+
+                    
+                },
+
+                
                 // Modifier les clics initiaux pour mettre à jour l'index
                 initGallery() {
                     this.$watch('fullscreen', (value) => {

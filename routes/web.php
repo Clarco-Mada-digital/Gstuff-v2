@@ -224,6 +224,8 @@ Route::post('/stories/{id}/status', [StoryController::class, 'updateStatus'])->n
 Route::middleware('auth')->group(function () {
     // Media uploads
     Route::post('/media/upload', [MediaController::class, 'storeGallery'])->name('media.upload');
+    Route::delete('/profile/media/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
+
     
     // Profile
     Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index');

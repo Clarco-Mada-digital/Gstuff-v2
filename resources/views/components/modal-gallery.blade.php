@@ -313,11 +313,12 @@ const initializeGalleryModal = () => {
 
         } catch (error) {
             console.error('Upload error:', error);
-        } finally {
             isUploading = false;
             submitBtnText.classList.remove('hidden');
             submitBtnLoading.classList.add('hidden');
             isFormSubmitting = false;
+        } finally {
+           
         }
     };
 

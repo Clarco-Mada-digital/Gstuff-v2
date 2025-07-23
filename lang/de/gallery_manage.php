@@ -27,4 +27,12 @@ return [
     'video_not_supported' => 'Ihr Browser unterstützt keine Videos.',
     'upload_success' => 'Medien wurden erfolgreich hinzugefügt.',
     'files_selected' => 'Ausgewählte Dateien',
+    'delete_success' => 'Medium wurde erfolgreich gelöscht.',
+    'delete_error' => 'Beim Löschen des Mediums ist ein Fehler aufgetreten.',
+    'quota_exceeded' => 'Sie haben das Limit von :max :images Bildern und :videos Videos erreicht. Löschen Sie Medien, um neue hinzuzufügen.',
+    'some_files_skipped' => 'Einige Dateien konnten nicht verarbeitet werden.',
+    'file_processing_error' => 'Fehler beim Verarbeiten der Datei: :filename',
+    'quota_reached' => 'Limit von :limit :type erreicht. Einige Dateien wurden nicht verarbeitet.',
+    'quota_exceededImage' => 'Sie haben das Limit von 10 Bildern erreicht. Löschen Sie Medien, um neue hinzuzufügen.',
+    'quota_exceededVideo' => 'Sie haben das Limit von 10 Videos erreicht. Löschen Sie Medien, um neue hinzuzufügen.',
 ];

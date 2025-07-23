@@ -425,8 +425,10 @@
                             @guest
                                 <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
                                     @if ($media->type === 'image')
+                                    <div class="flex-1 overflow-hidden h-[348px] ">
                                         <img class="blur-md grayscale brightness-75 h-[348px] w-full object-cover transition duration-300"
                                             src="{{ asset('storage/' . $media->path) }}" alt="Privé">
+                                    </div>
                                     @elseif ($media->type === 'video')
                                         <div class="blur-md grayscale brightness-75">
                                             <video class="h-[348px] w-full object-cover transition duration-300">

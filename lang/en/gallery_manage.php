@@ -27,4 +27,12 @@ return [
     'video_not_supported' => 'Your browser does not support videos.',
     'upload_success' => 'Media has been successfully added.',
     'files_selected' => 'Selected files',
+    'delete_success' => 'Media has been successfully deleted.',
+    'delete_error' => 'An error occurred while deleting the media.',
+    'quota_exceeded' => 'You have reached the limit of :max :images images and :videos videos. Delete media to add new ones.',
+    'some_files_skipped' => 'Some files could not be processed.',
+    'file_processing_error' => 'Error processing file: :filename',
+    'quota_reached' => 'Limit of :limit :type reached. Some files were not processed.',
+    'quota_exceededImage' => 'You have reached the limit of 10 images. Delete media to add new ones.',
+    'quota_exceededVideo' => 'You have reached the limit of 10 videos. Delete media to add new ones.',
 ];

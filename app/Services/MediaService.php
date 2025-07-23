@@ -131,23 +131,84 @@ class MediaService
     }
 
     /**
-     * Compresse et enregistre une image
+     * Compresse et enregistre une image avec une taille maximale
+     * 
+     * @param UploadedFile $file Fichier image source
+     * @param int $userId ID de l'utilisateur
+     * @param int $quality Qualité de compression (1-100)
+     * @param int $maxDimension Dimension maximale (largeur ou hauteur)
+     * @return string Chemin de l'image compressée
+     * @throws \Exception Si le traitement de l'image échoue
      */
-    public function compressAndStoreImage(UploadedFile $file, int $userId, int $quality = 75): string
+    public function compressAndStoreImage(UploadedFile $file, int $userId, int $quality = 75, int $maxDimension = 700): string
     {
-        $directory = "galleries/{$userId}";
-        $this->ensureDirectoryExists($directory);
+        try {
+            $directory = "galleries/{$userId}";
+            $this->ensureDirectoryExists($directory);
 
-        $filename = uniqid() . '.jpg';
-        $path = "{$directory}/{$filename}";
-        
-        $image = $this->imageManager->read($file->getRealPath());
-        $image->scaleDown(1920);
-        $encodedImage = (string) $image->toJpeg($quality);
-        
-        Storage::disk('public')->put($path, $encodedImage);
-        
-        return $path;
+            $filename = uniqid() . '.jpg';
+            $path = "{$directory}/{$filename}";
+            
+            // Lire l'image et ses dimensions
+            $image = $this->imageManager->read($file->getRealPath());
+            
+            // Obtenir les dimensions actuelles
+            $width = $image->width();
+            $height = $image->height();
+            
+            logger()->debug('Traitement de l\'image', [
+                'original_size' => "{$width}x{$height}",
+                'file_size' => $file->getSize(),
+                'mime_type' => $file->getMimeType()
+            ]);
+            
+            // Vérifier si un redimensionnement est nécessaire
+            if ($width > $maxDimension || $height > $maxDimension) {
+                // Calculer les nouvelles dimensions en conservant le ratio
+                $ratio = $width / $height;
+                
+                if ($width > $height) {
+                    $newWidth = $maxDimension;
+                    $newHeight = (int) round($maxDimension / $ratio);
+                } else {
+                    $newHeight = $maxDimension;
+                    $newWidth = (int) round($maxDimension * $ratio);
+                }
+                
+                // Redimensionner l'image
+                $image->resize($newWidth, $newHeight, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                
+                logger()->info('Image redimensionnée', [
+                    'original' => "{$width}x{$height}",
+                    'new' => "{$newWidth}x{$newHeight}",
+                    'path' => $path
+                ]);
+            }
+            
+            // Encoder et sauvegarder l'image
+            $encodedImage = (string) $image->toJpeg($quality);
+            
+            // Vérifier la taille du fichier encodé
+            if (strlen($encodedImage) === 0) {
+                throw new \Exception('Échec de l\'encodage de l\'image');
+            }
+            
+            Storage::disk('public')->put($path, $encodedImage);
+            
+            return $path;
+            
+        } catch (\Exception $e) {
+            logger()->error('Erreur lors de la compression de l\'image: ' . $e->getMessage(), [
+                'file' => $file->getClientOriginalName(),
+                'size' => $file->getSize(),
+                'mime' => $file->getMimeType(),
+                'exception' => get_class($e)
+            ]);
+            throw $e;
+        }
     }
 
     /**
@@ -272,7 +333,17 @@ class MediaService
     /**
      * Génère une miniature pour une image
      */
-    public function generateThumbnail(UploadedFile $file, int $userId): ?string
+    /**
+     * Génère une miniature pour une image en conservant le ratio d'aspect
+     * 
+     * @param UploadedFile $file Fichier image source
+     * @param int $userId ID de l'utilisateur
+     * @param int $maxWidth Largeur maximale (par défaut 400px)
+     * @param int $maxHeight Hauteur maximale (par défaut 400px)
+     * @param int $quality Qualité JPEG (1-100)
+     * @return string|null Chemin de la miniature ou null en cas d'erreur
+     */
+    public function generateThumbnail(UploadedFile $file, int $userId, int $maxWidth = 400, int $maxHeight = 400, int $quality = 75): ?string
     {
         try {
             $thumbnailDir = "galleries/{$userId}/thumbnails";
@@ -281,20 +352,34 @@ class MediaService
             $filename = uniqid() . '.jpg';
             $path = "{$thumbnailDir}/{$filename}";
             
-            $image = $this->imageManager->read($file->getRealPath())
-                ->resize(400, 400, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->toJpeg($quality);
+            // Lire l'image et ses dimensions
+            $image = $this->imageManager->read($file->getRealPath());
+            $originalWidth = $image->width();
+            $originalHeight = $image->height();
             
-            $encodedThumbnail = (string) $image;
+            // Calculer les nouvelles dimensions en conservant le ratio
+            $ratio = min($maxWidth / $originalWidth, $maxHeight / $originalHeight);
+            $newWidth = (int) round($originalWidth * $ratio);
+            $newHeight = (int) round($originalHeight * $ratio);
+            
+            // Redimensionner l'image
+            $image->resize($newWidth, $newHeight, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            // Encoder et sauvegarder l'image
+            $encodedThumbnail = (string) $image->toJpeg($quality);
             Storage::disk('public')->put($path, $encodedThumbnail);
             
             return $path;
             
         } catch (\Exception $e) {
-            logger()->error('Erreur génération miniature: ' . $e->getMessage());
+            logger()->error('Erreur génération miniature: ' . $e->getMessage(), [
+                'file' => $file->getClientOriginalName(),
+                'exception' => get_class($e),
+                'trace' => $e->getTraceAsString()
+            ]);
             return null;
         }
     }
