@@ -37,6 +37,8 @@ class MediaController extends Controller
         $user = auth()->user();
         $savedMedia = [];
 
+        // dd($request->file('media'));
+
         foreach ($request->file('media') as $file) {
             try {
                 // Traitement du média via le service
