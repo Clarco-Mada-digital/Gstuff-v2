@@ -109,17 +109,25 @@ class MediaService
     /**
      * Traite et enregistre un média (image ou vidéo)
      */
-    public function processAndStoreMedia(UploadedFile $file, int $userId, int $quality = 75): array
+    public function processAndStoreMedia(UploadedFile $file, int $userId, int $quality = 75 , string $type = 'gallery'): array
     {
         $mimeType = $file->getMimeType();
         $isImage = str_starts_with($mimeType, 'image/');
         
         if ($isImage) {
             $path = $this->compressAndStoreImage($file, $userId, $quality);
-            $thumbnailPath = $this->generateThumbnail($file, $userId);
+            if ($type === 'gallery') {
+                $thumbnailPath = $this->generateThumbnail($file, $userId);
+            }else{
+                $thumbnailPath = null;
+            }
         } else {
             $path = $this->compressAndStoreVideo($file, $userId);
-            $thumbnailPath = null;
+            if ($type === 'gallery') {
+                $thumbnailPath = null;
+            }else{
+                $thumbnailPath = null;
+            }
         }
 
         return [

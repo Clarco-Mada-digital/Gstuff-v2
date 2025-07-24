@@ -18,6 +18,11 @@ class Kernel extends ConsoleKernel
             '--model' => [ActivityLog::class],
         ])->daily();
 
+        // Suppression des stories expirées toutes les 5 minutes
+        $schedule->command('stories:delete-expired')
+                ->hourly()
+                ->appendOutputTo(storage_path('logs/story-cleanup.log'));
+                 
         $schedule->command('stories:clean')->everyMinute();
     }
 

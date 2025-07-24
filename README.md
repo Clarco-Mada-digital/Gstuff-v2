@@ -42,6 +42,58 @@ npm run dev
 php artisan storage:link
 ```
 
+## Planification des taches
+
+### En local
+```bash
+php artisan schedule:run
+```
+
+### En production (Linux, Unix)
+```bash
+Ouvrir le crontab : crontab -e
+Ajouter la ligne suivante :
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+### Configuration de FFmpeg
+Initialise le service de gestion des médias avec la configuration appropriée.
+Configuration requise :
+
+1. Pour Windows :
+    - Télécharger FFmpeg depuis https://ffmpeg.org/download.html
+    - Extraire le contenu dans C:\\ffmpeg
+    - Ajouter C:\\ffmpeg\\bin aux variables d'environnement PATH
+    - Redémarrer l'ordinateur ou la session utilisateur
+    - Vérifier l'installation avec `ffmpeg -version` dans CMD
+
+2. Pour Linux (Ubuntu/Debian) :
+    ```bash
+    # Mettre à jour les paquets
+    sudo apt update
+    
+    # Installer FFmpeg et les dépendances
+    sudo apt install -y ffmpeg \
+        php-gd \
+        php-zip \
+        libavcodec-extra \
+        libavformat-dev \
+        libx264-dev
+    
+    # Installer PHP-FFMpeg via Composer
+    composer require php-ffmpeg/php-ffmpeg
+    
+    # Vérifier l'installation
+    which ffmpeg     # Doit retourner /usr/bin/ffmpeg
+    which ffprobe    # Doit retourner /usr/bin/ffprobe
+    ```
+
+    3. Vérification de l'environnement :
+        - PHP 8.0 ou supérieur requis
+        - Extension GD activée (php.ini: extension=gd)
+        - Suffisamment d'espace disque pour le traitement des fichiers temporaires
+        - Permissions d'écriture sur les dossiers de stockage
+
 ## Utilisation
 Ouvrez votre navigateur et accédez à http://127.0.0.1:8000 pour voir votre application en action 🎉.
 

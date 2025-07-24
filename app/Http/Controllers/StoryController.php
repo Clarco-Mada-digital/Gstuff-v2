@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
+use App\Services\MediaService;
 
 class StoryController extends Controller
 {
+
+    protected $mediaService;
+
+    public function __construct(MediaService $mediaService)
+    {
+        $this->mediaService = $mediaService;
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -20,7 +28,8 @@ class StoryController extends Controller
         $file = $request->file('media');
         $mediaType = Str::contains($file->getMimeType(), 'video') ? 'video' : 'image';
         
-        $path = $file->store('stories', 'public');
+        $mediaData = $this->mediaService->processAndStoreMedia($file, auth()->id(), 75, 'story');
+        $path = $mediaData['path'];
 
         $story = Story::create([
             'user_id' => auth()->id(),
