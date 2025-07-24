@@ -4,22 +4,35 @@ namespace Database\Seeders;
 
 use App\Models\Canton;
 use App\Models\Ville;
+use Database\Seeders\Traits\DisableForeignKeys;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class CantonVilleSeeder extends Seeder
 {
+    use DisableForeignKeys;
+    
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
         // Vider les tables en commençant par les villes (pour éviter les contraintes de clé étrangère)
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        Ville::truncate();
-        Canton::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        $this->disableForeignKeys();
+        
+        // Utiliser delete() au lieu de truncate() pour SQLite
+        if (DB::getDriverName() === 'sqlite') {
+            Ville::query()->delete();
+            Canton::query()->delete();
+            // Réinitialiser les séquences d'auto-incrémentation pour SQLite
+            DB::statement('DELETE FROM sqlite_sequence WHERE name IN ("cantons", "villes")');
+        } else {
+            Ville::truncate();
+            Canton::truncate();
+        }
+        
+        $this->enableForeignKeys();
 
         // Chemin vers le fichier JSON
         $json = File::get(database_path('seeders/dataJson/cantons_et_villes_geolocalises.json'));

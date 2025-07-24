@@ -26,8 +26,9 @@ class DatabaseSeeder extends Seeder
             TattooSeeder::class,
             MobiliteSeeder::class,
             NombreFilleSeeder::class,
-            CantonSeeder::class, // Exécute CantonSeeder en premier
-            VilleSeeder::class,  // Puis exécute VilleSeeder
+            CantonVilleSeeder::class,
+            // CantonSeeder::class, // Exécute CantonSeeder en premier
+            // VilleSeeder::class,  // Puis exécute VilleSeeder
             CategorieSeeder::class,  // Puis exécute CategorieSeeder
             ServiceSeeder::class,  // Puis exécute ServiceSeeder
             RolePermissionSeeder::class,  // Puis exécute RolePermissionSeeder

@@ -685,8 +685,11 @@ class ArticleSeeder extends Seeder
         foreach ($articles as $article) {
             $baseSlug = $article['slug'];
             $slug = $baseSlug;
+            // Requête compatible SQLite pour vérifier les slugs similaires
             $slugCount = DB::table('articles')
-                ->whereRaw("slug REGEXP '^{$baseSlug}(-[0-9]+)?$'")
+            // ->whereRaw("slug REGEXP '^{$baseSlug}(-[0-9]+)?$'") pour mysql
+                ->where('slug', $baseSlug)  // pour sqlite
+                ->orWhere('slug', 'LIKE', $baseSlug . '-%')
                 ->count();
 
             // Si des articles avec ce slug existent, ajoutez un suffixe numérique
