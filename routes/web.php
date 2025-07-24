@@ -24,6 +24,7 @@ use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MessengerApiController;
 
 use App\Http\Controllers\DistanceMaxController;
 
@@ -241,6 +242,13 @@ Route::middleware('auth')->group(function () {
     Route::post('messenger/favorite', [MessengerController::class, 'favorite'])->name('messenger.favorite');
     Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
     Route::delete('messenger/delete-message', [MessengerController::class, 'deleteMessage'])->name('messenger.delete-message');
+
+    Route::post('api/send-message', [MessengerApiController::class, 'sendMessage']);
+    Route::get('api/fetch-messages', [MessengerApiController::class, 'fetchMessages']);
+    Route::get('api/fetch-contacts', [MessengerApiController::class, 'fetchContacts']);
+    Route::post('api/make-seen', [MessengerApiController::class, 'makeSeen']);
+    Route::get('api/fetch-unread-counts', [MessengerApiController::class, 'fetchUnreadMessagesCount']);
+  
 
     // Profile visibility
     Route::get('/profile/visibility', [ProfileVisibilityController::class, 'edit'])->name('profile.visibility.edit');
