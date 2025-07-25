@@ -108,6 +108,7 @@ class MessengerApiController extends Controller
         $message->body = $request->message;
 
         if ($request->hasFile('attachment')) {
+            
             $attachmentPath = $request->file('attachment')->store('attachments', 'public');
             $message->attachment = $attachmentPath;
         }
