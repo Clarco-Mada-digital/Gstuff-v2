@@ -7,7 +7,7 @@
         position: relative; /* Assurez-vous que le conteneur est positionné relativement */
     }
     .message-received {
-        background-color: #e3fcef;
+        background-color:rgb(249, 215, 230);
         margin-left: auto;
         margin-right: 10px;
         max-width: 70%;
@@ -98,7 +98,7 @@
 <div id="chatContainer" class="fixed bottom-6 right-6 z-50">
     <!-- Bouton de chat flottant -->
     <button id="chatButton" type="button"
-        class="relative inline-flex items-center justify-center rounded-full bg-green-500 p-3 text-white shadow-lg transition-all duration-200 cursor-pointer hover:bg-green-400 focus:outline-none"
+        class="relative inline-flex items-center justify-center rounded-full bg-green-gs p-3 text-white shadow-lg transition-all duration-200 cursor-pointer hover:bg-green-gs/80 focus:outline-none"
         aria-label="Open chat">
         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 16" aria-hidden="true">
             <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
@@ -113,10 +113,10 @@
     <!-- Fenêtre de chat -->
     <div id="chatWindow" class="flex h-[400px] w-[300px] max-w-sm flex-col overflow-hidden rounded-lg bg-white shadow-xl" style="display: none;">
         <!-- En-tête du chat -->
-        <div class="flex items-center justify-between bg-green-500 p-4 text-white">
+        <div class="flex items-center justify-between bg-green-gs p-4 text-white">
             <div class="flex items-center space-x-3">
                 <button id="resetSender" aria-label="Back to contacts"
-                    class="rounded-full p-1 transition-colors hover:bg-green-400" style="display: none;">
+                    class="rounded-full p-1 transition-colors hover:bg-supaGirlRose" style="display: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
@@ -130,7 +130,7 @@
                 </h2>
             </div>
             <button id="closeChat" aria-label="Close chat"
-                class="rounded-full p-1 transition-colors hover:bg-red-400">
+                class="rounded-full p-1 transition-colors hover:bg-supaGirlRose">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -150,9 +150,9 @@
         <!-- Zone de saisie -->
         <div id="messageInputContainer" class="border-t border-gray-200 bg-white p-3" style="display: none;">
             <div class="flex space-x-2">
-                <input type="text" id="messageInput" placeholder="Type your message..."
-                    class="flex-1 rounded-full border border-gray-300 px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-500">
-                <button id="sendMessage" class="rounded-full bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-400 focus:outline-none">
+                <input type="text" id="messageInput" placeholder="{{ __('chat.type_message') }}"
+                    class=" text-sm flex-1 rounded-full border border-green-gs px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-gs w-[80%]">
+                <button id="sendMessage" class="rounded-full bg-green-gs px-3 py-2 text-white transition-colors hover:bg-green-gs/80 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
@@ -172,8 +172,8 @@
 
 <!-- Modal pour afficher l'image -->
 <div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-  <span class="absolute right-4 top-4 cursor-pointer text-4xl text-white hover:text-gray-400">
-    <i class="fa-solid fa-xmark"></i>
+  <span class="absolute right-4 top-4 cursor-pointer bg-supaGirlRose text-white hover:text-gray-400 rounded-full p-1 transition-colors hover:bg-green-gs/80 py-2 px-4">
+    <i class="fa-solid fa-xmark text-white text-sm"></i>
   </span>
   <div class="flex items-center justify-center max-h-[80vh] max-w-[80vw]">
     <img id="modalImage" class="max-h-full max-w-full object-contain">
@@ -308,7 +308,7 @@
                             ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
                         </div>
                         <div class="ml-3 flex-1">
-                            <h3 class="font-medium text-green-500">${user.pseudo || user.prenom || user.nom_salon}</h3>
+                            <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
                             <div class="flex items-center justify-between">
                              <p class="text-xs">
                                     ${user.from_id !== user.viewer_id ? '{{ __('chat.you') }}' : user.pseudo || user.prenom || user.nom_salon}

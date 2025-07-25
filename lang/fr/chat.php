@@ -27,7 +27,7 @@ return [
     'block_failed' => 'Échec du blocage de l\'utilisateur',
     'unblock_failed' => 'Échec du déblocage de l\'utilisateur',
     'messages' => 'Messages',
-    'you' => 'Vous',
+    'you' => 'Vous :',
     'no_messages_yet' => 'Aucun message encore',
     'attachment' => 'Image',
     'just_now' => 'À l\'instant',
