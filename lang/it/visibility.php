@@ -36,5 +36,6 @@ return [
         'remove' => 'Rimuovi',
         'highlight' => 'Selezionato'
     ],
-    'save' => 'Salva modifiche'
+    'save' => 'Salva modifiche',
+    'back' => 'Indietro'
 ];

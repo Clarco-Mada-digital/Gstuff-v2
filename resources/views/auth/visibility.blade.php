@@ -113,7 +113,7 @@
                     </div>
                 </div>
 
-                <div class="border-t border-gray-200 pt-6">
+                <div class="border-t border-gray-200 pt-6 flex justify-between  flex-wrap">
                     <button type="submit"
                         class="inline-flex font-roboto-slab w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-green-gs to-green-gs px-6 py-3 text-white shadow-sm transition-all duration-150 hover:from-green-gs/50 hover:to-green-gs/50 focus:outline-none focus:ring-2 focus:ring-green-gs/50 focus:ring-offset-2 sm:w-auto">
                         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,6 +121,12 @@
                         </svg>
                         {{ __('visibility.save') }}
                     </button>
+
+                    <a href="{{ route('profile.index') }}"
+                        class="inline-flex font-roboto-slab w-full items-center justify-center rounded-md border border-transparent 
+                        bg-white px-6 py-3 text-green-gs shadow-sm transition-all duration-150 hover:bg-green-gs/50 focus:outline-none focus:ring-2 focus:ring-green-gs/50 focus:ring-offset-2 sm:w-auto">
+                        {{ __('visibility.back') }}
+                    </a>
                 </div>
             </form>
         </div>
