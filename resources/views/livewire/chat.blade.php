@@ -4,6 +4,7 @@
         flex-direction: column-reverse;
         overflow-y: auto;
         max-height: 300px;
+        position: relative; /* Assurez-vous que le conteneur est positionné relativement */
     }
     .message-received {
         background-color: #e3fcef;
@@ -23,8 +24,18 @@
         padding: 8px 12px;
         margin-bottom: 10px;
     }
+    .loading {
+        display: none;
+        position: absolute; /* Position absolue pour le spinner */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
+@if($user)
 <div id="chatContainer" class="fixed bottom-6 right-6 z-50">
     <!-- Bouton de chat flottant -->
     <button id="chatButton" type="button"
@@ -34,11 +45,12 @@
             <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
             <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
         </svg>
-        <span id="unreadCountBadge" class="absolute -right-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white">
+        <span id="unreadCountBadge"
+         style="display: none"
+        class="absolute -right-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white">
          0
         </span>
     </button>
-
     <!-- Fenêtre de chat -->
     <div id="chatWindow" class="flex h-[400px] w-[300px] max-w-sm flex-col overflow-hidden rounded-lg bg-white shadow-xl" style="display: none;">
         <!-- En-tête du chat -->
@@ -70,6 +82,12 @@
         <div id="messagesContainer" class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4" style="display: none;">
             <!-- Les messages seront ajoutés ici dynamiquement -->
         </div>
+
+        <div id="containerSpinner" class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4 " style="display: flex;">
+            <h1>Chargement...</h1>
+        </div>
+
+    
         <!-- Zone de saisie -->
         <div id="messageInputContainer" class="border-t border-gray-200 bg-white p-3" style="display: none;">
             <div class="flex space-x-2">
@@ -87,9 +105,13 @@
         <!-- Liste des contacts -->
         <div id="contactsContainer" class="flex-1 overflow-y-auto bg-gray-50 p-2">
             <!-- Les contacts seront ajoutés ici dynamiquement -->
+            <div id="contactsLoading" class="loading">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
         </div>
     </div>
 </div>
+@endif
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -100,27 +122,35 @@
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const messagesContainer = document.getElementById('messagesContainer');
+        const containerSpinner = document.getElementById('containerSpinner');
         const messageInputContainer = document.getElementById('messageInputContainer');
         const contactsContainer = document.getElementById('contactsContainer');
         const messageInput = document.getElementById('messageInput');
         const sendMessageButton = document.getElementById('sendMessage');
         const unreadCountBadge = document.getElementById('unreadCountBadge');
+        const messagesLoading = document.getElementById('messagesLoading');
+        const contactsLoading = document.getElementById('contactsLoading');
         let currentUserId = null;
+        let oldUser = null;
 
         chatButton.addEventListener('click', function () {
             chatWindow.style.display = 'flex';
             chatButton.style.display = 'none';
-            fetchContacts(); // Charger les contacts lorsque le chat est ouvert
+            fetchContacts();
         });
 
         closeChat.addEventListener('click', function () {
-            chatWindow.style.display = 'none';
-            chatButton.style.display = 'block';
+            fetchUnreadCounts();
+            setTimeout(() => {
+                chatWindow.style.display = 'none';
+                chatButton.style.display = 'block';
+            }, 150);
         });
 
         resetSender.addEventListener('click', function () {
             messagesContainer.style.display = 'none';
             messageInputContainer.style.display = 'none';
+            containerSpinner.style.display = 'none';
             contactsContainer.style.display = 'block';
             resetSender.style.display = 'none';
             userAvatar.style.display = 'none';
@@ -130,9 +160,12 @@
         sendMessageButton.addEventListener('click', function () {
             if (currentUserId && messageInput.value.trim() !== '') {
                 sendMessage(currentUserId, messageInput.value);
-                messageInput.value = ''; // Efface le champ de saisie après l'envoi
+                messageInput.value = '';
             }
         });
+
+        fetchUnreadCounts();
+        const unreadCountsInterval = setInterval(fetchUnreadCounts, 30000);
 
         function fetchUnreadCounts() {
             fetch('/api/fetch-unread-counts')
@@ -163,16 +196,25 @@
             });
         }
 
+        unreadCountBadge.style.display = 'none';
+
         function updateTotalUnreadCount(unreadCounts) {
             const totalUnreadCount = Object.values(unreadCounts).reduce((sum, count) => sum + count, 0);
             unreadCountBadge.textContent = totalUnreadCount;
+            if (totalUnreadCount === 0) {
+                unreadCountBadge.style.display = 'none';
+            } else {
+                unreadCountBadge.style.display = 'inline-flex';
+            }
         }
 
         function fetchContacts() {
+            containerSpinner.style.display = 'none';
+            contactsLoading.style.display = 'flex';
             fetch('/api/fetch-contacts')
                 .then(response => response.json())
                 .then(data => {
-                    contactsContainer.innerHTML = ''; // Efface les contacts précédents
+                    contactsContainer.innerHTML = '';
                     if (data.contacts === 'No contacts found') {
                         contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
                     } else {
@@ -180,8 +222,7 @@
                             const contactElement = document.createElement('div');
                             contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
                             contactElement.setAttribute('data-user-id', user.id);
-                            contactElement.onclick = () => loadMessages(user);
-
+                            contactElement.onclick = () => showMessages(user);
                             contactElement.innerHTML = `
                                 <div class="relative">
                                     <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
@@ -194,32 +235,43 @@
                             `;
                             contactsContainer.appendChild(contactElement);
                         });
-                        fetchUnreadCounts(); // Appeler pour obtenir les comptes de messages non lus
+                        fetchUnreadCounts();
                     }
                 })
-                .catch(error => console.error('Error fetching contacts:', error));
+                .catch(error => console.error('Error fetching contacts:', error))
+                .finally(() => {
+                    contactsLoading.style.display = 'none';
+                });
+        }
+
+        function showMessages(user) {
+            // messagesLoading.style.display = 'flex';
+          
+            messagesContainer.innerHTML = '';
+            containerSpinner.style.display = 'flex';
+            loadMessages(user);
+            containerSpinner.style.display = 'none';
+
         }
 
         function loadMessages(user) {
+            
             currentUserId = user.id;
             userAvatar.src = user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png';
             userName.textContent = user.pseudo || user.prenom || user.nom_salon || 'Utilisateur';
-            // Afficher les éléments de l'en-tête et les zones de messages et de saisie
             resetSender.style.display = 'block';
             userAvatar.style.display = 'block';
+            // containerSpinner.style.display = 'none';
             messagesContainer.style.display = 'block';
             messageInputContainer.style.display = 'block';
             contactsContainer.style.display = 'none';
-
             axios.post('/api/make-seen', { id: user.id });
-
-            // Charger les messages pour l'utilisateur sélectionné
             fetch(`/api/fetch-messages?id=${user.id}`)
                 .then(response => response.json())
                 .then(data => {
-                    messagesContainer.innerHTML = ''; // Efface les messages précédents
+
+                    messagesContainer.innerHTML = '';
                     if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
-                        // Inverser l'ordre des messages pour afficher les plus récents en bas
                         const messages = data.messages.data.reverse();
                         messages.forEach(message => {
                             const messageElement = document.createElement('div');
@@ -230,8 +282,15 @@
                     } else {
                         messagesContainer.innerHTML = '<p>No messages found or invalid data format</p>';
                     }
+                    setTimeout(() => {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }, 150);
                 })
-                .catch(error => console.error('Error fetching messages:', error));
+                .catch(error => console.error('Error fetching messages:', error))
+                .finally(() => {
+                    messagesLoading.style.display = 'none';
+                });
+          
         }
 
         function sendMessage(toId, message) {
@@ -246,18 +305,14 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Message sent:', data);
-                // Conserver le nom du contact
                 const currentUserName = userName.textContent;
                 const currentAvatarUrl = userAvatar.src;
-                // Recharger les messages pour afficher le nouveau message
                 loadMessages({ id: toId });
-                // Rétablir le nom du contact
                 userName.textContent = currentUserName;
                 userAvatar.src = currentAvatarUrl;
-                // Faire défiler vers le bas pour afficher le dernier message
                 setTimeout(() => {
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 100); // Un petit délai pour s'assurer que les messages sont chargés
+                }, 150);
             })
             .catch(error => console.error('Error sending message:', error));
         }

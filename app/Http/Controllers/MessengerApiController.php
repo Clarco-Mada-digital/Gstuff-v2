@@ -125,12 +125,9 @@ class MessengerApiController extends Controller
 
     public function fetchMessages(Request $request)
     {
-        $messages = Message::where(function($query) use ($request) {
-            $query->where(['from_id' => Auth::user()->id, 'to_id' => $request->id])
-                  ->orWhere(['from_id' => $request->id, 'to_id' => Auth::user()->id]);
-        })
-        ->latest()
-        ->paginate(20);
+          $messages = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)
+            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)
+            ->latest()->paginate(20);
 
         if ($messages->isEmpty()) {
             return response()->json([

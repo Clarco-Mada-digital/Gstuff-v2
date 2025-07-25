@@ -570,15 +570,16 @@
       Copyright 2025 - <a href="{{ route('home') }}" class="text-yellow-500 mx-2"> Gstuff </a> - <a href="{{ route('pdc') }}" class="text-yellow-500 mx-2"> Politique de confidentialité </a>
     </div> --}}
 
+    @auth
     <div x-data="{
         async loadChat(userId) {
             $dispatch('loadForSender', [userId]);
             await axios.post('/messenger/make-seen', { id: userId });
         }
-        }">
+        }" id="chatshow" class="hidden">
         @livewire('chat')
     </div>
-
+    @endauth
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-3"></div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -615,6 +616,7 @@
         const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
         const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
         const loader = document.getElementById('loader');
+        const chatshow = document.getElementById('chatshow');
 
 
         function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
@@ -910,6 +912,7 @@
             loader.classList.add('fondu-out');
             setTimeout(() => {
                 loader.classList.add('hidden');
+                chatshow.classList.remove('hidden');
             }, 500);
         })
 
