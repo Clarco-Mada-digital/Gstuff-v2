@@ -67,7 +67,7 @@
                 <img id="userAvatar" src="" alt="Avatar de l'utilisateur"
                     class="h-10 w-10 rounded-full border-2 border-white object-cover" style="display: none;">
                 <h2 id="userName" class="max-w-[180px] truncate font-semibold">
-                    Messages
+                    {{ __('chat.messages') }}
                 </h2>
             </div>
             <button id="closeChat" aria-label="Close chat"
@@ -148,6 +148,7 @@
         });
 
         resetSender.addEventListener('click', function () {
+            fetchContacts();
             messagesContainer.style.display = 'none';
             messageInputContainer.style.display = 'none';
             containerSpinner.style.display = 'none';
@@ -208,47 +209,100 @@
             }
         }
 
+        // function fetchContacts() {
+        //     containerSpinner.style.display = 'none';
+        //     contactsLoading.style.display = 'flex';
+        //     fetch('/api/fetch-contacts')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             contactsContainer.innerHTML = '';
+        //             if (data.contacts === 'No contacts found') {
+        //                 contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
+        //             } else {
+        //                 console.log(data.contacts);
+        //                 data.contacts.forEach(user => {
+        //                     const contactElement = document.createElement('div');
+        //                     contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
+        //                     contactElement.setAttribute('data-user-id', user.id);
+        //                     contactElement.onclick = () => showMessages(user);
+        //                     contactElement.innerHTML = `
+        //                         <div class="relative">
+        //                             <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
+        //                             ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
+        //                         </div>
+        //                         <div class="ml-3 flex-1">
+        //                             <h3 class="font-medium text-green-500">${user.pseudo || user.prenom || user.nom_salon}</h3>
+        //                             <p class="truncate text-sm text-gray-500">${user.last_message}</p>
+        //                         </div>
+        //                     `;
+        //                     contactsContainer.appendChild(contactElement);
+        //                 });
+        //                 fetchUnreadCounts();
+        //             }
+        //         })
+        //         .catch(error => console.error('Error fetching contacts:', error))
+        //         .finally(() => {
+        //             contactsLoading.style.display = 'none';
+        //         });
+        // }
+
         function fetchContacts() {
-            containerSpinner.style.display = 'none';
-            contactsLoading.style.display = 'flex';
-            fetch('/api/fetch-contacts')
-                .then(response => response.json())
-                .then(data => {
-                    contactsContainer.innerHTML = '';
-                    if (data.contacts === 'No contacts found') {
-                        contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
-                    } else {
-                        data.contacts.forEach(user => {
-                            const contactElement = document.createElement('div');
-                            contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
-                            contactElement.setAttribute('data-user-id', user.id);
-                            contactElement.onclick = () => showMessages(user);
-                            contactElement.innerHTML = `
-                                <div class="relative">
-                                    <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
-                                    <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>
-                                </div>
-                                <div class="ml-3 flex-1">
-                                    <h3 class="font-medium text-green-500">${user.pseudo || user.prenom || user.nom_salon}</h3>
-                                    <p class="truncate text-sm text-gray-500">Last message preview</p>
-                                </div>
-                            `;
-                            contactsContainer.appendChild(contactElement);
-                        });
-                        fetchUnreadCounts();
-                    }
-                })
-                .catch(error => console.error('Error fetching contacts:', error))
-                .finally(() => {
-                    contactsLoading.style.display = 'none';
+    containerSpinner.style.display = 'none';
+    contactsLoading.style.display = 'flex';
+
+    fetch('/api/fetch-contacts')
+        .then(response => response.json())
+        .then(data => {
+            contactsContainer.innerHTML = '';
+
+            if (data.contacts === 'No contacts found') {
+                contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
+            } else {
+                // Assurez-vous que les contacts sont triés par last_message_time en ordre décroissant
+                data.contacts.sort((a, b) => new Date(b.last_message_time) - new Date(a.last_message_time));
+                console.log(data.contacts);
+                data.contacts.forEach(user => {
+                    const contactElement = document.createElement('div');
+                    contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
+                    contactElement.setAttribute('data-user-id', user.id);
+                    contactElement.onclick = () => showMessages(user);
+                    const formattedTimeAgo = formatTimeAgo(user.last_message_time);
+                    contactElement.innerHTML = `
+                        <div class="relative">
+                            <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
+                            ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <h3 class="font-medium text-green-500">${user.pseudo || user.prenom || user.nom_salon}</h3>
+                            <div class="flex items-center justify-between">
+                             <p class="text-xs">
+                                    ${user.from_id !== user.viewer_id ? '{{ __('chat.you') }}' : user.pseudo || user.prenom || user.nom_salon}
+                                    ${user.last_message.body ? user.last_message.body.substring(0, 6) + (user.last_message.body.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __('chat.attachment') }}' : '{{ __('chat.no_messages_yet') }}'}
+                                </p>
+
+                               <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    contactsContainer.appendChild(contactElement);
                 });
-        }
+
+                fetchUnreadCounts();
+            }
+        })
+        .catch(error => console.error('Error fetching contacts:', error))
+        .finally(() => {
+            contactsLoading.style.display = 'none';
+        });
+}
+
 
         function showMessages(user) {
             // messagesLoading.style.display = 'flex';
-          
-            messagesContainer.innerHTML = '';
             containerSpinner.style.display = 'flex';
+            messagesContainer.innerHTML = '';
+
             loadMessages(user);
             containerSpinner.style.display = 'none';
 
@@ -280,7 +334,7 @@
                             messagesContainer.appendChild(messageElement);
                         });
                     } else {
-                        messagesContainer.innerHTML = '<p>No messages found or invalid data format</p>';
+                        messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
                     }
                     setTimeout(() => {
                         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -316,5 +370,79 @@
             })
             .catch(error => console.error('Error sending message:', error));
         }
+
+        function formatTimeAgo(dateString) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    
+    // Définir les intervalles de temps en secondes
+    const minute = 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const month = day * 30;
+    const year = day * 365;
+
+    // Fonction pour formater avec la traduction
+    function formatTranslation(key, count) {
+        const translations = {
+            'just_now': "{{ __('chat.just_now') }}",
+            'second_1': "{{ __('chat.second_ago', ['count' => 1]) }}",
+            'second_n': "{{ __('chat.seconds_ago', ['count' => 2]) }}".replace('2', count),
+            'minute_1': "{{ __('chat.minute_ago', ['count' => 1]) }}",
+            'minute_n': "{{ __('chat.minutes_ago', ['count' => 2]) }}".replace('2', count),
+            'hour_1': "{{ __('chat.hour_ago', ['count' => 1]) }}",
+            'hour_n': "{{ __('chat.hours_ago', ['count' => 2]) }}".replace('2', count),
+            'day_1': "{{ __('chat.day_ago', ['count' => 1]) }}",
+            'day_n': "{{ __('chat.days_ago', ['count' => 2]) }}".replace('2', count),
+            'month_1': "{{ __('chat.month_ago', ['count' => 1]) }}",
+            'month_n': "{{ __('chat.months_ago', ['count' => 2]) }}".replace('2', count),
+            'year_1': "{{ __('chat.year_ago', ['count' => 1]) }}",
+            'year_n': "{{ __('chat.years_ago', ['count' => 2]) }}".replace('2', count)
+        };
+        return translations[key] || '';
+    }
+
+    // Calculer les différences
+    if (diffInSeconds < minute) {
+        if (diffInSeconds <= 0) return formatTranslation('just_now');
+        return diffInSeconds === 1 
+            ? formatTranslation('second_1')
+            : formatTranslation('second_n', diffInSeconds);
+    }
+    
+    if (diffInSeconds < hour) {
+        const minutes = Math.floor(diffInSeconds / minute);
+        return minutes === 1 
+            ? formatTranslation('minute_1')
+            : formatTranslation('minute_n', minutes);
+    }
+    
+    if (diffInSeconds < day) {
+        const hours = Math.floor(diffInSeconds / hour);
+        return hours === 1 
+            ? formatTranslation('hour_1')
+            : formatTranslation('hour_n', hours);
+    }
+    
+    if (diffInSeconds < month) {
+        const days = Math.floor(diffInSeconds / day);
+        return days === 1 
+            ? formatTranslation('day_1')
+            : formatTranslation('day_n', days);
+    }
+    
+    if (diffInSeconds < year) {
+        const months = Math.floor(diffInSeconds / month);
+        return months === 1 
+            ? formatTranslation('month_1')
+            : formatTranslation('month_n', months);
+    }
+    
+    const years = Math.floor(diffInSeconds / year);
+    return years === 1 
+        ? formatTranslation('year_1')
+        : formatTranslation('year_n', years);
+}
     });
 </script>
