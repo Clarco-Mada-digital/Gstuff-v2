@@ -33,6 +33,65 @@
         justify-content: center;
         align-items: center;
     }
+
+    .image-container {
+    max-width: 300px; /* ou toute autre taille souhaitée */
+    max-height: 300px; /* ou toute autre taille souhaitée */
+    overflow: hidden; /* pour s'assurer que l'image ne dépasse pas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-attachment {
+    max-width: 100%;
+    max-height: 100%;
+}
+    /* Pour les messages envoyés et reçus */
+    .message-sent .message-attachment,
+    .message-received .message-attachment {
+        max-width: 80%; /* L'image prend au maximum 80% de la largeur du conteneur */
+    }
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: auto;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  max-height: 80%;
+  display: block;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 </style>
 
 @if($user)
@@ -110,6 +169,19 @@
             </div>
         </div>
     </div>
+
+<!-- Modal pour afficher l'image -->
+<div id="imageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+  <span class="absolute right-4 top-4 cursor-pointer text-4xl text-white hover:text-gray-400">
+    <i class="fa-solid fa-xmark"></i>
+  </span>
+  <div class="flex items-center justify-center max-h-[80vh] max-w-[80vw]">
+    <img id="modalImage" class="max-h-full max-w-full object-contain">
+  </div>
+</div>
+
+
+
 </div>
 @endif
 
@@ -209,43 +281,6 @@
             }
         }
 
-        // function fetchContacts() {
-        //     containerSpinner.style.display = 'none';
-        //     contactsLoading.style.display = 'flex';
-        //     fetch('/api/fetch-contacts')
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             contactsContainer.innerHTML = '';
-        //             if (data.contacts === 'No contacts found') {
-        //                 contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
-        //             } else {
-        //                 console.log(data.contacts);
-        //                 data.contacts.forEach(user => {
-        //                     const contactElement = document.createElement('div');
-        //                     contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
-        //                     contactElement.setAttribute('data-user-id', user.id);
-        //                     contactElement.onclick = () => showMessages(user);
-        //                     contactElement.innerHTML = `
-        //                         <div class="relative">
-        //                             <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
-        //                             ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
-        //                         </div>
-        //                         <div class="ml-3 flex-1">
-        //                             <h3 class="font-medium text-green-500">${user.pseudo || user.prenom || user.nom_salon}</h3>
-        //                             <p class="truncate text-sm text-gray-500">${user.last_message}</p>
-        //                         </div>
-        //                     `;
-        //                     contactsContainer.appendChild(contactElement);
-        //                 });
-        //                 fetchUnreadCounts();
-        //             }
-        //         })
-        //         .catch(error => console.error('Error fetching contacts:', error))
-        //         .finally(() => {
-        //             contactsLoading.style.display = 'none';
-        //         });
-        // }
-
         function fetchContacts() {
     containerSpinner.style.display = 'none';
     contactsLoading.style.display = 'flex';
@@ -308,44 +343,216 @@
 
         }
 
-        function loadMessages(user) {
+        // function loadMessages(user) {
             
-            currentUserId = user.id;
-            userAvatar.src = user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png';
-            userName.textContent = user.pseudo || user.prenom || user.nom_salon || 'Utilisateur';
-            resetSender.style.display = 'block';
-            userAvatar.style.display = 'block';
-            // containerSpinner.style.display = 'none';
-            messagesContainer.style.display = 'block';
-            messageInputContainer.style.display = 'block';
-            contactsContainer.style.display = 'none';
-            axios.post('/api/make-seen', { id: user.id });
-            fetch(`/api/fetch-messages?id=${user.id}`)
-                .then(response => response.json())
-                .then(data => {
+        //     currentUserId = user.id;
+        //     userAvatar.src = user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png';
+        //     userName.textContent = user.pseudo || user.prenom || user.nom_salon || 'Utilisateur';
+        //     resetSender.style.display = 'block';
+        //     userAvatar.style.display = 'block';
+        //     // containerSpinner.style.display = 'none';
+        //     messagesContainer.style.display = 'block';
+        //     messageInputContainer.style.display = 'block';
+        //     contactsContainer.style.display = 'none';
+        //     axios.post('/api/make-seen', { id: user.id });
+        //     fetch(`/api/fetch-messages?id=${user.id}`)
+        //         .then(response => response.json())
+        //         .then(data => {
 
-                    messagesContainer.innerHTML = '';
-                    if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
-                        const messages = data.messages.data.reverse();
-                        messages.forEach(message => {
-                            const messageElement = document.createElement('div');
-                            messageElement.className = message.from_id === currentUserId ? 'message-sent' : 'message-received';
-                            messageElement.textContent = message.body;
-                            messagesContainer.appendChild(messageElement);
-                        });
-                    } else {
-                        messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
-                    }
-                    setTimeout(() => {
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    }, 150);
-                })
-                .catch(error => console.error('Error fetching messages:', error))
-                .finally(() => {
-                    messagesLoading.style.display = 'none';
-                });
+        //             console.log(data.messages);
+
+        //             messagesContainer.innerHTML = '';
+        //             if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
+        //                 const messages = data.messages.data.reverse();
+        //                 messages.forEach(message => {
+        //                     const messageElement = document.createElement('div');
+        //                     messageElement.className = message.from_id === currentUserId ? 'message-sent' : 'message-received';
+        //                     messageElement.textContent = message.body ? message.body : message.attachment;
+        //                     messagesContainer.appendChild(messageElement);
+        //                 });
+        //             } else {
+        //                 messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
+        //             }
+        //             setTimeout(() => {
+        //                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        //             }, 150);
+        //         })
+        //         .catch(error => console.error('Error fetching messages:', error))
+        //         .finally(() => {
+        //             messagesLoading.style.display = 'none';
+        //         });
           
+        // }
+
+
+//         function loadMessages(user) {
+//     currentUserId = user.id;
+//     userAvatar.src = user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png';
+//     userName.textContent = user.pseudo || user.prenom || user.nom_salon || 'Utilisateur';
+//     resetSender.style.display = 'block';
+//     userAvatar.style.display = 'block';
+//     messagesContainer.style.display = 'block';
+//     messageInputContainer.style.display = 'block';
+//     contactsContainer.style.display = 'none';
+//     axios.post('/api/make-seen', { id: user.id });
+
+//     fetch(`/api/fetch-messages?id=${user.id}`)
+//         .then(response => response.json())
+//         .then(data => {
+
+//             console.log(data.messages);
+//             messagesContainer.innerHTML = '';
+//             if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
+//                 const messages = data.messages.data.reverse();
+//                 messages.forEach(message => {
+//                     const messageElement = document.createElement('div');
+//                     messageElement.className = message.from_id === currentUserId ? 'message-sent' : 'message-received';
+
+//                     // Clear previous content
+//                     messageElement.innerHTML = '';
+
+//                     // Handle text content
+//                     if (message.body) {
+//                         const textElement = document.createElement('p');
+//                         textElement.textContent = message.body;
+//                         messageElement.appendChild(textElement);
+//                     }
+
+//                     // Handle image attachment
+//                     if (message.attachment) {
+//                         const img = document.createElement('img');
+//                         // Nettoyer l'URL en supprimant les guillemets, barres obliques inversées et les barres obliques multiples
+//                         let cleanUrl = message.attachment
+//                             .replace(/^"|\\(?=")|"$/g, '') // Enlever les guillemets et backslashes
+//                             .replace(/[\/\\]+/g, '/') // Remplacer les séquences de slashes par un seul slash
+//                             .replace(/^\/+/, ''); // Enlever les slashes au début
+                            
+//                         img.src = cleanUrl;
+//                         img.alt = 'Attachment';
+//                         img.className = 'message-attachment';
+//                         img.style.maxWidth = '300px';
+//                         img.style.maxHeight = '300px';
+//                         img.style.objectFit = 'contain';
+//                         messageElement.appendChild(img);
+//                     }
+
+//                     // If neither body nor attachment is present
+//                     if (!message.body && !message.attachment) {
+//                         messageElement.textContent = 'No message content';
+//                     }
+
+//                     messagesContainer.appendChild(messageElement);
+//                 });
+//             } else {
+//                 messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
+//             }
+//             setTimeout(() => {
+//                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+//             }, 150);
+//         })
+//         .catch(error => console.error('Error fetching messages:', error))
+//         .finally(() => {
+//             messagesLoading.style.display = 'none';
+//         });
+// }
+
+
+function loadMessages(user) {
+    currentUserId = user.id;
+    userAvatar.src = user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png';
+    userName.textContent = user.pseudo || user.prenom || user.nom_salon || 'Utilisateur';
+    resetSender.style.display = 'block';
+    userAvatar.style.display = 'block';
+    messagesContainer.style.display = 'block';
+    messageInputContainer.style.display = 'block';
+    contactsContainer.style.display = 'none';
+    axios.post('/api/make-seen', { id: user.id });
+    fetch(`/api/fetch-messages?id=${user.id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.messages);
+            messagesContainer.innerHTML = '';
+            if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
+                const messages = data.messages.data.reverse();
+                messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = message.from_id === currentUserId ? 'message-sent' : 'message-received';
+
+                    // Clear previous content
+                    messageElement.innerHTML = '';
+
+                    // Handle text content
+                    if (message.body && message.attachment == null) {
+                        const textElement = document.createElement('p');
+                        textElement.textContent = message.body;
+                        messageElement.appendChild(textElement);
+                    }
+
+                    // Handle image attachment
+                    if (message.attachment) {
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'image-container';
+
+        const img = document.createElement('img');
+        let cleanUrl = message.attachment.replace(/^"|"$/g, '').replace(/[\/\\]+/g, '/').replace(/^\/+/, '');
+
+        img.src = cleanUrl;
+        img.alt = 'Attachment';
+        img.className = 'message-attachment';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        img.style.objectFit = 'contain';
+
+        // Ajouter un gestionnaire d'événements pour ouvrir la modale
+        img.onclick = function() {
+            openModal(cleanUrl);
+        };
+
+        imageContainer.appendChild(img);
+        messageElement.appendChild(imageContainer);
+
+        // Ajouter du texte sous l'image si disponible
+        if (message.body) {
+            const textElement = document.createElement('p');
+            textElement.textContent = message.body;
+            messageElement.appendChild(textElement);
         }
+    }
+                    // If neither body nor attachment is present
+                    if (!message.body && !message.attachment) {
+                        messageElement.textContent = 'No message content';
+                    }
+
+                    messagesContainer.appendChild(messageElement);
+                });
+            } else {
+                messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
+            }
+
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 150);
+        })
+        .catch(error => console.error('Error fetching messages:', error))
+        .finally(() => {
+            messagesLoading.style.display = 'none';
+        });
+}
+
+
+function openModal(imageUrl) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+
+    modal.classList.remove("hidden");
+    modalImg.src = imageUrl;
+
+    const span = document.querySelector("#imageModal .fa-xmark");
+    span.onclick = function() {
+        modal.classList.add("hidden");
+    };
+}
+
 
         function sendMessage(toId, message) {
             fetch('/api/send-message', {
