@@ -237,6 +237,25 @@
             }
         });
 
+        messageInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && currentUserId && messageInput.value.trim() !== '') {
+            sendMessage(currentUserId, messageInput.value);
+            messageInput.value = '';
+        }
+    });
+
+    // Ajoutez un écouteur d'événement pour activer/désactiver le bouton d'envoi
+    messageInput.addEventListener('input', function() {
+        if (messageInput.value.trim() !== '') {
+            sendMessageButton.disabled = false;
+        } else {
+            sendMessageButton.disabled = true;
+        }
+    });
+
+    // Désactivez le bouton d'envoi au chargement initial
+    sendMessageButton.disabled = true;
+
         fetchUnreadCounts();
         const unreadCountsInterval = setInterval(fetchUnreadCounts, 30000);
 
