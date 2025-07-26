@@ -87,6 +87,7 @@ Route::get('lang/{locale}', function ($locale) {
 // Static page
 Route::get('/static-pages', [StaticPageController::class, 'index'])->name('static.index');
 
+
 // Roles
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-edit', [RoleController::class, 'update'])->name('roles.edit');
@@ -131,6 +132,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/static-edit/{pages:id}', [StaticPageController::class, 'edit'])->name('static.edit');
     Route::put('/static-update/{staticPage}', [StaticPageController::class, 'update'])->name('static.update');
     route::resource('activity', ActivityController::class);
+    Route::delete('/static-pg/{id}', [StaticPageController::class, 'destroy'])->name('static-pg.destroy');
   
     // Articles
     Route::get('/articles/json', [ArticleController::class, 'indexJson'])->name('articles.indexJson');

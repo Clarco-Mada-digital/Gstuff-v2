@@ -11,6 +11,7 @@ return [
     'meta_title' => 'Meta Title',
     'meta_description' => 'Meta Description',
     'cancel' => 'Cancel',
+    'delete' => 'Delete',
     'save' => 'Save',
     'slug' => 'Slug',
     'actions' => 'Actions',
@@ -42,4 +43,9 @@ return [
         'lang_required' => 'The language is required',
         'lang_in' => 'Unsupported language',
     ],
+
+    'deleted_successfully' => 'Page deleted successfully',
+    'delete_error' => 'An error occurred while deleting the page',
+    'confirm_delete' => 'Confirm Deletion',
+    'delete_confirmation_message' => 'Are you sure you want to delete this page?'
 ];

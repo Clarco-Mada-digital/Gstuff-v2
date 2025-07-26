@@ -23,9 +23,9 @@
     <div x-data="galleryApp()" class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8 font-roboto-slab" >
         <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 font-roboto-slab">
             <!-- MENU LATERAL -->
-            <aside class="space-y-2 w-full flex justify-center items-center">
+            <aside class="space-y-2 w-full flex justify-center items-center ">
                 <!-- MOBILE TOGGLE -->
-                <div class="mb-4 md:hidden">
+                <!-- <div class="mb-4 md:hidden">
                     <button @click="openMenu = !openMenu"
                         class="flex w-full items-center justify-between rounded-lg bg-fieldBg px-4 py-2 text-green-gs">
                         <span>📁 {{ __('gallery.sections') }}</span>
@@ -34,17 +34,20 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                </div>
+                </div> -->
 
-                <div :class="{ 'block': openMenu, 'hidden': !openMenu }" class="md:flex gap-0 items-center justify-center w-1/2">
+                <div  class="flex flex-col sm:flex-row gap-0 items-center justify-center w-full">
                     <!-- Tab Stories -->
                     @if(count($usersWithStories) > 0)
                     <button @click="selectedTab = 'stories'; openMenu = false"
                         :class="selectedTab === 'stories' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        class="text-green-gs flex w-[60%] sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%] 3xl:w-[20%] 4xl:w-[20%] h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
                         <span class="flex items-center"> 
-                            <img src="{{ asset('images/icons/stories_galery_icon.png') }}" alt="Stories Gallery" class="w-6 h-6 mr-2">
-                            {{ __('gallery.stories') }}
+                        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="19" height="20" rx="9.5" fill="#FED5E9"/>
+                            <path d="M6.52099 15V5H12.479V15H6.52099ZM4 13.5714V6.42857H4.74475V13.5714H4ZM14.2552 13.5714V6.42857H15V13.5714H14.2552ZM7.26574 14.2857H11.7343V5.71429H7.26574V14.2857Z" fill="black"/>
+                        </svg>
+                            <span class="ml-2">{{ __('gallery.stories') }}</span>
                         </span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($usersWithStories) }}"></span>
@@ -55,10 +58,17 @@
                     @if(count($publicGallery) > 0)
                     <button @click="selectedTab = 'public'; openMenu = false"
                         :class="selectedTab === 'public' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        class="text-green-gs flex w-[60%] sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%] 3xl:w-[20%] 4xl:w-[20%] h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
                         <span class="flex items-center">
-                            <img src="{{ asset('images/icons/public_galery_icon.png') }}" alt="Public Gallery" class="w-6 h-6 mr-2">
-                            {{ __('gallery.public_gallery') }}
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="#FED5E9"/>
+<path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15Z" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.99999 9.46395C10.7463 9.46395 11.3514 8.85891 11.3514 8.11256C11.3514 7.3662 10.7463 6.76116 9.99999 6.76116C9.25364 6.76116 8.6486 7.3662 8.6486 8.11256C8.6486 8.85891 9.25364 9.46395 9.99999 9.46395Z" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 8.65304C10.2985 8.65304 10.5405 8.41106 10.5405 8.11257C10.5405 7.81408 10.2985 7.57211 10 7.57211C9.70152 7.57211 9.45954 7.81408 9.45954 8.11257C9.45954 8.41106 9.70152 8.65304 10 8.65304Z" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.83791 12.6823C7.83791 12.6823 9.05279 10.2498 10 10.2498C10.9472 10.2498 12.1621 12.6823 12.1621 12.6823" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.91885 12.6823C8.91885 12.6823 9.52768 11.3312 10 11.3312C10.4723 11.3312 11.0812 12.6823 11.0812 12.6823M7.83791 12.6823C7.63512 13.0335 8.31094 13.7358 8.91885 12.6823ZM12.1621 12.6823C12.3649 13.0335 11.6891 13.7358 11.0812 12.6823Z" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                            <span class="ml-2">{{ __('gallery.public_gallery') }}</span>
                         </span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($publicGallery) }}"></span>
@@ -69,10 +79,14 @@
                     @if(count($privateGallery) > 0)
                     <button @click="selectedTab = 'private'; openMenu = false"
                         :class="selectedTab === 'private' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                        class="text-green-gs flex w-1/3 h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
+                        class="text-green-gs flex w-[60%] sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%] 3xl:w-[20%] 4xl:w-[20%] h-[40px] items-center justify-between border-b-2 border-supaGirlRose px-4 py-2 text-left font-medium transition hover:bg-supaGirlRose">
                         <span class="flex items-center"> 
-                            <img src="{{ asset('images/icons/privacy_galery_icon.png') }}" alt="Private Gallery" class="w-6 h-6 mr-2">
-                            {{ __('gallery.private_gallery') }}</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.5" width="19" height="20" rx="9.5" fill="#FED5E9"/>
+                        <path d="M6.53886 15C6.25086 15 6.00571 14.9126 5.80343 14.7378C5.60114 14.563 5.5 14.3513 5.5 14.1028V9.23056C5.5 8.98241 5.60114 8.77074 5.80343 8.59556C6.00571 8.42074 6.25086 8.33333 6.53886 8.33333H7.42857V7.22222C7.42857 6.60333 7.67821 6.07833 8.1775 5.64722C8.67636 5.21574 9.28386 5 10 5C10.7161 5 11.3239 5.21574 11.8231 5.64722C12.3224 6.0787 12.5719 6.6037 12.5714 7.22222V8.33333H13.4618C13.7489 8.33333 13.9939 8.42074 14.1966 8.59556C14.3989 8.77037 14.5 8.98222 14.5 9.23111V14.1028C14.5 14.3509 14.3989 14.5626 14.1966 14.7378C13.9943 14.9126 13.7494 15 13.4618 15H6.53886ZM6.53886 14.4444H13.4618C13.5771 14.4444 13.6718 14.4124 13.7459 14.3483C13.8201 14.2843 13.8571 14.2024 13.8571 14.1028V9.23056C13.8571 9.13093 13.8201 9.04907 13.7459 8.985C13.6718 8.92093 13.5771 8.88889 13.4618 8.88889H6.53821C6.42293 8.88889 6.32821 8.92093 6.25407 8.985C6.17993 9.04907 6.14286 9.13111 6.14286 9.23111V14.1028C6.14286 14.2024 6.17993 14.2843 6.25407 14.3483C6.32821 14.4124 6.42314 14.4444 6.53886 14.4444ZM10 12.5C10.2713 12.5 10.4997 12.4196 10.6853 12.2589C10.8713 12.0985 10.9643 11.9011 10.9643 11.6667C10.9643 11.4322 10.8713 11.2348 10.6853 11.0744C10.4993 10.9141 10.2709 10.8337 10 10.8333C9.72914 10.833 9.50071 10.9133 9.31471 11.0744C9.12871 11.2348 9.03571 11.4322 9.03571 11.6667C9.03571 11.9011 9.12871 12.0985 9.31471 12.2589C9.50029 12.4196 9.72871 12.5 10 12.5ZM8.07143 8.33333H11.9286V7.22222C11.9286 6.75926 11.7411 6.36574 11.3661 6.04167C10.9911 5.71759 10.5357 5.55556 10 5.55556C9.46429 5.55556 9.00893 5.71759 8.63393 6.04167C8.25893 6.36574 8.07143 6.75926 8.07143 7.22222V8.33333Z" fill="black"/>
+                        </svg>
+                            <span class="ml-2">{{ __('gallery.private_gallery') }}</span>
+                        </span>
                         <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                             x-text="{{ count($privateGallery) }}"></span>
                     </button>
@@ -266,8 +280,9 @@
 
                 <!-- Galerie Publique -->
                 <section x-show="selectedTab === 'public'" x-transition>
-                    <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-xl sm:text-3xl font-semibold text-green-gs flex items-center"><img src="{{ asset('images/icons/public_galery_icon.png') }}" alt="Public Gallery" class="w-8 h-8 mr-2"> {{ __('gallery.public_gallery_title') }}</h2>
+                    <div class="mb-4 flex flex-row items-center justify-between gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <h2 class="text-xl sm:text-3xl font-semibold text-green-gs flex items-center">
+                             {{ __('gallery.public_gallery_title') }}</h2>
                         
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 text-sm">
                             <!-- Filtre utilisateur amélioré -->
@@ -346,18 +361,19 @@
                         </div>
                     </div>
 
-                    <div class="w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    <div class="flex items-center justify-center    w-full">
+                    <div class="grid grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
                         @foreach ($publicGallery as $media)
                             @php
                                 $userGenre = $media->user->genre->name['fr'] ?? null;
                             @endphp
                             <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
-                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl flex flex-col  ">
+                                class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl flex flex-col   min-w-[200px] max-w-[280px] min-h-[348px]  ">
                                 @if ($media->type === 'image')
-                                    <div class="flex-1 overflow-hidden h-[348px] ">
+                                    <div class="flex-1 overflow-hidden h-[348px] min-h-[348px]">
                                         <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
                                             src="{{ asset('storage/' . $media->path) }}" 
-                                            class="h-[348px] w-full object-cover object-center" 
+                                            class="h-[348px] min-h-[348px] w-full object-cover object-center" 
                                             alt="media">
                                     </div>
                                 @elseif($media->type === 'video')
@@ -382,6 +398,7 @@
                             </div>
                         @endforeach
                     </div>
+                    </div>
                     <!-- Pagination -->
                     <div class="mt-6">
                         {{ $publicGallery->links() }}
@@ -391,10 +408,11 @@
                 <!-- Galerie Privée -->
                 <section x-show="selectedTab === 'private'" x-transition>
                     <h2 class="mb-4 text-xl sm:text-3xl font-semibold text-green-gs flex items-center justify-center"> {{ __('gallery.private_gallery_title') }}</h2>
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    <div class="flex items-center justify-center    w-full">
+                   <div class="grid grid-cols-1 items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         @foreach ($privateGallery as $media)
                             @auth
-                                <div class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                <div class="relative cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl min-w-[200px] max-w-[280px] min-h-[348px] ">
                                     @if ($media->type === 'image')
                                         <div class="flex-1 overflow-hidden h-[348px] ">
                                         <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')" 
@@ -423,7 +441,7 @@
                                 </div>
                             @endauth
                             @guest
-                                <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg">
+                                <div class="relative overflow-hidden rounded-xl shadow transition hover:shadow-lg min-w-[200px] max-w-[280px] min-h-[348px] ">
                                     @if ($media->type === 'image')
                                     <div class="flex-1 overflow-hidden h-[348px] ">
                                         <img class="blur-md grayscale brightness-75 h-[348px] w-full object-cover transition duration-300"
@@ -446,6 +464,7 @@
                             @endguest
                         @endforeach
                     </div>
+                   </div>
                 </section>
             </div>
         </div>

@@ -232,11 +232,24 @@ class StaticPageController extends Controller
         }
     }
 
-    /**
+     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $staticPage = StaticPage::findOrFail($id);
+            $staticPage->delete();
+
+            return response()->json([
+                'message' => __('static_pages.deleted_successfully')
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error deleting static page: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => __('static_pages.delete_error')
+            ], 500);
+        }
     }
 }

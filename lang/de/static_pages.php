@@ -11,6 +11,7 @@ return [
     'meta_title' => 'Meta-Titel',
     'meta_description' => 'Meta-Beschreibung',
     'cancel' => 'Abbrechen',
+    'delete' => 'Löschen',
     'save' => 'Speichern',
     'slug' => 'Slug',
     'actions' => 'Aktionen',
@@ -42,4 +43,9 @@ return [
         'lang_required' => 'Die Sprache ist erforderlich',
         'lang_in' => 'Nicht unterstützte Sprache',
     ],
+
+    'deleted_successfully' => 'Seite erfolgreich gelöscht',
+    'delete_error' => 'Beim Löschen der Seite ist ein Fehler aufgetreten',
+    'confirm_delete' => 'Löschen bestätigen',
+    'delete_confirmation_message' => 'Sind Sie sicher, dass Sie diese Seite löschen möchten?'
 ];

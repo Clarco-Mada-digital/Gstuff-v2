@@ -11,6 +11,7 @@ return [
     'meta_title' => 'Meta Titolo',
     'meta_description' => 'Meta Descrizione',
     'cancel' => 'Annulla',
+    'delete' => 'Elimina',
     'save' => 'Salva',
     'slug' => 'Slug',
     'actions' => 'Azioni',
@@ -42,4 +43,9 @@ return [
         'lang_required' => 'La lingua è obbligatoria',
         'lang_in' => 'Lingua non supportata',
     ],
+
+    'deleted_successfully' => 'Pagina eliminata con successo',
+    'delete_error' => 'Si è verificato un errore durante l\'eliminazione della pagina',
+    'confirm_delete' => 'Conferma eliminazione',
+    'delete_confirmation_message' => 'Sei sicuro di voler eliminare questa pagina?'
 ];
