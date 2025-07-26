@@ -1,7 +1,8 @@
 <?php
 //EN
 return [
-
+    'page_title' => 'Home',
+   
     // Homepage
     'meetings' => 'Meetings',
     'elegant_discreet' => 'elegant and discreet',

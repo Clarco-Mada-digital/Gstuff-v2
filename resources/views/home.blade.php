@@ -5,7 +5,7 @@
 @extends('layouts.base')
 
 @section('pageTitle')
-    Home
+    {{ __('home.page_title') }}
 @endsection
 
 @section('content')

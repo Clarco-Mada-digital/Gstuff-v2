@@ -1,6 +1,7 @@
 <?php
 // IT
 return [
+    'page_title' => 'Home',
    
     // Homepage
 

@@ -1,6 +1,7 @@
 <?php
 // DE
 return [
+    'page_title' => 'Startseite',
    
     // Homepage
 

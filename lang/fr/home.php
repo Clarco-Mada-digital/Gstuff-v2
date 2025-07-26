@@ -1,6 +1,8 @@
 <?php
 //FR
 return [
+
+    'page_title' => 'Accueil',
    
     // Homepage
 

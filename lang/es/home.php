@@ -1,6 +1,7 @@
 <?php
 //ES
 return [
+    'page_title' => 'Inicio',
    
     // Homepage
 
