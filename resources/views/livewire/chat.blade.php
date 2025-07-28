@@ -176,7 +176,7 @@
     <i class="fa-solid fa-xmark text-white text-sm"></i>
   </span>
   <div class="flex items-center justify-center max-h-[80vh] max-w-[80vw]">
-    <img id="modalImage" class="max-h-full max-w-full object-contain">
+    <img id="modalImage" class="max-h-[80vh] max-w-full object-contain">
   </div>
 </div>
 
