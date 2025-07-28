@@ -50,7 +50,8 @@ class ProfileCompletionController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $user['canton'] = Canton::where('id', $user->canton)->first() ?? '';
-            $user['categorie'] = Categorie::where('id', $user->categorie)->first() ?? null;
+            $userCategorieIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
+            $user['categorie'] = Categorie::whereIn('id', $userCategorieIds)->get();
             // dd($user->categorie);
 
             $serviceIds = !empty($user->service) ? explode(',', $user->service) : [];
@@ -274,7 +275,7 @@ class ProfileCompletionController extends Controller
                 ->get();
 
 
-              
+            //   dd($user);
 
 
 
@@ -640,6 +641,8 @@ class ProfileCompletionController extends Controller
             // Ajoutez les règles de validation pour les autres champs
         ]);
 
+        // dd($request->all());
+
 
 
        if($request->apropos){
@@ -660,7 +663,7 @@ class ProfileCompletionController extends Controller
  
        }
 
-        $request->categorie? $request['categorie'] = (int)$request->categorie : null;
+        // $request->categorie? $request['categorie'] = (int)$request->categorie : null;
 
         $user->update($request->all());
 

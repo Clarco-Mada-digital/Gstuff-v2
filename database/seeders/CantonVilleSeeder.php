@@ -21,13 +21,24 @@ class CantonVilleSeeder extends Seeder
         // Vider les tables en commençant par les villes (pour éviter les contraintes de clé étrangère)
         $this->disableForeignKeys();
         
-        // Utiliser delete() au lieu de truncate() pour SQLite
-        if (DB::getDriverName() === 'sqlite') {
+        $driver = DB::getDriverName();
+        
+        if ($driver === 'sqlite') {
+            // Utiliser delete() au lieu de truncate() pour SQLite
             Ville::query()->delete();
             Canton::query()->delete();
             // Réinitialiser les séquences d'auto-incrémentation pour SQLite
             DB::statement('DELETE FROM sqlite_sequence WHERE name IN ("cantons", "villes")');
+        } elseif ($driver === 'pgsql') {
+            // Pour PostgreSQL, on utilise TRUNCATE avec CASCADE pour vider les tables
+            DB::statement('TRUNCATE TABLE villes CASCADE');
+            DB::statement('TRUNCATE TABLE cantons CASCADE');
+            
+            // Réinitialiser les séquences d'auto-incrémentation pour PostgreSQL
+            DB::statement('ALTER SEQUENCE cantons_id_seq RESTART WITH 1');
+            DB::statement('ALTER SEQUENCE villes_id_seq RESTART WITH 1');
         } else {
+            // Pour MySQL/MariaDB
             Ville::truncate();
             Canton::truncate();
         }

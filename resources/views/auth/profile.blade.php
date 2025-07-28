@@ -722,17 +722,15 @@
                             <!-- ESCORTE -->
                             @if ($user->profile_type == 'escorte')
 
-                            <x-form.select-field
-                                    name="categorie"
-                                    :label="__('profile.category')"
-                                    :options="$escort_categories"
-                                    option-value="id"
-                                    option-label="nom"
-                                    :selected="$user->categorie['id'] ?? null"
                           
-                                    container-class="col-span-2 mb-4 md:col-span-1"
-                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
-                                />
+
+                                 
+                                <div class="col-span-2 mb-4 md:col-span-1">
+                                    <label
+                                        class="block text-sm font-roboto-slab text-green-gs">{{$user->categorie }}</label>
+                                    <x-select_object_multiple name="categorie" :options="$escort_categories" :value="$user->categorie['id']"
+                                        label="Mes categories" />
+                                </div>
 
                                 <x-form.select-field
                                     name="pratique_sexuelle_id"
