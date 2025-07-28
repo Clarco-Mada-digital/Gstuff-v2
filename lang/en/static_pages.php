@@ -47,5 +47,6 @@ return [
     'deleted_successfully' => 'Page deleted successfully',
     'delete_error' => 'An error occurred while deleting the page',
     'confirm_delete' => 'Confirm Deletion',
-    'delete_confirmation_message' => 'Are you sure you want to delete this page?'
+    'delete_confirmation_message' => 'Are you sure you want to delete this page?',
+    'table_of_contents' => 'Table of Contents',
 ];

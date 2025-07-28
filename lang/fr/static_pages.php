@@ -47,5 +47,6 @@ return [
     'deleted_successfully' => 'Page supprimée avec succès',
     'delete_error' => 'Une erreur est survenue lors de la suppression de la page',
     'confirm_delete' => 'Confirmer la suppression',
-    'delete_confirmation_message' => 'Êtes-vous sûr de vouloir supprimer cette page ?'
+    'delete_confirmation_message' => 'Êtes-vous sûr de vouloir supprimer cette page ?',
+    'table_of_contents' => 'Table des matières',
 ];
