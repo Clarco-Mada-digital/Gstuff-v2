@@ -61,10 +61,10 @@
     </style>
 @endsection
 
-<div class="bg-green-gs/50 content w-full py-10"
+<div class="bg-green-gs/50 content w-full py-10 font-roboto-slab"
     style="background: url('images/Fond-page-politique.jpg') center center /cover">
-    <div class="w-full bg-white p-5 lg:mx-auto lg:w-[70%]">
-        <h1 class="font-dm-serif text-green-gs py-2 text-center text-7xl font-bold">{{ $page->title }}</h1>
+    <div class="w-full bg-white p-5 lg:mx-auto lg:w-[70%] font-roboto-slab">
+        <h1 class="font-roboto-slab text-green-gs py-2 text-center text-7xl font-bold">{{ $page->title }}</h1>
 
         <!-- Table des matières - Accordéon -->
         <div x-data="{
@@ -104,11 +104,11 @@
                 }, 100);
                 }
             }" x-init="generateTOC()" class="mb-10">
-            <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+            <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 font-roboto-slab">
                 <button @click="open = !open"
                     class="text-green-gs flex w-full items-center justify-between px-6 py-4 text-left font-medium transition-colors duration-200 hover:bg-gray-100"
                     :aria-expanded="open">
-                    <span class="font-dm-serif text-xl font-bold">Table des matières</span>
+                    <span class="font-roboto-slab text-xl font-bold">Table des matières</span>
                     <svg class="h-5 w-5 transform transition-transform duration-200" :class="{ 'rotate-180': open }"
                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
