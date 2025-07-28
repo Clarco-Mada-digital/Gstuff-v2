@@ -47,5 +47,6 @@ return [
     'deleted_successfully' => 'Pagina eliminata con successo',
     'delete_error' => 'Si è verificato un errore durante l\'eliminazione della pagina',
     'confirm_delete' => 'Conferma eliminazione',
-    'delete_confirmation_message' => 'Sei sicuro di voler eliminare questa pagina?'
+    'delete_confirmation_message' => 'Sei sicuro di voler eliminare questa pagina?',
+    'table_of_contents' => 'Indice dei contenuti'
 ];

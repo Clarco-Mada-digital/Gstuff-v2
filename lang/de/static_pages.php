@@ -47,5 +47,6 @@ return [
     'deleted_successfully' => 'Seite erfolgreich gelöscht',
     'delete_error' => 'Beim Löschen der Seite ist ein Fehler aufgetreten',
     'confirm_delete' => 'Löschen bestätigen',
-    'delete_confirmation_message' => 'Sind Sie sicher, dass Sie diese Seite löschen möchten?'
+    'delete_confirmation_message' => 'Sind Sie sicher, dass Sie diese Seite löschen möchten?',
+    'table_of_contents' => 'Inhaltsverzeichnis'
 ];
