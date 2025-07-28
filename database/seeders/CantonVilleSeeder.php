@@ -18,66 +18,99 @@ class CantonVilleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Vider les tables en commençant par les villes (pour éviter les contraintes de clé étrangère)
+        // Désactiver temporairement les contraintes de clé étrangère
         $this->disableForeignKeys();
         
-        $driver = DB::getDriverName();
+        // Pour PostgreSQL, on utilise TRUNCATE avec CASCADE pour vider les tables
+        DB::statement('TRUNCATE TABLE villes CASCADE');
+        DB::statement('TRUNCATE TABLE cantons CASCADE');
         
-        if ($driver === 'sqlite') {
-            // Utiliser delete() au lieu de truncate() pour SQLite
-            Ville::query()->delete();
-            Canton::query()->delete();
-            // Réinitialiser les séquences d'auto-incrémentation pour SQLite
-            DB::statement('DELETE FROM sqlite_sequence WHERE name IN ("cantons", "villes")');
-        } elseif ($driver === 'pgsql') {
-            // Pour PostgreSQL, on utilise TRUNCATE avec CASCADE pour vider les tables
-            DB::statement('TRUNCATE TABLE villes CASCADE');
-            DB::statement('TRUNCATE TABLE cantons CASCADE');
-            
-            // Réinitialiser les séquences d'auto-incrémentation pour PostgreSQL
-            DB::statement('ALTER SEQUENCE cantons_id_seq RESTART WITH 1');
-            DB::statement('ALTER SEQUENCE villes_id_seq RESTART WITH 1');
-        } else {
-            // Pour MySQL/MariaDB
-            Ville::truncate();
-            Canton::truncate();
-        }
+        // Réinitialiser les séquences d'auto-incrémentation pour PostgreSQL
+        DB::statement('ALTER SEQUENCE cantons_id_seq RESTART WITH 1');
+        DB::statement('ALTER SEQUENCE villes_id_seq RESTART WITH 1');
         
+        // Réactiver les contraintes de clé étrangère
         $this->enableForeignKeys();
 
-        // Chemin vers le fichier JSON
+        // Charger le fichier JSON
         $json = File::get(database_path('seeders/dataJson/cantons_et_villes_geolocalises.json'));
         $cantons = json_decode($json, true);
 
         $bar = $this->command->getOutput()->createProgressBar(count($cantons));
         $bar->start();
 
-        foreach ($cantons as $cantonData) {
-            // Créer le canton
-            $canton = Canton::create([
-                'nom' => $cantonData['nom_canton'],
-            ]);
-
-            // Préparer les données des villes pour l'insertion en masse
-            $villes = [];
-            foreach ($cantonData['villeListe'] as $villeData) {
-                $villes[] = [
-                    'nom' => trim($villeData['nom_ville']),
-                    'canton_id' => $canton->id,
+        // Désactiver temporairement les index pour améliorer les performances
+        DB::statement('ALTER TABLE cantons DISABLE TRIGGER ALL');
+        DB::statement('ALTER TABLE villes DISABLE TRIGGER ALL');
+        
+        // Utilisation d'une transaction pour améliorer les performances
+        DB::beginTransaction();
+        
+        try {
+            $allVilles = [];
+            $now = now();
+            
+            // Insérer d'abord tous les cantons
+            $cantonsData = [];
+            foreach ($cantons as $cantonData) {
+                $cantonsData[] = [
+                    'nom' => $cantonData['nom_canton'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ];
             }
+            
+            // Insertion en masse des cantons
+            DB::table('cantons')->insert($cantonsData);
+            
+            // Récupérer tous les cantons avec leurs IDs
+            $allCantons = Canton::all()->keyBy('nom');
+            
+            // Préparer les données des villes
+            foreach ($cantons as $cantonData) {
+                $canton = $allCantons[$cantonData['nom_canton']];
+                
+                foreach ($cantonData['villeListe'] as $villeData) {
+                    $allVilles[] = [
+                        'nom' => trim($villeData['nom_ville']),
+                        'canton_id' => $canton->id,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
 
-            // Insérer les villes par lots de 100 pour optimiser les performances
-            $chunks = array_chunk($villes, 100);
-            foreach ($chunks as $chunk) {
-                Ville::insert($chunk);
+                $bar->advance();
             }
-
-            $bar->advance();
+            
+            // Insertion en masse des villes par lots de 1000
+            $chunks = array_chunk($allVilles, 1000);
+            foreach ($chunks as $chunk) {
+                DB::table('villes')->insert($chunk);
+            }
+            
+            DB::commit();
+            
+            // Réactiver les index
+            DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
+            DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
+            
+            // Mettre à jour les statistiques de la base de données
+            DB::statement('VACUUM ANALYZE cantons');
+            DB::statement('VACUUM ANALYZE villes');
+            
+            $bar->finish();
+            $this->command->newLine();
+            $this->command->info('Les cantons et villes ont été importés avec succès !');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            // S'assurer que les triggers sont réactivés en cas d'erreur
+            DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
+            DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
+            
+            $this->command->error('Erreur lors de l\'importation : ' . $e->getMessage());
+            throw $e;
         }
-
-        $bar->finish();
-        $this->command->newLine();
-        $this->command->info('Les cantons et villes ont été importés avec succès !');
     }
 }
