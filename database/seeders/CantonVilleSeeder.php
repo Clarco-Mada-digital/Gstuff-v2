@@ -39,9 +39,10 @@ class CantonVilleSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar(count($cantons));
         $bar->start();
 
-        // Désactiver temporairement les index pour améliorer les performances
-        DB::statement('ALTER TABLE cantons DISABLE TRIGGER ALL');
-        DB::statement('ALTER TABLE villes DISABLE TRIGGER ALL');
+        // Désactivation des triggers désactivée ici car PostgreSQL nécessite les droits superutilisateur
+        // pour cette opération, ce qui n'est pas recommandé en production.
+        // DB::statement('ALTER TABLE cantons DISABLE TRIGGER ALL');
+        // DB::statement('ALTER TABLE villes DISABLE TRIGGER ALL');
         
         // Utilisation d'une transaction pour améliorer les performances
         DB::beginTransaction();
@@ -90,9 +91,9 @@ class CantonVilleSeeder extends Seeder
             
             DB::commit();
             
-            // Réactiver les index
-            DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
-            DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
+            // Réactivation des triggers désactivée ici pour les mêmes raisons que ci-dessus
+            // DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
+            // DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
             
             // Mettre à jour les statistiques de la base de données
             DB::statement('VACUUM ANALYZE cantons');
@@ -105,9 +106,9 @@ class CantonVilleSeeder extends Seeder
         } catch (\Exception $e) {
             DB::rollBack();
             
-            // S'assurer que les triggers sont réactivés en cas d'erreur
-            DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
-            DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
+            // S'assurer que les triggers sont réactivés en cas d'erreur (commenté pour éviter erreurs)
+            // DB::statement('ALTER TABLE cantons ENABLE TRIGGER ALL');
+            // DB::statement('ALTER TABLE villes ENABLE TRIGGER ALL');
             
             $this->command->error('Erreur lors de l\'importation : ' . $e->getMessage());
             throw $e;
