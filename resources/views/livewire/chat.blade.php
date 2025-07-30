@@ -331,7 +331,7 @@
                             <div class="flex items-center justify-between">
                              <p class="text-xs">
                                     ${user.from_id !== user.viewer_id ? '{{ __('chat.you') }}' : user.pseudo || user.prenom || user.nom_salon}
-                                    ${user.last_message.body ? user.last_message.body.substring(0, 6) + (user.last_message.body.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __('chat.attachment') }}' : '{{ __('chat.no_messages_yet') }}'}
+                                    ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __('chat.attachment') }}' : '{{ __('chat.no_messages_yet') }}'}
                                 </p>
 
                                <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>

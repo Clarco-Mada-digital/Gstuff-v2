@@ -258,95 +258,149 @@ class MessengerController extends Controller
     }
 
    // fetch contacts from database
-   function fetchContacts(Request $request)
-   {
-       $users = Message::join('users', function($join) {
-          $join->on('messages.from_id', '=', 'users.id')
-           ->orOn('messages.to_id', '=', 'users.id');
-       })
-       ->where(function($q) {
-           $q->where('messages.from_id', Auth::user()->id)
-           ->orWhere('messages.to_id', Auth::user()->id);
-       })
-       ->where('users.id', '!=', Auth::user()->id)
-       ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-       ->orderBy('max_created_at', 'desc')
-       ->groupBy('users.id', 
-       'users.pseudo', 
-       'users.prenom', 
-       'users.nom_salon', 
-       'users.email', 
-       'users.profile_type', 
-       'users.avatar', 
-       'users.date_naissance', 
-       'users.genre_id', 
-       'users.intitule', 
-       'users.nom_proprietaire', 
-       'users.telephone',
-       'users.adresse',
-       'users.npa',
-       'users.canton',
-       'users.ville',
-       'users.categorie',
-       'users.service',
-       'users.recrutement',
-       'users.nombre_fille_id',
-       'users.pratique_sexuelle_id',
-       'users.orientation_sexuelle_id',
-       'users.tailles',
-       'users.origine',
-       'users.couleur_yeux_id',
-       'users.couleur_cheveux_id',
-       'users.mensuration_id',
-       'users.poitrine_id',
-       'users.taille_poitrine',
-       'users.pubis_type_id',
-       'users.tatoo_id',
-       'users.mobilite_id',
-       'users.tarif',
-       'users.paiement',
-       'users.langues',
-       'users.apropos',
-       'users.autre_contact',
-       'users.complement_adresse',
-       'users.lien_site_web',
-       'users.localisation',
-       'users.email_verified_at',
-       'users.password',
-       'users.lat',
-       'users.lon',
-       'users.couverture_image',
-       'users.remember_token', 
-       'users.created_at', 
-       'users.profile_verifie',
-       'users.image_verification',
-       'users.updated_at',
-       'users.visibility',
-       'users.visible_countries',
-       'users.last_seen_at',        
-       'users.createbysalon',
-       'users.silhouette_id',
-       'users.password_reset_token',
-       'users.password_reset_expiry')->get( );
+//    function fetchContacts(Request $request)
+//    {
+//        $users = Message::join('users', function($join) {
+//           $join->on('messages.from_id', '=', 'users.id')
+//            ->orOn('messages.to_id', '=', 'users.id');
+//        })
+//        ->where(function($q) {
+//            $q->where('messages.from_id', Auth::user()->id)
+//            ->orWhere('messages.to_id', Auth::user()->id);
+//        })
+//        ->where('users.id', '!=', Auth::user()->id)
+//        ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+//        ->orderBy('max_created_at', 'desc')
+//        ->groupBy('users.id', 
+//        'users.pseudo', 
+//        'users.prenom', 
+//        'users.nom_salon', 
+//        'users.email', 
+//        'users.profile_type', 
+//        'users.avatar', 
+//        'users.date_naissance', 
+//        'users.genre_id', 
+//        'users.intitule', 
+//        'users.nom_proprietaire', 
+//        'users.telephone',
+//        'users.adresse',
+//        'users.npa',
+//        'users.canton',
+//        'users.ville',
+//        'users.categorie',
+//        'users.service',
+//        'users.recrutement',
+//        'users.nombre_fille_id',
+//        'users.pratique_sexuelle_id',
+//        'users.orientation_sexuelle_id',
+//        'users.tailles',
+//        'users.origine',
+//        'users.couleur_yeux_id',
+//        'users.couleur_cheveux_id',
+//        'users.mensuration_id',
+//        'users.poitrine_id',
+//        'users.taille_poitrine',
+//        'users.pubis_type_id',
+//        'users.tatoo_id',
+//        'users.mobilite_id',
+//        'users.tarif',
+//        'users.paiement',
+//        'users.langues',
+//        'users.apropos',
+//        'users.autre_contact',
+//        'users.complement_adresse',
+//        'users.lien_site_web',
+//        'users.localisation',
+//        'users.email_verified_at',
+//        'users.password',
+//        'users.lat',
+//        'users.lon',
+//        'users.couverture_image',
+//        'users.remember_token', 
+//        'users.created_at', 
+//        'users.profile_verifie',
+//        'users.image_verification',
+//        'users.updated_at',
+//        'users.visibility',
+//        'users.visible_countries',
+//        'users.last_seen_at',        
+//        'users.createbysalon',
+//        'users.silhouette_id',
+//        'users.password_reset_token',
+//        'users.password_reset_expiry')->get( );
 
        
 
-       if(count($users) > 0) {
-           $contacts = '';
-           foreach($users as $user) {
-               $contacts .= $this->getContactItem($user);
-           }
+//        if(count($users) > 0) {
+//            $contacts = '';
+//            foreach($users as $user) {
+//                $contacts .= $this->getContactItem($user);
+//            }
 
-       }else {
-           $contacts = "<p class='text-center no_contact text-textColorParagraph font-roboto-slab text-sm'>" . __('messenger.contact_list_empty') . "</p>";
-       }
+//        }else {
+//            $contacts = "<p class='text-center no_contact text-textColorParagraph font-roboto-slab text-sm'>" . __('messenger.contact_list_empty') . "</p>";
+//        }
 
-       return response()->json([
-           'contacts' => $contacts,
-        //    'last_page' => $users->lastPage()
-       ]);
+//        return response()->json([
+//            'contacts' => $contacts,
+//         //    'last_page' => $users->lastPage()
+//        ]);
 
-   }
+//    }
+
+function fetchContacts(Request $request)
+{
+    try {
+        // Sous-requête pour obtenir le dernier message pour chaque utilisateur
+        $latestMessages = DB::table('messages')
+            ->select('from_id as user_id', DB::raw('MAX(created_at) as latest_message_time'))
+            ->where(function($q) {
+                $q->where('from_id', Auth::user()->id)
+                  ->orWhere('to_id', Auth::user()->id);
+            })
+            ->groupBy('from_id')
+            ->union(
+                DB::table('messages')
+                    ->select('to_id as user_id', DB::raw('MAX(created_at) as latest_message_time'))
+                    ->where(function($q) {
+                        $q->where('from_id', Auth::user()->id)
+                          ->orWhere('to_id', Auth::user()->id);
+                    })
+                    ->groupBy('to_id')
+            );
+
+        // Requête principale pour obtenir les utilisateurs avec le dernier message
+        $users = DB::table('users')
+            ->joinSub($latestMessages, 'latest_messages', function($join) {
+                $join->on('users.id', '=', 'latest_messages.user_id');
+            })
+            ->where('users.id', '!=', Auth::user()->id)
+            ->orderBy('latest_messages.latest_message_time', 'desc')
+            ->get();
+
+        if(count($users) > 0) {
+            $contacts = '';
+            foreach($users as $user) {
+                $contacts .= $this->getContactItem($user);
+            }
+        } else {
+            $contacts = "<p class='text-center no_contact text-textColorParagraph font-roboto-slab text-sm'>" . __('messenger.contact_list_empty') . "</p>";
+        }
+
+        return response()->json([
+            'contacts' => $contacts,
+        ]);
+
+    } catch (\Exception $e) {
+    
+        return response()->json([
+            'error' => 'An error occurred while fetching contacts.',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
 
     function getContactItem($user) 
     {

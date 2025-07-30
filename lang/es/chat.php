@@ -13,7 +13,7 @@ return [
     'search_placeholder' => 'Buscar contactos...',
     'type_message' => 'Escribe tu mensaje aquí...',
     'send' => 'Enviar',
-    'attachment' => 'Adjunto',
+    'attachment' => 'Imagen',
     'uploading' => 'Subiendo...',
     'upload_failed' => 'Error al subir',
     'delete_message' => 'Eliminar mensaje',

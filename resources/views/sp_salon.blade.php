@@ -139,6 +139,7 @@
                             @livewire('gallery-manager', ['user' => $salon], key($salon->id))
 
                             {{-- A propos de moi --}}
+                            @if ($salon->nombre_filles || $salon->tarif || $salon->autre_contact || $salon->paiement || $salon->langues )
                             <div class="flex items-center justify-between gap-5 py-5">
 
                                 <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
@@ -180,6 +181,7 @@
 
                                 </div>
                             </div>
+                            @endif
 
                             {{-- Description --}}
                            
@@ -345,6 +347,8 @@
                             @endpush
 
                             {{-- Galerie privée --}}
+
+                            @if ($salon['havePrivateGallery'])
                             @guest
                              
 
@@ -353,12 +357,15 @@
                                     :buttonText="__('salon_profile.login_signup')"
                                 />
                             @endguest
+                            @endif
                             @auth
                                 @livewire('gallery-manager', ['user' => $salon, 'isPublic' => false], key($salon->id))
                             @endauth
 
                             {{-- Feed-back et note --}}
+                        
                             <livewire:feedback :userToId=$salon />
+                        
 
                         </section>
 

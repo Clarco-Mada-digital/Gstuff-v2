@@ -13,7 +13,6 @@ return [
     'search_placeholder' => 'Rechercher un contact...',
     'type_message' => 'Tapez votre message ici...',
     'send' => 'Envoyer',
-    'attachment' => 'Pièce jointe',
     'uploading' => 'Téléversement...',
     'upload_failed' => 'Échec du téléversement',
     'delete_message' => 'Supprimer le message',

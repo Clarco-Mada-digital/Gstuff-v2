@@ -8,6 +8,8 @@ use App\Models\Categorie;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Invitation;
+use App\Models\Gallery;
+use App\Models\Feedback as ModelsFeedback;
 
 class SalonController extends Controller
 {
@@ -24,6 +26,13 @@ class SalonController extends Controller
 
     $salon['categorie'] = Categorie::find($salon->categorie);
     $salon['service'] = Service::find($salon->service);
+
+    $salon['havePrivateGallery'] = Gallery::where('user_id', $salon->id)
+    ->where('is_public', false)
+    ->exists();
+
+    $salon['haveFeedback'] = ModelsFeedback::where('userToid', $salon->id)
+    ->exists();
 
 
     $acceptedInvitations = Invitation::where(function ($query) use ($salon) {

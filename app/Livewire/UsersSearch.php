@@ -137,7 +137,11 @@ class UsersSearch extends Component
         }
 
         if (!empty($this->selectedCategories)) {
-            $query->whereIn('categorie', $this->selectedCategories);
+            $query->where(function($q) {
+                foreach ($this->selectedCategories as $category) {
+                    $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
+                }
+            });
         }
 
         $filteredUsers = $query->get();
