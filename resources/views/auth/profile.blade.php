@@ -671,17 +671,14 @@
                         <div class="grid grid-cols-1 gap-5 md:grid-cols-2 pt-4" :class="userType == 'invite' ? 'hidden' : ''"
                             x-show="currentStep === 1">
                             @if ($user->profile_type == 'salon')
-                                <x-form.select-field
-                                    name="categorie"
-                                    :label="__('profile.category')"
-                                    :options="$salon_categories"
-                                    option-value="id"
-                                    option-label="nom"
-                                    :selected="$user->categorie['id'] ?? null"
-                             
-                                    container-class="col-span-2 mb-4 md:col-span-1"
-                                    select-class="text-textColorParagraph border-supaGirlRosePastel/50"
-                                />
+                               
+
+                                <div class="col-span-2 mb-4 md:col-span-1">
+                                    <label
+                                        class="block text-sm font-roboto-slab text-green-gs">{{__('profile.category') }}</label>
+                                    <x-select_object_multiple name="categorie" :options="$salon_categories" :value="$user->categorie"
+                                        label="Mes categories" />
+                                </div>
 
 
                                 @php
@@ -1851,6 +1848,10 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-10">
                             <div class="grid w-full grid-cols-1 gap-5 xl:grid-cols-3">
+
+
+
+                            
                                 <x-profile-info-item 
                                     icon="origine_icon.png"
                                     :alt="__('profile.age_icon')"

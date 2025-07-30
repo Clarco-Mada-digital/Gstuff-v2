@@ -328,6 +328,7 @@ class AuthController extends Controller
             // dd($escort->service);
         }
 
+
         // Afficher une vue basée sur le type de profil de l'utilisateur
         switch ($user->profile_type) {
             case 'salon':

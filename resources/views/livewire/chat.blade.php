@@ -310,16 +310,45 @@
             contactsContainer.innerHTML = '';
 
             if (data.contacts === 'No contacts found') {
-                contactsContainer.innerHTML = '<p class="text-center">No contacts found</p>';
+                contactsContainer.innerHTML = '<p class="text-center">{{ __('chat.no_contacts_found') }}</p>';
             } else {
                 // Assurez-vous que les contacts sont triés par last_message_time en ordre décroissant
                 data.contacts.sort((a, b) => new Date(b.last_message_time) - new Date(a.last_message_time));
                 console.log(data.contacts);
+                // data.contacts.forEach(user => {
+                //     const contactElement = document.createElement('div');
+                //     contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
+                //     contactElement.setAttribute('data-user-id', user.id);
+                //     contactElement.onclick = () => showMessages(user);
+                //     const formattedTimeAgo = formatTimeAgo(user.last_message_time);
+                //     contactElement.innerHTML = `
+                //         <div class="relative">
+                //             <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
+                //             ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
+                //         </div>
+                //         <div class="ml-3 flex-1">
+                //             <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
+                //             <div class="flex items-center justify-between">
+                //              <p class="text-xs">
+                //                     ${user.from_id !== user.viewer_id ? '{{ __('chat.you') }}' : user.pseudo || user.prenom || user.nom_salon}
+                //                     ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __('chat.attachment') }}' : '{{ __('chat.no_messages_yet') }}'}
+                //                 </p>
+
+                //                <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
+                //             </div>
+                //         </div>
+                //     `;
+
+                //     contactsContainer.appendChild(contactElement);
+                // });
+
+             
                 data.contacts.forEach(user => {
                     const contactElement = document.createElement('div');
                     contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
                     contactElement.setAttribute('data-user-id', user.id);
                     contactElement.onclick = () => showMessages(user);
+
                     const formattedTimeAgo = formatTimeAgo(user.last_message_time);
                     contactElement.innerHTML = `
                         <div class="relative">
@@ -329,18 +358,17 @@
                         <div class="ml-3 flex-1">
                             <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
                             <div class="flex items-center justify-between">
-                             <p class="text-xs">
-                                    ${user.from_id !== user.viewer_id ? '{{ __('chat.you') }}' : user.pseudo || user.prenom || user.nom_salon}
-                                    ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __('chat.attachment') }}' : '{{ __('chat.no_messages_yet') }}'}
+                                <p class="text-xs">
+                                    ${user.from_id !== user.viewer_id ? '{{ __("chat.you") }}' : user.pseudo || user.prenom || user.nom_salon}
+                                    ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __("chat.attachment") }}' : '{{ __("chat.no_messages_yet") }}'}
                                 </p>
-
-                               <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
+                                <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
                             </div>
                         </div>
                     `;
-
                     contactsContainer.appendChild(contactElement);
                 });
+
 
                 fetchUnreadCounts();
             }

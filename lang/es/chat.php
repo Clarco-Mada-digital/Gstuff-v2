@@ -42,4 +42,5 @@ return [
     'months_ago' => 'hace :count meses',
     'year_ago' => 'hace :count año',
     'years_ago' => 'hace :count años',
+    'no_contacts_found' => 'No se encontraron contactos',
 ];

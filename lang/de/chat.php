@@ -42,4 +42,5 @@ return [
     'months_ago' => 'vor :count Monaten',
     'year_ago' => 'vor :count Jahr',
     'years_ago' => 'vor :count Jahren',
+    'no_contacts_found' => 'Keine Kontakte gefunden',
 ];

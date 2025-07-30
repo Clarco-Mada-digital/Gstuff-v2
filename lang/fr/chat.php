@@ -42,4 +42,5 @@ return [
     'months_ago' => 'Il y a :count mois',
     'year_ago' => 'Il y a :count an',
     'years_ago' => 'Il y a :count ans',
+    'no_contacts_found' => 'Aucun contact trouvé',
 ];

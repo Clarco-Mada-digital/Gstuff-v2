@@ -42,4 +42,5 @@ return [
     'months_ago' => ':count mesi fa',
     'year_ago' => ':count anno fa',
     'years_ago' => ':count anni fa',
+    'no_contacts_found' => 'Nessun contatto trovato',
 ];
