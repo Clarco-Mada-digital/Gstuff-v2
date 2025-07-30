@@ -143,7 +143,9 @@ class UsersSearch extends Component
         $filteredUsers = $query->get();
 
         $filteredUsers->transform(function ($user) {
-            $user->categorie = Categorie::find($user->categorie);
+            $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
+            $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
+            
             $user->canton = Canton::find($user->canton);
             $user->ville = Ville::find($user->ville);
             return $user;

@@ -66,7 +66,7 @@ class Feedback extends Component
 
     public function loadFeedbacks()
     {
-        $this->feedbacks = ModelsFeedback::where('userToId', $this->userToId->id)
+        $this->feedbacks = ModelsFeedback::where('userToid', $this->userToId->id)
             ->latest()->get();
         foreach ($this->feedbacks as $feedback) {
             $feedback['userFromId'] = User::find($feedback->userFromid);

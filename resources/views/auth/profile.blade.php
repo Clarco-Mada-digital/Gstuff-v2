@@ -727,8 +727,8 @@
                                  
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
-                                        class="block text-sm font-roboto-slab text-green-gs">{{$user->categorie }}</label>
-                                    <x-select_object_multiple name="categorie" :options="$escort_categories" :value="$user->categorie['id']"
+                                        class="block text-sm font-roboto-slab text-green-gs">{{__('profile.category') }}</label>
+                                    <x-select_object_multiple name="categorie" :options="$escort_categories" :value="$user->categorie"
                                         label="Mes categories" />
                                 </div>
 
@@ -1185,7 +1185,7 @@
                                 <option hidden value=""> -- </option>
                                 @foreach ($escort_categories as $categorie)
                                     <option value={{ $categorie['id'] }}
-                                        @if ($user->categorie ? $user->categorie['id'] == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
+                                        @if ($user->categorie ? $user->categorie == $categorie->id : false) selected @endif>{{ $categorie['nom'] }}
                                     </option>
                                 @endforeach
                             </select>

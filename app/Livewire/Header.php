@@ -25,12 +25,19 @@ class Header extends Component
         // Charger les catégories pour les escorts
         $this->categories = Categorie::where('type', 'escort')->get();
         
-        // Charger les cantons et villes
-        $this->cantons = Canton::withCount('users')->orderBy('users_count', 'desc')->get();
+        // Charger les cantons avec le nombre d'utilisateurs
+        $this->cantons = Canton::select('cantons.*')
+            ->selectRaw('(SELECT COUNT(*) FROM users WHERE users.canton::text = cantons.id::text) as users_count')
+            ->orderBy('users_count', 'desc')
+            ->get();
+            
         $this->villes = Ville::all();
         $this->genres = Genre::all();
-        // Charger les utilisateurs ayant le type 'escorte'
-        $this->escorts = User::where('profile_type', 'escorte')->get();
+        
+        // Charger les utilisateurs ayant le type 'escorte' avec leurs relations
+        $this->escorts = User::with(['cantonRelation', 'villeRelation', 'categorieRelation'])
+            ->where('profile_type', 'escorte')
+            ->get();
 
         // Vérifier si l'utilisateur est authentifié
         $userConnected = Auth::user();
@@ -46,11 +53,12 @@ class Header extends Component
             }
         }
 
-        // Charger les relations pour chaque utilisateur dans les escorts
+        // Les relations sont déjà chargées via le with() plus haut
+        // On s'assure que les propriétés sont accessibles depuis la vue
         $this->escorts->each(function ($escort) {
-            $escort->categorie = Categorie::find($escort->categorie);
-            $escort->ville = Ville::find($escort->ville);
-            $escort->canton = Canton::find($escort->canton);
+            $escort->categorie = $escort->categorieRelation;
+            $escort->ville = $escort->villeRelation;
+            $escort->canton = $escort->cantonRelation;
         });
 
         return view('livewire.header');

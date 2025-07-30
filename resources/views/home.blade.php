@@ -33,11 +33,11 @@
                             @php
                                 $locale = session('locale', 'fr');
                                 $categoryName =
-                                    $categorie['nom'][$locale] ??
-                                    ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
+                                    $categorie['nom'];
                             @endphp
 
                             {{ $categoryName }}</span>
+                            
                     </div>
                 </a>
             @endforeach

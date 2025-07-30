@@ -18,10 +18,10 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('adresse')->nullable();
             $table->string('npa')->nullable();
-            $table->string('canton')->nullable();
-            $table->string('ville')->nullable();
-            // $table->foreignId('canton_id')->constrained('cantons')->nullable();
-            // $table->foreignId('ville_id')->constrained('villes')->nullable();
+            // $table->string('canton')->nullable();
+            // $table->string('ville')->nullable();
+            $table->foreignId('canton')->constrained('cantons')->nullable();
+            $table->foreignId('ville')->constrained('villes')->nullable();
             $table->json('categorie')->nullable();
             $table->json('service')->nullable();
             $table->string('recrutement')->nullable()->default('Ouvert');

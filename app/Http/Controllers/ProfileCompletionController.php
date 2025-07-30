@@ -64,8 +64,11 @@ class ProfileCompletionController extends Controller
             foreach ($escorts as $escort) {
                 $escort['canton'] = Canton::find($escort->canton);
                 $escort['ville'] = Ville::find($escort->ville);
-                $escort['categorie'] = Categorie::find($escort->categorie);
-                $escort['service'] = Service::find($escort->service);
+                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+                $serviceIds = !empty($escort->service) ? explode(',', $escort->service) : [];
+                $escort['services'] = Service::whereIn('id', $serviceIds)->get();
+                
                 // dd($escort->service);
             }
             $cantons = Canton::all(); // Example: Fetch all cantons

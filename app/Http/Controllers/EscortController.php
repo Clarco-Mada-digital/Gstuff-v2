@@ -39,7 +39,8 @@ class EscortController extends Controller
         $escort['canton'] = Canton::find($escort->canton);
         $escort['ville'] = Ville::find($escort->ville);
       
-        $escort['categories'] = Categorie::find($escort->categorie);
+        $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+        $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
         $serviceIds = explode(',', $escort->service);
         $escort['services'] = Service::whereIn('id', $serviceIds)->get();
         // $escort['service'] = Service::find($escort->service);
@@ -89,8 +90,10 @@ class EscortController extends Controller
     foreach ($escorts as $escort) {
       $escort['canton'] = Canton::find($escort->canton);
       $escort['ville'] = Ville::find($escort->ville);
-      $escort['categorie'] = Categorie::find($escort->categorie);
-      $escort['service'] = Service::find($escort->service);
+      $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+      $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+      $serviceIds = explode(',', $escort->service);
+      $escort['services'] = Service::whereIn('id', $serviceIds)->get();
     }
 
     return view('search_page_escort', ['cantons'=> $cantons, 'categories'=> $categories, 'escorts' => $escorts]);

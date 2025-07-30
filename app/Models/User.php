@@ -81,7 +81,31 @@ class User extends Authenticatable
      */
     public function ville(): BelongsTo
     {
-        return $this->belongsTo(Ville::class);
+        return $this->belongsTo(Ville::class, 'ville', 'id');
+    }
+    
+    /**
+     * Get the ville relation with proper casting for PostgreSQL
+     */
+    public function villeRelation()
+    {
+        return $this->belongsTo(Ville::class, 'ville', 'id');
+    }
+    
+    /**
+     * Get the canton relation with proper casting for PostgreSQL
+     */
+    public function cantonRelation()
+    {
+        return $this->belongsTo(Canton::class, 'canton', 'id');
+    }
+    
+    /**
+     * Get the categorie relation with proper casting for PostgreSQL
+     */
+    public function categorieRelation()
+    {
+        return $this->belongsTo(Categorie::class, 'categorie', 'id');
     }
 
     /**
@@ -148,6 +172,9 @@ class User extends Authenticatable
         'profile_verifie',
         'image_verification',
         'createbysalon',
+        'canton',
+        'ville',
+        'categorie',
     ];
 
     public $translatable = ['apropos'];

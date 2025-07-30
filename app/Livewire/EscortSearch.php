@@ -422,7 +422,8 @@ class EscortSearch extends Component
 
             // Hydrate relations
             foreach ($paginatedEscorts as $escort) {
-                $escort['categorie'] = Categorie::find($escort->categorie);
+                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $escort['canton'] = Canton::find($escort->canton);
                 $escort['ville'] = Ville::find($escort->ville);
             }
@@ -600,7 +601,8 @@ class EscortSearch extends Component
             // Hydrater les relations
             foreach ($paginatedEscorts as $escortData) {
                 $escort = $escortData['escort'];
-                $escort['categorie'] = Categorie::find($escort->categorie);
+                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $escort['canton'] = Canton::find($escort->canton);
                 $escort['ville'] = Ville::find($escort->ville);
             }
@@ -779,7 +781,8 @@ class EscortSearch extends Component
             // Hydrater les relations
             foreach ($paginatedEscorts as $escortData) {
                 $escort = $escortData['escort'];
-                $escort['categorie'] = Categorie::find($escort->categorie);
+                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $escort['canton'] = Canton::find($escort->canton);
                 $escort['ville'] = Ville::find($escort->ville);
             }

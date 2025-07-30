@@ -59,8 +59,10 @@ class HomeController extends Controller
     {
         $user->canton = Canton::find($user->canton);
         $user->ville = Ville::find($user->ville);
-        $user->categorie = Categorie::find($user->categorie);
-        $user->service = Service::find($user->service);
+        $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
+        $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
+        $serviceIds = explode(',', $user->service);
+        $user->service = Service::whereIn('id', $serviceIds)->get();
 
         return $user;
     }
@@ -113,6 +115,8 @@ class HomeController extends Controller
     $categories = Cache::remember('categories', 60 * 60, function () {
         return Categorie::where('type', 'escort')->get();
     });
+
+    // dd($categories);
 
     // Cantons
     $cantons = Cache::remember('cantons', 60 * 60, function () {
