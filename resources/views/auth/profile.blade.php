@@ -1269,7 +1269,8 @@
                     <x-invitation-list :invitationsRecus="$invitationsRecus" type='{{ $user->profile_type }}' />
                 @endif
 
-                {{-- Pour invité --}}
+                @if ($user->profile_type === 'invite')
+                {{-- section Pour invité --}}
                 <div x-show="userType=='invite'">
 
                     <section x-show="pageSection=='compte'">
@@ -1438,9 +1439,12 @@
                     </section>
 
                 </div>
+                @endif
 
 
-                {{-- Pour escort --}}
+                {{-- section Pour escort --}}
+
+                @if ($user->profile_type === 'escorte')
                 <div x-show="userType=='escorte'">
 
                     {{-- Pour la vérification --}}
@@ -1825,8 +1829,10 @@
                     </section>
 
                 </div>
+                @endif
 
-                {{-- Pour salon --}}
+                {{-- section Pour salon --}}
+                @if ($user->profile_type === 'salon')
                 <div x-show="userType=='salon'">
 
                     {{-- Section mon compte --}}
@@ -1834,6 +1840,8 @@
 
                         {{-- Galerie --}}
                         @livewire('gallery-manager', ['user' => $user], key($user->id))
+
+                      
 
                         {{-- Description --}}
                         <x-profile.description 
@@ -1846,11 +1854,8 @@
                             <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('profile.about_me') }}</h2>
                             <div class="bg-green-gs h-0.5 flex-1"></div>
                         </div>
-                        <div class="flex flex-wrap items-center gap-10">
-                            <div class="grid w-full grid-cols-1 gap-5 xl:grid-cols-3">
-
-
-
+                        <div class="flex flex-wrap items-center justify-center gap-10">
+                            <div class="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
                                 <div class="font-roboto-slab text-textColor flex w-full items-center gap-3">
                                 <img 
@@ -2133,6 +2138,7 @@
                     </section>
 
                 </div>
+                @endif
 
                 {{-- Section discussion --}}
                 <section x-show="pageSection=='discussion'">

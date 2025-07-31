@@ -6,8 +6,8 @@
             <i class="fas fa-plus mr-2"></i>{{ __('gallery_manage.add') }}
         </button>
 
-        <div id="galleryModal" class="modal">
-        <div id="modalOverlay" class="modal-overlay">
+        <div id="galleryModal" class="modal z-50">
+        <div id="modalOverlay" class="modal-overlay z-50">
             <div class="w-2xl rounded-lg bg-white p-6 font-roboto-slab shadow-xl mt-10">
                 <h3 class="mb-4 text-xl font-semibold text-green-gs">
                     {{ __('gallery_manage.add_media') }}
@@ -90,7 +90,6 @@
         display: none;
         position: fixed;
         inset: 0;
-        z-index: 50;
         flex: items-center;
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.5);
@@ -135,7 +134,7 @@ const initializeGalleryModal = () => {
     }
 
     isInitialized = true;
-    console.log('Gallery modal initialized');
+    console.log('Gallery modal initialized escorte');
 
     const modal = document.getElementById('galleryModal');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -156,6 +155,7 @@ const initializeGalleryModal = () => {
     let isFormSubmitting = false;
 
     const openModal = () => {
+        console.log('openModal');
         modal.style.display = 'flex';
         resetForm();
     };

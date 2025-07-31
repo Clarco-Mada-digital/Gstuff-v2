@@ -211,7 +211,7 @@
                             `<video class="h-full w-full object-cover" muted><source src="${'{{ Storage::url("") }}' + story.media_path}" type="video/mp4"></video>`}
                     </div>
                     <div class="absolute top-0 right-0">
-                        <button onclick="showDeleteModal(${story.id})" class="absolute -right-1 -top-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600 transition-colors z-10">
+                        <button onclick="showDeleteModal(${story.id})" class="absolute -right-1 -top-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600 transition-colors ">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -220,7 +220,7 @@
                     ${isExpired(story) ? `
                     <div class="absolute bottom-0 right-0">
                         <div class="group relative inline-block">
-                            <button onclick="republishStory(${story.id})" class="absolute -right-1 -bottom-1 rounded-full bg-supaGirlRose p-1 text-white hover:bg-green-gs transition-colors z-10">
+                            <button onclick="republishStory(${story.id})" class="absolute -right-1 -bottom-1 rounded-full bg-supaGirlRose p-1 text-white hover:bg-green-gs transition-colors ">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
