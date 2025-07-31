@@ -8,7 +8,7 @@
 
         <div id="galleryModal" class="modal z-50">
         <div id="modalOverlay" class="modal-overlay z-50">
-            <div class="w-2xl rounded-lg bg-white p-6 font-roboto-slab shadow-xl mt-10">
+            <div class="w-full rounded-lg bg-white p-6 font-roboto-slab shadow-xl mt-10">
                 <h3 class="mb-4 text-xl font-semibold text-green-gs">
                     {{ __('gallery_manage.add_media') }}
                 </h3>

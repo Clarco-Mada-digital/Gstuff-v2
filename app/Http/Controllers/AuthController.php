@@ -41,6 +41,7 @@ class AuthController extends Controller
     {
       if (Auth::check()) {
         $user = Auth::user();
+
         return view('auth.profile', ['user' => $user]);
       }
       return view('auth.register');
@@ -268,11 +269,17 @@ class AuthController extends Controller
             return redirect()->route('home'); // Redirige vers la page d'accueil si non authentifié
         }
 
+        dd(Auth::user());
+
         // Récupérer l'utilisateur authentifié
         $user = Auth::user();
 
         // Associer le canton à l'utilisateur
-        $user->canton = Canton::find($user->canton);
+        if (!empty($user->canton) && is_numeric($user->canton)) {
+            $user->canton = Canton::find($user->canton);
+        } else {
+            $user->canton = null;
+        }
 
         // Récupérer les utilisateurs avec le type de profil "escorte"
         $escorts = User::where('profile_type', 'escorte')->get();

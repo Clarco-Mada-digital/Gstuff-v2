@@ -50,7 +50,12 @@ class ProfileCompletionController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
+            if($user->canton){
             $user['canton'] = Canton::where('id', $user->canton)->first() ?? '';
+            }
+            if($user->ville){
+            $user['ville'] = Ville::where('id', $user->ville)->first() ?? '';
+            }
             $userCategorieIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
             $user['categorie'] = Categorie::whereIn('id', $userCategorieIds)->get();
             // dd($user->categorie);
@@ -63,8 +68,12 @@ class ProfileCompletionController extends Controller
             // Les escortes
             $escorts = User::where('profile_type', 'escorte')->get();
             foreach ($escorts as $escort) {
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
+                if($escort->canton){
+                $escort['canton'] = Canton::where('id', $escort->canton)->first() ?? '';
+                }
+                if($escort->ville){
+                $escort['ville'] = Ville::where('id', $escort->ville)->first() ?? '';
+                }
                 $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
                 $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $serviceIds = !empty($escort->service) ? explode(',', $escort->service) : [];
@@ -103,8 +112,12 @@ class ProfileCompletionController extends Controller
             // Récupérer les favoris de type "escort"
             $escortFavorites = $user->favorites()->where('profile_type', 'escorte')->get();
             foreach ($escortFavorites as $escort) {
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
+                if($escort->canton){
+                $escort['canton'] = Canton::where('id', $escort->canton)->first() ?? '';
+                }
+                if($escort->ville){
+                $escort['ville'] = Ville::where('id', $escort->ville)->first() ?? '';
+                }
                 $escort['categorie'] = Categorie::find($escort->categorie);
                 $escort['service'] = Service::find($escort->service);
                 // dd($escort->service);
@@ -112,8 +125,12 @@ class ProfileCompletionController extends Controller
             // Récupérer les favoris de type "salon"
             $salonFavorites = $user->favorites()->where('profile_type', 'salon')->get();
             foreach ($salonFavorites as $salon) {
-                $salon['canton'] = Canton::find($salon->canton);
-                $salon['ville'] = Ville::find($salon->ville);
+                if($salon->canton){
+                $salon['canton'] = Canton::where('id', $salon->canton)->first() ?? '';
+                }
+                if($salon->ville){
+                $salon['ville'] = Ville::where('id', $salon->ville)->first() ?? '';
+                }
                 $salon['categorie'] = Categorie::find($salon->categorie);
                 $salon['service'] = Service::find($salon->service);
                 // dd($salon->service);

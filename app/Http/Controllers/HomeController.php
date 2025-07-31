@@ -57,12 +57,18 @@ class HomeController extends Controller
      */
     private function loadAssociatedData(User $user): User
     {
-        $user->canton = Canton::find($user->canton);
-        $user->ville = Ville::find($user->ville);
+        if ($user->canton) {
+            $user->canton = Canton::find($user->canton);
+        }
+        if ($user->ville) {
+            $user->ville = Ville::find($user->ville);
+        }
         $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
         $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
         $serviceIds = explode(',', $user->service);
-        $user->service = Service::whereIn('id', $serviceIds)->get();
+        if ($user->service) {
+            $user->service = Service::whereIn('id', $serviceIds)->get();
+        }
 
         return $user;
     }
