@@ -53,7 +53,8 @@ php artisan schedule:run
 ```bash
 Ouvrir le crontab : crontab -e
 Ajouter la ligne suivante :
-* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /var/www/supagirl/supagirl-v2 && php artisan stories:delete-expired >> /dev/null 2>&1
+#* * * * * cd /var/www/supagirl/supagirl-v2 && php artisan stories:delete-expired >> /home/madadigital/cron.log 2>&1
 ```
 
 ### Configuration de FFmpeg
