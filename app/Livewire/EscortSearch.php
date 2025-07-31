@@ -12,6 +12,7 @@ use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Auth;
 
 class EscortSearch extends Component
 {
@@ -188,9 +189,13 @@ class EscortSearch extends Component
         $this->showFiltreCanton = !($this->approximite || $this->showClosestOnly);
 
         $currentLocale = app()->getLocale();
-        $this->cantons = Canton::all();
+        $this->cantons = Cache::remember('all_cantons', 3600, function () {
+            return Canton::all();
+        });
         $this->availableVilles = Ville::all();
-        $this->categories = Categorie::where('type', 'escort')->get();
+        $this->categories = Cache::remember('all_categories', 3600, function () {
+            return Categorie::where('type', 'escort')->get();
+        });
         $serviceQuery = Service::query();
 
 
@@ -204,8 +209,13 @@ class EscortSearch extends Component
         $viewerLongitude = $position?->longitude ?? 0;
 
         if (!$this->approximite) {
-            $query = User::query()->where('profile_type', 'escorte');
-
+            if(Auth::user()){
+                $query = User::query()->where('profile_type', 'escorte')
+                ->where('id', '!=', Auth::user()->id);
+            }else{
+                $query = User::query()->where('profile_type', 'escorte');
+            }
+            
             if ($this->selectedCanton) {
                 $query->where('canton', $this->selectedCanton);
             }
@@ -443,7 +453,9 @@ class EscortSearch extends Component
             $maxAvailableDistance = 0;
             $escortCount = 0;
 
+            if(Auth::user()){
             $escorts = User::where('profile_type', 'escorte')
+                ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
                 ->get()
@@ -464,7 +476,29 @@ class EscortSearch extends Component
                         'distance' => $distance,
                     ];
                 });
+            }else{
+                $escorts = User::where('profile_type', 'escorte')
+                ->whereNotNull('lat')
+                ->whereNotNull('lon')
+                ->get()
+                ->filter(function ($escort) use ($viewerCountry) {
+                    return $escort->isProfileVisibleTo($viewerCountry);
+                })
+                ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
+                    $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
 
+                    // Mettre à jour les distances min et max
+                    $minDistance = min($minDistance, $distance);
+                    $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                    $escortCount++;
+
+                    return [
+                        'escort' => $escort,
+                        'distance' => $distance,
+                    ];
+                });
+            }
             // Mettre à jour les propriétés de la classe
             $this->minDistance = $escortCount > 0 ? $minDistance : 0;
             $this->maxAvailableDistance = $escortCount > 0 ? ceil($maxAvailableDistance) : 0;
@@ -624,7 +658,9 @@ class EscortSearch extends Component
             $escortCount = 0;
 
             // Récupérer toutes les escortes avec leurs coordonnées
+            if(Auth::user()){
             $escorts = User::where('profile_type', 'escorte')
+                ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
                 ->get()
@@ -645,7 +681,29 @@ class EscortSearch extends Component
                         'distance' => $distance,
                     ];
                 });
+            }else{
+                $escorts = User::where('profile_type', 'escorte')
+                ->whereNotNull('lat')
+                ->whereNotNull('lon')
+                ->get()
+                ->filter(function ($escort) use ($viewerCountry) {
+                    return $escort->isProfileVisibleTo($viewerCountry);
+                })
+                ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
+                    $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
 
+                    // Mettre à jour les distances min et max
+                    $minDistance = min($minDistance, $distance);
+                    $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                    $escortCount++;
+
+                    return [
+                        'escort' => $escort,
+                        'distance' => $distance,
+                    ];
+                });
+            }
             if ($escortCount > 4) {
                 $escorts = $escorts->sortBy('distance')->take(4);
                 $maxAvailableDistance = $escorts->last()['distance'];
