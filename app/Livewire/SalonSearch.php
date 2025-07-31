@@ -13,6 +13,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Cache;
 
 class SalonSearch extends Component
 {
@@ -141,10 +142,21 @@ class SalonSearch extends Component
 
         $this->showFiltreCanton = !($this->approximite || $this->showClosestOnly);
 
-        $this->cantons = Canton::all();
-        $this->availableVilles = Ville::all();
-        $this->categories = Categorie::where('type', 'salon')->get();
-        $this->nombreFilles = NombreFille::all();
+        $this->cantons = Cache::remember('all_cantons', 3600, function () {
+            return Canton::all();
+        });
+        
+        $this->availableVilles = Cache::remember('all_villes', 3600, function () {
+            return Ville::all();
+        });
+        
+        $this->categories = Cache::remember('categories_salon', 3600, function () {
+            return Categorie::where('type', 'salon')->get();
+        });
+        
+        $this->nombreFilles = Cache::remember('all_nombre_filles', 3600, function () {
+            return NombreFille::all();
+        });
 
         $position = Location::get(request()->ip());
         $viewerCountry = $position?->countryCode ?? 'FR';
