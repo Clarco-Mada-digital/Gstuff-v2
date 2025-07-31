@@ -86,7 +86,7 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
                                     <img :src="article.user.avatar ? 'storage/avatars/' + article.user.avatar :
-                                        '{{ asset('icon-logo.png') }}'"
+                                        '{{ asset('logo-icon.webp') }}'"
                                         class="mr-2 h-8 w-8 rounded-full" />
                                     <span x-text="article.user.pseudo"></span>
                                 </div>
