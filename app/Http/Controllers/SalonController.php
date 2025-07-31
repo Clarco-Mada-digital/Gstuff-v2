@@ -23,9 +23,10 @@ class SalonController extends Controller
 
     $salon['canton'] = Canton::find($salon->canton);
     $salon['ville'] = Ville::find($salon->ville);
-
-    $salon['categorie'] = Categorie::find($salon->categorie);
-    $salon['service'] = Service::find($salon->service);
+    $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
+    $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+    $serviceIds = !empty($salon->service) ? explode(',', $salon->service) : [];
+    $salon['service'] = Service::whereIn('id', $serviceIds)->get();
 
     $salon['havePrivateGallery'] = Gallery::where('user_id', $salon->id)
     ->where('is_public', false)
@@ -86,8 +87,10 @@ class SalonController extends Controller
     foreach ($salons as $salon) {
       $salon['canton'] = Canton::find($salon->canton);
       $salon['ville'] = Ville::find($salon->ville);
-      $salon['categorie'] = Categorie::find($salon->categorie);
-      $salon['service'] = Service::find($salon->service);
+      $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
+      $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+      $serviceIds = !empty($salon->service) ? explode(',', $salon->service) : [];
+      $salon['service'] = Service::whereIn('id', $serviceIds)->get();
     }
 
     return view('search_page_salon', ['cantons'=> $cantons, 'categories'=> $categories, 'salons' => $salons]);

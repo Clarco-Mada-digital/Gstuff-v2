@@ -242,7 +242,8 @@ class SalonSearch extends Component
 
             // Hydrate relations
             foreach ($paginatedSalons as $salon) {
-                $salon['categorie'] = Categorie::find($salon->categorie);
+                $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
+                $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $salon['canton'] = Canton::find($salon->canton);
                 $salon['ville'] = Ville::find($salon->ville);
             }

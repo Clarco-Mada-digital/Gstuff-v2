@@ -676,7 +676,7 @@
                                 <div class="col-span-2 mb-4 md:col-span-1">
                                     <label
                                         class="block text-sm font-roboto-slab text-green-gs">{{__('profile.category') }}</label>
-                                    <x-select_object_multiple name="categorie" :options="$salon_categories" :value="$user->categorie"
+                                    <x-select_object_single name="categorie" :options="$salon_categories" :value="$user->categorie"
                                         label="Mes categories" />
                                 </div>
 
@@ -1851,14 +1851,31 @@
 
 
 
-                            
-                                <x-profile-info-item 
-                                    icon="origine_icon.png"
-                                    :alt="__('profile.age_icon')"
-                                    :label="__('profile.category')"
-                                    :value="$user->categorie['nom'][session('locale', 'fr')] ?? $user->categorie['nom']['fr'] ?? $user->categorie['nom'] ?? '-'"
-                                    suffix=""
+
+                                <div class="font-roboto-slab text-textColor flex w-full items-center gap-3">
+                                <img 
+                                    src="{{ asset('images/icons/origine_icon.png') }}" 
+                                    alt="{{ __('profile.category') }}"
+                                    class="w-8 h-8"
+                                
                                 />
+    
+                                    <div class="flex-1">
+                                        <div class="font-roboto-slab text-sm text-textColor">{{ __('profile.category') }} :</div>
+                                        @if(!empty($user->categorie))
+                                            <div class="flex flex-wrap  m-1">
+                                                @foreach($user->categorie as $item)
+                                                    <span class="bg-fieldBg text-sm text-textColor font-roboto-slab px-1 py-1 rounded text-sm whitespace-nowrap mr-1 mb-1">
+                                                        {{ $item['nom'][session('locale', 'fr')] ?? $item['nom']['fr'] ?? $item['nom'] ?? '-' }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <span class="font-roboto-slab text-sm text-textColor">-</span>
+                                        @endif
+                                    </div>
+                                </div>
+
                               
                                 <x-profile-info-item 
                                     icon="escort_icon.png"

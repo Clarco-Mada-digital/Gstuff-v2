@@ -29,17 +29,18 @@
                     alt="{{ __('salon_profile.profile_image') }}" />
             </div>
             <p class="-mt-[25%] font-bold md:-mt-[10%] xl:-mt-[25%] font-roboto-slab">{{ Str::ucfirst($salon->nom_salon) }}</p>
+            @foreach ($salon->categorie as $categorie)
             <span class="font-roboto-slab flex items-center gap-2  text-sm text-textColorParagraph">
                 @php
                     $locale = session('locale', 'fr');
                     $categoryName =
-                        $salon->categorie['nom'][$locale] ??
-                        ($salon->categorie['nom']['fr'] ?? ($salon->categorie['nom'] ?? '-'));
+                        $categorie['nom'][$locale] ??
+                        ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
                 @endphp
 
 
                 {{ Str::ucfirst($categoryName) }}</span>
-
+            @endforeach
 
             <x-contact.phone-link 
                 :phone="$salon->telephone ?? null"
@@ -110,18 +111,20 @@
 
                     <div class="min-w-3/4 py-5">
                         <div class="text-green-gs font-roboto-slab w-full text-right font-bold">
+                            @foreach ($salon->categorie as $categorie)
                             <a
-                                href="{{ route('salons') . '?selectedSalonCategories=' . ($salon->categorie['id'] ?? '') }}" 
+                                href="{{ route('salons') . '?selectedSalonCategories=' . ($categorie['id'] ?? '') }}" 
                                 class="hover:text-green-gs">
 
                                 @php
                                     $locale = session('locale', 'fr');
                                     $categoryName =
-                                        $salon->categorie['nom'][$locale] ??
-                                        ($salon->categorie['nom']['fr'] ?? ($salon->categorie['nom'] ?? '-'));
+                                        $categorie['nom'][$locale] ??
+                                        ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
                                 @endphp
                                 {{ Str::ucfirst($categoryName) }}
                             </a>
+                            @endforeach
                             /
                             <a href="{{ route('salons') . '?selectedSalonCanton=' . ($salon->canton['id'] ?? '') }}"
                                 class="hover:text-green-gs">
