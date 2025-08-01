@@ -13,6 +13,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class EscortSearch extends Component
 {
