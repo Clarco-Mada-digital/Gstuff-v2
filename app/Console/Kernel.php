@@ -24,6 +24,18 @@ class Kernel extends ConsoleKernel
                 ->appendOutputTo(storage_path('logs/story-cleanup.log'));
                  
         $schedule->command('stories:clean')->everyMinute();
+
+        // Sauvegarde quotidienne à minuit
+        $schedule->command('backup:run-custom')
+                 ->dailyAt('00:00')
+                 ->onSuccess(function () {
+                     // Log du succès
+                     \Log::info('Sauvegarde automatique terminée avec succès');
+                 })
+                 ->onFailure(function () {
+                     // Log de l'échec
+                     \Log::error('Échec de la sauvegarde automatique');
+                 });
     }
 
     /**

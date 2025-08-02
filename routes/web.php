@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StaticPageController;
 use App\Http\Controllers\Admin\TaxonomyController as AdminTaxonomyController;
 use App\Http\Controllers\Admin\TaxonomyController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ArticleCategoryController;
 use App\Http\Controllers\ArticleController;
@@ -125,6 +126,15 @@ Route::delete('/notifications/{iduser}', [NotificationController::class, 'destro
 // ============================== Routes admin protégées =====================================
 
 Route::middleware(['auth'])->prefix('admin')->group(function() {
+    // Gestion des sauvegardes
+    Route::prefix('backups')->name('backups.')->group(function() {
+        Route::get('/', [BackupController::class, 'index'])->name('index');
+        Route::post('/', [BackupController::class, 'create'])->name('create');
+        Route::get('/download/{fileName}', [BackupController::class, 'download'])->name('download');
+        Route::patch('/restore/{fileName}', [BackupController::class, 'restore'])->name('restore');
+        Route::delete('/{fileName}', [BackupController::class, 'destroy'])->name('destroy');
+    });
+    
     // Static page
     Route::resource('static-pages', StaticPageController::class);
     Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');

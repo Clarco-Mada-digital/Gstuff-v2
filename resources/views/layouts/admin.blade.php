@@ -106,7 +106,7 @@
                     },
                     {
                         label: '{{ __('admin_panel.settings') }}',
-                        route: '#',
+                        route: '{{ route('backups.index') }}',
                         icon: '⚙️',
                         badge: null
                     },
