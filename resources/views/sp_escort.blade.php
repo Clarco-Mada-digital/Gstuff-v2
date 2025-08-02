@@ -49,9 +49,11 @@
                     ({{ $escort->last_seen_for_humans }})
                 </p>
             </div>
-            <x-profile.gender-badge 
+            @if ($escort->genre && $escort->genre->getTranslation('name', app()->getLocale(), 'fr'))
+                <x-profile.gender-badge 
                 :genderName="Str::ucfirst($escort->genre->getTranslation('name', app()->getLocale(), 'fr'))"
             />
+            @endif
             
             
             <x-contact.phone-link 
