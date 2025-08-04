@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 trait LogsActivity
 {
@@ -25,20 +26,43 @@ trait LogsActivity
         });
     }
 
+    // protected function logActivity(string $event)
+    // {
+    //     ActivityLog::create([
+    //         'subject_type' => get_class($this),
+    //         'subject_id' => $this->id,
+    //         'event' => $event,
+    //         'causer_type' => auth()->check() ? get_class(auth()->user()) : null,
+    //         'causer_id' => auth()->id(),
+    //         'properties' => $this->getActivityProperties($event),
+    //         'description' => $this->getActivityDescription($event),
+    //         // 'type' => $this->getActivityType($event),
+    //     ]);
+    // }
+
     protected function logActivity(string $event)
-    {
-        ActivityLog::create([
-            'subject_type' => get_class($this),
-            'subject_id' => $this->id,
-            'event' => $event,
-            'causer_type' => auth()->check() ? get_class(auth()->user()) : null,
-            'causer_id' => auth()->id(),
-            'properties' => $this->getActivityProperties($event),
-            'description' => $this->getActivityDescription($event),
-            // 'type' => $this->getActivityType($event),
-        ]);
+{
+    // Récupérer le prochain ID disponible
+    $nextId = DB::select("SELECT nextval('activity_logs_id_seq')")[0]->nextval;
+    
+    // Si l'ID existe déjà, réinitialiser la séquence
+    if (ActivityLog::where('id', $nextId)->exists()) {
+        $maxId = ActivityLog::max('id') + 1;
+        DB::statement("SELECT setval('activity_logs_id_seq', $maxId)");
+        $nextId = $maxId;
     }
 
+    ActivityLog::create([
+        'id' => $nextId,
+        'subject_type' => get_class($this),
+        'subject_id' => $this->id,
+        'event' => $event,
+        'causer_type' => auth()->check() ? get_class(auth()->user()) : null,
+        'causer_id' => auth()->id(),
+        'properties' => $this->getActivityProperties($event),
+        'description' => $this->getActivityDescription($event),
+    ]);
+}
     protected function getActivityType(string $event): string
     {
         $modelName = class_basename($this);

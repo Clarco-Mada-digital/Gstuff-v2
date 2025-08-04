@@ -130,9 +130,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::prefix('backups')->name('backups.')->group(function() {
         Route::get('/', [BackupController::class, 'index'])->name('index');
         Route::post('/', [BackupController::class, 'create'])->name('create');
-        Route::get('/download/{fileName}', [BackupController::class, 'download'])->name('download');
-        Route::patch('/restore/{fileName}', [BackupController::class, 'restore'])->name('restore');
-        Route::delete('/{fileName}', [BackupController::class, 'destroy'])->name('destroy');
+        Route::get('/download/{id}', [BackupController::class, 'download'])->name('download');
+        Route::patch('/restore/{id}', [BackupController::class, 'restore'])->name('restore');
+        Route::delete('/{id}', [BackupController::class, 'destroy'])->name('destroy');
     });
     
     // Static page

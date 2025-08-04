@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 use App\Models\User;
-
+use App\Models\Backup;
+use Illuminate\Support\Facades\Auth;
 class BackupDatabase extends Command
 {
     /**
@@ -54,7 +55,7 @@ class BackupDatabase extends Command
             // Generate filename with timestamp
             $date = Carbon::now()->format('Y-m-d_H-i-s');
             $filename = "backup_{$date}.sql";
-            $filepath = "{$backupDir}/{$filename}";
+            $filepath = $backupDir . DIRECTORY_SEPARATOR . $filename;
             
             // Database credentials
             $db = config('database.connections.pgsql');
@@ -73,14 +74,16 @@ class BackupDatabase extends Command
             );
             
             exec($command, $output, $returnVar);
+
+        
             
             if ($returnVar !== 0) {
                 throw new \Exception('Échec du dump de la base de données: ' . implode("\n", $output));
             }
             
             // Zip storage directory
-            $storageZip = "{$backupDir}/storage_{$date}.zip";
-            $storagePath = storage_path('app/public');
+            $storageZip = $backupDir . DIRECTORY_SEPARATOR . "storage_{$date}.zip";
+            $storagePath = storage_path('app' . DIRECTORY_SEPARATOR . 'public');
             
             $zip = new \ZipArchive();
             if ($zip->open($storageZip, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
@@ -101,6 +104,29 @@ class BackupDatabase extends Command
             } else {
                 throw new \Exception('Failed to create storage backup');
             }
+
+
+            // Normaliser les chemins pour la base de données
+            $normalizedDbPath = str_replace('\\', '/', $filepath);
+            $normalizedStoragePath = str_replace('\\', '/', $storageZip);
+
+            $backup = Backup::create([
+                'name' => 'Backup ' . now()->format('d/m/Y H:i:s'),
+                'type' => Backup::TYPE_FULL,
+                'status' => Backup::STATUS_COMPLETED,
+                'file_path_db' => dirname($normalizedDbPath) . '/' . basename($normalizedDbPath),
+                'file_name_db' => basename($normalizedDbPath),
+                'file_path_storage' => dirname($normalizedStoragePath) . '/' . basename($normalizedStoragePath),
+                'file_name_storage' => basename($normalizedStoragePath),
+                'size_db' => filesize($filepath),
+                'size_storage' => filesize($storageZip),
+                'disk' => 'local',
+                'metadata' => [
+                    'started_at' => now(),
+                    'source' => Auth::id() ? 'user' : 'system',
+                ],
+                'user_id' => Auth::id(),
+            ]);
             
             $successMessage = "Sauvegarde terminée avec succès!\n";
             $successMessage .= "- Base de données: {$filename}\n";

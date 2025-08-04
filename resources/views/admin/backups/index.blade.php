@@ -20,27 +20,65 @@
                 <table class="min-w-full bg-white">
                     <thead>
                         <tr>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nom</th>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Taille DB</th>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Taille Storage</th>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Source</th>
                             <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Heure</th>
                             <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Statut</th>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Restaurer</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="py-2 px-4 border-b border-gray-200">2023-10-01</td>
-                            <td class="py-2 px-4 border-b border-gray-200">12:00</td>
-                            <td class="py-2 px-4 border-b border-gray-200">Réussie</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b border-gray-200">2023-09-30</td>
-                            <td class="py-2 px-4 border-b border-gray-200">11:30</td>
-                            <td class="py-2 px-4 border-b border-gray-200">Réussie</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b border-gray-200">2023-09-29</td>
-                            <td class="py-2 px-4 border-b border-gray-200">10:15</td>
-                            <td class="py-2 px-4 border-b border-gray-200">Échouée</td>
-                        </tr>
+                        @foreach ($backupsFiles as $backupFile)
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->name }}</td>
+                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
+                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
+                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->metadata['source'] }}</td>
+                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->created_at }}</td>
+                                <td class="py-2 px-4 border-b border-gray-200">
+                                    <span class="px-2 py-1 text-xs rounded-full {{ $backupFile->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $backupFile->status == 'completed' ? 'Réussie' : 'Échouée' }}
+                                    </span>
+                                </td>
+                                <td class="py-2 px-4 border-b border-gray-200 flex space-x-2">
+                                    <form action="{{ route('backups.destroy', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette sauvegarde ? Cette action est irréversible.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('backups.download', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir télécharger cette sauvegarde ?');">
+                                        @csrf
+                                        @method('GET')
+                                        <button type="submit" class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                  
+                                </td>
+                                <td class="py-2 px-4 border-b border-gray-200">
+                                    <button type="button" class="text-green-500 hover:text-green-700 focus:outline-none" onclick="openModalRestauration('restoreModal', {{ $backupFile->id }})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                    </button>
+                                </td>
+                      
+                            </tr>
+                        @endforeach
+                        @if ($backupsFiles->isEmpty())
+                            <tr>
+                                <td colspan="7" class="py-2 px-4 mt-5 text-center">Aucune sauvegarde trouvée.</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -83,7 +121,7 @@
                             <span class="font-medium text-gray-800">backup_20230929.sql</span>
                             <span class="text-sm text-gray-500"> - 9 Mo</span>
                         </div>
-                        <button onclick="openModal('restoreModal')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
+                        <button  class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
                             Restaurer
                         </button>
                     </li>
@@ -105,9 +143,13 @@
                 <button id="cancelBackup" onclick="closeModal('backupModal')" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
                     Annuler
                 </button>
-                <button id="confirmBackup" onclick="confirmBackup()" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                    Confirmer
-                </button>
+                <form action="{{ route('backups.create') }}" method="POST" class="w-full" >
+                                        @csrf
+                                        @method('POST')
+                                        <button type="submit" class=" px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                                        Confirmer
+                                        </button>
+                                    </form>
             </div>
         </div>
     </div>
@@ -132,9 +174,9 @@
                     <button id="cancelRestore" onclick="closeModal('restoreModal')" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
                         Annuler
                     </button>
-                    <button id="confirmRestore" onclick="confirmRestore()" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-                        Confirmer
-                    </button>
+                    <button type="submit" onclick="confirmRestore()" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                            Confirmer
+                        </button>
                 </div>
             </div>
         </div>
@@ -146,6 +188,10 @@
         function openModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
         }
+        function openModalRestauration(modalId , id) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById('restoreModal').dataset.id = id;
+        }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
@@ -153,12 +199,9 @@
 
         function confirmRestore() {
             const password = document.getElementById('restorePassword').value;
-            if (password) {
-                alert('Restauration confirmée avec le mot de passe : ' + password);
-                closeModal('restoreModal');
-            } else {
-                alert('Veuillez entrer un mot de passe pour confirmer la restauration.');
-            }
+            const id = document.getElementById('restoreModal').dataset.id;
+            console.log(id);
+            console.log(password);
         }
 
         function confirmBackup() {
