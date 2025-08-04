@@ -105,7 +105,7 @@
                 <button id="cancelBackup" onclick="closeModal('backupModal')" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
                     Annuler
                 </button>
-                <button id="confirmBackup" onclick="closeModal('backupModal')" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                <button id="confirmBackup" onclick="confirmBackup()" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
                     Confirmer
                 </button>
             </div>
@@ -159,6 +159,27 @@
             } else {
                 alert('Veuillez entrer un mot de passe pour confirmer la restauration.');
             }
+        }
+
+        function confirmBackup() {
+            fetch('/admin/backups', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    closeModal('backupModal');
+                } else {
+                    alert('Erreur lors de la sauvegarde');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la sauvegarde:', error);
+                alert('Erreur lors de la sauvegarde');
+            });
         }
     </script>
 </div>

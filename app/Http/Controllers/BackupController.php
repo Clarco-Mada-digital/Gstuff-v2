@@ -36,7 +36,7 @@ class BackupController extends Controller
     public function create()
     {
         try {
-            Artisan::call('backup:run --only-db');
+            Artisan::call('backup:run-custom');
             
             return redirect()->back()->with('success', 'Sauvegarde créée avec succès !');
         } catch (\Exception $e) {

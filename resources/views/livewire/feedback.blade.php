@@ -37,16 +37,25 @@
         init() {
             // Écoute les événements Livewire
             Livewire.on('showSuccess', (event) => {
-                this.successMessage = this.extractMessage(event);
-                this.showSuccess = true;
-                this.hideAfterDelay('success');
+                const message = this.extractMessage(event);
+
+                if (message && message.trim() !== '') {
+                    this.successMessage = message;
+                    this.showSuccess = true;
+                    this.hideAfterDelay('success');
+                 }
             });
-            
+
             Livewire.on('showError', (event) => {
-                this.errorMessage = this.extractMessage(event);
-                this.showError = true;
-                this.hideAfterDelay('error');
+                const message = this.extractMessage(event);
+
+                if (message && message.trim() !== '') {
+                    this.errorMessage = message;
+                    this.showError = true;
+                    this.hideAfterDelay('error');
+                }
             });
+
             
             // Gère les messages de session au chargement
             @if(session()->has('success'))
@@ -68,17 +77,24 @@
             @enderror
         },
         hideAfterDelay(type) {
-            setTimeout(() => {
-                if (type === 'success') this.showSuccess = false;
-                if (type === 'error') this.showError = false;
-            }, 5000);
+            // setTimeout(() => {
+            //     if (type === 'success') {
+            //         this.showSuccess = false;
+            //         this.isToast = false;
+            //     }
+            //     if (type === 'error') {
+            //         this.showError = false;
+            //         this.isToast = false;
+            //     }
+            // }, 5000);
         }
     }"
     class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-fieldBg p-1 sm:p-4 relative"
 >
     <!-- Notifications flottantes -->
+    @if($isToast)
     <div 
-        x-show="showSuccess"
+        x-show="showSuccess && successMessage && successMessage.trim() !== ''"
         x-transition:enter="transform ease-out duration-300 transition"
         x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
         x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -105,9 +121,11 @@
             </button>
         </div>
     </div>
+    @endif
 
+    @if($isToast)
     <div 
-        x-show="showError"
+        x-show="showError && errorMessage && errorMessage.trim() !== ''"
         x-transition:enter="transform ease-out duration-300 transition"
         x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
         x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -116,6 +134,7 @@
         x-transition:leave-end="opacity-0"
         class="fixed bottom-4 right-4 max-w-sm w-full bg-red-50 border-l-4 border-red-400 p-4 rounded-lg shadow-lg z-50 flex items-start"
         role="alert"
+        x-cloak
     >
         <div class="flex-shrink-0">
             <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -134,6 +153,7 @@
             </button>
         </div>
     </div>
+    @endif
     <div class="flex flex-col items-center justify-between gap-2 md:flex-row font-roboto-slab bg-fieldBg">
         <span
             class="font-roboto-slab text-green-gs text-center text-xl font-bold md:text-start">{{ __('feedback.recommendations_likes_rating') }}</span>

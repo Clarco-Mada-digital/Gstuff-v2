@@ -926,6 +926,11 @@
         });
 
         function showToast(type, message) {
+
+            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+            if (!message || message.trim() === '') {
+                return;
+            }
             const colors = {
                 success: 'bg-green-500',
                 error: 'bg-red-500',
@@ -937,7 +942,7 @@
             toast.className =
                 `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center justify-between max-w-xs animate-fade-in-up`;
             toast.innerHTML = `
-                <span>${message}</span>
+                <span>${message}qqqqqqqqq</span>
                 <button onclick="this.parentElement.remove()" class="ml-4">
                     &times;
                 </button>
@@ -948,7 +953,7 @@
 
             setTimeout(() => {
                 toast.classList.add('animate-fade-out');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => toast.remove(), 50000);
             }, 5000);
         }
 

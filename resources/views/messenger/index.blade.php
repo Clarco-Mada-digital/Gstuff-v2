@@ -460,6 +460,10 @@
 
         // Fonction utilitaire
         function showToast(message, type = 'success') {
+            console.log('ccccccccccccccccccccccccccccc');
+            if (!message || message.trim() === '') {
+                return;
+            }
             const toast = document.createElement('div');
             toast.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg text-white ${
               type === 'success' ? 'bg-green-500' : 'bg-red-500'

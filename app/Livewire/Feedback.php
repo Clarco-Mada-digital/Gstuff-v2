@@ -22,6 +22,8 @@ class Feedback extends Component
     public $comment = ''; // Commentaire par défaut
     public $feedbacks;
     public $lang;
+    public $isToast = false;
+    
 
     protected $listeners = ['feedbackSubmitted' => '$refresh'];
     protected $rules = [
@@ -95,6 +97,7 @@ class Feedback extends Component
             // Langues cibles pour les traductions
             $locales = Locales::SUPPORTED_CODES;
             $sourceLocale = $this->lang; // Langue source par défaut
+            // dd($locales,$sourceLocale);
 
             // Traduire le contenu dans toutes les langues cibles
             $translatedContent = [];
@@ -105,10 +108,11 @@ class Feedback extends Component
                     $translatedContent[$locale] = $this->comment;
                 }
             }
-
+            
+            // Utilisation des noms de colonnes exacts de la base de données
             ModelsFeedback::create([
-                'userToId' => $this->userToId->id,
-                'userFromId' => $this->userFromId->id,
+                'userToid' => $this->userToId->id,
+                'userFromid' => $this->userFromId->id,
                 'rating' => $this->rating,
                 'comment' => $translatedContent,
             ]);
@@ -117,15 +121,20 @@ class Feedback extends Component
             $this->reset(['rating', 'comment']);
             
             // Émettre un événement de succès
+            $this->isToast = true;
             $this->dispatch('showSuccess', message: __('feedback.success.submitted'));
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Pour les erreurs de validation, on affiche la première erreur
-            $firstError = collect($e->errors())->first()[0] ?? 'Une erreur de validation est survenue.';
+            $firstError = collect($e->errors())->first()[0] ?? null;
+        if (!empty(trim($firstError))) {
+            $this->isToast = true;
             $this->dispatch('showError', message: $firstError);
+        }
         } catch (\Exception $e) {
             // Pour les autres erreurs
-            $this->dispatch('showError', message: 'An error occurred while saving your feedback. Please try again.');
+            $this->isToast = true;
+            $this->dispatch('showError', message: $e->getMessage());
         }
     }
 

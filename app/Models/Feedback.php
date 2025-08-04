@@ -15,8 +15,8 @@ class Feedback extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'userToId',
-        'userFromId',
+        'userToid',
+        'userFromid',
         'rating',
         'comment',
     ];
@@ -24,8 +24,13 @@ class Feedback extends Model
     public $translatable = ['comment'];
 
 
-    public function userFromId(): BelongsTo
+    public function userFrom(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userFromid');
+    }
+    
+    public function userTo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'userToid');
     }
 }
