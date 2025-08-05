@@ -154,17 +154,147 @@
 
     
         <!-- Zone de saisie -->
-        <div id="messageInputContainer" class="border-t border-gray-200 bg-white p-3" style="display: none;">
-            <div class="flex space-x-2">
-                <input type="text" id="messageInput" placeholder="{{ __('chat.type_message') }}"
-                    class=" text-sm flex-1 rounded-full border border-green-gs px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-gs w-[80%]">
-                <button id="sendMessage" class="rounded-full bg-green-gs px-3 py-2 text-white transition-colors hover:bg-green-gs/80 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
+        <div id="messageInputContainer" class="border-t border-gray-200 bg-white p-3" style="display: none;" x-data="{
+            showEmojiPicker: false,
+            activeCategory: 'smileys_emotion',
+            searchQuery: '',
+            searchResults: [],
+            allEmojis: [
+                @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                    @foreach($emojiCategories as $category)
+                        @foreach($category['emojis'] as $emoji)
+                            {
+                                char: '{{ $emoji['char'] }}',
+                                name: '{{ $emoji['name'] }}',
+                                slug: '{{ $category['slug'] }}',
+                                category: '{{ $category['name'] }}'
+                            },
+                        @endforeach
+                    @endforeach
+                @endif
+            ],
+            init() {
+                this.$watch('showEmojiPicker', value => {
+                    if (value) {
+                        this.searchQuery = '';
+                        this.searchResults = [];
+                    }
+                });
+            },
+            search() {
+                if (!this.searchQuery.trim()) {
+                    this.searchResults = [];
+                    return;
+                }
+                
+                const query = this.searchQuery.toLowerCase().trim();
+                this.searchResults = this.allEmojis.filter(emoji => 
+                    emoji.name.toLowerCase().includes(query)
+                );
+            },
+            insertEmoji(emoji) {
+                const input = document.getElementById('messageInput');
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const value = input.value;
+                
+                // Insert the emoji at cursor position
+                input.value = value.substring(0, start) + emoji + value.substring(end);
+                
+                // Move cursor to after the inserted emoji
+                const newPos = start + emoji.length;
+                input.focus();
+                input.setSelectionRange(newPos, newPos);
+                
+                // Trigger input event for any listeners
+                input.dispatchEvent(new Event('input'));
+                
+                // Close picker after selection
+                // this.showEmojiPicker = false;
+            },
+            filteredEmojis() {
+                if (this.searchQuery) {
+                    return this.searchResults;
+                }
+                return this.allEmojis.filter(emoji => emoji.slug === this.activeCategory);
+            }
+        }">
+            <div class="relative">
+                <!-- Emoji Picker Dropdown -->
+                <div x-show="showEmojiPicker" 
+                     @click.away="showEmojiPicker = false"
+                     class="absolute bottom-full mb-2 left-0 w-64 h-64 bg-white overflow-y-auto rounded-lg shadow-lg border border-supaGirlRose z-50"
+                     style="display: none;">
+                    <!-- Search Bar -->
+                    <div class="p-2 border-b border-supaGirlRose">
+                        <input type="text" 
+                               x-model="searchQuery" 
+                               @input="search()"
+                               placeholder="Search emojis..."
+                               class="w-full px-2 py-1 text-sm border rounded border-supaGirlRose">
+                    </div>
+                    
+                    <!-- Categories -->
+                    <div class="flex overflow-x-auto border-b border-gray-200 bg-fieldBg px-2" x-show="!searchQuery">
+                                @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                    @foreach($emojiCategories as $category)
+                                        <button 
+                                            type="button"
+                                            @click="activeCategory = '{{ $category['slug'] }}'"
+                                            :class="{ 'border-b-2 border-green-gs text-green-gs': activeCategory === '{{ $category['slug'] }}', 'text-gray-600 hover:text-gray-800': activeCategory !== '{{ $category['slug'] }}' }"
+                                            class="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium transition-colors"
+                                            :title="'{{ $category['name'] }}'"
+                                        >
+                                            {{ $category['emojis'][0]['char'] ?? '' }}
+                                        </button>
+                                    @endforeach
+                                @endif
+                            </div>
+                    
+                    <!-- Emojis Grid -->
+                    <div class="p-2 max-h-40   overflow-y-auto">
+                        <template x-if="searchQuery && searchResults.length === 0">
+                            <div class="p-2 text-center text-gray-500">No emojis found</div>
+                        </template>
+                        
+                        <template x-if="!searchQuery || searchResults.length > 0">
+                            <div class="grid grid-cols-8 gap-1">
+                                <template x-for="emoji in (searchQuery ? searchResults : filteredEmojis)" :key="emoji.char">
+                                    <button 
+                                        @click="insertEmoji(emoji.char)"
+                                        :title="emoji.name"
+                                        class="p-1 text-xl hover:bg-gray-100 rounded flex items-center justify-center"
+                                        style="width: 36px; height: 36px">
+                                        <span x-text="emoji.char"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                
+                <!-- Message Input -->
+                <div class="flex ">
+                  
+                    
+                    <input type="text" 
+                           id="messageInput" 
+                           placeholder="{{ __('chat.type_message') }}"
+                           class="text-sm flex-1 rounded-full border border-green-gs px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-green-gs">
+                    
+
+
+                    <button 
+                        @click="showEmojiPicker = !showEmojiPicker"
+                        type="button"
+                        class="rounded-full p-2 text-gray-500 hover:text-green-gs focus:outline-none">
+                        <i class="far fa-smile text-lg text-green-gs"></i>
+                    </button>
+                    <button id="sendMessage" class="rounded-full bg-green-gs px-3 py-2 text-white transition-colors hover:bg-green-gs/80 focus:outline-none">
+                        <i class="far fa-paper-plane text-lg w-4 h-4"></i>
+                    </button>
+                  
+                </div>
             </div>
         </div>
         <!-- Liste des contacts -->
@@ -212,6 +342,7 @@
         const contactsLoading = document.getElementById('contactsLoading');
         let currentUserId = null;
         let oldUser = null;
+        let emplacement = null;
 
         
         chatButton.addEventListener('click', function () {
@@ -220,6 +351,7 @@
             
             // console.log('chatButton clicked');
             fetchContacts();
+            emplacement = 'chat';
         });
 
      
@@ -438,34 +570,40 @@ function loadMessages(user) {
 
                     // Handle image attachment
                     if (message.attachment) {
-        const imageContainer = document.createElement('div');
-        imageContainer.className = 'image-container';
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'image-container';
 
-        const img = document.createElement('img');
-        let cleanUrl = message.attachment.replace(/^"|"$/g, '').replace(/[\/\\]+/g, '/').replace(/^\/+/, '');
+                        const img = document.createElement('img');
+                        let cleanUrl = message.attachment.replace(/^"|"$/g, '').replace(/[\/\\]+/g, '/').replace(/^\/+/, '');
+                        console.log(cleanUrl);
+                        if (emplacement === 'profile') {
+                            const currentUrl = window.location.href;
+                            const baseUrl = currentUrl.match(/https?:\/\/[^\/]+/)[0];
+                            img.src = baseUrl + '/'+ cleanUrl;
+                        }else{
+                            img.src = cleanUrl;
+                        }
+                        img.alt = 'Attachment';
+                        img.className = 'message-attachment';
+                        img.style.maxWidth = '100%';
+                        img.style.maxHeight = '100%';
+                        img.style.objectFit = 'contain';
 
-        img.src = cleanUrl;
-        img.alt = 'Attachment';
-        img.className = 'message-attachment';
-        img.style.maxWidth = '100%';
-        img.style.maxHeight = '100%';
-        img.style.objectFit = 'contain';
+                        // Ajouter un gestionnaire d'événements pour ouvrir la modale
+                        img.onclick = function() {
+                            openModal(cleanUrl);
+                        };
 
-        // Ajouter un gestionnaire d'événements pour ouvrir la modale
-        img.onclick = function() {
-            openModal(cleanUrl);
-        };
+                        imageContainer.appendChild(img);
+                        messageElement.appendChild(imageContainer);
 
-        imageContainer.appendChild(img);
-        messageElement.appendChild(imageContainer);
-
-        // Ajouter du texte sous l'image si disponible
-        if (message.body) {
-            const textElement = document.createElement('p');
-            textElement.textContent = message.body;
-            messageElement.appendChild(textElement);
-        }
-    }
+                        // Ajouter du texte sous l'image si disponible
+                        if (message.body) {
+                            const textElement = document.createElement('p');
+                            textElement.textContent = message.body;
+                            messageElement.appendChild(textElement);
+                        }
+                    }
                     // If neither body nor attachment is present
                     if (!message.body && !message.attachment) {
                         messageElement.textContent = 'No message content';
@@ -535,6 +673,7 @@ function openModal(imageUrl) {
             // console.log('chatButtonProfile clicked avec load' + currentUserId);
             // fetchContacts();
             fetchUserInfo(currentUserId);
+            emplacement = 'profile';
         });
 
         function formatTimeAgo(dateString) {
