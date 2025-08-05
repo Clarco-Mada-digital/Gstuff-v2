@@ -77,16 +77,16 @@
             @enderror
         },
         hideAfterDelay(type) {
-            // setTimeout(() => {
-            //     if (type === 'success') {
-            //         this.showSuccess = false;
-            //         this.isToast = false;
-            //     }
-            //     if (type === 'error') {
-            //         this.showError = false;
-            //         this.isToast = false;
-            //     }
-            // }, 5000);
+            setTimeout(() => {
+                if (type === 'success') {
+                    this.showSuccess = false;
+                    this.isToast = false;
+                }
+                if (type === 'error') {
+                    this.showError = false;
+                    this.isToast = false;
+                }
+            }, 5000);
         }
     }"
     class="mt-5 flex w-full flex-col gap-10 rounded-lg bg-fieldBg p-1 sm:p-4 relative"
