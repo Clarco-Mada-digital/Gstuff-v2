@@ -224,22 +224,206 @@ class BackupController extends Controller
 //     }
 // }
 
-public function restore($id)
+// public function restore(Request $request)
+// {
+//     try {
+//         $id = $request->input('id');
+//         $password = $request->input('password');
+        
+//         // Validate the request
+//         $request->validate([
+//             'id' => 'required|exists:backups,id',
+//             'password' => 'required|string'
+//         ]);
+        
+//         // Verify password if needed (example: check if it matches .env ADMIN_PASSWORD)
+//         // if ($password !== config('app.admin_password')) {
+//         //     return response()->json(['error' => 'Mot de passe incorrect'], 401);
+//         // }
+        
+//         $backup = Backup::findOrFail($id);
+//         logger()->info('Restauration de la base de données', [
+//             'backup' => $backup
+//         ]);
+        
+//         // Vérifier si les fichiers existent
+//         // Get the correct directory separator for the operating system
+//         $directorySeparator = DIRECTORY_SEPARATOR;
+
+//         // Normalize the paths based on the operating system's directory separator
+//         $normalizedFilePathDb = str_replace(['/', '\\'], $directorySeparator, $backup->file_path_db);
+//         $normalizedFilePathStorage = str_replace(['/', '\\'], $directorySeparator, $backup->file_path_storage);
+
+//         // Vérifier si les fichiers existent
+//         if (!file_exists($normalizedFilePathDb) || !file_exists($normalizedFilePathStorage)) {
+//             logger()->info('Restauration de la base de données', [
+//                 'backup' => $backup,
+//                 'file_path_db' => $normalizedFilePathDb,
+//                 'file_path_storage' => $normalizedFilePathStorage,
+//                 'file_path_db_exists' => file_exists($normalizedFilePathDb),
+//                 'file_path_storage_exists' => file_exists($normalizedFilePathStorage)
+//             ]);
+//             return back()->with('error', 'Un ou plusieurs fichiers de sauvegarde sont introuvables.');
+//         }else{
+//             logger()->info('Restauration de la base de données', [
+//                 'backup' => $backup,
+//                 'file_path_db' => $normalizedFilePathDb,
+//                 'file_path_storage' => $normalizedFilePathStorage,
+//                 'file_path_db_exists' => file_exists($normalizedFilePathDb),
+//                 'file_path_storage_exists' => file_exists($normalizedFilePathStorage)
+//             ]);
+//             // return back()->with('success', 'fichier trouver !');
+//         }
+
+
+//         $dbConfig = config('database.connections.pgsql');
+//         logger()->info('Restauration de la base de données', [
+//             'dbConfig' => $dbConfig
+//         ]);
+//         // 1. Restauration de la base de données PostgreSQL
+//         $connectionString = sprintf(
+//             'host=%s port=%s dbname=%s user=%s password=%s',
+//             $dbConfig['host'],
+//             $dbConfig['port'],
+//             $dbConfig['database'],
+//             $dbConfig['username'],
+//             $dbConfig['password']
+//         );
+
+//         $command = sprintf(
+//             'psql "%s" -f %s 2>&1',
+//             str_replace('"', '\"', $connectionString),
+//             escapeshellarg($backup->file_path_db)
+//         );
+//         logger()->info('Restauration de la base de données', [
+//             'command' => $command
+//         ]);
+//         $output = [];
+//         $returnVar = null;
+//         exec($command, $output, $returnVar);
+//         logger()->info('Restauration de la base de données', [
+//             'output' => $output,
+//             'returnVar' => $returnVar
+//         ]);
+//         if ($returnVar !== 0) {
+//             logger()->info('Restauration de la base de données', [
+//                 'output' => $output,
+//                 'returnVar' => $returnVar
+//             ]);
+//             throw new \Exception('Échec de la restauration de la base de données PostgreSQL: ' . implode("\n", $output));
+//         }
+
+//         // 2. Extraction du fichier de stockage
+//         // $storageBackupPath = $backup->file_path_storage;
+//         // $storagePath = storage_path('app');
+        
+//         // // Créer un dossier temporaire pour l'extraction
+//         // $tempExtractPath = storage_path('app/temp_restore_' . time());
+//         // if (!file_exists($tempExtractPath)) {
+//         //     mkdir($tempExtractPath, 0755, true);
+//         // }
+//         // logger()->info('Restauration de la base de données', [
+//         //     'tempExtractPath' => $tempExtractPath
+//         // ]);
+//         // logger()->info('Restauration de la base de données', [
+//         //     'storageBackupPath' => $storageBackupPath
+//         // ]);
+//         // // Extraire l'archive
+//         // $zip = new \ZipArchive();
+//         // if ($zip->open($storageBackupPath) === TRUE) {
+//         //     logger()->info('Restauration de la base de données', [
+//         //         'zip' => $zip
+//         //     ]);
+//         //     // Extraire dans un sous-dossier temp
+//         //     $extractTo = $tempExtractPath . '/temp';
+//         //     if (!file_exists($extractTo)) {
+//         //         mkdir($extractTo, 0755, true);
+//         //     }
+//         //     logger()->info('Restauration de la base de données', [
+//         //         'extractTo' => $extractTo
+//         //     ]);
+//         //     $zip->extractTo($extractTo);
+//         //     $zip->close();
+//         //     logger()->info('Restauration de la base de données', [
+//         //         'zip' => $zip
+//         //     ]);
+//         //     // Supprimer le contenu actuel du dossier storage/app
+//         //     $this->rrmdir($storagePath);
+            
+//         //     // Déterminer le chemin source
+//         //     $sourcePath = $extractTo;
+//         //     if (is_dir($extractTo . '/storage')) {
+//         //         $sourcePath = $extractTo . '/storage';
+//         //     } elseif (is_dir($extractTo . '/app')) {
+//         //         $sourcePath = $extractTo . '/app';
+//         //     }
+//         //     logger()->info('Restauration de la base de données', [
+//         //         'sourcePath' => $sourcePath
+//         //     ]);
+//         //     // Copier les fichiers extraits
+//         //     $this->recurse_copy($sourcePath, $storagePath);
+            
+//         //     // Nettoyer le dossier temporaire
+//         //     $this->rrmdir($tempExtractPath);
+            
+//         //     return back()->with('success', 'Restauration complète effectuée avec succès !');
+//         // } else {
+//         //     logger()->info('Restauration de la base de données', [
+//         //         'zip' => $zip
+//         //     ]);
+//         //     throw new \Exception('Impossible d\'ouvrir l\'archive de stockage');
+//         // }
+        
+//     } catch (\Exception $e) {
+//           // Log the error with more context
+//     logger()->error('Restoration failed', [
+//         'error' => $e->getMessage(),
+//         'trace' => $e->getTraceAsString()
+//     ]);
+
+//     // Cleanup temporary files
+//     if (isset($tempExtractPath) && file_exists($tempExtractPath)) {
+//         $this->rrmdir($tempExtractPath);
+//     }
+
+//     // Return a user-friendly error message
+//     return back()->with('error', 'Restoration failed: ' . $e->getMessage());
+//     }
+// }
+public function restore(Request $request)
 {
     try {
+        $id = $request->input('id');
+        $password = $request->input('password');
+
+        $request->validate([
+            'id' => 'required|exists:backups,id',
+            'password' => 'required|string'
+        ]);
+
         $backup = Backup::findOrFail($id);
-        $this->info($backup);
-        
-        // Vérifier si les fichiers existent
-        if (!file_exists($backup->file_path_db) || !file_exists($backup->file_path_storage)) {
-            $this->info($backup->file_path_db);
-            $this->info($backup->file_path_storage);
+        logger()->info('🔍 Sauvegarde sélectionnée', ['backup' => $backup]);
+
+        $directorySeparator = DIRECTORY_SEPARATOR;
+        $normalizedFilePathDb = str_replace(['/', '\\'], $directorySeparator, $backup->file_path_db);
+        $normalizedFilePathStorage = str_replace(['/', '\\'], $directorySeparator, $backup->file_path_storage);
+
+        if (!file_exists($normalizedFilePathDb) || !file_exists($normalizedFilePathStorage)) {
+            logger()->warning('⚠️ Fichiers de sauvegarde introuvables', [
+                'file_path_db_exists' => file_exists($normalizedFilePathDb),
+                'file_path_storage_exists' => file_exists($normalizedFilePathStorage)
+            ]);
             return back()->with('error', 'Un ou plusieurs fichiers de sauvegarde sont introuvables.');
         }
 
+        logger()->info('📁 Fichiers de sauvegarde trouvés', [
+            'file_path_db' => $normalizedFilePathDb,
+            'file_path_storage' => $normalizedFilePathStorage
+        ]);
+
         $dbConfig = config('database.connections.pgsql');
-        $this->info($dbConfig);
-        // 1. Restauration de la base de données PostgreSQL
+        logger()->info('🔧 Configuration PostgreSQL', ['dbConfig' => $dbConfig]);
+
         $connectionString = sprintf(
             'host=%s port=%s dbname=%s user=%s password=%s',
             $dbConfig['host'],
@@ -249,113 +433,196 @@ public function restore($id)
             $dbConfig['password']
         );
 
+        // 🧠 Prétraitement du fichier SQL
+        $modifiedSqlPath = $this->prepareSqlForRestore($normalizedFilePathDb);
+        logger()->info('📄 Fichier SQL modifié prêt', ['modifiedSqlPath' => $modifiedSqlPath]);
+
         $command = sprintf(
             'psql "%s" -f %s 2>&1',
             str_replace('"', '\"', $connectionString),
-            escapeshellarg($backup->file_path_db)
+            escapeshellarg($modifiedSqlPath)
         );
-        $this->info($command);
+
+        logger()->info('🚀 Commande psql exécutée', ['command' => $command]);
+
         $output = [];
         $returnVar = null;
         exec($command, $output, $returnVar);
-        $this->info($output);
+
+        logger()->info('📜 Résultat restauration PostgreSQL', [
+            'output' => $output,
+            'returnVar' => $returnVar
+        ]);
+
         if ($returnVar !== 0) {
-            $this->info($returnVar);
-            throw new \Exception('Échec de la restauration de la base de données PostgreSQL: ' . implode("\n", $output));
+            throw new \Exception('Échec restauration PostgreSQL : ' . implode("\n", $output));
         }
 
-        // 2. Extraction du fichier de stockage
-        $storageBackupPath = $backup->file_path_storage;
+        if (file_exists($modifiedSqlPath)) {
+            unlink($modifiedSqlPath);
+            logger()->info('🧹 Fichier temporaire supprimé', ['path' => $modifiedSqlPath]);
+        }
+
+        logger()->info('✅ Restauration terminée avec succès');
+
+        // 🔁 Restauration du dossier storage
+        $result = $this->restoreStorageFromZip($normalizedFilePathStorage);
+
+        if (!$result) {
+            return back()->with('error', 'La base de données a été restaurée, mais la restauration du dossier storage a échoué.');
+        }
+        $countBackups = Backup::count();
+        Artisan::call('backup:run-custom');
+        return back()->with('success', 'Restauration de la base de données réussie.');
+
+    } catch (\Exception $e) {
+        logger()->error('❌ Restauration échouée', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+        return back()->with('error', 'Restoration failed: ' . $e->getMessage());
+    }
+}
+public function prepareSqlForRestore($filePath)
+{
+    $lines = file($filePath);
+    $seenObjects = [];
+    $newLines = [];
+
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+
+        // CREATE TABLE
+        if (preg_match('/^CREATE TABLE\s+(\w+)\.(\w+)/i', $trimmed, $matches)) {
+            $schema = $matches[1];
+            $table = $matches[2];
+            $objectKey = "table:{$schema}.{$table}";
+            if (!isset($seenObjects[$objectKey])) {
+                $newLines[] = "DROP TABLE IF EXISTS {$schema}.{$table} CASCADE;";
+                $seenObjects[$objectKey] = true;
+            }
+        }
+
+        // CREATE SEQUENCE
+        if (preg_match('/^CREATE SEQUENCE\s+(\w+)\.(\w+)/i', $trimmed, $matches)) {
+            $schema = $matches[1];
+            $sequence = $matches[2];
+            $objectKey = "sequence:{$schema}.{$sequence}";
+            if (!isset($seenObjects[$objectKey])) {
+                $newLines[] = "DROP SEQUENCE IF EXISTS {$schema}.{$sequence} CASCADE;";
+                $seenObjects[$objectKey] = true;
+            }
+        }
+
+        // CREATE INDEX
+        if (preg_match('/^CREATE INDEX\s+("?[\w_]+"?)\s+ON\s+(\w+)\.(\w+)/i', $trimmed, $matches)) {
+            $indexName = $matches[1];
+            $objectKey = "index:{$indexName}";
+            if (!isset($seenObjects[$objectKey])) {
+                $newLines[] = "DROP INDEX IF EXISTS {$indexName};";
+                $seenObjects[$objectKey] = true;
+            }
+        }
+
+        $newLines[] = $line;
+    }
+
+    $tempPath = storage_path('app/temp_restore_' . time() . '.sql');
+    file_put_contents($tempPath, implode("", $newLines));
+    logger()->info('📄 Prétraitement SQL avec dédoublonnage terminé', ['tempPath' => $tempPath]);
+
+    return $tempPath;
+}
+
+public function restoreStorageFromZip($storageZipPath)
+{
+    try {
         $storagePath = storage_path('app');
-        
-        // Créer un dossier temporaire pour l'extraction
-        $tempExtractPath = storage_path('app/temp_restore_' . time());
+        $tempExtractPath = $storagePath . '/temp_restore_' . time();
+
+        // Créer le dossier temporaire
         if (!file_exists($tempExtractPath)) {
             mkdir($tempExtractPath, 0755, true);
         }
-        $this->info($tempExtractPath);
-        $this->info($storageBackupPath);        
-        // Extraire l'archive
+
         $zip = new \ZipArchive();
-        if ($zip->open($storageBackupPath) === TRUE) {
-            $this->info($zip);
-            // Extraire dans un sous-dossier temp
-            $extractTo = $tempExtractPath . '/temp';
-            if (!file_exists($extractTo)) {
-                mkdir($extractTo, 0755, true);
-            }
-            $this->info($extractTo);            
-            $zip->extractTo($extractTo);
+        if ($zip->open($storageZipPath) === TRUE) {
+
+            // 📦 Extraction dans le dossier temporaire directement
+            $zip->extractTo($tempExtractPath);
             $zip->close();
-            $this->info($zip);            
-            // Supprimer le contenu actuel du dossier storage/app
-            $this->rrmdir($storagePath);
-            
-            // Déterminer le chemin source
-            $sourcePath = $extractTo;
-            if (is_dir($extractTo . '/storage')) {
-                $sourcePath = $extractTo . '/storage';
-            } elseif (is_dir($extractTo . '/app')) {
-                $sourcePath = $extractTo . '/app';
+
+            logger()->info('📂 Extraction terminée', ['chemin' => $tempExtractPath]);
+
+             // 🧼 Supprimer le contenu actuel du storage/app mais conserver le dossier temporaire
+             foreach (glob($storagePath . '/*') as $item) {
+                // Exclure le dossier temporaire
+                if (realpath($item) === realpath($tempExtractPath)) {
+                    continue;
+                }
+
+                is_dir($item) ? $this->rrmdir($item) : unlink($item);
             }
-            $this->info($sourcePath);            
-            // Copier les fichiers extraits
-            $this->recurse_copy($sourcePath, $storagePath);
-            
-            // Nettoyer le dossier temporaire
+
+            // 🔍 Détecter automatiquement les dossiers 'public' et 'backups' dans le zip
+            $expectedFolders = ['public', 'backups'];
+            foreach ($expectedFolders as $folder) {
+                $source = $tempExtractPath . DIRECTORY_SEPARATOR . $folder;
+                if (is_dir($source)) {
+                    $this->recurse_copy($source, $storagePath . DIRECTORY_SEPARATOR . $folder);
+                    logger()->info("📁 Dossier restauré : {$folder} ==> {$source}");
+                } else {
+                    logger()->warning("⚠️ Dossier manquant dans le ZIP : {$folder} ==> {$source}");
+                }
+            }
+
+            // 🔗 Recréer le lien symbolique si nécessaire
+            Artisan::call('storage:link');
+            logger()->info('🔗 Lien symbolique public/storage recréé');
+
+            // 🧹 Nettoyage temporaire
             $this->rrmdir($tempExtractPath);
-            
-            return back()->with('success', 'Restauration complète effectuée avec succès !');
+
+            logger()->info('✅ Restauration complète du storage effectuée');
+            return true;
+
         } else {
-            $this->info($zip);
-            throw new \Exception('Impossible d\'ouvrir l\'archive de stockage');
+            throw new \Exception("Impossible d'ouvrir l'archive ZIP du storage : {$storageZipPath}");
         }
-        
+
     } catch (\Exception $e) {
-        // Nettoyer le dossier temporaire en cas d'erreur
-        if (isset($tempExtractPath) && file_exists($tempExtractPath)) {
-            $this->rrmdir($tempExtractPath);
-        }
-        $this->info($e->getMessage());
-        return back()->with('error', 'Erreur lors de la restauration : ' . $e->getMessage());
+        logger()->error('❌ Erreur restauration storage', [
+            'error' => $e->getMessage(),
+        ]);
+        return false;
     }
 }
-    
-    /**
-     * Supprime récursivement un dossier et son contenu
-     */
-    private function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (is_dir($dir."/".$object) && !is_link($dir."/".$object))
-                        $this->rrmdir($dir."/".$object);
-                    else
-                        unlink($dir."/".$object);
-                }
-            }
-            rmdir($dir);
-        }
+
+
+public function rrmdir($dir)
+{
+    if (!is_dir($dir)) return;
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') continue;
+        $path = $dir . DIRECTORY_SEPARATOR . $item;
+        is_dir($path) ? $this->rrmdir($path) : unlink($path);
     }
-    
-    /**
-     * Copie récursive d'un dossier
-     */
-    private function recurse_copy($src, $dst) {
-        $dir = opendir($src);
-        @mkdir($dst);
-        while(false !== ( $file = readdir($dir)) ) {
-            if (( $file != '.' ) && ( $file != '..' )) {
-                if ( is_dir($src . '/' . $file) ) {
-                    $this->recurse_copy($src . '/' . $file, $dst . '/' . $file);
-                } else {
-                    copy($src . '/' . $file, $dst . '/' . $file);
-                }
-            }
-        }
-        closedir($dir);
+    rmdir($dir);
+}
+
+public function recurse_copy($src, $dst)
+{
+    $dir = opendir($src);
+    @mkdir($dst, 0755, true);
+    while (($file = readdir($dir)) !== false) {
+        if ($file == '.' || $file == '..') continue;
+        $srcPath = $src . DIRECTORY_SEPARATOR . $file;
+        $dstPath = $dst . DIRECTORY_SEPARATOR . $file;
+        is_dir($srcPath) ? $this->recurse_copy($srcPath, $dstPath) : copy($srcPath, $dstPath);
     }
+    closedir($dir);
+}
+
 
     public function destroy($id)
     {

@@ -80,30 +80,41 @@ class BackupDatabase extends Command
             if ($returnVar !== 0) {
                 throw new \Exception('Échec du dump de la base de données: ' . implode("\n", $output));
             }
-            
-            // Zip storage directory
+
+           
+            // Zip storage directories
             $storageZip = $backupDir . DIRECTORY_SEPARATOR . "storage_{$date}.zip";
-            $storagePath = storage_path('app' . DIRECTORY_SEPARATOR . 'public');
-            
+
+            $pathsToZip = [
+                'public'  => storage_path('app' . DIRECTORY_SEPARATOR . 'public'),
+                'backups' => storage_path('app' . DIRECTORY_SEPARATOR . 'backups'),
+            ];
+
             $zip = new \ZipArchive();
             if ($zip->open($storageZip, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
-                $files = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($storagePath),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                );
-                
-                foreach ($files as $file) {
-                    if (!$file->isDir()) {
-                        $filePath = $file->getRealPath();
-                        $relativePath = substr($filePath, strlen($storagePath) + 1);
-                        $zip->addFile($filePath, $relativePath);
+
+                foreach ($pathsToZip as $baseFolder => $path) {
+                    $files = new \RecursiveIteratorIterator(
+                        new \RecursiveDirectoryIterator($path),
+                        \RecursiveIteratorIterator::LEAVES_ONLY
+                    );
+
+                    foreach ($files as $file) {
+                        if (!$file->isDir()) {
+                            $filePath = $file->getRealPath();
+                            // Stocker le chemin relatif à partir du nom de dossier de base ('public' ou 'backups')
+                            $relativePath = $baseFolder . DIRECTORY_SEPARATOR . substr($filePath, strlen($path) + 1);
+                            $zip->addFile($filePath, $relativePath);
+                        }
                     }
                 }
-                
+
                 $zip->close();
+
             } else {
                 throw new \Exception('Failed to create storage backup');
             }
+
 
 
             // Normaliser les chemins pour la base de données

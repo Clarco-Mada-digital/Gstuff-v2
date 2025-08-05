@@ -202,6 +202,28 @@
             const id = document.getElementById('restoreModal').dataset.id;
             console.log(id);
             console.log(password);
+            fetch('/admin/backups/restore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    id: id,
+                    password: password
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    closeModal('restoreModal');
+                } else {
+                    alert('Erreur lors de la restauration');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la restauration:', error);
+                alert('Erreur lors de la restauration');
+            });
         }
 
         function confirmBackup() {
