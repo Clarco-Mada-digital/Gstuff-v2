@@ -20,9 +20,19 @@
         </div> --}}
     </section>
 
-    <div x-data="galleryApp()" class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8 font-roboto-slab" >
-        <div x-data="{ selectedTab: $persist('stories') }" class="flex flex-col gap-8 font-roboto-slab">
-            <!-- MENU LATERAL -->
+    <div x-data="galleryApp()"
+     x-init="
+        haveStories = @json(count($usersWithStories) > 0);
+        havePublicGallery = @json(count($publicGallery) > 0);
+        havePrivateGallery = @json(count($privateGallery) > 0);
+     "
+     class="mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8 font-roboto-slab">
+    <div x-data="{
+        selectedTab: $persist(
+            haveStories ? 'stories' : havePublicGallery ? 'public' : havePrivateGallery ? 'private' : 'stories'
+        )
+    }" class="flex flex-col gap-8 font-roboto-slab">
+ <!-- MENU LATERAL -->
             <aside class="space-y-2 w-full flex justify-center items-center ">
                 <!-- MOBILE TOGGLE -->
                 <!-- <div class="mb-4 md:hidden">
