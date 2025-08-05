@@ -228,14 +228,17 @@ public function restore($id)
 {
     try {
         $backup = Backup::findOrFail($id);
+        $this->info($backup);
         
         // Vérifier si les fichiers existent
         if (!file_exists($backup->file_path_db) || !file_exists($backup->file_path_storage)) {
+            $this->info($backup->file_path_db);
+            $this->info($backup->file_path_storage);
             return back()->with('error', 'Un ou plusieurs fichiers de sauvegarde sont introuvables.');
         }
 
         $dbConfig = config('database.connections.pgsql');
-        
+        $this->info($dbConfig);
         // 1. Restauration de la base de données PostgreSQL
         $connectionString = sprintf(
             'host=%s port=%s dbname=%s user=%s password=%s',
@@ -251,12 +254,13 @@ public function restore($id)
             str_replace('"', '\"', $connectionString),
             escapeshellarg($backup->file_path_db)
         );
-
+        $this->info($command);
         $output = [];
         $returnVar = null;
         exec($command, $output, $returnVar);
-
+        $this->info($output);
         if ($returnVar !== 0) {
+            $this->info($returnVar);
             throw new \Exception('Échec de la restauration de la base de données PostgreSQL: ' . implode("\n", $output));
         }
 
@@ -269,19 +273,21 @@ public function restore($id)
         if (!file_exists($tempExtractPath)) {
             mkdir($tempExtractPath, 0755, true);
         }
-        
+        $this->info($tempExtractPath);
+        $this->info($storageBackupPath);        
         // Extraire l'archive
         $zip = new \ZipArchive();
         if ($zip->open($storageBackupPath) === TRUE) {
+            $this->info($zip);
             // Extraire dans un sous-dossier temp
             $extractTo = $tempExtractPath . '/temp';
             if (!file_exists($extractTo)) {
                 mkdir($extractTo, 0755, true);
             }
-            
+            $this->info($extractTo);            
             $zip->extractTo($extractTo);
             $zip->close();
-            
+            $this->info($zip);            
             // Supprimer le contenu actuel du dossier storage/app
             $this->rrmdir($storagePath);
             
@@ -292,7 +298,7 @@ public function restore($id)
             } elseif (is_dir($extractTo . '/app')) {
                 $sourcePath = $extractTo . '/app';
             }
-            
+            $this->info($sourcePath);            
             // Copier les fichiers extraits
             $this->recurse_copy($sourcePath, $storagePath);
             
@@ -301,6 +307,7 @@ public function restore($id)
             
             return back()->with('success', 'Restauration complète effectuée avec succès !');
         } else {
+            $this->info($zip);
             throw new \Exception('Impossible d\'ouvrir l\'archive de stockage');
         }
         
@@ -309,6 +316,7 @@ public function restore($id)
         if (isset($tempExtractPath) && file_exists($tempExtractPath)) {
             $this->rrmdir($tempExtractPath);
         }
+        $this->info($e->getMessage());
         return back()->with('error', 'Erreur lors de la restauration : ' . $e->getMessage());
     }
 }

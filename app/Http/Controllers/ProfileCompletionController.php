@@ -119,7 +119,8 @@ class ProfileCompletionController extends Controller
                 $escort['ville'] = Ville::where('id', $escort->ville)->first() ?? '';
                 }
                 $escort['categorie'] = Categorie::find($escort->categorie);
-                $escort['service'] = Service::find($escort->service);
+                $serviceIds = !empty($escort->service) ? explode(',', $escort->service) : [];
+                $escort['service'] = Service::whereIn('id', $serviceIds)->get();
                 // dd($escort->service);
             }
             // Récupérer les favoris de type "salon"
@@ -132,7 +133,8 @@ class ProfileCompletionController extends Controller
                 $salon['ville'] = Ville::where('id', $salon->ville)->first() ?? '';
                 }
                 $salon['categorie'] = Categorie::find($salon->categorie);
-                $salon['service'] = Service::find($salon->service);
+                $serviceIds = !empty($salon->service) ? explode(',', $salon->service) : [];
+                $salon['service'] = Service::whereIn('id', $serviceIds)->get();
                 // dd($salon->service);
             }
 
