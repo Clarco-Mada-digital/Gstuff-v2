@@ -17,7 +17,8 @@
     <div class="mt-4 flex flex-col gap-2">
         <a class="flex items-center gap-1"
             @if ($user->profile_type == 'escorte') href="{{ route('show_escort', $escortId) }}" @else href="{{ route('show_salon', $escortId) }}" @endif>
-            <h5 class="text-base tracking-tight text-gray-900 dark:text-white">{{ $name }}</h5>
+            <h5 class="text-base tracking-tight text-gray-900 dark:text-white">{{ ucfirst($name) }}</h5>
+
             <div class="{{ $isOnline ? 'bg-green-gs' : 'bg-gray-400' }} h-2 w-2 rounded-full"></div>
         </a>
         <p class="font-normal text-gray-700 dark:text-gray-400">
