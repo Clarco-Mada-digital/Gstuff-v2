@@ -512,19 +512,22 @@ public function fetchContacts(Request $request)
     }
 
     public function fetchUnreadMessagesCount(Request $request)
-{
-    $userId = Auth::user()->id;
+    {
+        $userId = Auth::user()->id;
 
-    $unreadCounts = Message::where('to_id', $userId)
-        ->where('seen', 0)
-        ->selectRaw('from_id, COUNT(*) as unread_count')
-        ->groupBy('from_id')
-        ->get()
-        ->pluck('unread_count', 'from_id');
+        $unreadCounts = Message::where('to_id', $userId)
+            ->where('seen', 0)
+            ->selectRaw('from_id, COUNT(*) as unread_count')
+            ->groupBy('from_id')
+            ->get()
+            ->pluck('unread_count', 'from_id');
 
-    return response()->json([
-        'unread_counts' => $unreadCounts
-    ]);
-}
+        return response()->json([
+            'unread_counts' => $unreadCounts
+        ]);
+    }
 
+   
+
+ 
 }

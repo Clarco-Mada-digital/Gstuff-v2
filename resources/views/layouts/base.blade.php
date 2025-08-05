@@ -927,7 +927,6 @@
 
         function showToast(type, message) {
 
-            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
             if (!message || message.trim() === '') {
                 return;
             }

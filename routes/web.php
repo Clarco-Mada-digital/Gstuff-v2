@@ -260,6 +260,7 @@ Route::middleware('auth')->group(function () {
     Route::get('api/fetch-contacts', [MessengerApiController::class, 'fetchContacts']);
     Route::post('api/make-seen', [MessengerApiController::class, 'makeSeen']);
     Route::get('api/fetch-unread-counts', [MessengerApiController::class, 'fetchUnreadMessagesCount']);
+    Route::get('api/fetch-user-info/{id}', [MessengerApiController::class, 'fetchUserInfo']);
   
 
     // Profile visibility

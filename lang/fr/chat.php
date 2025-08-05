@@ -27,7 +27,7 @@ return [
     'unblock_failed' => 'Échec du déblocage de l\'utilisateur',
     'messages' => 'Messages',
     'you' => 'Vous :',
-    'no_messages_yet' => 'Aucun message encore',
+    'no_messages_yet' => 'Aucun message pour l\’instant',
     'attachment' => 'Image',
     'just_now' => 'À l\'instant',
     'second_ago' => 'Il y a :count seconde',

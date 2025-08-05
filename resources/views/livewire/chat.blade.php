@@ -140,10 +140,16 @@
         <!-- Zone de messages -->
         <div id="messagesContainer" class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4" style="display: none;">
             <!-- Les messages seront ajoutés ici dynamiquement -->
+            
+        </div>
+        <div id="messagesContainerLoading" class="flex w-full h-full overflow-y-auto bg-gray-50 p-4 flex items-center justify-center text-center " style="display: none;">
+           <div class="flex items-center justify-center h-full w-full">
+            <i class="fa-solid fa-spinner fa-spin text-supaGirlRose"></i>
+           </div>
         </div>
 
-        <div id="containerSpinner" class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4 " style="display: flex;">
-            <h1>Chargement...</h1>
+        <div id="containerSpinner" class="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4 flex items-center justify-center " style="display: flex;">
+            <i class="fa-solid fa-spinner fa-spin text-supaGirlRose"></i>
         </div>
 
     
@@ -165,7 +171,7 @@
         <div id="contactsContainer" class="flex-1 overflow-y-auto bg-gray-50 p-2">
             <!-- Les contacts seront ajoutés ici dynamiquement -->
             <div id="contactsLoading" class="loading">
-                <i class="fa-solid fa-spinner fa-spin"></i>
+                <i class="fa-solid fa-spinner fa-spin text-supaGirlRose"></i>
             </div>
         </div>
     </div>
@@ -188,12 +194,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const chatButton = document.getElementById('chatButton');
+        const chatButtonProfile = document.getElementById('chatButtonProfile');
         const chatWindow = document.getElementById('chatWindow');
         const closeChat = document.getElementById('closeChat');
         const resetSender = document.getElementById('resetSender');
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const messagesContainer = document.getElementById('messagesContainer');
+        const messagesContainerLoading = document.getElementById('messagesContainerLoading');
         const containerSpinner = document.getElementById('containerSpinner');
         const messageInputContainer = document.getElementById('messageInputContainer');
         const contactsContainer = document.getElementById('contactsContainer');
@@ -205,13 +213,19 @@
         let currentUserId = null;
         let oldUser = null;
 
+        
         chatButton.addEventListener('click', function () {
             chatWindow.style.display = 'flex';
             chatButton.style.display = 'none';
+            
+            // console.log('chatButton clicked');
             fetchContacts();
         });
 
+     
+
         closeChat.addEventListener('click', function () {
+            // console.log('closeChat clicked');
             fetchUnreadCounts();
             setTimeout(() => {
                 chatWindow.style.display = 'none';
@@ -220,6 +234,7 @@
         });
 
         resetSender.addEventListener('click', function () {
+            // console.log('resetSender clicked');
             fetchContacts();
             messagesContainer.style.display = 'none';
             messageInputContainer.style.display = 'none';
@@ -231,6 +246,7 @@
         });
 
         sendMessageButton.addEventListener('click', function () {
+            // console.log('sendMessageButton clicked');
             if (currentUserId && messageInput.value.trim() !== '') {
                 sendMessage(currentUserId, messageInput.value);
                 messageInput.value = '';
@@ -265,6 +281,22 @@
                 .then(data => {
                     updateUnreadBadges(data.unread_counts);
                     updateTotalUnreadCount(data.unread_counts);
+                })
+                .catch(error => console.error('Error fetching unread counts:', error));
+        }
+
+        
+        function fetchUserInfo(userId) {
+            fetch('/api/fetch-user-info/' + userId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data.user);
+                    showMessages(data.user);
                 })
                 .catch(error => console.error('Error fetching unread counts:', error));
         }
@@ -314,7 +346,7 @@
             } else {
                 // Assurez-vous que les contacts sont triés par last_message_time en ordre décroissant
                 data.contacts.sort((a, b) => new Date(b.last_message_time) - new Date(a.last_message_time));
-                console.log(data.contacts);
+                // console.log(data.contacts);
              
                 data.contacts.forEach(user => {
                     const contactElement = document.createElement('div');
@@ -357,6 +389,10 @@
             // messagesLoading.style.display = 'flex';
             containerSpinner.style.display = 'flex';
             messagesContainer.innerHTML = '';
+            messagesContainerLoading.style.display = 'block';
+
+
+
 
             loadMessages(user);
             containerSpinner.style.display = 'none';
@@ -375,11 +411,14 @@ function loadMessages(user) {
     messagesContainer.style.display = 'block';
     messageInputContainer.style.display = 'block';
     contactsContainer.style.display = 'none';
+   
+
     axios.post('/api/make-seen', { id: user.id });
     fetch(`/api/fetch-messages?id=${user.id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data.messages);
+            // console.log(data.messages);
+            messagesContainerLoading.style.display = 'none';
             messagesContainer.innerHTML = '';
             if (data.messages && data.messages.data && Array.isArray(data.messages.data)) {
                 const messages = data.messages.data.reverse();
@@ -435,7 +474,7 @@ function loadMessages(user) {
                     messagesContainer.appendChild(messageElement);
                 });
             } else {
-                messagesContainer.innerHTML = '<p>{{ __('chat.no_messages_yet') }}</p>';
+                messagesContainer.innerHTML = '<p class="text-center">{{ __('chat.no_messages_yet') }}</p>';
             }
 
             setTimeout(() => {
@@ -474,7 +513,7 @@ function openModal(imageUrl) {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Message sent:', data);
+                // console.log('Message sent:', data);
                 const currentUserName = userName.textContent;
                 const currentAvatarUrl = userAvatar.src;
                 loadMessages({ id: toId });
@@ -486,6 +525,17 @@ function openModal(imageUrl) {
             })
             .catch(error => console.error('Error sending message:', error));
         }
+
+        chatButtonProfile.addEventListener('click', function () {
+            containerSpinner.style.display = 'none';
+            contactsLoading.style.display = 'flex';
+            chatWindow.style.display = 'flex';
+            chatButton.style.display = 'none';
+            currentUserId = chatButtonProfile.getAttribute('data-user-id');
+            // console.log('chatButtonProfile clicked avec load' + currentUserId);
+            // fetchContacts();
+            fetchUserInfo(currentUserId);
+        });
 
         function formatTimeAgo(dateString) {
     const now = new Date();

@@ -70,13 +70,9 @@
             <hr class="h-2 w-full text-green-gs ">
 
             @auth
-                <button
-                    class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
-                    <livewire:favorite-button :userId='$salon->id' wire:key='{{ $salon->id }}' />
-                    {{ __('salon_profile.add_to_favorites') }}
-                </button>
+            <livewire:favorite-button :userId='$salon->id' wire:key='{{ $salon->id }}' placement="profile" />
             @endauth
-            <button
+            <button id="chatButtonProfile" data-user-id="{{ $salon->id }}"
                 @auth x-on:click="$dispatch('loadForSender', [{{ $salon->id }}])" @else data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" @endauth
                 class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
