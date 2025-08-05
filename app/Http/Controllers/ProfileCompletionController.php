@@ -244,6 +244,8 @@ class ProfileCompletionController extends Controller
             
                     return $invitation;
                 });
+
+                // dd($salonAssociers);
             
 
 
