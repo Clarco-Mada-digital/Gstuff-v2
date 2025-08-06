@@ -117,47 +117,47 @@ class BackupController extends Controller
 
             $dbConfig = config('database.connections.pgsql');
             logger()->info('🔧 Configuration PostgreSQL', ['dbConfig' => $dbConfig]);
-
-            $connectionString = sprintf(
-                'host=%s port=%s dbname=%s user=%s password=%s',
-                $dbConfig['host'],
-                $dbConfig['port'],
-                $dbConfig['database'],
-                $dbConfig['username'],
-                $dbConfig['password']
-            );
-
+            
+            // 🔐 Définir le mot de passe dans l'environnement
+            putenv('PGPASSWORD=' . $dbConfig['password']); // pas besoin d'escapeshellarg ici
+            
             // 🧠 Prétraitement du fichier SQL
             $modifiedSqlPath = $this->prepareSqlForRestore($normalizedFilePathDb);
             logger()->info('📄 Fichier SQL modifié prêt', ['modifiedSqlPath' => $modifiedSqlPath]);
-
+            
+            // 🧨 Commande psql avec arguments séparés (plus fiable sur Windows)
             $command = sprintf(
-                'psql "%s" -f %s 2>&1',
-                str_replace('"', '\"', $connectionString),
+                'psql --username=%s --host=%s --port=%s --dbname=%s --file=%s --no-password 2>&1',
+                escapeshellarg($dbConfig['username']),
+                escapeshellarg($dbConfig['host']),
+                escapeshellarg($dbConfig['port']),
+                escapeshellarg($dbConfig['database']),
                 escapeshellarg($modifiedSqlPath)
             );
-
+            
             logger()->info('🚀 Commande psql exécutée', ['command' => $command]);
-
+            
             $output = [];
             $returnVar = null;
             exec($command, $output, $returnVar);
-
+            
             logger()->info('📜 Résultat restauration PostgreSQL', [
                 'output' => $output,
                 'returnVar' => $returnVar
             ]);
-
+            
             if ($returnVar !== 0) {
-                throw new \Exception('Échec restauration PostgreSQL : ' . implode("\n", $output));
+                throw new \Exception('❌ Échec restauration PostgreSQL : ' . implode("\n", $output));
             }
-
+            
+            // 🧹 Nettoyage du fichier temporaire
             if (file_exists($modifiedSqlPath)) {
                 unlink($modifiedSqlPath);
                 logger()->info('🧹 Fichier temporaire supprimé', ['path' => $modifiedSqlPath]);
             }
-
+            
             logger()->info('✅ Restauration terminée avec succès');
+            
 
             // 🔁 Restauration du dossier storage
             $result = $this->restoreStorageFromZip($normalizedFilePathStorage);
