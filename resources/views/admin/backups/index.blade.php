@@ -15,7 +15,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 });
 
 // Trouver la sauvegarde la plus récente
-$latestBackup = collect($backupsFiles)->sortByDesc('created_at')->first();
+$latestBackup = collect($backupsFilesNoUploaded)->sortByDesc('created_at')->first();
 @endphp
 
 
