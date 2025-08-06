@@ -132,6 +132,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
         Route::post('/', [BackupController::class, 'create'])->name('create');
         Route::get('/download/{id}', [BackupController::class, 'download'])->name('download');
         Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
+        Route::post('/restore/upload', [BackupController::class, 'Upload'])->name('restore.upload');
         Route::delete('/{id}', [BackupController::class, 'destroy'])->name('destroy');
     });
     

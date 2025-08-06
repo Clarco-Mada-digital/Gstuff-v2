@@ -135,6 +135,7 @@ class BackupDatabase extends Command
                 'metadata' => [
                     'started_at' => now(),
                     'source' => Auth::id() ? 'user' : 'system',
+                    'is_uploaded' => false,
                 ],
                 'user_id' => Auth::id(),
             ]);

@@ -941,7 +941,7 @@
             toast.className =
                 `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg flex items-center justify-between max-w-xs animate-fade-in-up`;
             toast.innerHTML = `
-                <span>${message}qqqqqqqqq</span>
+                <span>${message}</span>
                 <button onclick="this.parentElement.remove()" class="ml-4">
                     &times;
                 </button>
