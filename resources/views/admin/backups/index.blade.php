@@ -13,6 +13,9 @@ $backupsFilesUploaded = collect($backupsFiles)->filter(function($b) {
 $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
     return empty($b->metadata['is_uploaded']);
 });
+
+// Trouver la sauvegarde la plus récente
+$latestBackup = collect($backupsFiles)->sortByDesc('created_at')->first();
 @endphp
 
 
@@ -26,6 +29,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
         <div class="bg-white rounded-lg shadow p-5">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-bold text-gray-800">Sauvegardes</h2>
+                
                 <button onclick="openModal('backupModal')" class="bg-supaGirlRose hover:bg-green-gs text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
                     Sauvegarder
                 </button>
@@ -33,22 +37,46 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
             <div class="overflow-y-auto max-h-96">
                 <!-- Tableau des sauvegardes -->
                 <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nom</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Taille DB</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Taille Storage</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Source</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Statut</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
-                            <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Restaurer</th>
-                        </tr>
-                    </thead>
+                <thead>
+    <tr>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nom</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <button onclick="sortTable(1)" class="flex items-center">
+               
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M3 8h18M3 12h18m-9 4h9m-9 4h9m-9-8v8m0-8l4 4m-4-4l-4 4" />
+                </svg>
+                Taille DB
+            </button>
+        </th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <button onclick="sortTable(2)" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M3 8h18M3 12h18m-9 4h9m-9 4h9m-9-8v8m0-8l4 4m-4-4l-4 4" />
+                </svg>
+                Taille Storage
+            </button>
+        </th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Source</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <button onclick="sortTable(4)" class="flex items-center">
+               
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M3 8h18M3 12h18m-9 4h9m-9 4h9m-9-8v8m0-8l4 4m-4-4l-4 4" />
+                </svg>
+                Date
+            </button>
+        </th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Statut</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Restaurer</th>
+    </tr>
+</thead>
+
                     <tbody>
                        
                         @foreach ($backupsFilesNoUploaded as $backupFile)
-                            <tr>
+                            <tr @if($backupFile->id === $latestBackup->id) class="bg-fieldBg" @endif>
                                 <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->name }}</td>
                                 <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
                                 <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
@@ -668,6 +696,65 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 function closeConfirmModal() {
     document.getElementById('actionConfirmModal').classList.add('hidden');
 }   
+
+let sortDirection = {
+    1: 'none',
+    2: 'none',
+    4: 'none'
+};
+
+function sortTable(columnIndex) {
+    const table = document.querySelector('table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Détermine la direction du tri
+    if (sortDirection[columnIndex] === 'none' || sortDirection[columnIndex] === 'desc') {
+        sortDirection[columnIndex] = 'asc';
+    } else {
+        sortDirection[columnIndex] = 'desc';
+    }
+
+    // Trie les lignes
+    rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].textContent.trim();
+        const cellB = rowB.cells[columnIndex].textContent.trim();
+
+        // Convertit en nombre si c'est une colonne de taille
+        if (columnIndex === 1 || columnIndex === 2) {
+            const numA = parseFloat(cellA);
+            const numB = parseFloat(cellB);
+
+            if (sortDirection[columnIndex] === 'asc') {
+                return numA - numB;
+            } else {
+                return numB - numA;
+            }
+        }
+
+        // Compare les dates
+        if (columnIndex === 4) {
+            const dateA = new Date(cellA);
+            const dateB = new Date(cellB);
+
+            if (sortDirection[columnIndex] === 'asc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        }
+
+        // Compare les chaînes de caractères
+        if (sortDirection[columnIndex] === 'asc') {
+            return cellA.localeCompare(cellB);
+        } else {
+            return cellB.localeCompare(cellA);
+        }
+    });
+
+    // Réinsère les lignes triées dans le tableau
+    rows.forEach(row => tbody.appendChild(row));
+}
     </script>
 </div>
 @endsection
