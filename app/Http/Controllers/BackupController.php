@@ -352,94 +352,188 @@ class BackupController extends Controller
     }
 
 
+    // public function Upload(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'db_file' => [
+    //                 'required',
+    //                 'file',
+    //                 function ($attribute, $value, $fail) {
+    //                     if (!$value->isValid()) {
+    //                         $fail("Le fichier n'est pas valide.");
+    //                         return;
+    //                     }
+
+    //                     $extension = strtolower($value->getClientOriginalExtension());
+    //                     if (!in_array($extension, ['sql', 'gz'])) {
+    //                         $fail("Le fichier doit être de type .sql ou .gz");
+    //                     }
+    //                 },
+    //             ],
+    //             'storage_file' => 'nullable|file|mimes:zip|max:1024000',
+    //         ]);
+
+    //         // Créer le dossier backups s'il n'existe pas
+    //         $backupDir = storage_path('app/backups');
+    //         if (!file_exists($backupDir)) {
+    //             mkdir($backupDir, 0755, true);
+    //         }
+
+    //         // Sauvegarder le fichier de base de données
+    //         $dbFile = $request->file('db_file');
+    //         $dbExtension = $dbFile->getClientOriginalExtension();
+    //         $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbExtension;
+    //         $dbPath = $dbFile->storeAs('backups', $dbFileName);
+    //         $fullDbPath = storage_path('app/' . $dbPath);
+
+    //         // Sauvegarder le fichier de stockage s’il est fourni
+    //         $storagePath = null;
+    //         $storageFileName = null;
+    //         $fullStoragePath = null;
+
+    //         if ($request->hasFile('storage_file')) {
+    //             $storageFile = $request->file('storage_file');
+    //             $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.zip';
+    //             $storagePath = $storageFile->storeAs('backups', $storageFileName);
+    //             $fullStoragePath = storage_path('app/' . $storagePath);
+    //         }
+
+
+    //         $normalizedDbPath = str_replace('\\', '/', $fullDbPath);
+    //         $normalizedStoragePath = str_replace('\\', '/', $fullStoragePath);
+
+    //         // Créer l'enregistrement dans la base de données
+    //         $backup = Backup::create([
+    //             'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
+    //             'type' => Backup::TYPE_FULL,
+    //             'status' => Backup::STATUS_COMPLETED,
+    //             'file_path_db' =>  dirname($normalizedDbPath) . '/' . basename($normalizedDbPath),
+    //             'file_name_db' =>  basename($normalizedDbPath),
+    //             'file_path_storage' => dirname($normalizedStoragePath) . '/' . basename($normalizedStoragePath),
+    //             'file_name_storage' =>  basename($normalizedStoragePath),
+    //             'size_db' => filesize($fullDbPath),
+    //             'size_storage' => $fullStoragePath ? filesize($fullStoragePath) : null,
+    //             'disk' => 'local',
+    //             'metadata' => [
+    //                 'started_at' => now(),
+    //                 'source' => Auth::id() ? 'user' : 'system',
+    //                 'is_uploaded' => true,
+    //             ],
+    //             'user_id' => Auth::id(),
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Fichiers sauvegardés avec succès dans le dossier backups.',
+    //             'backup' => $backup,
+    //         ], 200);
+
+    //     } catch (\Exception $e) {
+    //         \Log::error('Upload error: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Erreur lors de l’upload: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
     public function Upload(Request $request)
-    {
-        try {
-            $request->validate([
-                'db_file' => [
-                    'required',
-                    'file',
-                    function ($attribute, $value, $fail) {
-                        if (!$value->isValid()) {
-                            $fail("Le fichier n'est pas valide.");
-                            return;
-                        }
+{
+    try {
+        // ✅ Validation simplifiée
+        $request->validate([
+            'db_file' => [
+                'required',
+                'file',
+                function ($attribute, $value, $fail) {
+                    if (!$value->isValid()) {
+                        $fail("Le fichier n'est pas valide.");
+                        return;
+                    }
 
-                        $extension = strtolower($value->getClientOriginalExtension());
-                        if (!in_array($extension, ['sql', 'gz'])) {
-                            $fail("Le fichier doit être de type .sql ou .gz");
-                        }
-                    },
-                ],
-                'storage_file' => 'nullable|file|mimes:zip|max:1024000',
-            ]);
+                    $extension = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($extension, ['sql', 'gz'])) {
+                        $fail("Le fichier doit être de type .sql ou .gz");
+                    }
+                },
+            ],
+            'storage_file' => 'nullable|file|mimes:zip|max:1024000',
+        ]);
 
-            // Créer le dossier backups s'il n'existe pas
-            $backupDir = storage_path('app/backups');
-            if (!file_exists($backupDir)) {
-                mkdir($backupDir, 0755, true);
-            }
-
-            // Sauvegarder le fichier de base de données
-            $dbFile = $request->file('db_file');
-            $dbExtension = $dbFile->getClientOriginalExtension();
-            $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbExtension;
-            $dbPath = $dbFile->storeAs('backups', $dbFileName);
-            $fullDbPath = storage_path('app/' . $dbPath);
-
-            // Sauvegarder le fichier de stockage s’il est fourni
-            $storagePath = null;
-            $storageFileName = null;
-            $fullStoragePath = null;
-
-            if ($request->hasFile('storage_file')) {
-                $storageFile = $request->file('storage_file');
-                $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.zip';
-                $storagePath = $storageFile->storeAs('backups', $storageFileName);
-                $fullStoragePath = storage_path('app/' . $storagePath);
-            }
-
-
-            $normalizedDbPath = str_replace('\\', '/', $fullDbPath);
-            $normalizedStoragePath = str_replace('\\', '/', $fullStoragePath);
-
-            // Créer l'enregistrement dans la base de données
-            $backup = Backup::create([
-                'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
-                'type' => Backup::TYPE_FULL,
-                'status' => Backup::STATUS_COMPLETED,
-                'file_path_db' =>  dirname($normalizedDbPath) . '/' . basename($normalizedDbPath),
-                'file_name_db' =>  basename($normalizedDbPath),
-                'file_path_storage' => dirname($normalizedStoragePath) . '/' . basename($normalizedStoragePath),
-                'file_name_storage' =>  basename($normalizedStoragePath),
-                'size_db' => filesize($fullDbPath),
-                'size_storage' => $fullStoragePath ? filesize($fullStoragePath) : null,
-                'disk' => 'local',
-                'metadata' => [
-                    'started_at' => now(),
-                    'source' => Auth::id() ? 'user' : 'system',
-                    'is_uploaded' => true,
-                ],
-                'user_id' => Auth::id(),
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Fichiers sauvegardés avec succès dans le dossier backups.',
-                'backup' => $backup,
-            ], 200);
-
-        } catch (\Exception $e) {
-            \Log::error('Upload error: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l’upload: ' . $e->getMessage()
-            ], 500);
+        // 📁 Créer le dossier backups si nécessaire
+        $backupDir = storage_path('app/backups');
+        if (!is_dir($backupDir)) {
+            mkdir($backupDir, 0755, true);
         }
+
+        // 📦 Sauvegarde du fichier de base de données via streaming
+        $dbFile = $request->file('db_file');
+        $dbExtension = $dbFile->getClientOriginalExtension();
+        $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbExtension;
+        $dbStream = fopen($dbFile->getRealPath(), 'r');
+        Storage::disk('local')->put('backups/' . $dbFileName, $dbStream);
+        fclose($dbStream);
+        $fullDbPath = storage_path('app/backups/' . $dbFileName);
+
+        // 📦 Sauvegarde du fichier de stockage (si présent)
+        $fullStoragePath = null;
+        $storageFileName = null;
+
+        if ($request->hasFile('storage_file')) {
+            $storageFile = $request->file('storage_file');
+            $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.zip';
+            $storageStream = fopen($storageFile->getRealPath(), 'r');
+            Storage::disk('local')->put('backups/' . $storageFileName, $storageStream);
+            fclose($storageStream);
+            $fullStoragePath = storage_path('app/backups/' . $storageFileName);
+        }
+
+        // 🧾 Normalisation des chemins
+        $normalizedDbPath = str_replace('\\', '/', $fullDbPath);
+        $normalizedStoragePath = $fullStoragePath ? str_replace('\\', '/', $fullStoragePath) : null;
+
+        // 🗃️ Enregistrement en base
+        $backup = Backup::create([
+            'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
+            'type' => Backup::TYPE_FULL,
+            'status' => Backup::STATUS_COMPLETED,
+            'file_path_db' => $normalizedDbPath,
+            'file_name_db' => basename($normalizedDbPath),
+            'file_path_storage' => $normalizedStoragePath,
+            'file_name_storage' => $normalizedStoragePath ? basename($normalizedStoragePath) : null,
+            'size_db' => filesize($fullDbPath),
+            'size_storage' => $fullStoragePath ? filesize($fullStoragePath) : null,
+            'disk' => 'local',
+            'metadata' => [
+                'started_at' => now(),
+                'source' => Auth::id() ? 'user' : 'system',
+                'is_uploaded' => true,
+            ],
+            'user_id' => Auth::id(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Fichiers sauvegardés avec succès.',
+            'backup' => $backup,
+        ], 200);
+
+    } catch (\Exception $e) {
+        \Log::error('Upload error: ' . $e->getMessage(), [
+            'trace' => $e->getTraceAsString()
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur lors de l’upload: ' . $e->getMessage()
+        ], 500);
     }
+}
+
 
 
 
