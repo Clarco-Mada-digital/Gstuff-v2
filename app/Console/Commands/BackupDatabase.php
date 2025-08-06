@@ -139,6 +139,32 @@ class BackupDatabase extends Command
                 ],
                 'user_id' => Auth::id(),
             ]);
+
+
+           // Supprimer les sauvegardes locales (is_uploaded = false) plus anciennes que les 5 plus récentes
+            $recentBackups = Backup::where('metadata->is_uploaded', false)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->pluck('id')
+            ->toArray();
+
+            $oldBackups = Backup::where('metadata->is_uploaded', false)
+            ->whereNotIn('id', $recentBackups)
+            ->get();
+
+            foreach ($oldBackups as $old) {
+            // Supprimer les fichiers physiques
+            if ($old->file_path_db && file_exists($old->file_path_db)) {
+                unlink($old->file_path_db);
+            }
+            if ($old->file_path_storage && file_exists($old->file_path_storage)) {
+                unlink($old->file_path_storage);
+            }
+
+            // Supprimer l'entrée en base
+            $old->delete();
+            }
+
             
             $successMessage = "Sauvegarde terminée avec succès!\n";
             $successMessage .= "- Base de données: {$filename}\n";

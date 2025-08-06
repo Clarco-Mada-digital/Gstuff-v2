@@ -26,7 +26,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
         <div class="bg-white rounded-lg shadow p-5">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-bold text-gray-800">Sauvegardes</h2>
-                <button onclick="openModal('backupModal')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
+                <button onclick="openModal('backupModal')" class="bg-supaGirlRose hover:bg-green-gs text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
                     Sauvegarder
                 </button>
             </div>
@@ -49,39 +49,34 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                        
                         @foreach ($backupsFilesNoUploaded as $backupFile)
                             <tr>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->name }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->metadata['source'] }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->created_at }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->name }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->metadata['source'] }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->created_at }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">
                                     <span class="px-2 py-1 text-xs rounded-full {{ $backupFile->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $backupFile->status == 'completed' ? 'Réussie' : 'Échouée' }}
                                     </span>
                                 </td>
                                 <td class="py-2 px-4 border-b border-gray-200 flex space-x-2">
-                                    <form action="{{ route('backups.destroy', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette sauvegarde ? Cette action est irréversible.');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('backups.download', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir télécharger cette sauvegarde ?');">
-                                        @csrf
-                                        @method('GET')
-                                        <button type="submit" class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                  
+                                     <!-- Bouton Supprimer -->
+                                    <button onclick="openConfirmModal('delete', '{{ route('backups.destroy', $backupFile->id) }}')" class="text-red-500 hover:text-red-700 focus:outline-none py-2" title="Supprimer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Bouton Télécharger -->
+                                    <button onclick="openConfirmModal('download', '{{ route('backups.download', $backupFile->id) }}')" class="text-blue-500 hover:text-blue-700 focus:outline-none py-2" title="Télécharger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
+                                                                
                                 </td>
                                 <td class="py-2 px-4 border-b border-gray-200">
-                                    <button type="button" class="text-green-500 hover:text-green-700 focus:outline-none" onclick="openModalRestauration('restoreModal', {{ $backupFile->id }})">
+                                    <button type="button" class="text-supaGirlRose hover:text-green-700 focus:outline-none" onclick="openModalRestauration('restoreModal', {{ $backupFile->id }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
@@ -104,7 +99,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
         <div class="bg-white rounded-lg shadow p-5">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-bold text-gray-800">Uploader un fichier de sauvegarde</h2>
-                <button onclick="openModal('uploadModal')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
+                <button onclick="openModal('uploadModal')" class="bg-supaGirlRose hover:bg-green-gs text-white px-4 py-2 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105">
                     Uploader
                 </button>
             </div>
@@ -128,39 +123,34 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                        
                         @foreach ($backupsFilesUploaded as $backupFile)
                             <tr>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->name }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->metadata['source'] }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">{{ $backupFile->created_at }}</td>
-                                <td class="py-2 px-4 border-b border-gray-200">
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->name }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_db) }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->getFormattedSizeAttribute($backupFile->size_storage) }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->metadata['source'] }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">{{ $backupFile->created_at }}</td>
+                                <td class="py-2 px-4 text-sm border-b border-gray-200">
                                     <span class="px-2 py-1 text-xs rounded-full {{ $backupFile->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $backupFile->status == 'completed' ? 'Réussie' : 'Échouée' }}
                                     </span>
                                 </td>
                                 <td class="py-2 px-4 border-b border-gray-200 flex space-x-2">
-                                    <form action="{{ route('backups.destroy', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette sauvegarde ? Cette action est irréversible.');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('backups.download', $backupFile->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir télécharger cette sauvegarde ?');">
-                                        @csrf
-                                        @method('GET')
-                                        <button type="submit" class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                     <!-- Bouton Supprimer -->
+                                     <button onclick="openConfirmModal('delete', '{{ route('backups.destroy', $backupFile->id) }}')" class="text-red-500 hover:text-red-700 focus:outline-none py-2" title="Supprimer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Bouton Télécharger -->
+                                    <button onclick="openConfirmModal('download', '{{ route('backups.download', $backupFile->id) }}')" class="text-blue-500 hover:text-blue-700 focus:outline-none py-2" title="Télécharger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200 hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </button>
                                   
                                 </td>
                                 <td class="py-2 px-4 border-b border-gray-200">
-                                    <button type="button" class="text-green-500 hover:text-green-700 focus:outline-none" onclick="openModalRestauration('restoreModal', {{ $backupFile->id }})">
+                                    <button type="button" class="text-supaGirlRose hover:text-green-gs focus:outline-none" onclick="openModalRestauration('restoreModal', {{ $backupFile->id }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
@@ -205,7 +195,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                     <form action="{{ route('backups.create') }}" method="POST" class="w-full" onsubmit="showBackupLoader(event)">
                         @csrf
                         @method('POST')
-                        <button type="submit" id="confirmBackupBtn" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                        <button type="submit" id="confirmBackupBtn" class="px-4 py-2 bg-green-gs text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-supaGirlRose focus:outline-none focus:ring-2 focus:ring-green-gs">
                             Confirmer
                         </button>
                     </form>
@@ -217,6 +207,22 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 </div>
 
 
+<div id="actionConfirmModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2" id="confirmModalTitle">Confirmer l'action</h2>
+        <p class="text-sm text-gray-600 mb-4" id="confirmModalMessage">Êtes-vous sûr de vouloir effectuer cette action ?</p>
+        <form id="confirmModalForm" method="POST">
+            @csrf
+            <input type="hidden" name="_method" id="confirmModalMethod">
+            <div class="flex justify-center space-x-4">
+                <button type="button" onclick="closeConfirmModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-green-gs text-white rounded hover:bg-supaGirlRose">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
    <!-- Modal de confirmation de restauration -->
 <div id="restoreModal" data-id="" class="bg-black/50 w-full h-full fixed top-0 left-0 z-50 hidden">
     <div class="flex justify-center items-center w-full h-full">
@@ -224,7 +230,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 
             <!-- Loader animé -->
             <div id="restoreLoader" class="w-full h-full flex justify-center items-center flex-col hidden absolute top-0 left-0 bg-white rounded-lg ">
-                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-green-500 border-opacity-75"></div>
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-supaGirlRose border-opacity-75"></div>
                 <p class="text-sm text-gray-500 mt-5 flex items-center">
                     Restauration en cours<span class="dot-animation ml-1"></span>
                 </p>
@@ -232,19 +238,19 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 
             <!-- Contenu du modal -->
             <div class="mt-3 text-center" id="restoreModalContent">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Confirmation de Restauration</h3>
+                <h3 class="text-lg leading-6 font-medium text-green-gs">Confirmation de Restauration</h3>
                 <div class="mt-2 py-2">
                     <p class="text-sm text-gray-500">Êtes-vous sûr de vouloir restaurer à partir de cette sauvegarde ?</p>
                     <div class="mt-4 text-left">
                         <label for="restorePassword" class="block text-sm font-medium text-gray-700 py-2">Mot de passe pour confirmer la restauration <span class="text-red-500">*</span></label>
-                        <input type="password" id="restorePassword" placeholder="Mot de passe" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                        <input type="password" id="restorePassword" placeholder="Mot de passe" class="w-full px-3 py-2 border border-green-gs rounded-md shadow-sm focus:outline-none focus:ring-green-gs focus:border-green-gs">
                     </div>
                 </div>
                 <div class="mt-4 flex justify-center flex-row space-x-4">
                     <button id="cancelRestore" onclick="closeModal('restoreModal')" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
                         Annuler
                     </button>
-                    <button type="submit" id="confirmRestoreBtn" onclick="confirmRestore()" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 opacity-50 cursor-not-allowed" disabled>
+                    <button type="submit" id="confirmRestoreBtn" onclick="confirmRestore()" class="px-4 py-2 bg-green-gs text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-supaGirlRose focus:outline-none focus:ring-2 focus:ring-green-gs opacity-50 cursor-not-allowed" disabled>
                         Confirmer
                     </button>
                 </div>
@@ -258,7 +264,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
         <div class="fixed inset-0 bg-opacity-50 flex justify-center items-center p-4">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
                 <div class="p-6">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Restaurer une sauvegarde</h3>
+                    <h3 class="text-lg font-medium leading-6 text-green-gs mb-4">Importer une sauvegarde</h3>
                     
                     <form id="restoreForm" enctype="multipart/form-data">
                         @csrf
@@ -270,10 +276,10 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
                                     </svg>
                                     <h4 class="mt-2 text-sm font-medium text-gray-700">Sauvegarde de la base de données</h4>
-                                    <p class="mt-1 text-xs text-gray-500">Fichier .sql ou .gz</p>
+                                    <p class="mt-1 text-xs text-gray-500">Fichier .sql</p>
                                     <div class="mt-2">
-                                        <input type="file" id="dbFile" name="db_file" accept=".sql,.gz" class="hidden" required>
-                                        <label for="dbFile" class="cursor-pointer text-sm text-blue-600 hover:text-blue-500">
+                                        <input type="file" id="dbFile" name="db_file" accept=".sql" class="hidden" required>
+                                        <label for="dbFile" class="cursor-pointer text-sm text-green-gs hover:text-green-gs">
                                             Sélectionner un fichier
                                         </label>
                                         <p id="dbFileName" class="text-xs text-gray-500 mt-1">Aucun fichier sélectionné</p>
@@ -291,7 +297,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                                     <p class="mt-1 text-xs text-gray-500">Fichier .zip</p>
                                     <div class="mt-2">
                                         <input type="file" id="storageFile" name="storage_file" accept=".zip" class="hidden">
-                                        <label for="storageFile" class="cursor-pointer text-sm text-blue-600 hover:text-blue-500">
+                                        <label for="storageFile" class="cursor-pointer text-sm text-green-gs hover:text-green-gs">
                                             Sélectionner un fichier
                                         </label>
                                         <p id="storageFileName" class="text-xs text-gray-500 mt-1">Aucun fichier sélectionné</p>
@@ -307,7 +313,7 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
                                     Annuler
                                 </button>
                                 <button type="submit" disabled
-                                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 opacity-50 cursor-not-allowed">
+                                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-gs hover:bg-supaGirlRose focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-supaGirlRose opacity-50 cursor-not-allowed">
                                     Démarrer la restauration
                                 </button>
                             </div>
@@ -317,6 +323,10 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
             </div>
         </div>
     </div>
+
+
+
+    
     <style>
 .dot-animation::after {
     content: '';
@@ -336,84 +346,76 @@ $backupsFilesNoUploaded = collect($backupsFiles)->filter(function($b) {
 </style>
 
     <script>
-        // // Update file name display
-        // document.getElementById('dbFile').addEventListener('change', function(e) {
-        //     const fileName = e.target.files[0] ? e.target.files[0].name : 'Aucun fichier sélectionné';
-        //     document.getElementById('dbFileName').textContent = fileName;
-        // });
+       
 
-        // document.getElementById('storageFile').addEventListener('change', function(e) {
-        //     const fileName = e.target.files[0] ? e.target.files[0].name : 'Aucun fichier sélectionné';
-        //     document.getElementById('storageFileName').textContent = fileName;
-        // });
-
-        function validateFileType(file, allowedTypes) {
-    const extension = file.name.split('.').pop().toLowerCase();
-    return allowedTypes.includes(extension);
-}
-
-function updateFileUI(inputId, fileNameId, allowedTypes, required = true) {
-    const input = document.getElementById(inputId);
-    const file = input.files[0];
-    const fileNameDisplay = document.getElementById(fileNameId);
-    const container = input.closest('.border-dashed');
-    const icon = container.querySelector('svg');
-
-    // Reset styles
-    container.classList.remove('border-green-500', 'border-red-500');
-    icon.classList.remove('text-green-500', 'text-red-500');
-    icon.classList.add('text-gray-400');
-
-    let isValid = false;
-
-    if (file && validateFileType(file, allowedTypes)) {
-        fileNameDisplay.textContent = file.name;
-        container.classList.add('border-green-500');
-        icon.classList.remove('text-gray-400');
-        icon.classList.add('text-green-500');
-        isValid = true;
-    } else if (file) {
-        input.value = ''; // reset input
-        fileNameDisplay.textContent = `❌ Fichier invalide. Format requis : .${allowedTypes.join(' ou .')}`;
-        container.classList.add('border-red-500');
-        icon.classList.remove('text-gray-400');
-        icon.classList.add('text-red-500');
-    } else {
-        fileNameDisplay.textContent = 'Aucun fichier sélectionné';
+    function validateFileType(file, allowedTypes) {
+        const extension = file.name.split('.').pop().toLowerCase();
+        return allowedTypes.includes(extension);
     }
 
-    validateRestoreButton();
-    return isValid || !required;
-}
+    function updateFileUI(inputId, fileNameId, allowedTypes, required = true) {
+        const input = document.getElementById(inputId);
+        const file = input.files[0];
+        const fileNameDisplay = document.getElementById(fileNameId);
+        const container = input.closest('.border-dashed');
+        const icon = container.querySelector('svg');
 
-function validateRestoreButton() {
-    const dbFile = document.getElementById('dbFile').files[0];
-    const storageFile = document.getElementById('storageFile').files[0];
-    const restoreBtn = document.querySelector('#restoreForm button[type="submit"]');
+        // Reset styles
+        container.classList.remove('border-supaGirlRose', 'border-red-500');
+        icon.classList.remove('text-supaGirlRose', 'text-red-500');
+        icon.classList.add('text-gray-400');
 
-    const dbValid = dbFile && validateFileType(dbFile, ['sql', 'gz']);
-    const storageValid = !storageFile || validateFileType(storageFile, ['zip']);
+        let isValid = false;
 
-    if (dbValid && storageValid) {
-        restoreBtn.disabled = false;
-        restoreBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-    } else {
-        restoreBtn.disabled = true;
-        restoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        if (file && validateFileType(file, allowedTypes)) {
+            fileNameDisplay.textContent = file.name;
+            container.classList.add('border-supaGirlRose');
+            icon.classList.remove('text-gray-400');
+            icon.classList.add('text-supaGirlRose');
+            isValid = true;
+        } else if (file) {
+            input.value = ''; // reset input
+            fileNameDisplay.textContent = `❌ Fichier invalide. Format requis : .${allowedTypes.join(' ou .')}`;
+            container.classList.add('border-red-500');
+            icon.classList.remove('text-gray-400');
+            icon.classList.add('text-red-500');
+        } else {
+            fileNameDisplay.textContent = 'Aucun fichier sélectionné';
+        }
+
+        validateRestoreButton();
+        return isValid || !required;
     }
-}
 
-// Bind events
-document.getElementById('dbFile').addEventListener('change', function () {
-    updateFileUI('dbFile', 'dbFileName', ['sql', 'gz'], true);
-});
+    function validateRestoreButton() {
+        const dbFile = document.getElementById('dbFile').files[0];
+        const storageFile = document.getElementById('storageFile').files[0];
+        const restoreBtn = document.querySelector('#restoreForm button[type="submit"]');
 
-document.getElementById('storageFile').addEventListener('change', function () {
-    updateFileUI('storageFile', 'storageFileName', ['zip'], false);
-});
-        // Handle form submission
-        document.getElementById('restoreForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        const dbValid = dbFile && validateFileType(dbFile, ['sql', 'gz']);
+        const storageValid = !storageFile || validateFileType(storageFile, ['zip']);
+
+        if (dbValid && storageValid) {
+            restoreBtn.disabled = false;
+            restoreBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        } else {
+            restoreBtn.disabled = true;
+            restoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    // Bind events
+    document.getElementById('dbFile').addEventListener('change', function () {
+        updateFileUI('dbFile', 'dbFileName', ['sql', 'gz'], true);
+    });
+
+    document.getElementById('storageFile').addEventListener('change', function () {
+        updateFileUI('storageFile', 'storageFileName', ['zip'], false);
+    });
+
+    // Handle form submission
+    document.getElementById('restoreForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
             const cancelBtn = document.getElementById('uploadModal').querySelector('button[onclick*="closeModal"]');
             cancelBtn.disabled = true;
@@ -465,13 +467,13 @@ document.getElementById('storageFile').addEventListener('change', function () {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
             });
-        });
+    });
 
-        // Helper function to show toast messages
-        function showToast(type, message) {
-            // Implement your toast notification system here
-            alert(message); // Simple alert for now, replace with your toast implementation
-        }
+    // Helper function to show toast messages
+    function showToast(type, message) {
+        // Implement your toast notification system here
+        alert(message); // Simple alert for now, replace with your toast implementation
+    }
     </script>
 
 
@@ -630,6 +632,42 @@ document.getElementById('storageFile').addEventListener('change', function () {
                 confirmRestoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
         });
+
+
+        function openConfirmModal(action, route) {
+    const modal = document.getElementById('actionConfirmModal');
+    const form = document.getElementById('confirmModalForm');
+    const methodInput = document.getElementById('confirmModalMethod');
+    const title = document.getElementById('confirmModalTitle');
+    const message = document.getElementById('confirmModalMessage');
+
+    form.action = route;
+
+    // Supprime tout ancien écouteur
+    form.onsubmit = null;
+
+    if (action === 'delete') {
+        methodInput.value = 'DELETE';
+        title.textContent = 'Confirmation de suppression';
+        message.textContent = 'Êtes-vous sûr de vouloir supprimer cette sauvegarde ? Cette action est irréversible.';
+    } else if (action === 'download') {
+        methodInput.value = 'GET';
+        title.textContent = 'Confirmation de téléchargement';
+        message.textContent = 'Êtes-vous sûr de vouloir télécharger cette sauvegarde ?';
+
+        // Fermer le modal dès que le téléchargement commence
+        form.onsubmit = function () {
+            closeConfirmModal();
+            return true; // permet au formulaire de continuer
+        };
+    }
+
+    modal.classList.remove('hidden');
+}
+
+function closeConfirmModal() {
+    document.getElementById('actionConfirmModal').classList.add('hidden');
+}   
     </script>
 </div>
 @endsection
