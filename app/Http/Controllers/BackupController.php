@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\Backup;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BackupController extends Controller
 {
@@ -350,193 +351,6 @@ class BackupController extends Controller
             return back()->with('error', 'Erreur lors de la suppression de la sauvegarde : ' . $e->getMessage());
         }
     }
-
-
-    // public function Upload(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'db_file' => [
-    //                 'required',
-    //                 'file',
-    //                 function ($attribute, $value, $fail) {
-    //                     if (!$value->isValid()) {
-    //                         $fail("Le fichier n'est pas valide.");
-    //                         return;
-    //                     }
-
-    //                     $extension = strtolower($value->getClientOriginalExtension());
-    //                     if (!in_array($extension, ['sql', 'gz'])) {
-    //                         $fail("Le fichier doit être de type .sql ou .gz");
-    //                     }
-    //                 },
-    //             ],
-    //             'storage_file' => 'nullable|file|mimes:zip|max:1024000',
-    //         ]);
-
-    //         // Créer le dossier backups s'il n'existe pas
-    //         $backupDir = storage_path('app/backups');
-    //         if (!file_exists($backupDir)) {
-    //             mkdir($backupDir, 0755, true);
-    //         }
-
-    //         // Sauvegarder le fichier de base de données
-    //         $dbFile = $request->file('db_file');
-    //         $dbExtension = $dbFile->getClientOriginalExtension();
-    //         $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbExtension;
-    //         $dbPath = $dbFile->storeAs('backups', $dbFileName);
-    //         $fullDbPath = storage_path('app/' . $dbPath);
-
-    //         // Sauvegarder le fichier de stockage s’il est fourni
-    //         $storagePath = null;
-    //         $storageFileName = null;
-    //         $fullStoragePath = null;
-
-    //         if ($request->hasFile('storage_file')) {
-    //             $storageFile = $request->file('storage_file');
-    //             $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.zip';
-    //             $storagePath = $storageFile->storeAs('backups', $storageFileName);
-    //             $fullStoragePath = storage_path('app/' . $storagePath);
-    //         }
-
-
-    //         $normalizedDbPath = str_replace('\\', '/', $fullDbPath);
-    //         $normalizedStoragePath = str_replace('\\', '/', $fullStoragePath);
-
-    //         // Créer l'enregistrement dans la base de données
-    //         $backup = Backup::create([
-    //             'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
-    //             'type' => Backup::TYPE_FULL,
-    //             'status' => Backup::STATUS_COMPLETED,
-    //             'file_path_db' =>  dirname($normalizedDbPath) . '/' . basename($normalizedDbPath),
-    //             'file_name_db' =>  basename($normalizedDbPath),
-    //             'file_path_storage' => dirname($normalizedStoragePath) . '/' . basename($normalizedStoragePath),
-    //             'file_name_storage' =>  basename($normalizedStoragePath),
-    //             'size_db' => filesize($fullDbPath),
-    //             'size_storage' => $fullStoragePath ? filesize($fullStoragePath) : null,
-    //             'disk' => 'local',
-    //             'metadata' => [
-    //                 'started_at' => now(),
-    //                 'source' => Auth::id() ? 'user' : 'system',
-    //                 'is_uploaded' => true,
-    //             ],
-    //             'user_id' => Auth::id(),
-    //         ]);
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Fichiers sauvegardés avec succès dans le dossier backups.',
-    //             'backup' => $backup,
-    //         ], 200);
-
-    //     } catch (\Exception $e) {
-    //         \Log::error('Upload error: ' . $e->getMessage(), [
-    //             'trace' => $e->getTraceAsString()
-    //         ]);
-
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Erreur lors de l’upload: ' . $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
-    public function Upload(Request $request)
-{
-    try {
-        // ✅ Validation simplifiée
-        $request->validate([
-            'db_file' => [
-                'required',
-                'file',
-                function ($attribute, $value, $fail) {
-                    if (!$value->isValid()) {
-                        $fail("Le fichier n'est pas valide.");
-                        return;
-                    }
-
-                    $extension = strtolower($value->getClientOriginalExtension());
-                    if (!in_array($extension, ['sql', 'gz'])) {
-                        $fail("Le fichier doit être de type .sql ou .gz");
-                    }
-                },
-            ],
-            'storage_file' => 'nullable|file|mimes:zip|max:1024000',
-        ]);
-
-        // 📁 Créer le dossier backups si nécessaire
-        $backupDir = storage_path('app/backups');
-        if (!is_dir($backupDir)) {
-            mkdir($backupDir, 0755, true);
-        }
-
-        // 📦 Sauvegarde du fichier de base de données via streaming
-        $dbFile = $request->file('db_file');
-        $dbExtension = $dbFile->getClientOriginalExtension();
-        $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbExtension;
-        $dbStream = fopen($dbFile->getRealPath(), 'r');
-        Storage::disk('local')->put('backups/' . $dbFileName, $dbStream);
-        fclose($dbStream);
-        $fullDbPath = storage_path('app/backups/' . $dbFileName);
-
-        // 📦 Sauvegarde du fichier de stockage (si présent)
-        $fullStoragePath = null;
-        $storageFileName = null;
-
-        if ($request->hasFile('storage_file')) {
-            $storageFile = $request->file('storage_file');
-            $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.zip';
-            $storageStream = fopen($storageFile->getRealPath(), 'r');
-            Storage::disk('local')->put('backups/' . $storageFileName, $storageStream);
-            fclose($storageStream);
-            $fullStoragePath = storage_path('app/backups/' . $storageFileName);
-        }
-
-        // 🧾 Normalisation des chemins
-        $normalizedDbPath = str_replace('\\', '/', $fullDbPath);
-        $normalizedStoragePath = $fullStoragePath ? str_replace('\\', '/', $fullStoragePath) : null;
-
-        // 🗃️ Enregistrement en base
-        $backup = Backup::create([
-            'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
-            'type' => Backup::TYPE_FULL,
-            'status' => Backup::STATUS_COMPLETED,
-            'file_path_db' => $normalizedDbPath,
-            'file_name_db' => basename($normalizedDbPath),
-            'file_path_storage' => $normalizedStoragePath,
-            'file_name_storage' => $normalizedStoragePath ? basename($normalizedStoragePath) : null,
-            'size_db' => filesize($fullDbPath),
-            'size_storage' => $fullStoragePath ? filesize($fullStoragePath) : null,
-            'disk' => 'local',
-            'metadata' => [
-                'started_at' => now(),
-                'source' => Auth::id() ? 'user' : 'system',
-                'is_uploaded' => true,
-            ],
-            'user_id' => Auth::id(),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Fichiers sauvegardés avec succès.',
-            'backup' => $backup,
-        ], 200);
-
-    } catch (\Exception $e) {
-        \Log::error('Upload error: ' . $e->getMessage(), [
-            'trace' => $e->getTraceAsString()
-        ]);
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Erreur lors de l’upload: ' . $e->getMessage()
-        ], 500);
-    }
-}
-
-
-
-
     /**
      * Restore database from SQL file
      */
@@ -621,4 +435,202 @@ class BackupController extends Controller
 
         return rmdir($dir);
     }
+
+
+public function uploadChunk(Request $request)
+{
+    try {
+        $file = $request->file('file');
+        $chunkIndex = $request->input('dzchunkindex');
+        $fileName = $request->input('dzchunkfilename');
+        $fileType = $request->input('type'); // 'db_file' or 'storage_file'
+
+        logger()->info('Upload chunk', ['fileType' => $fileType, 'fileName' => $fileName, 'chunkIndex' => $chunkIndex]);
+
+        $backupDir = storage_path('app/backups');
+        if (!is_dir($backupDir)) {
+            mkdir($backupDir, 0755, true);
+        }
+
+        // Ensure the filename is used in the chunk filename
+        $tempFilePath = $backupDir . DIRECTORY_SEPARATOR . $fileType . '_' . $fileName . '.part' . $chunkIndex;
+        $file->move($backupDir, $tempFilePath);
+
+        // Log the chunk file name
+        Log::info('Uploaded chunk: ' . $tempFilePath);
+
+        return response()->json(['success' => true, 'message' => 'Chunk uploaded successfully']);
+    } catch (\Exception $e) {
+        Log::error('Upload chunk error: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => 'Error uploading chunk: ' . $e->getMessage()], 500);
+    }
+}
+
+
+
+private function assembleChunks($backupDir, $fileName, $finalFilePath, $fileType)
+{
+    logger()->info('Assembling chunks function ' . $fileType, ['fileName' => $fileName]);
+    $chunkFiles = glob($backupDir . DIRECTORY_SEPARATOR . $fileType . '_' . $fileName . '.part*');
+    if (empty($chunkFiles)) {
+        throw new \Exception("No chunks found for file: " . $fileName);
+    }
+    logger()->info('Chunk files: ' . implode(', ', $chunkFiles));
+    logger()->info('Assembling chunks: ' . $fileName);
+    logger()->info('Chunk files: ' . implode(', ', $chunkFiles));
+
+    // Sort chunks by index
+    usort($chunkFiles, function($a, $b) use ($backupDir, $fileName, $fileType) {
+        $aIndex = (int) str_replace($backupDir . DIRECTORY_SEPARATOR . $fileType . '_' . $fileName . '.part', '', $a);
+        $bIndex = (int) str_replace($backupDir . DIRECTORY_SEPARATOR . $fileType . '_' . $fileName . '.part', '', $b);
+        return $aIndex - $bIndex;
+    });
+
+    // Assemble chunks
+    $finalFile = fopen($finalFilePath, 'wb');
+    if (!$finalFile) {
+        throw new \Exception("Could not open final file for writing: " . $finalFilePath);
+    }
+
+    foreach ($chunkFiles as $chunkFile) {
+        $chunk = file_get_contents($chunkFile);
+        if ($chunk === false) {
+            fclose($finalFile);
+            throw new \Exception("Could not read chunk file: " . $chunkFile);
+        }
+        fwrite($finalFile, $chunk);
+        unlink($chunkFile); // Delete the chunk after assembly
+    }
+
+    fclose($finalFile);
+}
+
+
+
+
+
+public function upload(Request $request)
+{
+    try {
+        $dbFile = $request->file('db_file');
+        $storageFile = $request->file('storage_file');
+        $backupDir = storage_path('app/backups');
+
+        if (!is_dir($backupDir)) {
+            mkdir($backupDir, 0755, true);
+        }
+
+        $backupData = [
+            'name' => 'Upload ' . now()->format('d/m/Y H:i:s'),
+            'type' => Backup::TYPE_FULL,
+            'status' => Backup::STATUS_COMPLETED,
+            'disk' => 'local',
+            'metadata' => [
+                'started_at' => now(),
+                'source' => auth()->id() ? 'user' : 'system',
+                'is_uploaded' => true,
+            ],
+            'user_id' => auth()->id(),
+        ];
+
+        if ($dbFile) {
+            $dbFileName = 'db_backup_' . now()->format('Y_m_d_His') . '.' . $dbFile->getClientOriginalExtension();
+            $dbFile->storeAs('backups', $dbFileName);
+            $backupData['file_path_db'] = 'backups/' . $dbFileName;
+            $backupData['file_name_db'] = $dbFileName;
+            $backupData['size_db'] = $dbFile->getSize();
+        }
+
+        if ($storageFile) {
+            $storageFileName = 'storage_backup_' . now()->format('Y_m_d_His') . '.' . $storageFile->getClientOriginalExtension();
+            $storageFile->storeAs('backups', $storageFileName);
+            $backupData['file_path_storage'] = 'backups/' . $storageFileName;
+            $backupData['file_name_storage'] = $storageFileName;
+            $backupData['size_storage'] = $storageFile->getSize();
+        }
+
+        $backup = Backup::create($backupData);
+        logger()->info('Backup created upload', ['backup' => $backup]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Files uploaded successfully',
+            'backup' => $backup
+        ]);
+
+    } catch (\Exception $e) {
+        Log::error('Upload error: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Error uploading files: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+
+public function uploadComplete(Request $request)
+{
+    try {
+        $dbFileName = $request->input('db_file');
+        $storageFileName = $request->input('storage_file');
+        $backupDir = storage_path('app/backups');
+
+        logger()->info('Upload complete', ['dbFileName' => $dbFileName, 'storageFileName' => $storageFileName]);
+
+        // Initialize backupData array with the required name field
+        $backupData = [
+            'name' => 'Backup ' . now()->format('Y-m-d H:i:s'), // Set a default name or generate one
+            'type' => Backup::TYPE_FULL,
+            'status' => Backup::STATUS_COMPLETED,
+            'disk' => 'local',
+            'metadata' => [
+                'started_at' => now(),
+                'source' => auth()->id() ? 'user' : 'system',
+                'is_uploaded' => true,
+            ],
+            'user_id' => auth()->id(),
+        ];
+
+        // Assemble chunks for the database file
+        if ($dbFileName) {
+            $finalDbFilePath = $backupDir . DIRECTORY_SEPARATOR . $dbFileName;
+            logger()->info('Assembling database backup', ['finalDbFilePath' => $finalDbFilePath]);
+            $this->assembleChunks($backupDir, $dbFileName, $finalDbFilePath, 'db_file');
+
+            if (file_exists($finalDbFilePath)) {
+                $backupData['file_path_db'] = $finalDbFilePath;
+                $backupData['file_name_db'] = basename($finalDbFilePath);
+                $backupData['size_db'] = filesize($finalDbFilePath);
+            } else {
+                throw new \Exception("Database backup file not found after assembling: " . $finalDbFilePath);
+            }
+        }
+
+        // Assemble chunks for the storage file
+        if ($storageFileName) {
+            $finalStorageFilePath = $backupDir . DIRECTORY_SEPARATOR . $storageFileName;
+            $this->assembleChunks($backupDir, $storageFileName, $finalStorageFilePath, 'storage_file');
+
+            if (file_exists($finalStorageFilePath)) {
+                $backupData['file_path_storage'] = $finalStorageFilePath;
+                $backupData['file_name_storage'] = basename($finalStorageFilePath);
+                $backupData['size_storage'] = filesize($finalStorageFilePath);
+            } else {
+                throw new \Exception("Storage backup file not found after assembling: " . $finalStorageFilePath);
+            }
+        }
+
+        // Create the backup record
+        $backup = Backup::create($backupData);
+
+        return response()->json(['success' => true, 'message' => 'Files uploaded and assembled successfully', 'backup' => $backup]);
+    } catch (\Exception $e) {
+        \Log::error('Upload complete error: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => 'Error assembling files: ' . $e->getMessage()], 500);
+    }
+}
+
+
+
+
 }

@@ -134,6 +134,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
         Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
         Route::post('/restore/upload', [BackupController::class, 'Upload'])->name('restore.upload');
         Route::delete('/{id}', [BackupController::class, 'destroy'])->name('destroy');
+        Route::post('/restore/upload/chunk', [BackupController::class, 'uploadChunk'])->name('restore.upload.chunk');
+        Route::post('/restore/upload/complete', [BackupController::class, 'uploadComplete'])->name('restore.upload.complete');
     });
     
     // Static page
