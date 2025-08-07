@@ -22,7 +22,7 @@
                                         </svg>
                                         <h4 class="mt-2 text-sm font-medium text-gray-700">{{ __('uploadModal.db') }}</h4>
                                         <p class="mt-1 text-xs text-gray-500">{{ __('uploadModal.dropzone') }}</p>
-                                        <p id="dbError" class="mt-1 text-xs text-red-500 hidden">aaaaaaaaaaa</p>
+                                        <p id="dbError" class="mt-1 text-xs text-red-500 hidden"></p>
                                     </div>
                                 </div>
                                 <div id="dbProgressContainer" class="hidden mt-4">
@@ -125,7 +125,7 @@ var dbDropzone = new Dropzone("#dbDropzone", {
             // Vérification du type de fichier
             if (!file.name.endsWith('.sql')) {
                 this.removeFile(file);
-                document.getElementById('dbError').textContent = "Le fichier doit être au format SQL";
+                document.getElementById('dbError').textContent = "{{ __('uploadModal.errorFilesql') }}";
                 document.getElementById('dbError').classList.remove('hidden');
                 document.getElementById('dbDropzone').classList.add('border-red-500');
                 document.getElementById('confirmUploaddb').disabled = true;
@@ -200,7 +200,7 @@ var storageDropzone = new Dropzone("#storageDropzone", {
             // Vérification du type de fichier
             if (!file.name.endsWith('.zip')) {
                 this.removeFile(file);
-                document.getElementById('storageError').textContent = "Le fichier doit être au format ZIP";
+                document.getElementById('storageError').textContent = "{{ __('uploadModal.errorFilezip') }}";
                 document.getElementById('storageError').classList.remove('hidden');
                 document.getElementById('storageDropzone').classList.add('border-red-500');
                 document.getElementById('confirmUploadStorage').disabled = true;

@@ -13,5 +13,7 @@ return [
    'progressBar' => 'Barre de progression',
    'confirmUpload' => 'Confirmer l\'importation',
    'terminer' => 'Importation terminée',
+   'errorFilesql' => 'Le fichier doit être au format SQL',
+   'errorFilezip' => 'Le fichier doit être au format Zip',
 
 ];
