@@ -753,8 +753,8 @@ function openModal(imageUrl) {
         function formatTimeAgo(dateString, locale = navigator.language) {
     const utcDate = new Date(dateString); // Interprété comme UTC
     console.log('utcDate', utcDate);
-    const now = new Date().toISOString();               // Interprété comme local
-    console.log('now eee', now);
+    const now = new Date();               // Interprété comme local
+    console.log('now', now);
     const diffInSeconds = Math.floor((now.getTime() - utcDate.getTime()) / 1000);
     console.log('diffInSeconds', diffInSeconds);
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
