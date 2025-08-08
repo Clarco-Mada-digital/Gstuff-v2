@@ -506,9 +506,12 @@ public function fetchContacts(Request $request)
                 'avatar' => $user->avatar,
                 'is_online' => $isOnline,
                 'last_message' => cleanUtf8($lastMessage),
-                'last_message_time' => $lastMessageFromId ? $lastMessageFromId->created_at : null,
+                'last_message_time' => $lastMessageFromId
+                    ? Carbon::parse($lastMessageFromId->created_at)->diffInSeconds(now())
+                    : null,
                 'viewer_id' => Auth::user()->id,
             ];
+            
         });
 
         $users = collect($users)->sortByDesc('last_message_time')->values()->all();

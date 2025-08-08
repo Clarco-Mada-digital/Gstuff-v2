@@ -750,35 +750,29 @@ function openModal(imageUrl) {
         //         : formatTranslation('year_n', years);
         // }
 
-        function formatTimeAgo(dateString, locale = navigator.language) {
-    const utcDate = new Date(dateString); // Interprété comme UTC
-    console.log('utcDate', utcDate);
-    const now = new Date();               // Interprété comme local
-    console.log('now', now);
-    const diffInSeconds = Math.floor((now.getTime() - utcDate.getTime()) / 1000);
-    console.log('diffInSeconds', diffInSeconds);
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+        function formatTimeAgo(diffInSeconds, locale = navigator.language) {
+            const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
-    const minute = 60;
-    const hour = 60 * minute;
-    const day = 24 * hour;
-    const month = 30 * day;
-    const year = 365 * day;
+            const minute = 60;
+            const hour = 60 * minute;
+            const day = 24 * hour;
+            const month = 30 * day;
+            const year = 365 * day;
 
-    if (diffInSeconds < minute) {
-        return rtf.format(-diffInSeconds, 'second');
-    } else if (diffInSeconds < hour) {
-        return rtf.format(-Math.floor(diffInSeconds / minute), 'minute');
-    } else if (diffInSeconds < day) {
-        return rtf.format(-Math.floor(diffInSeconds / hour), 'hour');
-    } else if (diffInSeconds < month) {
-        return rtf.format(-Math.floor(diffInSeconds / day), 'day');
-    } else if (diffInSeconds < year) {
-        return rtf.format(-Math.floor(diffInSeconds / month), 'month');
-    } else {
-        return rtf.format(-Math.floor(diffInSeconds / year), 'year');
-    }
-}
+            if (diffInSeconds < minute) {
+                return rtf.format(-diffInSeconds, 'second');
+            } else if (diffInSeconds < hour) {
+                return rtf.format(-Math.floor(diffInSeconds / minute), 'minute');
+            } else if (diffInSeconds < day) {
+                return rtf.format(-Math.floor(diffInSeconds / hour), 'hour');
+            } else if (diffInSeconds < month) {
+                return rtf.format(-Math.floor(diffInSeconds / day), 'day');
+            } else if (diffInSeconds < year) {
+                return rtf.format(-Math.floor(diffInSeconds / month), 'month');
+            } else {
+                return rtf.format(-Math.floor(diffInSeconds / year), 'year');
+            }
+        }
 
 
 
