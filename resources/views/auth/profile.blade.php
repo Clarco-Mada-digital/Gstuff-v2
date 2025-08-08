@@ -1165,7 +1165,6 @@
                     </form>
                 </div>
             </div>
-
             {{-- Modal edit service --}}
             <div id="editServiceModal" tabindex="-1" aria-hidden="true"
                 class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
@@ -1174,7 +1173,7 @@
                     <form action="{{ route('profile.edit-service') }}" method="post" enctype="multipart/form-data"
                         class="space-y-6">
                         @csrf
-                        <div class="col-span-2 mb-4 md:col-span-1">
+                        {{-- <div class="col-span-2 mb-4 md:col-span-1">
                             <label
                                 class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.category') }}</label>
                             <select name="categorie" id="escort_categorie"
@@ -1186,7 +1185,13 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
+                        <div class="col-span-2 mb-4 md:col-span-1">
+                                    <label
+                                        class="block text-sm font-roboto-slab text-green-gs">{{__('profile.category') }}</label>
+                                    <x-select_object_multiple name="categorie" :options="$escort_categories" :value="$user->categorie"
+                                        label="Mes categories" />
+                                </div>
                         <div class="col-span-2 mb-4 md:col-span-1">
                             <label
                                 class="block text-sm font-roboto-slab text-green-gs">{{ __('profile.services') }}</label>
