@@ -166,10 +166,22 @@ class BackupDatabase extends Command
             }
 
             
-            $successMessage = "Sauvegarde terminée avec succès!\n";
+           // Copier les fichiers dans le disque public pour les rendre accessibles via URL
+            Storage::disk('public')->put("backups/{$filename}", file_get_contents($filepath));
+            Storage::disk('public')->put("backups/storage_{$date}.zip", file_get_contents($storageZip));
+
+            // Générer les liens de téléchargement
+            $downloadLinkDb = asset("storage/backups/{$filename}");
+            $downloadLinkStorage = asset("storage/backups/storage_{$date}.zip");
+
+            // Message enrichi avec les liens
+            $successMessage = "✅ Sauvegarde terminée avec succès!\n";
             $successMessage .= "- Base de données: {$filename}\n";
             $successMessage .= "- Stockage: storage_{$date}.zip\n";
-            $successMessage .= "Taille totale: " . $this->formatBytes(filesize($filepath) + filesize($storageZip));
+            $successMessage .= "📦 Taille totale: " . $this->formatBytes(filesize($filepath) + filesize($storageZip)) . "\n\n";
+            $successMessage .= "🔗 Liens de téléchargement:\n";
+            $successMessage .= "- [Télécharger la base de données]({$downloadLinkDb})\n";
+            $successMessage .= "- [Télécharger le stockage]({$downloadLinkStorage})\n";
             
             $this->info($successMessage);
             
