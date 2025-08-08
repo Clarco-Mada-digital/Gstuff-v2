@@ -195,35 +195,30 @@ class BackupDatabase extends Command
     protected function notifyAdmin($status, $message, $details = null)
     {
         try {
-            // Essayer de trouver un administrateur de différentes manières
-            $admin = null;
-            
-            // Essayer différentes méthodes pour trouver un administrateur
-            if (Schema::hasColumn('users', 'is_admin')) {
-                $admin = User::where('is_admin', true)->first();
-            } 
-            
-            if (!$admin && Schema::hasColumn('users', 'role')) {
-                $admin = User::where('role', 'admin')->first();
+            // Récupérer tous les administrateurs avec un email valide
+            $admins = User::where('profile_type', 'admin')
+                ->whereNotNull('email')
+                ->get()
+                ->filter(function ($admin) {
+                    return filter_var($admin->email, FILTER_VALIDATE_EMAIL);
+                });
+    
+            if ($admins->isEmpty()) {
+                $this->warn('Aucun administrateur avec email valide trouvé pour l\'envoi de notification');
+                \Log::warning('Impossible d\'envoyer la notification de sauvegarde: aucun administrateur avec email valide');
+                return;
             }
-            
-            // Si on n'a toujours pas trouvé d'admin, prendre le premier utilisateur
-            if (!$admin) {
-                $admin = User::first();
-            }
-            
-            if ($admin && filter_var($admin->email, FILTER_VALIDATE_EMAIL)) {
+    
+            foreach ($admins as $admin) {
                 $admin->notify(new BackupNotification($status, $message, $details));
                 $this->info('Notification envoyée à: ' . $admin->email);
-            } else {
-                $this->warn('Aucun administrateur avec email valide trouvé pour l\'envoi de notification');
-                // Logger l'erreur
-                \Log::warning('Impossible d\'envoyer la notification de sauvegarde: aucun administrateur avec email valide');
             }
         } catch (\Exception $e) {
             $this->error('Erreur lors de l\'envoi de la notification: ' . $e->getMessage());
+            \Log::error('Erreur notification admin: ' . $e->getMessage());
         }
     }
+    
     
     /**
      * Formater la taille en octets en format lisible
