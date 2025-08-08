@@ -220,10 +220,11 @@ class BackupDatabase extends Command
                 \Log::warning('Impossible d\'envoyer la notification de sauvegarde: aucun administrateur avec email valide');
                 return;
             }
-    
+            if($status === 'success'){
             foreach ($admins as $admin) {
                 $admin->notify(new BackupNotification($status, $message, $details));
                 $this->info('Notification envoyée à: ' . $admin->email);
+            }
             }
         } catch (\Exception $e) {
             $this->error('Erreur lors de l\'envoi de la notification: ' . $e->getMessage());
