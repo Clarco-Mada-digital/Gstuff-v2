@@ -167,8 +167,11 @@ class BackupDatabase extends Command
 
             
            // Copier les fichiers dans le disque public pour les rendre accessibles via URL
-            Storage::disk('public')->put("backups/{$filename}", file_get_contents($filepath));
-            Storage::disk('public')->put("backups/storage_{$date}.zip", file_get_contents($storageZip));
+            // Storage::disk('public')->put("backups/{$filename}", file_get_contents($filepath));
+            // Storage::disk('public')->put("backups/storage_{$date}.zip", file_get_contents($storageZip));
+
+            Storage::disk('public')->put("backups/{$filename}", fopen($filepath, 'r'));
+            Storage::disk('public')->put("backups/storage_{$date}.zip", fopen($storageZip, 'r'));
 
             // // Générer les liens de téléchargement
             // $downloadLinkDb = asset("storage/backups/{$filename}");
