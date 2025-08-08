@@ -676,78 +676,107 @@ function openModal(imageUrl) {
             emplacement = 'profile';
         });
 
-        function formatTimeAgo(dateString) {
+        // function formatTimeAgo(dateString) {
+        //     const now = new Date();
+        //     const date = new Date(dateString);
+        //     const diffInSeconds = Math.floor((now - date) / 1000);
+            
+        //     // Définir les intervalles de temps en secondes
+        //     const minute = 60;
+        //     const hour = minute * 60;
+        //     const day = hour * 24;
+        //     const month = day * 30;
+        //     const year = day * 365;
+
+        //     // Fonction pour formater avec la traduction
+        //     function formatTranslation(key, count) {
+        //         const translations = {
+        //             'just_now': "{{ __('chat.just_now') }}",
+        //             'second_1': "{{ __('chat.second_ago', ['count' => 1]) }}",
+        //             'second_n': "{{ __('chat.seconds_ago', ['count' => 2]) }}".replace('2', count),
+        //             'minute_1': "{{ __('chat.minute_ago', ['count' => 1]) }}",
+        //             'minute_n': "{{ __('chat.minutes_ago', ['count' => 2]) }}".replace('2', count),
+        //             'hour_1': "{{ __('chat.hour_ago', ['count' => 1]) }}",
+        //             'hour_n': "{{ __('chat.hours_ago', ['count' => 2]) }}".replace('2', count),
+        //             'day_1': "{{ __('chat.day_ago', ['count' => 1]) }}",
+        //             'day_n': "{{ __('chat.days_ago', ['count' => 2]) }}".replace('2', count),
+        //             'month_1': "{{ __('chat.month_ago', ['count' => 1]) }}",
+        //             'month_n': "{{ __('chat.months_ago', ['count' => 2]) }}".replace('2', count),
+        //             'year_1': "{{ __('chat.year_ago', ['count' => 1]) }}",
+        //             'year_n': "{{ __('chat.years_ago', ['count' => 2]) }}".replace('2', count)
+        //         };
+        //         return translations[key] || '';
+        //     }
+
+        //     // Calculer les différences
+        //     if (diffInSeconds < minute) {
+        //         if (diffInSeconds <= 0) return formatTranslation('just_now');
+        //         return diffInSeconds === 1 
+        //             ? formatTranslation('second_1')
+        //             : formatTranslation('second_n', diffInSeconds);
+        //     }
+            
+        //     if (diffInSeconds < hour) {
+        //         const minutes = Math.floor(diffInSeconds / minute);
+        //         return minutes === 1 
+        //             ? formatTranslation('minute_1')
+        //             : formatTranslation('minute_n', minutes);
+        //     }
+            
+        //     if (diffInSeconds < day) {
+        //         const hours = Math.floor(diffInSeconds / hour);
+        //         return hours === 1 
+        //             ? formatTranslation('hour_1')
+        //             : formatTranslation('hour_n', hours);
+        //     }
+            
+        //     if (diffInSeconds < month) {
+        //         const days = Math.floor(diffInSeconds / day);
+        //         return days === 1 
+        //             ? formatTranslation('day_1')
+        //             : formatTranslation('day_n', days);
+        //     }
+            
+        //     if (diffInSeconds < year) {
+        //         const months = Math.floor(diffInSeconds / month);
+        //         return months === 1 
+        //             ? formatTranslation('month_1')
+        //             : formatTranslation('month_n', months);
+        //     }
+            
+        //     const years = Math.floor(diffInSeconds / year);
+        //     return years === 1 
+        //         ? formatTranslation('year_1')
+        //         : formatTranslation('year_n', years);
+        // }
+
+        function formatTimeAgo(dateString, locale = navigator.language) {
     const now = new Date();
     const date = new Date(dateString);
     const diffInSeconds = Math.floor((now - date) / 1000);
-    
-    // Définir les intervalles de temps en secondes
+
+    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+
     const minute = 60;
-    const hour = minute * 60;
-    const day = hour * 24;
-    const month = day * 30;
-    const year = day * 365;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const month = 30 * day;
+    const year = 365 * day;
 
-    // Fonction pour formater avec la traduction
-    function formatTranslation(key, count) {
-        const translations = {
-            'just_now': "{{ __('chat.just_now') }}",
-            'second_1': "{{ __('chat.second_ago', ['count' => 1]) }}",
-            'second_n': "{{ __('chat.seconds_ago', ['count' => 2]) }}".replace('2', count),
-            'minute_1': "{{ __('chat.minute_ago', ['count' => 1]) }}",
-            'minute_n': "{{ __('chat.minutes_ago', ['count' => 2]) }}".replace('2', count),
-            'hour_1': "{{ __('chat.hour_ago', ['count' => 1]) }}",
-            'hour_n': "{{ __('chat.hours_ago', ['count' => 2]) }}".replace('2', count),
-            'day_1': "{{ __('chat.day_ago', ['count' => 1]) }}",
-            'day_n': "{{ __('chat.days_ago', ['count' => 2]) }}".replace('2', count),
-            'month_1': "{{ __('chat.month_ago', ['count' => 1]) }}",
-            'month_n': "{{ __('chat.months_ago', ['count' => 2]) }}".replace('2', count),
-            'year_1': "{{ __('chat.year_ago', ['count' => 1]) }}",
-            'year_n': "{{ __('chat.years_ago', ['count' => 2]) }}".replace('2', count)
-        };
-        return translations[key] || '';
-    }
-
-    // Calculer les différences
     if (diffInSeconds < minute) {
-        if (diffInSeconds <= 0) return formatTranslation('just_now');
-        return diffInSeconds === 1 
-            ? formatTranslation('second_1')
-            : formatTranslation('second_n', diffInSeconds);
+        return rtf.format(-diffInSeconds, 'second');
+    } else if (diffInSeconds < hour) {
+        return rtf.format(-Math.floor(diffInSeconds / minute), 'minute');
+    } else if (diffInSeconds < day) {
+        return rtf.format(-Math.floor(diffInSeconds / hour), 'hour');
+    } else if (diffInSeconds < month) {
+        return rtf.format(-Math.floor(diffInSeconds / day), 'day');
+    } else if (diffInSeconds < year) {
+        return rtf.format(-Math.floor(diffInSeconds / month), 'month');
+    } else {
+        return rtf.format(-Math.floor(diffInSeconds / year), 'year');
     }
-    
-    if (diffInSeconds < hour) {
-        const minutes = Math.floor(diffInSeconds / minute);
-        return minutes === 1 
-            ? formatTranslation('minute_1')
-            : formatTranslation('minute_n', minutes);
-    }
-    
-    if (diffInSeconds < day) {
-        const hours = Math.floor(diffInSeconds / hour);
-        return hours === 1 
-            ? formatTranslation('hour_1')
-            : formatTranslation('hour_n', hours);
-    }
-    
-    if (diffInSeconds < month) {
-        const days = Math.floor(diffInSeconds / day);
-        return days === 1 
-            ? formatTranslation('day_1')
-            : formatTranslation('day_n', days);
-    }
-    
-    if (diffInSeconds < year) {
-        const months = Math.floor(diffInSeconds / month);
-        return months === 1 
-            ? formatTranslation('month_1')
-            : formatTranslation('month_n', months);
-    }
-    
-    const years = Math.floor(diffInSeconds / year);
-    return years === 1 
-        ? formatTranslation('year_1')
-        : formatTranslation('year_n', years);
 }
+
     });
 </script>
