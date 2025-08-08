@@ -344,6 +344,9 @@
         let oldUser = null;
         let emplacement = null;
 
+        let lang = @json(app()->getLocale());
+        console.log(lang);
+
         
         chatButton.addEventListener('click', function () {
             chatWindow.style.display = 'flex';
@@ -487,7 +490,8 @@
                     contactElement.setAttribute('data-user-id', user.id);
                     contactElement.onclick = () => showMessages(user);
 
-                    const formattedTimeAgo = formatTimeAgo(user.last_message_time);
+                    const formattedTimeAgo = formatTimeAgo(user.last_message_time, lang);
+                  
                     contactElement.innerHTML = `
                         <div class="relative">
                             <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
