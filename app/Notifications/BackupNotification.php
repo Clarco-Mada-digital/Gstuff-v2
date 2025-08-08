@@ -38,24 +38,42 @@ class BackupNotification extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
+    // public function toMail(object $notifiable): MailMessage
+    // {
+    //     $subject = $this->status === 'success' 
+    //         ? '✅ Sauvegarde réussie' 
+    //         : '❌ Échec de la sauvegarde';
+
+    //     $mail = (new MailMessage)
+    //                 ->subject(env('APP_NAME') . ' - ' . $subject)
+    //                 ->line($this->message);
+
+    //     if ($this->details) {
+    //         $mail->line('Détails:')
+    //              ->line($this->details)
+    //              ->line('')
+    //              ->line('Date: ' . now()->format('Y-m-d H:i:s'));
+    //     }
+
+    //     return $mail;
+    // }
+
     public function toMail(object $notifiable): MailMessage
     {
         $subject = $this->status === 'success' 
             ? '✅ Sauvegarde réussie' 
             : '❌ Échec de la sauvegarde';
 
-        $mail = (new MailMessage)
-                    ->subject(env('APP_NAME') . ' - ' . $subject)
-                    ->line($this->message);
-
-        if ($this->details) {
-            $mail->line('Détails:')
-                 ->line($this->details)
-                 ->line('')
-                 ->line('Date: ' . now()->format('Y-m-d H:i:s'));
-        }
-
-        return $mail;
+        return (new MailMessage)
+            ->subject(env('APP_NAME') . ' - ' . $subject)
+            ->view('emails.backup_notification', [
+                'filenameDb'     => $this->details['filenameDb'],
+                'filenameStorage'=> $this->details['filenameStorage'],
+                'totalSize'      => $this->details['totalSize'],
+                'linkDb'         => $this->details['linkDb'],
+                'linkStorage'    => $this->details['linkStorage'],
+                'date'           => $this->details['date'],
+            ]);
     }
 
     /**
