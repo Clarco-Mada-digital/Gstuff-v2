@@ -753,7 +753,8 @@ function openModal(imageUrl) {
         function formatTimeAgo(dateString, locale = navigator.language) {
     const now = new Date();
     const date = new Date(dateString);
-    const diffInSeconds = Math.floor((now - date) / 1000);
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const diffInSeconds = Math.floor((now - localDate) / 1000);
 
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
