@@ -357,9 +357,101 @@ class MessengerApiController extends Controller
 //         return response()->json(['error' => 'An error occurred while fetching contacts.', 'message' => $e->getMessage()], 500);
 //     }
 // }
+// public function fetchContacts(Request $request)
+// {
+//     try {
+//         $users = Message::join('users', function($join) {
+//             $join->on('messages.from_id', '=', 'users.id')
+//                  ->orOn('messages.to_id', '=', 'users.id');
+//         })
+//         ->where(function($query) {
+//             $query->where('messages.from_id', Auth::user()->id)
+//                   ->orWhere('messages.to_id', Auth::user()->id);
+//         })
+//         ->where('users.id', '!=', Auth::user()->id)
+//         ->select(
+//             'users.*',
+//             'messages.body as last_message',
+//             'messages.created_at as last_message_time',
+//             'messages.from_id as last_message_from_id',
+//             DB::raw("jsonb_build_object('attachment', messages.attachment) as attachment")
+//         )
+//         ->orderBy('messages.created_at', 'desc')
+//         ->get()
+//         ->unique('id')
+//         ->map(function ($user) {
+//             $isOnline = false;
+//             if ($user->last_seen_at) {
+//                 $lastSeen = $user->last_seen_at instanceof Carbon
+//                     ? $user->last_seen_at
+//                     : Carbon::parse($user->last_seen_at);
+//                 $isOnline = $lastSeen->gt(now()->subMinutes(2));
+//             }
+
+//             $lastMessageFromId = Message::where(function($query) use ($user) {
+//                 $query->where('from_id', Auth::user()->id)->where('to_id', $user->id)
+//                       ->orWhere(function($query) use ($user) {
+//                           $query->where('from_id', $user->id)->where('to_id', Auth::user()->id);
+//                       });
+//             })
+//             ->latest()
+//             ->first();
+
+//             if($user->last_message){
+//                 $lastMessage = isset($user->attachment['attachment']) ? 'Image' : ($user->last_message ? substr($user->last_message, 0, 30) . '...' : 'No messages yet');
+//             }else if($user->attachment){
+//                 $lastMessage = __('chat.attachment');
+//             }else{
+//                 $lastMessage = __('chat.no_messages_yet');
+//             }
+//             $datalog = [
+//                 'id' => $user->id,
+//                 'prenom' => $user->prenom,
+//                 'pseudo' => $user->pseudo,
+//                 'nom_salon' => $user->nom_salon,
+//                 'avatar' => $user->avatar,
+//                 'is_online' => $isOnline,
+//                 'reellast_message' => $user->last_message,
+//                 'last_message' => $lastMessage,
+//                 'last_message_time' => $lastMessageFromId ? $lastMessageFromId->created_at : null,
+//                 'viewer_id' => Auth::user()->id,
+//             ];
+//             Log::info($datalog);
+//             return [
+//                 'id' => $user->id,
+//                 'prenom' => $user->prenom,
+//                 'pseudo' => $user->pseudo,
+//                 'nom_salon' => $user->nom_salon,
+//                 'avatar' => $user->avatar,
+//                 'is_online' => $isOnline,
+//                 'last_message' => $lastMessage,
+//                 'last_message_time' => $lastMessageFromId ? $lastMessageFromId->created_at : null,
+//                 'viewer_id' => Auth::user()->id,
+//             ];
+//         });
+
+//         $users = $users->sortByDesc('last_message_time')->values()->all();
+
+//         if (empty($users)) {
+//             return response()->json(['contacts' => 'No contacts found']);
+//         }
+
+//         return response()->json(['contacts' => $users]);
+//     } catch (\Exception $e) {
+//         Log::error('Error fetching contacts: ' . $e->getMessage());
+//         return response()->json(['error' => 'An error occurred while fetching contacts.', 'message' => $e->getMessage()], 500);
+//     }
+// }
+
+
 public function fetchContacts(Request $request)
 {
     try {
+        // Fonction utilitaire pour nettoyer les chaînes mal encodées
+        function cleanUtf8($value) {
+            return is_string($value) ? mb_convert_encoding($value, 'UTF-8', 'UTF-8') : $value;
+        }
+
         $users = Message::join('users', function($join) {
             $join->on('messages.from_id', '=', 'users.id')
                  ->orOn('messages.to_id', '=', 'users.id');
@@ -397,53 +489,43 @@ public function fetchContacts(Request $request)
             ->latest()
             ->first();
 
-            if($user->last_message){
-                $lastMessage = isset($user->attachment['attachment']) ? 'Image' : ($user->last_message ? substr($user->last_message, 0, 30) . '...' : 'No messages yet');
-            }else if($user->attachment){
+            if ($user->last_message) {
+                $lastMessage = isset($user->attachment['attachment']) ? 'Image' : (substr($user->last_message, 0, 30) . '...');
+            } elseif ($user->attachment) {
                 $lastMessage = __('chat.attachment');
-            }else{
+            } else {
                 $lastMessage = __('chat.no_messages_yet');
             }
-            $datalog = [
-                'id' => $user->id,
-                'prenom' => $user->prenom,
-                'pseudo' => $user->pseudo,
-                'nom_salon' => $user->nom_salon,
-                'avatar' => $user->avatar,
-                'is_online' => $isOnline,
-                'reellast_message' => $user->last_message,
-                'last_message' => $lastMessage,
-                'last_message_time' => $lastMessageFromId ? $lastMessageFromId->created_at : null,
-                'viewer_id' => Auth::user()->id,
-            ];
-            Log::info($datalog);
+
+            // Nettoyage des données avant retour JSON
             return [
                 'id' => $user->id,
-                'prenom' => $user->prenom,
-                'pseudo' => $user->pseudo,
-                'nom_salon' => $user->nom_salon,
+                'prenom' => cleanUtf8($user->prenom),
+                'pseudo' => cleanUtf8($user->pseudo),
+                'nom_salon' => cleanUtf8($user->nom_salon),
                 'avatar' => $user->avatar,
                 'is_online' => $isOnline,
-                'last_message' => $lastMessage,
+                'last_message' => cleanUtf8($lastMessage),
                 'last_message_time' => $lastMessageFromId ? $lastMessageFromId->created_at : null,
                 'viewer_id' => Auth::user()->id,
             ];
         });
 
-        $users = $users->sortByDesc('last_message_time')->values()->all();
+        $users = collect($users)->sortByDesc('last_message_time')->values()->all();
 
         if (empty($users)) {
             return response()->json(['contacts' => 'No contacts found']);
         }
 
-        return response()->json(['contacts' => $users]);
+        return response()->json(['contacts' => $users], 200, [], JSON_INVALID_UTF8_SUBSTITUTE);
     } catch (\Exception $e) {
         Log::error('Error fetching contacts: ' . $e->getMessage());
-        return response()->json(['error' => 'An error occurred while fetching contacts.', 'message' => $e->getMessage()], 500);
+        return response()->json([
+            'error' => 'An error occurred while fetching contacts.',
+            'message' => $e->getMessage()
+        ], 500);
     }
 }
-
-
 
 
 
