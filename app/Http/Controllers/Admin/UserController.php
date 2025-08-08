@@ -235,17 +235,17 @@ class UserController extends Controller
     
         // Utilisation d'une transaction pour garantir l'atomicité des opérations
         DB::transaction(function () use ($iduser) {
-            // Marquer les notifications comme lues
-            $notifications = Notification::whereJsonContains('data->user_id', $iduser)
+            $notifications = Notification::whereJsonContains('data', ['user_id' => $iduser])
                 ->where('type', 'App\\Notifications\\ProfileVerificationRequestNotification')
                 ->get();
-    
+        
             foreach ($notifications as $notification) {
                 $notification->update([
                     'read_at' => now(),
                 ]);
             }
         });
+        
 
         $user = User::findOrFail($iduser);
  
