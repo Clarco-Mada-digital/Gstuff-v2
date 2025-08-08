@@ -477,7 +477,8 @@
                 contactsContainer.innerHTML = '<p class="text-center">{{ __('chat.no_contacts_found') }}</p>';
             } else {
                 // Assurez-vous que les contacts sont triés par last_message_time en ordre décroissant
-                data.contacts.sort((a, b) => new Date(b.last_message_time) - new Date(a.last_message_time));
+                data.contacts.sort((a, b) => a.last_message_time - b.last_message_time);
+
                 // console.log(data.contacts);
              
                 data.contacts.forEach(user => {
