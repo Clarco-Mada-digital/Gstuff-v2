@@ -752,9 +752,11 @@ function openModal(imageUrl) {
 
         function formatTimeAgo(dateString, locale = navigator.language) {
     const now = new Date();
-    const date = new Date(dateString); // Ne pas ajuster manuellement
 
-    const diffInSeconds = Math.floor((now - date) / 1000);
+    // Corriger le faux UTC en retirant le "Z"
+    const correctedDate = new Date(dateString.replace('Z', ''));
+
+    const diffInSeconds = Math.floor((now - correctedDate) / 1000);
 
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
@@ -778,6 +780,7 @@ function openModal(imageUrl) {
         return rtf.format(-Math.floor(diffInSeconds / year), 'year');
     }
 }
+
 
 
 
