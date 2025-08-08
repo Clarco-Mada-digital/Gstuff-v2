@@ -752,8 +752,11 @@ function openModal(imageUrl) {
 
         function formatTimeAgo(dateString, locale = navigator.language) {
     const now = new Date();
-    const date = new Date(dateString);
-    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+
+    // Convertir la date UTC en locale
+    const utcDate = new Date(dateString);
+    const localDate = new Date(utcDate.getTime() + now.getTimezoneOffset() * 60000);
+
     const diffInSeconds = Math.floor((now - localDate) / 1000);
 
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
@@ -778,6 +781,7 @@ function openModal(imageUrl) {
         return rtf.format(-Math.floor(diffInSeconds / year), 'year');
     }
 }
+
 
     });
 </script>
