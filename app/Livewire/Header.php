@@ -19,7 +19,14 @@ class Header extends Component
     public $genres = [];
     public $escorts;
     public $salonCreator = null;
+    public $activeLink = '';
 
+
+    public function setActiveLink($link)
+    {
+        $this->activeLink = $link;
+    }
+    
     public function render()
     {
         // Charger les catégories pour les escorts
