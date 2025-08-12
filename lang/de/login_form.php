@@ -8,8 +8,8 @@ return [
     'login' => 'Anmelden',
     'or' => 'Oder',
     'register_free' => 'Kostenlos registrieren',
-    'register_escort' => 'Als Escort registrieren (Unabhängig)',
-    'register_professional' => 'Als Profi registrieren',
+    'register_escort' => 'Als Escort registrieren',
+    'register_professional' => 'Als Salon registrieren',
     'back_to_login' => 'Zurück zum Anmeldeformular',
     'reset_password' => 'Mein Passwort zurücksetzen',
 ];

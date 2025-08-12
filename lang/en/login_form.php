@@ -8,8 +8,8 @@ return [
     'login' => 'Login',
     'or' => 'Or',
     'register_free' => 'Register for free',
-    'register_escort' => 'Register as an escort (Independent)',
-    'register_professional' => 'Register as a professional',
+    'register_escort' => 'Register as an escort',
+    'register_professional' => 'Register as a Salon',
     'back_to_login' => 'Back to login form',
     'reset_password' => 'Reset my password',
 ];
