@@ -218,7 +218,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)]
          max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 "
         wire:ignore.self>
-        <div class="relative max-h-full w-[95%] p-4 lg:w-[60%]">
+        <div class="relative max-h-full w-[97%] p-4 lg:w-[60%]">
             {{-- Modal content --}}
             <div class="relative rounded-lg bg-white shadow-sm bg-fieldBg">
 
@@ -243,38 +243,11 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col items-start justify-center gap-3 p-4 md:p-5 md:pb-20">
+                <div class="relative flex flex-col  gap-3 p-4 md:p-5 md:pb-20 h-[70vh] overflow-y-auto">
                     <h3 class="font-roboto-slab text-green-gs text-2xl md:text-3xl">
                         {{ __('escort-search.service_categories') }}</h3>
                     <div x-data="{ open: false }" class="w-full">
-                        <button @click="open = !open"
-                            class="hover:bg-green-gs w-full rounded-lg border border-2 border-supaGirlRose text-green-gs hover:text-white p-2 text-left hover:text-amber-400 sm:hidden bg-fieldBg">
-                            <div class="flex items-center justify-between">
-                                <span class="font-medium">{{ __('escort-search.service_categories') }}</span>
-                                <svg :class="{ 'rotate-180': open }" class="h-4 w-4 transform transition-transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </button>
-                        <div x-show="open" x-transition class="mt-2">
-                            <div class="flex flex-wrap items-center gap-4">
-                                @foreach ($services as $service)
-                                    <div class="my-1">
-                                        <input wire:model.live='selectedServices' id="services-{{ $service->id }}"
-                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
-                                            value="{{ $service->id }}" />
-                                        <label for="services-{{ $service->id }}"
-                                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
-                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
-                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
-                                            {{ $service->nom }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                        
                         <div class="hidden sm:block">
                             <div class="flex flex-wrap items-center gap-4">
                                 @foreach ($services as $service)
@@ -292,6 +265,45 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                 @endforeach
                             </div>
                         </div>
+
+
+
+
+                        <div id="carousel-container" class="relative  w-full p-2 h-auto overflow-x-hidden sm:hidden">
+                    <!-- Conteneur des slides -->
+                    <div class="carousel-slides flex transition-transform duration-300 h-auto">
+                        @foreach ($services as $service)
+                           
+                            <div class="my-1 carousel-slide">
+                                        <input wire:model.live='selectedServices' id="services{{ $service->id }}"
+                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
+                                            value="{{ $service->id }}" />
+                                        <label for="services{{ $service->id }}"
+                                        class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
+                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
+                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
+                                            {{ $service->nom }}
+                                        </label>
+                                    </div>
+                        @endforeach
+                    </div>
+                    <!-- Boutons de navigation -->
+                    <button class="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full z-10">
+                        &lt;
+                    </button>
+                    <button class="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full z-10">
+                        &gt;
+                    </button>
+                </div>
+
+
+
+
+
+
+
+
+
                     </div>
                     <h3 class="text-green-gs font-roboto-slab text-2xl md:text-3xl">
                         {{ __('escort-search.other_filters') }}</h3>
@@ -428,9 +440,64 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                             id="tarifs" />
                     </div>
                 </div>
+
+                {{-- Modal footer --}}
+                <div class="flex justify-between items-center space-x-4 rounded-t border-t border-gray-200 p-4 md:p-5">
+                    <button class="flex items-center justify-center p-2 font-roboto-slab text-green-gs bg-gray-200 rounded-sm text-sm hover:bg-gray-300" wire:click="resetFilter" wire:loading.attr="disabled">
+                        <span wire:loading.remove wire:target="resetFilter">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                <path fill="currentColor" d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z" />
+                            </svg>
+                        </span>
+                        <span wire:loading wire:target="resetFilter">
+                            <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                        <span class="ml-2">Réinitialiser</span>
+                    </button>
+                    <button class="flex items-center justify-center p-2 font-roboto-slab text-green-gs hover:text-supaGirlRosePastel bg-supaGirlRosePastel hover:bg-green-gs rounded-sm text-sm " data-modal-hide="search-escorte-modal">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span class="">Rechercher ({{ $escortCount }})</span>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
+
+
+
+    
+    <style>
+    /* Styles de base pour le carousel */
+    .carousel-container {
+        position: relative;
+        width: 100%;
+        margin: 20px;
+    
+    }
+
+    .carousel-slides {
+        display: flex;
+        transition: transform 0.3s ease;
+    }
+
+    .carousel-slide {
+        flex: 0 0 auto;
+        padding: 0 8px;
+    }
+
+    /* Ajustements pour les petits écrans */
+    @media (max-width: 640px) {
+
+        .carousel-prev, .carousel-next {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+    }
+</style>
 </div>
 
 <script>
@@ -451,5 +518,50 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         Livewire.on('updatedMaxDistanceSelected', value => {
             document.getElementById('maxDistanceValue').textContent = value;
         });
+
+        const carouselSlides = document.querySelector('.carousel-slides');
+    const carouselContainer = document.getElementById('carousel-container');
+    const prevButton = document.querySelector('.carousel-prev');
+    const nextButton = document.querySelector('.carousel-next');
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const slideWidth = 150; // Largeur de chaque slide (ajustez selon vos besoins)
+
+    // Dupliquer les éléments pour l'effet infini
+    const firstSlideClone = slides[0].cloneNode(true);
+    const lastSlideClone = slides[slides.length - 1].cloneNode(true);
+    carouselSlides.appendChild(firstSlideClone);
+    carouselSlides.insertBefore(lastSlideClone, carouselSlides.firstChild);
+
+    let position = 1; // Commencez à 1 pour éviter le dernier clone au début
+
+    // Fonction pour déplacer le carousel
+    function moveCarousel(direction) {
+        position += direction;
+
+        // Si on atteint le dernier clone, revenir au début
+        if (position >= slides.length) {
+            carouselSlides.style.transition = 'none';
+            position = 1;
+            carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
+            setTimeout(() => {
+                carouselSlides.style.transition = 'transform 0.3s ease';
+            }, 10);
+        }
+        // Si on atteint le premier clone, revenir à la fin
+        else if (position <= 0) {
+            carouselSlides.style.transition = 'none';
+            position = slides.length - 2;
+            carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
+            setTimeout(() => {
+                carouselSlides.style.transition = 'transform 0.3s ease';
+            }, 10);
+        }
+
+        carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
+    }
+
+    // Événements pour les boutons
+    prevButton.addEventListener('click', () => moveCarousel(-1));
+    nextButton.addEventListener('click', () => moveCarousel(1));
     });
 </script>
