@@ -51,18 +51,20 @@
                 <ul
                     class="font-roboto-slab mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
                     <li id="escorts-link" class="header-link p-2 flex items-center justify-between">
-                        <a href="{{ route('escortes') }}" id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
-                            data-dropdown-trigger="hover" data-dropdown-offset-distance="25"
+                        <div id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
+                        data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center justify-between">
+                        <a href="{{ route('escortes') }}" 
                             class="font-roboto-slab hidden xl:block  flex items-center w-full justify-between rounded-sm px-3 py-2 text-roboto-slab text-gray-900 hover:text-green-gs hover:bg-supaGirlRose xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs ria-current="page">
                            {{ __('header.escorts') }}
                           
                         </a>
-                        <div class="hidden xl:block">
+                        <div class="hidden xl:block cursor-pointer hover:text-green-gs">
                         <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 1 4 4 4-4" />
                             </svg>
+                        </div>
                         </div>
                       
                         <a href="{{ route('escortes') }}" 
@@ -417,7 +419,7 @@
 }
 </style>
 @push('scripts')
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const headerLinks = document.querySelectorAll('.header-link');
 
@@ -470,7 +472,80 @@
     });
   
 
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const headerLinks = document.querySelectorAll('.header-link');
+
+        // Function to set the active link based on the current URL
+        function setActiveLinkBasedOnURL() {
+            const currentURL = window.location.href;
+
+            headerLinks.forEach(link => {
+                const linkURL = link.querySelector('a').getAttribute('href');
+
+                // Check if the current URL matches the link URL
+                if (currentURL.includes(linkURL)) {
+                    link.classList.add('active-header');
+                    // Store the active link ID in localStorage
+                    localStorage.setItem('activeLinkId', link.id);
+                } else {
+                    link.classList.remove('active-header');
+                }
+            });
+        }
+
+        // Restaurer l'état actif depuis localStorage
+        const activeLinkId = localStorage.getItem('activeLinkId');
+        if (activeLinkId) {
+            const activeLink = document.getElementById(activeLinkId);
+            if (activeLink) {
+                activeLink.classList.add('active-header');
+            }
+        }
+
+        // Set the active link based on the current URL when the page loads
+        setActiveLinkBasedOnURL();
+
+        headerLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                // Retirer la classe active de tous les liens
+                headerLinks.forEach(link => {
+                    link.classList.remove('active-header');
+                });
+
+                // Ajouter la classe active au lien cliqué
+                this.classList.add('active-header');
+
+                // Stocker l'identifiant du lien actif dans localStorage
+                localStorage.setItem('activeLinkId', this.id);
+            });
+        });
+
+        const dropdownToggle = document.getElementById('dropbtn');
+        const dropdownMenu = document.getElementById('dropdownMegaMenuMobile');
+        const subDiv = document.getElementById('subDiv');
+
+        dropdownToggle.addEventListener('click', function(event) {
+            event.preventDefault();
+            dropdownMenu.classList.toggle('hidden');
+            subDiv.classList.remove('hidden');
+            dropdownMenu.style.transform = 'translate(0px, 100px)';
+        });
+
+        // Fermer le menu déroulant lorsqu'on clique en dehors
+        document.addEventListener('click', function(event) {
+            const isClickInsideDropdown = dropdownMenu.contains(event.target);
+            const isClickOnToggle = dropdownToggle.contains(event.target);
+            if (!isClickInsideDropdown && !isClickOnToggle) {
+                dropdownMenu.classList.add('hidden');
+                subDiv.classList.add('hidden');
+            }
+        });
+    });
 </script>
+
 @endpush
 
 </div>

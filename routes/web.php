@@ -54,6 +54,7 @@ Route::get('livewire/update', function(){
 // =================================== Routes public =========================================
 // Home
 Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/nextStep', [HomeController::class, 'nextStep'])->name('nextStep');
 // Glossaires
 Route::get('/glossaires', [ArticleController::class, 'index'])->name('glossaires.index');
 Route::get('/glossaire/{article:slug}', [ArticleController::class, 'show'])->name('glossaires.show');

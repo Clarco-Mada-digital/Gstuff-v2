@@ -359,7 +359,7 @@
      <!-- Connexion modal -->
      <div id="authentication-modal" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-        <div class="relative max-h-full w-[95%] p-4 lg:w-[60%]">
+        <div class="relative max-h-full w-[95%] sm:w-[70%] md:w-[60%]   p-4 lg:w-[50%] xl:w-[40%] 2xl:w-[30%]">
             <!-- Modal content -->
             <div class="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
 
@@ -367,7 +367,7 @@
                 <div
                     class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
                     <h3 class="flex w-full items-center justify-center">
-                        <img class="w-[60%] sm:w-[25%] md:w-[20%]" src="{{ asset('images/logoSupa.png') }}" alt="Logo SupaGirl" />
+                        <img class="" src="{{ asset('images/logoSupa.png') }}" alt="Logo SupaGirl" />
                     </h3>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -469,7 +469,14 @@
                                 </svg>
                                 {{ __('login_form.login') }}
                             </button>
-                            <div class="flex items-center justify-center">
+                            <div class="w-full flex justify-center text-center">
+                                <h1 class="text-gray-500 text-sm">
+                                    Vous n'avez pas de compte ? 
+                                    <a href="{{ route('nextStep') }}" class="text-supaGirlRose font-roboto-slab">S'inscrire</a>
+                                </h1>
+                            </div>
+
+                            <!-- <div class="flex items-center justify-center">
                                 <div class="h-1 flex-1 bg-green-gs"></div>
                                 <span class="font-roboto-slab p-2 text-xl text-green-gs">{{ __('login_form.or') }}</span>
                                 <div class="h-1 flex-1 bg-green-gs"></div>
@@ -482,7 +489,7 @@
                                     class="hover:text-green-gs w-full border border-green-gs p-3 font-roboto-slab text-center hover:bg-supaGirlRosePastel hover:text-green-gs">{{ __('login_form.register_escort') }}</a>
                                 <a href="{{ route('salon_register') }}"
                                     class="hover:text-green-gs w-full border border-green-gs p-3 font-roboto-slab text-center hover:bg-supaGirlRosePastel hover:text-green-gs">{{ __('login_form.register_professional') }}</a>
-                            </div>
+                            </div> -->
                         </form>
 
 

@@ -166,4 +166,11 @@ class HomeController extends Controller
         'glossaires' => $glossaires,
     ]);
 }
+
+
+public function nextStep()
+{
+
+    return view('nextstep');
+}
 }
