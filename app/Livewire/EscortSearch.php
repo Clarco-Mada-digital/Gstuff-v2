@@ -14,6 +14,16 @@ use Livewire\WithPagination;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use App\Models\CouleurCheveux;
+use App\Models\CouleurYeux;
+use App\Models\Mensuration;
+use App\Models\Poitrine;
+use App\Models\PubisType;
+use App\Models\Silhouette;
+use App\Models\Tattoo;
+use App\Models\Mobilite;
+use App\Models\NombreFille;
+use App\Models\OrientationSexuelle;
 
 class EscortSearch extends Component
 {
@@ -56,6 +66,7 @@ class EscortSearch extends Component
     public $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
 
     public $showFiltreCanton = true;
+    
 
     private function getEscorts($escorts)
     {
@@ -181,6 +192,7 @@ class EscortSearch extends Component
 
     public function render()
     {
+
         // Gestion des états mutuellement exclusifs
         if ($this->approximite && $this->showClosestOnly) {
             $this->showClosestOnly = false;
@@ -265,8 +277,8 @@ class EscortSearch extends Component
                                 case 'poitrine':
                                     $q->where('poitrine_id', (int) $value);
                                     break;
-                                case 'langue':
-                                    $q->whereJsonContains('langue', $value);
+                                case 'langues':
+                                    $q->whereJsonContains('langues', $value);
                                     break;
                                 case 'pubis':
                                     $q->where('pubis_type_id', (int) $value);
@@ -364,6 +376,9 @@ class EscortSearch extends Component
                                         case 'poitrine':
                                             $q->where('poitrine_id', (int) $value);
                                             break;
+                                        case 'langues':
+                                            $q->whereJsonContains('langues', $value);
+                                            break;
                                         case 'pubis':
                                             $q->where('pubis_type_id', (int) $value);
                                             break;
@@ -383,7 +398,7 @@ class EscortSearch extends Component
                                                 
                                                 $q->where(function ($q) use ($taillesCorrespondantes) {
                                                     foreach ($taillesCorrespondantes as $taille) {
-                                                        $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                        $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
                                                     }
                                                 });
                                             }
@@ -603,7 +618,7 @@ class EscortSearch extends Component
 
                                             $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
                                                 foreach ($taillesCorrespondantes as $taille) {
-                                                    $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                    $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
                                                 }
                                             });
                                         }
@@ -807,7 +822,7 @@ class EscortSearch extends Component
 
                                             $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
                                                 foreach ($taillesCorrespondantes as $taille) {
-                                                    $q->orWhere('TAILLE_POITRINE', 'LIKE', "%{$taille}%");
+                                                    $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
                                                 }
                                             });
                                         }
@@ -846,6 +861,105 @@ class EscortSearch extends Component
                 $escort['ville'] = Ville::find($escort->ville);
             }
         }
+        $selecterCantonInfo = null;
+        $selecterVilleInfo = null;
+        $selecterGenreInfo = null;
+        $selecterCategoriesInfo = null;
+        $selecterServicesInfo = null;
+        $selecterAutreFiltresInfo = null;
+        if($this->selectedCanton){
+            $selecterCantonInfo = Canton::find($this->selectedCanton);
+        }
+        if($this->selectedVille){
+            $selecterVilleInfo = Ville::find($this->selectedVille);
+        }
+        if($this->selectedGenre){
+            $selecterGenreInfo = Genre::find($this->selectedGenre);
+        }
+        if($this->selectedCategories){
+            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedCategories)->get();
+        }
+        if($this->selectedServices){
+            $selecterServicesInfo = Service::whereIn('id', $this->selectedServices)->get();
+        }
+
+        foreach ($this->autreFiltres as $key => $value) {
+            if (!empty($value)) {
+                switch ($key) {
+                    case 'origine':
+                        $origine = $value;
+                        $selecterAutreFiltresInfo['origine'] = $origine;
+                        break;
+                    case 'mensuration':
+
+                        $mensuration = Mensuration::find($value);
+                        $selecterAutreFiltresInfo['mensuration'] = $mensuration;
+                      
+                        break;
+                    case 'orientation':
+                        $orientation = OrientationSexuelle::find($value);
+                        $selecterAutreFiltresInfo['orientation'] = $orientation;
+                        break;
+                    case 'couleur_yeux':
+                        $couleur_yeux = CouleurYeux::find($value);
+                        $selecterAutreFiltresInfo['couleur_yeux'] = $couleur_yeux;
+                        break;
+                    case 'couleur_cheveux':
+                        $couleur_cheveux = CouleurCheveux::find($value);
+                        $selecterAutreFiltresInfo['couleur_cheveux'] = $couleur_cheveux;
+                        break;
+                    case 'poitrine':
+                        $poitrine = Poitrine::find($value);
+                        $selecterAutreFiltresInfo['poitrine'] = $poitrine;
+                        break;
+                    case 'langues':
+                        $langue = $value;
+                        $selecterAutreFiltresInfo['langue'] = $langue;
+                        break;
+                    case 'pubis':
+                        $pubis = PubisType::find($value);
+                        $selecterAutreFiltresInfo['pubis'] = $pubis;
+                        break;
+                    case 'tatouages':
+                        $tatouages = Tattoo::find($value);
+                        $selecterAutreFiltresInfo['tatouages'] = $tatouages;
+                        break;
+                    case 'taille_poitrine':
+                        if($value == 'petite'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.petite');
+                        }
+                        if($value == 'moyenne'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.moyenne');
+                        }
+                        if($value == 'grosse'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.grosse');
+                        }
+                        break;
+                    case 'taille_poitrine_detail':
+                        $taille_poitrine_detail = $value;
+                        $selecterAutreFiltresInfo['taille_poitrine_detail'] = $taille_poitrine_detail;
+                        break;
+                    case 'mobilite':
+                        $mobilite = Mobilite::find($value);
+                        $selecterAutreFiltresInfo['mobilite'] = $mobilite;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        $filterApplay = [
+            'selectedCanton' => $selecterCantonInfo,
+            'selectedVille' => $selecterVilleInfo,
+            'selectedGenre' => $selecterGenreInfo,
+            'selectedCategories' => $selecterCategoriesInfo,
+            'selectedServices' => $selecterServicesInfo,
+            'autreFiltres' => $selecterAutreFiltresInfo,
+            'approximite' => $this->approximite,
+            'showClosestOnly' => $this->showClosestOnly,
+        ];
 
         return view('livewire.escort-search', [
             'escorts' => $paginatedEscorts,
@@ -853,6 +967,7 @@ class EscortSearch extends Component
             'maxDistance' => $this->maxDistance,
             'escortCount' => $this->escortCount,
             'currentLocale' => $currentLocale,
+            'filterApplay' => $filterApplay,
         ]);
     }
 }

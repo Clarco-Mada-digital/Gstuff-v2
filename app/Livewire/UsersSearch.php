@@ -177,8 +177,41 @@ class UsersSearch extends Component
             ]
         );
 
+        $selecterCantonInfo = null;
+        $selecterVilleInfo = null;
+        $selecterGenreInfo = null;
+        $selecterCategoriesInfo = null;
+        $searchInfo = null;
+
+        if($this->search){
+            $searchInfo = $this->search;
+        }
+        if($this->selectedCanton){
+            $selecterCantonInfo = Canton::find($this->selectedCanton);
+        }
+        if($this->selectedVille){
+            $selecterVilleInfo = Ville::find($this->selectedVille);
+        }
+        if($this->selectedGenre){
+            $selecterGenreInfo = Genre::find($this->selectedGenre);
+        }
+        if($this->selectedCategories){
+            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedCategories)->get();
+        }
+     
+
+        $filterApplay = [
+            'selectedCanton' => $selecterCantonInfo,
+            'selectedVille' => $selecterVilleInfo,
+            'selectedGenre' => $selecterGenreInfo,
+            'selectedCategories' => $selecterCategoriesInfo,
+            'search' => $searchInfo,
+          
+        ];
+
         return view('livewire.users-search', [
-            'users' => $paginatedUsers
+            'users' => $paginatedUsers,
+            'filterApplay' => $filterApplay
         ]);
     }
 }

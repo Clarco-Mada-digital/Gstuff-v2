@@ -21,15 +21,15 @@ return [
     'service_categories' => 'Catégories de services',
     'other_filters' => 'Autres filtres',
     'origin' => 'Origine',
-    'measurements' => 'Mensurations',
+    'Silhouette' => 'Silhouette',
     'sexual_orientation' => 'Orientation sexuels',
-    'language' => 'Langue',
-    'hair' => 'Cheveux',
-    'eyes' => 'Yeux',
-    'breast_state' => 'Etat de la poitrine',
+    'language' => 'Langues parlées',
+    'hair' => 'Couleur de cheveux',
+    'eyes' => 'Couleur des yeux',
+    'breast_state' => 'Seins',
     'pubic_hair' => 'Poils pubis',
-    'tattoo' => 'Tatoo',
-    'breast_size' => 'Taille de la poitrine',
+    'tattoo' => 'Tatouages',
+    'breast_size' => 'Taille de la Seins',
     'escort_mobility' => 'Mobilité de l\'escorte',
     'age' => 'Age',
     'height' => 'Tailles',
@@ -44,4 +44,19 @@ return [
     'petite' => 'Petite',
     'moyenne' => 'Moyenne',
     'grosse' => 'Grosse',
+
+
+
+
+    'filtreApply' => 'Filtres appliqués',
+    'canton' => 'Canton',
+    'ville' => 'Ville',
+    'genre' => 'Genre',
+    'categories' => 'Catégories',
+    'services' => 'Services',
+    'other' => 'Autres',
+    'search' => 'Recherche',
+    'nbFille' => 'Nombre de filles',
+    'result0' => '0 Résultat',
+
 ];

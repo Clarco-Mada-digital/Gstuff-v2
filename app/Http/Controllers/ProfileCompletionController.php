@@ -32,6 +32,7 @@ use App\Models\NombreFille;
 use App\Services\DeepLTranslateService;
 use App\Helpers\Locales;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class ProfileCompletionController extends Controller
 {
@@ -499,110 +500,147 @@ class ProfileCompletionController extends Controller
     {
         try {
             // Categories
-            $categories = Categorie::all();
+            $categories = Cache::remember('categories', 60 * 60, function () {
+                return Categorie::all();
+            });
             $genres = Genre::all();
             $pratiquesSexuelles = PratiqueSexuelle::all();
 
             // Orientation Sexuelle
-            $listeOrientationSexuelle = User::where('profile_type', 'escorte')->pluck('orientation_sexuelle_id')->unique();
-            $oriantationSexuelles = OrientationSexuelle::whereIn('id', $listeOrientationSexuelle)->get();
+            // $listeOrientationSexuelle = User::where('profile_type', 'escorte')->pluck('orientation_sexuelle_id')->unique();
+            // $oriantationSexuelles = OrientationSexuelle::whereIn('id', $listeOrientationSexuelle)->get();
+            $oriantationSexuelles = Cache::remember('oriantationSexuelles', 60 * 60, function () {
+                return OrientationSexuelle::all();
+            });
 
             // Origine
-            $listeOrigine = User::where('profile_type', 'escorte')->pluck('origine')->unique();
-            $listeOrigineItems = [];
-            foreach ($listeOrigine as $origine) {
-                if ($origine != null && $origine != '') {
-                    $listeOrigineItems[] = $origine;
-                }
-            }
-            sort($listeOrigineItems, SORT_NATURAL | SORT_FLAG_CASE);
-            $origines = $listeOrigineItems;
+            // $listeOrigine = User::where('profile_type', 'escorte')->pluck('origine')->unique();
+            // $listeOrigineItems = [];
+            // foreach ($listeOrigine as $origine) {
+            //     if ($origine != null && $origine != '') {
+            //         $listeOrigineItems[] = $origine;
+            //     }
+            // }
+            // sort($listeOrigineItems, SORT_NATURAL | SORT_FLAG_CASE);
+            // $origines = $listeOrigineItems;
+            $origines = ['Italienne','Allemande', 'Française', 'Espagnole', 'Suissesse', 'Européene (Autres)', 'Asiatique', 'Africaine', 'Orientale', 'Brésilienne', 'Métissée', 'Autre'];
+            
 
             // Couleurs yeux
-            $listeCouleurYeux = User::where('profile_type', 'escorte')->pluck('couleur_yeux_id')->unique();
-            $couleursYeux = CouleurYeux::whereIn('id', $listeCouleurYeux)->get();
+            // $listeCouleurYeux = User::where('profile_type', 'escorte')->pluck('couleur_yeux_id')->unique();
+            // $couleursYeux = CouleurYeux::whereIn('id', $listeCouleurYeux)->get();
+            $couleursYeux = Cache::remember('couleursYeux', 60 * 60, function () {
+                return CouleurYeux::all();
+            });
 
             // Couleurs cheveux
-            $listeCouleurCheveux = User::where('profile_type', 'escorte')->pluck('couleur_cheveux_id')->unique();
-            $couleursCheveux = CouleurCheveux::whereIn('id', $listeCouleurCheveux)->get();
+            // $listeCouleurCheveux = User::where('profile_type', 'escorte')->pluck('couleur_cheveux_id')->unique();
+            // $couleursCheveux = CouleurCheveux::whereIn('id', $listeCouleurCheveux)->get();
+            $couleursCheveux = Cache::remember('couleursCheveux', 60 * 60, function () {
+                return CouleurCheveux::all();
+            });
 
             // Mensuration
-            $listeMensuration = User::where('profile_type', 'escorte')->pluck('mensuration_id')->unique();
-            $mensurations = Mensuration::whereIn('id', $listeMensuration)->get();
+            // $listeMensuration = User::where('profile_type', 'escorte')->pluck('mensuration_id')->unique();
+            // $mensurations = Mensuration::whereIn('id', $listeMensuration)->get();
+            $mensurations = Cache::remember('mensurations', 60 * 60, function () {
+                return Mensuration::all();
+            });
 
             // Poitrine
-            $listePoitrine = User::where('profile_type', 'escorte')->pluck('poitrine_id')->unique();
-            $poitrines = Poitrine::whereIn('id', $listePoitrine)->get();
+            // $listePoitrine = User::where('profile_type', 'escorte')->pluck('poitrine_id')->unique();
+            // $poitrines = Poitrine::whereIn('id', $listePoitrine)->get();
+            $poitrines = Cache::remember('poitrines', 60 * 60, function () {
+                return Poitrine::all();
+            });
 
             // Taille poitrine
-            $listeTaillePoitrine = User::where('profile_type', 'escorte')->pluck('taille_poitrine')->unique();
-            $liste = [];
-            foreach ($listeTaillePoitrine as $taillePoitrine) {
-                if ($taillePoitrine != null && $taillePoitrine != '') {
-                    $liste[] = $taillePoitrine;
-                }
-            }
-            sort($liste, SORT_NATURAL | SORT_FLAG_CASE);
-            $taillesPoitrine = $liste;
+            // $listeTaillePoitrine = User::where('profile_type', 'escorte')->pluck('taille_poitrine')->unique();
+            // $liste = [];
+            // foreach ($listeTaillePoitrine as $taillePoitrine) {
+            //     if ($taillePoitrine != null && $taillePoitrine != '') {
+            //         $liste[] = $taillePoitrine;
+            //     }
+            // }
+            // sort($liste, SORT_NATURAL | SORT_FLAG_CASE);
+            // $taillesPoitrine = $liste;
+            $taillesPoitrine =['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
 
             // Silhouette
-            $listeSilhouette = User::where('profile_type', 'escorte')->pluck('silhouette_id')->unique();
-            $silhouette = Silhouette::whereIn('id', $listeSilhouette)->get();
+            // $listeSilhouette = User::where('profile_type', 'escorte')->pluck('silhouette_id')->unique();
+            // $silhouette = Silhouette::whereIn('id', $listeSilhouette)->get();
+            $silhouette = Cache::remember('silhouette', 60 * 60, function () {
+                return Silhouette::all();
+            });
 
             // Pubis
-            $listePubis = User::where('profile_type', 'escorte')->pluck('pubis_type_id')->unique();
-            $pubis = PubisType::whereIn('id', $listePubis)->get();
+            // $listePubis = User::where('profile_type', 'escorte')->pluck('pubis_type_id')->unique();
+            // $pubis = PubisType::whereIn('id', $listePubis)->get();
+            $pubis = Cache::remember('pubis', 60 * 60, function () {
+                return PubisType::all();
+            });
 
             // Tatouages
-            $listeTatouage = User::where('profile_type', 'escorte')->pluck('tatoo_id')->unique();
-            $tatouages = Tattoo::whereIn('id', $listeTatouage)->get();
+            // $listeTatouage = User::where('profile_type', 'escorte')->pluck('tatoo_id')->unique();
+            // $tatouages = Tattoo::whereIn('id', $listeTatouage)->get();
+            $tatouages = Cache::remember('tatouages', 60 * 60, function () {
+                return Tattoo::all();
+            });
 
             // Mobilités
-            $listeMobilite = User::where('profile_type', 'escorte')->pluck('mobilite_id')->unique();
-            $mobilites = Mobilite::whereIn('id', $listeMobilite)->get();
+            // $listeMobilite = User::where('profile_type', 'escorte')->pluck('mobilite_id')->unique();
+            // $mobilites = Mobilite::whereIn('id', $listeMobilite)->get();
+            $mobilites = Cache::remember('mobilites', 60 * 60, function () {
+                return Mobilite::all();
+            });
 
             // Paiements
-            $paiementsArray = [];
-            $listePaiements = User::where('profile_type', 'escorte')
-                ->whereNotNull('paiement')
-                ->pluck('paiement');
+            // $paiementsArray = [];
+            // $listePaiements = User::where('profile_type', 'escorte')
+            //     ->whereNotNull('paiement')
+            //     ->pluck('paiement');
 
           
 
-            foreach ($listePaiements as $paiementItem) {
-                $paiementsExplode = explode(',', $paiementItem);
-                foreach ($paiementsExplode as $paiement) {
-                    $paiement = trim($paiement);
-                    if (!empty($paiement) && !in_array($paiement, $paiementsArray)) {
-                        $paiementsArray[] = $paiement;
-                    }
-                }
-            }
+            // foreach ($listePaiements as $paiementItem) {
+            //     $paiementsExplode = explode(',', $paiementItem);
+            //     foreach ($paiementsExplode as $paiement) {
+            //         $paiement = trim($paiement);
+            //         if (!empty($paiement) && !in_array($paiement, $paiementsArray)) {
+            //             $paiementsArray[] = $paiement;
+            //         }
+            //     }
+            // }
 
-            sort($paiementsArray, SORT_NATURAL | SORT_FLAG_CASE);
-            $paiements = array_values(array_unique($paiementsArray));
+            // sort($paiementsArray, SORT_NATURAL | SORT_FLAG_CASE);
+            // $paiements = array_values(array_unique($paiementsArray));
+            $paiements = ['CHF', 'Euros', 'Dollars', 'Twint', 'Visa', 'Mastercard', 'American Express', 'Maestro', 'Postfinance', 'Bitcoin'];
+
 
             // Nombre filles
             $nombreFilles = NombreFille::all();
 
             // Langues
-            $languesArray = [];
-            $listeLangues = User::where('profile_type', 'escorte')
-                ->whereNotNull('langues')
-                ->pluck('langues');
+            // $languesArray = [];
+            // $listeLangues = User::where('profile_type', 'escorte')
+            //     ->whereNotNull('langues')
+            //     ->pluck('langues');
 
-            foreach ($listeLangues as $langueItem) {
-                $languesExplode = explode(',', $langueItem);
-                foreach ($languesExplode as $langue) {
-                    $langue = trim($langue);
-                    if (!empty($langue) && !in_array($langue, $languesArray)) {
-                        $languesArray[] = $langue;
-                    }
-                }
-            }
+            // foreach ($listeLangues as $langueItem) {
+            //     $languesExplode = explode(',', $langueItem);
+            //     foreach ($languesExplode as $langue) {
+            //         $langue = trim($langue);
+            //         if (!empty($langue) && !in_array($langue, $languesArray)) {
+            //             $languesArray[] = $langue;
+            //         }
+            //     }
+            // }
 
-            sort($languesArray, SORT_NATURAL | SORT_FLAG_CASE);
-            $langues = array_values(array_unique($languesArray));
+            // sort($languesArray, SORT_NATURAL | SORT_FLAG_CASE);
+            // $langues = array_values(array_unique($languesArray));
+            $langues = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+
 
             // Tarifs
             $tarifs = [100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800];

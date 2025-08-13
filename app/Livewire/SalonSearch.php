@@ -518,10 +518,39 @@ class SalonSearch extends Component
             }
         }
 
+
+
+        $selecterCantonInfo = null;
+        $selecterVilleInfo = null;
+        $selecterCategoriesInfo = null;
+        $selecterNombreFilleInfo = null;
+        if($this->selectedSalonCanton){
+            $selecterCantonInfo = Canton::find($this->selectedSalonCanton);
+        }
+        if($this->selectedSalonVille){
+            $selecterVilleInfo = Ville::find($this->selectedSalonVille);
+        }
+
+        if($this->selectedSalonCategories){
+            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedSalonCategories)->get();
+        }
+        if($this->nbFilles){
+            $selecterNombreFilleInfo = NombreFille::whereIn('id', $this->nbFilles)->get();
+        }
+
+      
+        $filterApplay = [
+            'selectedCanton' => $selecterCantonInfo,
+            'selectedVille' => $selecterVilleInfo,
+            'selectedCategories' => $selecterCategoriesInfo,
+            'nbFilles' => $selecterNombreFilleInfo,
+        ];
+
         return view('livewire.salon-search', [
             'salons' => $paginatedSalons,
             'maxDistance' => $this->maxDistance,
             'salonCount' => $this->salonCount,
+            'filterApplay' => $filterApplay,
         ]);
     }
 }

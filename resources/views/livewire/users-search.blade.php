@@ -121,4 +121,86 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
       </div>
   </div>
+
+
+  @if($users->count() == 0)
+    <div class="flex flex-col items-center justify-center py-10 px-4">
+    <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl"> {{ __('escort-search.result0') }}</h1>
+
+        <p class="text-xl font-semibold text-gray-800 mb-4">
+            {{ __('escort-search.filtreApply') }}
+        </p>
+
+        <div class="w-full  bg-white shadow-md rounded-lg p-6 space-y-6">
+
+        {{-- search --}}
+            @if(isset($filterApplay['search']) && $filterApplay['search'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.search') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">{{ $filterApplay['search'] }}</span>
+                    </div>
+                </div>
+            @endif
+            {{-- Canton, Ville, Genre en ligne --}}
+            <div class="flex flex-wrap gap-2 items-center justify-center">
+                @if(isset($filterApplay['selectedCanton']) && $filterApplay['selectedCanton'])
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.canton') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedCanton']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($filterApplay['selectedVille']) && $filterApplay['selectedVille'])
+                 
+
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.ville') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedVille']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($filterApplay['selectedGenre']) && $filterApplay['selectedGenre'])
+                   
+
+                    
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.genre') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedGenre']['name'] }}
+                    </span>
+                    </div>
+                </div>
+
+                @endif
+            </div>
+
+            {{-- Catégories --}}
+            @if(isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['selectedCategories'] as $category)
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+           
+        </div>
+    </div>
+@endif
+
+
+
 </div>

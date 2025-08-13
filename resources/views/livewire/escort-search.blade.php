@@ -180,6 +180,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
        
     </div>
 
+ 
+
 
     {{-- Resultats --}}
     <div class="container mx-auto px-4 py-10 xl:py-20">
@@ -210,7 +212,123 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     wire:key='{{ $escort->id }}' />
             @endforeach
         </div>
+
+      
+
         <div class="mt-10">{{ $escorts->links('pagination::simple-tailwind') }}</div>
+
+        @if($escortCount == 0)
+    <div class="flex flex-col items-center justify-center py-10 px-4">
+        <p class="text-xl font-semibold text-gray-800 mb-4">
+            {{ __('escort-search.filtreApply') }}
+        </p>
+
+        <div class="w-full  bg-white shadow-md rounded-lg p-6 space-y-6">
+            {{-- Canton, Ville, Genre en ligne --}}
+            <div class="flex flex-wrap gap-2 items-center justify-center">
+                @if(isset($filterApplay['selectedCanton']) && $filterApplay['selectedCanton'])
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.canton') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedCanton']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($filterApplay['selectedVille']) && $filterApplay['selectedVille'])
+                 
+
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.ville') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedVille']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($filterApplay['selectedGenre']) && $filterApplay['selectedGenre'])
+                   
+
+                    
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.genre') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedGenre']['name'] }}
+                    </span>
+                    </div>
+                </div>
+
+                @endif
+            </div>
+
+            {{-- Catégories --}}
+            @if(isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['selectedCategories'] as $category)
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            {{-- Services --}}
+            @if(isset($filterApplay['selectedServices']) && $filterApplay['selectedServices'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.services') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['selectedServices'] as $service)
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">{{ $service['nom'] }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            {{-- Autres filtres --}}
+            @if(isset($filterApplay['autreFiltres']) && $filterApplay['autreFiltres'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.autre_filtres') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['autreFiltres'] as $subKey => $subValue)
+                            @php
+                                $labels = [
+                                    'origine' => __('escort-search.origin'),
+                                    'mensuration' => __('escort-search.Silhouette'),
+                                    'orientation' => __('escort-search.sexual_orientation'),
+                                    'couleur_yeux' => __('escort-search.eyes'),
+                                    'couleur_cheveux' => __('escort-search.hair'),
+                                    'poitrine' => __('escort-search.breast_state'),
+                                    'langues' => __('escort-search.language'),
+                                    'pubis' => __('escort-search.pubis'),
+                                    'tatouages' => __('escort-search.tattoo'),
+                                    'mobilite' => __('escort-search.escort_mobility'),
+                                    'taille_poitrine' => __('escort-search.breast_size'),
+                                    'taille_poitrine_detail' => __('escort-search.breast_size'),
+                                ];
+                            @endphp
+
+                            @if(array_key_exists($subKey, $labels))
+                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">
+                                    {{ $labels[$subKey] }} :
+                                    {{ is_object($subValue) ? $subValue->name : $subValue }}
+                                </span>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+@endif
+
+
+
     </div>
 
     {{-- Recherche modal --}}
@@ -243,11 +361,38 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col  gap-3 p-4 md:p-5 md:pb-20 h-[70vh] overflow-y-auto">
+                <div class="relative flex flex-col  gap-3 p-4 md:p-5 md:pb-20 h-[70vh] md:h-[60vh]  overflow-y-auto">
                     <h3 class="font-roboto-slab text-green-gs text-2xl md:text-3xl">
                         {{ __('escort-search.service_categories') }}</h3>
-                    <div x-data="{ open: false }" class="w-full">
-                        
+                    <div x-data="{ open: true }" class="w-full">
+                        <button @click="open = !open"
+                            class="hover:bg-green-gs w-full rounded-lg border border-2 border-supaGirlRose text-green-gs hover:text-white p-2 text-left hover:text-amber-400 sm:hidden bg-fieldBg">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium">{{ __('escort-search.service_categories') }}</span>
+                                <svg :class="{ 'rotate-180': open }" class="h-4 w-4 transform transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </button>
+                        <div x-show="open" x-transition class="mt-2 sm:hidden">
+                            <div class="flex flex-wrap items-center gap-4 h-[25vh] py-4 overflow-y-auto sm:hidden">
+                                @foreach ($services as $service)
+                                    <div class="my-1">
+                                        <input wire:model.live='selectedServices' id="services-{{ $service->id }}"
+                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
+                                            value="{{ $service->id }}" />
+                                        <label for="services-{{ $service->id }}"
+                                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
+                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
+                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
+                                            {{ $service->nom }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="hidden sm:block">
                             <div class="flex flex-wrap items-center gap-4">
                                 @foreach ($services as $service)
@@ -265,50 +410,12 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                 @endforeach
                             </div>
                         </div>
-
-
-
-
-                        <div id="carousel-container" class="relative  w-full p-2 h-auto overflow-x-hidden sm:hidden">
-                    <!-- Conteneur des slides -->
-                    <div class="carousel-slides flex transition-transform duration-300 h-auto">
-                        @foreach ($services as $service)
-                           
-                            <div class="my-1 carousel-slide">
-                                        <input wire:model.live='selectedServices' id="services{{ $service->id }}"
-                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
-                                            value="{{ $service->id }}" />
-                                        <label for="services{{ $service->id }}"
-                                        class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
-                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
-                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
-                                            {{ $service->nom }}
-                                        </label>
-                                    </div>
-                        @endforeach
-                    </div>
-                    <!-- Boutons de navigation -->
-                    <button class="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full z-10">
-                        &lt;
-                    </button>
-                    <button class="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full z-10">
-                        &gt;
-                    </button>
-                </div>
-
-
-
-
-
-
-
-
-
+                        
                     </div>
                     <h3 class="text-green-gs font-roboto-slab text-2xl md:text-3xl">
                         {{ __('escort-search.other_filters') }}</h3>
-                    <div
-                        class="grid w-full grid-cols-1 items-center justify-between gap-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
+                        <div
+    class="grid w-full grid-cols-2 items-center justify-between gap-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 h-[25vh] md:h-[40vh] overflow-y-auto md:overflow-visible">
                         <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
                             <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
                                 class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
@@ -318,23 +425,22 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                 </template>
                             </select>
                         </template>
-                        <!-- Debug Info -->
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
-                        <option selected value=""> {{ __('escort-search.measurements') }} </option>
+                        <option selected value=""> {{ __('escort-search.Silhouette') }} </option>
                             <template x-for="mensuration in dropdownData['mensurations']">
                                 <option :value="mensuration.id" x-text="mensuration.name[currentLocale]"></option>
                             </template>
                         </select>
 
-                        <select wire:model.live="autreFiltres.orientation" id="orientation" name="orientation"
+                        <!-- <select wire:model.live="autreFiltres.orientation" id="orientation" name="orientation"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.sexual_orientation') }} </option>
                             <template x-for="orientation in dropdownData['oriantationSexuelles']">
                                 <option :value="orientation.id" x-text="orientation.name[currentLocale]"></option>
                             </template>
-                        </select>
+                        </select> -->
                         <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.language') }} </option>
@@ -360,7 +466,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.breast_state') }} </option>
                             <template x-for="poitrine in dropdownData['poitrines']">
-                                <option value="poitrine.id" x-text="poitrine.name[currentLocale]"></option>
+                                <option :value="poitrine.id" x-text="poitrine.name[currentLocale]"></option>
                             </template>
                         </select>
 
@@ -371,14 +477,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.pubic_hair') }} </option>
                             <template x-for="pubis in dropdownData['pubis']">
-                                <option value="pubis.id" x-text="pubis.name[currentLocale]"></option>
+                                <option :value="pubis.id" x-text="pubis.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.tatouages" id="tatouages" name="tatouages"
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.tattoo') }} </option>
                             <template x-for="tatous in dropdownData['tatouages']">
-                                <option value="tatous.id" x-text="tatous.name[currentLocale]"></option>
+                                <option :value="tatous.id" x-text="tatous.name[currentLocale]"></option>
                             </template>
                         </select>
 
@@ -426,7 +532,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.escort_mobility') }} </option>
                             <template x-for="mobilite in dropdownData['mobilites']">
-                                <option value="mobilite.id" x-text="mobilite.name[currentLocale]"></option>
+                                <option :value="mobilite.id" x-text="mobilite.name[currentLocale]"></option>
                             </template>
                         </select>
                         <div></div>
@@ -458,46 +564,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         <span class="ml-2">Réinitialiser</span>
                     </button>
                     <button class="flex items-center justify-center p-2 font-roboto-slab text-green-gs hover:text-supaGirlRosePastel bg-supaGirlRosePastel hover:bg-green-gs rounded-sm text-sm " data-modal-hide="search-escorte-modal">
-                        <i class="fa-solid fa-rotate"></i>
-                        <span class="">Rechercher ({{ $escortCount }})</span>
+                   
+                        <span class="">Rechercher ( {{$escortCount }})</span>
                     </button>
                 </div>
 
             </div>
         </div>
     </div>
-
-
-
-    
-    <style>
-    /* Styles de base pour le carousel */
-    .carousel-container {
-        position: relative;
-        width: 100%;
-        margin: 20px;
-    
-    }
-
-    .carousel-slides {
-        display: flex;
-        transition: transform 0.3s ease;
-    }
-
-    .carousel-slide {
-        flex: 0 0 auto;
-        padding: 0 8px;
-    }
-
-    /* Ajustements pour les petits écrans */
-    @media (max-width: 640px) {
-
-        .carousel-prev, .carousel-next {
-            padding: 4px 8px;
-            font-size: 12px;
-        }
-    }
-</style>
 </div>
 
 <script>
@@ -518,50 +592,5 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         Livewire.on('updatedMaxDistanceSelected', value => {
             document.getElementById('maxDistanceValue').textContent = value;
         });
-
-        const carouselSlides = document.querySelector('.carousel-slides');
-    const carouselContainer = document.getElementById('carousel-container');
-    const prevButton = document.querySelector('.carousel-prev');
-    const nextButton = document.querySelector('.carousel-next');
-    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
-    const slideWidth = 150; // Largeur de chaque slide (ajustez selon vos besoins)
-
-    // Dupliquer les éléments pour l'effet infini
-    const firstSlideClone = slides[0].cloneNode(true);
-    const lastSlideClone = slides[slides.length - 1].cloneNode(true);
-    carouselSlides.appendChild(firstSlideClone);
-    carouselSlides.insertBefore(lastSlideClone, carouselSlides.firstChild);
-
-    let position = 1; // Commencez à 1 pour éviter le dernier clone au début
-
-    // Fonction pour déplacer le carousel
-    function moveCarousel(direction) {
-        position += direction;
-
-        // Si on atteint le dernier clone, revenir au début
-        if (position >= slides.length) {
-            carouselSlides.style.transition = 'none';
-            position = 1;
-            carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
-            setTimeout(() => {
-                carouselSlides.style.transition = 'transform 0.3s ease';
-            }, 10);
-        }
-        // Si on atteint le premier clone, revenir à la fin
-        else if (position <= 0) {
-            carouselSlides.style.transition = 'none';
-            position = slides.length - 2;
-            carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
-            setTimeout(() => {
-                carouselSlides.style.transition = 'transform 0.3s ease';
-            }, 10);
-        }
-
-        carouselSlides.style.transform = `translateX(-${position * slideWidth}px)`;
-    }
-
-    // Événements pour les boutons
-    prevButton.addEventListener('click', () => moveCarousel(-1));
-    nextButton.addEventListener('click', () => moveCarousel(1));
     });
 </script>

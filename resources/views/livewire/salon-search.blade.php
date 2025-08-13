@@ -197,5 +197,70 @@
             @endforeach
         </div>
         <div class="mt-10">{{ $salons->links('pagination::simple-tailwind') }}</div>
+
+        @if($salonCount == 0)
+    <div class="flex flex-col items-center justify-center py-10 px-4">
+        <p class="text-xl font-semibold text-gray-800 mb-4">
+            {{ __('escort-search.filtreApply') }}
+        </p>
+
+        <div class="w-full  bg-white shadow-md rounded-lg p-6 space-y-6">
+            {{-- Canton, Ville, Genre en ligne --}}
+            <div class="flex flex-wrap gap-2 items-center justify-center">
+                @if(isset($filterApplay['selectedCanton']) && $filterApplay['selectedCanton'])
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.canton') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedCanton']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                @endif
+
+                @if(isset($filterApplay['selectedVille']) && $filterApplay['selectedVille'])
+                 
+
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.ville') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                        {{ $filterApplay['selectedVille']['nom'] }}
+                    </span>
+                    </div>
+                </div>
+                
+                @endif
+            </div>
+
+            {{-- Catégories --}}
+            @if(isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['selectedCategories'] as $category)
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            {{-- NbFille --}}
+            @if(isset($filterApplay['nbFilles']) && $filterApplay['nbFilles'])
+                <div class="flex flex-wrap gap-2 items-center justify-center">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.nbFille') }} :</p>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($filterApplay['nbFilles'] as $nbFille)
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">{{ $nbFille['name']}}</span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+         
+        </div>
+    </div>
+@endif
+
     </div>
 </div>
