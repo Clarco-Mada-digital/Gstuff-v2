@@ -31,6 +31,7 @@ use App\Http\Controllers\DistanceMaxController;
 
 use App\Http\Controllers\ProfileVisibilityController;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\OtherController;
 
 use App\Models\Genre;
 use Livewire\Livewire;
@@ -138,6 +139,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
         Route::post('/restore/upload/chunk', [BackupController::class, 'uploadChunk'])->name('restore.upload.chunk');
         Route::post('/restore/upload/complete', [BackupController::class, 'uploadComplete'])->name('restore.upload.complete');
     });
+
+    Route::get('/others', [OtherController::class, 'index'])->name('others.index');
     
     // Static page
     Route::resource('static-pages', StaticPageController::class);

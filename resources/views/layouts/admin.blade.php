@@ -105,6 +105,12 @@
                         badge: null
                     },
                     {
+                        label: '{{ __('admin_panel.others') }}',
+                        route: '{{ route('others.index') }}',
+                        icon: '💬',
+                        badge: null
+                    },
+                    {
                         label: '{{ __('admin_panel.settings') }}',
                         route: '{{ route('backups.index') }}',
                         icon: '⚙️',
