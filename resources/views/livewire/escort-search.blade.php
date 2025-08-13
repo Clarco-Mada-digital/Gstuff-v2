@@ -293,8 +293,9 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             {{-- Autres filtres --}}
             @if(isset($filterApplay['autreFiltres']) && $filterApplay['autreFiltres'])
                 <div class="flex flex-wrap gap-2 items-center justify-center">
-                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.autre_filtres') }} :</p>
+                 
                     <div class="flex flex-wrap gap-2">
+                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.autre_filtres') }} :</p>
                         @foreach ($filterApplay['autreFiltres'] as $subKey => $subValue)
                             @php
                                 $labels = [

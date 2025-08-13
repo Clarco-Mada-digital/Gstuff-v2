@@ -56,4 +56,5 @@ return [
     'search' => 'Suche',
     'nbFille' => 'Anzahl der Mädchen',
     'result0' => '0 Ergebnis',
+    'autre_filtres' => 'Weitere Filter',
 ];
