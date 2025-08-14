@@ -22,4 +22,9 @@ class PratiqueSexuelle extends Model
         'name' => 'array',
         'is_active' => 'boolean'
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'pratique_sexuelle_id');
+    }
 }

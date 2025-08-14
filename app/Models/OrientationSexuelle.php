@@ -22,4 +22,9 @@ class OrientationSexuelle extends Model
         'name' => 'array',
         'is_active' => 'boolean'
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'orientation_sexuelle_id');
+    }
 }

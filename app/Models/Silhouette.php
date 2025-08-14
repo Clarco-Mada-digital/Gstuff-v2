@@ -11,4 +11,9 @@ class Silhouette extends Model
 
     public $translatable = ['name'];
     protected $fillable = ['name'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'silhouette_id');
+    }
 }

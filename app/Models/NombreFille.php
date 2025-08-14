@@ -14,6 +14,6 @@ class NombreFille extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'nombre_fille_id');
     }
 }

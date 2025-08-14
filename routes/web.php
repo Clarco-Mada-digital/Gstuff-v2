@@ -141,7 +141,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function() {
     });
 
     Route::get('/others', [OtherController::class, 'index'])->name('others.index');
-    
+    Route::put('/dropdown/{type}/{id}', [OtherController::class, 'updateItem']);
+    Route::post('/dropdown/{type}', [OtherController::class, 'addItem']);
+    Route::delete('/dropdown/{type}/{id}', [OtherController::class, 'deleteItem']);
     // Static page
     Route::resource('static-pages', StaticPageController::class);
     Route::get('/static-create', [StaticPageController::class, 'create'])->name('static.create');
@@ -234,6 +236,7 @@ Route::post('/profile/update', [ProfileCompletionController::class, 'updateProfi
 Route::post('/profile/update-photo', [ProfileCompletionController::class, 'updatePhoto'])->name('profile.update-photo');
 Route::get('/profile-completion-percentage', [ProfileCompletionController::class, 'getProfileCompletionPercentage'])->name('profile.completion.percentage');
 Route::get('/dropdown-data', [ProfileCompletionController::class, 'getDropdownData'])->name('dropdown.data');
+Route::get('/dropdown-data-admin', [ProfileCompletionController::class, 'getDropdownDataAdmin'])->name('dropdown.data.admin');
 Route::post('/profile/update-verification', [ProfileCompletionController::class, 'updateVerification'])->name('profile.updateVerification');
 Route::post('/stories', [StoryController::class, 'store'])->name('stories.store');
 Route::delete('/stories/{id}', [StoryController::class, 'destroy'])->name('stories.destroy');

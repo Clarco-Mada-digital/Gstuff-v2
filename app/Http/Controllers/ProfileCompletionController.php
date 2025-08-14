@@ -675,6 +675,8 @@ class ProfileCompletionController extends Controller
 
 
 
+
+
     public function getProfileCompletionPercentage()
     {
         $user = Auth::user();
@@ -980,5 +982,91 @@ class ProfileCompletionController extends Controller
         
 
     }
+
+
+    public function getDropdownDataAdmin()
+    {
+        try {
+            $categories = Categorie::all()->map(function ($categorie) {
+                $count = User::where('profile_type', 'escorte')
+                    ->whereRaw("categorie::jsonb @> ?", [json_encode($categorie->id)])
+                    ->count();
+            
+                $categorie->users_count = $count;
+                return $categorie;
+            });
+            
+            $genres = Genre::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $pratiquesSexuelles = PratiqueSexuelle::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $orientationSexuelle = OrientationSexuelle::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $couleursYeux = CouleurYeux::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $couleursCheveux = CouleurCheveux::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $mensurations = Mensuration::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $poitrines = Poitrine::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $silhouette = Silhouette::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $pubis = PubisType::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $tatouages = Tattoo::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $mobilites = Mobilite::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->get();
+    
+            $nombreFilles = NombreFille::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'salon');
+            }])->get();
+    
+            return response()->json([
+                'genres' => $genres,
+                'orientationSexuelle' => $orientationSexuelle,
+                'silhouette' => $silhouette,
+                'categories' => $categories,
+                'pratiquesSexuelles' => $pratiquesSexuelles,
+                'couleursYeux' => $couleursYeux,
+                'couleursCheveux' => $couleursCheveux,
+                'mensurations' => $mensurations,
+                'poitrines' => $poitrines,
+                'pubis' => $pubis,
+                'tatouages' => $tatouages,
+                'mobilites' => $mobilites,
+                'nombreFilles' => $nombreFilles,
+            ]);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Une erreur est survenue lors de la récupération des données.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
     
 }

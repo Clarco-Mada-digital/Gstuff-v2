@@ -14,6 +14,9 @@ class Tattoo extends Model
     public $translatable = ['name'];
     protected $fillable = ['name'];
 
-
+    public function users()
+    {
+        return $this->hasMany(User::class, 'tatoo_id');
+    }
 
 }
