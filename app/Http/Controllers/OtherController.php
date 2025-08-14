@@ -13,7 +13,7 @@ use App\Models\CouleurYeux;
 use App\Models\CouleurCheveux;
 use App\Models\Mensuration;
 use App\Models\Poitrine;
-use App\Models\Pubis;
+use App\Models\PubisType;
 use App\Models\Tatouage;
 use App\Models\Mobilite;
 use App\Services\DeepLTranslateService;
@@ -77,7 +77,7 @@ class OtherController extends Controller
             $item->type = $request->type;
             $item->update();
             return response()->json(['success' => true, 'data' => $item]);
-        }elseif($type == 'nombreFilles' || $type == 'couleursCheveux' || $type == 'mensurations' || $type == 'poitrines'){
+        }elseif($type == 'nombreFilles' || $type == 'couleursCheveux' || $type == 'mensurations' || $type == 'poitrines' || $type == 'pubis' || $type == 'tatouages' || $type == 'mobilites'){
             $item->setTranslation('name', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
                 $item->setTranslation('name', $locale, $name);
@@ -113,7 +113,12 @@ class OtherController extends Controller
         logger()->info($request->all());
         logger()->info($type);
         // Détermine le modèle en fonction du type
-        $modelClass = $this->getModelClass($type);
+
+        if($type == 'pubis'){
+            $modelClass = PubisType::class;
+        }else{
+            $modelClass = $this->getModelClass($type);
+        }
         if (!$modelClass) {
             return response()->json(['error' => 'Type invalide'], 400);
         }
@@ -143,7 +148,7 @@ class OtherController extends Controller
             $item->type = $request->type;
             $item->save();
             return response()->json(['success' => true, 'data' => $item]);
-        }elseif($type == 'nombreFilles' || $type == "couleursCheveux" || $type == "mensurations" || $type == 'poitrines'){
+        }elseif($type == 'nombreFilles' || $type == "couleursCheveux" || $type == "mensurations" || $type == 'poitrines' || $type == 'pubis' || $type == 'tatouages' || $type == 'mobilites'){
             
             $item->setTranslation('name', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
@@ -200,7 +205,7 @@ class OtherController extends Controller
             'couleursCheveux' => CouleurCheveux::class,
             'mensurations' => Mensuration::class,
             'poitrines' => Poitrine::class,
-            'pubis' => Pubis::class,
+            'pubis' => PubisType::class,
             'tatouages' => Tatouage::class,
             'mobilites' => Mobilite::class,
         ];
