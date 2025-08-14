@@ -11,6 +11,7 @@ class SalonCard extends Component
     public string $ville;
     public float $salonId;
     public $avatar;
+    public string $profileVerifie;
 
     public function render()
     {

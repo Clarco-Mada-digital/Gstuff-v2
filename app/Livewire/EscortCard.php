@@ -13,6 +13,7 @@ class EscortCard extends Component
     public string $distance;
     public float $escortId;
     public bool $isOnline = false;
+    public string $profileVerifie;
 
     public function render()
     {

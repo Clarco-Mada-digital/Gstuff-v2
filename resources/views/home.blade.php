@@ -88,7 +88,7 @@
                     @foreach ($escorts->take(10) as $escort)
                         <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                             ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
-                            isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' />
+                            isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
                     @endforeach
                 </div>
                 <div id="arrowEscortScrollRight"
@@ -119,7 +119,7 @@
                     @foreach ($salons->take(10) as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
-                            salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' />
+                            salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' />
                     @endforeach
                     @if ($salons == '[]')
                         <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">{{ __('home.no_salon_yet') }}
@@ -156,7 +156,7 @@
                 @foreach ($escorts->take(30) as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
-                        isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' />
+                        isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
                 @endforeach
 
             </div>

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "profile_verifie" => "Profil verifiziert!",
+    
     "phoneError" => "Die Telefonnummer muss genau 10 Ziffern enthalten",
     "phoneHelp" => "Format: 10 Ziffern (z.B. 0761234567)",
     

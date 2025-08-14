@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "profile_verifie" => "Profilo verificato!",
+    
     "phoneError" => "Il numero di telefono deve contenere esattamente 10 cifre",
     "phoneHelp" => "Formato: 10 cifre (es. 3471234567)",
     

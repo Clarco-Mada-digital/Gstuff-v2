@@ -2,6 +2,8 @@
 
 return [
 
+    "profile_verifie" => "Profil vérifié!",
+    
     "phoneError" => "Le numéro de téléphone doit contenir exactement 10 chiffres",
     "phoneHelp" => "Format: 10 chiffres (ex: 0612345678)",
     

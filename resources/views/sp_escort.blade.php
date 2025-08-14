@@ -34,17 +34,28 @@
                 </span>
             </div>
             <div class="-mt-[25%] ml-3 flex flex-col items-center justify-center md:-mt-[10%] xl:-mt-[25%]">
-                <p class="flex items-center gap-2 font-bold font-roboto-slab">{{ Str::ucfirst($escort->prenom) }} @if ($escort->profile_verifie == 'verifier')
-                        <svg xmlns="http://www.w3.org/2000/svg" title="{{ __('escort_profile.verified_profile') }}"
-                            class="h55 text-green-gs inline-block w-5" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8s8-3.59 8-8s-3.59-8-8-8m-2 13l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9z"
-                                opacity=".3" />
-                            <path fill="currentColor"
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4l8-8z" />
-                        </svg>
-                    @endif
-                </p>
+            <p class="flex items-center gap-2 font-bold font-roboto-slab">
+    {{ Str::ucfirst($escort->prenom) }}
+
+    @if ($escort->profile_verifie === 'verifier')
+        <span class="relative group flex items-center justify-center" title="{{ __('escort_profile.verified_profile') }}">
+            <svg fill="#000000" width="25px" height="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                 class="icon flat-line text-green-700">
+                <rect x="3" y="3" width="18" height="18" rx="9" fill="#f9cdf3" />
+                <polyline points="8 11.5 11 14.5 16 9.5"
+                          style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
+                <rect x="3" y="3" width="18" height="18" rx="9"
+                      style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
+            </svg>
+
+            <span class="absolute bottom-full mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                {{ __('profile.profile_verifie') }}
+            </span>
+        </span>
+    @endif
+</p>
+
+
                 <p class="{{ $escort->isOnline() ? 'text-green-gs' : 'text-gray-500' }} text-sm font-roboto-slab">
                     ({{ $escort->last_seen_for_humans }})
                 </p>
