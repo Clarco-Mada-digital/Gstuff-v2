@@ -77,6 +77,13 @@ class OtherController extends Controller
             $item->type = $request->type;
             $item->update();
             return response()->json(['success' => true, 'data' => $item]);
+        }elseif($type == 'nombreFilles'){
+            $item->setTranslation('name', $sourceLocale, $request->name);
+            foreach ($translatedName as $locale => $name) {
+                $item->setTranslation('name', $locale, $name);
+            }
+            $item->update();
+            return response()->json(['success' => true, 'data' => $item]);
         }else{
             $item->setTranslation('name', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
@@ -131,7 +138,16 @@ class OtherController extends Controller
             $item->type = $request->type;
             $item->save();
             return response()->json(['success' => true, 'data' => $item]);
-        }else{
+        }elseif($type == 'nombreFilles'){
+            
+            $item->setTranslation('name', $sourceLocale, $request->name);
+            foreach ($translatedName as $locale => $name) {
+                $item->setTranslation('name', $locale, $name);
+            }
+            $item->save();
+            return response()->json(['success' => true, 'data' => $item]);
+        }
+        else{
             $item->setTranslation('name', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
                 $item->setTranslation('name', $locale, $name);
