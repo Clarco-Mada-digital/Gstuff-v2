@@ -18,6 +18,7 @@ use App\Models\Tattoo;
 use App\Models\Mobilite;
 use App\Services\DeepLTranslateService;
 use App\Helpers\Locales;
+use Illuminate\Support\Str;
 
 class OtherController extends Controller
 {
@@ -171,7 +172,8 @@ class OtherController extends Controller
                 $item->setTranslation('name', $locale, $name);
             }
             if($type !== 'silhouette' ){
-                $item->slug = $request->slug;
+                $slug = Str::slug($item->getTranslation('name', 'fr') ?? 'untitled');
+                $item->slug = $slug;
             }
             $item->save();
             return response()->json(['success' => true, 'data' => $item]);
@@ -219,5 +221,24 @@ class OtherController extends Controller
         ];
 
         return $models[$type] ?? null;
+    }
+
+    /**
+     * Génère un slug à partir d'une chaîne.
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function slugify(string $string): string
+    {
+        // Convertit en minuscules, remplace les espaces et caractères spéciaux
+        $slug = Str::of($string)
+            ->lower()
+            ->trim()
+            ->preg_replace('/[^a-z0-9-]+/', '-', $string)
+            ->preg_replace('/-+/', '-', $string)
+            ->preg_replace('/^-|-$/', '', $string);
+
+        return $slug ?: 'untitled'; // Retourne 'untitled' si la chaîne est vide
     }
 }
