@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('pageTitle', __('nextstep.page_title'))
+@section('pageTitle', __('nextStep.page_title'))
 @section('content')
     <div class="relative flex h-[50vh] w-full items-center justify-center bg-cover bg-center">
         <div id="background" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"

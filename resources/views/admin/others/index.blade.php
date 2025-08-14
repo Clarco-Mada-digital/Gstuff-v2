@@ -3,11 +3,11 @@
 <div class="w-full bg-gray-100 min-h-screen p-5">
     <div class="w-full p-5">
         <h1 class="text-3xl font-bold text-gray-800">{{ __('others.parametres') }}</h1>
-        <p class="text-gray-600 mb-6">Gérez les paramètres sous forme de tableaux.</p>
+   
         <!-- Champ de recherche global pour les sections -->
-        <div class="mb-6">
-            <div class="relative">
-                <input type="text" id="global-search" class="p-2 border rounded w-full max-w-md pr-10" placeholder="Rechercher un tableau (ex: genre, silhouette)...">
+        <div class="mb-6 mt-6">
+            <div class="relative w-96 ">
+                <input type="text" id="global-search" class="p-2 border rounded w-full max-w-md pr-10" placeholder="{{ __('others.searchTable') }}">
                 <button id="clear-global-search" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
                     ✕
                 </button>
@@ -17,374 +17,500 @@
     <!-- Conteneur principal -->
     <div class="space-y-8" id="tables-container">
         <!-- Tableau Genres -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="genres">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="genres" data-section-translate="{{ __('others.genres') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Genres</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.genres') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="genres" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="genres" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="genres">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="genres">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse font-roboto-slab">
                 <thead>
-                    <tr class="bg-gray-200 rounded-t-sm">
-                        <th class="p-2 border   ">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Slug</th>
-                        <th class="p-2 border">Actif</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
-                    </tr>
+                <tr class="bg-gray-200 rounded-t-sm">
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-link mr-2"></i>{{ __('others.slug') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-toggle-on mr-2"></i>{{ __('others.active') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                    </th>
+                </tr>
+
                 </thead>
                 <tbody id="genres-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Orientation Sexuelle -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="orientationSexuelle">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="orientationSexuelle" data-section-translate="{{ __('others.orientationSexuelle') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Orientation Sexuelle</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.orientationSexuelle') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="orientationSexuelle" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="orientationSexuelle" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="orientationSexuelle">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="orientationSexuelle">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Slug</th>
-                        <th class="p-2 border">Actif</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
-                    </tr>
+                <tr class="bg-gray-200">
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-link mr-2"></i>{{ __('others.slug') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-toggle-on mr-2"></i>{{ __('others.active') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                    </th>
+                </tr>
                 </thead>
                 <tbody id="orientationSexuelle-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Silhouette -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="silhouette">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="silhouette" data-section-translate="{{ __('others.silhouette') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Silhouette</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.silhouette') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="silhouette" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="silhouette" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="silhouette">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="silhouette">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                <tr class="bg-gray-200">
+    <th class="p-2 border">
+        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+    </th>
+    <th class="p-2 border">
+        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="silhouette-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Catégories -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="catégories">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="catégories" data-section-translate="{{ __('others.categories') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Catégories</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.categories') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="categories" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="categories" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="categories">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="categories">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Display Name</th>
-                        <th class="p-2 border">Type</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
-                    </tr>
+                <tr class="bg-gray-200">
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-text mr-2"></i>{{ __('others.display_name') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-layer-group mr-2"></i>{{ __('others.type') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                    </th>
+                </tr>
+
                 </thead>
                 <tbody id="categories-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Nombre de Filles -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="nombre de filles">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="nombre de filles" data-section-translate="{{ __('others.nombreFilles') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Nombre de Filles</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.nombreFilles') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="nombreFilles" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="nombreFilles" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="nombreFilles">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="nombreFilles">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
-                    </tr>
+                <tr class="bg-gray-200">
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                    </th>
+                </tr>
                 </thead>
                 <tbody id="nombreFilles-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Pratiques Sexuelles -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="pratiques sexuelles">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="pratiques sexuelles" data-section-translate="{{ __('others.pratiquesSexuelles') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Pratiques Sexuelles</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.pratiquesSexuelles') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="pratiquesSexuelles" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="pratiquesSexuelles" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="pratiquesSexuelles">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="pratiquesSexuelles">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Slug</th>
-                        <th class="p-2 border">Actif</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-text mr-2"></i>{{ __('others.slug') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-layer-group mr-2"></i>{{ __('others.active') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>Utilisateurs
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>Actions
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="pratiquesSexuelles-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Couleurs des Yeux -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="couleurs des yeux">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="couleurs des yeux" data-section-translate="{{ __('others.couleursYeux') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Couleurs des Yeux</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.couleursYeux') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="couleursYeux" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="couleursYeux" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="couleursYeux">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="couleursYeux">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Slug</th>
-                        <th class="p-2 border">Actif</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-text mr-2"></i>{{ __('others.slug') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-layer-group mr-2"></i>{{ __('others.active') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="couleursYeux-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Couleurs des Cheveux -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="couleurs des cheveux">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="couleurs des cheveux" data-section-translate="{{ __('others.couleursCheveux') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Couleurs des Cheveux</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.couleursCheveux') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="couleursCheveux" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="couleursCheveux" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="couleursCheveux">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="couleursCheveux">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="couleursCheveux-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Mensurations -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="mensurations">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="mensurations" data-section-translate="{{ __('others.mensurations') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Mensurations</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.mensurations') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="mensurations" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="mensurations" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="mensurations">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="mensurations">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="mensurations-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Poitrines -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="poitrines">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="poitrines" data-section-translate="{{ __('others.poitrines') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Poitrines</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.poitrines') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="poitrines" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="poitrines" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="poitrines">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="poitrines">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="poitrines-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Pubis -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="pubis">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="pubis" data-section-translate="{{ __('others.pubis') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Pubis</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.pubis') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="pubis" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="pubis" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="pubis">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="pubis">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="pubis-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Tatouages -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="tatouages">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="tatouages" data-section-translate="{{ __('others.tatouages') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Tatouages</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.tatouages') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="tatouages" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="tatouages" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="tatouages">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="tatouages">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="tatouages-table-body"></tbody>
             </table>
         </div>
         <!-- Tableau Mobilités -->
-        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="mobilités">
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="mobilités" data-section-translate="{{ __('others.mobilites') }}">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-roboto-slab text-green-gs">Mobilités</h2>
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.mobilites') }}</h2>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="mobilites" placeholder="Rechercher...">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="mobilites" placeholder="{{ __('others.search') }}">
                         <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="mobilites">
                             ✕
                         </button>
                     </div>
                     <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="mobilites">
-                        Ajouter
+                        {{ __('others.add') }}
                     </button>
                 </div>
             </div>
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-2 border">ID</th>
-                        <th class="p-2 border">Nom (FR)</th>
-                        <th class="p-2 border">Utilisateurs</th>
-                        <th class="p-2 border">Actions</th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                        </th>
+                        <th class="p-2 border">
+                            <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="mobilites-table-body"></tbody>
@@ -395,13 +521,13 @@
 <!-- Modal pour ajouter/modifier -->
 <div id="modal" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded-lg w-1/3">
-        <h3 id="modal-title" class="text-lg font-bold mb-4">Ajouter un élément</h3>
+        <h3 id="modal-title" class="text-lg font-bold mb-4">{{ __('others.addElement') }}</h3>
         <form id="modal-form">
             <div class="space-y-4">
                 <input type="hidden" id="modal-id">
                 <input type="hidden" id="modal-type">
                 <div>
-                    <label class="block">Nom (FR)</label>
+                    <label class="block">{{ __('others.name') }}</label>
                     <input type="text" id="modal-nom-fr" class="w-full p-2 border rounded font-roboto-slab ring-green-gs">
                 </div>
                 <div id="modal-categories" class="hidden flex flex-wrap gap-4">
@@ -414,7 +540,7 @@
                             class="w-5 h-5 text-green-gs rounded focus:ring-green-gs focus:ring-2"
                         >
                         <label for="modal-escort-radio" class="text-gray-700 font-medium cursor-pointer">
-                            Escort
+                            {{ __('others.escort') }}
                         </label>
                     </div>
                     <!-- Bouton radio pour "Salon" -->
@@ -426,7 +552,7 @@
                             class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 focus:ring-2"
                         >
                         <label for="modal-salon-radio" class="text-gray-700 font-medium cursor-pointer">
-                            Salon
+                            {{ __('others.salon') }}
                         </label>
                     </div>
                 </div>
@@ -435,8 +561,8 @@
                 <div id="modal-extra-fields"></div>
             </div>
             <div class="flex justify-end mt-4 space-x-2">
-                <button type="button" id="modal-cancel" class="px-3 py-1 bg-gray-300 rounded">Annuler</button>
-                <button type="submit" class="px-3 py-1 bg-green-gs hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer font-roboto-slab text-white rounded">Enregistrer</button>
+                <button type="button" id="modal-cancel" class="px-3 py-1 bg-gray-300 rounded">{{ __('others.cancel') }}</button>
+                <button type="submit" class="px-3 py-1 bg-green-gs hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer font-roboto-slab text-white rounded">{{ __('others.save') }}</button>
             </div>
         </form>
     </div>
@@ -595,7 +721,27 @@
                     const keys = field.split('.');
                     let value = item;
                     keys.forEach(key => value = value?.[key]);
-                    td.textContent = value ?? '';
+                    if (field === 'is_active') {
+                const tooltipContainer = document.createElement('div');
+                tooltipContainer.className = 'tooltip-container inline-block';
+
+                const icon = document.createElement('i');
+                icon.className = value
+                    ? 'fa-solid fa-circle-check text-green-500'
+                    : 'fa-solid fa-circle-xmark text-red-500';
+
+                const tooltipText = document.createElement('span');
+                tooltipText.className = 'tooltip-text';
+                tooltipText.textContent = value
+                    ? "{{ __('others.tooltipActif') }}"
+                    : "{{ __('others.tooltipInactif') }}";
+
+                tooltipContainer.appendChild(icon);
+                tooltipContainer.appendChild(tooltipText);
+                td.appendChild(tooltipContainer);
+            } else {
+                td.textContent = value ?? '';
+            }
                     tr.appendChild(td);
                 });
                 const actionsTd = document.createElement('td');
@@ -613,7 +759,7 @@
                     deleteBtn.classList.add('tooltip-container');
                     const tooltipText = document.createElement('span');
                     tooltipText.className = 'tooltip-text';
-                    tooltipText.textContent = "Impossible de supprimer : des utilisateurs sont associés à cet élément.";
+                    tooltipText.textContent = "{{ __('others.tooltipDelete') }}";
                     deleteBtn.appendChild(tooltipText);
                 }
 
@@ -626,7 +772,7 @@
 
                 const editTooltip = document.createElement('span');
                 editTooltip.className = 'tooltip-text';
-                editTooltip.textContent = "Modifier cet élément";
+                editTooltip.textContent = "{{ __('others.tooltipEdit') }}";
                 editBtn.appendChild(editTooltip);
 
                 actionsTd.appendChild(deleteBtn);
@@ -637,26 +783,27 @@
         }
 
 
-        // Filtre un tableau en fonction de la recherche
         function filterTable(type, searchTerm) {
             if (!searchTerm) {
                 currentData[type] = [...allTableData[type]];
             } else {
                 const term = searchTerm.toLowerCase();
                 currentData[type] = allTableData[type].filter(item => {
-                    return Object.values(item).some(
-                        val => String(val).toLowerCase().includes(term)
-                    );
+                    // On filtre uniquement sur le nom dans la locale actuelle
+                    const name = item.name?.[locale]?.toLowerCase() || '';
+                    return name.includes(term);
                 });
             }
             renderTable(type, currentData[type], fieldsMap[type]);
         }
 
+
+
         // Filtre les sections en fonction de la recherche globale
         function filterSections(searchTerm) {
             const term = searchTerm.toLowerCase();
             document.querySelectorAll('.table-section').forEach(section => {
-                const sectionName = section.getAttribute('data-section');
+                const sectionName = section.getAttribute('data-section-translate');
                 if (sectionName.toLowerCase().includes(term)) {
                     section.classList.remove('hidden');
                 } else {
@@ -709,7 +856,7 @@
 
         // Supprime un élément
         function deleteItem(type, id) {
-            if (confirm('Voulez-vous vraiment supprimer cet élément ?')) {
+            if (confirm('{{ __("others.confirmdelete") }}')) {
                 if (isSubmitting) return;
                 isSubmitting = true;
                 fetch(`/admin/dropdown/${type}/${id}`, {
@@ -720,12 +867,12 @@
                 })
                 .then(response => {
                     if (!response.ok) throw new Error('Erreur lors de la suppression.');
-                    toastr.success('Suppression réussie !');
+                    toastr.success('{{ __("others.successDeleted") }}');
                     fetchDropdownData();
                 })
                 .catch(error => {
                     console.error('Erreur:', error);
-                    toastr.error('Une erreur est survenue.');
+                    toastr.error('{{ __("others.errorDeleted") }}');
                 })
                 .finally(() => {
                     isSubmitting = false;
@@ -821,16 +968,16 @@
                     });
                     if (!response.ok) throw new Error('Erreur lors de l\'enregistrement.');
                     const data = await response.json();
-                    toastr.success(id ? 'Modification réussie !' : 'Ajout réussi !');
+                    toastr.success(id ? '{{ __("others.successUpdated") }}' : '{{ __("others.successAdded") }}');
                     closeModal();
                     await fetchDropdownData();
                 } catch (error) {
                     console.error('Erreur:', error);
-                    toastr.error('Une erreur est survenue.');
+                    toastr.error('{{ __("others.errorAdded") }}');
                 } finally {
                     isSubmitting = false;
                     submitBtn.disabled = false;
-                    submitBtn.textContent = id ? "Modifier" : "Ajouter";
+                    submitBtn.textContent = id ? '{{ __("others.edit") }}' : '{{ __("others.add") }}';
                 }
             });
 

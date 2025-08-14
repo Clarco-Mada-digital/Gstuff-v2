@@ -13,4 +13,5 @@ return [
     'minutes_ago' => 'il y a ',
     'hours_ago' => 'il y a ',
     'days_ago' => 'il y a ',
+    'others' => 'Autres',
 ];

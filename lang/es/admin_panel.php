@@ -13,4 +13,5 @@ return [
     'minutes_ago' => 'hace minutos',
     'hours_ago' => 'hace horas',
     'days_ago' => 'hace días',
+    'others' => 'Otros',
 ];

@@ -13,4 +13,5 @@ return [
     'minutes_ago' => 'vor ',
     'hours_ago' => 'vor ',
     'days_ago' => 'vor ',
+    'others' => 'Andere',
 ];

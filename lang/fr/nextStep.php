@@ -1,6 +1,7 @@
 <?php
 
 return [
+    
     'page_title' => 'Creation',
     'title' => 'Créer votre profil sur Supagirl',
     'title_2' => 'Vous êtes une indépendante ou un salon ?',
