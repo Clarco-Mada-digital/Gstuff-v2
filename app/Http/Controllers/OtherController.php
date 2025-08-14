@@ -14,7 +14,7 @@ use App\Models\CouleurCheveux;
 use App\Models\Mensuration;
 use App\Models\Poitrine;
 use App\Models\PubisType;
-use App\Models\Tatouage;
+use App\Models\Tattoo;
 use App\Models\Mobilite;
 use App\Services\DeepLTranslateService;
 use App\Helpers\Locales;
@@ -41,7 +41,13 @@ class OtherController extends Controller
     public function updateItem(Request $request, $type, $id)
     {
         // Détermine le modèle en fonction du type
-        $modelClass = $this->getModelClass($type);
+        if($type == 'pubis'){
+            $modelClass = PubisType::class;
+        }elseif($type == 'tatouages'){
+            $modelClass = Tattoo::class;
+        }else{
+            $modelClass = $this->getModelClass($type);
+        }
         if (!$modelClass) {
             return response()->json(['error' => 'Type invalide'], 400);
         }
@@ -116,6 +122,8 @@ class OtherController extends Controller
 
         if($type == 'pubis'){
             $modelClass = PubisType::class;
+        }elseif($type == 'tatouages'){
+            $modelClass = Tattoo::class;
         }else{
             $modelClass = $this->getModelClass($type);
         }
@@ -206,7 +214,7 @@ class OtherController extends Controller
             'mensurations' => Mensuration::class,
             'poitrines' => Poitrine::class,
             'pubis' => PubisType::class,
-            'tatouages' => Tatouage::class,
+            'tatouages' => Tattoo::class,
             'mobilites' => Mobilite::class,
         ];
 
