@@ -867,11 +867,17 @@
 
                 navigateMedia(direction) {
                     let newIndex = this.currentMediaIndex + direction;
-                    if (newIndex >= 0 && newIndex < this.mediaCount) {
-                        this.currentMediaIndex = newIndex;
-                        this.updateCurrentMedia();
+
+                    if (newIndex < 0) {
+                        newIndex = this.mediaCount - 1; // Retour à la dernière image
+                    } else if (newIndex >= this.mediaCount) {
+                        newIndex = 0; // Retour à la première image
                     }
-                },
+
+                    this.currentMediaIndex = newIndex;
+                    this.updateCurrentMedia();
+                }
+                ,
                 updateCurrentMedia() {
                     let media = this.$wire.gallerieItem[this.currentMediaIndex];
                     this.currentMedia = {

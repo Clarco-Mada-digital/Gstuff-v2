@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
+use Carbon\Carbon;
 class GalleryManager extends Component
 {
     use WithFileUploads;
@@ -75,16 +75,46 @@ class GalleryManager extends Component
         $this->uploadProgress = array_values($this->uploadProgress);
     }
     
-    public function mount($user, $isPublic=true)
+    // public function mount($user, $isPublic=true)
+    // {
+    //     $this->user = $user;
+    //     $this->isPublic = $isPublic;
+    //     $this->galleries = $this->user->galleries()
+    //         // ->when(auth()->id() !== $this->user->id, fn($q) => $q->where('is_public', $this->isPublic))
+    //         ->where('is_public', $this->isPublic)
+    //         ->latest()
+    //         ->get();
+    // }
+
+    public function mount($user, $isPublic = true)
     {
         $this->user = $user;
         $this->isPublic = $isPublic;
-        $this->galleries = $this->user->galleries()
-            // ->when(auth()->id() !== $this->user->id, fn($q) => $q->where('is_public', $this->isPublic))
+
+        $galleryItems = $this->user->galleries()
             ->where('is_public', $this->isPublic)
             ->latest()
             ->get();
+
+        // Créer un objet Gallery simulé pour la photo de profil
+        $profilePhoto = new \App\Models\Gallery([
+            'user_id' => $user->id,
+            'title' => 'pdp',
+            'description' => 'pdp',
+            'type' => 'image',
+            'path' => 'avatars/' . $user->avatar, // Assure-toi que ce champ existe
+            'thumbnail_path' => 'avatars/' . $user->avatar,
+            'is_public' => true,
+            'created_at' => Carbon::now(),
+             'updated_at' => Carbon::now(),
+        ]);
+
+        // Fusionner la photo de profil au début de la galerie
+        $this->galleries = collect([$profilePhoto])->merge($galleryItems);
+
+        logger()->info('Galleries: ' . $this->galleries);
     }
+
 
     public function openModal($mediaId = null)
     {

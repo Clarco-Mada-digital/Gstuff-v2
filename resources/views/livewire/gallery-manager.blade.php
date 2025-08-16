@@ -57,8 +57,8 @@
                                     @click="currentMedia = { 
                                 type: 'image', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                             @else
                                 <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
@@ -78,8 +78,8 @@
                             <div
                                 class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                 <div class="text-white">
-                                    <h3 class="truncate font-medium">{{ $media->title }}</h3>
-                                    <p class="truncate text-xs text-gray-300">{{ $media->description }}</p>
+                                    <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                    <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
                                 </div>
                             </div>
 
@@ -120,8 +120,8 @@
                                 @click="currentMedia = { 
                                 type: '{{ $media->type }}', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                                 @if ($media->type === 'image')
                                     <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
@@ -134,16 +134,18 @@
                             </div>
 
                             <div class="ml-4 min-w-0 flex-1">
-                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
+                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: ''}}</p>
+                                    {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : ($media->description ?: '') }}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
                                         {{ $media->type === 'image' ? __('gallery_manage.image') : __('gallery_manage.video') }}
                                     </span>
                                     <span class="mx-2">•</span>
-                                    <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @if ($media->created_at)
+                                        <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -154,11 +156,13 @@
                                         class="p-2 text-gray-500 hover:text-blue-600">
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    @if ($media->title != 'pdp')
                                     <button
                                         @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                         class="p-2 text-gray-500 hover:text-red-600">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -221,8 +225,8 @@
                                     @click="currentMedia = { 
                                 type: 'image', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                             @else
                                 <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
@@ -242,8 +246,8 @@
                             <div
                                 class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                 <div class="text-white">
-                                    <h3 class="truncate font-medium">{{ $media->title }}</h3>
-                                    <p class="truncate text-xs text-gray-300">{{ $media->description }}</p>
+                                    <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                    <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
                                 </div>
                             </div>
 
@@ -255,11 +259,13 @@
                                         class="rounded-full bg-white/80 p-1 hover:bg-white">
                                         <i class="fas fa-edit text-sm text-gray-800"></i>
                                     </button>
+                                    @if ($media->title != 'pdp')
                                     <button
                                         @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                         class="rounded-full bg-white/80 p-1 hover:bg-white">
                                         <i class="fas fa-trash text-sm text-red-600"></i>
                                     </button>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -277,8 +283,8 @@
                                 @click="currentMedia = { 
                                 type: '{{ $media->type }}', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                                 @if ($media->type === 'image')
                                     <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
@@ -291,16 +297,18 @@
                             </div>
 
                             <div class="ml-4 min-w-0 flex-1">
-                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
+                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: ' ' }}</p>
+                                {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : ($media->description ?: '') }}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
                                         {{ $media->type === 'image' ? __('gallery_manage.image') : __('gallery_manage.video') }}
                                     </span>
                                     <span class="mx-2">•</span>
-                                    <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @if ($media->created_at)
+                                        <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -372,8 +380,8 @@
                                     @click="currentMedia = { 
                                 type: 'image', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                             @else
                                 <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
@@ -393,8 +401,8 @@
                             <div
                                 class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                 <div class="text-white">
-                                    <h3 class="truncate font-medium">{{ $media->title }}</h3>
-                                    <p class="truncate text-xs text-gray-300">{{ $media->description }}</p>
+                                    <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                    <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
                                 </div>
                             </div>
 
@@ -406,11 +414,13 @@
                                         class="rounded-full bg-white/80 p-1 hover:bg-white">
                                         <i class="fas fa-edit text-sm text-gray-800"></i>
                                     </button>
+                                    @if ($media->title != 'pdp')
                                     <button
                                         @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                         class="rounded-full bg-white/80 p-1 hover:bg-white">
                                         <i class="fas fa-trash text-sm text-red-600"></i>
                                     </button>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -436,8 +446,8 @@
                                 @click="currentMedia = { 
                                 type: '{{ $media->type }}', 
                                 url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
+                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                             }; fullscreen = true">
                                 @if ($media->type === 'image')
                                     <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
@@ -450,16 +460,18 @@
                             </div>
 
                             <div class="ml-4 min-w-0 flex-1">
-                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
+                                <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
                                 <p class="truncate text-xs text-gray-500">
-                                    {{ $media->description ?: ' ' }}</p>
+                                {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : ($media->description ?: '') }}</p>
                                 <div class="mt-1 flex items-center text-xs text-gray-400">
                                     <span class="flex items-center">
                                         <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
                                         {{ $media->type === 'image' ? __('gallery_manage.image') : __('gallery_manage.video') }}
                                     </span>
                                     <span class="mx-2">•</span>
-                                    <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @if ($media->created_at)
+                                        <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -470,11 +482,13 @@
                                         class="p-2 text-gray-500 hover:text-blue-600">
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    @if ($media->title != 'pdp')
                                     <button
                                         @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                         class="p-2 text-gray-500 hover:text-red-600">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -516,9 +530,6 @@
 
                         <!-- Bouton ajout (seulement pour le propriétaire) -->
                         @if (auth()->id() === $user->id && $isPublic)
-                            <!-- <button @click="$wire.openModal()" class="flex items-center gap-2 text-supaGirlRose hover:text-green-gs hover:bg-supaGirlRose px-5 py-2 bg-fieldBg rounded-md cursor-pointer">
-                                <i class="fas fa-plus mr-2"></i> {{ __('gallery_manage.add') }}
-                            </button> -->
                             <x-modal-gallery />
                         @endif
                     </div>
@@ -542,8 +553,8 @@
                                         @click="currentMedia = { 
                                     type: 'image', 
                                     url: '{{ $media->url }}', 
-                                    title: '{{ $media->title }}',
-                                    description: '{{ $media->description }}'
+                                    title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                    description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                                 }; fullscreen = true">
                                 @else
                                     <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
@@ -563,8 +574,8 @@
                                 <div
                                     class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                     <div class="text-white">
-                                        <h3 class="truncate font-medium">{{ $media->title }}</h3>
-                                        <p class="truncate text-xs text-gray-300">{{ $media->description }}</p>
+                                        <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                        <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
                                     </div>
                                 </div>
 
@@ -576,11 +587,13 @@
                                             class="rounded-full bg-white/80 p-1 hover:bg-white">
                                             <i class="fas fa-edit text-sm text-gray-800"></i>
                                         </button>
+                                        @if ($media->title != 'pdp')
                                         <button
                                             @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                             class="rounded-full bg-white/80 p-1 hover:bg-white">
                                             <i class="fas fa-trash text-sm text-red-600"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 @endif
                             </div>
@@ -600,8 +613,8 @@
                                     @click="currentMedia = { 
                                     type: '{{ $media->type }}', 
                                     url: '{{ $media->url }}', 
-                                    title: '{{ $media->title }}',
-                                    description: '{{ $media->description }}'
+                                    title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                    description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
                                 }; fullscreen = true">
                                     @if ($media->type === 'image')
                                         <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
@@ -614,16 +627,18 @@
                                 </div>
 
                                 <div class="ml-4 min-w-0 flex-1">
-                                    <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title }}</h3>
+                                    <h3 class="truncate text-sm font-medium text-gray-900">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
                                     <p class="truncate text-xs text-gray-500">
-                                        {{ $media->description ?: ' ' }}</p>
+                                        {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
                                     <div class="mt-1 flex items-center text-xs text-gray-400">
                                         <span class="flex items-center">
                                             <i class="fas fa-{{ $media->type === 'image' ? 'image' : 'video' }} mr-1"></i>
                                             {{ $media->type === 'image' ? __('gallery_manage.image') : __('gallery_manage.video') }}
                                         </span>
                                         <span class="mx-2">•</span>
-                                        <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                        @if ($media->created_at)
+                                            <span>{{ $media->created_at->format('d/m/Y') }}</span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -634,11 +649,13 @@
                                             class="p-2 text-gray-500 hover:text-blue-600">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @if ($media->title != 'pdp')
                                         <button
                                             @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
                                             class="p-2 text-gray-500 hover:text-red-600">
                                             <i class="fas fa-trash"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 @endif
                             </div>
