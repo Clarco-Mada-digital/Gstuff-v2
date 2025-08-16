@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'profile_photo' => 'Foto de perfil',
+    'profile_photo_description' => 'Foto de perfil',
     'gallery_title' => 'Galería',
     'private' => 'privada',
     'add' => 'Añadir',
