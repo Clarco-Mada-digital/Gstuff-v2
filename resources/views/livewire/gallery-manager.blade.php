@@ -824,11 +824,18 @@
     
 
     <!-- Modal de visualisation -->
-    <div x-show="fullscreen" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
-        @click.away="fullscreen = false" @keydown.escape.window="fullscreen = false">
+    <div x-show="fullscreen"
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
+     @click.away="fullscreen = false"
+     @keydown.escape.window="fullscreen = false"
+     @keydown.window.arrow-left="navigateMedia(-1)"
+     @keydown.window.arrow-right="navigateMedia(1)">
 
         <template x-if="currentMedia">
             <div class="relative w-full">
