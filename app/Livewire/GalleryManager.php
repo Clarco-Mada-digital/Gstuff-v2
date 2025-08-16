@@ -86,34 +86,70 @@ class GalleryManager extends Component
     //         ->get();
     // }
 
+    // public function mount($user, $isPublic = true)
+    // {
+    //     $this->user = $user;
+    //     $this->isPublic = $isPublic;
+
+    //     $galleryItems = $this->user->galleries()
+    //         ->where('is_public', $this->isPublic)
+    //         ->latest()
+    //         ->get();
+
+    //     // Créer un objet Gallery simulé pour la photo de profil
+    //     $profilePhoto = new \App\Models\Gallery([
+    //         'user_id' => $user->id,
+    //         'title' => 'pdp',
+    //         'description' => 'pdp',
+    //         'type' => 'image',
+    //         'path' => $user->avatar ? 'avatars/' . $user->avatar : 'no-avatar', // Assure-toi que ce champ existe
+    //         'thumbnail_path' => $user->avatar ? 'avatars/' . $user->avatar : 'no-avatar',
+    //         'is_public' => true,
+    //         'created_at' => Carbon::now(),
+    //          'updated_at' => Carbon::now(),
+    //     ]);
+
+    //     // Fusionner la photo de profil au début de la galerie
+    //     $this->galleries = collect([$profilePhoto])->merge($galleryItems);
+
+    //     logger()->info('Galleries: ' . $this->galleries);
+    // }
+
     public function mount($user, $isPublic = true)
-    {
-        $this->user = $user;
-        $this->isPublic = $isPublic;
+{
+    $this->user = $user;
+    $this->isPublic = $isPublic;
 
-        $galleryItems = $this->user->galleries()
-            ->where('is_public', $this->isPublic)
-            ->latest()
-            ->get();
+    $galleryItems = $this->user->galleries()
+        ->where('is_public', $this->isPublic)
+        ->latest()
+        ->get();
 
-        // Créer un objet Gallery simulé pour la photo de profil
+    $this->galleries = collect();
+
+    // Ajouter la photo de profil uniquement si l'avatar existe
+    if (!empty($user->avatar)) {
         $profilePhoto = new \App\Models\Gallery([
             'user_id' => $user->id,
             'title' => 'pdp',
             'description' => 'pdp',
             'type' => 'image',
-            'path' => 'avatars/' . $user->avatar, // Assure-toi que ce champ existe
+            'path' => 'avatars/' . $user->avatar,
             'thumbnail_path' => 'avatars/' . $user->avatar,
             'is_public' => true,
-            'created_at' => Carbon::now(),
-             'updated_at' => Carbon::now(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        // Fusionner la photo de profil au début de la galerie
-        $this->galleries = collect([$profilePhoto])->merge($galleryItems);
-
-        logger()->info('Galleries: ' . $this->galleries);
+        $this->galleries->push($profilePhoto);
     }
+
+    // Fusionner avec les autres éléments de la galerie
+    $this->galleries = $this->galleries->merge($galleryItems);
+
+    logger()->info('Galleries: ' . $this->galleries->toJson());
+}
+
 
 
     public function openModal($mediaId = null)

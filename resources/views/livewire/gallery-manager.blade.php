@@ -4,6 +4,7 @@
 
     @php
         $isConnected = auth()->check() && $user->id == auth()->user()->id;
+        $isProfile = auth()->id() === $user->id;
     @endphp
 
     <div >
@@ -11,7 +12,7 @@
     @if ($isPublic)
         @if ($isConnected)
             <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
+                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold"> {{ $isConnected }}  {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                         {{ __('gallery_manage.private') }}
                     @endif
                 </h2>
@@ -49,56 +50,127 @@
             <template x-if="viewMode === 'grid'">
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                     @foreach ($galleries as $media)
-                        <div
-                            class="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg">
-                            @if ($media->type === 'image')
-                                <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
-                                    class="h-full w-full cursor-pointer object-cover"
-                                    @click="currentMedia = { 
-                                type: 'image', 
-                                url: '{{ $media->url }}', 
-                                title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
-                                description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
-                            }; fullscreen = true">
-                            @else
-                                <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
-                                    @click="currentMedia = { 
-                                type: 'video', 
-                                url: '{{ $media->url }}', 
-                                title: '{{ $media->title }}',
-                                description: '{{ $media->description }}'
-                            }; fullscreen = true">
-                                    <i class="fas fa-play text-4xl text-white"></i>
-                                    <img src="{{ $media->thumbnail_url ?? asset('images/icon_logo.png') }}"
-                                        alt="{{ $media->title }}"
-                                        class="absolute inset-0 h-full w-full object-cover opacity-70">
-                                </div>
-                            @endif
 
+                        @if ($isProfile)
+                            @if ($media->title != 'pdp')
                             <div
-                                class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                <div class="text-white">
-                                    <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
-                                    <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
-                                </div>
-                            </div>
+                                class="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg">
+                                @if ($media->type === 'image')
+                            
+                                        <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
+                                            class="h-full w-full cursor-pointer object-cover"
+                                            @click="currentMedia = { 
+                                        type: 'image', 
+                                        url: '{{ $media->url }}', 
+                                        title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                        description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
+                                    }; fullscreen = true">
+                                
+                                @else
+                                    <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
+                                        @click="currentMedia = { 
+                                    type: 'video', 
+                                    url: '{{ $media->url }}', 
+                                    title: '{{ $media->title }}',
+                                    description: '{{ $media->description }}'
+                                }; fullscreen = true">
+                                        <i class="fas fa-play text-4xl text-white"></i>
+                                        <img src="{{ $media->thumbnail_url ?? asset('images/icon_logo.png') }}"
+                                            alt="{{ $media->title }}"
+                                            class="absolute inset-0 h-full w-full object-cover opacity-70">
+                                    </div>
+                                @endif
 
-                            <!-- Actions (owner only) -->
-                            @if (auth()->id() === $user->id)
                                 <div
-                                    class="absolute right-2 top-2 flex space-x-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                    <button @click.stop="$wire.openModal({{ $media->id }})"
-                                        class="rounded-full bg-white/80 p-1 hover:bg-white">
-                                        <i class="fas fa-edit text-sm text-gray-800"></i>
-                                    </button>
-                                    <button
-                                        @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
-                                        class="rounded-full bg-white/80 p-1 hover:bg-white">
-                                        <i class="fas fa-trash text-sm text-red-600"></i>
-                                    </button>
+                                    class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                    <div class="text-white">
+                                        <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                        <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
+                                    </div>
                                 </div>
+
+                                <!-- Actions (owner only) -->
+                                @if (auth()->id() === $user->id)
+                            
+                                    <div
+                                        class="absolute right-2 top-2 flex space-x-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        <button @click.stop="$wire.openModal({{ $media->id }})"
+                                            class="rounded-full bg-white/80 p-1 hover:bg-white">
+                                            <i class="fas fa-edit text-sm text-gray-800"></i>
+                                        </button>
+                                        <button
+                                            @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
+                                            class="rounded-full bg-white/80 p-1 hover:bg-white">
+                                            <i class="fas fa-trash text-sm text-red-600"></i>
+                                        </button>
+                                    </div>
+                            
+                                @endif
+                            </div>
                             @endif
-                        </div>
+                            @else
+                            <h1>no in profile</h1>
+                                @if ($galleries->count() > 1)
+                                    <div
+                                    class="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg">
+                                    @if ($media->type === 'image')
+                                        
+                                
+                                            <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
+                                                class="h-full w-full cursor-pointer object-cover"
+                                                @click="currentMedia = { 
+                                            type: 'image', 
+                                            url: '{{ $media->url }}', 
+                                            title: '{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}',
+                                            description: '{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}'
+                                        }; fullscreen = true">
+                                    
+                                    @else
+                                        <div class="relative flex h-full w-full cursor-pointer items-center justify-center bg-gray-800"
+                                            @click="currentMedia = { 
+                                        type: 'video', 
+                                        url: '{{ $media->url }}', 
+                                        title: '{{ $media->title }}',
+                                        description: '{{ $media->description }}'
+                                    }; fullscreen = true">
+                                            <i class="fas fa-play text-4xl text-white"></i>
+                                            <img src="{{ $media->thumbnail_url ?? asset('images/icon_logo.png') }}"
+                                                alt="{{ $media->title }}"
+                                                class="absolute inset-0 h-full w-full object-cover opacity-70">
+                                        </div>
+                                    @endif
+
+                                    <div
+                                        class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        <div class="text-white">
+                                            <h3 class="truncate font-medium">{{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}</h3>
+                                            <p class="truncate text-xs text-gray-300">{{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Actions (owner only) -->
+                                    @if (auth()->id() === $user->id)
+                                
+                                        <div
+                                            class="absolute right-2 top-2 flex space-x-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                            <button @click.stop="$wire.openModal({{ $media->id }})"
+                                                class="rounded-full bg-white/80 p-1 hover:bg-white">
+                                                <i class="fas fa-edit text-sm text-gray-800"></i>
+                                            </button>
+                                            <button
+                                                @click.stop="mediaToDelete = {{ $media->id }}; deleteModalTitle = '{{ __('gallery_manage.delete') }} {{ addslashes($media->title) }}'; showDeleteModal = true"
+                                                class="rounded-full bg-white/80 p-1 hover:bg-white">
+                                                <i class="fas fa-trash text-sm text-red-600"></i>
+                                            </button>
+                                        </div>
+                                
+                                    @endif
+                                </div>
+                                @endif
+                        @endif 
+                  
+                      
+                    
                     @endforeach
 
                     @if ($galleries->isEmpty())
@@ -114,6 +186,7 @@
             <template x-if="viewMode === 'list'">
                 <div class="flex flex-wrap items-center gap-2">
                     @foreach ($galleries as $media)
+                    @if ($media->title != 'pdp')
                         <div
                             class="w-1/3 group flex items-center rounded-lg bg-white p-3 shadow transition-shadow duration-300 hover:shadow-md">
                             <div class="h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-md"
@@ -166,6 +239,8 @@
                                 </div>
                             @endif
                         </div>
+
+                    @endif
                     @endforeach
 
                     @if ($galleries->isEmpty())
@@ -372,7 +447,9 @@
             <template x-if="viewMode === 'grid'">
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                     @foreach ($galleries as $media)
-                        <div
+
+                            @if ($media->title !== 'pdp')
+                            <div
                             class="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg">
                             @if ($media->type === 'image')
                                 <img src="{{ $media->thumbnail_url ?? $media->url }}" alt="{{ $media->title }}"
@@ -424,6 +501,8 @@
                                 </div>
                             @endif
                         </div>
+                        @endif
+                        
                     @endforeach
 
                     @if ($galleries->isEmpty())
@@ -440,7 +519,8 @@
             <template x-if="viewMode === 'list'">
                 <div class="flex flex-wrap items-center gap-2">
                     @foreach ($galleries as $media)
-                        <div
+                            @if ($media->title !== 'pdp')
+                            <div
                             class="w-1/3 group flex items-center rounded-lg bg-white p-3 shadow transition-shadow duration-300 hover:shadow-md">
                             <div class="h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-md"
                                 @click="currentMedia = { 
@@ -492,6 +572,7 @@
                                 </div>
                             @endif
                         </div>
+                        @endif
                     @endforeach
 
                     @if ($galleries->isEmpty())
@@ -508,7 +589,7 @@
         
         @else
         <!-- Si le gallery est privé et que l'utilisateur n'est pas connecté et que le gallery n'est pas vide -->
-            @if($galleries->isNotEmpty())
+            @if($galleries->count() > 1)
                 <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
@@ -545,6 +626,7 @@
                 <template x-if="viewMode === 'grid'">
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                         @foreach ($galleries as $media)
+                            @if ($media->title !== 'pdp')
                             <div
                                 class="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg">
                                 @if ($media->type === 'image')
@@ -597,6 +679,7 @@
                                     </div>
                                 @endif
                             </div>
+                            @endif
                         @endforeach
 
                       
@@ -607,6 +690,7 @@
                 <template x-if="viewMode === 'list'">
                     <div class="flex flex-wrap items-center gap-2">
                         @foreach ($galleries as $media)
+                            @if ($media->title !== 'pdp')
                             <div
                                 class="w-1/3 group flex items-center rounded-lg bg-white p-3 shadow transition-shadow duration-300 hover:shadow-md">
                                 <div class="h-16 w-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-md"
@@ -659,6 +743,7 @@
                                     </div>
                                 @endif
                             </div>
+                            @endif
                         @endforeach
 
         
