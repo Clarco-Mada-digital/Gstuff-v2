@@ -993,8 +993,8 @@
                     </div>
 
                     <div class="bg-gray-900 p-4 text-white" x-show="currentMedia.title === 'pdp'">
-                        <h3 x-text="__('gallery_manage.profile_photo')" class="text-xl font-semibold"></h3>
-                        <p x-text="__('gallery_manage.profile_photo_description')" class="mt-1 text-gray-300"></p>
+                        <h3 x-text="'aaaaaaaaaaaaa'" class="text-xl font-semibold"></h3>
+                        <p x-text="'aaaaaaaaaaaaa'" class="mt-1 text-gray-300"></p>
                         <div class="mt-2 text-sm text-gray-400">
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
