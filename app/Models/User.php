@@ -68,13 +68,6 @@ class User extends Authenticatable
         return $this->belongsTo(Profile::class);
     }
 
-    /**
-     * Get the canton associated with the user.
-     */
-    // public function canton(): BelongsTo
-    // {
-    //     return $this->belongsTo(Canton::class);
-    // }
 
     /**
      * Get the ville associated with the user.
@@ -175,6 +168,7 @@ class User extends Authenticatable
         'canton',
         'ville',
         'categorie',
+        'is_profil_pause',
     ];
 
     public $translatable = ['apropos'];
@@ -205,7 +199,8 @@ class User extends Authenticatable
         'langues' => 'array',
         'profile_verifie' => 'string',
         'visible_countries' => 'array',
-        'createbysalon' => 'boolean', 
+        'createbysalon' => 'boolean',
+        'is_profil_pause' => 'boolean', 
     ];
 
     public function getVisibleCountriesAttribute($value)
@@ -217,40 +212,6 @@ class User extends Authenticatable
     {
         $this->attributes['visible_countries'] = json_encode($value);
     }
-
-
-
-    // public function getCategoriesAttribute()
-    // {
-    //     $category = $this->categorie;
-        
-    //     // Si c'est déjà un modèle Categorie, on le retourne dans une collection
-    //     if ($category instanceof \App\Models\Categorie) {
-    //         return collect([$category]);
-    //     }
-        
-    //     // Si c'est un tableau avec un ID, on cherche la catégorie correspondante
-    //     if (is_array($category) && isset($category['id'])) {
-    //         $categorie = Categorie::find($category['id']);
-    //         return $categorie ? collect([$categorie]) : collect();
-    //     }
-        
-    //     // Si c'est un tableau d'IDs
-    //     if (is_array($category)) {
-    //         $categoryIds = array_filter($category, 'is_numeric');
-    //         if (!empty($categoryIds)) {
-    //             return Categorie::whereIn('id', $categoryIds)->get();
-    //         }
-    //     }
-
-    //     if ($category instanceof string) {
-    //         return $categorie = Categorie::find($category);
-    //     }
-        
-    //     // Par défaut, retourner une collection vide
-    //     return collect();
-    // }
-
 
 
     public function getCategoriesAttribute()

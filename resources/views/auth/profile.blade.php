@@ -374,11 +374,17 @@
                     class="text-green-gs hover:bg-green-gs w-[90%] cursor-pointer rounded-lg border border-supaGirlRose p-2 text-center text-sm hover:text-white font-roboto-slab">
                     {{ __('profile.profile_visibility') }}
                 </a>
+                
+
+
                 @if ($user->profile_type === 'escorte')
                     <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitationSalons" :salon-associers="$salonAssociers" />
                 @elseif ($user->profile_type === 'salon')
                     <x-gestion-invitation :user="$user" :invitations-recus="$invitationsRecus" :list-invitation-salons="$listInvitation" :salon-associers="$salonAssociers" />
                 @endif
+
+
+                
 
                 <div class="mb-5 mt-2 flex w-full flex-col items-center gap-0 font-roboto-slab   ">
                     <button x-on:click="pageSection='compte'"
@@ -2192,8 +2198,20 @@
             </div>
 
         </div>
-    </div>
 
+       
+
+    </div>
+<style>
+    #reactivationBanner {
+        transition: opacity 0.5s ease;
+    }
+    .hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+</style>
 @stop
 
 @section('extraScripts')
@@ -2605,7 +2623,6 @@
 
         // Fonction utilitaire
         function showToast(message, type = 'success') {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
             if (!message || message.trim() === '') {
                 return;
             }
@@ -2670,5 +2687,46 @@
                 }
             };
         }
+
+
+        // Pause Profile
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const user = @json(auth()->user());
+        //     const loader = document.getElementById('loader');
+        //     const banner = document.getElementById('reactivationBanner');
+
+        //     const showBanner = () => {
+        //         // Vérifie si la bannière a déjà été vue
+        //         const bannerSeen = sessionStorage.getItem('reactivationBannerSeen');
+
+        //         if (user.is_profil_pause && banner && !bannerSeen) {
+        //             banner.classList.remove('hidden');
+
+        //             // Masquer après 10 secondes
+        //             setTimeout(() => {
+        //                 banner.classList.add('hidden');
+        //                 sessionStorage.setItem('reactivationBannerSeen', 'true');
+        //             }, 10000);
+        //         }
+        //     };
+
+        //     if (loader && !loader.classList.contains('hidden')) {
+        //         const observer = new MutationObserver(() => {
+        //             if (loader.classList.contains('hidden')) {
+        //                 showBanner();
+        //                 observer.disconnect();
+        //             }
+        //         });
+
+        //         observer.observe(loader, { attributes: true, attributeFilter: ['class'] });
+        //     } else {
+        //         showBanner();
+        //     }
+        // });
+
+      
+
+
+
     </script>
 @endsection

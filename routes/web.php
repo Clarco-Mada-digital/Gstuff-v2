@@ -252,6 +252,7 @@ Route::middleware('auth')->group(function () {
     
     // Profile
     Route::get('/profile', [ProfileCompletionController::class, 'index'])->name('profile.index');
+    Route::post('/profile/pause', [ProfileCompletionController::class, 'pauseProfile'])->name('profile.pause');
     // Messenger
     Route::get('messenger', [MessengerController::class, 'index'])->name('home-messenger');
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');

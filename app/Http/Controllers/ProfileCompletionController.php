@@ -1076,6 +1076,24 @@ class ProfileCompletionController extends Controller
             ], 500);
         }
     }
+
+
+    public function pauseProfile(Request $request)
+    {
+        $user = Auth::user();
+    
+        // Inverser l'état du profil
+        $user->is_profil_pause = !$user->is_profil_pause;
+        $user->save();
+    
+        // Déterminer le message en fonction du nouvel état
+        $message = $user->is_profil_pause
+            ? 'Votre profil a été mis en pause.'
+            : 'Votre profil a été activé.';
+    
+        return redirect()->back()->with('success', $message);
+    }
+    
     
     
 }
