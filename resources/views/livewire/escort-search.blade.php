@@ -208,7 +208,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 @endphp
                 <livewire:escort_card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                     ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
-                    escortId="{{ $escort->id }}" isOnline='{{ $escort->isOnline() }}'
+                    escortId="{{ $escort->id }}" isOnline='{{ $escort->isOnline() }}' 
+                    profileVerifie="{{ $escort->profile_verifie }}"
                     wire:key='{{ $escort->id }}' />
             @endforeach
         </div>

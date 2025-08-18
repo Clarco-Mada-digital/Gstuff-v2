@@ -211,6 +211,7 @@
                                                                 ville="{{ $acceptedInvitation->inviter->villeget->nom ?? $noSpecial }}"
                                                                 avatar="{{ $acceptedInvitation->inviter->avatar }}"
                                                                 escortId="{{ $acceptedInvitation->inviter->id }}"
+                                                                profileVerifie="{{ $acceptedInvitation->inviter->profile_verifie }}"
                                                                 wire:key="{{ $acceptedInvitation->inviter->id }}" />
                                                         @else
                                                             <livewire:escort_card
@@ -219,6 +220,7 @@
                                                                 ville="{{ $acceptedInvitation->invited->villeget->nom ?? $noSpecial }}"
                                                                 avatar="{{ $acceptedInvitation->invited->avatar }}"
                                                                 escortId="{{ $acceptedInvitation->invited->id }}"
+                                                                profileVerifie="{{ $acceptedInvitation->invited->profile_verifie }}"
                                                                 wire:key="{{ $acceptedInvitation->invited->id }}" />
                                                         @endif
                                                     </div>

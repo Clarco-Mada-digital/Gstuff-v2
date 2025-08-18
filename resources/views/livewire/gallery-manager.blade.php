@@ -5,6 +5,8 @@
     @php
         $isConnected = auth()->check() && $user->id == auth()->user()->id;
         $isProfile = auth()->id() === $user->id;
+        $isCertified = $user->profile_verifie === 'verifier';
+        $isGallery = $galleries->count() > 1;
     @endphp
 
     <div >
@@ -12,10 +14,14 @@
     @if ($isPublic)
         @if ($isConnected)
             <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold"> {{ $isConnected }}  {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
+                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                         {{ __('gallery_manage.private') }}
                     @endif
                 </h2>
+                @if ($isCertified && $isGallery)
+                <x-badgeCertifie />
+                @endif
+
                 <div class="bg-green-gs h-0.5 flex-1"></div>
                 <div class="flex space-x-3">
                     <!-- Boutons de vue -->
@@ -261,6 +267,9 @@
                         {{ __('gallery_manage.private') }}
                     @endif
                 </h2>
+                @if ($isCertified && $isGallery)
+                <x-badgeCertifie />
+                @endif
                 <div class="bg-green-gs h-0.5 flex-1"></div>
                 <div class="flex space-x-3">
                     <!-- Boutons de vue -->
@@ -416,6 +425,9 @@
                         {{ __('gallery_manage.private') }}
                     @endif
                 </h2>
+                @if ($isCertified && $isGallery)
+                <x-badgeCertifie />
+                @endif
                 <div class="bg-green-gs h-0.5 flex-1"></div>
                 <div class="flex space-x-3">
                     <!-- Boutons de vue -->
@@ -595,6 +607,9 @@
                             {{ __('gallery_manage.private') }}
                         @endif
                     </h2>
+                    @if ($isCertified && $isGallery)
+                <x-badgeCertifie />
+                @endif
                     <div class="bg-green-gs h-0.5 flex-1"></div>
                     <div class="flex space-x-3">
                         <!-- Boutons de vue -->
@@ -987,17 +1002,13 @@
                     <div class="bg-gray-900 p-4 text-white">
                         <!-- Titre -->
                         <h3 
-                            x-text="currentMedia.title !== 'pdp' ? currentMedia.title : '{{ __('gallery_manage.profile_photo') }}'" 
+                            x-text="currentMedia.title !== 'pdp' ? currentMedia.title.charAt(0).toUpperCase() + currentMedia.title.slice(1) : '{{ __('gallery_manage.profile_photo') }}'" 
                             class="text-xl font-semibold">
                         </h3>
 
                         <!-- Description -->
                         <p 
-                            x-text="currentMedia.description 
-                                ? currentMedia.description 
-                                : (currentMedia.title !== 'pdp' 
-                                    ? currentMedia.title.charAt(0).toUpperCase() + currentMedia.title.slice(1) 
-                                    : '{{ __('gallery_manage.profile_photo_description') }}')" 
+                            x-text="currentMedia.description !== 'pdp' ? currentMedia.description.charAt(0).toUpperCase() + currentMedia.description.slice(1) : '{{ __('gallery_manage.profile_photo_description') }}'" 
                             class="mt-1 text-gray-300">
                         </p>
 
