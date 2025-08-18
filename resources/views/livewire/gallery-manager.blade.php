@@ -945,8 +945,7 @@
                 <button @click.stop="navigateMedia(-1)"
                 
                      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose"
-                    :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex <= 0 }"
-                    :disabled="currentMediaIndex <= 0">
+                    :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex <= 0 }">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
@@ -957,8 +956,7 @@
                 <!-- Bouton suivant -->
                 <button @click.stop="navigateMedia(1)"
                     class="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose"
-                    :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex >= mediaCount - 1 }"
-                    :disabled="currentMediaIndex >= mediaCount - 1">
+                    :class="{ 'opacity-50 cursor-not-allowed': currentMediaIndex >= mediaCount - 1 }">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
