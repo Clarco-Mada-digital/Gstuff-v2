@@ -46,4 +46,10 @@ return [
 
     'tooltipActif' => 'Dieses Element ist aktiv.',
     'tooltipInactif' => 'Dieses Element ist inaktiv.',
+
+    'escort' => 'Escort',
+    'masseuse' => 'Masseurin (kein Sex)',
+    'dominatrice' => 'Dominatrix BDSM',
+    'transvestite' => 'Trans',
+    'services' => 'Dienstleistungen',
 ];

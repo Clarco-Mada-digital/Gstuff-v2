@@ -363,8 +363,48 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                 {{-- Modal body --}}
                 <div class="relative flex flex-col  gap-3 p-4 md:p-5 md:pb-20 h-[70vh] md:h-[60vh]  overflow-y-auto">
-                    <h3 class="font-roboto-slab text-green-gs text-2xl md:text-3xl">
-                        {{ __('escort-search.service_categories') }}</h3>
+                    <div class="flex items-center justify-between mt-4">
+                            <!-- Titre à gauche -->
+                            <h3 class="font-roboto-slab text-green-gs text-2xl md:text-3xl">
+                                {{ __('escort-search.service_categories') }}
+                            </h3>
+
+                            <!-- Pagination à droite -->
+                            <div class="flex items-center gap-2">
+                                @if ($services->onFirstPage())
+                                    <span class="p-2 rounded-full bg-gray-200 text-gray-400 cursor-not-allowed">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </span>
+                                @else
+                                    <button wire:click="previousPage('servicesPage')" 
+                                        class="p-2 rounded-full bg-green-gs text-white hover:bg-supaGirlRose transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                @endif
+
+                                @if ($services->hasMorePages())
+                                    <button wire:click="nextPage('servicesPage')" 
+                                        class="p-2 rounded-full bg-green-gs text-white hover:bg-supaGirlRose transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                @else
+                                    <span class="p-2 rounded-full bg-gray-200 text-gray-400 cursor-not-allowed">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
                     <div x-data="{ open: true }" class="w-full">
                         <button @click="open = !open"
                             class="hover:bg-green-gs w-full rounded-lg border border-2 border-supaGirlRose text-green-gs hover:text-white p-2 text-left hover:text-amber-400 sm:hidden bg-fieldBg">
@@ -386,13 +426,18 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                             value="{{ $service->id }}" />
                                         <label for="services-{{ $service->id }}"
                                             class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
-                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
-                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
+                                             text-green-gs hover:text-white p-1 text-center transition-all duration-200 hover:scale-[1.02]
+                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-xs font-roboto-slab">
                                             {{ $service->nom }}
                                         </label>
                                     </div>
                                 @endforeach
+
+                              
+
+                               
                             </div>
+                         
                         </div>
                         <div class="hidden sm:block">
                             <div class="flex flex-wrap items-center gap-4">
@@ -410,6 +455,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                     </div>
                                 @endforeach
                             </div>
+                            
                         </div>
                         
                     </div>

@@ -15,6 +15,7 @@ use App\Models\Mensuration;
 use App\Models\Poitrine;
 use App\Models\PubisType;
 use App\Models\Tattoo;
+use App\Models\Service;
 use App\Models\Mobilite;
 use App\Services\DeepLTranslateService;
 use App\Helpers\Locales;
@@ -35,7 +36,8 @@ class OtherController extends Controller
      */
     public function index()
     {
-        return view('admin.others.index');
+        $dropCategories = Categorie::where('type', 'escort')->get();
+        return view('admin.others.index', compact('dropCategories'));
     }
 
 
@@ -91,12 +93,40 @@ class OtherController extends Controller
             }
             $item->update();
             return response()->json(['success' => true, 'data' => $item]);
-        }
-        
-        
-        
-        
-        else{
+        }elseif($type == 'services'){
+            $item->setTranslation('nom', $request->locale, $request->name);
+            foreach ($translatedName as $locale => $name) {
+                $item->setTranslation('nom', $locale, $name);
+            }
+            $categorie_id = '';
+
+            switch ($request->category_type) {
+                case 'escort':
+                    $categorie_id = 1;
+                    break;
+                case 'masseuse':
+                    $categorie_id = 2;
+                    break;
+                case 'dominatrice':
+                    $categorie_id = 3;
+                    break;
+                case 'transvestite':
+                    $categorie_id = 4;
+                    break;
+                default:
+                    $categorie_id = 1;
+                    break;
+            }
+            $item->categorie_id = $categorie_id;
+            $item->update();
+            return response()->json(['success' => true, 'data' => $item]);
+
+
+
+
+
+
+        }else{
             $item->setTranslation('name', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
                 $item->setTranslation('name', $locale, $name);
@@ -148,7 +178,7 @@ class OtherController extends Controller
 
         // Création du commentaire avec les traductions
         $item = new $modelClass();
-        if($type == 'categories'){
+        if($type == 'categories' ){
             $item->setTranslation('nom', $sourceLocale, $request->name);
             foreach ($translatedName as $locale => $name) {
                 $item->setTranslation('nom', $locale, $name);
@@ -163,6 +193,35 @@ class OtherController extends Controller
             foreach ($translatedName as $locale => $name) {
                 $item->setTranslation('name', $locale, $name);
             }
+            $item->save();
+            return response()->json(['success' => true, 'data' => $item]);
+        }elseif($type == 'services'){
+            $item->setTranslation('nom', $sourceLocale, $request->name);
+            foreach ($translatedName as $locale => $name) {
+                $item->setTranslation('nom', $locale, $name);
+            }
+
+            $categorie_id = '';
+
+            switch ($request->category_type) {
+                case 'escort':
+                    $categorie_id = 1;
+                    break;
+                case 'masseuse':
+                    $categorie_id = 2;
+                    break;
+                case 'dominatrice':
+                    $categorie_id = 3;
+                    break;
+                case 'transvestite':
+                    $categorie_id = 4;
+                    break;
+                default:
+                    $categorie_id = 1;
+                    break;
+            }
+
+            $item->categorie_id = $categorie_id;
             $item->save();
             return response()->json(['success' => true, 'data' => $item]);
         }
@@ -218,6 +277,7 @@ class OtherController extends Controller
             'pubis' => PubisType::class,
             'tatouages' => Tattoo::class,
             'mobilites' => Mobilite::class,
+            'services' => Service::class,
         ];
 
         return $models[$type] ?? null;

@@ -996,9 +996,9 @@ class ProfileCompletionController extends Controller
                 return $categorie;
             });
 
-            // $services = Service::withCount(['users' => function ($query) {
-            //     $query->where('profile_type', 'escorte');
-            // }])->get();
+            $services = Service::withCount(['users' => function ($query) {
+                $query->where('profile_type', 'escorte');
+            }])->with('categorie')->get();
 
             
             $genres = Genre::withCount(['users' => function ($query) {
@@ -1048,6 +1048,8 @@ class ProfileCompletionController extends Controller
             $nombreFilles = NombreFille::withCount(['users' => function ($query) {
                 $query->where('profile_type', 'salon');
             }])->get();
+
+            $dropCategories = Categorie::where('type', 'escort')->get();
     
             return response()->json([
                 'genres' => $genres,
@@ -1063,6 +1065,8 @@ class ProfileCompletionController extends Controller
                 'tatouages' => $tatouages,
                 'mobilites' => $mobilites,
                 'nombreFilles' => $nombreFilles,
+                'services' => $services,
+                'dropCategories' => $dropCategories,    
             ]);
     
         } catch (\Exception $e) {

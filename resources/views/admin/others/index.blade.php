@@ -516,6 +516,51 @@
                 <tbody id="mobilites-table-body"></tbody>
             </table>
         </div>
+
+
+        <!-- Tableau Services -->
+        <div class="bg-white p-4 rounded-lg shadow table-section" data-section="services" data-section-translate="{{ __('others.services') }}">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-roboto-slab text-green-gs">{{ __('others.services') }}</h2>
+                <div class="flex space-x-2">
+                    <div class="relative">
+                        <input type="text" class="p-2 border rounded search-input pr-10 font-roboto-slab ring-green-gs" data-table="services" placeholder="{{ __('others.search') }}">
+                        <button class="clear-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" data-table="services">
+                            ✕
+                        </button>
+                    </div>
+                    <button class="px-3 py-1 bg-green-gs text-white rounded hover:bg-white hover:text-green-gs border border-green-gs hover:border-green-gs cursor-pointer add-btn" data-type="services">
+                        {{ __('others.add') }}
+                    </button>
+                </div>
+            </div>
+            <table class="w-full border-collapse font-roboto-slab">
+                <thead>
+                <tr class="bg-gray-200 rounded-t-sm">
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-hashtag mr-2"></i>{{ __('others.id') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-tag mr-2"></i>{{ __('others.name') }}
+                    </th>
+                   
+                
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.users') }}
+                    </th>
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-users mr-2"></i>{{ __('others.categories') }}
+                    </th>
+        
+                    <th class="p-2 border">
+                        <i class="fa-solid fa-ellipsis-vertical mr-2"></i>{{ __('others.actions') }}
+                    </th>
+                </tr>
+
+                </thead>
+                <tbody id="services-table-body"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 <!-- Modal pour ajouter/modifier -->
@@ -555,6 +600,59 @@
                             {{ __('others.salon') }}
                         </label>
                     </div>
+                </div>
+
+                <div id="modal-categories-select" class="hidden flex flex-wrap gap-4">
+                    <!-- Bouton radio pour "Escort" -->
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="modal-services-radio-escort"
+                            name="modal-category"
+                            class="w-5 h-5 text-green-gs rounded focus:ring-green-gs focus:ring-2"
+                            value="escort"
+                        >
+                        <label for="modal-services-radio-escort" class="text-gray-700 font-medium cursor-pointer">
+                            {{ __('others.escort') }}
+                        </label>
+                    </div>
+                    <!-- Bouton radio pour "Salon" -->
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="modal-services-radio-masseuse"
+                            name="modal-category"
+                            class="w-5 h-5 text-green-gs rounded focus:ring-green-gs focus:ring-2"
+                            value="masseuse"
+                        >
+                        <label for="modal-services-radio-masseuse" class="text-gray-700 font-medium cursor-pointer">
+                            {{ __('others.masseuse') }}
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="modal-services-radio-dominatrice"
+                            name="modal-category"
+                            class="w-5 h-5 text-green-gs rounded focus:ring-green-gs focus:ring-2"
+                            value="dominatrice"
+                        >
+                        <label for="modal-services-radio-dominatrice" class="text-gray-700 font-medium cursor-pointer">
+                            {{ __('others.dominatrice') }}
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="modal-services-radio-transvestite"
+                            name="modal-category"
+                            class="w-5 h-5 text-green-gs rounded focus:ring-green-gs focus:ring-2"
+                            value="transvestite"
+                        >
+                        <label for="modal-services-radio-transvestite" class="text-gray-700 font-medium cursor-pointer">
+                            {{ __('others.transvestite') }}
+                        </label>
+                    </div>  
                 </div>
 
 
@@ -663,6 +761,7 @@
         let currentData = {};
         let allTableData = {};
         let isSubmitting = false; // Flag pour éviter les soumissions multiples
+        let dropCategories = [];
 
         // Mappage des champs à afficher pour chaque type de tableau
         const fieldsMap = {
@@ -679,6 +778,7 @@
             'pubis': ['id', 'name.' + locale, 'users_count'],
             'tatouages': ['id', 'name.' + locale, 'users_count'],
             'mobilites': ['id', 'name.' + locale, 'users_count'],
+            'services': ['id', 'nom.' + locale, 'users_count', 'categorie.nom.' + locale],
         };
 
         // Récupère les données
@@ -689,7 +789,11 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 currentData = await response.json();
+            
                 Object.keys(currentData).forEach(key => {
+                    if(key === 'dropCategories') {
+                        dropCategories = currentData[key];
+                    }
                     allTableData[key] = [...currentData[key]];
                 });
                 renderTables();
@@ -790,6 +894,10 @@
                 const term = searchTerm.toLowerCase();
                 currentData[type] = allTableData[type].filter(item => {
                     // On filtre uniquement sur le nom dans la locale actuelle
+                    if(type == 'services' || type == 'categories'){
+                        const name = item.nom?.[locale]?.toLowerCase() || '';
+                        return name.includes(term);
+                    }
                     const name = item.name?.[locale]?.toLowerCase() || '';
                     return name.includes(term);
                 });
@@ -820,6 +928,9 @@
             document.getElementById('modal-extra-fields').innerHTML = '';
             if(type === 'categories'){
                 document.getElementById('modal-categories').classList.remove('hidden');
+            }else if(type === 'services'){
+                document.getElementById('modal-categories-select').classList.remove('hidden');
+
             }else{
                 document.getElementById('modal-categories').classList.add('hidden');
             }
@@ -836,12 +947,25 @@
                 toastr.error("Élément non trouvé.");
                 return;
             }
-            document.getElementById('modal-nom-fr').value = type === 'categories' ? item?.nom?.fr ?? '' : item?.name?.fr ?? '';
+            document.getElementById('modal-nom-fr').value = type === 'categories' ? item?.nom?.[locale] ?? '' : item?.name?.[locale] ?? '';
             if (type === 'categories') {
                 document.getElementById('modal-categories').classList.remove('hidden');
                 document.getElementById('modal-escort-radio').checked = item.type === 'escort';
                 document.getElementById('modal-salon-radio').checked = item.type === 'salon';
-            } else {
+            } else if (type === 'services') {
+                document.getElementById('modal-categories-select')?.classList.remove('hidden');
+                document.getElementById('modal-nom-fr').value = item?.nom?.[locale] ?? '';
+
+                const radioEscort = document.getElementById('modal-services-radio-escort');
+                const radioMasseuse = document.getElementById('modal-services-radio-masseuse');
+                const radioDominatrice = document.getElementById('modal-services-radio-dominatrice');
+                const radioTransvestite = document.getElementById('modal-services-radio-transvestite');
+
+                if (radioEscort) radioEscort.checked = item.categorie_id === 1;
+                if (radioMasseuse) radioMasseuse.checked = item.categorie_id === 2;
+                if (radioDominatrice) radioDominatrice.checked = item.categorie_id === 3;
+                if (radioTransvestite) radioTransvestite.checked = item.categorie_id === 4;
+            }else {
                 document.getElementById('modal-categories').classList.add('hidden');
                 document.getElementById('modal-extra-fields').innerHTML = '';
             }
@@ -939,11 +1063,35 @@
                 const id = document.getElementById('modal-id').value;
                 const nomFr = document.getElementById('modal-nom-fr').value;
                 let categoryType = '';
+                let serviceType = '';
                 if(type === 'categories'){
                     const radioEscort = document.getElementById('modal-escort-radio').checked;
                     const radioSalon = document.getElementById('modal-salon-radio').checked;
                     categoryType = radioEscort ? 'escort' : radioSalon ? 'salon' : '';
                 }
+
+                if (type === 'services') {
+                    console.log("type", type);
+                    const radioEscort = document.getElementById('modal-services-radio-escort');
+                    const radioMasseuse = document.getElementById('modal-services-radio-masseuse');
+                    const radioDominatrice = document.getElementById('modal-services-radio-dominatrice');
+                    const radioTransvestite = document.getElementById('modal-services-radio-transvestite');
+
+                    if (radioEscort.checked) {
+                        serviceType = radioEscort.value;
+                    } else if (radioMasseuse.checked) {
+                        serviceType = radioMasseuse.value;
+                    } else if (radioDominatrice.checked) {
+                        serviceType = radioDominatrice.value;
+                    } else if (radioTransvestite.checked) {
+                        serviceType = radioTransvestite.value;
+                    } else {
+                        serviceType = null; // ou une valeur par défaut
+                    }
+                }
+
+                console.log("serviceType", serviceType);
+
                 const url = id ? `/admin/dropdown/${type}/${id}` : `/admin/dropdown/${type}`;
                 const method = id ? 'PUT' : 'POST';
                 const dataForm = {
@@ -956,7 +1104,11 @@
                     dataForm['display_name'] = nomFr.toLowerCase().replace(/ /g, '-');
                     dataForm['type'] = categoryType;
                 }
+                if(type === 'services'){
+                    dataForm['category_type'] = serviceType;
+                }
 
+                console.log("dataForm", dataForm);
                 try {
                     const response = await fetch(url, {
                         method: method,

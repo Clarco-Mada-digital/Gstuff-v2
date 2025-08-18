@@ -963,7 +963,7 @@ class EscortSearch extends Component
 
         return view('livewire.escort-search', [
             'escorts' => $paginatedEscorts,
-            'services' => $serviceQuery->paginate(20),
+           'services' => $serviceQuery->simplePaginate(20, ['*'], 'servicesPage'),
             'maxDistance' => $this->maxDistance,
             'escortCount' => $this->escortCount,
             'currentLocale' => $currentLocale,
