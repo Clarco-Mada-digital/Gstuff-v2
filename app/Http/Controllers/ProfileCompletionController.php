@@ -995,6 +995,11 @@ class ProfileCompletionController extends Controller
                 $categorie->users_count = $count;
                 return $categorie;
             });
+
+            // $services = Service::withCount(['users' => function ($query) {
+            //     $query->where('profile_type', 'escorte');
+            // }])->get();
+
             
             $genres = Genre::withCount(['users' => function ($query) {
                 $query->where('profile_type', 'escorte');

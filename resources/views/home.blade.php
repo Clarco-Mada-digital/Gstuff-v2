@@ -23,6 +23,7 @@
         </div>
         <div class="flex flex-col gap-2 text-black transition-all lg:flex-row">
             @foreach ($categories as $categorie)
+            @if ($categorie->type == 'escort')
                 <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                     class="z-10 flex items-center justify-center gap-1 transition-all">
                     <div
@@ -40,6 +41,7 @@
                             
                     </div>
                 </a>
+            @endif
             @endforeach
         </div>
         <div class="z-10">
