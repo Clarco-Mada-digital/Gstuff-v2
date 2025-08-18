@@ -988,8 +988,8 @@
                     </template>
 
                     <div class="bg-gray-900 p-4 text-white">
-                        <h3 x-text="currentMedia.title == 'pdp' ? __('gallery_manage.profile_photo') : currentMedia.title" class="text-xl font-semibold"></h3>
-                        <p x-text="currentMedia.description == 'pdp' ? __('gallery_manage.profile_photo_description') : currentMedia.description" class="mt-1 text-gray-300"></p>
+                        <h3 x-text="currentMedia.title === 'pdp' ? __('gallery_manage.profile_photo') : currentMedia.title" class="text-xl font-semibold"></h3>
+                        <p x-text="currentMedia.description === 'pdp' ? __('gallery_manage.profile_photo_description') : currentMedia.description" class="mt-1 text-gray-300"></p>
                         <div class="mt-2 text-sm text-gray-400">
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
