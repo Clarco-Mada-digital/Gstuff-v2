@@ -984,13 +984,29 @@
                         </video>
                     </template>
 
-                    <div class="bg-gray-900 p-4 text-white" >
-                        <h3 x-text="currentMedia.title !== 'pdp' ? currentMedia.title : '{{ __('gallery_manage.profile_photo') }}'" class="text-xl font-semibold"></h3>
-                        <p x-text="currentMedia.description !== 'pdp' ? currentMedia.description : '{{ __('gallery_manage.profile_photo_description') }}'" class="mt-1 text-gray-300"></p>
+                    <div class="bg-gray-900 p-4 text-white">
+                        <!-- Titre -->
+                        <h3 
+                            x-text="currentMedia.title !== 'pdp' ? currentMedia.title : '{{ __('gallery_manage.profile_photo') }}'" 
+                            class="text-xl font-semibold">
+                        </h3>
+
+                        <!-- Description -->
+                        <p 
+                            x-text="currentMedia.description 
+                                ? currentMedia.description 
+                                : (currentMedia.title !== 'pdp' 
+                                    ? currentMedia.title 
+                                    : '{{ __('gallery_manage.profile_photo_description') }}')" 
+                            class="mt-1 text-gray-300">
+                        </p>
+
+                        <!-- Index -->
                         <div class="mt-2 text-sm text-gray-400">
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
                     </div>
+
 
                    
                 </div>
