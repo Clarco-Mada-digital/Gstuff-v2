@@ -987,9 +987,7 @@
                     <div class="bg-gray-900 p-4 text-white">
                         <!-- Titre -->
                         <h3 
-                            x-text="currentMedia.title !== 'pdp' 
-                                ? currentMedia.title 
-                                : '{{ __('gallery_manage.profile_photo') }}'" 
+                            x-text="currentMedia.title !== 'pdp' ? currentMedia.title : '{{ __('gallery_manage.profile_photo') }}'" 
                             class="text-xl font-semibold">
                         </h3>
 
@@ -1008,7 +1006,6 @@
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
                     </div>
-
 
 
                    
