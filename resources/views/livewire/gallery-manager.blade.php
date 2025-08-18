@@ -987,7 +987,9 @@
                     <div class="bg-gray-900 p-4 text-white">
                         <!-- Titre -->
                         <h3 
-                            x-text="currentMedia.title !== 'pdp' ? currentMedia.title : '{{ __('gallery_manage.profile_photo') }}'" 
+                            x-text="currentMedia.title !== 'pdp' 
+                                ? currentMedia.title 
+                                : '{{ __('gallery_manage.profile_photo') }}'" 
                             class="text-xl font-semibold">
                         </h3>
 
@@ -996,7 +998,7 @@
                             x-text="currentMedia.description 
                                 ? currentMedia.description 
                                 : (currentMedia.title !== 'pdp' 
-                                    ? currentMedia.title 
+                                    ? currentMedia.title.charAt(0).toUpperCase() + currentMedia.title.slice(1) 
                                     : '{{ __('gallery_manage.profile_photo_description') }}')" 
                             class="mt-1 text-gray-300">
                         </p>
@@ -1006,6 +1008,7 @@
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
                     </div>
+
 
 
                    
