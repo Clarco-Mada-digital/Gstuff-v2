@@ -18,86 +18,140 @@
 
     <div class="container mx-auto flex flex-col justify-center xl:flex-row">
 
-        <div x-data="{}" class="min-w-1/4 flex flex-col items-center gap-3 p-4">
+            @php
+            $avatar = $salon->avatar;
+            $avatarSrc = $avatar ? asset('storage/avatars/' . $avatar) : asset('images/icon_logo.png');
+            $isPaused = $salon->is_profil_pause ?? false;
+        @endphp
 
-            <div class="w-55 h-55 border-5 mx-auto -translate-y-[50%] rounded-full border-white">
-                <img x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $salon->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : '{{ asset('images/icon_logo.png') }}', imgModalDesc: '' })"
-                    class="h-full w-full rounded-full object-cover object-center"
-                    @if ($avatar = $salon->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
-                    @else
-                    src="{{ asset('images/icon_logo.png') }}" @endif
-                    alt="{{ __('salon_profile.profile_image') }}" />
+        <div x-data="{}" class="w-full max-w-sm mx-auto flex flex-col items-center gap-4 p-4">
+
+            <!-- Avatar -->
+            <!-- Avatar avec badge online -->
+            <div class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
+                <img 
+                    x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatarSrc }}', imgModalDesc: '' })"
+                    src="{{ $avatarSrc }}"
+                    alt="{{ __('salon_profile.profile_image') }}"
+                    class="h-full w-full object-cover object-center cursor-pointer"
+                />
+
+                <!-- Badge online/offline -->
+                <span
+                    class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white
+                        {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}">
+                </span>
             </div>
-            <p class="-mt-[25%] font-bold md:-mt-[10%] xl:-mt-[25%] font-roboto-slab">{{ Str::ucfirst($salon->nom_salon) }}</p>
+
+
+            <!-- Nom du salon + badge pause -->
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <p class="font-bold font-roboto-slab text-center leading-tight">
+                    {{ Str::ucfirst($salon->nom_salon) }}
+                </p>
+                @if ($isPaused)
+                    <x-badgePause />
+                @endif
+            </div>
+
+            <!-- Catégories -->
             @foreach ($salon->categorie as $categorie)
-            <span class="font-roboto-slab flex items-center gap-2  text-sm text-textColorParagraph">
                 @php
                     $locale = session('locale', 'fr');
-                    $categoryName =
-                        $categorie['nom'][$locale] ??
-                        ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
+                    $categoryName = $categorie['nom'][$locale] ?? $categorie['nom']['fr'] ?? $categorie['nom'] ?? '-';
                 @endphp
-
-
-                {{ Str::ucfirst($categoryName) }}</span>
+                <span class="font-roboto-slab text-sm text-textColorParagraph">
+                    {{ Str::ucfirst($categoryName) }}
+                </span>
             @endforeach
 
+            <!-- Téléphone -->
             <x-contact.phone-link 
                 :phone="$salon->telephone ?? null"
                 :noPhoneText="__('salon_profile.no_phone')"
+                :isPause="$isPaused"
             />
-        
+
+            <!-- Localisation -->
             <x-location.escort-location 
                 :cantonId="$salon->canton->id ?? null" 
                 :cantonName="$salon->canton['nom'] ?? null" 
                 :cityName="$salon->ville['nom'] ?? null"
             />
 
-
+            <!-- Recrutement -->
             <div class="text-green-gs flex items-center justify-center gap-2 font-roboto-slab">
-                <span class="flex items-center gap-1 bg-fieldBg px-2 py-1">{{ __('salon_profile.recruitment') }} :
+                <span class="flex items-center gap-1 bg-fieldBg px-2 py-1">
+                    {{ __('salon_profile.recruitment') }} :
                 </span>
                 <span class="font-bold text-green-gs">
-                    @if ($salon->recrutement == 'Ouvert')
-                        {{ __('salon_profile.open') }}  
-                    @else
-                        {{ __('salon_profile.closed') }}
-                    @endif
+                    {{ $salon->recrutement === 'Ouvert' ? __('salon_profile.open') : __('salon_profile.closed') }}
                 </span>
             </div>
 
+            <hr class="h-2 w-full text-green-gs">
 
-            <hr class="h-2 w-full text-green-gs ">
-
+            <!-- Favoris -->
             @auth
-            <livewire:favorite-button :userId='$salon->id' wire:key='{{ $salon->id }}' placement="profile" />
+                <livewire:favorite-button :userId='$salon->id' wire:key='{{ $salon->id }}' placement="profile" />
             @endauth
-            <button id="chatButtonProfile" data-user-id="{{ $salon->id }}"
-                @auth x-on:click="$dispatch('loadForSender', [{{ $salon->id }}])" @else data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" @endauth
-                class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-400 p-2 text-sm hover:text-white">
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
-                </svg>
-                {{ __('salon_profile.send_message') }}
-            </button>
 
+            <!-- Bouton message -->
+            <div class="relative group w-full">
+                <button 
+                    id="chatButtonProfile" 
+                    data-user-id="{{ $salon->id }}"
+                    @if($isPaused) disabled aria-disabled="true" @endif
+                    @auth
+                        @unless($isPaused)
+                            x-on:click="$dispatch('loadForSender', [{{ $salon->id }}])"
+                        @endunless
+                    @else
+                        data-modal-target="authentication-modal"
+                        data-modal-toggle="authentication-modal"
+                    @endauth
+                    class="flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300
+                        @if($isPaused)
+                            cursor-not-allowed bg-gray-200 text-gray-500 border-gray-300
+                        @else
+                            text-green-gs border-gray-400 hover:bg-green-gs hover:text-white
+                        @endif"
+                >
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
+                    </svg>
+                    {{ __('salon_profile.send_message') }}
+                </button>
+
+                @if($isPaused)
+                    <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 
+                                bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 
+                                group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap">
+                        Ce salon est actuellement en pause
+                    </div>
+                @endif
+            </div>
+
+            <!-- Contacts -->
             <x-contact.sms-button 
                 :phone="$salon->telephone ?? null"
                 :noContactText="__('salon_profile.no_sms_contact')"
+                :isPause="$isPaused"
             />
             <x-contact.whatsapp-button 
                 :phone="$salon->whatsapp ?? null"
                 :noContactText="__('salon_profile.no_whatsapp_contact')"
+                :isPause="$isPaused"
             />
-      
-
             <x-contact.email-button 
                 :email="$salon->email"
                 :noEmailText="__('salon_profile.no_email')"
+                :isPause="$isPaused"
             />
 
         </div>
+
 
         <div class="min-w-3/4 px-5 py-5">
 

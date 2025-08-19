@@ -18,12 +18,12 @@
     <div x-data="{}" class="container mx-auto flex flex-col justify-center xl:flex-row">
 
         {{-- Profile picture and status --}}
-        <div class="min-w-1/4 flex flex-col items-center gap-3 px-4">
+        <div class="min-w-1/4 flex flex-col items-center  gap-3 px-4 -mt-26">
 
-            <div class="w-55 h-55 border-5 relative mx-auto -translate-y-[50%] rounded-full border-white">
+            <div class="w-55 h-55 border-5 relative mx-auto  rounded-full border-white shadow-sm">
                 <!-- {{ __('escort_profile.profile_picture') }} -->
                 <img x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : '{{ asset('images/icon_logo.png') }}', imgModalDesc: '' })"
-                    class="h-full w-full rounded-full object-cover object-center"
+                    class="h-full w-full rounded-full object-cover object-center "
                     @if ($avatar = $escort->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
                     @else
                     src="{{ asset('images/icon_logo.png') }}" @endif
@@ -33,30 +33,37 @@
                     class="{{ $escort->isOnline() ? 'bg-green-gs' : 'bg-gray-400' }} absolute bottom-4 right-5 block h-3 w-3 rounded-full ring-2 ring-white">
                 </span>
             </div>
-            <div class="-mt-[25%] ml-3 flex flex-col items-center justify-center md:-mt-[10%] xl:-mt-[25%]">
-            <p class="flex items-center gap-2 font-bold font-roboto-slab">
-    {{ Str::ucfirst($escort->prenom) }}
+            <div class=" ml-3 flex flex-col items-center justify-center ">
+                <div class="flex items-center gap-2 justify-center mb-2">
+                        <p class="flex items-center gap-2 font-bold font-roboto-slab">
+                        {{ Str::ucfirst($escort->prenom) }}
 
-    @if ($escort->profile_verifie === 'verifier')
-        <span class="relative group flex items-center justify-center" title="{{ __('escort_profile.verified_profile') }}">
-            <svg fill="#000000" width="25px" height="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                 class="icon flat-line text-green-700">
-                <rect x="3" y="3" width="18" height="18" rx="9" fill="#f9cdf3" />
-                <polyline points="8 11.5 11 14.5 16 9.5"
-                          style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
-                <rect x="3" y="3" width="18" height="18" rx="9"
-                      style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
-            </svg>
+                        @if ($escort->profile_verifie === 'verifier')
+                            <span class="relative group flex items-center justify-center" title="{{ __('escort_profile.verified_profile') }}">
+                                <svg fill="#000000" width="25px" height="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    class="icon flat-line text-green-700">
+                                    <rect x="3" y="3" width="18" height="18" rx="9" fill="#f9cdf3" />
+                                    <polyline points="8 11.5 11 14.5 16 9.5"
+                                            style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
+                                    <rect x="3" y="3" width="18" height="18" rx="9"
+                                        style="fill: none; stroke: #146c33; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;" />
+                                </svg>
 
-            <span class="absolute bottom-full mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                {{ __('profile.profile_verifie') }}
-            </span>
-        </span>
-    @endif
-</p>
+                                <span class="absolute bottom-full mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                                    {{ __('profile.profile_verifie') }}
+                                </span>
+                            </span>
+                        @endif
+
+                    
+                    </p>
+                    @if ($escort->is_profil_pause)
+                        <x-badgePause/>
+                    @endif 
+                </div> 
 
 
-                <p class="{{ $escort->isOnline() ? 'text-green-gs' : 'text-gray-500' }} text-sm font-roboto-slab">
+                <p class="{{ $escort->isOnline() ? 'text-green-gs' : 'text-gray-500' }} text-xs font-roboto-slab">
                     ({{ $escort->last_seen_for_humans }})
                 </p>
             </div>
@@ -70,6 +77,7 @@
             <x-contact.phone-link 
                 :phone="$escort->telephone ?? null"
                 :noPhoneText="__('escort_profile.no_phone')"
+                :isPause="$escort->is_profil_pause"
             />
 
             <x-location.escort-location 
@@ -84,26 +92,56 @@
             <livewire:favorite-button :userId='$escort->id' wire:key='{{ $escort->id }}' placement="profile" />
               
             @endauth
-            <button id="chatButtonProfile" data-user-id="{{ $escort->id }}"
-                @auth x-on:click="$dispatch('loadForSender', [{{ $escort->id }}])" @else data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" @endauth
-                class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white">
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
-                </svg>
-                {{ __('escort_profile.send_message') }}
-            </button>
+            @php
+                $isPaused = $escort->is_profil_pause;
+            @endphp
+
+            <div class="relative group w-full">
+                <button
+                    id="chatButtonProfile"
+                    data-user-id="{{ $escort->id }}"
+                    @if($isPaused) disabled @endif
+                    @auth
+                        @unless($isPaused)
+                            x-on:click="$dispatch('loadForSender', [{{ $escort->id }}])"
+                        @endunless
+                    @else
+                        data-modal-target="authentication-modal"
+                        data-modal-toggle="authentication-modal"
+                    @endauth
+                    class="flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300
+                        @if($isPaused)
+                            cursor-not-allowed bg-gray-200 text-gray-500 border-gray-300
+                        @else
+                            text-green-gs border-green-gs hover:bg-green-gs hover:text-white
+                        @endif"
+                >
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
+                    </svg>
+                    {{ __('escort_profile.send_message') }}
+                </button>
+
+                @if($isPaused)
+                    <x-badgePauseToolTip/>
+                @endif
+            </div>
+
             <x-contact.sms-button 
                 :phone="$escort->telephone ?? null"
                 :noContactText="__('escort_profile.no_sms_contact')"
+                :isPause="$escort->is_profil_pause"
             />
             <x-contact.whatsapp-button 
                 :phone="$escort->whatsapp ?? null"
                 :noContactText="__('escort_profile.no_whatsapp_contact')"
+                :isPause="$escort->is_profil_pause"
             />
             <x-contact.email-button 
                 :email="$escort->email"
                 :noEmailText="__('escort_profile.no_email')"
+                :isPause="$escort->is_profil_pause"
             />
 
         </div>

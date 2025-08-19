@@ -1,13 +1,28 @@
-@props([
+
+
+    @props([
     'phone' => null,
     'noContactText' => 'No WhatsApp contact',
-    'class' => ''
+    'class' => '',
+    'isPause' => false
 ])
 
+<div class="relative group w-full">
     <a 
-        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone) }}" 
-        target="_blank"
-        class="text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white {{ $class }}"
+        @if($phone && !$isPause)
+            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone) }}"
+            target="_blank"
+        @else
+            href="#"
+            aria-disabled="true"
+        @endif
+        class="flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300
+            {{ $class }}
+            @if($isPause)
+                cursor-not-allowed pointer-events-none bg-gray-200 text-gray-500 border-gray-300
+            @else
+                text-green-gs border-green-gs hover:bg-green-gs hover:text-white
+            @endif"
     >
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g fill="none" fill-rule="evenodd">
@@ -18,9 +33,13 @@
             </g>
         </svg>
         @if($phone)
-            {{  __('escort_profile.contact_on_whatsapp') }}
+            {{ __('escort_profile.contact_on_whatsapp') }}
         @else
             {{ $noContactText }}
         @endif
     </a>
 
+    @if($isPause)
+        <x-badgePauseToolTip/>
+    @endif
+</div>
