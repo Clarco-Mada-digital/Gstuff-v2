@@ -1,21 +1,29 @@
 @props([
     'placement' => '',
 ])
+  
+<div>
+<button
+    wire:click="toggleFavorite"
+    @guest
+        data-modal-target="authentication-modal"
+        data-modal-toggle="authentication-modal"
+    @endguest
 
-<button wire:click="toggleFavorite" 
+    data-tooltip-target="favorite-tooltip"
+    data-tooltip-placement="top"
+    type="button"
 
-@if ($placement === 'profile')
-class="cursor-pointer text-green-gs hover:bg-green-gs flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white"
-@else
-class="cursor-pointer text-green-gs  flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg  p-2 text-sm hover:text-supaGirlRose    "
-
-@endif>
-                  
-
-    <span >
+    @if ($placement === 'profile')
+        class="relative cursor-pointer text-green-gs hover:bg-green-gs flex w-full items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm hover:text-white"
+    @else
+        class="relative cursor-pointer text-green-gs flex w-full items-center justify-center gap-2 rounded-lg p-2 text-sm hover:text-supaGirlRose"
+    @endif
+>
+<span >
         @if (Auth::user() && $userId == Auth::user()->id)
             <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M9.775 12q-.9 0-1.5-.675T7.8 9.75l.325-2.45q.2-1.425 1.3-2.363T12 4t2.575.938t1.3 2.362l.325 2.45q.125.9-.475 1.575t-1.5.675zM4 18v-.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2v.8q0 .825-.587 1.413T18 20H6q-.825 0-1.412-.587T4 18" />
             </svg>
@@ -39,6 +47,12 @@ class="cursor-pointer text-green-gs  flex w-full cursor-pointer items-center jus
     {{ __('escort_profile.add_to_favorites') }}
     @endif
 </button>
+
+<div id="favorite-tooltip" role="tooltip" class="absolute z-10 invisible inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm text-white shadow-sm">
+    {{ Auth::guest() ? __('auth.login_to_add_favorite') : ($isFavorite ? __('favorites.remove_from_favorites') : __('favorites.add_to_favorites')) }}
+    <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
+</div>
 
 
 

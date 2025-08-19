@@ -75,7 +75,7 @@
   <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
       <div id="ESContainer" class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 mt-5 mb-4 px-10" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent" wire:key="users-list">
           @foreach ($users as $user)
-              <livewire:escort-card name="{{ $user->prenom ?? $user->nom_salon }}" canton="{{ $user->canton['nom'] ?? 'Inconnu' }}" ville="{{ $user->ville['nom'] ?? 'Inconnu' }}" avatar="{{ $user->avatar }}" escortId="{{ $user->id }}" isOnline="{{ $user->isOnline() }}" wire:key="component-{{ $user->id }}" />
+              <livewire:escort-card name="{{ $user->prenom ?? $user->nom_salon }}" canton="{{ $user->canton['nom'] ?? 'Inconnu' }}" ville="{{ $user->ville['nom'] ?? 'Inconnu' }}" avatar="{{ $user->avatar }}" escortId="{{ $user->id }}" isOnline="{{ $user->isOnline() }}" wire:key="component-{{ $user->id }}" isPause="{{ $user->is_profil_pause }}"/>
           @endforeach
       </div>
 

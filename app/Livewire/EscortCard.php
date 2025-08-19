@@ -14,6 +14,7 @@ class EscortCard extends Component
     public float $escortId;
     public bool $isOnline = false;
     public string $profileVerifie;
+    public bool $isPause = false;
 
     public function render()
     {

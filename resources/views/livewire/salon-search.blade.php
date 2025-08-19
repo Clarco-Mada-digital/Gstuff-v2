@@ -193,6 +193,7 @@
                 <livewire:salon_card wire:key='{{ $salon->id }}' name="{{ $salon->nom_salon }}"
                     canton="{{ $salon->canton?->nom ?? $salon->cantonget?->nom }}"
                     ville="{{ $salon->ville?->nom ?? $salon->villeget?->nom }}" avatar='{{ $salon->avatar }}'
+                    isPause="{{ $salon->is_profil_pause }}"
                     salonId="{{ $salon->id }}" />
             @endforeach
         </div>

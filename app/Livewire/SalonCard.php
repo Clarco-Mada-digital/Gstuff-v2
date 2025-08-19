@@ -12,6 +12,7 @@ class SalonCard extends Component
     public float $salonId;
     public $avatar;
     public string $profileVerifie;
+    public bool $isPause;
 
     public function render()
     {

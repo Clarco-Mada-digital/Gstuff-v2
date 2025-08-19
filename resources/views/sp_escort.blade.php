@@ -325,6 +325,7 @@
                                 ville="{{ $salonAssocier->inviter->villeget->nom ?? '' }}"
                                 avatar='{{ $salonAssocier->inviter->avatar }}'
                                 salonId='{{ $salonAssocier->inviter->id }}'
+                                isPause="{{ $salonAssocier->inviter->is_profil_pause }}"
                                 wire:key="{{ $salonAssocier->inviter->id }}" />
                         @endforeach
                     @else

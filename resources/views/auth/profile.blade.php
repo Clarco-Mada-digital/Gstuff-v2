@@ -1374,7 +1374,7 @@
                                                 canton="{{ $favorie->canton['nom'] ?? '' }}"
                                                 ville="{{ $favorie->ville['nom'] ?? '' }}"
                                                 avatar='{{ $favorie->avatar }}' isOnline='{{ $favorie->isOnline() }}'
-                                                escortId="{{ $favorie->id }}" />
+                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
                                         @endforeach
                                     </div>
                                 @else
@@ -1390,7 +1390,7 @@
                                             <livewire:escort-card name="{{ $favorie->prenom }}"
                                                 canton="{{ $favorie->canton['nom'] }}"
                                                 ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}'
-                                                escortId="{{ $favorie->id }}" />
+                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
                                         @endforeach
                                     </div>
                                 @else
@@ -1423,7 +1423,7 @@
                                                 canton="{{ $escort->canton['nom'] ?? '' }}"
                                                 ville="{{ $escort->ville['nom'] ?? '' }}"
                                                 avatar='{{ $escort->avatar }}' isOnline='{{ $escort->isOnline() }}'
-                                                escortId='{{ $escort->id }}' />
+                                                escortId='{{ $escort->id }}' isPause="{{ $escort->is_profil_pause }}"/>
                                         @endforeach
                                     </div>
                                     <div id="arrowEscortScrollRight"
@@ -1459,7 +1459,7 @@
                                                 canton="{{ $escort->canton['nom'] ?? '' }}"
                                                 ville="{{ $escort->ville['nom'] ?? '' }}"
                                                 avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}'
-                                                isOnline='{{ $escort->isOnline() }}' />
+                                                isOnline='{{ $escort->isOnline() }}' isPause="{{ $escort->is_profil_pause }}"/>
                                         @endforeach
                                     </div>
                                     <div id="arrowEscortScrollRight"
@@ -1846,6 +1846,7 @@
                                             avatar='{{ $salonAssocier->invited->avatar }}'
                                             salonId='{{ $salonAssocier->invited->id }}'
                                             profileVerifie='{{ $salonAssocier->invited->profile_verifie }}'
+                                            isPause="{{ $salonAssocier->invited->is_profil_pause }}"
                                             wire:key="{{ $salonAssocier->invited->id }}" />
                                     @else
                                         <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon }}"
@@ -1854,6 +1855,7 @@
                                             avatar='{{ $salonAssocier->inviter->avatar }}'
                                             salonId='{{ $salonAssocier->inviter->id }}'
                                             profileVerifie='{{ $salonAssocier->inviter->profile_verifie }}'
+                                            isPause="{{ $salonAssocier->inviter->is_profil_pause }}"
                                             wire:key="{{ $salonAssocier->inviter->id }}" />
                                     @endif
                                 @endforeach

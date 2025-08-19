@@ -210,6 +210,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                     escortId="{{ $escort->id }}" isOnline='{{ $escort->isOnline() }}' 
                     profileVerifie="{{ $escort->profile_verifie }}"
+                    isPause="{{ $escort->is_profil_pause }}"
                     wire:key='{{ $escort->id }}' />
             @endforeach
         </div>

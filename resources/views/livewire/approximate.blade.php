@@ -216,6 +216,7 @@
                             avatar="{{ $escort['escort']['avatar'] ?? '' }}"
                             escortId="{{ $escort['escort']['id'] ?? '' }}"
                             distance="{{ $escort['distance'] ?? '' }}" 
+                            isPause="{{ $escort['escort']['is_profil_pause'] ?? '' }}"
                         />
                     </div>
                 @endforeach

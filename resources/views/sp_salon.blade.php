@@ -110,7 +110,7 @@
                         data-modal-target="authentication-modal"
                         data-modal-toggle="authentication-modal"
                     @endauth
-                    class="flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300
+                    class="flex w-full items-center justify-center gap-2 rounded-lg border border-green-gs p-2 text-sm transition-all duration-300
                         @if($isPaused)
                             cursor-not-allowed bg-gray-200 text-gray-500 border-gray-300
                         @else
@@ -125,11 +125,7 @@
                 </button>
 
                 @if($isPaused)
-                    <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 
-                                bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 
-                                group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap">
-                        Ce salon est actuellement en pause
-                    </div>
+                     <x-badgePauseToolTip/>
                 @endif
             </div>
 

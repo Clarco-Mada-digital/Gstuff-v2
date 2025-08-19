@@ -89,7 +89,8 @@
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                     @foreach ($escorts->take(10) as $escort)
                         <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
-                            ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
+                            ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' 
+                            isPause="{{ $escort->is_profil_pause }}"
                             isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
                     @endforeach
                 </div>
@@ -121,6 +122,7 @@
                     @foreach ($salons->take(10) as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
+                            isPause="{{ $salon->is_profil_pause }}"
                             salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' />
                     @endforeach
                     @if ($salons == '[]')
@@ -158,7 +160,8 @@
                 @foreach ($escorts->take(30) as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
-                        isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
+                        isOnline='{{ $escort->isOnline() }}' 
+                        isPause="{{ $escort->is_profil_pause }}" escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
                 @endforeach
 
             </div>
