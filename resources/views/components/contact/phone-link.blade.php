@@ -10,7 +10,7 @@
     $displayPhone = $phone;
     if ($isPause && $phone) {
         // Exemple : masquer après les 3 premiers chiffres
-        $displayPhone = preg_replace('/^(\d{3})\d+$/', '$1XXXXXXX', $phone);
+        $displayPhone = preg_replace('/^(\d{3})\d+$/', '$1xxxxxx', $phone);
     }
 @endphp
 

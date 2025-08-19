@@ -12,7 +12,7 @@
     $displayEmail = $email;
     if ($isPause && $email) {
         // Exemple : masquer la partie avant le @
-        $displayEmail = preg_replace('/^[^@]+/', 'XXXXXXX', $email);
+        $displayEmail = preg_replace('/^[^@]+/', 'xxxxxxxx', $email);
     }
 @endphp
 
