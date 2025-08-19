@@ -504,6 +504,7 @@ public function fetchContacts(Request $request)
                 'pseudo' => cleanUtf8($user->pseudo),
                 'nom_salon' => cleanUtf8($user->nom_salon),
                 'avatar' => $user->avatar,
+                'is_profil_pause' => $user->is_profil_pause,
                 'is_online' => $isOnline,
                 'last_message' => cleanUtf8($lastMessage),
                 'last_message_time' => $lastMessageFromId

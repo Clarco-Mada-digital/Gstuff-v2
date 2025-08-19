@@ -417,8 +417,9 @@ function fetchContacts(Request $request)
                 : \Carbon\Carbon::parse($user->last_seen_at);
             $isOnline = $lastSeen->gt(now()->subMinutes(2));
         }
+        $isProfilPause = $user->is_profil_pause;
 
-        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user', 'isOnline'))->render();
+        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user', 'isOnline', 'isProfilPause'))->render();
     }
 
     // update contact item

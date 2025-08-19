@@ -11,4 +11,7 @@ return [
     'reactivationBanner' => 'Tu perfil está actualmente <strong>en pausa</strong>. Puedes reactivarlo en cualquier momento.',
     'reactivationBannerButton' => 'Reactivar mi perfil',
     'badgePauseToolTip' => 'Este perfil está actualmente en pausa',
+    'chatPause' => 'Este perfil está actualmente en pausa. No puedes enviar mensajes.',
+    'chatPauseBadge' => 'En pausa',
+    'chatPauseBadgeToolTip' => 'Este perfil está actualmente en pausa'
 ];

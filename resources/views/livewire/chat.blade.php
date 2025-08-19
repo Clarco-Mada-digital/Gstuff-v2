@@ -485,31 +485,54 @@
                 // console.log(data.contacts);
              
                 data.contacts.forEach(user => {
-                    const contactElement = document.createElement('div');
-                    contactElement.className = 'flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100';
-                    contactElement.setAttribute('data-user-id', user.id);
-                    contactElement.onclick = () => showMessages(user);
+    const contactElement = document.createElement('div');
+    contactElement.className = `relative flex cursor-pointer items-center p-3 shadow-sm hover:bg-gray-100 ${
+        user.is_profil_pause ? 'bg-yellow-50 opacity-80 cursor-not-allowed' : ''
+    }`;
+    contactElement.setAttribute('data-user-id', user.id);
 
-                    const formattedTimeAgo = formatTimeAgo(user.last_message_time, lang);
-                  
-                    contactElement.innerHTML = `
-                        <div class="relative">
-                            <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" alt="${user.pseudo || user.prenom || user.nom_salon}" class="h-12 w-12 rounded-full object-cover">
-                            ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
-                        </div>
-                        <div class="ml-3 flex-1">
-                            <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
-                            <div class="flex items-center justify-between">
-                                <p class="text-xs">
-                                    ${user.from_id !== user.viewer_id ? '{{ __("chat.you") }}' : user.pseudo || user.prenom || user.nom_salon}
-                                    ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __("chat.attachment") }}' : '{{ __("chat.no_messages_yet") }}'}
-                                </p>
-                                <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
-                            </div>
-                        </div>
-                    `;
-                    contactsContainer.appendChild(contactElement);
-                });
+    // Désactive le clic si le profil est en pause
+    if (!user.is_profil_pause) {
+        contactElement.onclick = () => showMessages(user);
+    }
+
+    const formattedTimeAgo = formatTimeAgo(user.last_message_time, lang);
+
+    contactElement.innerHTML = `
+        ${user.is_profil_pause ? `
+            <div class="group absolute top-1 right-1 z-10">
+                <span class="bg-orange-400 text-white text-[10px] px-2 py-[2px] rounded-full shadow">
+                    {{ __('gestionPause.chatPauseBadge') }}
+                </span>
+                <div class="absolute top-full right-0 mt-1 w-52 bg-gray-800 text-white text-[10px] p-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {{ __('gestionPause.chatPause') }}
+                </div>
+            </div>` : ''
+        }
+
+        <div class="relative">
+            <img src="${user.avatar ? `/storage/avatars/${user.avatar}` : '/images/icon_logo.png'}" 
+                 alt="${user.pseudo || user.prenom || user.nom_salon}" 
+                 class="h-12 w-12 rounded-full object-cover">
+            ${user.is_online ? `<span class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500" title="Online"></span>` : ''}
+        </div>
+
+        <div class="ml-3 flex-1">
+            <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
+            <div class="flex items-center justify-between">
+                <p class="text-xs">
+                    ${user.from_id !== user.viewer_id ? '{{ __("chat.you") }}' : user.pseudo || user.prenom || user.nom_salon}
+                    ${user.last_message ? user.last_message.substring(0, 6) + (user.last_message.length > 6 ? '...' : '') : user.last_message.attachment ? '{{ __("chat.attachment") }}' : '{{ __("chat.no_messages_yet") }}'}
+                </p>
+                <p class="text-xs text-textColorParagraph">${formattedTimeAgo}</p>
+            </div>
+        </div>
+    `;
+
+    contactsContainer.appendChild(contactElement);
+});
+
+
 
 
                 fetchUnreadCounts();

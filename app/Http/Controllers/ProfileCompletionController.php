@@ -119,7 +119,8 @@ class ProfileCompletionController extends Controller
                 if($escort->ville){
                 $escort['ville'] = Ville::where('id', $escort->ville)->first() ?? '';
                 }
-                $escort['categorie'] = Categorie::find($escort->categorie);
+                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
                 $serviceIds = !empty($escort->service) ? explode(',', $escort->service) : [];
                 $escort['service'] = Service::whereIn('id', $serviceIds)->get();
                 // dd($escort->service);
