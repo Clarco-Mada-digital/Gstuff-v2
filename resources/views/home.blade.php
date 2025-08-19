@@ -149,6 +149,8 @@
             </div>
         </div>
 
+   
+
         {{-- Section listing escort --}}
         <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
             <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold lg:text-4xl">
@@ -446,49 +448,36 @@
         const Listcontainer = document.getElementById('listingContainer')
 
         EscortrightBtn.addEventListener('click', () => {
-    console.log('Escort container scrollWidth:', Escortcontainer.scrollWidth);
-    console.log('Escort container clientWidth:', Escortcontainer.clientWidth);
-    console.log('Escort container scrollLeft:', Escortcontainer.scrollLeft);
-    console.log('Nombre de cartes:', Escortcontainer.children.length);
+    
 
-    scrollByPercentage(Escortcontainer, false, 35);
+    scrollByPercentage(Escortcontainer, false, 10);
 });
 
 EscortleftBtn.addEventListener('click', () => {
-    console.log('Escort container scrollWidth:', Escortcontainer.scrollWidth);
-    console.log('Escort container clientWidth:', Escortcontainer.clientWidth);
-    console.log('Escort container scrollLeft:', Escortcontainer.scrollLeft);
-    scrollByPercentage(Escortcontainer, true, 35);
+   
+    scrollByPercentage(Escortcontainer, true, 10);
 });
 
 SalonrightBtn.addEventListener('click', () => {
-    console.log('Salon container scrollWidth:', Saloncontainer.scrollWidth);
-    console.log('Salon container clientWidth:', Saloncontainer.clientWidth);
-    console.log('Salon container scrollLeft:', Saloncontainer.scrollLeft);
+   
     scrollByPercentage(Saloncontainer, false, 35);
 });
 
 SalonleftBtn.addEventListener('click', () => {
-    console.log('Salon container scrollWidth:', Saloncontainer.scrollWidth);
-    console.log('Salon container clientWidth:', Saloncontainer.clientWidth);
-    console.log('Salon container scrollLeft:', Saloncontainer.scrollLeft);
+   
     scrollByPercentage(Saloncontainer, true, 35);
 });
 
         ListrightBtn.addEventListener('click', () => {
-            console.log('List container scrollWidth:', Listcontainer.scrollWidth);
-            console.log('List container clientWidth:', Listcontainer.clientWidth);
-            console.log('List container scrollLeft:', Listcontainer.scrollLeft);
-            console.log('Nombre de cartes:', Listcontainer.children.length);
+            
             scrollByPercentage(Listcontainer, false, 10)
         })
         ListleftBtn.addEventListener('click', () => {
-            console.log('List container scrollWidth:', Listcontainer.scrollWidth);
-            console.log('List container clientWidth:', Listcontainer.clientWidth);
-            console.log('List container scrollLeft:', Listcontainer.scrollLeft);
-            console.log('Nombre de cartes:', Listcontainer.children.length);
+         
             scrollByPercentage(Listcontainer, true, 10)
         })
+
+
     </script>
 @endsection
 
