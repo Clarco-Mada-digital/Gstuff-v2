@@ -10,4 +10,5 @@ return [
     'contentmodalpause' => '¿Estás seguro de que deseas pausar tu perfil? Podrás reactivarlo en cualquier momento.',
     'reactivationBanner' => 'Tu perfil está actualmente <strong>en pausa</strong>. Puedes reactivarlo en cualquier momento.',
     'reactivationBannerButton' => 'Reactivar mi perfil',
+    'badgePauseToolTip' => 'Este perfil está actualmente en pausa',
 ];

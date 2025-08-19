@@ -10,4 +10,5 @@ return [
     'contentmodalpause' => 'Are you sure you want to pause your profile? You can reactivate it at any time.',
     'reactivationBanner' => 'Your profile is currently <strong>on hold</strong>. You can reactivate it at any time.',
     'reactivationBannerButton' => 'Reactivate my profile',
+    'badgePauseToolTip' => 'This profile is currently on hold',
 ];
