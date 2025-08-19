@@ -633,30 +633,59 @@
         const chatshow = document.getElementById('chatshow');
 
 
-        function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
-            // Si aucun élément n'est fourni, on utilise la fenêtre
-            const target = element || document.documentElement;
+        // function scrollByPercentage(element, ltr = true, percentageX = 0, percentageY = 0) {
+        //     // Si aucun élément n'est fourni, on utilise la fenêtre
+        //     const target = element || document.documentElement;
 
-            // Nombre d'element dans le container
-            let containerChild = parseInt(element.children.length);
-            itemPercent = Math.ceil(100 / containerChild);
+        //     // Nombre d'element dans le container
+        //     let containerChild = parseInt(element.children.length);
+        //     itemPercent = Math.ceil(100 / containerChild);
 
-            if (percentageX == 0) {
-                percentageX = itemPercent + 1;
-            }
+        //     if (percentageX == 0) {
+        //         percentageX = itemPercent + 1;
+        //     }
 
-            // Calcul des distances de défilement
-            const scrollX = ltr ? (target.scrollWidth - target.clientWidth) * (percentageX / 100) : -(target.scrollWidth -
-                target.clientWidth) * (percentageX / 100);
-            // const scrollY = (target.scrollHeight - target.clientHeight) * (percentageY / 100);
+        //     // Calcul des distances de défilement
+        //     const scrollX = ltr ? (target.scrollWidth - target.clientWidth) * (percentageX / 100) : -(target.scrollWidth -
+        //         target.clientWidth) * (percentageX / 100);
+        //     // const scrollY = (target.scrollHeight - target.clientHeight) * (percentageY / 100);
 
-            // Défilement vers la position calculée
-            target.scrollBy({
-                left: scrollX,
-                top: scrollY,
-                behavior: 'smooth' // Optionnel : pour un défilement fluide
-            });
-        }
+        //     // Défilement vers la position calculée
+        //     target.scrollBy({
+        //         left: scrollX,
+        //         top: scrollY,
+        //         behavior: 'smooth' // Optionnel : pour un défilement fluide
+        //     });
+        // }
+
+        function scrollByPercentage(element, ltr = true, percentageX = 0) {
+    const target = element || document.documentElement;
+
+    const maxScrollLeft = 3409 - target.clientWidth;
+    console.log('maxScrollLeftaaaa', maxScrollLeft);
+    const currentScrollLeft = target.scrollLeft;
+    console.log('currentScrollLeft', currentScrollLeft);
+
+    const scrollAmount = maxScrollLeft * (percentageX / 100);
+
+    // Empêche le scroll si on est déjà au bout
+    if (ltr && currentScrollLeft + scrollAmount >= maxScrollLeft) {
+        target.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
+        return;
+    }
+
+    if (!ltr && currentScrollLeft - scrollAmount <= 0) {
+        target.scrollTo({ left: 0, behavior: 'smooth' });
+        return;
+    }
+
+    target.scrollBy({
+        left: ltr ? scrollAmount : -scrollAmount,
+        behavior: 'smooth'
+    });
+}
+
+
 
         function loginForm() {
 

@@ -84,11 +84,11 @@
                 x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
                 <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
-                <div id="NewEscortContainer"
-                    class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
-                    style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                <div id="NewEscortContainer" 
+                class="relative mb-4 mt-5 flex w-full h-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden  px-10"
+                style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                     @foreach ($escorts->take(10) as $escort)
-                        <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
+                        <livewire:escort-card wire:key="escort-{{ $escort->id }}"  name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                             ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' 
                             isPause="{{ $escort->is_profil_pause }}"
                             isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
@@ -446,21 +446,47 @@
         const Listcontainer = document.getElementById('listingContainer')
 
         EscortrightBtn.addEventListener('click', () => {
-            scrollByPercentage(Escortcontainer, false, 35)
-        })
-        EscortleftBtn.addEventListener('click', () => {
-            scrollByPercentage(Escortcontainer, true, 35)
-        })
-        SalonrightBtn.addEventListener('click', () => {
-            scrollByPercentage(Saloncontainer, false, 35)
-        })
-        SalonleftBtn.addEventListener('click', () => {
-            scrollByPercentage(Saloncontainer, true, 35)
-        })
+    console.log('Escort container scrollWidth:', Escortcontainer.scrollWidth);
+    console.log('Escort container clientWidth:', Escortcontainer.clientWidth);
+    console.log('Escort container scrollLeft:', Escortcontainer.scrollLeft);
+    console.log('Nombre de cartes:', Escortcontainer.children.length);
+
+    scrollByPercentage(Escortcontainer, false, 35);
+});
+
+EscortleftBtn.addEventListener('click', () => {
+    console.log('Escort container scrollWidth:', Escortcontainer.scrollWidth);
+    console.log('Escort container clientWidth:', Escortcontainer.clientWidth);
+    console.log('Escort container scrollLeft:', Escortcontainer.scrollLeft);
+    scrollByPercentage(Escortcontainer, true, 35);
+});
+
+SalonrightBtn.addEventListener('click', () => {
+    console.log('Salon container scrollWidth:', Saloncontainer.scrollWidth);
+    console.log('Salon container clientWidth:', Saloncontainer.clientWidth);
+    console.log('Salon container scrollLeft:', Saloncontainer.scrollLeft);
+    scrollByPercentage(Saloncontainer, false, 35);
+});
+
+SalonleftBtn.addEventListener('click', () => {
+    console.log('Salon container scrollWidth:', Saloncontainer.scrollWidth);
+    console.log('Salon container clientWidth:', Saloncontainer.clientWidth);
+    console.log('Salon container scrollLeft:', Saloncontainer.scrollLeft);
+    scrollByPercentage(Saloncontainer, true, 35);
+});
+
         ListrightBtn.addEventListener('click', () => {
+            console.log('List container scrollWidth:', Listcontainer.scrollWidth);
+            console.log('List container clientWidth:', Listcontainer.clientWidth);
+            console.log('List container scrollLeft:', Listcontainer.scrollLeft);
+            console.log('Nombre de cartes:', Listcontainer.children.length);
             scrollByPercentage(Listcontainer, false, 10)
         })
         ListleftBtn.addEventListener('click', () => {
+            console.log('List container scrollWidth:', Listcontainer.scrollWidth);
+            console.log('List container clientWidth:', Listcontainer.clientWidth);
+            console.log('List container scrollLeft:', Listcontainer.scrollLeft);
+            console.log('Nombre de cartes:', Listcontainer.children.length);
             scrollByPercentage(Listcontainer, true, 10)
         })
     </script>
