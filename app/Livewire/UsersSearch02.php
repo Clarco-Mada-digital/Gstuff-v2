@@ -12,7 +12,7 @@ use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 
-class UsersSearch extends Component
+class UsersSearch02 extends Component
 {
     use WithPagination; // Ajoutez ce trait
     
@@ -28,6 +28,7 @@ class UsersSearch extends Component
     public $perPage = 8; // Nombre d'éléments par page
     public $page = 1;
     public $genres;
+    public $userType = '';
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -97,6 +98,21 @@ class UsersSearch extends Component
             return $user->isProfileVisibleTo($viewerCountry);
         });
     }
+
+    public function setUserType($type)
+    {
+        $this->userType = $type;
+        $this->reset([
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedCategories',
+            'page'
+        ]);
+        $this->villes = collect([]);
+        // Pas de rechargement automatique ici
+    }
+
 
     public function render()
     {   
@@ -208,7 +224,7 @@ class UsersSearch extends Component
           
         ];
 
-        return view('livewire.users-search', [
+        return view('livewire.users-search02', [
             'users' => $paginatedUsers,
             'filterApplay' => $filterApplay
         ]);

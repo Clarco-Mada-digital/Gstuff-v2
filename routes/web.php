@@ -307,6 +307,7 @@ Route::post('/test', [AuthController::class, 'test'])->name('test');
 // ============================== Routes public ===========================================
 // Recherche
 Route::get('search', function(){return view('search_page');})->middleware(['web'])->name('search');
+Route::get('search02', function(){return view('search_page02');})->middleware(['web'])->name('search02');
 
 // Approximate
 Route::get('/approximiter/{id}', function ($id) { return view('components.approximate', ['userId' => $id]);})->name('approximiter');

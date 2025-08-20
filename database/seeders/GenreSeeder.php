@@ -45,46 +45,46 @@ class GenreSeeder extends Seeder
                 ],
                 'slug' => 'trans',
             ],
-            [
-                'name' => [
-                    'fr' => 'Gay',
-                    'en-US' => 'Gay',
-                    'es' => 'Gay',
-                    'it' => 'Gay',
-                    'de' => 'Schwul',
-                ],
-                'slug' => 'gay',
-            ],
-            [
-                'name' => [
-                    'fr' => 'Lesbienne',
-                    'en-US' => 'Lesbian',
-                    'es' => 'Lesbiana',
-                    'it' => 'Lesbica',
-                    'de' => 'Lesbisch',
-                ],
-                'slug' => 'lesbienne',
-            ],
-            [
-                'name' => [
-                    'fr' => 'Bisexuelle',
-                    'en-US' => 'Bisexual',
-                    'es' => 'Bisexual',
-                    'it' => 'Bisessuale',
-                    'de' => 'Bisexuell',
-                ],
-                'slug' => 'bisexuelle',
-            ],
-            [
-                'name' => [
-                    'fr' => 'Queer',
-                    'en-US' => 'Queer',
-                    'es' => 'Queer',
-                    'it' => 'Queer',
-                    'de' => 'Queer',
-                ],
-                'slug' => 'queer',
-            ],
+            // [
+            //     'name' => [
+            //         'fr' => 'Gay',
+            //         'en-US' => 'Gay',
+            //         'es' => 'Gay',
+            //         'it' => 'Gay',
+            //         'de' => 'Schwul',
+            //     ],
+            //     'slug' => 'gay',
+            // ],
+            // [
+            //     'name' => [
+            //         'fr' => 'Lesbienne',
+            //         'en-US' => 'Lesbian',
+            //         'es' => 'Lesbiana',
+            //         'it' => 'Lesbica',
+            //         'de' => 'Lesbisch',
+            //     ],
+            //     'slug' => 'lesbienne',
+            // ],
+            // [
+            //     'name' => [
+            //         'fr' => 'Bisexuelle',
+            //         'en-US' => 'Bisexual',
+            //         'es' => 'Bisexual',
+            //         'it' => 'Bisessuale',
+            //         'de' => 'Bisexuell',
+            //     ],
+            //     'slug' => 'bisexuelle',
+            // ],
+            // [
+            //     'name' => [
+            //         'fr' => 'Queer',
+            //         'en-US' => 'Queer',
+            //         'es' => 'Queer',
+            //         'it' => 'Queer',
+            //         'de' => 'Queer',
+            //     ],
+            //     'slug' => 'queer',
+            // ],
         ];
 
         foreach ($genres as $genreData) {
