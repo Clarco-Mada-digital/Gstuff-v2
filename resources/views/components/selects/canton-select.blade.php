@@ -110,7 +110,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        console.log('cantonnnnnn ');
+        console.log('cantonnnnnn');
         
         const select = document.getElementById('{{ $id }}');
         const customSelect = document.querySelector('.custom-select');

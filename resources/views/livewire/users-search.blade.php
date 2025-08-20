@@ -60,13 +60,22 @@
                 />
             </div>
 
-            <x-buttons.reset-button 
-                wire:click="resetFilters" 
-                class="w-56 m-auto p-2"
-                :loading-target="'resetFilters'"
-                translation="escort-search.reset_filters"
-                loading-translation="escort-search.resetting"
-            />
+            @if(
+           
+                    !empty($search) ||
+                    !empty($selectedCanton) ||
+                    !empty($selectedVille) ||
+                    !empty($selectedGenre) ||
+                    !empty($selectedCategories)
+                )
+                    <x-buttons.reset-button
+                        wire:click="resetFilters"
+                        class="w-56 m-auto p-2"
+                        :loading-target="'resetFilters'"
+                        translation="escort-search.reset_filters"
+                        loading-translation="escort-search.resetting"
+                    />
+                @endif
 
         </form>
     </div>

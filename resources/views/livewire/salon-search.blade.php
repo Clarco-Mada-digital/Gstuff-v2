@@ -4,7 +4,7 @@
             {{ __('salon-search.title') }}</h1>
 
 
-        @if ($showFiltreCanton)
+        <div class="w-full @if($showFiltreCanton) block @else hidden @endif">
             <x-salon-location-filters
                 :cantons="$cantons"
                 :villes="$villes"
@@ -14,7 +14,7 @@
                 cantonModel="selectedSalonCanton"
                 villeModel="selectedSalonVille"
             />
-        @endif
+        </div>
 
 
 

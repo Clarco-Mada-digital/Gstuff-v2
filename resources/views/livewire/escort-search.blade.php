@@ -35,8 +35,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-3xl font-bold">
         {{ __('escort-search.discover_escorts') }}
         </h1>
-        @if ($showFiltreCanton)
-            <x-escort-filters
+   <div class=" w-full @if($showFiltreCanton) block @else hidden @endif">
+   <x-escort-filters 
                 :cantons="$cantons"
                 :villes="$villes"
                 :genres="$genres"
@@ -45,7 +45,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 :selectedGenre="$selectedGenre"
                 class="mb-3"
             />
-        @endif
+   </div>
+
+           
+     
         @if ($approximite || $showClosestOnly)
             <div class="mx-auto mb-4 mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
                 <div class="">
@@ -167,7 +170,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
         
         @if(
-           
+           $approximite ||
+           $showClosestOnly ||
            !empty($selectedCanton) ||
            !empty($selectedVille) ||
            !empty($selectedGenre) ||
