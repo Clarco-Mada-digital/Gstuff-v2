@@ -21,7 +21,8 @@
         {{-- Nom + badges --}}
         <div class="flex items-center gap-2">
             <a class="flex items-center gap-2" href="{{ route('show_salon', $salonId) }}">
-                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{ ucfirst($name) }}</h5>
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
+                </h5>
             </a>
 
             {{-- Badge vérifié --}}

@@ -27,7 +27,8 @@
         <div class="flex items-center gap-2">
             <a class="flex items-center gap-2"
                 @if ($user->profile_type == 'escorte') href="{{ route('show_escort', $escortId) }}" @else href="{{ route('show_salon', $escortId) }}" @endif>
-                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{ ucfirst($name) }}</h5>
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
+                </h5>
             </a>
 
             {{-- Badge vérifié --}}
