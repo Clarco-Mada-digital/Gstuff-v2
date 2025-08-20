@@ -20,7 +20,8 @@ class UsersSearch02 extends Component
     public string $selectedCanton = '';
     public string $selectedVille = '';
     public string $selectedGenre = '';
-    public array $selectedCategories = [];
+    public string $selectedSalonCategories = '';
+    public array $selectedEscortCategories = [];
     public $escortCategories;
     public $salonCategories;
     public $cantons = '';
@@ -35,7 +36,7 @@ class UsersSearch02 extends Component
         'selectedCanton' => ['except' => ''],
         'selectedVille' => ['except' => ''],
         'selectedGenre' => ['except' => ''],
-        'selectedCategories' => ['except' => []],
+        'selectedCategories' => ['except' => ''],
         'page' => ['except' => 1]
     ];
 
@@ -59,7 +60,7 @@ class UsersSearch02 extends Component
     public function updated($property)
     {
         // Réinitialise la pagination quand un filtre change
-        if (in_array($property, ['search', 'selectedCanton', 'selectedVille', 'selectedGenre', 'selectedCategories'])) {
+        if (in_array($property, ['search', 'selectedCanton', 'selectedVille', 'selectedGenre', 'selectedSalonCategories', 'selectedEscortCategories'])) {
             $this->resetPage();
         }
     }
@@ -83,7 +84,8 @@ class UsersSearch02 extends Component
             'selectedCanton',
             'selectedVille',
             'selectedGenre',
-            'selectedCategories',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
             'page'
         ]);
         $this->villes = collect([]);
@@ -106,7 +108,8 @@ class UsersSearch02 extends Component
             'selectedCanton',
             'selectedVille',
             'selectedGenre',
-            'selectedCategories',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
             'page'
         ]);
         $this->villes = collect([]);
@@ -121,7 +124,8 @@ class UsersSearch02 extends Component
             $this->selectedCanton,
             $this->selectedVille,
             $this->selectedGenre,
-            $this->selectedCategories,
+            $this->selectedSalonCategories,
+            $this->selectedEscortCategories,
             request()->ip()
         ]));
 
@@ -158,20 +162,23 @@ class UsersSearch02 extends Component
             $query->where('genre_id', $this->selectedGenre);
         }
 
-        // if (!empty($this->selectedCategories)) {
-        //     $query->where(function($q) {
-        //         foreach ($this->selectedCategories as $category) {
-        //             $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
-        //         }
-        //     });
-        // }
+        if($this->userType === 'escort'){
+            
 
-        if (!empty($this->selectedCategories)) {
-            foreach ($this->selectedCategories as $category) {
-                $query->where('categorie', 'LIKE', '%' . $category . '%');
-            }
+        if (!empty($this->selectedEscortCategories)) {
+            $query->where(function($q) {
+                foreach ($this->selectedEscortCategories as $category) {
+                    $q->Where('categorie', 'LIKE', '%' . $category . '%');
+                }
+            });
         }
-        
+        }elseif($this->userType === 'salon'){
+
+        if (!empty($this->selectedSalonCategories)) {
+            $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+        }
+    }
+    
 
         $filteredUsers = $query->get();
 
@@ -209,7 +216,8 @@ class UsersSearch02 extends Component
         $selecterCantonInfo = null;
         $selecterVilleInfo = null;
         $selecterGenreInfo = null;
-        $selecterCategoriesInfo = null;
+        $selecterEscortCategoriesInfo = null;
+        $selecterSalonCategoriesInfo = null;
         $searchInfo = null;
 
         if($this->search){
@@ -224,16 +232,21 @@ class UsersSearch02 extends Component
         if($this->selectedGenre){
             $selecterGenreInfo = Genre::find($this->selectedGenre);
         }
-        if($this->selectedCategories){
-            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedCategories)->get();
+        if($this->selectedEscortCategories){
+            $selecterEscortCategoriesInfo = Categorie::whereIn('id', $this->selectedEscortCategories)->get();
         }
+        if (!empty($this->selectedSalonCategories)) {
+            $selecterSalonCategoriesInfo = Categorie::where('id', $this->selectedSalonCategories)->get();
+        }
+        
      
 
         $filterApplay = [
             'selectedCanton' => $selecterCantonInfo,
             'selectedVille' => $selecterVilleInfo,
             'selectedGenre' => $selecterGenreInfo,
-            'selectedCategories' => $selecterCategoriesInfo,
+            'selectedEscortCategories' => $selecterEscortCategoriesInfo,
+            'selectedSalonCategories' => $selecterSalonCategoriesInfo,
             'search' => $searchInfo,
           
         ];

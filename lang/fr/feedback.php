@@ -25,4 +25,6 @@ return [
     'success' => [
         'submitted' => 'Votre avis a été soumis avec succès.',
     ],
+
+    'comment' => 'Commenter',
 ];

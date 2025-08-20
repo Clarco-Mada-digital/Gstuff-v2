@@ -155,30 +155,42 @@
     </div>
     @endif
     <div class="flex flex-col items-center justify-between gap-2 md:flex-row font-roboto-slab bg-fieldBg">
-        <span
-            class="font-roboto-slab text-green-gs text-center text-xl font-bold md:text-start">{{ __('feedback.recommendations_likes_rating') }}</span>
-        <span class="hidden items-center md:flex">
+ 
+    <!-- Titre -->
+    <span class="font-roboto-slab text-green-gs text-xl font-bold text-center md:text-start">
+        {{ __('feedback.recommendations_likes_rating') }}
+    </span>
+
+    <!-- Section actions -->
+    <div class="flex items-center gap-3 justify-center md:justify-end">
+        <!-- Bouton pour les invités -->
+        @guest
+    <button
+        data-modal-target="authentication-modal"
+        data-modal-toggle="authentication-modal"
+        class="flex items-center gap-2 px-4 py-2 bg-green-gs text-white rounded-md hover:bg-green-gs/80 transition duration-200 shadow-sm"
+    >
+        <!-- Icône commentaire -->
+        <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.84L3 20l1.84-4.6A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+
+        {{ __('feedback.comment') }}
+    </button>
+@endguest
+
+
+        <!-- Étoiles -->
+        @for ($i = 0; $i < 5; $i++)
             <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-            <svg class="h-5 w-5 text-supaGirlRose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-        </span>
+        @endfor
+    </div>
+
     </div>
 
     {{-- List des commentaire --}}

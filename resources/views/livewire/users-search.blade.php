@@ -44,8 +44,8 @@
             <div class="flex flex-wrap items-center justify-center gap-2 mb-2 font-bold text-sm xl:text-base">
                 <x-category-checkbox 
                     :categories="$salonCategories"
-                    :selected-values="$selectedCategories"
-                    model="selectedCategories"
+                    :selected-values="$selectedSalonCategories"
+                    model="selectedSalonCategories"
                     prefixId="salon"
                 />
             </div>
@@ -54,8 +54,8 @@
             <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
                 <x-category-checkbox 
                     :categories="$escortCategories"
-                    :selected-values="$selectedCategories"
-                    model="selectedCategories"
+                    :selected-values="$selectedEscortCategories"
+                    model="selectedEscortCategories"
                     prefixId="escort"
                 />
             </div>
@@ -66,7 +66,8 @@
                     !empty($selectedCanton) ||
                     !empty($selectedVille) ||
                     !empty($selectedGenre) ||
-                    !empty($selectedCategories)
+                    !empty($selectedSalonCategories) ||
+                    !empty($selectedEscortCategories)
                 )
                     <x-buttons.reset-button
                         wire:click="resetFilters"

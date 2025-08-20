@@ -183,6 +183,7 @@
                         </div>
 
                         <section>
+                      
 
                             {{-- Galerie --}}
                             @livewire('gallery-manager', ['user' => $salon], key($salon->id))
@@ -253,7 +254,7 @@
                                         <div class="swiper-container professionals-swiper">
                                             <div class="swiper-wrapper">
                                                 @foreach ($acceptedInvitations as $index => $acceptedInvitation)
-                                                    <div class="swiper-slide">
+                                                    <div class="swiper-slide mx-4 sm:mx-0">
                                                         @if ($acceptedInvitation->type === 'associe au salon')
                                                             <livewire:escort_card
                                                                 name="{{ $acceptedInvitation->inviter->prenom ?? $acceptedInvitation->inviter->nom_salon }}"
@@ -276,11 +277,11 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                            <!-- Navigation buttons -->
+                                            <!-- Navigation buttons 
                                             <button type="button"
-                                                class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-prev">
+                                                class="group absolute start-0 top-0 z-30 flex w-10 h-10 cursor-pointer items-center justify-center px-4 focus:outline-none swiper-button-prev">
                                                 <span
-                                                    class="bg-green-gs group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
+                                                    class="bg-green-gs w-10 h-10 group-hover:bg-green-gs/80 group-focus:ring-green-gs/50 inline-flex h-10 w-10 items-center justify-center rounded-full group-focus:outline-none group-focus:ring-4">
                                                     <svg class="h-4 w-4 text-white rtl:rotate-180" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                                         <path stroke="currentColor" stroke-linecap="round"
@@ -301,7 +302,7 @@
                                                     </svg>
                                                     <span class="sr-only">Next</span>
                                                 </span>
-                                            </button>
+                                            </button>-->
                                         </div>
                                     </div>
                                 @else
@@ -325,11 +326,13 @@
                                 .swiper-wrapper {
                                     display: flex;
                                     width: 100%;
+                                    justify-content: space-between;
                                 }
                                 .swiper-slide {
                                     display: flex;
                                     justify-content: center;
                                     align-items: flex-start;
+                                    margin: 0 10px;
                                     width: 300px; /* Largeur fixe pour chaque carte */
                                     height: auto;
                                     flex-shrink: 0;
@@ -372,7 +375,7 @@
                                 document.addEventListener('DOMContentLoaded', function() {
                                     const swiper = new Swiper('.professionals-swiper', {
                                         slidesPerView: 'auto',
-                                        spaceBetween: 20,
+                                        spaceBetween: 100,
                                         centeredSlides: false,
                                         freeMode: true,
                                         loop: true,
@@ -385,6 +388,9 @@
                                             prevEl: '.swiper-button-prev',
                                         },
                                         breakpoints: {
+                                            320: {
+                                                slidesPerView: 1,
+                                            },
                                             640: {
                                                 slidesPerView: 2,
                                             },

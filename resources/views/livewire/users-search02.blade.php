@@ -122,8 +122,8 @@
                     <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base @if($userType === 'escort') block @else hidden @endif">
                         <x-category-checkbox
                             :categories="$escortCategories"
-                            :selected-values="$selectedCategories"
-                            model="selectedCategories"
+                            :selected-values="$selectedEscortCategories"
+                            model="selectedEscortCategories"
                             prefixId="escort"
                         />
                     </div>
@@ -133,8 +133,8 @@
                 <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base @if($userType === 'salon') block @else hidden @endif">
                         <x-category-checkbox
                             :categories="$salonCategories"
-                            :selected-values="$selectedCategories"
-                            model="selectedCategories"
+                            :selected-values="$selectedSalonCategories"
+                            model="selectedSalonCategories"
                             prefixId="salon"
                         />
                     </div>
@@ -150,7 +150,8 @@
                 !empty($selectedCanton) ||
                 !empty($selectedVille) ||
                 !empty($selectedGenre) ||
-                !empty($selectedCategories)
+                !empty($selectedEscortCategories) ||
+                !empty($selectedSalonCategories)
             )
                 <x-buttons.reset-button
                     wire:click="resetFilters"
@@ -270,11 +271,21 @@
                         </div>
                     @endif
                 </div>
-                @if(isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
+                @if(isset($filterApplay['selectedEscortCategories']) && $filterApplay['selectedEscortCategories'])
                     <div class="flex flex-wrap gap-2 items-center justify-center">
                         <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
                         <div class="flex flex-wrap gap-2">
-                            @foreach ($filterApplay['selectedCategories'] as $category)
+                            @foreach ($filterApplay['selectedEscortCategories'] as $category)
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                @if(isset($filterApplay['selectedSalonCategories']) && $filterApplay['selectedSalonCategories'])
+                    <div class="flex flex-wrap gap-2 items-center justify-center">
+                        <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($filterApplay['selectedSalonCategories'] as $category)
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
                             @endforeach
                         </div>

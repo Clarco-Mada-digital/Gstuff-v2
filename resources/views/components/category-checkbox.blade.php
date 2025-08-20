@@ -76,7 +76,12 @@
 
         <div class="category-item min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none" style="animation-delay: {{ min($index * 0.05, 0.3) }}s">
             <input
+
+            @if($prefixId === 'escort')
+                type="checkbox"
+            @else
                 type="radio"
+            @endif
                 id="{{ $categoryId }}"
                 name="{{ $model }}"
                 value="{{ $categoryValue }}"

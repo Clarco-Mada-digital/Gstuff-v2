@@ -20,7 +20,8 @@ class UsersSearch extends Component
     public string $selectedCanton = '';
     public string $selectedVille = '';
     public string $selectedGenre = '';
-    public array $selectedCategories = [];
+    public string $selectedSalonCategories = '';
+    public array $selectedEscortCategories = [];
     public $escortCategories;
     public $salonCategories;
     public $cantons = '';
@@ -34,7 +35,8 @@ class UsersSearch extends Component
         'selectedCanton' => ['except' => ''],
         'selectedVille' => ['except' => ''],
         'selectedGenre' => ['except' => ''],
-        'selectedCategories' => ['except' => []],
+        'selectedSalonCategories' => ['except' => ''],
+        'selectedEscortCategories' => ['except' => []],
         'page' => ['except' => 1]
     ];
 
@@ -82,7 +84,8 @@ class UsersSearch extends Component
             'selectedCanton',
             'selectedVille',
             'selectedGenre',
-            'selectedCategories',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
             'page'
         ]);
         $this->villes = collect([]);
@@ -105,7 +108,8 @@ class UsersSearch extends Component
             $this->selectedCanton,
             $this->selectedVille,
             $this->selectedGenre,
-            $this->selectedCategories,
+            $this->selectedSalonCategories,
+            $this->selectedEscortCategories,
             request()->ip()
         ]));
 
@@ -135,13 +139,20 @@ class UsersSearch extends Component
             $query->where('genre_id', $this->selectedGenre);
         }
 
-        if (!empty($this->selectedCategories)) {
+
+
+        if (!empty($this->selectedEscortCategories)) {
             $query->where(function($q) {
-                foreach ($this->selectedCategories as $category) {
+                foreach ($this->selectedEscortCategories as $category) {
                     $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
                 }
             });
         }
+
+        if ($this->selectedSalonCategories) {
+            $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+        }
+        
 
         $filteredUsers = $query->get();
 
@@ -194,8 +205,11 @@ class UsersSearch extends Component
         if($this->selectedGenre){
             $selecterGenreInfo = Genre::find($this->selectedGenre);
         }
-        if($this->selectedCategories){
-            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedCategories)->get();
+        if($this->selectedEscortCategories){
+            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedEscortCategories)->get();
+        }
+        if($this->selectedSalonCategories){
+            $selecterCategoriesInfo = Categorie::where('id', $this->selectedSalonCategories)->get();
         }
      
 
@@ -203,7 +217,8 @@ class UsersSearch extends Component
             'selectedCanton' => $selecterCantonInfo,
             'selectedVille' => $selecterVilleInfo,
             'selectedGenre' => $selecterGenreInfo,
-            'selectedCategories' => $selecterCategoriesInfo,
+            'selectedEscortCategories' => $selecterCategoriesInfo,
+            'selectedSalonCategories' => $selecterCategoriesInfo,
             'search' => $searchInfo,
           
         ];
