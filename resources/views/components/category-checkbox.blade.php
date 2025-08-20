@@ -1,6 +1,6 @@
 @props([
     'categories' => [],
-    'selectedValues' => [],
+    'selectedValue' => '',
     'model' => '',
     'color' => 'amber',
     'hoverColor' => 'green-gs',
@@ -12,18 +12,16 @@
 
 @push('scripts')
 <script>
-    function toggleCategory(checkbox) {
-        const label = checkbox.nextElementSibling;
-        const isChecked = checkbox.checked;
-
-        // Mise à jour immédiate du style
-        if (isChecked) {
-            label.classList.add('peer-checked:bg-' + checkbox.dataset.hoverColor, 'peer-checked:text-white');
-            label.classList.remove('bg-white');
-        } else {
-            label.classList.remove('peer-checked:bg-' + checkbox.dataset.hoverColor, 'peer-checked:text-white');
+    function toggleCategory(radio) {
+        const labels = document.querySelectorAll('.category-label');
+        labels.forEach(label => {
+            label.classList.remove('peer-checked:bg-' + radio.dataset.hoverColor, 'peer-checked:text-white');
             label.classList.add('bg-white');
-        }
+        });
+
+        const label = radio.nextElementSibling;
+        label.classList.add('peer-checked:bg-' + radio.dataset.hoverColor, 'peer-checked:text-white');
+        label.classList.remove('bg-white');
     }
 </script>
 @endpush
@@ -63,7 +61,7 @@
 </style>
 
 @php
-    $baseClasses = 'border-2 hover:bg-' . $hoverColor . ' peer-checked:bg-' . $hoverColor . ' block w-full cursor-pointer rounded-lg border-supaGirlRose bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:text-white hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white peer-checked:animate-bounce sm:text-sm md:text-base text-green-gs font-roboto-slab';
+    $baseClasses = 'category-label border-2 hover:bg-' . $hoverColor . ' peer-checked:bg-' . $hoverColor . ' block w-full cursor-pointer rounded-lg border-supaGirlRose bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:text-white hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white peer-checked:animate-bounce sm:text-sm md:text-base text-green-gs font-roboto-slab';
 @endphp
 
 <div class="mx-4 my-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
@@ -73,14 +71,14 @@
             $categoryName = $category->{$nameField};
             $categoryValue = $category->{$valueField};
             $categoryLabel = $category->{$labelField};
-            $isChecked = in_array($categoryValue, $selectedValues);
+            $isChecked = $categoryValue == $selectedValue;
         @endphp
 
         <div class="category-item min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none" style="animation-delay: {{ min($index * 0.05, 0.3) }}s">
             <input
-                type="checkbox"
+                type="radio"
                 id="{{ $categoryId }}"
-                name="{{ $categoryName }}"
+                name="{{ $model }}"
                 value="{{ $categoryValue }}"
                 class="peer hidden"
                 wire:model.live="{{ $model }}"

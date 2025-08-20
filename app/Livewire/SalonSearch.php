@@ -25,7 +25,7 @@ class SalonSearch extends Component
     #[Url]
     public string $selectedSalonVille = '';
     #[Url]
-    public array $selectedSalonCategories = [];
+    public string $selectedSalonCategories = '';
     #[Url]
     public $villes = [];
     #[Url]
@@ -76,7 +76,7 @@ class SalonSearch extends Component
     {
         $this->selectedSalonCanton = '';
         $this->selectedSalonVille = '';
-        $this->selectedSalonCategories = [];
+        $this->selectedSalonCategories = '';
         $this->villes = [];
         $this->nbFilles = '';
         $this->approximite = false;
@@ -179,13 +179,18 @@ class SalonSearch extends Component
                 $query->where('ville', $this->selectedSalonVille);
             }
 
+            // if ($this->selectedSalonCategories) {
+            //     $query->where(function ($q) {
+            //         foreach ($this->selectedSalonCategories as $categorie) {
+            //             $q->where('categorie', 'LIKE', '%' . $categorie . '%');
+            //         }
+            //     });
+            // }
+
             if ($this->selectedSalonCategories) {
-                $query->where(function ($q) {
-                    foreach ($this->selectedSalonCategories as $categorie) {
-                        $q->where('categorie', 'LIKE', '%' . $categorie . '%');
-                    }
-                });
+                $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
             }
+            
 
             // if ($this->nbFilles) {
             //     $query->where(function ($q) {
@@ -214,13 +219,18 @@ class SalonSearch extends Component
                 foreach ($nearbyVilles as $ville) {
                     $query = User::query()->where('profile_type', 'salon')->where('ville', $ville->id);
 
+                    // if ($this->selectedSalonCategories) {
+                    //     $query->where(function ($q) {
+                    //         foreach ($this->selectedSalonCategories as $categorie) {
+                    //             $q->where('categorie', 'LIKE', '%' . $categorie . '%');
+                    //         }
+                    //     });
+                    // }
+
                     if ($this->selectedSalonCategories) {
-                        $query->where(function ($q) {
-                            foreach ($this->selectedSalonCategories as $categorie) {
-                                $q->where('categorie', 'LIKE', '%' . $categorie . '%');
-                            }
-                        });
+                        $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
                     }
+                    
 
                     // if ($this->nbFilles) {
                     //     $query->where(function ($q) {
@@ -372,21 +382,42 @@ class SalonSearch extends Component
                     
 
                     // Vérifier les catégories si sélectionnées
+                    // if (!empty($this->selectedSalonCategories)) {
+                    //     // Convertir la catégorie de l'escort en tableau si ce n'est pas déjà le cas
+                    //     $salonCategory = $item['salon']->categorie;
+                    //     $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
+
+                    //     // Convertir les IDs en chaînes pour la comparaison
+                    //     $salonCategories = array_map('strval', $salonCategories);
+                    //     $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+
+                    //     // Vérifier s'il y a une correspondance
+                    //     $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
+                    //     if (!$hasMatchingCategory) {
+                    //         return false;
+                    //     }
+                    // }
+
+                    // Vérifier la catégorie si sélectionnée
                     if (!empty($this->selectedSalonCategories)) {
-                        // Convertir la catégorie de l'escort en tableau si ce n'est pas déjà le cas
                         $salonCategory = $item['salon']->categorie;
-                        $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
 
-                        // Convertir les IDs en chaînes pour la comparaison
-                        $salonCategories = array_map('strval', $salonCategories);
-                        $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+                        // Si la catégorie du salon est un tableau, on vérifie s'il contient la sélection
+                        if (is_array($salonCategory)) {
+                            $salonCategories = array_map('strval', $salonCategory);
+                            $selectedCategory = (string) $this->selectedSalonCategories;
 
-                        // Vérifier s'il y a une correspondance
-                        $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
-                        if (!$hasMatchingCategory) {
-                            return false;
+                            if (!in_array($selectedCategory, $salonCategories)) {
+                                return false;
+                            }
+                        } else {
+                            // Comparaison directe si c’est une seule valeur
+                            if ((string) $salonCategory !== (string) $this->selectedSalonCategories) {
+                                return false;
+                            }
                         }
                     }
+
 
                     return true;
                 });
@@ -498,18 +529,39 @@ class SalonSearch extends Component
                     }
 
                     // Vérifier les catégories si sélectionnées
+                    // if (!empty($this->selectedSalonCategories)) {
+                    //     $salonCategory = $item['salon']->categorie;
+                    //     $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
+
+                    //     $salonCategories = array_map('strval', $salonCategories);
+                    //     $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+
+                    //     $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
+                    //     if (!$hasMatchingCategory) {
+                    //         return false;
+                    //     }
+                    // }
+
+                    // Vérifier la catégorie si sélectionnée
                     if (!empty($this->selectedSalonCategories)) {
                         $salonCategory = $item['salon']->categorie;
-                        $salonCategories = is_array($salonCategory) ? $salonCategory : [(string) $salonCategory];
 
-                        $salonCategories = array_map('strval', $salonCategories);
-                        $selectedCategories = array_map('strval', $this->selectedSalonCategories);
+                        // Si la catégorie du salon est un tableau
+                        if (is_array($salonCategory)) {
+                            $salonCategories = array_map('strval', $salonCategory);
+                            $selectedCategory = (string) $this->selectedSalonCategories;
 
-                        $hasMatchingCategory = count(array_intersect($selectedCategories, $salonCategories)) > 0;
-                        if (!$hasMatchingCategory) {
-                            return false;
+                            if (!in_array($selectedCategory, $salonCategories)) {
+                                return false;
+                            }
+                        } else {
+                            // Comparaison directe si c’est une seule valeur
+                            if ((string) $salonCategory !== (string) $this->selectedSalonCategories) {
+                                return false;
+                            }
                         }
                     }
+
 
                     return true;
                 });
@@ -550,8 +602,10 @@ class SalonSearch extends Component
         }
 
         if($this->selectedSalonCategories){
-            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedSalonCategories)->get();
+            $selecterCategoriesInfo = Categorie::where('id', $this->selectedSalonCategories)->first();
         }
+
+        
         if($this->nbFilles){
             $selecterNombreFilleInfo = NombreFille::where('id', $this->nbFilles)->get();
         }

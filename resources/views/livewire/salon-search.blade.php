@@ -148,14 +148,11 @@
                 class="flex-1"
             />
 
-
-
-
-
        </div>
 
        @if(
-           
+           $showClosestOnly ||
+           $approximite ||
            !empty($selectedSalonCanton) ||
            !empty($selectedSalonVille) ||
            !empty($selectedSalonCategories) ||
@@ -250,12 +247,14 @@
                 <div class="flex flex-wrap gap-2 items-center justify-center">
                     <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
                     <div class="flex flex-wrap gap-2">
-                        @foreach ($filterApplay['selectedCategories'] as $category)
-                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $category['nom'] }}</span>
-                        @endforeach
+                       
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $filterApplay['selectedCategories']['nom'] }}</span>
+                        
                     </div>
                 </div>
             @endif
+
+            
 
             {{-- NbFille --}}
             @if(isset($filterApplay['nbFilles']) && $filterApplay['nbFilles'])
