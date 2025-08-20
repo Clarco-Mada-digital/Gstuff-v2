@@ -114,6 +114,7 @@ class EscortSearch extends Component
         $this->autreFiltres = [];
         $this->approximite = false;
         $this->showClosestOnly = false;
+        $this->villes = [];
         $this->resetPage();
         $this->render();
     }
@@ -212,8 +213,9 @@ class EscortSearch extends Component
         $serviceQuery = Service::query();
 
 
-        $listeGenresExist = User::where('profile_type', 'escorte')->pluck('genre_id')->unique();
-        $this->genres = Genre::whereIn('id', $listeGenresExist)->get();
+        // $listeGenresExist = User::where('profile_type', 'escorte')->pluck('genre_id')->unique();
+        // $this->genres = Genre::whereIn('id', $listeGenresExist)->get();
+        $this->genres = Genre::all()->take(3);
 
         // Détection du pays via IP
         $position = Location::get(request()->ip());

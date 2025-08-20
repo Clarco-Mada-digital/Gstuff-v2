@@ -165,6 +165,17 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
     
         </div>
 
+        
+        @if(
+           
+           !empty($selectedCanton) ||
+           !empty($selectedVille) ||
+           !empty($selectedGenre) ||
+           !empty($selectedCategories) ||
+           !empty($selectedServices)||
+           !empty($autreFiltres)
+       )
+
         <div class="flex justify-center mt-5    ">
             <x-buttons.reset-button 
                 wire:click="resetFilter" 
@@ -175,7 +186,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             />
         </div>
 
-      
+      @endif
 
        
     </div>

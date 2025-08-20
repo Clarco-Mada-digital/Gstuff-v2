@@ -518,7 +518,13 @@
         </div>
 
         <div class="ml-3 flex-1">
-            <h3 class="font-medium text-green-gs">${user.pseudo || user.prenom || user.nom_salon}</h3>
+            <h3 class="font-medium text-green-gs">
+                ${(() => {
+                    const name = (user.pseudo || user.prenom || user.nom_salon || '').toLowerCase();
+                    return name.charAt(0).toUpperCase() + name.slice(1);
+                })()}
+            </h3>
+
             <div class="flex items-center justify-between">
                 <p class="text-xs">
                     ${user.from_id !== user.viewer_id ? '{{ __("chat.you") }}' : user.pseudo || user.prenom || user.nom_salon}

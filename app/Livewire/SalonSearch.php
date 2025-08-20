@@ -29,7 +29,7 @@ class SalonSearch extends Component
     #[Url]
     public $villes = [];
     #[Url]
-    public array $nbFilles = [];
+    public $nbFilles = '';
     public $categories;
     public $cantons;
     public $availableVilles;
@@ -78,7 +78,7 @@ class SalonSearch extends Component
         $this->selectedSalonVille = '';
         $this->selectedSalonCategories = [];
         $this->villes = [];
-        $this->nbFilles = [];
+        $this->nbFilles = '';
         $this->approximite = false;
         $this->showClosestOnly = false;
         $this->resetPage();
@@ -187,14 +187,21 @@ class SalonSearch extends Component
                 });
             }
 
+            // if ($this->nbFilles) {
+            //     $query->where(function ($q) {
+            //         foreach ($this->nbFilles as $nbFilles) {
+            //             $q->Where('nombre_fille_id', $nbFilles);
+            //             // $q->orWhere('nombre_fille_id', $nbFilles);
+            //         }
+            //     });
+            //     $this->resetPage();
+            // }
+
             if ($this->nbFilles) {
-                $query->where(function ($q) {
-                    foreach ($this->nbFilles as $nbFilles) {
-                        $q->orWhere('nombre_fille_id', $nbFilles);
-                    }
-                });
+                $query->where('nombre_fille_id', $this->nbFilles);
                 $this->resetPage();
             }
+            
 
             $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
                 return $salon->isProfileVisibleTo($viewerCountry);
@@ -215,13 +222,19 @@ class SalonSearch extends Component
                         });
                     }
 
+                    // if ($this->nbFilles) {
+                    //     $query->where(function ($q) {
+                    //         foreach ($this->nbFilles as $nbFilles) {
+                    //             $q->Where('nombre_fille_id', $nbFilles);
+                    //             // $q->orWhere('nombre_fille_id', $nbFilles);
+                    //         }
+                    //     });
+                    // }
                     if ($this->nbFilles) {
-                        $query->where(function ($q) {
-                            foreach ($this->nbFilles as $nbFilles) {
-                                $q->orWhere('nombre_fille_id', $nbFilles);
-                            }
-                        });
+                        $query->where('nombre_fille_id', $this->nbFilles);
+                        $this->resetPage();
                     }
+                    
 
                     $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
                         return $salon->isProfileVisibleTo($viewerCountry);
@@ -346,12 +359,17 @@ class SalonSearch extends Component
                     }
 
                     // Vérifier le nombre de filles si sélectionné
-                    if (!empty($this->nbFilles)) {
-                        $salonNbFilles = $item['salon']->nombre_fille_id;
-                        if (!in_array($salonNbFilles, $this->nbFilles)) {
-                            return false;
-                        }
+                    // if (!empty($this->nbFilles)) {
+                    //     $salonNbFilles = $item['salon']->nombre_fille_id;
+                    //     if (!in_array($salonNbFilles, $this->nbFilles)) {
+                    //         return false;
+                    //     }
+                    // }
+                    if ($this->nbFilles) {
+                        $query->where('nombre_fille_id', $this->nbFilles);
+                        $this->resetPage();
                     }
+                    
 
                     // Vérifier les catégories si sélectionnées
                     if (!empty($this->selectedSalonCategories)) {
@@ -535,7 +553,7 @@ class SalonSearch extends Component
             $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedSalonCategories)->get();
         }
         if($this->nbFilles){
-            $selecterNombreFilleInfo = NombreFille::whereIn('id', $this->nbFilles)->get();
+            $selecterNombreFilleInfo = NombreFille::where('id', $this->nbFilles)->get();
         }
 
       

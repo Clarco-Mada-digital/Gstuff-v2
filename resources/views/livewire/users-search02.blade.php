@@ -143,21 +143,24 @@
             </div>
 
             {{-- Bouton de réinitialisation --}}
+            @if($userType !== 'all')
             @if(
-    !empty($search) ||
-    !empty($selectedCanton) ||
-    !empty($selectedVille) ||
-    !empty($selectedGenre) ||
-    !empty($selectedCategories)
-)
-    <x-buttons.reset-button
-        wire:click="resetFilters"
-        class="w-56 m-auto p-2"
-        :loading-target="'resetFilters'"
-        translation="escort-search.reset_filters"
-        loading-translation="escort-search.resetting"
-    />
-@endif
+           
+                !empty($search) ||
+                !empty($selectedCanton) ||
+                !empty($selectedVille) ||
+                !empty($selectedGenre) ||
+                !empty($selectedCategories)
+            )
+                <x-buttons.reset-button
+                    wire:click="resetFilters"
+                    class="w-56 m-auto p-2"
+                    :loading-target="'resetFilters'"
+                    translation="escort-search.reset_filters"
+                    loading-translation="escort-search.resetting"
+                />
+            @endif
+            @endif
 
         </form>
     </div>

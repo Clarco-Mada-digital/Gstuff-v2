@@ -108,18 +108,19 @@
         </div>
 
         <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold text-green-gs">
-
-            @foreach ($nombreFilles as $nombreFille)
-                <div>
-                    <input wire:model.live='nbFilles' class="peer hidden" name="{{ $nombreFille->id }}" type="checkbox"
-                        id="nbfille{{ $nombreFille->id }}" value="{{ $nombreFille->id }}" />
-                    <label for="nbfille{{ $nombreFille->id }}"
-                        class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose bg-white 
-                        py-2 px-3 text-center text-green-gs hover:text-white peer-checked:text-white transition-all duration-200">{{ $nombreFille->getTranslation('name', app()->getLocale()) }}</label>
-                </div>
-            @endforeach
-
+    @foreach ($nombreFilles as $nombreFille)
+        <div>
+            <input wire:model.live='nbFilles' class="peer hidden" name="nbFilles" type="radio"
+                id="nbfille{{ $nombreFille->id }}" value="{{ $nombreFille->id }}" />
+            <label for="nbfille{{ $nombreFille->id }}"
+                class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose bg-white 
+                py-2 px-3 text-center text-green-gs hover:text-white peer-checked:text-white transition-all duration-200">
+                {{ $nombreFille->getTranslation('name', app()->getLocale()) }}
+            </label>
         </div>
+    @endforeach
+</div>
+
 
 
 
@@ -153,6 +154,14 @@
 
        </div>
 
+       @if(
+           
+           !empty($selectedSalonCanton) ||
+           !empty($selectedSalonVille) ||
+           !empty($selectedSalonCategories) ||
+           !empty($selectedServices)||
+           !empty($nbFilles)
+       )
 
         
         <x-buttons.reset-button 
@@ -162,6 +171,8 @@
                 translation="escort-search.reset_filters"
                 loading-translation="escort-search.resetting"
             />
+
+        @endif
 
     </div>
 
