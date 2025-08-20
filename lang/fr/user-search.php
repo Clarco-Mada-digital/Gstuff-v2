@@ -17,4 +17,6 @@ return [
         'escort' => 'Escortes',
     ],
     'search' => 'Rechercher ...',
+    'escort' => 'Escortes',
+    'salon' => 'Salons',
 ];

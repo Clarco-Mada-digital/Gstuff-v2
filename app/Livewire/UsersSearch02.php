@@ -28,7 +28,7 @@ class UsersSearch02 extends Component
     public $perPage = 8; // Nombre d'éléments par page
     public $page = 1;
     public $genres;
-    public $userType = '';
+    public $userType = 'all';
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -126,8 +126,15 @@ class UsersSearch02 extends Component
         ]));
 
         $query = User::query()->where(function ($q) {
-            $q->where('profile_type', 'escorte')
-              ->orWhere('profile_type', 'salon');
+
+            if($this->userType === 'escort'){
+                $q->where('profile_type', 'escorte');
+            }elseif($this->userType === 'salon'){
+                $q->where('profile_type', 'salon');
+            }elseif($this->userType === 'all'){
+                $q->where('profile_type', 'escorte')
+                  ->orWhere('profile_type', 'salon');
+            }
         });
 
         if ($this->search) {
@@ -151,13 +158,20 @@ class UsersSearch02 extends Component
             $query->where('genre_id', $this->selectedGenre);
         }
 
+        // if (!empty($this->selectedCategories)) {
+        //     $query->where(function($q) {
+        //         foreach ($this->selectedCategories as $category) {
+        //             $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
+        //         }
+        //     });
+        // }
+
         if (!empty($this->selectedCategories)) {
-            $query->where(function($q) {
-                foreach ($this->selectedCategories as $category) {
-                    $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
-                }
-            });
+            foreach ($this->selectedCategories as $category) {
+                $query->where('categorie', 'LIKE', '%' . $category . '%');
+            }
         }
+        
 
         $filteredUsers = $query->get();
 

@@ -109,6 +109,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        console.log('cantonnnnnn ');
+        
         const select = document.getElementById('{{ $id }}');
         const customSelect = document.querySelector('.custom-select');
         const selectedOption = document.getElementById('{{ $id }}-selected-option');

@@ -1,15 +1,26 @@
 <div class="w-full flex flex-col items-center justify-center gap-2">
     {{-- Loader --}}
-    <div wire:loading.flex wire:target="search,selectedCanton,selectedVille,selectedGenre,selectedCategories, gotoPage, previousPage, nextPage, resetFilters" id="loader" class="fixed inset-0 max-w-[100vw] h-full pointer-events-none overflow-hidden items-center justify-center bg-black/75 z-50">
-    <div class="text-white text-2xl text-center font-semibold h-[100vh] w-full flex items-center justify-center">
-        02 {{ __('user-search.loading') }}
+    {{-- Loader amélioré --}}
+    <div wire:loading.flex wire:target="search,selectedCanton,selectedVille,selectedGenre,selectedCategories,gotoPage,previousPage,nextPage,resetFilters"
+        id="loader"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm pointer-events-none">
+
+        <div class="flex flex-col items-center space-y-4">
+            {{-- Animation spinner --}}
+            <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+
+            {{-- Texte de chargement --}}
+            <div class="text-white text-lg font-medium tracking-wide animate-pulse">
+                {{ __('user-search.loading') }}
+            </div>
+        </div>
     </div>
-</div>
+
 
 
     <div class="w-full px-10 py-15 flex min-h-72 flex-col items-center justify-center bg-supaGirlRosePastel">
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
-           aaaaaaaaaaaaaaaa {{ __('user-search.title') }}
+            {{ __('user-search.title') }}
         </h1>
 
         <form wire:submit.prevent="search" class="w-full xl:w-1/2 2xl:w-1/2 sm:w-2/3 container flex flex-col gap-5">
@@ -24,38 +35,59 @@
             />
 
             {{-- Sélecteur Escort/Salon --}}
-
             <div class="w-full grid grid-cols-2 gap-4 mb-4">
-                <button
-                    type="button"
-                    wire:click.prevent="setUserType('escort')"
-                    class="flex flex-col items-center p-3 rounded-lg transition-all duration-200 {{ $userType === 'escort' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }}"
-                >
-                    <i class="fas fa-female text-2xl mb-1 {{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-400' }}"></i>
-                    <span class="text-sm font-medium {{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-500' }}">
-                        {{ __('user-search.escort') }}
-                    </span>
-                </button>
-                <button
-                    type="button"
-                    wire:click.prevent="setUserType('salon')"
-                    class="flex flex-col items-center p-3 rounded-lg transition-all duration-200 {{ $userType === 'salon' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }}"
-                >
-                    <i class="fas fa-store text-2xl mb-1 {{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-400' }}"></i>
-                    <span class="text-sm font-medium {{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-500' }}">
-                        {{ __('user-search.salon') }}
-                    </span>
-                </button>
-            </div>
+    {{-- Bouton Escort --}}
+    <button
+        type="button"
+        wire:click.prevent="setUserType('escort')"
+        wire:loading.attr="disabled"
+        class="flex flex-col items-center cursor-pointer p-3 rounded-lg transition-all duration-200 {{ $userType === 'escort' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }}"
+    >
+        {{-- Icône normale --}}
+        <i
+            class="fas fa-female text-2xl mb-1 {{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-400' }}"
+            wire:loading.remove
+            wire:target="setUserType('escort')"
+        ></i>
 
+        {{-- Icône de chargement --}}
+        <i
+            class="fas fa-spinner fa-spin text-2xl mb-1 text-supaGirlRose"
+            wire:loading
+            wire:target="setUserType('escort')"
+        ></i>
 
+        <span class="text-sm font-medium {{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-500' }}">
+            {{ __('user-search.escort') }}
+        </span>
+    </button>
 
+    {{-- Bouton Salon --}}
+    <button
+        type="button"
+        wire:click.prevent="setUserType('salon')"
+        wire:loading.attr="disabled"
+        class="flex flex-col items-center cursor-pointer p-3 rounded-lg transition-all duration-200 {{ $userType === 'salon' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }}"
+    >
+        {{-- Icône normale --}}
+        <i
+            class="fas fa-store text-2xl mb-1 {{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-400' }}"
+            wire:loading.remove
+            wire:target="setUserType('salon')"
+        ></i>
 
+        {{-- Icône de chargement --}}
+        <i
+            class="fas fa-spinner fa-spin text-2xl mb-1 text-green-gs"
+            wire:loading
+            wire:target="setUserType('salon')"
+        ></i>
 
-
-
-
-
+        <span class="text-sm font-medium {{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-500' }}">
+            {{ __('user-search.salon') }}
+        </span>
+    </button>
+</div>
 
 
 
@@ -63,16 +95,15 @@
             {{-- Filtres dynamiques --}}
             <div class="w-full flex flex-col gap-4">
                 {{-- Filtres pour Escort --}}
-                @if($userType === 'escort')
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full sm:w-1/3">
+                <div class="flex flex-col sm:flex-row gap-4 items-center justify-center ">
+                        <div class="w-full sm:w-1/3  @if($userType === 'salon' || $userType === 'escort') block @else hidden @endif">
                             <x-selects.canton-select
                                 :cantons="$cantons"
                                 :selectedCanton="$selectedCanton"
                                 class="w-full"
                             />
                         </div>
-                        <div class="w-full sm:w-1/3">
+                        <div class="w-full sm:w-1/3 @if($userType === 'salon' || $userType === 'escort') block @else hidden @endif">
                             <x-selects.ville-select
                                 :villes="$villes"
                                 :selectedVille="$selectedVille"
@@ -80,7 +111,7 @@
                                 :disabled="!$selectedCanton"
                             />
                         </div>
-                        <div class="w-full sm:w-1/3">
+                        <div class="w-full sm:w-1/3 @if($userType === 'escort') block @else hidden @endif">
                             <x-selects.genre-select
                                 :genres="$genres"
                                 :selectedGenre="$selectedGenre"
@@ -88,7 +119,7 @@
                             />
                         </div>
                     </div>
-                    <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
+                    <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base @if($userType === 'escort') block @else hidden @endif">
                         <x-category-checkbox
                             :categories="$escortCategories"
                             :selected-values="$selectedCategories"
@@ -96,28 +127,10 @@
                             prefixId="escort"
                         />
                     </div>
-                @endif
+                
 
                 {{-- Filtres pour Salon --}}
-                @if($userType === 'salon')
-                    <div class="flex flex-col sm:flex-row gap-4  items-center justify-center">
-                        <div class="w-full sm:w-1/3">
-                            <x-selects.canton-select
-                                :cantons="$cantons"
-                                :selectedCanton="$selectedCanton"
-                                class="w-full"
-                            />
-                        </div>
-                        <div class="w-full sm:w-1/3">
-                            <x-selects.ville-select
-                                :villes="$villes"
-                                :selectedVille="$selectedVille"
-                                class="w-full"
-                                :disabled="!$selectedCanton"
-                            />
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
+                <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base @if($userType === 'salon') block @else hidden @endif">
                         <x-category-checkbox
                             :categories="$salonCategories"
                             :selected-values="$selectedCategories"
@@ -125,7 +138,8 @@
                             prefixId="salon"
                         />
                     </div>
-                @endif
+                   
+                   
             </div>
 
             {{-- Bouton de réinitialisation --}}
@@ -267,11 +281,3 @@
         </div>
     @endif
 </div>
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-        });
-    </script>
-@endpush
