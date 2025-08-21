@@ -2,7 +2,7 @@
     'placement' => '',
 ])
   
-<div>
+<div class="w-full">
 <button
     wire:click="toggleFavorite"
     @guest

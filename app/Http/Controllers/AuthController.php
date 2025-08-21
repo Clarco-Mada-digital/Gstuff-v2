@@ -340,6 +340,8 @@ class AuthController extends Controller
         switch ($user->profile_type) {
             case 'salon':
                 // Vue pour les utilisateurs de type "salon" avec les invitations
+
+                logger()->info($listInvitation);
                 return view('auth.profile', compact('user', 'escorts', 'listInvitation', 'acceptedInvitations', 'invitationsRecus','escortFavorites','salonFavorites' ));
 
             case 'admin':
@@ -348,6 +350,7 @@ class AuthController extends Controller
 
             default:
                 // Vue par défaut pour les autres types de profils
+                logger()->info($listInvitation);
                 return view('auth.profile', compact('user', 'escorts','escortFavorites','salonFavorites' ));
         }
     }

@@ -1,4 +1,4 @@
-<div class="relative mx-auto mb-4 flex h-full min-h-[405px] w-full min-w-[270px] max-w-[330px] flex-col rounded-xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 transition-all duration-300 hover:shadow-lg"
+<div class="relative mx-auto mb-4 flex h-full min-h-[405px] w-full min-w-[300px] max-w-[330px] flex-col rounded-xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 transition-all duration-300 hover:shadow-lg"
     style="scroll-snap-align: center">
 
     {{-- Bouton favori stylisé --}}

@@ -158,6 +158,8 @@ class ProfileCompletionController extends Controller
                 ->with(['invited'])
                 ->get();
 
+                logger()->info($user->id);
+
                 if ($user->profile_type === "salon") {
                     // Récupérer les invitations non acceptées envoyées par l'utilisateur
                   $invitationsRecus = Invitation::where('invited_id', $user->id)
@@ -303,6 +305,8 @@ class ProfileCompletionController extends Controller
 
 
             //   dd($user);
+
+                logger()->info($invitations);
 
 
 

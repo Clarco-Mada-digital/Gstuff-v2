@@ -152,6 +152,7 @@
             <section>
 
                 {{-- Category --}}
+                @if($escort->getCategoriesAttribute()->isNotEmpty())
                 <div class="flex items-center gap-5 py-5">
 
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.category') }}</h2>
@@ -170,6 +171,7 @@
                     </div>
 
                 </div>
+                @endif
 
                 {{-- Stories --}}
                 @livewire('storie-public-viewer', ['userViewStorie' => $escort->id], key($escort->id))
@@ -308,35 +310,10 @@
 
                     </div>
                 @endif
-                {{-- Associated Salon --}}
-                @if($salonAssociers->isNotEmpty())
-                <div class="flex items-center justify-between gap-5 py-5">
+                {{-- Associated Salon  --}}
+                <x-associated-swiper :data="$salonAssociers" type="escort" />
 
-                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.associated_salon') }}
-                    </h2>
-                    <div class="bg-green-gs h-0.5 flex-1"></div>
-
-                </div>
-                <div class="flex w-full flex-wrap items-center gap-10">
-                    @if ($salonAssociers->isNotEmpty())
-                        @foreach ($salonAssociers as $salonAssocier)
-                            <livewire:salon-card name="{{ $salonAssocier->inviter->nom_salon }}"
-                                canton="{{ $salonAssocier->inviter->cantonget->nom ?? '' }}"
-                                ville="{{ $salonAssocier->inviter->villeget->nom ?? '' }}"
-                                avatar='{{ $salonAssocier->inviter->avatar }}'
-                                salonId='{{ $salonAssocier->inviter->id }}'
-                                isPause="{{ $salonAssocier->inviter->is_profil_pause }}"
-                                wire:key="{{ $salonAssocier->inviter->id }}" />
-                        @endforeach
-                    @else
-                        <span
-                            class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('escort_profile.no_associated_salon') }}</span>
-                    @endif
-
-                </div>
-
-
-                @endif
+                
                 {{-- Private Gallery --}}
 
                 @if($escort->galleryCount > 0)
