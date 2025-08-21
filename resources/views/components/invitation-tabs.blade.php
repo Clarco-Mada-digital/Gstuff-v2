@@ -14,7 +14,7 @@
             <button id="pending-invitation-tab" data-tabs-target="#pending-invitation" type="button" role="tab"
                 aria-controls="pending-invitation" aria-selected="false"
                 class="w-full bg-white p-4 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-800">
-                {{ __('profile.pending_invitation') }}aaaaaaaaaaa
+                {{ __('profile.pending_invitation') }}
             </button>
         </li>
     </ul>

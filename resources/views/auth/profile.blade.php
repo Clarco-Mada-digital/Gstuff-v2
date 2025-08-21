@@ -1822,7 +1822,7 @@
                             </div>
                         </div>
 
-                        {{-- Salon associé --}}
+                        {{-- Salon associé 
                         <div class="flex items-center justify-between gap-5 py-5">
                             <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                 {{ __('profile.associated_salon') }}</h2>
@@ -1863,7 +1863,11 @@
                                 <span
                                     class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('profile.no_associated_salon') }}</span>
                             @endif
-                        </div>
+                        </div>--}}
+
+
+
+                        <x-associated-swiper :data="$salonAssociers" type="escort" profil="user"/>
                         <!-- Modale pour l'invitation escort -->
                         <div x-data="" x-init="" id="sendInvitationSalon" tabindex="-1"
                             aria-hidden="true"
