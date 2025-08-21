@@ -3,6 +3,11 @@
     'type' => null,
 ])
 
+
+@php
+ 
+    $noSpecial = __('profile.no_specified');
+@endphp
 <div>
 @if ($data->isNotEmpty())
     <div class="flex items-center justify-between gap-5 py-5">
