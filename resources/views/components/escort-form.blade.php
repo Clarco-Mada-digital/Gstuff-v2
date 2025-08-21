@@ -135,7 +135,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-1">
+                    <!-- <div class="mb-1">
                         <label
                             class="@error('categorie') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.category') }}</label>
                         <select name="categorie" id="escort_categorie"
@@ -149,7 +149,15 @@
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                     class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> -->
+
+                      
+                    <div class="col-span-2 mb-4 md:col-span-1">
+                                    <label
+                                        class="block text-sm font-roboto-slab text-green-gs">{{__('profile.category') }}</label>
+                                    <x-select_object_multiple name="categorie" :options="$escortCategories" :value="[]"
+                                        label="Mes categories" />
+                                </div>
 
                     <div class="mb-1">
                         <label
@@ -400,7 +408,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="mb-1">
+                <!-- <div class="mb-1">
                     <label
                         class="@error('apropos') text-red-700 dark:text-red-500 @enderror mb-1 block text-sm font-medium text-green-gs ">{{ __('profile.about') }}</label>
                     <textarea rows="5" name="apropos"
@@ -409,7 +417,179 @@
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                                 class="font-medium">{{ __('profile.oops') }}</span> {{ $message }}</p>
                     @enderror
-                </div>
+                </div> -->
+                <div class="col-span-2 mb-4">
+                                <label class="block text-sm font-roboto-slab text-green-gs mb-1">{{ __('profile.about') }}</label>
+                                <div class="relative" x-data="{
+                                    aboutText: '{{ addslashes($user->apropos ?? '') }}',
+                                    showEmojiPicker: false,
+                                    activeCategory: 'smileys_emotion',
+                                    searchQuery: '',
+                                    searchResults: [],
+                                    allEmojis: [
+                                        @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                            @foreach($emojiCategories as $category)
+                                                @foreach($category['emojis'] as $emoji)
+                                                    {
+                                                        char: '{{ $emoji['char'] }}',
+                                                        name: '{{ $emoji['name'] }}',
+                                                        slug: '{{ $category['slug'] }}',
+                                                        category: '{{ $category['name'] }}'
+                                                    },
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    ],
+                                    init() {
+                                        this.$watch('showEmojiPicker', value => {
+                                            if (value) {
+                                                this.searchQuery = '';
+                                                this.searchResults = [];
+                                            }
+                                        });
+                                    },
+                                    search() {
+                                        if (!this.searchQuery.trim()) {
+                                            this.searchResults = [];
+                                            return;
+                                        }
+                                        
+                                        const query = this.searchQuery.toLowerCase().trim();
+                                        this.searchResults = this.allEmojis.filter(emoji => 
+                                            emoji.name.toLowerCase().includes(query)
+                                        );
+                                    },
+                                    insertEmoji(emoji) {
+                                        const textarea = this.$refs.aboutTextarea;
+                                        const start = textarea.selectionStart;
+                                        const end = textarea.selectionEnd;
+                                        const text = this.aboutText || '';
+                                        const before = text.substring(0, start);
+                                        const after = text.substring(end, text.length);
+                                        
+                                        this.aboutText = before + emoji + after;
+                                        
+                                        // Focus et position du curseur
+                                        this.$nextTick(() => {
+                                            const newPos = start + emoji.length;
+                                            textarea.focus();
+                                            textarea.setSelectionRange(newPos, newPos);
+                                        });
+                                        
+                                        // this.showEmojiPicker = false;
+                                    },
+                                    filteredEmojis() {
+                                        if (this.searchQuery) {
+                                            return this.searchResults;
+                                        }
+                                        return this.allEmojis.filter(emoji => 
+                                            emoji.slug === this.activeCategory
+                                        );
+                                    }
+                                }">
+                                    <textarea 
+                                        x-ref="aboutTextarea"
+                                        name="apropos"
+                                        x-model="aboutText"
+                                        rows="4"
+                                        class="block w-full rounded-lg border border-supaGirlRosePastel/50 font-roboto-slab bg-gray-50 text-sm text-textColorParagraph p-3 pr-10 focus:border-supaGirlRosePastel/50 focus:ring-supaGirlRosePastel/50"
+                                    >{{ $user->apropos ?? '' }}</textarea>
+                                    
+                                    <!-- Emoji Picker Button -->
+                                    <div class="absolute right-3 bottom-3">
+                                        <button 
+                                            type="button" 
+                                            @click="showEmojiPicker = !showEmojiPicker"
+                                            class="text-supaGirlRose hover:text-green-gs focus:outline-none"
+                                            :class="{ 'text-green-gs': showEmojiPicker }"
+                                        >
+                                            <i class="far fa-smile"></i>
+                                        </button>
+
+                                        <!-- Emoji Picker Dropdown -->
+                                        <div 
+                                            x-show="showEmojiPicker" 
+                                            @click.away="showEmojiPicker = false"
+                                            class="absolute bottom-full right-0 z-10 mb-2 w-80 rounded-lg border border-gray-200 bg-white shadow-lg"
+                                            style="display: none;"
+                                            x-cloak
+                                        >
+                                            <!-- Search Bar -->
+                                            <div class="border-b border-gray-200 p-2">
+                                                <input 
+                                                    type="text" 
+                                                    x-model="searchQuery" 
+                                                    @input="search()"
+                                                    placeholder="Rechercher des émojis..."
+                                                    class="w-full rounded-md border border-supaGirlRosePastel px-3 py-1.5 text-sm focus:border-green-gs focus:outline-none focus:ring-1 focus:ring-green-gs"
+                                                >
+                                            </div>
+
+                                            <!-- Category Tabs -->
+                                            <div class="flex overflow-x-auto border-b border-gray-200 bg-fieldBg px-2" x-show="!searchQuery">
+                                                @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                                    @foreach($emojiCategories as $category)
+                                                        <button 
+                                                            type="button"
+                                                            @click="activeCategory = '{{ $category['slug'] }}'"
+                                                            :class="{ 'border-b-2 border-green-gs text-green-gs': activeCategory === '{{ $category['slug'] }}', 'text-gray-600 hover:text-gray-800': activeCategory !== '{{ $category['slug'] }}' }"
+                                                            class="flex-shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium transition-colors"
+                                                            :title="'{{ $category['name'] }}'"
+                                                        >
+                                                            {{ $category['emojis'][0]['char'] ?? '' }}
+                                                        </button>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+
+                                            <!-- Emoji Grid -->
+                                            <div class="h-64 overflow-y-auto p-2">
+                                                <template x-if="searchQuery">
+                                                    <div class="search-results grid grid-cols-8 gap-1">
+                                                        <template x-for="emoji in searchResults" :key="emoji.char">
+                                                            <button 
+                                                                type="button"
+                                                                @click="insertEmoji(emoji.char)"
+                                                                class="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100"
+                                                                :title="emoji.name"
+                                                            >
+                                                                <span x-text="emoji.char"></span>
+                                                            </button>
+                                                        </template>
+                                                        <div x-show="searchResults.length === 0" class="col-span-8 p-4 text-center text-gray-500">
+                                                            Aucun émoji trouvé pour "<span x-text="searchQuery"></span>"
+                                                        </div>
+                                                    </div>
+                                                </template>
+
+                                                <template x-if="!searchQuery">
+                                                    <div class="emoji-category">
+                                                        @if(isset($emojiCategories) && count($emojiCategories) > 0)
+                                                            @foreach($emojiCategories as $category)
+                                                                <div x-show="activeCategory === '{{ $category['slug'] }}'" class="space-y-2">
+                                                                    <h3 class="text-xs font-semibold text-gray-500">{{ $category['name'] }}</h3>
+                                                                    <div class="grid grid-cols-8 gap-1">
+                                                                        @foreach($category['emojis'] as $emoji)
+                                                                            <button 
+                                                                                type="button"
+                                                                                @click="insertEmoji('{{ $emoji['char'] }}')"
+                                                                                class="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100"
+                                                                                title="{{ $emoji['name'] }}"
+                                                                            >
+                                                                                {{ $emoji['char'] }}
+                                                                            </button>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
             </div>
 
             <button type="submit"

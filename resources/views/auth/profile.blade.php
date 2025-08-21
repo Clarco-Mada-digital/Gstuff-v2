@@ -1038,7 +1038,7 @@
                                             textarea.setSelectionRange(newPos, newPos);
                                         });
                                         
-                                        this.showEmojiPicker = false;
+                                        // this.showEmojiPicker = false;
                                     },
                                     filteredEmojis() {
                                         if (this.searchQuery) {
@@ -2419,7 +2419,7 @@
 
                 insertEmoji(emoji) {
                     this.newMessage += emoji;
-                    this.showEmojiPicker = false;
+                    // this.showEmojiPicker = false;
                 },
 
                 setupEventListeners() {

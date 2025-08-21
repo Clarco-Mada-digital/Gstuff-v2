@@ -387,7 +387,7 @@ class AuthController extends Controller
             'npa' => 'nullable|string|max:10',
             'canton' => 'nullable|exists:cantons,id',
             'ville' => 'nullable|exists:villes,id',
-            'categorie' => 'nullable|exists:categories,id', 
+            'categorie' => 'nullable', 
             'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
             'orientation_sexuelle_id' => 'nullable|exists:orientation_sexuelles,id',
             'service' => 'nullable',
@@ -410,6 +410,8 @@ class AuthController extends Controller
             'apropos' => 'nullable|string|max:1000',
             'lang' => 'required|in:fr,en-US,es,de,it' 
         ]);
+
+        logger()->info($request->all());
 
     
         // Langues cibles pour les traductions
@@ -458,7 +460,7 @@ class AuthController extends Controller
             'npa' => $request->npa,
             'canton' => $request->canton,
             'ville' => $request->ville,
-            'categorie' => $request->categorie,
+            'categorie' => $request->categorie ? $request->categorie : 1,
             'pratique_sexuelle_id' => $request->pratique_sexuelle_id,
             'orientation_sexuelle_id' => $request->orientation_sexuelle_id,
             'service' => $request->service,
