@@ -27,7 +27,7 @@
         <div x-data="{}" class="w-full max-w-sm mx-auto flex flex-col items-center gap-4 p-4">
 
             <!-- Avatar -->
-            <!-- Avatar avec badge online -->
+            <!-- Avatar avec badge online 
             <div class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
                 <img 
                     x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatarSrc }}', imgModalDesc: '' })"
@@ -36,12 +36,25 @@
                     class="h-full w-full object-cover object-center cursor-pointer"
                 />
 
-                <!-- Badge online/offline -->
+           
                 <span
                     class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white
                         {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}">
                 </span>
-            </div>
+            </div>-->
+
+
+            <!-- <div id="avatar-container" class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
+                <img 
+                    src="{{ $avatarSrc }}"
+                    alt="{{ __('salon_profile.profile_image') }}"
+                    class="h-full w-full object-cover object-center cursor-pointer"
+                />
+                <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
+            </div> -->
+
+            <x-profileAvatar :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$salon->isOnline()" />
+
 
 
             <!-- Nom du salon + badge pause -->
@@ -270,8 +283,28 @@
 
             </div>
 
+
+
+
+
+
+
+
+
+
+
+            
         </div>
 
+
+
+
+
+
+        
+
     </div>
+
+  
 
 @stop

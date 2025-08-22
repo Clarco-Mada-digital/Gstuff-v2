@@ -47,7 +47,7 @@
                         <select name="genre_id" id="floating_intitule"
                             class="@error('genre_id') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs">
                             <option hidden value=""> -- </option>
-                            @foreach ($genres as $genre)
+                            @foreach ($genres->take(3) as $genre)
                                 <option value="{{ $genre->id }}">
                                     {{ $genre->getTranslation('name', app()->getLocale()) }}</option>
                             @endforeach
@@ -72,13 +72,40 @@
                         @enderror
                     </div>
 
-                    <div class="mb-1">
-                        <label
-                            class="@error('telephone') text-red-700 dark:text-red-500 @enderror block text-sm font-medium text-green-gs ">{{ __('profile.phone_number') }}</label>
-                        <input type="text" id="phone_input" name="telephone"
-                            class="@error('telephone') border-red-500 @enderror mt-1 block w-full rounded-md border-supaGirlRose border-2 shadow-sm focus:border-green-gs focus:ring-green-gs"
-                            value="{{ old('telephone') }}">
+                    <div x-data="{ phoneNumber: '{{ old('telephone') }}', phoneError: '' }">
+                        <label class="block text-sm font-medium text-green-gs">
+                            {{ __('profile.phone_number') }} <span class="text-red-500">*</span>
+                        </label>
+
+                        <input 
+                            type="text" 
+                            id="phone_input" 
+                            name="telephone" 
+                            required
+                            x-model="phoneNumber"
+                            @input="
+                                let digits = $event.target.value.replace(/\D/g, '');
+                                if (digits.length <= 10) {
+                                    phoneNumber = digits;
+                                    phoneError = '';
+                                } else {
+                                    phoneError = 'Le numéro ne peut pas dépasser 10 chiffres.';
+                                }
+                            "
+                            maxlength="10"
+                            pattern="\d{10}"
+                            title="Veuillez entrer exactement 10 chiffres"
+                            class="mt-1 block w-full rounded-md border-2 shadow-sm focus:border-green-gs focus:ring-green-gs
+                                border-supaGirlRose font-roboto-slab text-sm"
+                            :class="{ 'border-red-500': phoneError }"
+                        />
+
+                        <template x-if="phoneError">
+                            <p class="text-red-500 text-sm mt-1" x-text="phoneError"></p>
+                        </template>
                     </div>
+
+
 
                     <div class="mb-1">
                         <label

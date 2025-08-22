@@ -8,6 +8,12 @@
     {{ $escort->prenom }}
 @endsection
 
+
+@php
+            $avatar = $escort->avatar;
+            $avatarSrc = $avatar ? asset('storage/avatars/' . $avatar) : asset('images/icon_logo.png');
+            $isPaused = $escort->is_profil_pause ?? false;
+        @endphp
 @section('content')
     <div x-data="{}"
         x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $escort->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
@@ -20,19 +26,8 @@
         {{-- Profile picture and status --}}
         <div class="min-w-1/4 flex flex-col items-center  gap-3 px-4 -mt-26">
 
-            <div class="w-55 h-55 border-5 relative mx-auto  rounded-full border-white shadow-sm">
-                <!-- {{ __('escort_profile.profile_picture') }} -->
-                <img x-on:click="$dispatch('img-modal', {  imgModalSrc:'{{ $avatar = $escort->avatar }}' ? '{{ asset('storage/avatars/' . $avatar) }}' : '{{ asset('images/icon_logo.png') }}', imgModalDesc: '' })"
-                    class="h-full w-full rounded-full object-cover object-center "
-                    @if ($avatar = $escort->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
-                    @else
-                    src="{{ asset('images/icon_logo.png') }}" @endif
-                    alt="{{ __('escort_profile.profile_picture') }}" />
-                <!-- {{ __('escort_profile.status_badge') }} -->
-                <span
-                    class="{{ $escort->isOnline() ? 'bg-green-gs' : 'bg-gray-400' }} absolute bottom-4 right-5 block h-3 w-3 rounded-full ring-2 ring-white">
-                </span>
-            </div>
+          <x-profileAvatar :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$escort->isOnline()" :type="'escort'" />
+
             <div class=" ml-3 flex flex-col items-center justify-center ">
                 <div class="flex items-center gap-2 justify-center mb-2">
                         <p class="flex items-center gap-2 font-bold font-roboto-slab">

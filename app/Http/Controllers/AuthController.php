@@ -377,7 +377,7 @@ class AuthController extends Controller
             'prenom' => 'required|string|max:255', 
             'genre_id' => 'required|exists:genres,id', 
             'telephone' => [
-                'nullable',
+                'required',
                 'string',
                 'max:15', 
                 'regex:/^[0-9]{10}$/', 

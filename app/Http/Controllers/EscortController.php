@@ -34,6 +34,37 @@ class EscortController extends Controller
         $escort['galleryCount'] = $galleryCount;
 
 
+        $galleryAll = Gallery::where('user_id', $escort->id)
+        ->where('is_public', true)
+        ->get();
+    
+        $gallery = collect();
+    
+        if (!empty($escort->avatar)) {
+            $profilePhoto = new \App\Models\Gallery([
+                'user_id' => $escort->id,
+                'title' => 'pdp',
+                'description' => 'pdp',
+                'type' => 'image',
+                'path' => 'avatars/' . $escort->avatar,
+                'thumbnail_path' => 'avatars/' . $escort->avatar,
+                'is_public' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            $gallery->push($profilePhoto);
+        }
+    
+        $gallery = $gallery->merge($galleryAll);
+        $gallery = $gallery->map(function ($media) {
+          $media['path'] = asset('storage/' . $media['path']);
+        return $media;
+        });
+    
+
+
+
 
         
         $escort['canton'] = Canton::find($escort->canton);
@@ -68,7 +99,8 @@ class EscortController extends Controller
             return view('sp_escort', [
               'escort' => $escort,
               'salonAssociers' => $salonAssociers,
-          ]);
+              'gallery' => $gallery,
+              ]);
           }
         }
         else
@@ -76,6 +108,7 @@ class EscortController extends Controller
           return view('sp_escort', [
               'escort' => $escort,
                 'salonAssociers' => $salonAssociers,
+                'gallery' => $gallery,
           ]);
         }
 

@@ -21,6 +21,38 @@ class SalonController extends Controller
       return redirect()->route('home');
     }
 
+    $galleryAll = Gallery::where('user_id', $salon->id)
+    ->where('is_public', true)
+    ->get();
+
+    $gallery = collect();
+
+    if (!empty($salon->avatar)) {
+        $profilePhoto = new \App\Models\Gallery([
+            'user_id' => $salon->id,
+            'title' => 'pdp',
+            'description' => 'pdp',
+            'type' => 'image',
+            'path' => 'avatars/' . $salon->avatar,
+            'thumbnail_path' => 'avatars/' . $salon->avatar,
+            'is_public' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $gallery->push($profilePhoto);
+    }
+
+    $gallery = $gallery->merge($galleryAll);
+    $gallery = $gallery->map(function ($media) {
+      $media['path'] = asset('storage/' . $media['path']);
+    return $media;
+    });
+
+
+
+    logger()->info('Gallerie profile : ' . $gallery);
+
     $salon['canton'] = Canton::find($salon->canton);
     $salon['ville'] = Ville::find($salon->ville);
     $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
@@ -63,6 +95,7 @@ class SalonController extends Controller
         return view('sp_salon', [
           'salon' => $salon,
           'acceptedInvitations' => $acceptedInvitations,
+          'gallery' => $gallery,
       ]);
       }
     }
@@ -71,6 +104,7 @@ class SalonController extends Controller
       return view('sp_salon', [
           'salon' => $salon,
           'acceptedInvitations' => $acceptedInvitations,
+          'gallery' => $gallery,
       ]);
     }
 

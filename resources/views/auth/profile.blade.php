@@ -678,7 +678,7 @@
                                         aria-describedby="phone-help"
                                         class="block w-full rounded-lg border font-roboto-slab bg-gray-50 p-2.5 ps-10 text-sm text-green-gs focus:border-blue-500 focus:ring-blue-500"
                                         :class="{'border-red-500': phoneError, 'border-gray-300': !phoneError}"
-                                        value="{{ $user->telephone }}" />
+                                        value="{{ $user->telephone }}" require />
                                 </div>
                                 <template x-if="phoneError">
                                     <p class="mt-1 text-sm text-red-600" x-text="phoneError"></p>
@@ -2251,6 +2251,18 @@
                 ],
                 currentStep: 0,
                 nextStep() {
+
+                 
+                    
+                    const phoneInput = document.getElementById('phone-input');
+                    const phoneNumber = phoneInput.value.replace(/\D/g, ''); // Nettoie les caractères non numériques
+
+                    if (phoneNumber.length !== 10) {
+                        // alert('Veuillez entrer un numéro de téléphone valide avec exactement 10 chiffres.');
+                        phoneInput.classList.add('border-red-500');
+                        return; // Empêche la soumission
+                    }
+                    phoneInput.classList.remove('border-red-500');
                     if (this.currentStep < this.steps.length - 1) {
                         this.currentStep++;
                     }
@@ -2261,6 +2273,17 @@
                     }
                 },
                 saveAndQuit() {
+                    // document.getElementById('addInfoSubmit').click();
+                                    const phoneInput = document.getElementById('phone-input');
+                    const phoneNumber = phoneInput.value.replace(/\D/g, ''); // Nettoie les caractères non numériques
+
+                    if (phoneNumber.length !== 10) {
+                        // alert('Veuillez entrer un numéro de téléphone valide avec exactement 10 chiffres.');
+                        phoneInput.classList.add('border-red-500');
+                        return; // Empêche la soumission
+                    }
+
+                    phoneInput.classList.remove('border-red-500');
                     document.getElementById('addInfoSubmit').click();
                 },
                 // submitForm() {

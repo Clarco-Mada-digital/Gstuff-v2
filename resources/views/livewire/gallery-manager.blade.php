@@ -953,9 +953,17 @@
      @keydown.escape.window="fullscreen = false"
      @keydown.window.arrow-left="navigateMedia(-1)"
      @keydown.window.arrow-right="navigateMedia(1)">
-
+     <button @click="fullscreen = false" class="absolute right-4 top-4 z-10 rounded-full bg-supaGirlRose p-2 text-green-gs hover:text-white hover:bg-green-gs">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         <template x-if="currentMedia">
+            
             <div class="relative w-full">
+
+            
+           
                 <!-- Bouton précédent -->
                 <button @click.stop="navigateMedia(-1)"
                 
@@ -979,44 +987,39 @@
                 <!-- Bouton fermer -->
                 
 
-                <button @click="fullscreen = false" class="absolute right-4 top-4 z-10 rounded-full bg-supaGirlRose p-2 text-green-gs hover:text-white hover:bg-green-gs">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
 
                 <!-- Contenu média -->
                 <div class="relative overflow-hidden rounded-lg bg-black">
                     <template x-if="currentMedia.type === 'image'">
                         <img :src="currentMedia.url" :alt="currentMedia.title"
-                            class="mx-auto max-h-[80vh] w-full object-contain">
+                            class="mx-auto max-h-[70vh] w-full object-contain">
                     </template>
 
                     <template x-if="currentMedia.type === 'video'">
-                        <video controls autoplay class="mx-auto max-h-[80vh] w-full">
+                        <video controls autoplay class="mx-auto max-h-[70vh] w-full">
                             <source :src="currentMedia.url" type="video/mp4">
                             {{ __('gallery_manage.video_not_supported') }}
                         </video>
                     </template>
 
-                    <div class="bg-gray-900 p-4 text-white">
-                        <!-- Titre -->
+                    <!-- <div class="bg-gray-900 p-4 text-white">
+                        Titre 
                         <h3 
                             x-text="currentMedia.title !== 'pdp' ? currentMedia.title.charAt(0).toUpperCase() + currentMedia.title.slice(1) : '{{ __('gallery_manage.profile_photo') }}'" 
                             class="text-xl font-semibold">
                         </h3>
 
-                        <!-- Description -->
+                        
                         <p 
                             x-text="currentMedia.description !== 'pdp' ? currentMedia.description.charAt(0).toUpperCase() + currentMedia.description.slice(1) : '{{ __('gallery_manage.profile_photo_description') }}'" 
                             class="mt-1 text-gray-300">
                         </p>
 
-                        <!-- Index -->
+                       
                         <div class="mt-2 text-sm text-gray-400">
                             <span x-text="`${currentMediaIndex + 1} / ${mediaCount}`"></span>
                         </div>
-                    </div>
+                    </div>-->
 
 
                    

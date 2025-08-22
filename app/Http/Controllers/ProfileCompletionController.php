@@ -808,17 +808,111 @@ class ProfileCompletionController extends Controller
         return response()->json(['percentage' => round($percentage)]);
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
-        // dd($request->all());
+    // public function updateProfile(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     // dd($request->all());
 
-        $request->validate([
+    //     $request->validate([
+    //         'intitule' => 'nullable|string|max:255',
+    //         'nom_proprietaire' => 'nullable|string|max:255',
+    //         'prenom' => 'nullable|string|max:255',
+    //         'user_name' => 'nullable|string|max:255',
+    //         'telephone' => [
+    //             'required',
+    //             'string',
+    //             'max:15', 
+    //             'regex:/^[0-9]{10}$/', 
+    //         ],
+    //         'adresse' => 'nullable|string|max:255',
+    //         'npa' => 'nullable|string|max:10',
+    //         'canton' => 'nullable',
+    //         'ville' => 'nullable',
+    //         'categorie' => 'nullable',
+    //         'service' => 'nullable',
+    //         'orientation_sexuelle_id' => 'nullable|exists:orientation_sexuelles,id',
+    //         'recrutement' => 'nullable|string|max:255',
+    //         'nombre_fille_id' => 'nullable|exists:nombre_filles,id',
+    //         'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
+    //         'tailles' => 'nullable|string|max:255',
+    //         'origine' => 'nullable|string|max:255',
+    //         'couleur_yeux_id' => 'nullable|exists:couleur_yeuxes,id',
+    //         'couleur_cheveux_id' => 'nullable|exists:couleur_cheveuxes,id',
+    //         'mensuration_id' => 'nullable|exists:mensurations,id',
+    //         'poitrine_id' => 'nullable|exists:poitrines,id',
+    //         'taille_poitrine' => 'nullable|string|max:255',
+    //         'pubis_type_id' => 'nullable|exists:pubis_types,id',
+    //         'tatoo_id' => 'nullable|exists:tattoos,id',
+    //         'mobilite_id' => 'nullable|exists:mobilites,id',
+    //         'tarif' => 'nullable|string|max:255',
+    //         'langues' => 'nullable|string|max:255',
+    //         'paiement' => 'nullable|string|max:255',
+    //         'apropos' => 'nullable|string',
+    //         'autre_contact' => 'nullable|string|max:255',
+    //         'complement_adresse' => 'nullable|string|max:255',
+    //         'lien_site_web' => 'nullable|url|max:255',
+    //         'localisation' => 'nullable|string|max:255',
+    //         'lat' => 'nullable|string|max:255',
+    //         'lon' => 'nullable|string|max:255',
+    //         'lang' => 'required|in:fr,en-US,es,de,it' ,
+    //         'genre_id' => 'nullable|exists:genres,id',
+
+    //         // Ajoutez les règles de validation pour les autres champs
+    //     ]);
+
+    //     // dd($request->all());
+
+
+
+    //    if($request->apropos){
+    //      // Langues cibles pour les traductions
+    //      $locales = Locales::SUPPORTED_CODES;
+    //      $sourceLocale = $request['lang']; // Langue source par défaut
+    //      // Traduire le contenu dans toutes les langues cibles
+    //      $translatedContent = [];
+    //      foreach ($locales as $locale) {
+    //          if ($locale !== $sourceLocale) {
+    //              $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
+    //          }else{
+    //              $translatedContent[$locale] = $request['apropos'];
+    //          }
+    //      }
+ 
+    //      $request['apropos'] = $translatedContent;
+ 
+    //    }
+
+    //     // $request->categorie? $request['categorie'] = (int)$request->categorie : null;
+
+    //     $user->update($request->all());
+
+    //     // Recalculate percentage after update
+    //     $percentageResponse = $this->getProfileCompletionPercentage();
+    //     $percentage = $percentageResponse->getData()->percentage;
+
+    //     $user->notify(new ComplementationNotification($percentage));
+
+    //     return redirect()->route('profile.index')
+    //         ->with('success', __('profile.success.profile_updated'))
+    //         ->with('completionPercentage', $percentage);
+    // }
+
+    public function updateProfile(Request $request)
+{
+    try {
+        $user = Auth::user();
+
+        $validated = $request->validate([
             'intitule' => 'nullable|string|max:255',
             'nom_proprietaire' => 'nullable|string|max:255',
             'prenom' => 'nullable|string|max:255',
             'user_name' => 'nullable|string|max:255',
-            'telephone' => 'nullable|string|max:20',
+            'telephone' => [
+                'required',
+                'string',
+                'max:15',
+                'regex:/^[0-9]{10}$/',
+            ],
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
             'canton' => 'nullable',
@@ -849,39 +943,26 @@ class ProfileCompletionController extends Controller
             'localisation' => 'nullable|string|max:255',
             'lat' => 'nullable|string|max:255',
             'lon' => 'nullable|string|max:255',
-            'lang' => 'required|in:fr,en-US,es,de,it' ,
+            'lang' => 'required|in:fr,en-US,es,de,it',
             'genre_id' => 'nullable|exists:genres,id',
-
-            // Ajoutez les règles de validation pour les autres champs
         ]);
 
-        // dd($request->all());
+        if ($request->filled('apropos')) {
+            $locales = Locales::SUPPORTED_CODES;
+            $sourceLocale = $request['lang'];
+            $translatedContent = [];
 
+            foreach ($locales as $locale) {
+                $translatedContent[$locale] = $locale !== $sourceLocale
+                    ? $this->translateService->translate($request['apropos'], $locale)
+                    : $request['apropos'];
+            }
 
+            $validated['apropos'] = $translatedContent;
+        }
 
-       if($request->apropos){
-         // Langues cibles pour les traductions
-         $locales = Locales::SUPPORTED_CODES;
-         $sourceLocale = $request['lang']; // Langue source par défaut
-         // Traduire le contenu dans toutes les langues cibles
-         $translatedContent = [];
-         foreach ($locales as $locale) {
-             if ($locale !== $sourceLocale) {
-                 $translatedContent[$locale] = $this->translateService->translate($request['apropos'], $locale);
-             }else{
-                 $translatedContent[$locale] = $request['apropos'];
-             }
-         }
- 
-         $request['apropos'] = $translatedContent;
- 
-       }
+        $user->update($validated);
 
-        // $request->categorie? $request['categorie'] = (int)$request->categorie : null;
-
-        $user->update($request->all());
-
-        // Recalculate percentage after update
         $percentageResponse = $this->getProfileCompletionPercentage();
         $percentage = $percentageResponse->getData()->percentage;
 
@@ -890,7 +971,18 @@ class ProfileCompletionController extends Controller
         return redirect()->route('profile.index')
             ->with('success', __('profile.success.profile_updated'))
             ->with('completionPercentage', $percentage);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()
+            ->withErrors($e->validator)
+            ->withInput();
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->with('error', 'Une erreur est survenue lors de la mise à jour du profil.')
+            ->withInput();
     }
+}
+
 
     public function updatePhoto(Request $request)
     {
