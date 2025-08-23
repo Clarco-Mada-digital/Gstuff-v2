@@ -1387,15 +1387,10 @@
                                     <div
                                         class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
                                         @foreach ($salonFavorites as $favorie)
-                                            @if($favorie){
-                                                <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
+                                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
                                                 canton="{{ $favorie->canton['nom'] ?? '' }}"
                                                 ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
                                                 escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
-                                            }
-                                            @else
-                                               <h1>Aucun favoris salon pour l'instant</h1>
-                                            @endif
                                         @endforeach
                                     </div>
                                 @else
