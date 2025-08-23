@@ -1363,46 +1363,9 @@
                         <div class="flex items-center justify-center py-5 md:justify-start">
                             <h2 class="text-2xl font-bold font-roboto-slab text-green-gs">{{ __('profile.my_favorites') }}</h2>
                         </div>
-                        <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2">
-                        {{-- <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
-                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
-                                @if ($escortFavorites != '[]')
-                                    <div
-                                        class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
-                                        @foreach ($escortFavorites as $favorie)
-                                            <livewire:escort-card name="{{ $favorie->prenom ?? $favorie->pseudo }}"
-                                                canton="{{ $favorie->canton['nom'] ?? '' }}"
-                                                ville="{{ $favorie->ville['nom'] ?? '' }}"
-                                                avatar='{{ $favorie->avatar }}' isOnline='{{ $favorie->isOnline() }}'
-                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_escorts') }}</div>
-                                @endif
-                            </div> --}}
-
+                        <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-5 ">
                             <x-associated-swiper-card :data="$escortFavorites" type="escort" profil="user"/>
-
                             <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
-                            {{-- <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
-                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
-                                @if ($salonFavorites != '[]')
-                                    <div
-                                        class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
-                                        @foreach ($salonFavorites as $favorie)
-                                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
-                                                canton="{{ $favorie->canton['nom'] ?? '' }}"
-                                                ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
-                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
-                                        @endforeach
-                                    </div>
-
-                                    <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
-                                @else
-                                    <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_salons') }}</div>
-                                @endif
-                            </div>--}}
                         </div>
                         @if ($user && $user->id)
                             <div>
