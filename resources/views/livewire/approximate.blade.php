@@ -8,29 +8,36 @@
         timeout: 50000,
         maximumAge: 0
     },
-    
+
     init() {
         this.toggleGeolocation(true);
-        
+
         Livewire.on('destroy', () => {
             if (this.watchId !== null) {
                 navigator.geolocation.clearWatch(this.watchId);
             }
         });
     },
-    
+
     updateLocation(position) {
-        @this.call('updateLocation', 
-            position.coords.latitude, 
-            position.coords.longitude
-        );
+        const coords = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            timestamp: Date.now()
+        };
+
+        // Stocker dans localStorage
+        localStorage.setItem('lastLocation', JSON.stringify(coords));
+
+        // Envoyer à Livewire
+        @this.call('updateLocation', coords.lat, coords.lng);
         this.showError = false;
     },
-    
+
     handleError(error) {
         let message = '{{ __("proximity.location_error") }}';
-        console.log('LOcalisation error', error);
-        
+        console.log('Erreur de localisation', error);
+
         switch(error.code) {
             case error.PERMISSION_DENIED:
                 message = '{{ __("proximity.permission_denied") }}';
@@ -42,46 +49,64 @@
                 message = '{{ __("proximity.timeout_error") }}';
                 break;
         }
-        
+
         this.errorMessage = message;
         this.showError = true;
         this.isActive = false;
+
+        // Utiliser la dernière position connue si disponible
+        const saved = localStorage.getItem('lastLocation');
+        if (saved) {
+            const coords = JSON.parse(saved);
+            const age = Date.now() - coords.timestamp;
+            if (age < 1000 * 60 * 10) { // moins de 10 minutes
+                console.log('Utilisation de la dernière position connue', coords);
+                @this.call('updateLocation', coords.lat, coords.lng);
+                return;
+            }
+        }
+
+        // Sinon fallback
         @this.call('useFallbackLocation');
     },
-    
-    toggleGeolocation() {
-        this.isActive = !this.isActive;
-        
+
+    toggleGeolocation(force = false) {
+        if (!force) this.isActive = !this.isActive;
+        else this.isActive = true;
+
         if (this.isActive) {
-            if (navigator.geolocation) {
-                if (this.watchId !== null) {
-                    navigator.geolocation.clearWatch(this.watchId);
-                    this.watchId = null;
-                }
-                
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        this.watchId = navigator.geolocation.watchPosition(
-                            (pos) => this.updateLocation(pos),
-                            (err) => this.handleError(err),
-                            this.options
-                        );
-                        console.log('LOcalisation success', position);
-                        this.updateLocation(position);
-                    },
-                    (error) => {
-                        console.log('LOcalisation error', error);
-                        this.handleError(error);
-                        this.isActive = false;
-                    },
-                    this.options
-                );
-            } else {
+            if (!navigator.geolocation) {
                 this.errorMessage = '{{ __("proximity.geolocation_unsupported") }}';
                 this.showError = true;
                 this.isActive = false;
                 @this.call('useFallbackLocation');
+                return;
             }
+
+            // Nettoyer ancien watch
+            if (this.watchId !== null) {
+                navigator.geolocation.clearWatch(this.watchId);
+                this.watchId = null;
+            }
+
+            // Localisation initiale
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.updateLocation(position);
+
+                    // Suivi en temps réel
+                    this.watchId = navigator.geolocation.watchPosition(
+                        (pos) => this.updateLocation(pos),
+                        (err) => this.handleError(err),
+                        this.options
+                    );
+                },
+                (error) => {
+                    this.handleError(error);
+                    this.isActive = false;
+                },
+                this.options
+            );
         } else {
             if (this.watchId !== null) {
                 navigator.geolocation.clearWatch(this.watchId);
