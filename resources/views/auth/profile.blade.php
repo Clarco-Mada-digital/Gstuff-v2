@@ -1389,8 +1389,8 @@
                                         @foreach ($salonFavorites as $favorie)
                                             @if($favorie){
                                                 <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
-                                                canton="{{ $favorie->canton['nom'] }}"
-                                                ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}'
+                                                canton="{{ $favorie->canton['nom'] ?? '' }}"
+                                                ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
                                                 escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
                                             }
                                             @else
