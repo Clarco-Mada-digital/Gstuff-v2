@@ -1370,7 +1370,7 @@
                                     <div
                                         class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
                                         @foreach ($escortFavorites as $favorie)
-                                            <livewire:escort-card name="{{ $favorie->prenom }}"
+                                            <livewire:escort-card name="{{ $favorie->prenom ?? $favorie->pseudo }}"
                                                 canton="{{ $favorie->canton['nom'] ?? '' }}"
                                                 ville="{{ $favorie->ville['nom'] ?? '' }}"
                                                 avatar='{{ $favorie->avatar }}' isOnline='{{ $favorie->isOnline() }}'
@@ -1387,7 +1387,7 @@
                                     <div
                                         class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
                                         @foreach ($salonFavorites as $favorie)
-                                            <livewire:escort-card name="{{ $favorie->prenom }}"
+                                            <livewire:escort-card name="{{ $favorie->prenom ?? $favorie->nom_salon }}"
                                                 canton="{{ $favorie->canton['nom'] }}"
                                                 ville="{{ $favorie->ville['nom'] }}" avatar='{{ $favorie->avatar }}'
                                                 escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
