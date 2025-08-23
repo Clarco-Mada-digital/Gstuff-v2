@@ -114,7 +114,7 @@
                 navigator.geolocation.clearWatch(this.watchId);
                 this.watchId = null;
             }
-            @this.call('resetLocation');
+            // @this.call('resetLocation');
         }
     }
 }" x-init="init">
@@ -144,7 +144,7 @@
                     animation: ping-once 1.5s cubic-bezier(0, 0, 0.2, 1) 1;
                 }
             </style>
-            <div x-show="true" 
+            <div x-show="isActive" 
                  x-transition:enter="transition-opacity ease-out duration-300"
                  x-transition:leave="transition-opacity ease-in duration-200"
                  x-data="{ showPing: true }"
