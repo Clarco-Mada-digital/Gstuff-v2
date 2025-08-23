@@ -55,7 +55,7 @@
                                     display: flex;
                                     justify-content: center;
                                     align-items: flex-start;
-                                    margin: 0 10px;
+                                    margin: 0 50px;
                                     width: 300px; /* Largeur fixe pour chaque carte */
                                     height: auto;
                                     flex-shrink: 0;
@@ -106,7 +106,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             new Swiper('.professionals-swiper', {
             slidesPerView: 'auto',
-            spaceBetween: 100,
+            spaceBetween: 50,
             centeredSlides: false,
             freeMode: true,
             loop: true,
