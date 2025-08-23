@@ -144,7 +144,7 @@
                     animation: ping-once 1.5s cubic-bezier(0, 0, 0.2, 1) 1;
                 }
             </style>
-            <div x-show="isActive" 
+            <div x-show="true" 
                  x-transition:enter="transition-opacity ease-out duration-300"
                  x-transition:leave="transition-opacity ease-in duration-200"
                  x-data="{ showPing: true }"
