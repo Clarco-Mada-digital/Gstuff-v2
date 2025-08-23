@@ -1381,16 +1381,26 @@
                                     <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_escorts') }}</div>
                                 @endif
                             </div>
-                            <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
+
+                            <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
+                            {{-- <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
                                 <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
                                 @if ($salonFavorites != '[]')
-                                   
+                                    <div
+                                        class="mb-4 grid w-full grid-cols-1 items-center gap-2 md:grid-cols-1 2xl:grid-cols-2">
+                                        @foreach ($salonFavorites as $favorie)
+                                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
+                                                canton="{{ $favorie->canton['nom'] ?? '' }}"
+                                                ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
+                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
+                                        @endforeach
+                                    </div>
 
                                     <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
                                 @else
                                     <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_salons') }}</div>
                                 @endif
-                            </div>
+                            </div>--}}
                         </div>
                         @if ($user && $user->id)
                             <div>

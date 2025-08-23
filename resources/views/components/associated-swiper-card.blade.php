@@ -5,49 +5,39 @@
 ])
 
 <div>
-@if ($data->isNotEmpty())
 
-   
-<div class="flex items-center justify-between gap-5 py-5">
-                                <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
-                              
 
-    <div class="relative w-full">
-        <div class="swiper-container professionals-swiper">
-            <div class="swiper-wrapper">
 
-            @if ($type === 'escort')
-                @foreach ($data as $salonAssocier)
-                    <div class="swiper-slide">
-                       <h1>test</h1>
-                    </div>
-                @endforeach
+<div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
+    <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
+    @if ($data->isNotEmpty())
+        <div class="relative w-full">
+            <div class="swiper-container professionals-swiper">
+                <div class="swiper-wrapper">
+                @if ($type === 'salon')
+                    @foreach ($data as $favorie)
+                        <div class="swiper-slide">
+                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
+                                canton="{{ $favorie->canton['nom'] ?? '' }}"
+                                ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
+                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />       
+                        </div>
+                    @endforeach
+                @endif
 
-            @endif
+                </div>
 
-            @if ($type === 'salon')
-                  @foreach ($data as $favorie)
-                    <div class="swiper-slide">
-                  
-                                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
-                                                canton="{{ $favorie->canton['nom'] ?? '' }}"
-                                                ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
-                                                escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
-                                     
-                    </div>
-                @endforeach
-            @endif
-
+                <!-- Navigation buttons -->
+                <button type="button" class="swiper-button-prev"></button>
+                <button type="button" class="swiper-button-next"></button>
             </div>
-
-            <!-- Navigation buttons -->
-            <button type="button" class="swiper-button-prev"></button>
-            <button type="button" class="swiper-button-next"></button>
         </div>
-    </div>
-@else
-    <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_salons') }}</div>
-@endif
+    @else
+        <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_salons') }}</div>
+    @endif
+</div>
+
+                    
 
 <style>
                                 .professionals-swiper {
