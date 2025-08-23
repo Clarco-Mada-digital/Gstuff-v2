@@ -72,8 +72,7 @@
 
     toggleGeolocation(force = false) {
         console.log('Toggling geolocation', force);
-        if (!force) this.isActive = !this.isActive;
-        else this.isActive = true;
+        this.isActive = !this.isActive;
         console.log('Geolocation state', this.isActive);
         if (this.isActive) {
             console.log('Activating geolocation');
