@@ -8,7 +8,7 @@
 
 
 
-<div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
+<div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-[40%]">
     <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_salons') }}</h3>
     @if ($data->isNotEmpty())
         <div class="relative w-full">
