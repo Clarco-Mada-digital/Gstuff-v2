@@ -1363,7 +1363,7 @@
                         <div class="flex items-center justify-center py-5 md:justify-start">
                             <h2 class="text-2xl font-bold font-roboto-slab text-green-gs">{{ __('profile.my_favorites') }}</h2>
                         </div>
-                        <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-5 ">
+                        <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-5 bg-red-500 ">
                             <x-associated-swiper-card :data="$escortFavorites" type="escort" profil="user"/>
                             <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
                         </div>
