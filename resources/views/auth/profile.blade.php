@@ -1364,7 +1364,7 @@
                             <h2 class="text-2xl font-bold font-roboto-slab text-green-gs">{{ __('profile.my_favorites') }}</h2>
                         </div>
                         <div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2">
-                            <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
+                        {{-- <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">
                                 <h3 class="font-roboto-slab text-green-gs text-xl">{{ __('profile.favorite_escorts') }}</h3>
                                 @if ($escortFavorites != '[]')
                                     <div
@@ -1380,7 +1380,9 @@
                                 @else
                                     <div class="text-roboto-slab text-sm text-textColorParagraph">{{ __('profile.no_favorite_escorts') }}</div>
                                 @endif
-                            </div>
+                            </div> --}}
+
+                            <x-associated-swiper-card :data="$escortFavorites" type="escort" profil="user"/>
 
                             <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user"/>
                             {{-- <div class="flex min-w-full flex-col items-center justify-center gap-4 xl:w-1/2">

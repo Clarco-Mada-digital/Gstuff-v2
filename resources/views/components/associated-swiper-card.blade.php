@@ -14,16 +14,23 @@
         <div class="relative w-full">
             <div class="swiper-container professionals-swiper">
                 <div class="swiper-wrapper">
-                @if ($type === 'salon')
+       
                     @foreach ($data as $favorie)
                         <div class="swiper-slide">
-                            <livewire:escort-card name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
+                            <livewire:escort-card 
+
+                            @if ($type === 'salon')
+
+                               name="{{  $favorie->nom_salon ?? $favorie->prenom }}"
+                            @else
+                               name="{{ $favorie->prenom ?? $favorie->nom_salon }}"
+                            @endif
                                 canton="{{ $favorie->canton['nom'] ?? '' }}"
                                 ville="{{ $favorie->ville['nom'] ?? '' }}" avatar='{{ $favorie->avatar }}'
                                 escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />       
                         </div>
                     @endforeach
-                @endif
+            
 
                 </div>
 
