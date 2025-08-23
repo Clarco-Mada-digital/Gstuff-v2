@@ -29,6 +29,7 @@
     
     handleError(error) {
         let message = '{{ __("proximity.location_error") }}';
+        console.log('LOcalisation error', error);
         
         switch(error.code) {
             case error.PERMISSION_DENIED:
@@ -65,9 +66,11 @@
                             (err) => this.handleError(err),
                             this.options
                         );
+                        console.log('LOcalisation success', position);
                         this.updateLocation(position);
                     },
                     (error) => {
+                        console.log('LOcalisation error', error);
                         this.handleError(error);
                         this.isActive = false;
                     },
