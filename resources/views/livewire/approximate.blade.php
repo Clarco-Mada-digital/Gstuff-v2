@@ -71,10 +71,12 @@
     },
 
     toggleGeolocation(force = false) {
+        console.log('Toggling geolocation', force);
         if (!force) this.isActive = !this.isActive;
         else this.isActive = true;
-
+        console.log('Geolocation state', this.isActive);
         if (this.isActive) {
+            console.log('Activating geolocation');
             if (!navigator.geolocation) {
                 this.errorMessage = '{{ __("proximity.geolocation_unsupported") }}';
                 this.showError = true;
@@ -108,6 +110,7 @@
                 this.options
             );
         } else {
+            console.log('Deactivating geolocation');
             if (this.watchId !== null) {
                 navigator.geolocation.clearWatch(this.watchId);
                 this.watchId = null;
