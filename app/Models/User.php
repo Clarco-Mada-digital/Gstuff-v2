@@ -169,6 +169,8 @@ class User extends Authenticatable
         'ville',
         'categorie',
         'is_profil_pause',
+        'last_activity',
+        'rate_activity',
     ];
 
     public $translatable = ['apropos'];
@@ -201,6 +203,8 @@ class User extends Authenticatable
         'visible_countries' => 'array',
         'createbysalon' => 'boolean',
         'is_profil_pause' => 'boolean', 
+        'last_activity' => 'datetime',
+        'rate_activity' => 'integer',
     ];
 
     public function getVisibleCountriesAttribute($value)
