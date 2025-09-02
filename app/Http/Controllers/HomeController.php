@@ -167,8 +167,9 @@ class HomeController extends Controller
         return $this->loadAssociatedData($salon);
     });
 
-    logger()->info("escorts", $escorts);
-    logger()->info("salons", $salons);
+    logger()->info("escorts", ['data' => $escorts->toArray()]);
+    logger()->info("salons", ['data' => $salons->toArray()]);
+
 
     return view('home', [
         'cantons' => $cantons,
