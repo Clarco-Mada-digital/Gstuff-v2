@@ -28,7 +28,7 @@
     @if($isPause)
 
     <!-- Dégradé rose toujours visible -->
-    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500 opacity-90 mix-blend-multiply pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500 opacity-60 mix-blend-multiply pointer-events-none"></div>
 
     <!-- Texte au survol -->
     <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
