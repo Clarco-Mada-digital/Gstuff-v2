@@ -87,7 +87,7 @@
                 <div id="NewEscortContainer" 
                 class="relative mb-4 mt-5 flex w-full h-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden  px-10"
                 style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                    @foreach ($escorts->take(10) as $escort)
+                    @foreach ($escorts as $escort)
                         <livewire:escort-card wire:key="escort-{{ $escort->id }}"  name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                             ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' 
                             isPause="{{ $escort->is_profil_pause }}"
@@ -119,7 +119,7 @@
                 <div id="OurSalonContainer"
                     class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                    @foreach ($salons->take(10) as $salon)
+                    @foreach ($salons as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
                             isPause="{{ $salon->is_profil_pause }}"
@@ -159,7 +159,7 @@
                 class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
                 style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
 
-                @foreach ($escorts->take(30) as $escort)
+                @foreach ($escorts as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                         isOnline='{{ $escort->isOnline() }}' 
