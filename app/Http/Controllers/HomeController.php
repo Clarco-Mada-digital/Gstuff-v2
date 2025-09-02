@@ -73,47 +73,7 @@ class HomeController extends Controller
         return $user;
     }
 
-    /**
-     * Affiche la page d'accueil avec les données nécessaires.
-     *
-     * @return \Illuminate\View\View
-     */
-    // public function home()
-    // {
-    //     // Catégories
-    //     $categories = Categorie::where('type', 'escort')->get();
-
-    //     // Cantons
-    //     $cantons = Canton::all();
-
-    //     // Glossaires (avec mise en cache)
-    //     $glossaire_category_id = ArticleCategory::where('slug', 'LIKE', 'glossaires')->first();
-    //     $glossaires = Cache::remember('glossaires', 60 * 60, function () use ($glossaire_category_id) {
-    //         return Article::where('article_category_id', $glossaire_category_id->id)->limit(self::GLOSSAIRES_LIMIT)->get();
-    //     });
-
-    //     // Escortes
-    //     $escorts = User::where('profile_type', 'escorte')->get();
-    //     $escorts = $this->getVisibleEscorts($escorts);
-    //     $escorts = $escorts->map(function ($escort) {
-    //         return $this->loadAssociatedData($escort);
-    //     });
-
-    //     // Salons
-    //     $salons = User::where('profile_type', 'salon')->get();
-    //     $salons = $this->getVisibleEscorts($salons);
-    //     $salons = $salons->map(function ($salon) {
-    //         return $this->loadAssociatedData($salon);
-    //     });
-
-    //     return view('home', [
-    //         'cantons' => $cantons,
-    //         'categories' => $categories,
-    //         'escorts' => $escorts,
-    //         'salons' => $salons,
-    //         'glossaires' => $glossaires,
-    //     ]);
-    // }
+   
 
     public function home()
 {
@@ -166,10 +126,6 @@ class HomeController extends Controller
     $salons = $salons->map(function ($salon) {
         return $this->loadAssociatedData($salon);
     });
-
-    logger()->info("escorts", ['data' => $escorts->toArray()]);
-    logger()->info("salons", ['data' => $salons->toArray()]);
-
 
     return view('home', [
         'cantons' => $cantons,

@@ -226,9 +226,16 @@ class EscortSearch extends Component
         if (!$this->approximite) {
             if(Auth::user()){
                 $query = User::query()->where('profile_type', 'escorte')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')   
                 ->where('id', '!=', Auth::user()->id);
             }else{
-                $query = User::query()->where('profile_type', 'escorte');
+                $query = User::query()->where('profile_type', 'escorte')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ;
             }
             
             if ($this->selectedCanton) {
@@ -336,7 +343,11 @@ class EscortSearch extends Component
                 $nearbyVilles = Ville::where('canton_id', $this->selectedCanton)->where('id', '!=', $this->selectedVille)->get();
 
                 foreach ($nearbyVilles as $ville) {
-                    $query = User::query()->where('profile_type', 'escorte')->where('ville', $ville->id);
+                    $query = User::query()->where('profile_type', 'escorte')->where('ville', $ville->id)
+                    ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                    ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                    ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                    ;
 
                     if ($this->selectedGenre) {
                         $query->where('genre_id', $this->selectedGenre);
@@ -476,6 +487,9 @@ class EscortSearch extends Component
                 ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($escort) use ($viewerCountry) {
                     return $escort->isProfileVisibleTo($viewerCountry);
@@ -498,6 +512,9 @@ class EscortSearch extends Component
                 $escorts = User::where('profile_type', 'escorte')
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($escort) use ($viewerCountry) {
                     return $escort->isProfileVisibleTo($viewerCountry);
@@ -681,6 +698,9 @@ class EscortSearch extends Component
                 ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($escort) use ($viewerCountry) {
                     return $escort->isProfileVisibleTo($viewerCountry);
@@ -703,6 +723,9 @@ class EscortSearch extends Component
                 $escorts = User::where('profile_type', 'escorte')
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
+                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
+                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($escort) use ($viewerCountry) {
                     return $escort->isProfileVisibleTo($viewerCountry);
