@@ -116,9 +116,9 @@ class UsersSearch extends Component
         $query = User::query()->where(function ($q) {
             $q->where('profile_type', 'escorte')
               ->orWhere('profile_type', 'salon');
-        })->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-        ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-        ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+        })->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+        ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+        ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
         ;
 
         if ($this->search) {

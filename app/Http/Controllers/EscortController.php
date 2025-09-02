@@ -316,10 +316,22 @@ class EscortController extends Controller
                     'salon_id' => $invitation->inviter_id,
                     'escorte_id' => $authUser->id,
                 ]);
+
+                $user = User::find($invitation->inviter_id);
+                $user->update([
+                    'rate_activity' => $user->rate_activity + 5,
+                    'last_activity' => now(),
+                ]);
             } else if ($authUser->profile_type === 'salon') {
                 SalonEscorte::firstOrCreate([
                     'salon_id' => $authUser->id,
                     'escorte_id' => $invitation->inviter_id,
+                ]);
+
+                $user = User::find($invitation->inviter_id);
+                $user->update([
+                    'rate_activity' => $user->rate_activity + 5,
+                    'last_activity' => now(),
                 ]);
             }
 
@@ -406,6 +418,12 @@ class EscortController extends Controller
 
             // Supprimer l'invitation
             $invitation->delete();
+            
+            $user = User::find($invitation->inviter_id);
+            $user->update([
+                'rate_activity' => $user->rate_activity - 5,
+                'last_activity' => now(),
+            ]);
 
             return back()->with('success', __('escort.success.invitation_cancelled'));
             
@@ -444,6 +462,12 @@ class EscortController extends Controller
 
             // Supprimer l'invitation
             $invitation->delete();
+
+            $user = User::find($invitation->inviter_id);
+            $user->update([
+                'rate_activity' => $user->rate_activity - 5,
+                'last_activity' => now(),
+            ]);
 
             return back()->with('success', __('escort.success.relation_deleted'));
             

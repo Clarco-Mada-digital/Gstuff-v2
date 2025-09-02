@@ -117,6 +117,10 @@ class Feedback extends Component
                 'comment' => $translatedContent,
             ]);
 
+            $user = User::find($this->userToId->id);
+            $user->rate_activity = $user->rate_activity + $this->rating;
+            $user->update();
+
             // Réinitialiser les champs après soumission
             $this->reset(['rating', 'comment']);
             

@@ -266,7 +266,9 @@ class UserController extends Controller
 
         $user = User::findOrFail($iduser);
         $user->update([
-            'profile_verifie' => 'verifier'
+            'profile_verifie' => 'verifier',
+            'rate_activity' => $user->rate_activity + 10,
+            'last_activity' => now(),
         ]);
 
         return redirect()->route('users.index')
@@ -284,7 +286,9 @@ class UserController extends Controller
 
         $user = User::findOrFail($iduser);
         $user->update([
-            'profile_verifie' => 'non verifier'
+            'profile_verifie' => 'non verifier',
+            'rate_activity' => $user->rate_activity - 10,
+            'last_activity' => now(),
         ]);
 
         return redirect()->route('users.index')

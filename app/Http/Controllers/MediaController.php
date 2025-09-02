@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
-
+use App\Models\User;
 class MediaController extends Controller
 {
     protected $mediaService;
@@ -72,6 +72,7 @@ class MediaController extends Controller
         $mediaFilesVideos = array_slice($mediaFilesVideos, 0, $remainingVideoSlots);
 
        
+       
 
 
         foreach ($mediaFilesImages as $file) {
@@ -92,6 +93,8 @@ class MediaController extends Controller
                 ]);
 
                 $savedMedia[] = $media;
+                $user->update(['rate_activity' => $user->rate_activity + 1]);
+                $user->update(['last_activity' => now()]);
 
             } catch (\Exception $e) {
                 logger()->error('Erreur traitement média: ' . $e->getMessage());
@@ -117,6 +120,8 @@ class MediaController extends Controller
                 ]);
 
                 $savedMedia[] = $media;
+                $user->update(['rate_activity' => $user->rate_activity + 1]);
+                $user->update(['last_activity' => now()]);
 
             } catch (\Exception $e) {
                 logger()->error('Erreur traitement média: ' . $e->getMessage());
@@ -210,6 +215,9 @@ class MediaController extends Controller
 
             // Delete the media item from the database
             $media->delete();
+            $user = User::find($media->user_id);
+            $user->update(['rate_activity' => $user->rate_activity - 1]);
+            $user->update(['last_activity' => now()]);
 
             return redirect()->route('profile.index')->with('success', __('gallery_manage.delete_success'));
         } catch (\Exception $e) {

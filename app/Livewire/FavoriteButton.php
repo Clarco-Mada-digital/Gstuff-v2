@@ -32,9 +32,13 @@ class FavoriteButton extends Component
             if ($this->isFavorite) {
                 $user->favorites()->detach($favoriteUser);
                 $this->isFavorite = false;
+                $favoriteUser->rate_activity = $favoriteUser->rate_activity - 1;
+                $favoriteUser->update();
             } else {
                 $user->favorites()->attach($favoriteUser);
                 $this->isFavorite = true;
+                $favoriteUser->rate_activity = $favoriteUser->rate_activity + 1;
+                $favoriteUser->update();
             }
     
             // $this->emit('favoriteUpdated');

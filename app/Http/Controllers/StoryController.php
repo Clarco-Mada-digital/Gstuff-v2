@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Story;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -36,6 +37,10 @@ class StoryController extends Controller
             'media_path' => $path,
             'media_type' => $mediaType
         ]);
+
+        $user = User::find(auth()->id());
+        $user->update(['rate_activity' => $user->rate_activity + 1]);
+        $user->update(['last_activity' => now()]);
 
         if ($request->wantsJson()) {
             return response()->json([

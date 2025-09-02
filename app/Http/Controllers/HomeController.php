@@ -101,11 +101,12 @@ class HomeController extends Controller
    // Escortes
    $escorts = Cache::remember('escorts', 15 * 60, function () {
     return User::where('profile_type', 'escorte')
-        ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-        ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-        ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+        ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
+        ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé
+        ->orderByDesc('last_activity')          // 3️⃣ Activité récente
         ->get();
     });
+
 
 
     $escorts = $this->getVisibleEscorts($escorts);
@@ -116,9 +117,9 @@ class HomeController extends Controller
     // Salons
     $salons = Cache::remember('salons', 15 * 60, function () {
         return User::where('profile_type', 'salon')
-            ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-            ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-            ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+            ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
+            ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé
+            ->orderByDesc('last_activity')          // 3️⃣ Activité récente
             ->get();
     });
 

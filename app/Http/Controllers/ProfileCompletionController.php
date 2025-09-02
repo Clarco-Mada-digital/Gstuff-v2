@@ -805,8 +805,130 @@ class ProfileCompletionController extends Controller
         }
 
 
+
+
         return response()->json(['percentage' => round($percentage)]);
     }
+
+    
+    public function CalculRateActivity()
+    {
+        $user = Auth::user();
+        if($user->profile_type == 'escorte')
+        {
+            $totalFields = 32; // Total number of fields considered for completion
+            $completedFields = 0;
+        }elseif($user->profile_type == 'salon')
+        {
+            $totalFields = 21; // Total number of fields considered for completion
+            $completedFields = 0;
+        }else
+        {
+            $totalFields = 14; // Total number of fields considered for completion
+            $completedFields = 0;
+        }
+
+        // Fields to consider for profile completion
+        if($user->profile_type == 'escorte')
+        {
+            $fieldsToCheck = [
+                // champ 1 : 8
+                'genre_id',
+                'prenom',
+                'email',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                // champ 2 : 14
+                'categorie',
+                'pratique_sexuelle_id',
+                'orientation_sexuelle_id',
+                'service',
+                'tailles',
+                'origine',
+                'couleur_yeux_id',
+                'couleur_cheveux_id',
+                'mensuration_id',
+                'poitrine_id',
+                'taille_poitrine',
+                'pubis_type_id',
+                'tatoo_id',
+                'mobilite_id',
+                'tarif',
+                'langues',
+                'paiement',
+                'apropos',
+                // champ 3 : 6
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+                'lat',
+                'lon'
+            ];
+        }elseif($user->profile_type == 'salon')
+        {
+            $fieldsToCheck = [
+                // champ 1 : 8
+                'intitule',
+                'nom_proprietaire',
+                'email',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                // champ 2 : 7
+                'categorie',
+                'recrutement',
+                'nombre_fille_id',            
+                'tarif',
+                'langues',
+                'paiement',
+                'apropos',
+                // champ 3 : 6
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+                'lat',
+                'lon',
+                // 'nom_salon',
+
+            ];
+        }else
+        {
+            $fieldsToCheck = [
+                // champ 1 : 8
+                'genre_id',
+                'pseudo',
+                'email',
+                'telephone',
+                'adresse',
+                'npa',
+                'canton',
+                'ville',
+                // champ 2 : 6
+                'autre_contact',
+                'complement_adresse',
+                'lien_site_web',
+                'localisation',
+                'lat',
+                'lon',
+            ];
+        }
+
+        foreach ($fieldsToCheck as $field) {
+            if (!empty($user->$field)) {
+                $completedFields++;
+            }
+        }
+
+        return $completedFields;
+    }
+
 
     // public function updateProfile(Request $request)
     // {
@@ -947,6 +1069,8 @@ class ProfileCompletionController extends Controller
             'genre_id' => 'nullable|exists:genres,id',
         ]);
 
+        $oldrate = $this->CalculRateActivity();
+
         if ($request->filled('apropos')) {
             $locales = Locales::SUPPORTED_CODES;
             $sourceLocale = $request['lang'];
@@ -961,7 +1085,21 @@ class ProfileCompletionController extends Controller
             $validated['apropos'] = $translatedContent;
         }
 
+
         $user->update($validated);
+
+        $newrate = $this->CalculRateActivity();
+
+        if($user->rate_activity == 0){
+            $user->update(['rate_activity' => $newrate]);
+            logger('rate_activity updated 00', ['oldrate' => $oldrate, 'newrate' => $newrate]);
+        }
+
+        if ($oldrate != $newrate) {
+            logger('rate_activity updated', ['oldrate' => $oldrate, 'newrate' => $newrate]);
+            $user->update(['rate_activity' => $newrate]);
+            $user->update(['last_activity' => now()]);
+        }
 
         $percentageResponse = $this->getProfileCompletionPercentage();
         $percentage = $percentageResponse->getData()->percentage;
@@ -982,6 +1120,106 @@ class ProfileCompletionController extends Controller
             ->withInput();
     }
 }
+
+// public function updateProfile(Request $request)
+// {
+//     try {
+//         $user = Auth::user();
+
+//         $validated = $request->validate([
+//             'intitule' => 'nullable|string|max:255',
+//             'nom_proprietaire' => 'nullable|string|max:255',
+//             'prenom' => 'nullable|string|max:255',
+//             'user_name' => 'nullable|string|max:255',
+//             'telephone' => [
+//                 'required',
+//                 'string',
+//                 'max:15',
+//                 'regex:/^[0-9]{10}$/',
+//             ],
+//             'adresse' => 'nullable|string|max:255',
+//             'npa' => 'nullable|string|max:10',
+//             'canton' => 'nullable',
+//             'ville' => 'nullable',
+//             'categorie' => 'nullable',
+//             'service' => 'nullable',
+//             'orientation_sexuelle_id' => 'nullable|exists:orientation_sexuelles,id',
+//             'recrutement' => 'nullable|string|max:255',
+//             'nombre_fille_id' => 'nullable|exists:nombre_filles,id',
+//             'pratique_sexuelle_id' => 'nullable|exists:pratique_sexuelles,id',
+//             'tailles' => 'nullable|string|max:255',
+//             'origine' => 'nullable|string|max:255',
+//             'couleur_yeux_id' => 'nullable|exists:couleur_yeuxes,id',
+//             'couleur_cheveux_id' => 'nullable|exists:couleur_cheveuxes,id',
+//             'mensuration_id' => 'nullable|exists:mensurations,id',
+//             'poitrine_id' => 'nullable|exists:poitrines,id',
+//             'taille_poitrine' => 'nullable|string|max:255',
+//             'pubis_type_id' => 'nullable|exists:pubis_types,id',
+//             'tatoo_id' => 'nullable|exists:tattoos,id',
+//             'mobilite_id' => 'nullable|exists:mobilites,id',
+//             'tarif' => 'nullable|string|max:255',
+//             'langues' => 'nullable|string|max:255',
+//             'paiement' => 'nullable|string|max:255',
+//             'apropos' => 'nullable|string',
+//             'autre_contact' => 'nullable|string|max:255',
+//             'complement_adresse' => 'nullable|string|max:255',
+//             'lien_site_web' => 'nullable|url|max:255',
+//             'localisation' => 'nullable|string|max:255',
+//             'lat' => 'nullable|string|max:255',
+//             'lon' => 'nullable|string|max:255',
+//             'lang' => 'required|in:fr,en-US,es,de,it',
+//             'genre_id' => 'nullable|exists:genres,id',
+//         ]);
+
+//         // Traduction du champ "apropos"
+//         if ($request->filled('apropos')) {
+//             $locales = Locales::SUPPORTED_CODES;
+//             $sourceLocale = $request['lang'];
+//             $translatedContent = [];
+
+//             foreach ($locales as $locale) {
+//                 $translatedContent[$locale] = $locale !== $sourceLocale
+//                     ? $this->translateService->translate($request['apropos'], $locale)
+//                     : $request['apropos'];
+//             }
+
+//             $validated['apropos'] = $translatedContent;
+//         }
+
+//         // Vérifier les vraies modifications
+//         $currentData = $user->only(array_keys($validated));
+//         $hasChanges = collect($validated)->diffAssoc($currentData)->isNotEmpty();
+
+//         if ($hasChanges) {
+//             $validated['last_activity'] = now();
+//             $validated['rate_activity'] = $user->rate_activity + 1;
+
+//             $user->update($validated);
+
+//             $percentageResponse = $this->getProfileCompletionPercentage();
+//             $percentage = $percentageResponse->getData()->percentage;
+
+//             $user->notify(new ComplementationNotification($percentage));
+
+//             return redirect()->route('profile.index')
+//                 ->with('success', __('profile.success.profile_updated'))
+//                 ->with('completionPercentage', $percentage);
+//         } else {
+//             return redirect()->route('profile.index')
+//                 ->with('info', 'Aucune modification détectée. Le profil n’a pas été mis à jour.');
+//         }
+
+//     } catch (\Illuminate\Validation\ValidationException $e) {
+//         return redirect()->back()
+//             ->withErrors($e->validator)
+//             ->withInput();
+//     } catch (\Exception $e) {
+//         return redirect()->back()
+//             ->with('error', 'Une erreur est survenue lors de la mise à jour du profil.')
+//             ->withInput();
+//     }
+// }
+
 
 
     public function updatePhoto(Request $request)

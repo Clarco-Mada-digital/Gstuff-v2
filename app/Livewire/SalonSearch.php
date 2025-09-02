@@ -167,15 +167,15 @@ class SalonSearch extends Component
         if (!$this->approximite) {
             if(Auth::user()){
                 $query = User::query()->where('profile_type', 'salon')->where('id', '!=', Auth::user()->id)
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
+                ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
                 ;
             }else{
                 $query = User::query()->where('profile_type', 'salon')
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                 ;
             }
 
@@ -226,9 +226,9 @@ class SalonSearch extends Component
 
                 foreach ($nearbyVilles as $ville) {
                     $query = User::query()->where('profile_type', 'salon')->where('ville', $ville->id)
-                    ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                    ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                    ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                    ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                    ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                     ;
 
                     // if ($this->selectedSalonCategories) {
@@ -318,9 +318,9 @@ class SalonSearch extends Component
                 ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($salon) use ($viewerCountry) {
                     return $salon->isProfileVisibleTo($viewerCountry);
@@ -343,9 +343,9 @@ class SalonSearch extends Component
                 $salons = User::where('profile_type', 'salon')
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($salon) use ($viewerCountry) {
                     return $salon->isProfileVisibleTo($viewerCountry);
@@ -479,9 +479,9 @@ class SalonSearch extends Component
                 ->where('id', '!=', Auth::user()->id)
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($salon) use ($viewerCountry) {
                     return $salon->isProfileVisibleTo($viewerCountry);
@@ -504,9 +504,9 @@ class SalonSearch extends Component
                 $salons = User::where('profile_type', 'salon')
                 ->whereNotNull('lat')
                 ->whereNotNull('lon')
-                ->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-                ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
+                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
+                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
+                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                 ->get()
                 ->filter(function ($salon) use ($viewerCountry) {
                     return $salon->isProfileVisibleTo($viewerCountry);
