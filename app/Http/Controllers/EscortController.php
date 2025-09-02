@@ -86,6 +86,7 @@ class EscortController extends Controller
         // ->where('type', 'invite par salon')
         ->with(['inviter.cantonget'])
         ->with(['inviter.villeget'])
+        
         ->get();
 
 

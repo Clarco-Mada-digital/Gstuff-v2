@@ -66,7 +66,8 @@
                                 avatar="{{ $acceptedInvitation->inviter->avatar }}"
                                 escortId="{{ $acceptedInvitation->inviter->id }}"
                                 profileVerifie="{{ $acceptedInvitation->inviter->profile_verifie }}"
-                                wire:key="{{ $acceptedInvitation->inviter->id }}" />
+                                wire:key="{{ $acceptedInvitation->inviter->id }}"
+                                isPaused="{{ $acceptedInvitation->inviter->is_profil_pause }}" />
                         @else
                             <livewire:escort_card
                                 name="{{ $acceptedInvitation->invited->prenom ?? $acceptedInvitation->invited->nom_salon }}"
@@ -75,7 +76,8 @@
                                 avatar="{{ $acceptedInvitation->invited->avatar }}"
                                 escortId="{{ $acceptedInvitation->invited->id }}"
                                 profileVerifie="{{ $acceptedInvitation->invited->profile_verifie }}"
-                                wire:key="{{ $acceptedInvitation->invited->id }}" />
+                                wire:key="{{ $acceptedInvitation->invited->id }}"
+                                isPaused="{{ $acceptedInvitation->invited->is_profil_pause }}" />
                         @endif
                     </div>
                 @endforeach

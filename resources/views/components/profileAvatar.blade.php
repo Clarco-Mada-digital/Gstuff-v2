@@ -3,6 +3,7 @@
     'gallery' => [],
     'status' => null,
     'type' => 'salon',
+    'isPaused' => false,
 ])
 
 
@@ -11,21 +12,59 @@
 <div>
     @if($type === 'salon')
 <div id="avatar-container" class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
-                <img 
-                    src="{{ $avatarSrc ??  asset('images/icon_logo.png') }}"
-                    alt="{{ __('salon_profile.profile_image') }}"
-                    class="h-full w-full object-cover object-center cursor-pointer"
-                />
+<div class="relative h-full w-full group">
+    <!-- Image -->
+    <img 
+        src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}"
+        alt="{{ __('salon_profile.profile_image') }}"
+        class="h-full w-full object-cover object-center cursor-pointer"
+    />
+
+    @if($isPaused)
+    <!-- Dégradé toujours visible -->
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500  mix-blend-multiply pointer-events-none"></div>
+
+    <!-- Texte au survol -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
+            {{ __('gestionPause.badgePause') }}
+        </span>
+    </div>
+
+    @endif
+</div>
+
+
                 <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
             </div>
             @endif
             @if($type === 'escort')
   <div id="avatar-container" class="w-[220px] h-[220px] border-5 relative mx-auto  rounded-full border-white shadow-sm overflow-hidden">
-                <img 
-                    src="{{ $avatarSrc ??  asset('images/icon_logo.png') }}"
-                    alt="{{ __('salon_profile.profile_image') }}"
-                    class="h-full w-full object-cover object-center cursor-pointer"
-                />
+             
+  <div class="relative h-full w-full group">
+    <!-- Image -->
+    <img 
+        src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}"
+        alt="{{ __('salon_profile.profile_image') }}"
+        class="h-full w-full object-cover object-center cursor-pointer"
+    />
+
+    @if($isPaused)
+
+    <!-- Dégradé toujours visible -->
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500  mix-blend-multiply pointer-events-none"></div>
+
+    <!-- Texte visible uniquement au survol -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
+        {{ __('gestionPause.badgePause') }}
+        </span>
+    </div>
+    @endif
+</div>
+
+
+
                 <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
             </div>
             @endif            
@@ -34,7 +73,7 @@
 <div id="gallery-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
    <!-- Bouton fermer -->
    <button id="close-modal" class="absolute right-4 top-4 z-10 rounded-full bg-supaGirlRose p-2 text-green-gs hover:text-white hover:bg-green-gs">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>

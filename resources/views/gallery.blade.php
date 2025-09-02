@@ -217,7 +217,7 @@
                             <div class="relative w-full h-full max-h-[90vh] flex items-center">
                                 <!-- Close button -->
                                 <button @click="closeViewer" class="absolute right-4 top-2 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>

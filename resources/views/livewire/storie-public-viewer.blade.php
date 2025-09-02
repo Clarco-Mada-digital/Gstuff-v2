@@ -57,7 +57,7 @@
                 <video id="storyVideo" src="" class="max-h-full max-w-full object-contain hidden cursor-pointer" autoplay playsinline onended="videoEnded()" onclick="togglePause()"></video>
             </div>
             <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>

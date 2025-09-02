@@ -53,7 +53,7 @@
                 <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
             </div> -->
 
-            <x-profileAvatar :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$salon->isOnline()" />
+            <x-profileAvatar :isPaused="$isPaused" :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$salon->isOnline()" />
 
 
 
@@ -62,9 +62,7 @@
                 <p class="font-bold font-roboto-slab text-center leading-tight">
                     {{ Str::ucfirst($salon->nom_salon) }}
                 </p>
-                @if ($isPaused)
-                    <x-badgePause />
-                @endif
+              
             </div>
 
             <!-- Catégories -->

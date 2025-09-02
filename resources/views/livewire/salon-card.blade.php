@@ -10,9 +10,29 @@
 
     {{-- Image de profil --}}
     <a class="block aspect-[3/4] w-full overflow-hidden rounded-t-xl" href="{{ route('show_salon', $salonId) }}">
-        <img class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-            @if ($avatar) src="{{ asset('storage/avatars/' . $avatar) }}" @else src="{{ asset('images/icon_logo.png') }}" @endif
-            alt="image profile" />
+    <div class="relative h-full w-full group overflow-hidden ">
+    <!-- Image avec effet zoom au survol -->
+    <img 
+        class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+        @if ($avatar) src="{{ asset('storage/avatars/' . $avatar) }}" 
+        @else src="{{ asset('images/icon_logo.png') }}" 
+        @endif
+        alt="image profile"
+    />
+
+    @if($isPause)
+    <!-- Dégradé rose toujours visible -->
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500 opacity-90 mix-blend-multiply pointer-events-none"></div>
+
+    <!-- Texte “Profil en pause” visible au survol -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
+            {{ __('gestionPause.badgePause') }}
+        </span>
+    </div>
+    @endif
+</div>
+
     </a>
 
     {{-- Informations principales --}}
@@ -38,10 +58,10 @@
                 </div>
             @endif
 
-            {{-- Badge pause --}}
+            {{-- Badge pause
             @if ($isPause)
                 <x-badgePause />
-            @endif
+            @endif --}}
         </div>
 
         {{-- Localisation --}}

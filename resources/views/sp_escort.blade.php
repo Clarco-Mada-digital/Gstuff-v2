@@ -26,7 +26,7 @@
         {{-- Profile picture and status --}}
         <div class="min-w-1/4 flex flex-col items-center  gap-3 px-4 -mt-26">
 
-          <x-profileAvatar :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$escort->isOnline()" :type="'escort'" />
+          <x-profileAvatar :isPaused="$isPaused" :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$escort->isOnline()" :type="'escort'" />
 
             <div class=" ml-3 flex flex-col items-center justify-center ">
                 <div class="flex items-center gap-2 justify-center mb-2">
@@ -52,9 +52,7 @@
 
                     
                     </p>
-                    @if ($escort->is_profil_pause)
-                        <x-badgePause/>
-                    @endif 
+                    
                 </div> 
 
 
