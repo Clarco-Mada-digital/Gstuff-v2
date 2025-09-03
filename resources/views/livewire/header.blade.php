@@ -260,6 +260,7 @@
         
                     <div class="grid grid-cols-2 gap-3 text-black  w-[450px]">
                         @foreach ($categories as $categorie)
+                       
                             <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                                 class="z-10 flex items-center justify-center gap-1">
                                 <div
@@ -269,6 +270,7 @@
                                     <span class="font-roboto-slab font-normal text-base leading-6 align-middle hover:text-white">{{ $categorie['nom'] }}</span>
                                 </div>
                             </a>
+                 
                         @endforeach
                     </div>
                 </div>

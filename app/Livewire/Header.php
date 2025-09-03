@@ -30,7 +30,11 @@ class Header extends Component
     public function render()
     {
         // Charger les catégories pour les escorts
-        $this->categories = Categorie::where('type', 'escort')->get();
+        $this->categories = Categorie::where('type', 'escort')
+        ->orderBy('id', 'asc')
+        ->take(4)
+        ->get();
+
         
         // Charger les cantons avec le nombre d'utilisateurs
         $this->cantons = Canton::select('cantons.*')

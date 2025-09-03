@@ -79,7 +79,7 @@ class HomeController extends Controller
 {
     // Catégories
     $categories = Cache::remember('categories', 60 * 60, function () {
-        return Categorie::where('type', 'escort')->get();
+        return Categorie::where('type', 'escort')->orderBy('id', 'asc')->get();
     });
 
     // dd($categories);

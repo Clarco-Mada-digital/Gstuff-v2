@@ -22,8 +22,8 @@
                 {{ __('home.in_switzerland') }}</h2>
         </div>
         <div class="flex flex-col gap-2 text-black transition-all lg:flex-row">
-            @foreach ($categories as $categorie)
-            @if ($categorie->type == 'escort')
+            @foreach ($categories->take(4) as $categorie)
+            @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
                 <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                     class="z-10 flex items-center justify-center gap-1 transition-all">
                     <div

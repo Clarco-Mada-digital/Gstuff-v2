@@ -27,7 +27,7 @@
     <!-- Texte “Profil en pause” visible au survol -->
     <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
-            {{ __('gestionPause.badgePause') }}
+            {{ __('gestionPause.badgePause') }} 
         </span>
     </div>
     @endif

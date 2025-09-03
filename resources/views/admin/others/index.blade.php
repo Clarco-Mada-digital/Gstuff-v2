@@ -1101,7 +1101,7 @@
                     'locale': locale,
                 };
                 if(type === 'categories'){
-                    dataForm['display_name'] = nomFr.toLowerCase().replace(/ /g, '-');
+                    dataForm['display_name'] = slugify(nomFr);
                     dataForm['type'] = categoryType;
                 }
                 if(type === 'services'){
@@ -1132,6 +1132,18 @@
                     submitBtn.textContent = id ? '{{ __("others.edit") }}' : '{{ __("others.add") }}';
                 }
             });
+
+            function slugify(nomFr) {
+                return nomFr
+                    .normalize('NFD')                      // Sépare les lettres des accents
+                    .replace(/[\u0300-\u036f]/g, '')       // Supprime les accents
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')          // Supprime les caractères spéciaux
+                    .trim()
+                    .replace(/\s+/g, '-')                  // Remplace les espaces par des tirets
+                    .replace(/-+/g, '-');                  // Évite les tirets doublés
+            }
+
 
             // Recherche dans un tableau
             document.querySelectorAll('.search-input').forEach(input => {
