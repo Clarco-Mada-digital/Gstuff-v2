@@ -135,6 +135,21 @@ class SalonSearch extends Component
         return $angle * $earthRadius;
     }
 
+
+    private function queryBaseSalon()
+    {
+        $query = User::query()
+        ->where('profile_type', 'salon')
+        ->orderBy('is_profil_pause')
+        ->orderByDesc('rate_activity')
+        ->orderByDesc('last_activity');
+        if (Auth::user()) {
+            $query->where('id', '!=', Auth::user()->id);
+        }
+        return $query;
+    }
+    
+
     public function render()
     {
         if ($this->approximite && $this->showClosestOnly) {
@@ -165,27 +180,26 @@ class SalonSearch extends Component
         $allSalons = collect();
         $salons = collect();
         if (!$this->approximite) {
-            if(Auth::user()){
-                $query = User::query()->where('profile_type', 'salon')->where('id', '!=', Auth::user()->id)
-                ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                ;
-            }else{
-                $query = User::query()->where('profile_type', 'salon')
-                ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
-                ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
-                ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
-                ;
-            }
+            $query = $this->queryBaseSalon();
+            $baseSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+                return $salon->isProfileVisibleTo($viewerCountry);
+            });
 
+            // 2. Initialiser une collection vide pour les résultats finaux
+            $filteredSalons = collect();
+
+             // 3. Appliquer chaque filtre de manière additive
             if ($this->selectedSalonCanton) {
-                $query->where('canton', $this->selectedSalonCanton);
+                $filteredSalons = $filteredSalons->merge($baseSalons->where('canton', $this->selectedSalonCanton));
             }
 
             if ($this->selectedSalonVille) {
-                $query->where('ville', $this->selectedSalonVille);
+                $filteredSalons = $filteredSalons->merge($baseSalons->where('ville', $this->selectedSalonVille));
             }
+
+            // if ($this->selectedSalonVille) {
+            //     $query->where('ville', $this->selectedSalonVille);
+            // }
 
             // if ($this->selectedSalonCategories) {
             //     $query->where(function ($q) {
@@ -195,9 +209,16 @@ class SalonSearch extends Component
             //     });
             // }
 
+          
+
             if ($this->selectedSalonCategories) {
-                $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+                $filteredSalons = $filteredSalons->merge($baseSalons->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%'));
             }
+
+
+
+        
+        
             
 
             // if ($this->nbFilles) {
@@ -210,26 +231,46 @@ class SalonSearch extends Component
             //     $this->resetPage();
             // }
 
+            // if ($this->nbFilles) {
+            //     $query->where('nombre_fille_id', $this->nbFilles);
+            //     $this->resetPage();
+            // }
             if ($this->nbFilles) {
-                $query->where('nombre_fille_id', $this->nbFilles);
+                $filteredSalons = $filteredSalons->merge($baseSalons->where('nombre_fille_id', $this->nbFilles));
                 $this->resetPage();
             }
             
 
-            $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
-                return $salon->isProfileVisibleTo($viewerCountry);
-            });
+            // $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+            //     return $salon->isProfileVisibleTo($viewerCountry);
+            // });
+
+             // 5. Si aucun filtre n'est sélectionné, utiliser tous les profils
+             if ($filteredSalons->isEmpty() && empty($this->selectedSalonCanton) && empty($this->selectedSalonVille) && empty($this->selectedSalonGenre) && empty($this->selectedSalonCategories) && empty($this->selectedSalonServices) && empty($this->autreFiltres)) {
+                $filteredSalons = $baseSalons;
+            }
+
+            $salons = $filteredSalons;
 
             // Si aucun résultat, chercher dans les villes proches
             if ($salons->isEmpty() && !empty($this->selectedSalonVille)) {
                 $nearbyVilles = Ville::where('canton_id', $this->selectedSalonCanton)->where('id', '!=', $this->selectedSalonVille)->get();
 
                 foreach ($nearbyVilles as $ville) {
-                    $query = User::query()->where('profile_type', 'salon')->where('ville', $ville->id)
+                    $query = User::query()
+                    ->where('profile_type', 'salon')
+                    ->where('ville', $ville->id)
                     ->orderBy('is_profil_pause')            // 1️⃣ Taux d'activité élevé en premier
                     ->orderByDesc('rate_activity')          // 2️⃣ Activité récente ensuite
                     ->orderByDesc('last_activity')          // 3️⃣ Profil actif (0) avant pause (1)
                     ;
+                    if (Auth::user()) {
+                        $query->where('id', '!=', Auth::user()->id);
+                    }
+                    $baseSalons = $query->get()->filter(function ($salon) use ($viewerCountry) {
+                        return $salon->isProfileVisibleTo($viewerCountry);
+                    });
+
 
                     // if ($this->selectedSalonCategories) {
                     //     $query->where(function ($q) {
@@ -239,8 +280,18 @@ class SalonSearch extends Component
                     //     });
                     // }
 
-                    if ($this->selectedSalonCategories) {
-                        $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+                    // if ($this->selectedSalonCategories) {
+                    //     $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+                    // }
+
+                    if (!empty($this->selectedSalonCategories)) {
+                        foreach ($this->selectedSalonCategories as $categorie) {
+                            $filteredSalons = $filteredSalons->merge(
+                                $baseSalons->filter(function ($salon) use ($categorie) {
+                                    return str_contains($salon->categorie, (string) $categorie);
+                                })
+                            );
+                        }
                     }
                     
 
@@ -252,15 +303,18 @@ class SalonSearch extends Component
                     //         }
                     //     });
                     // }
+                    // if ($this->nbFilles) {
+                    //     $query->where('nombre_fille_id', $this->nbFilles);
+                    //     $this->resetPage();
+                    // }
+
                     if ($this->nbFilles) {
-                        $query->where('nombre_fille_id', $this->nbFilles);
+                        $filteredSalons = $filteredSalons->merge($baseSalons->where('nombre_fille_id', $this->nbFilles));
                         $this->resetPage();
                     }
-                    
+                    $filteredSalons = $filteredSalons->unique('id');
 
-                    $salons = $query->get()->filter(function ($salon) use ($viewerCountry) {
-                        return $salon->isProfileVisibleTo($viewerCountry);
-                    });
+                    $salons = $filteredSalons;
 
                     if (!$salons->isEmpty()) {
                         break;
@@ -291,12 +345,20 @@ class SalonSearch extends Component
             $paginatedSalons = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $salons->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
 
             // Hydrate relations
-            foreach ($paginatedSalons as $salon) {
-                $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
-                $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
-                $salon['canton'] = Canton::find($salon->canton);
-                $salon['ville'] = Ville::find($salon->ville);
+            foreach ($paginatedSalons as $salonData) {
+                if (!isset($salonData['salon']) || $salonData['salon'] === null) {
+                    continue; // Skip this iteration if 'salon' is missing or null
+                }
+            
+                $salon = $salonData['salon'];
+            
+                // Only hydrate if the related IDs are present
+                $salon['categorie'] = !empty($salon->categorie) ? Categorie::find($salon->categorie) : null;
+                $salon['canton'] = !empty($salon->canton) ? Canton::find($salon->canton) : null;
+                $salon['ville'] = !empty($salon->ville) ? Ville::find($salon->ville) : null;
             }
+            
+            
         }
 
         if ($this->approximite) {
@@ -387,16 +449,23 @@ class SalonSearch extends Component
                     }
 
                     // Vérifier le nombre de filles si sélectionné
-                    // if (!empty($this->nbFilles)) {
-                    //     $salonNbFilles = $item['salon']->nombre_fille_id;
-                    //     if (!in_array($salonNbFilles, $this->nbFilles)) {
-                    //         return false;
-                    //     }
-                    // }
-                    if ($this->nbFilles) {
-                        $query->where('nombre_fille_id', $this->nbFilles);
-                        $this->resetPage();
+                    if (!empty($this->nbFilles)) {
+                        $salonNbFilles = $item['salon']->nombre_fille_id;
+                        if (!in_array($salonNbFilles, (array) $this->nbFilles)) {
+
+                            return false;
+                        }
                     }
+                    // if ($this->nbFilles) {
+                    //     $query->where('nombre_fille_id', $this->nbFilles);
+                    //     $this->resetPage();
+                    // }
+                    // if ($this->nbFilles) {
+                    //     $ite = $salons->merge($salons->where('nombre_fille_id', $this->nbFilles));
+                    //     $this->resetPage();
+                    // }
+
+
                     
 
                     // Vérifier les catégories si sélectionnées
