@@ -49,4 +49,12 @@ return [
     'connect_to_view_private_content' => 'Connect to view private content',
     'connect_signup' => 'Connect / Sign Up',
     'no_services' => 'No services available',
+    'contact_on_whatsapp' => 'Contact me',
+    'no_whatsapp_contact' => 'No WhatsApp contact',
+    'whatsapp_default_message' => 'Hello, I\'m contacting you through your profile.',
+    'contact_person' => 'Contact :name',
+    'mention_contact_source' => 'Mention that you are contacting through',
+    'prices_starting_from' => 'Prices starting from',
+    'close' => 'Close',
+    'certifier' => 'Certified',
 ];

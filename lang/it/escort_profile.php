@@ -49,4 +49,12 @@ return [
     'connect_to_view_private_content' => 'Accedi per visualizzare i contenuti privati',
     'connect_signup' => 'Accedi / Registrati',
     'no_services' => 'Nessun servizio disponibile',
+    'contact_on_whatsapp' => 'Contattami',
+    'no_whatsapp_contact' => 'Nessun contatto WhatsApp',
+    'whatsapp_default_message' => 'Ciao, ti contatto tramite il tuo profilo.',
+    'contact_person' => 'Contatta :name',
+    'mention_contact_source' => 'Menziona che stai contattando tramite',
+    'prices_starting_from' => 'Prezzi a partire da',
+    'close' => 'Chiudi',
+    'certifier' => 'Certificato',
 ];

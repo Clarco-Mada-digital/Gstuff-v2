@@ -49,4 +49,12 @@ return [
     'connect_to_view_private_content' => 'Melden Sie sich an, um den privaten Inhalt zu sehen',
     'connect_signup' => 'Anmelden / Registrieren',
     'no_services' => 'Keine Dienstleistungen verfügbar',
+    'contact_on_whatsapp' => 'Kontaktiere mich',
+    'no_whatsapp_contact' => 'Kein WhatsApp-Kontakt',
+    'whatsapp_default_message' => 'Hallo, ich kontaktiere Sie über Ihr Profil.',
+    'contact_person' => 'Kontakt :name',
+    'mention_contact_source' => 'Erwähnen Sie, dass Sie über',
+    'prices_starting_from' => 'Preise ab',
+    'close' => 'Schließen',
+    'certifier' => 'Zertifiziert',
 ];

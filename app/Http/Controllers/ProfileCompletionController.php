@@ -1067,6 +1067,7 @@ class ProfileCompletionController extends Controller
             'lon' => 'nullable|string|max:255',
             'lang' => 'required|in:fr,en-US,es,de,it',
             'genre_id' => 'nullable|exists:genres,id',
+            'code_phone' => 'nullable|string',
         ]);
 
         $oldrate = $this->CalculRateActivity();
@@ -1111,10 +1112,12 @@ class ProfileCompletionController extends Controller
             ->with('completionPercentage', $percentage);
 
     } catch (\Illuminate\Validation\ValidationException $e) {
+        logger('ValidationException', ['errors' => $e->validator->errors()]);
         return redirect()->back()
             ->withErrors($e->validator)
             ->withInput();
     } catch (\Exception $e) {
+        logger('Exception', ['message' => $e->getMessage()]);
         return redirect()->back()
             ->with('error', 'Une erreur est survenue lors de la mise à jour du profil.')
             ->withInput();

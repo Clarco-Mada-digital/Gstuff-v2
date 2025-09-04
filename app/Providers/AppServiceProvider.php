@@ -81,5 +81,28 @@ class AppServiceProvider extends ServiceProvider
             View::share('emojiCategories', []);
             View::share('allEmojis', []);
         }
+
+
+        // Share country data with all views
+        $countryPath = database_path('seeders/dataJson/country_codes_data.json');
+
+        if (File::exists($countryPath)) {
+            $rawData = json_decode(File::get($countryPath), true);
+
+            $phoneLengths = [];
+
+            foreach ($rawData as $country) {
+                if (!empty($country['dial_code']) && isset($country['mobile_number_length'])) {
+                    $key = '+' . $country['dial_code'];
+                    $phoneLengths[$key] = $country['mobile_number_length'];
+                }
+            }
+
+            Log::info("Phone lengths: ", $phoneLengths);
+
+            View::share('countryData', $phoneLengths);
+        } else {
+            View::share('countryData', []);
+        }
     }
 }

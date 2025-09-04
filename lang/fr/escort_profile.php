@@ -3,7 +3,7 @@
 return [
     'profile_picture' => 'Image de profil',
     'status_badge' => 'Badge de statut',
-    'verified_profile' => 'Profil vérifié par Gstuff',
+    'verified_profile' => 'Profil vérifié par Supagirl',
     'add_to_favorites' => 'Ajouter aux favoris',
     'send_message' => 'Écrire un message',
     'no_phone' => 'Pas de téléphone',
@@ -49,4 +49,12 @@ return [
     'connect_to_view_private_content' => 'Connectez-vous pour voir le contenu privé',
     'connect_signup' => 'Se connecter / s\'inscrire',
     'no_services' => 'Aucun service disponible',
+    'contact_on_whatsapp' => 'Contactez-moi',
+    'no_whatsapp_contact' => 'Pas de contact WhatsApp',
+    'whatsapp_default_message' => 'Bonjour, je vous contacte via votre profil.',
+    'contact_person' => 'Contacter :name',
+    'mention_contact_source' => 'Mentionnez que vous la contactez via',
+    'prices_starting_from' => 'Tarifs à partir de',
+    'close' => 'Fermer',
+    'certifier' => 'Certifier',
 ];

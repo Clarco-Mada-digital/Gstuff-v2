@@ -644,49 +644,14 @@
                                         value="{{ $user->email }}" />
                                 </div>
                             </div>
-                            <div class="mb-4" x-data="{ phoneNumber: '{{ $user->telephone }}', phoneError: '' }">
-                                <label for="phone-input" class="block text-sm font-roboto-slab text-green-gs">
-                                    {{ __('profile.phone_number') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <div class="relative">
-                                    <div class="pointer-events-none absolute inset-y-0 start-0 top-0 flex items-center ps-3.5">
-                                        <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
-                                            <path
-                                                d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
-                                        </svg>
-                                    </div>
-                                    <input 
-                                        type="tel" 
-                                        id="phone-input" 
-                                        name="telephone"
-                                        x-model="phoneNumber"
-                                        @input="
-                                            // Remove non-digit characters
-                                            phoneNumber = $event.target.value.replace(/\D/g, '');
-                                            // Validate phone number
-                                            if (phoneNumber.length > 0 && phoneNumber.length !== 10) {
-                                                phoneError = '{{ __('profile.phoneError') }}';
-                                            } else {
-                                                phoneError = '';
-                                            }
-                                        }"
-                                        maxlength="10"
-                                        pattern="\d{10}"    
-                                        title="Veuillez entrer exactement 10 chiffres"
-                                        aria-describedby="phone-help"
-                                        class="block w-full rounded-lg border font-roboto-slab bg-gray-50 p-2.5 ps-10 text-sm text-green-gs focus:border-blue-500 focus:ring-blue-500"
-                                        :class="{'border-red-500': phoneError, 'border-gray-300': !phoneError}"
-                                        value="{{ $user->telephone }}" require />
-                                </div>
-                                <template x-if="phoneError">
-                                    <p class="mt-1 text-sm text-red-600" x-text="phoneError"></p>
-                                </template>
-                                <p id="phone-help" class="mt-1 text-xs text-gray-500">
-                                    {{ __('profile.phoneHelp') }}
-                                </p>
-                            </div>
+
+
+                            <x-phone-input name="telephone" label="Téléphone" x-model="phoneNumber" :old="$user->telephone" :code-phone="$user->code_phone" />
+                            
+
+
+
+
                             <x-form.input 
                                 name="adresse"
                                 :label="__('profile.address')"
@@ -2220,13 +2185,20 @@
                 ],
                 currentStep: 0,
                 nextStep() {
+                    const phoneLengths = @json($countryData);
 
                  
-                    
+                    console.log("Next sub");
                     const phoneInput = document.getElementById('phone-input');
                     const phoneNumber = phoneInput.value.replace(/\D/g, ''); // Nettoie les caractères non numériques
 
-                    if (phoneNumber.length !== 10) {
+                    const codePhoneInput = document.getElementById('code-phone');
+                    const selectedCode = codePhoneInput.value;
+                    const expectedLength = phoneLengths[selectedCode] || 6; // fallback si inconnu
+                    console.log("selectedCode @ submit ", selectedCode);
+                    
+
+                    if (phoneNumber.length !== expectedLength) {
                         // alert('Veuillez entrer un numéro de téléphone valide avec exactement 10 chiffres.');
                         phoneInput.classList.add('border-red-500');
                         return; // Empêche la soumission
@@ -2242,11 +2214,18 @@
                     }
                 },
                 saveAndQuit() {
+                    const phoneLengths = @json($countryData);
                     // document.getElementById('addInfoSubmit').click();
-                                    const phoneInput = document.getElementById('phone-input');
+                    const phoneInput = document.getElementById('phone-input');
                     const phoneNumber = phoneInput.value.replace(/\D/g, ''); // Nettoie les caractères non numériques
 
-                    if (phoneNumber.length !== 10) {
+                    const codePhoneInput = document.getElementById('code-phone');
+                    const selectedCode = codePhoneInput.value;
+                    const expectedLength = phoneLengths[selectedCode] || 6; // fallback si inconnu
+                    console.log("selectedCode @ submit save and quit ", selectedCode);
+                    
+
+                    if (phoneNumber.length !== expectedLength) {
                         // alert('Veuillez entrer un numéro de téléphone valide avec exactement 10 chiffres.');
                         phoneInput.classList.add('border-red-500');
                         return; // Empêche la soumission

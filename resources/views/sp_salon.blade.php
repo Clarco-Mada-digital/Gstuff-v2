@@ -3,6 +3,7 @@
 @php
     use Carbon\Carbon;
     $noSpecial = __('profile.no_specified');
+    $profileVerifier = $salon->profile_verifie == 'verifier' ? true : false;
 @endphp
 
 @section('pageTitle')
@@ -25,33 +26,6 @@
         @endphp
 
         <div x-data="{}" class="w-full max-w-sm mx-auto flex flex-col items-center gap-4 p-4">
-
-            <!-- Avatar -->
-            <!-- Avatar avec badge online 
-            <div class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
-                <img 
-                    x-on:click="$dispatch('img-modal', { imgModalSrc: '{{ $avatarSrc }}', imgModalDesc: '' })"
-                    src="{{ $avatarSrc }}"
-                    alt="{{ __('salon_profile.profile_image') }}"
-                    class="h-full w-full object-cover object-center cursor-pointer"
-                />
-
-           
-                <span
-                    class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white
-                        {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}">
-                </span>
-            </div>-->
-
-
-            <!-- <div id="avatar-container" class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
-                <img 
-                    src="{{ $avatarSrc }}"
-                    alt="{{ __('salon_profile.profile_image') }}"
-                    class="h-full w-full object-cover object-center cursor-pointer"
-                />
-                <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $salon->isOnline() ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
-            </div> -->
 
             <x-profileAvatar :isPaused="$isPaused" :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$salon->isOnline()" />
 
@@ -141,21 +115,24 @@
             </div>
 
             <!-- Contacts -->
-            <x-contact.sms-button 
+            <!-- <x-contact.sms-button 
                 :phone="$salon->telephone ?? null"
                 :noContactText="__('salon_profile.no_sms_contact')"
                 :isPause="$isPaused"
-            />
+            /> -->
             <x-contact.whatsapp-button 
-                :phone="$salon->whatsapp ?? null"
+                :phone="$salon->telephone ?? null"
                 :noContactText="__('salon_profile.no_whatsapp_contact')"
                 :isPause="$isPaused"
+                :name="$salon->nom_salon"
+                :price="$salon->tarif ?? null"
+                :profileVerifier="$profileVerifier"
             />
-            <x-contact.email-button 
+            <!-- <x-contact.email-button 
                 :email="$salon->email"
                 :noEmailText="__('salon_profile.no_email')"
                 :isPause="$isPaused"
-            />
+            /> -->
 
         </div>
 

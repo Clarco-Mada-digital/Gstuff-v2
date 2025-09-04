@@ -212,7 +212,7 @@ class SalonSearch extends Component
           
 
             if ($this->selectedSalonCategories) {
-                $filteredSalons = $filteredSalons->merge($baseSalons->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%'));
+                $filteredSalons = $filteredSalons->merge($baseSalons->where('categorie', $this->selectedSalonCategories));
             }
 
 

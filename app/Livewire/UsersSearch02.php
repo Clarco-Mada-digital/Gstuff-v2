@@ -118,7 +118,7 @@ class UsersSearch02 extends Component
 
 
     public function render()
-    {   
+    {
         $cacheKey = md5(serialize([
             $this->search,
             $this->selectedCanton,
@@ -128,9 +128,8 @@ class UsersSearch02 extends Component
             $this->selectedEscortCategories,
             request()->ip()
         ]));
-
+    
         $query = User::query()->where(function ($q) {
-
             if($this->userType === 'escort'){
                 $q->where('profile_type', 'escorte');
             }elseif($this->userType === 'salon'){
@@ -139,72 +138,57 @@ class UsersSearch02 extends Component
                 $q->where('profile_type', 'escorte')
                   ->orWhere('profile_type', 'salon');
             }
-        })->orderByDesc('rate_activity')          // 1️⃣ Taux d'activité élevé en premier
-        ->orderByDesc('last_activity')          // 2️⃣ Activité récente ensuite
-        ->orderBy('is_profil_pause')            // 3️⃣ Profil actif (0) avant pause (1)
-        ;
-
-        if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('pseudo', 'LIKE', '%' . $this->search . '%')
+        })
+        ->orderByDesc('rate_activity')
+        ->orderByDesc('last_activity')
+        ->orderBy('is_profil_pause');
+    
+        // Logique additive pour les filtres
+        $query->where(function($q) {
+            if ($this->search) {
+                $q->orWhere('pseudo', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('prenom', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('nom_salon', 'LIKE', '%' . $this->search . '%')
                   ->orWhere('apropos', 'LIKE', '%' . $this->search . '%');
-            });
-        }
-
-        if ($this->selectedCanton) {
-            $query->where('canton', $this->selectedCanton);
-        }
-
-        if ($this->selectedVille) {
-            $query->where('ville', $this->selectedVille);
-        }
-
-        if ($this->selectedGenre) {
-            $query->where('genre_id', $this->selectedGenre);
-        }
-
-        if($this->userType === 'escort'){
-            
-
-        if (!empty($this->selectedEscortCategories)) {
-            $query->where(function($q) {
+            }
+            if ($this->selectedCanton) {
+                $q->orWhere('canton', $this->selectedCanton);
+            }
+            if ($this->selectedVille) {
+                $q->orWhere('ville', $this->selectedVille);
+            }
+            if ($this->selectedGenre) {
+                $q->orWhere('genre_id', $this->selectedGenre);
+            }
+            if($this->userType === 'escort' && !empty($this->selectedEscortCategories)) {
                 foreach ($this->selectedEscortCategories as $category) {
-                    $q->Where('categorie', 'LIKE', '%' . $category . '%');
+                    $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
                 }
-            });
-        }
-        }elseif($this->userType === 'salon'){
-
-        if (!empty($this->selectedSalonCategories)) {
-            $query->where('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
-        }
-    }
+            }elseif($this->userType === 'salon' && !empty($this->selectedSalonCategories)) {
+                $q->orWhere('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
+            }
+        });
     
-
         $filteredUsers = $query->get();
-
         $filteredUsers->transform(function ($user) {
             $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
             $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
-            
             $user->canton = Canton::find($user->canton);
             $user->ville = Ville::find($user->ville);
             return $user;
         });
-
+    
         $position = Location::get(request()->ip());
         $viewerCountry = $position?->countryCode ?? null;
-        
+    
         $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
             return $user->isProfileVisibleTo($viewerCountry);
         });
-
+    
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = $this->perPage;
         $results = $visibleUsers->slice(($page - 1) * $perPage, $perPage)->values();
-        
+    
         $paginatedUsers = new LengthAwarePaginator(
             $results,
             $visibleUsers->count(),
@@ -215,6 +199,7 @@ class UsersSearch02 extends Component
                 'query' => $this->queryString
             ]
         );
+    
 
         $selecterCantonInfo = null;
         $selecterVilleInfo = null;

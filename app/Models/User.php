@@ -171,6 +171,7 @@ class User extends Authenticatable
         'is_profil_pause',
         'last_activity',
         'rate_activity',
+        'code_phone',
     ];
 
     public $translatable = ['apropos'];
@@ -205,6 +206,7 @@ class User extends Authenticatable
         'is_profil_pause' => 'boolean', 
         'last_activity' => 'datetime',
         'rate_activity' => 'integer',
+        'code_phone' => 'string',
     ];
 
     public function getVisibleCountriesAttribute($value)

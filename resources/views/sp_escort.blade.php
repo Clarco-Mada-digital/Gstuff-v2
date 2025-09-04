@@ -121,21 +121,24 @@
                 @endif
             </div>
 
-            <x-contact.sms-button 
+            <!-- <x-contact.sms-button 
                 :phone="$escort->telephone ?? null"
                 :noContactText="__('escort_profile.no_sms_contact')"
                 :isPause="$escort->is_profil_pause"
-            />
+            /> -->
             <x-contact.whatsapp-button 
-                :phone="$escort->whatsapp ?? null"
+                :phone="$escort->telephone ?? null"
                 :noContactText="__('escort_profile.no_whatsapp_contact')"
                 :isPause="$escort->is_profil_pause"
+                :name="$escort->prenom ?? $escort->pseudo"
+                :price="$escort->tarif ?? null"
+                :profileVerifier="$escort->profile_verifie === 'verifier' ? true : false"
             />
-            <x-contact.email-button 
+            <!-- <x-contact.email-button 
                 :email="$escort->email"
                 :noEmailText="__('escort_profile.no_email')"
                 :isPause="$escort->is_profil_pause"
-            />
+            /> -->
 
         </div>
 
