@@ -1024,6 +1024,10 @@ class ProfileCompletionController extends Controller
     try {
         $user = Auth::user();
 
+        $lengths = app('countryData');
+        $codePhone = $request->input('code_phone');
+        $expectedLength = $lengths[$codePhone] ?? 6;
+
         $validated = $request->validate([
             'intitule' => 'nullable|string|max:255',
             'nom_proprietaire' => 'nullable|string|max:255',
@@ -1033,7 +1037,7 @@ class ProfileCompletionController extends Controller
                 'required',
                 'string',
                 'max:15',
-                'regex:/^[0-9]{10}$/',
+                'regex:/^[0-9]{'.$expectedLength.'}$/',
             ],
             'adresse' => 'nullable|string|max:255',
             'npa' => 'nullable|string|max:10',
@@ -1114,7 +1118,7 @@ class ProfileCompletionController extends Controller
     } catch (\Illuminate\Validation\ValidationException $e) {
         logger('ValidationException', ['errors' => $e->validator->errors()]);
         return redirect()->back()
-            ->withErrors($e->validator)
+            ->withErrors('errors', $e->validator->errors())
             ->withInput();
     } catch (\Exception $e) {
         logger('Exception', ['message' => $e->getMessage()]);

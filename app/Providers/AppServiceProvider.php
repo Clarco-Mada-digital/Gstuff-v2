@@ -98,11 +98,12 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            Log::info("Phone lengths: ", $phoneLengths);
 
             View::share('countryData', $phoneLengths);
+            app()->singleton('countryData', fn () => $phoneLengths);
         } else {
             View::share('countryData', []);
+            app()->singleton('countryData', fn () => []);
         }
     }
 }

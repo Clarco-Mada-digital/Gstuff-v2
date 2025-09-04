@@ -11,7 +11,6 @@
     </label>
 
     <div class="flex items-center gap-3 mt-2">
-        <!-- Drapeau cliquable -->
         <div class="flex items-center gap-3 mt-2 cursor-pointer w-1/6" id="open-country-modal">
             <div class="w-8 h-6 overflow-hidden rounded border border-gray-300 bg-white">
                 <img id="selected-flag" src="" alt="Drapeau sélectionné" class="w-full h-full object-cover" />
@@ -19,12 +18,11 @@
             <span id="selected-country-label" class="text-sm text-gray-700 font-medium"></span>
         </div>
 
-        <!-- Champ téléphone -->
         <div class="relative w-5/6">
             <input 
                 type="tel" 
                 id="phone-input" 
-                name="{{ $name ?? 'telephone' }}"
+                name="{{ $name }}"
                 value="{{ old('telephone', $old) }}"
                 maxlength="15"
                 pattern="\d{6,15}"    
@@ -32,7 +30,6 @@
                 aria-describedby="phone-help"
                 class="block w-full rounded-lg border font-roboto-slab bg-gray-50 p-2.5 text-sm text-green-gs focus:border-green-gs focus:ring-green-gs"
                 required
-                width="100%"
             />
             <input type="hidden" id="code-phone" name="code_phone" value="{{ old('code_phone', $codePhone) }}"/>
         </div>
@@ -43,8 +40,7 @@
         Le numéro sera enregistré avec l’indicatif international. Numéro complet :<span id="full-number"></span>
     </p>
 
-    <!-- Modal -->
-    <div id="country-modal" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="country-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-4 relative">
             <button id="close-country-modal" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
             <h2 class="text-lg font-semibold mb-2">Rechercher un pays</h2>
@@ -64,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fullNumber = document.getElementById('full-number');
     const flagDisplay = document.getElementById('selected-flag');
     const countryLabel = document.getElementById('selected-country-label');
+    const codePhoneInput = document.getElementById('code-phone');
 
     const modal = document.getElementById('country-modal');
     const openModalBtn = document.getElementById('open-country-modal');
@@ -81,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const trimmed = raw.slice(0, expectedLength);
         phoneInput.value = trimmed;
 
-        const codePhoneInput = document.getElementById('code-phone');
         codePhoneInput.value = selectedCode;
 
         if (trimmed.length !== expectedLength) {
@@ -97,24 +93,32 @@ document.addEventListener('DOMContentLoaded', () => {
         fullNumber.textContent = `${selectedCode}${trimmed}`;
     }
 
-    phoneInput.addEventListener('input', updateFullNumber);
-
-    phoneInput.addEventListener('keydown', (e) => {
-        const expectedLength = phoneLengths[selectedCode] || 6 ;
-        const raw = phoneInput.value.replace(/\D/g, '');
-
-        const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
-        if (allowedKeys.includes(e.key)) return;
-
-        if (!/^\d$/.test(e.key)) {
-            e.preventDefault();
+    function detectLocationAndSetDefaultCode() {
+        const storedCode = localStorage.getItem('default_code_phone');
+        if (selectedCode || storedCode) {
+            selectedCode = selectedCode || storedCode;
             return;
         }
 
-        if (raw.length >= expectedLength) {
-            e.preventDefault();
-        }
-    });
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                const countryCallingCode = `+${data.country_calling_code.replace('+', '')}`;
+                selectedCode = countryCallingCode;
+                localStorage.setItem('default_code_phone', selectedCode);
+
+                const matchedCountry = countries.find(c => c.code === selectedCode);
+                if (matchedCountry) {
+                    flagDisplay.src = matchedCountry.flagUrl;
+                    countryLabel.textContent = `${matchedCountry.name} (${matchedCountry.code})`;
+                }
+
+                updateFullNumber();
+            })
+            .catch(err => {
+                console.warn('Localisation non disponible :', err);
+            });
+    }
 
     function renderCountryList(filter = '') {
         countryList.innerHTML = '';
@@ -162,6 +166,25 @@ document.addEventListener('DOMContentLoaded', () => {
         countrySearch.value = '';
     });
 
+    phoneInput.addEventListener('input', updateFullNumber);
+
+    phoneInput.addEventListener('keydown', (e) => {
+        const expectedLength = phoneLengths[selectedCode] || 6;
+        const raw = phoneInput.value.replace(/\D/g, '');
+
+        const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
+        if (allowedKeys.includes(e.key)) return;
+
+        if (!/^\d$/.test(e.key)) {
+            e.preventDefault();
+            return;
+        }
+
+        if (raw.length >= expectedLength) {
+            e.preventDefault();
+        }
+    });
+
     fetch('https://restcountries.com/v3.1/all?fields=name,idd,flags')
         .then(res => res.json())
         .then(data => {
@@ -174,8 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
                 .sort((a, b) => a.name.localeCompare(b.name));
 
-            const defaultCountry = countries.find(c => c.code === selectedCode) || countries[0];
-            selectedCode = defaultCountry.code;
+            detectLocationAndSetDefaultCode();
+
+            let defaultCountry = countries.find(c => c.code === selectedCode);
+            if (!defaultCountry) {
+                defaultCountry = countries[0];
+                selectedCode = defaultCountry.code;
+            }
+
             flagDisplay.src = defaultCountry.flagUrl;
             countryLabel.textContent = `${defaultCountry.name} (${defaultCountry.code})`;
 
@@ -186,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Erreur API pays :', err);
         });
 
-    updateFullNumber();
+        updateFullNumber(); // Mise à jour initiale au cas où des valeurs sont déjà présentes
 });
 </script>
 @endpush
