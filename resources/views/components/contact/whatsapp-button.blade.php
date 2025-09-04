@@ -10,7 +10,7 @@
 
 @php
     $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
-    $defaultMessage = urlencode(__('escort_profile.whatsapp_default_message'));
+    $defaultMessage = urlencode(__('escort_profile.whatsapp_default_message', ['name' => $name]));
 @endphp
 
 <div x-data="{ openModal: false }" class="relative group w-full">

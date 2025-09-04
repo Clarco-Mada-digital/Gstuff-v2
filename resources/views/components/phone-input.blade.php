@@ -1,6 +1,6 @@
 @props([
     'name' => 'telephone',
-    'label' => 'Numéro de téléphone',
+    'label' => __('phone.phone_number'),
     'old' => null,
     'codePhone' => null,
 ])
@@ -10,15 +10,15 @@
         {{ $label ?? 'Numéro de téléphone' }} <span class="text-red-500">*</span>
     </label>
 
-    <div class="flex items-center gap-3 mt-2">
-        <div class="flex items-center gap-3 mt-2 cursor-pointer w-1/6" id="open-country-modal">
+    <div class="flex flex-col sm:flex-row items-center gap-3 mt-2 ">
+        <div class="flex items-center gap-3 mt-2 cursor-pointer w-full sm:w-[30%] lg:w-[20%]" id="open-country-modal">
             <div class="w-8 h-6 overflow-hidden rounded border border-gray-300 bg-white">
                 <img id="selected-flag" src="" alt="Drapeau sélectionné" class="w-full h-full object-cover" />
             </div>
             <span id="selected-country-label" class="text-sm text-gray-700 font-medium"></span>
         </div>
 
-        <div class="relative w-5/6">
+        <div class="relative w-full sm:w-[70%] lg:w-[80%]       ">
             <input 
                 type="tel" 
                 id="phone-input" 
@@ -26,7 +26,7 @@
                 value="{{ old('telephone', $old) }}"
                 maxlength="15"
                 pattern="\d{6,15}"    
-                title="Veuillez entrer entre 6 et 15 chiffres"
+                title="{{ __('phone.validation.digits_between') }}"
                 aria-describedby="phone-help"
                 class="block w-full rounded-lg border font-roboto-slab bg-gray-50 p-2.5 text-sm text-green-gs focus:border-green-gs focus:ring-green-gs"
                 required
@@ -37,14 +37,14 @@
 
     <p id="phone-error" class="mt-1 text-sm text-red-600 hidden"></p>
     <p id="phone-help" class="mt-1 text-xs text-gray-500">
-        Le numéro sera enregistré avec l’indicatif international. Numéro complet :<span id="full-number"></span>
+        {{ __('phone.full_number') }}<span id="full-number"></span>
     </p>
 
     <div id="country-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-4 relative">
             <button id="close-country-modal" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
-            <h2 class="text-lg font-semibold mb-2">Rechercher un pays</h2>
-            <input type="text" id="country-search" placeholder="Ex: France, Canada..."
+            <h2 class="text-lg font-semibold mb-2">{{ __('phone.search_country') }}</h2>
+            <input type="text" id="country-search" placeholder="{{ __('phone.country_placeholder') }}"
                 class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-green-500 focus:border-green-500 mb-3" />
             <div id="country-list" class="max-h-60 overflow-y-auto rounded-lg bg-white shadow-sm divide-y divide-gray-100">
                 <!-- Pays générés dynamiquement -->
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         codePhoneInput.value = selectedCode;
 
         if (trimmed.length !== expectedLength) {
-            phoneError.textContent = `Le numéro doit contenir exactement ${expectedLength} chiffres pour ${selectedCode}.`;
+            phoneError.textContent = `{{ __('phone.validation.digits_required', ['digits' => '${expectedLength}', 'code' => '${selectedCode}']) }}`;
             phoneError.classList.remove('hidden');
             phoneInput.classList.add('border-red-500');
         } else {
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateFullNumber();
             })
             .catch(err => {
-                console.warn('Localisation non disponible :', err);
+                console.warn('{{ __("phone.location.unavailable") }}:', err);
             });
     }
 
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         if (filtered.length === 0) {
-            countryList.innerHTML = '<div class="p-3 text-sm text-gray-500">Aucun pays trouvé</div>';
+            countryList.innerHTML = '<div class="p-3 text-sm text-gray-500">{{ __("phone.no_country_found") }}</div>';
             return;
         }
 
@@ -211,11 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateFullNumber();
         })
         .catch(err => {
-            countryList.innerHTML = '<div class="p-3 text-sm text-red-600">Erreur de chargement des pays</div>';
+            countryList.innerHTML = '<div class="p-3 text-sm text-red-600">{{ __("phone.validation.loading_error") }}</div>';
             console.error('Erreur API pays :', err);
         });
 
-        updateFullNumber(); // Mise à jour initiale au cas où des valeurs sont déjà présentes
+        updateFullNumber(); 
 });
 </script>
 @endpush

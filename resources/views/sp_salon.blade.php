@@ -52,7 +52,7 @@
 
             <!-- Téléphone -->
             <x-contact.phone-link 
-                :phone="$salon->telephone ?? null"
+                :phone="$salon->code_phone.$salon->telephone ?? null"
                 :noPhoneText="__('salon_profile.no_phone')"
                 :isPause="$isPaused"
             />
@@ -121,7 +121,7 @@
                 :isPause="$isPaused"
             /> -->
             <x-contact.whatsapp-button 
-                :phone="$salon->telephone ?? null"
+                :phone="$salon->code_phone.$salon->telephone ?? null"
                 :noContactText="__('salon_profile.no_whatsapp_contact')"
                 :isPause="$isPaused"
                 :name="$salon->nom_salon"

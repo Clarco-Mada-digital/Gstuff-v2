@@ -51,7 +51,7 @@ return [
     'no_services' => 'Aucun service disponible',
     'contact_on_whatsapp' => 'Contactez-moi',
     'no_whatsapp_contact' => 'Pas de contact WhatsApp',
-    'whatsapp_default_message' => 'Bonjour, je vous contacte via votre profil.',
+    'whatsapp_default_message' => 'Bonjour :name, j’ai vu votre profil sur Supagirl :-)',
     'contact_person' => 'Contacter :name',
     'mention_contact_source' => 'Mentionnez que vous la contactez via',
     'prices_starting_from' => 'Tarifs à partir de',

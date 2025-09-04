@@ -127,7 +127,7 @@
                 :isPause="$escort->is_profil_pause"
             /> -->
             <x-contact.whatsapp-button 
-                :phone="$escort->telephone ?? null"
+                :phone="$escort->code_phone.$escort->telephone ?? null"
                 :noContactText="__('escort_profile.no_whatsapp_contact')"
                 :isPause="$escort->is_profil_pause"
                 :name="$escort->prenom ?? $escort->pseudo"
