@@ -116,24 +116,23 @@
 </style>
 
 <script>
-    console.log('=== Script chargé ===');
-    console.log('Livewire disponible:', typeof window.Livewire !== 'undefined');
+    
 
     let isInitialized = false; // Drapeau pour vérifier si l'initialisation a déjà été effectuée
 
     function initVilleSelect() {
         if (isInitialized) {
-            console.log('Initialisation déjà effectuée');
+         
             return;
         }
 
-        console.log('=== Initialisation du sélecteur de villes ===');
+      
         const select = document.getElementById('ville-search');
         if (!select) {
-            console.error('Élément select non trouvé avec l\'ID: ville-search');
+       
             return;
         }
-        console.log('Élément select trouvé:', select);
+       
 
         const customSelect = document.querySelector('.custom-ville-select');
         const selectedOption = document.getElementById('ville-search-selected-option');
@@ -141,19 +140,11 @@
         const customOptions = document.querySelector('.custom-ville-options');
         const arrowIcon = document.querySelector('.ville-arrow-icon');
 
-        console.log('Éléments trouvés:', {
-            customSelect: !!customSelect,
-            selectedOption: !!selectedOption,
-            searchInput: !!searchInput,
-            customOptions: !!customOptions,
-            arrowIcon: !!arrowIcon
-        });
+       
+        
 
         if (!customOptions || !searchInput) {
-            console.error('Éléments manquants:', {
-                customOptions: !customOptions,
-                searchInput: !searchInput
-            });
+        
             return;
         }
 
@@ -162,7 +153,7 @@
             options.forEach(option => {
                 option.addEventListener('click', function(event) {
                     event.stopPropagation(); // Empêcher la propagation de l'événement
-                    console.log('Option cliquée:', this.textContent);
+                   
                     const value = this.getAttribute('data-value');
                     const text = this.textContent;
                     select.value = value;
@@ -190,11 +181,11 @@
 
             isCustomSelectClicked = true;
 
-            console.log('Sélecteur personnalisé cliqué');
+           
             event.stopPropagation(); // Empêcher la propagation de l'événement
 
             const isShowing = customOptions.classList.toggle('show');
-            console.log('Classe "show" ajoutée:', isShowing);
+           
 
             searchInput.focus();
 
@@ -214,7 +205,7 @@
         });
 
         searchInput.addEventListener('click', function(event) {
-            console.log('Input de recherche cliqué');
+           
             event.stopPropagation(); // Empêcher la propagation de l'événement
         });
 
@@ -287,42 +278,34 @@
 
     // Gestionnaire d'événements pour les mises à jour Livewire
     function handleLivewireUpdate() {
-        console.log('=== Mise à jour Livewire détectée ===');
         setTimeout(initVilleSelect, 300);
     }
 
     // Initialisation au chargement du DOM
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('=== DOM chargé ===');
+   
         initVilleSelect();
     });
 
     // Gestion des événements Livewire
     if (window.Livewire) {
-        console.log('Livewire détecté, configuration des hooks...');
+    
 
         // Au chargement initial de Livewire
         document.addEventListener('livewire:load', function() {
-            console.log('=== Livewire chargé ===');
             initVilleSelect();
         });
 
         // Après chaque mise à jour du DOM par Livewire
         Livewire.hook('morph.updated', () => {
-            console.log('=== Mise à jour du DOM par Livewire ===');
             handleLivewireUpdate();
         });
 
         // Après chaque message traité par Livewire
         Livewire.hook('message.processed', (message, component) => {
-            console.log('=== Message Livewire traité ===', {
-                message: message,
-                component: component
-            });
+         
             handleLivewireUpdate();
         });
-    } else {
-        console.warn('Livewire non détecté, certaines fonctionnalités pourraient ne pas fonctionner');
-    }
+    } 
 </script>
 

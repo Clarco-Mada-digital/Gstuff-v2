@@ -2,9 +2,8 @@
 // IT
 return [
     // Navbar
-  
     'escorts' => 'Escort',
-    'salons' => 'Saloni',
+    'salons' => 'Salone massaggi',
     'about' => 'Chi siamo',
     'glossary' => 'Glossario',
     'contact' => 'Contatto',
@@ -12,6 +11,11 @@ return [
     'search_placeholder' => 'Cerca...',
     'search_icon' => 'Icona di ricerca',
     'login_register' => 'Accesso/Registrazione',
+
+    'masseuse' => 'Massaggiatrice erotica',
+    'dominatrice' => 'Dominatrice BDSM',
+    'trans' => 'Trans Ladyboy',
+    'telephoneRose' => 'Telefono erotico e video chat',
 
    // Servizi
    'services' => 'Servizi',

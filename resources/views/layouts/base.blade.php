@@ -662,9 +662,8 @@
     const target = element || document.documentElement;
 
     const maxScrollLeft = 3409 - target.clientWidth;
-    console.log('maxScrollLeftaaaa', maxScrollLeft);
     const currentScrollLeft = target.scrollLeft;
-    console.log('currentScrollLeft', currentScrollLeft);
+    
 
     const scrollAmount = maxScrollLeft * (percentageX / 100);
 
@@ -699,14 +698,13 @@
                 loadingRequest: false,
                 status: true,
                 init() {
-            console.log("Initial state - showloginForm:", this.showloginForm);
         },
                 async submitForm(reset = false) {
                     this.loadingRequest = true;
                     this.message = "";
                     if (reset) {
                         Resetform = document.getElementById('resetPwdForm');
-                        console.log("emailreset", this.emailReset);
+                    
                         try {
                             const response = await fetch(Resetform.action, {
                                 method: Resetform.method,
@@ -935,7 +933,6 @@
                             window.location.reload();
                         }
                     } catch (error) {
-                        console.error('Error:', error);
                         alert('Une erreur est survenue lors de la suppression du média.');
                     }
 
@@ -1009,7 +1006,7 @@
             if (event.request.method === 'GET' && event.request.url.endsWith('/livewire/update')) {
                 event.respondWith(new Response(null, { status: 204 })); // Répond avec un statut 204 No Content pour bloquer la requête
                 event.preventDefault(); // Empêche la propagation de l'événement
-                console.log("Requête GET vers /livewire/update bloquée.");
+        
             }
             });
 
@@ -1017,7 +1014,7 @@
             document.addEventListener('submit', (event) => {
             if (event.target.method === 'get' && event.target.action.endsWith('/livewire/update')) {
                 event.preventDefault(); // Empêche la soumission du formulaire
-                console.log("Soumission de formulaire GET vers /livewire/update bloquée.");
+        
             }
             });
 
@@ -1025,7 +1022,7 @@
             document.addEventListener('click', (event) => {
             if (event.target.tagName === 'A' && event.target.href.endsWith('/livewire/update')) {
                 event.preventDefault(); // Empêche la navigation
-                console.log("Navigation vers /livewire/update bloquée.");
+        
             }
         });
     </script>

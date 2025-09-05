@@ -2,8 +2,8 @@
 //ES
 return [
     // Navbar
-    'escorts' => 'Escortes',
-    'salons' => 'Salones',
+    'escorts' => 'Chica escort',
+    'salons' => 'Salón de masajes',
     'about' => 'Acerca de',
     'glossary' => 'Glosario',
     'contact' => 'Contacto',
@@ -11,6 +11,11 @@ return [
     'search_placeholder' => 'Buscar...',
     'search_icon' => 'Icono de búsqueda',
     'login_register' => 'Iniciar sesión/Registrar',
+
+    'masseuse' => 'Masajista erótica',
+    'dominatrice' => 'Dominatriz BDSM',
+    'trans' => 'Trans Ladyboy',
+    'telephoneRose' => 'Teléfono rosa y videochat',
 
    // Service
    'services' => 'Servicios',

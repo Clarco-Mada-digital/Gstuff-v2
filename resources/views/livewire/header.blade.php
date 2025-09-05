@@ -50,7 +50,7 @@
                 }">
                 <ul
                     class="font-roboto-slab mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 xl:mt-0 xl:flex-row xl:space-x-8 xl:border-0 xl:bg-white xl:p-0 rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 xl:dark:bg-gray-900">
-                    <li id="escorts-link" class="header-link p-2 flex items-center justify-between">
+                    <li id="escorts-link" class="header-link p-2 flex items-center justify-between hidden">
                         <div id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
                         data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center justify-between">
                         <a href="{{ route('escortes') }}" 
@@ -80,16 +80,17 @@
                             </svg>
                           </div>
                     </li>
-                    <li id="salons-link" class="header-link p-2">
+                    <li id="salons-link" class="header-link p-2 hidden  ">
                         <a href="{{ route('salons') }}"
                             class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
                             {{ __('header.salons') }}
                         </a>
                     </li>
-                    <li id="about-link" class="header-link p-2">
-                        <a href="{{ url('about') }}"
+                   
+                    <li id="galleries-link" class="header-link p-2">
+                        <a href="{{ route('gallery.show') }}"
                         class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
-                        {{ __('header.about') }}
+                        {{ __('header.galleries') }}
                         </a>
                     </li>
                     <li id="glossary-link" class="header-link p-2">
@@ -98,22 +99,25 @@
                         {{ __('header.glossary') }}
                         </a>
                     </li>
+                    <li id="about-link" class="header-link p-2">
+                        <a href="{{ url('about') }}"
+                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                        {{ __('header.about') }}
+                        </a>
+                    </li>
                     <li id="contact-link" class="header-link p-2">
                         <a href="{{ route('contact') }}"
                         class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
                         {{ __('header.contact') }}
                         </a>
                     </li>
-                    <li id="galleries-link" class="header-link p-2">
-                        <a href="{{ route('gallery.show') }}"
-                        class="font-roboto-slab hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
-                        {{ __('header.galleries') }}
-                        </a>
-                    </li>
+                   
                 </ul>
 
                 <x-language-selector />
             </div>
+
+           
 
 
 
@@ -252,9 +256,9 @@
 
         {{-- Mega menu items --}}
         <div id="dropdownMegaMenu" aria-labelledby="dropdownHoverMenu"
-            class="shadow-xs bg-supaGirlRose absolute  hidden w-full p-0 absolute top-16">
+            class="shadow-xs bg-supaGirlRose absolute  hidden w-full p-0 absolute top-15">
             <div
-                class="container mx-auto hidden  max-w-screen-xl items-start justify-start gap-30 p-20 px-4 py-2 text-white md:px-6 xl:flex">
+                class="max-w-screen-2xl mx-auto hidden   items-start justify-start gap-30 p-20 px-4 py-2 text-white md:px-6 xl:flex">
                 <div class="flex flex-col">
                     <h2 class="font-roboto-slab my-6 text-2xl font-bold">{{ __('header.services') }}</h2>
         
@@ -274,11 +278,11 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="flex flex-col gap-4">
-                    <div class="border-l border-fieldBg px-4">
-                        <h2 class="font-roboto-slab my-6 text-2xl font-bold">{{ __('header.orientation') }}</h2>
+                <div class="flex flex-col w-full border-l border-fieldBg">
+                    <div class=" px-4">
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.orientation') }}</h2>
                         
-                        <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
+                        <div class="flex w-full flex-wrap gap-2 ">
                             @foreach ($genres as $genre)
                                 <x-animated-button 
                                     :href="route('escortes') . '?selectedGenre=' . $genre->id"
@@ -295,7 +299,7 @@
                         </div>
                     </div>
                     <div class="px-4 mb-2">
-                        <h2 class="font-roboto-slab my-6 text-2xl font-bold">{{ __('header.localization') }}</h2>
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.localization') }}</h2>
                         <div class="flex flex-wrap gap-2">
                             @foreach ($cantons->slice(0, 10) as $canton)
                                 <x-animated-button 
@@ -378,6 +382,155 @@
                 </div>
             </div>
         </div>
+        <div id="dropdownMegaMenuMobile2"  
+            class="shadow-xs  absolute  hidden w-full  absolute top-16 lg:top-7 px-4">
+            <div id="subDiv2"
+                class="container mx-auto bg-supaGirlRose max-w-screen-xl items-start justify-start gap-30 p-20 px-4 py-2 text-white md:px-6 xl:flex">
+                <div class="flex flex-col px-4">
+                    <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.services') }}</h2>
+        
+                    <div class="flex flex-wrap justify-around  text-black lg:grid lg:grid-cols-4  w-full ">
+                        @foreach ($categories as $categorie)
+                            <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
+                                class="z-10 flex items-center justify-center">
+                                <div
+                                    class="flex md:w-[150px] lg:w-[160px]  xl:w-[200px] items-center justify-center gap-1.5 rounded-md border border-1 border-supaGirlRose bg-fieldBg  hover:bg-supaGirlRose hover:border-complementaryColorViolet hover:text-white text-[#101828] p-2.5 shadow transition-all lg:w-80">
+                                    <img src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}" class="w-6 h-6 sm:w-6 sm:h-6 md:w-5 md:h-5  lg:w-6 lg:h-6"
+                                        alt="icon {{ $categorie['display_name'] }}" />
+                                        <span class="font-roboto-slab font-normal text-sm leading-6 align-middle hover:text-white text-xs truncate overflow-hidden whitespace-nowrap">
+                                            {{ $categorie['nom'] }}
+                                        </span>
+
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="border-l border-fieldBg px-4">
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.orientation') }}</h2>
+                        
+                        <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
+                            @foreach ($genres as $genre)
+                            @if($genre->id != 3)
+                                <x-animated-button 
+                                    :href="route('escortes') . '?selectedGenre=' . $genre->id"
+                                    color="complementaryColorViolet"
+                                    borderColor="supaGirlRose"
+                                    bgColor="fieldBg"
+                                    hoverBgColor="complementaryColorViolet"
+                                    hoverTextColor="white"
+                                    size="md"
+                                >
+                                    {{ $genre->name }}
+                                </x-animated-button>
+                            @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="px-4 mb-2">
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.localization') }}</h2>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($cantons->slice(0, 10) as $canton)
+                                <x-animated-button 
+                                    :href="route('escortes') . '?selectedCanton=' . $canton->id"
+                                    color="complementaryColorViolet"
+                                    borderColor="supaGirlRose"
+                                    bgColor="fieldBg"
+                                    hoverBgColor="complementaryColorViolet"
+                                    hoverTextColor="white"
+                                    size="md"
+                                >
+                                    {{ $canton->nom }}
+                                </x-animated-button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full bg-supaGirlRose">
+                <div class="w-full xl:w-[80%]    mx-auto flex flex-wrap items-center justify-around">
+              
+
+                <li id="escorts-link" class="header-link flex xl:p-4 items-center justify-between ">
+                        <div id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
+                        data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center justify-between">
+                        <a href="{{ route('escortes') }}" 
+                            class="text-xs md:text-sm font-roboto-slab hidden xl:block  flex items-center w-full justify-between rounded-sm px-3 py-4 text-roboto-slab text-gray-900 hover:text-green-gs hover:bg-supaGirlRose xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs ria-current="page">
+                           {{ __('header.escorts') }}
+                          
+                        </a>
+                        <div class="hidden xl:block cursor-pointer hover:text-green-gs">
+                        <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
+                                fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
+                            </svg>
+                        </div>
+                        </div>
+                      
+                        <a href="{{ route('escortes') }}" 
+                            class="font-roboto-slab  xl:hidden text-xs md:text-sm flex items-center w-full justify-between rounded-sm px-3 xl:py-2 text-roboto-slab text-gray-900 hover:text-green-gs hover:bg-supaGirlRose xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs ria-current="page">
+                            {{ __('header.escorts') }}
+    
+                        </a>
+                        <div class=" p-4 cursor-pointer flex items-center justify-center xl:hidden hover:bg-supaGirlRose hover:text-white rounded-sm" id="dropbtn2">
+                              <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
+                            </svg>
+                          </div>
+                    </li>
+
+                    <li id="salons-link" class="header-link xl:p-4 flex items-center justify-between">
+                        <a href="{{ route('salons') }}"
+                            class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                            {{ __('header.salons') }}
+                        </a>
+                    </li>
+
+                   
+
+                    <li id="masseuse-link" class="header-link xl:p-4 flex items-center justify-between">
+                        <a href="{{ route('escortes') }}?selectedCategories=[2]"
+                            class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                           {{__('header.masseuse')}}
+                        </a>
+                    </li>
+
+                    <li id="dominatrice-link" class="header-link xl:p-4 flex items-center justify-between">
+                        <a href="{{ route('escortes') }}?selectedCategories=[3]"
+                            class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                            {{__('header.dominatrice')}}
+                        </a>
+                    </li>
+                    <li id="trans-link" class="header-link xl:p-4 flex text-xs md:text-sm items-center justify-between">
+                        <a href="{{ route('escortes') }}?selectedCategories=[4]"
+                            class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                            {{__('header.trans')}}
+                        </a>
+                    </li>
+
+                    <li id="telephoneRose-link" class="header-link xl:p-4 flex text-xs md:text-sm items-center justify-between">
+                        <a href="{{ route('escortes') }}?selectedCategories=[38]"
+                            class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
+                            {{__('header.telephoneRose')}}
+                        </a>
+                    </li>
+
+                   
+
+                    
+                </div>
+
+               
+
+
+
+            </div>
     </nav>
 
     <!-- Recherche modal -->
@@ -421,82 +574,38 @@
 }
 </style>
 @push('scripts')
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const headerLinks = document.querySelectorAll('.header-link');
-
-        // Restaurer l'état actif depuis localStorage
-        const activeLinkId = localStorage.getItem('activeLinkId');
-        if (activeLinkId) {
-            const activeLink = document.getElementById(activeLinkId);
-            if (activeLink) {
-                activeLink.classList.add('active-header');
-            }
-        }
-
-        headerLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                // Retirer la classe active de tous les liens
-                headerLinks.forEach(link => {
-                    link.classList.remove('active-header');
-                });
-
-                // Ajouter la classe active au lien cliqué
-                this.classList.add('active-header');
-
-                // Stocker l'identifiant du lien actif dans localStorage
-                localStorage.setItem('activeLinkId', this.id);
-            });
-        });
-
-        const dropdownToggle = document.getElementById('dropbtn');
-        const dropdownMenu = document.getElementById('dropdownMegaMenuMobile');
-        const subDiv = document.getElementById('subDiv');
-
-        dropdownToggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            dropdownMenu.classList.toggle('hidden');
-            subDiv.classList.remove('hidden');
-            dropdownMenu.style.transform = 'translate(0px, 100px)';
-        
-        });
-
-        // Fermer le menu déroulant lorsqu'on clique en dehors
-        document.addEventListener('click', function(event) {
-            const isClickInsideDropdown = dropdownMenu.contains(event.target);
-            const isClickOnToggle = dropdownToggle.contains(event.target);
-
-            if (!isClickInsideDropdown && !isClickOnToggle) {
-                dropdownMenu.classList.add('hidden');
-                subDiv.classList.add('hidden');
-            }
-        });
-    });
-  
-
-</script> -->
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const headerLinks = document.querySelectorAll('.header-link');
 
-        // Function to set the active link based on the current URL
         function setActiveLinkBasedOnURL() {
-            const currentURL = window.location.href;
+    const currentURL = window.location.href;
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedCategory = urlParams.get("selectedCategories[0]");
 
-            headerLinks.forEach(link => {
-                const linkURL = link.querySelector('a').getAttribute('href');
+    headerLinks.forEach(link => {
+        const anchor = link.querySelector('a');
+        const linkURL = anchor.getAttribute('href');
 
-                // Check if the current URL matches the link URL
-                if (currentURL.includes(linkURL)) {
-                    link.classList.add('active-header');
-                    // Store the active link ID in localStorage
-                    localStorage.setItem('activeLinkId', link.id);
-                } else {
-                    link.classList.remove('active-header');
-                }
-            });
+        // Réinitialise l'état
+        link.classList.remove('active-header');
+
+        // Active si l'URL contient le lien
+        if (currentURL.includes(linkURL)) {
+            link.classList.add('active-header');
+            localStorage.setItem('activeLinkId', link.id);
         }
+
+        // Vérifie si le lien correspond à une catégorie spécifique
+        const linkCategoryMatch = linkURL.match(/selectedCategories=\[(\d+)\]/);
+        if (linkCategoryMatch && linkCategoryMatch[1] === selectedCategory) {
+            link.classList.add('active-header');
+            localStorage.setItem('activeLinkId', link.id);
+        }
+    });
+}
+
 
         // Restaurer l'état actif depuis localStorage
         const activeLinkId = localStorage.getItem('activeLinkId');
@@ -526,23 +635,40 @@
         });
 
         const dropdownToggle = document.getElementById('dropbtn');
+        const dropdownToggle2 = document.getElementById('dropbtn2');
+
         const dropdownMenu = document.getElementById('dropdownMegaMenuMobile');
         const subDiv = document.getElementById('subDiv');
 
+        const dropdownMenu2 = document.getElementById('dropdownMegaMenuMobile2');
+        const subDiv2 = document.getElementById('subDiv2');
+
         dropdownToggle.addEventListener('click', function(event) {
+            console.log('click');
             event.preventDefault();
             dropdownMenu.classList.toggle('hidden');
             subDiv.classList.remove('hidden');
             dropdownMenu.style.transform = 'translate(0px, 100px)';
         });
 
+        dropdownToggle2.addEventListener('click', function(event) {
+            console.log('click2 remove');
+            event.preventDefault();
+            dropdownMenu2.classList.toggle('hidden');
+            subDiv2.classList.remove('hidden');
+            dropdownMenu2.style.transform = 'translate(0px, 100px)';
+        });
+
         // Fermer le menu déroulant lorsqu'on clique en dehors
         document.addEventListener('click', function(event) {
             const isClickInsideDropdown = dropdownMenu.contains(event.target);
             const isClickOnToggle = dropdownToggle.contains(event.target);
-            if (!isClickInsideDropdown && !isClickOnToggle) {
+            const isClickOnToggle2 = dropdownToggle2.contains(event.target);
+            if (!isClickInsideDropdown && !isClickOnToggle && !isClickOnToggle2) {
                 dropdownMenu.classList.add('hidden');
                 subDiv.classList.add('hidden');
+                dropdownMenu2.classList.add('hidden');
+                subDiv2.classList.add('hidden');
             }
         });
     });

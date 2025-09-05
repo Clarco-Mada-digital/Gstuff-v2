@@ -2,9 +2,8 @@
 // DE
 return [
     // Navbar
-  
-    'escorts' => 'Escorts',
-    'salons' => 'Salons',
+    'escorts' => 'Escortgirl',
+    'salons' => 'Massagesalon',
     'about' => 'Über uns',
     'glossary' => 'Glossar',
     'contact' => 'Kontakt',
@@ -12,6 +11,11 @@ return [
     'search_placeholder' => 'Suche...',
     'search_icon' => 'Suchsymbol',
     'login_register' => 'Anmelden/Registrieren',
+
+    'masseuse' => 'Erotische Masseurin',
+    'dominatrice' => 'BDSM-Dominatrix',
+    'trans' => 'Trans Ladyboy',
+    'telephoneRose' => 'Erotiktelefon & Video-Chat',
 
    // service
    'services' => 'Dienstleistungen',
