@@ -515,7 +515,7 @@
                     </li>
 
                     <li id="telephoneRose-link" class="header-link xl:p-4 flex text-xs md:text-sm items-center justify-between">
-                        <a href="{{ route('escortes') }}?selectedCategories=[38]"
+                        <a href="{{ route('escortes') }}?selectedCategories=[9]"
                             class="font-roboto-slab hover:text-green-gs text-xs md:text-sm flex w-full items-center justify-between rounded-sm px-3 py-2 text-gray-900 hover:bg-supaGirlRose xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent xl:hover:text-green-gs">
                             {{__('header.telephoneRose')}}
                         </a>
