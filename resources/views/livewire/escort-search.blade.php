@@ -354,9 +354,9 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)]
        max-w-lg  w-full items-center justify-center  md:inset-0  m-auto "
         wire:ignore.self>
-        <div class="relative max-h-full w-full max-h-full">
+        <div class="relative w-full max-h-full ">
             {{-- Modal content --}}
-            <div class="relative rounded-lg bg-white shadow-sm ">
+            <div class="relative rounded-lg bg-white shadow-sm m-2">
 
                 {{-- Modal header --}}
                 <div
