@@ -4,7 +4,7 @@ return [
     'title' => 'Entdecken Sie die Salons in Ihrer Region',
     'cantons' => 'Kantone',
     'villes' => 'Städte',
-    'select_canton' => 'Wählen Sie einen Kanton, um die Städte zu sehen',
+    'select_canton' => 'Stadt',
     '1_5_girls' => '1 bis 5 Mädchen',
     '6_15_girls' => '6 bis 15 Mädchen',
     'more_than_15_girls' => 'Mehr als 15 Mädchen',
