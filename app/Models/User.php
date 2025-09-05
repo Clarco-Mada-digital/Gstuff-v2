@@ -209,6 +209,33 @@ class User extends Authenticatable
         'code_phone' => 'string',
     ];
 
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->date_naissance)->age;
+    }
+
+    // public function getTaillesAttribute()
+    // {
+    //     return (int) $this->attributes['tailles'];
+    // }
+
+    public function getTaillesAttribute()
+{
+    $taille = (int) $this->attributes['tailles'];
+
+    if ($taille === 0 && isset($this->baseEscorts)) {
+        // Récupère la plus petite valeur non nulle
+        $minTaille = $this->baseEscorts
+            ->where('tailles', '>', 0)
+            ->min('tailles');
+
+        return (int) $minTaille;
+    }
+
+    return $taille;
+}
+
+
     public function getVisibleCountriesAttribute($value)
     {
         return json_decode($value, true) ?? [];

@@ -56,6 +56,17 @@ class EscortSearch extends Component
     public $escortCount = 0;
     public $genres;
 
+    public $ageMin = 18;
+    public $ageMax = 100;
+    public $tailleMin = 90;
+    public $tailleMax = 200;
+    public $tarifMin = 100;
+    public $tarifMax = 1000;
+
+    public $ageInterval = [];
+    public $tailleInterval = [];
+    public $tarifInterval = [];
+
     public $approximite = false;
     public $latitudeUser;
     public $longitudeUser;
@@ -115,8 +126,31 @@ class EscortSearch extends Component
         $this->approximite = false;
         $this->showClosestOnly = false;
         $this->villes = [];
+        $this->ageInterval = [];
+        $this->tailleInterval = [];
+        $this->tarifInterval = [];
+        $this->getValueRange();
         $this->resetPage();
         $this->render();
+    }
+
+    public function resetFilterModal()
+    {
+        $this->selectedCanton = '';
+        $this->selectedVille = '';
+        $this->selectedGenre = '';
+        $this->selectedCategories = [];
+        $this->selectedServices = [];
+        $this->autreFiltres = [];
+        $this->approximite = false;
+        $this->showClosestOnly = false;
+        $this->villes = [];
+        $this->ageInterval = [];
+        $this->tailleInterval = [];
+        $this->tarifInterval = [];
+        $this->getValueRange();
+        $this->resetPage();
+        return redirect('escortes');
     }
 
     public function chargeVille()
@@ -191,6 +225,36 @@ class EscortSearch extends Component
         return $angle * $earthRadius;
     }
 
+    private function getValueRange(){
+
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? 'FR';
+            $query = User::query()
+            ->where('profile_type', 'escorte')
+            ->orderBy('is_profil_pause')
+            ->orderByDesc('rate_activity')
+            ->orderByDesc('last_activity');
+        if (Auth::user()) {
+            $query->where('id', '!=', Auth::user()->id);
+        }
+        $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
+            return $escort->isProfileVisibleTo($viewerCountry);
+        });
+        $this->ageMin = $baseEscorts->min('age');
+        $this->ageMax = $baseEscorts->max('age');
+        foreach ($baseEscorts as $escort) {
+            $min = $escort->tailles; // Assure-toi que le nom de la méthode est correct
+        
+            if ($min > 0 && $min < $this->tailleMin) {
+                $this->tailleMin = $min;
+            }
+        }
+        
+        $this->tailleMax = $baseEscorts->max('tailles');
+        $this->tarifMin = $baseEscorts->min('tarif');
+        $this->tarifMax = $baseEscorts->max('tarif');
+    }
+
     public function render()
     {
 
@@ -223,6 +287,8 @@ class EscortSearch extends Component
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
 
+        $this->getValueRange();
+
         if (!$this->approximite) {
              // 1. Récupérer tous les profils de base
                 $query = User::query()
@@ -236,6 +302,19 @@ class EscortSearch extends Component
             $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
                 return $escort->isProfileVisibleTo($viewerCountry);
             });
+            $this->ageMin = $baseEscorts->min('age');
+            $this->ageMax = $baseEscorts->max('age');
+            foreach ($baseEscorts as $escort) {
+                $min = $escort->tailles; // Assure-toi que le nom de la méthode est correct
+            
+                if ($min > 0 && $min < $this->tailleMin) {
+                    $this->tailleMin = $min;
+                }
+            }
+            
+            $this->tailleMax = $baseEscorts->max('tailles');
+            $this->tarifMin = $baseEscorts->min('tarif');
+            $this->tarifMax = $baseEscorts->max('tarif');
 
             // 2. Initialiser une collection vide pour les résultats finaux
             $filteredEscorts = collect();
@@ -425,6 +504,7 @@ class EscortSearch extends Component
                             case 'mobilite':
                                 $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('mobilite_id', (int) $value));
                                 break;
+                        
                             default:
                                 $filteredEscorts = $filteredEscorts->merge(
                                     $baseEscorts->filter(function ($escort) use ($key, $value) {
@@ -437,8 +517,67 @@ class EscortSearch extends Component
                 }
             }
 
+            $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
+            $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
+
+            logger()->info('Age interval: ' . json_encode($this->ageInterval));
+            logger()->info('Min age: ' . $minAge);
+            logger()->info('Max age: ' . $maxAge);
+            logger()->info('Filtred count before : ' . $filteredEscorts->count());
+
+            if ($minAge !== null && $maxAge !== null && $minAge <= $maxAge) {
+                $filteredEscorts = $filteredEscorts->merge(
+                    $baseEscorts->filter(function ($escort) use ($minAge, $maxAge) {
+                        return $escort->age >= $minAge && $escort->age <= $maxAge;
+                    })
+                );
+            }
+
+            logger()->info('Filtred count after : ' . $filteredEscorts->count());
+
+
+            $minTaille = isset($this->tailleInterval['min']) ? (int) $this->tailleInterval['min'] : null;
+            $maxTaille = isset($this->tailleInterval['max']) ? (int) $this->tailleInterval['max'] : null;
+
+            logger()->info('Taille interval: ' . json_encode($this->tailleInterval));
+            logger()->info('Min Taille: ' . $minTaille);
+            logger()->info('Max Taille: ' . $maxTaille);
+            logger()->info('Filtred count before : ' . $filteredEscorts->count());
+
+            if ($minTaille !== null && $maxTaille !== null && $minTaille <= $maxTaille) {
+                $filteredEscorts = $filteredEscorts->merge(
+                    $baseEscorts->filter(function ($escort) use ($minTaille, $maxTaille) {
+                        return $escort->tailles >= $minTaille && $escort->tailles <= $maxTaille;
+                    })
+                );
+            }
+
+            logger()->info('Filtred count after : ' . $filteredEscorts->count());
+
+            $minTarif = isset($this->tarifInterval['min']) ? (int) $this->tarifInterval['min'] : null;
+            $maxTarif = isset($this->tarifInterval['max']) ? (int) $this->tarifInterval['max'] : null;
+
+            logger()->info('Tarif interval: ' . json_encode($this->tarifInterval));
+            logger()->info('Min tarif: ' . $minTarif);
+            logger()->info('Max tarif: ' . $maxTarif);
+            logger()->info('Filtred count before : ' . $filteredEscorts->count());
+
+            if ($minTarif !== null && $maxTarif !== null && $minTarif <= $maxTarif) {
+                $filteredEscorts = $filteredEscorts->merge(
+                    $baseEscorts->filter(function ($escort) use ($minTarif, $maxTarif) {
+                        return $escort->tarif >= $minTarif && $escort->tarif <= $maxTarif;
+                    })
+                );
+            }
+
+            logger()->info('Filtred count after : ' . $filteredEscorts->count());
+
+            
+
              // 4. Supprimer les doublons
             $filteredEscorts = $filteredEscorts->unique('id');
+            logger()->info('Filtred count after unique : ' . $filteredEscorts->count());
+
 
             // $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
             //     return $escort->isProfileVisibleTo($viewerCountry);

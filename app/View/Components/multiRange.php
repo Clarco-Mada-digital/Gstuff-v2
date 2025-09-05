@@ -14,8 +14,8 @@ class multiRange extends Component
     public function __construct(
         public string $name,
         public string $label,
-        public int $min,
-        public int $max,
+        public int $min = 0,
+        public int $max = 100,
         public int $step = 1,
         public int $minvalue = 0,
         public int $maxvalue = 0,
@@ -23,6 +23,7 @@ class multiRange extends Component
         public string $class = '',
         public string $id = '',
         public string $placeholder = '',
+        public string $wireModel = '', // 👈 AJOUT ICI
     )
     {
         //

@@ -352,24 +352,24 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
     {{-- Recherche modal --}}
     <div id="search-escorte-modal" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)]
-         max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 "
+       max-w-lg  w-full items-center justify-center  md:inset-0  m-auto "
         wire:ignore.self>
-        <div class="relative max-h-full w-[97%] p-4 lg:w-[60%]">
+        <div class="relative max-h-full w-full max-h-full">
             {{-- Modal content --}}
-            <div class="relative rounded-lg bg-white shadow-sm bg-fieldBg">
+            <div class="relative rounded-lg bg-white shadow-sm ">
 
                 {{-- Modal header --}}
                 <div
                     class="flex  justify-between rounded-t border-b border-gray-200 p-4 md:p-5 ">
                     <div>
                     <h3
-                        class="font-roboto-slab text-green-gs flex w-full items-center justify-center text-2xl font-bold md:text-3xl">
+                        class="font-roboto-slab text-green-gs flex w-full items-center justify-center text-md font-bold md:text-3xl">
                         {{ __('escort-search.more_filters') }}</h3>
                     </div>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="search-escorte-modal">
-                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -379,110 +379,11 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col  gap-3 p-4 md:p-5 md:pb-20 h-[70vh] md:h-[60vh]  overflow-y-auto">
-                    <div class="flex items-center justify-between mt-4">
-                            <!-- Titre à gauche -->
-                            <h3 class="font-roboto-slab text-green-gs text-2xl md:text-3xl">
-                                {{ __('escort-search.service_categories') }}
-                            </h3>
-
-                            <!-- Pagination à droite -->
-                            <div class="flex items-center gap-2">
-                                @if ($services->onFirstPage())
-                                    <span class="p-2 rounded-full bg-gray-200 text-gray-400 cursor-not-allowed">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                        </svg>
-                                    </span>
-                                @else
-                                    <button wire:click="previousPage('servicesPage')" 
-                                        class="p-2 rounded-full bg-green-gs text-white hover:bg-supaGirlRose transition">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                        </svg>
-                                    </button>
-                                @endif
-
-                                @if ($services->hasMorePages())
-                                    <button wire:click="nextPage('servicesPage')" 
-                                        class="p-2 rounded-full bg-green-gs text-white hover:bg-supaGirlRose transition">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
-                                @else
-                                    <span class="p-2 rounded-full bg-gray-200 text-gray-400 cursor-not-allowed">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-
-                    <div x-data="{ open: true }" class="w-full">
-                        <button @click="open = !open"
-                            class="hover:bg-green-gs w-full rounded-lg border border-2 border-supaGirlRose text-green-gs hover:text-white p-2 text-left hover:text-amber-400 sm:hidden bg-fieldBg">
-                            <div class="flex items-center justify-between">
-                                <span class="font-medium">{{ __('escort-search.service_categories') }}</span>
-                                <svg :class="{ 'rotate-180': open }" class="h-4 w-4 transform transition-transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </div>
-                        </button>
-                        <div x-show="open" x-transition class="mt-2 sm:hidden">
-                            <div class="flex flex-wrap items-center gap-4 h-[25vh] py-4 overflow-y-auto sm:hidden">
-                                @foreach ($services as $service)
-                                    <div class="my-1">
-                                        <input wire:model.live='selectedServices' id="services-{{ $service->id }}"
-                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
-                                            value="{{ $service->id }}" />
-                                        <label for="services-{{ $service->id }}"
-                                            class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
-                                             text-green-gs hover:text-white p-1 text-center transition-all duration-200 hover:scale-[1.02]
-                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-xs font-roboto-slab">
-                                            {{ $service->nom }}
-                                        </label>
-                                    </div>
-                                @endforeach
-
-                              
-
-                               
-                            </div>
-                         
-                        </div>
-                        <div class="hidden sm:block">
-                            <div class="flex flex-wrap items-center gap-4">
-                                @foreach ($services as $service)
-                                    <div class="my-1">
-                                        <input wire:model.live='selectedServices' id="services{{ $service->id }}"
-                                            class="peer hidden" type="checkbox" name="{{ $service->nom }}"
-                                            value="{{ $service->id }}" />
-                                        <label for="services{{ $service->id }}"
-                                        class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose
-                                             text-green-gs hover:text-white p-2 text-center transition-all duration-200 hover:scale-[1.02]
-                                              focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white text-sm font-roboto-slab">
-                                            {{ $service->nom }}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <h3 class="text-green-gs font-roboto-slab text-2xl md:text-3xl">
-                        {{ __('escort-search.other_filters') }}</h3>
-                        <div
-    class="grid w-full grid-cols-2 items-center justify-between gap-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 h-[25vh] md:h-[40vh] overflow-y-auto md:overflow-visible">
+                <div class="relative flex flex-col  gap-3 p-2 md:p-5 ">
+                    <div class="grid w-full grid-cols-2 items-center justify-between gap-3  ">
                         <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
                             <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
-                                class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                                class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs ">
                                 <option selected value="">{{ __('escort-search.origin') }}</option>
                                 <template x-for="origine in dropdownData['origines']">
                                     <option :value="origine" x-text="origine"></option>
@@ -491,43 +392,37 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         </template>
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.Silhouette') }} </option>
                             <template x-for="mensuration in dropdownData['mensurations']">
                                 <option :value="mensuration.id" x-text="mensuration.name[currentLocale]"></option>
                             </template>
                         </select>
 
-                        <!-- <select wire:model.live="autreFiltres.orientation" id="orientation" name="orientation"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
-                        <option selected value=""> {{ __('escort-search.sexual_orientation') }} </option>
-                            <template x-for="orientation in dropdownData['oriantationSexuelles']">
-                                <option :value="orientation.id" x-text="orientation.name[currentLocale]"></option>
-                            </template>
-                        </select> -->
+                    
                         <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.language') }} </option>
                             <template x-for="langue in dropdownData['langues']">
                                 <option :value="langue" x-text="langue"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.couleur_cheveux" id="cheveux" name="cheveux"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.hair') }} </option>
                             <template x-for="cheveux in dropdownData['couleursCheveux']">
                                 <option :value="cheveux.id" x-text="cheveux.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.couleur_yeux" id="yeux" name="yeux"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.eyes') }} </option>
                             <template x-for="yeux in dropdownData['couleursYeux']">
                                 <option :value="yeux.id" x-text="yeux.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.poitrine" id="poitrine" name="poitrine"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.breast_state') }} </option>
                             <template x-for="poitrine in dropdownData['poitrines']">
                                 <option :value="poitrine.id" x-text="poitrine.name[currentLocale]"></option>
@@ -538,14 +433,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
 
                         <select wire:model.live="autreFiltres.pubis" id="pubis" name="pubus"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.pubic_hair') }} </option>
                             <template x-for="pubis in dropdownData['pubis']">
                                 <option :value="pubis.id" x-text="pubis.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.tatouages" id="tatouages" name="tatouages"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.tattoo') }} </option>
                             <template x-for="tatous in dropdownData['tatouages']">
                                 <option :value="tatous.id" x-text="tatous.name[currentLocale]"></option>
@@ -553,12 +448,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         </select>
 
 
-
-
-
-
                         <select wire:model.live="autreFiltres.taille_poitrine" id="poitrine" name="poitrine"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.breast_size') }} </option>
                             <option value="petite">{{ __('escort-search.petite') }}</option>
                             <option value="moyenne">{{ __('escort-search.moyenne') }}</option>
@@ -578,48 +469,30 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         </select>
                         @endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <select wire:model.live="autreFiltres.mobilite" id="mobilite" name="mobilite"
-                        class="block w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
+                        class="block text-xs w-full rounded-lg border border-2 border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab p-2 text-gray-900 focus:border-green-gs focus:ring-green-gs dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-gs dark:focus:ring-green-gs">
                         <option selected value=""> {{ __('escort-search.escort_mobility') }} </option>
                             <template x-for="mobilite in dropdownData['mobilites']">
                                 <option :value="mobilite.id" x-text="mobilite.name[currentLocale]"></option>
                             </template>
                         </select>
                         <div></div>
-                        <x-multi-range :min="18" :max="100" :minvalue="25" :maxvalue="75"
-                            step="1" name='age' label='{{ __('escort-search.age') }}' id="age" />
-                        <x-multi-range :min="90" :max="200" :minvalue="120" :maxvalue="175"
-                            step="1" name='tailles' label='{{ __('escort-search.height') }} (cm)'
-                            id="tailles" />
-                        <x-multi-range :min="100" :max="1000" :minvalue="150" :maxvalue="550"
-                            step="50" name='tarifs' label='{{ __('escort-search.rates') }} (CHF)'
-                            id="tarifs" />
+                        
                     </div>
+                    <x-multi-range wireModel="ageInterval"  :value="[$ageMin, $ageMax]" :min="$ageMin" :max="$ageMax" :minvalue="$ageMin" :maxvalue="$ageMax" step="1" name='ageInterval' label="{{ __('escort-search.age') }}" id="ageInterval" />
+                    <x-multi-range wireModel="tarifInterval" :value="[$tarifMin, $tarifMax]" :min="$tarifMin" :max="$tarifMax" :minvalue="$tarifMin" :maxvalue="$tarifMax" step="50" name='tarifInterval' label="{{ __('escort-search.tarif') }} (CHF)" id="tarifInterval" />
+                    <x-multi-range wireModel="tailleInterval" :value="[$tailleMin, $tailleMax]" :min="$tailleMin" :max="$tailleMax" :minvalue="$tailleMin" :maxvalue="$tailleMax" step="1" name='tailleInterval' label="{{ __('escort-search.height') }} (m)" id="tailleInterval" type="taille"/>
                 </div>
 
                 {{-- Modal footer --}}
-                <div class="flex justify-between items-center space-x-4 rounded-t border-t border-gray-200 p-4 md:p-5">
-                    <button class="flex items-center justify-center p-2 font-roboto-slab text-green-gs bg-gray-200 rounded-sm text-sm hover:bg-gray-300" wire:click="resetFilter" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="resetFilter">
+                <div class="flex justify-between items-center space-x-4 rounded-t border-t border-gray-200 p-4 md:p-5 mt-2">
+                    <button class="flex items-center justify-center p-2 font-roboto-slab text-green-gs bg-gray-200 rounded-sm text-sm hover:bg-gray-300" wire:click="resetFilterModal" wire:loading.attr="disabled">
+                        <span wire:loading.remove wire:target="resetFilterModal">
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                 <path fill="currentColor" d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z" />
                             </svg>
                         </span>
-                        <span wire:loading wire:target="resetFilter">
+                        <span wire:loading wire:target="resetFilterModal">
                             <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -648,6 +521,16 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
          
         });
 
+        console.log("Escortes data" , @json($escorts));
+
+        
+        console.log("minAge" , @json($ageMin));
+        console.log("maxAge" , @json($ageMax));
+        console.log("minTaille" , @json($tailleMin));
+        console.log("maxTaille" , @json($tailleMax));
+        console.log("minTarif" , @json($tarifMin));
+        console.log("maxTarif" , @json($tarifMax));
+
        
 
         // Mise à jour des valeurs min/max lorsque les curseurs sont déplacés
@@ -658,5 +541,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         Livewire.on('updatedMaxDistanceSelected', value => {
             document.getElementById('maxDistanceValue').textContent = value;
         });
+    });
+</script>
+<script>
+    window.addEventListener('reload-page', () => {
+        location.reload();
     });
 </script>
