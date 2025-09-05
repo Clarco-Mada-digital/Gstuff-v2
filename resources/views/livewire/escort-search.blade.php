@@ -648,9 +648,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
          
         });
 
-        const categories = @json($categories);
-
-        console.log("categories log",categories);
+       
 
         // Mise à jour des valeurs min/max lorsque les curseurs sont déplacés
         Livewire.on('updatedMinDistance', value => {
