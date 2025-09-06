@@ -1,6 +1,6 @@
 @props([
     'placement' => '',
-    
+    'size' => 'small',
 ])
 @if ($size === 'small')
 

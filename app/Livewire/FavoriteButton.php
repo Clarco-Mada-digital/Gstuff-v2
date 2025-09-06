@@ -11,15 +11,13 @@ class FavoriteButton extends Component
     public $userId;
     public $isFavorite = false;
     public $placement = '';
-    public $size = '';
 
     // protected $listeners = ['favoriteUpdated' => 'render'];
 
-    public function mount($userId, $placement = '', $size = '')
+    public function mount($userId, $placement = '')
     {
         $this->userId = $userId;
         $this->placement = $placement;
-        $this->size = $size;
         if(Auth::check()){
             $this->isFavorite = auth()->user()->favorites->contains($this->userId);
         }
@@ -51,7 +49,6 @@ class FavoriteButton extends Component
     {
         return view('livewire.favorite-button', [
             'placement' => $this->placement,
-            'size' => $this->size
         ]);
     }
 }
