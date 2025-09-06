@@ -402,7 +402,7 @@
                                 alt="icon {{ $categorie['display_name'] }}"
                                 />
                                 <span
-                                class="font-roboto-slab text-sm font-normal leading-6 truncate overflow-hidden whitespace-nowrap"
+                                class="font-roboto-slab text-xs font-normal leading-6 truncate overflow-hidden whitespace-nowrap"
                                 title="{{ $categorie['nom'] }}"
                                 >
                                 {{ $categorie['nom'] }}
