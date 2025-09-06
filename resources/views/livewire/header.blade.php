@@ -494,11 +494,30 @@
                     </li>
                
 
-                <!-- Bouton accordéon pour les autres liens (visible uniquement sur petits écrans) -->
+              
                 <li class="xl:hidden">
-                <button onclick="toggleAccordion()" class="px-3 py-2 text-sm font-semibold text-gray-900 hover:text-green-gs rounded-sm">
-                    ▼
-                </button>
+   
+                    <button
+                    id="accordionToggle"
+                    onclick="toggleAccordion()"
+                    class="px-3 py-2 text-sm font-semibold text-gray-900 hover:text-green-gs rounded-sm inline-flex items-center gap-2"
+                    aria-controls="menuAccordion"
+                    aria-expanded="false"
+                    type="button"
+                    >
+                
+                    <svg
+                        class="h-5 w-5 transition-transform duration-200 ease-out"
+                        :class="{ 'rotate-90': open }"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        >
+                        <path d="M12 5.5C13.1 5.5 14 6.4 14 7.5C14 8.6 13.1 9.5 12 9.5C10.9 9.5 10 8.6 10 7.5C10 6.4 10.9 5.5 12 5.5ZM12 10.5C13.1 10.5 14 11.4 14 12.5C14 13.6 13.1 14.5 12 14.5C10.9 14.5 10 13.6 10 12.5C10 11.4 10.9 10.5 12 10.5ZM12 15.5C13.1 15.5 14 16.4 14 17.5C14 18.6 13.1 19.5 12 19.5C10.9 19.5 10 18.6 10 17.5C10 16.4 10.9 15.5 12 15.5Z"/>
+                        </svg>
+                    </button>
+
                 </li>
             </ul>
 
@@ -534,13 +553,6 @@
             </ul>
         </div>
 
-        <!-- Script JS pour l'accordéon -->
-        <script>
-        function toggleAccordion() {
-            const menu = document.getElementById('menuAccordion');
-            menu.classList.toggle('hidden');
-        }
-        </script>
 
         <div class="bg-supaGirlRose w-full hidden md:block">
                 <div class="mx-auto flex w-full flex-wrap items-center justify-around xl:w-[80%]">
@@ -746,6 +758,20 @@
             });
         });
     </script>
+    <script>
+    function toggleAccordion() {
+        const menu = document.getElementById('menuAccordion');
+        const btn = document.getElementById('accordionToggle');
+        const icon = document.getElementById('accordionIcon');
+
+        const isHidden = menu.classList.toggle('hidden');
+        const expanded = !isHidden;
+
+        btn.setAttribute('aria-expanded', expanded.toString());
+        icon.classList.toggle('rotate-180', expanded);
+    }
+    </script>
+
 @endpush
 
 </div>
