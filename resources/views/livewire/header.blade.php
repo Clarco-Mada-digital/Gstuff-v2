@@ -394,7 +394,7 @@
                         @foreach ($categories as $categorie)
                            <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]" class="z-10 flex items-center justify-center">
                             <div
-                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center gap-2 rounded-md p-2.5 text-[#101828] shadow transition-all hover:text-white w-[100px]  max-w-full"
+                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center gap-2 rounded-md p-1 md:p-2 text-[#101828] shadow transition-all hover:text-white w-[100px] md:w-[160px]  max-w-full"
                             >
                                 <img
                                 src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
