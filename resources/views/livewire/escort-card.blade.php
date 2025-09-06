@@ -2,9 +2,6 @@
     $user = App\Models\User::find($escortId);
 @endphp
 
-@props([
-    'size' => '',
-])
 @if ($size === 'small')
 <div class="relative mx-auto mb-4 flex min-h-[200px] min-w-[130px] flex-col rounded-xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900"
     style="scroll-snap-align: center">
