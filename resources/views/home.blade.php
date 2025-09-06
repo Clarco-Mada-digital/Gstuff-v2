@@ -85,7 +85,7 @@
             <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-                <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
+                <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
                 <div id="NewEscortContainer"
                     class="relative mb-4 mt-5 flex h-full w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden px-1 md:px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
@@ -157,7 +157,7 @@
 
         {{-- Section listing escort --}}
         <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-            <h3 class="font-roboto-slab text-green-gs text-center text-md md:text-2xl font-bold lg:text-4xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold lg:text-4xl">
                 {{ __('home.looking_for_fun') }}</h3>
             <div id="listingContainer"
                 class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
