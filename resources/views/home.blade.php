@@ -12,7 +12,7 @@
 
 
     {{-- Hero content --}}
-    <div class="relative flex w-full flex-col items-center justify-center gap-8 bg-no-repeat px-3 py-20 lg:h-[418px]"
+    <div class="relative flex h-[200px] w-full flex-col items-center justify-center gap-8 bg-no-repeat px-3 py-20 lg:h-[418px]"
         style="background: url('images/Hero image.jpeg') center center /cover;">
         <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
         <div class="z-10 flex flex-col items-center justify-center">
