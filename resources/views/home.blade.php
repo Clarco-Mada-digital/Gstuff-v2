@@ -12,12 +12,12 @@
 
 
     {{-- Hero content --}}
-    <div class="relative flex h-[200px] w-full flex-col items-center justify-center gap-8 bg-no-repeat px-3 py-20 lg:h-[418px]"
+    <div class="relative flex h-[200px] w-full flex-col items-center justify-center gap-4 md:gap-8 bg-no-repeat px-3 py-20 lg:h-[418px]"
         style="background: url('images/Hero image.jpeg') center center /cover;">
         <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
-        <div class="z-10 flex flex-col items-center justify-center">
+        <div class="z-10 flex flex-col items-center justify-center mt-5">
             <h2
-                class="font-roboto-slab text-fieldBg text-center text-md  xl:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
+                class="font-roboto-slab text-fieldBg text-center text-md  md:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
                 {{ __('home.meetings') }} <span class="text-supaGirlRose">{{ __('home.elegant_discreet') }}</span>
                 {{ __('home.in_switzerland') }}</h2>
         </div>
@@ -25,12 +25,12 @@
             @foreach ($categories->take(4) as $categorie)
                 @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
                     <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
-                        class="z-10 flex items-center justify-center gap-1 transition-all">
+                        class="z-10 flex items-center justify-center gap-1 md:gap-1 transition-all">
                         <div
-                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 xl:gap-1.5 rounded-md border bg-white p-1 xl:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
+                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 md:gap-1.5 rounded-md border bg-white p-1 md:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
                             <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
                                 class="h-4 w-4 xl:h-8 xl:w-8" alt="icon service {{ $categorie['display_name'] }}" />
-                            <span class="whitespace-nowrap text-xs">
+                            <span class="whitespace-nowrap text-xs md:text-sm">
                                 @php
                                     $locale = session('locale', 'fr');
                                     $categoryName = $categorie['nom'];
@@ -49,20 +49,20 @@
     </div>
 
     {{-- Main content --}}
-    <div class="container m-auto mt-10 overflow-hidden px-5">
+    <div class="container m-auto mt-4 xl:mt-10 overflow-hidden xl:px-5 px-1">
 
         <div x-data="{ viewEscorte: true }" x-cloak>
 
             {{-- Switch salon escort Btn --}}
             <ul
-                class="mx-auto flex w-full cursor-pointer rounded-lg text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl">
+                class="mx-auto flex w-full cursor-pointer rounded-lg mx-2 text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl">
                 <li class="w-full focus-within:z-10">
                     <button @click="viewEscorte = true"
                         :class="viewEscorte
                             ?
                             'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
                             'bg-white text-complementaryColorViolet hover:bg-gray-50'"
-                        class="inline-block w-full cursor-pointer rounded-s-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        class="inline-block w-full cursor-pointer rounded-s-lg border border-gray-200 xl:p-4 p-2 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
                         :aria-current="viewEscorte ? 'page' : null">
                         {{ __('home.top_escorts_today') }}
                     </button>
@@ -73,7 +73,7 @@
                             ?
                             'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
                             'bg-white text-complementaryColorViolet hover:bg-gray-50'"
-                        class="inline-block w-full cursor-pointer rounded-e-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        class="inline-block w-full cursor-pointer rounded-e-lg border border-gray-200 xl:p-4 p-2 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
                         :aria-current="!viewEscorte ? 'page' : null">
                         {{ __('home.the_salons') }}
                     </button>
@@ -87,14 +87,14 @@
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
                 <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
                 <div id="NewEscortContainer"
-                    class="relative mb-4 mt-5 flex h-full w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden px-10"
+                    class="relative mb-4 mt-5 flex h-full w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden px-1 md:px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                     @foreach ($escorts as $escort)
                         <livewire:escort-card wire:key="escort-{{ $escort->id }}" name="{{ $escort->prenom }}"
                             canton="{{ $escort->canton['nom'] ?? '' }}" ville="{{ $escort->ville['nom'] ?? '' }}"
                             avatar='{{ $escort->avatar }}' isPause="{{ $escort->is_profil_pause }}"
                             isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}'
-                            profileVerifie='{{ $escort->profile_verifie }}' />
+                            profileVerifie='{{ $escort->profile_verifie }}' size="small" />
                     @endforeach
                 </div>
                 <div id="arrowEscortScrollRight"
@@ -120,13 +120,13 @@
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
                 <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.our_salons') }}</h3>
                 <div id="OurSalonContainer"
-                    class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
+                    class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                     @foreach ($salons as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
                             isPause="{{ $salon->is_profil_pause }}" salonId='{{ $salon->id }}'
-                            avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' />
+                            avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' size="small" />
                     @endforeach
                     @if ($salons == '[]')
                         <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">
@@ -157,17 +157,17 @@
 
         {{-- Section listing escort --}}
         <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold lg:text-4xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-md md:text-2xl font-bold lg:text-4xl">
                 {{ __('home.looking_for_fun') }}</h3>
             <div id="listingContainer"
-                class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-10"
+                class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
                 style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
 
                 @foreach ($escorts as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                         isOnline='{{ $escort->isOnline() }}' isPause="{{ $escort->is_profil_pause }}"
-                        escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
+                        escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' size="small" />
                 @endforeach
 
             </div>
