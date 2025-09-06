@@ -4,16 +4,16 @@
     'value' => null,
     'iconColor' => 'supaGirlRose',
     'iconViewBox' => '0 0 24 24',
-    'iconPath' => ''
+    'iconPath' => '',
 ])
 
-<span class="flex items-center gap-3 font-roboto-slab">
-    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-{{ $iconColor }}/10">
-        @if($icon)
+<span class="font-roboto-slab flex items-center gap-3">
+    <span class="bg-{{ $iconColor }}/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+        @if ($icon)
             {!! $icon !!}
         @else
-            <svg class="h-5 w-5 text-{{ $iconColor }}" xmlns="http://www.w3.org/2000/svg" viewBox="{{ $iconViewBox }}">
-                @if(isset($iconPath) && !empty($iconPath))
+            <svg class="text-{{ $iconColor }} h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="{{ $iconViewBox }}">
+                @if (isset($iconPath) && !empty($iconPath))
                     <path fill="currentColor" d="{!! $iconPath !!}" />
                 @endif
             </svg>

@@ -351,7 +351,7 @@
                     formData.append('message', this.newMessage);
                     formData.append('temporaryMsgId', Date.now());
 
-                  
+
 
                     if (this.fileToUpload) {
                         formData.append('attachment', this.fileToUpload);

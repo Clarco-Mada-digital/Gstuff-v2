@@ -3,7 +3,8 @@
         alt="{{ $record->pseudo ?? ($record->prenom ?? $record->nom_salon) }}"
         class="h-10 w-10 rounded-full object-cover">
     <div class="ml-3">
-        <h3 class="font-medium text-green-gs font-roboto-slab">{{ $record->pseudo ?? ($record->prenom ?? $record->nom_salon) }}</h3>
-        <p class="text-xs text-textColorParagraph font-roboto-slab">{{ $record->profile_type }}</p>
+        <h3 class="text-green-gs font-roboto-slab font-medium">
+            {{ $record->pseudo ?? ($record->prenom ?? $record->nom_salon) }}</h3>
+        <p class="text-textColorParagraph font-roboto-slab text-xs">{{ $record->profile_type }}</p>
     </div>
 </div>

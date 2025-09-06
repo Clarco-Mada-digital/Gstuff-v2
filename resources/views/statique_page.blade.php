@@ -58,9 +58,9 @@
     </style>
 @endsection
 
-<div class="bg-supaGirlRose content w-full py-10 font-roboto-slab">
-    <div class="w-full bg-white p-5 lg:mx-auto lg:w-[70%] font-roboto-slab">
-        <h1 class="font-roboto-slab text-green-gs py-2 text-center text-7xl font-roboto-slab">{{ $page->title }}</h1>
+<div class="bg-supaGirlRose content font-roboto-slab w-full py-10">
+    <div class="font-roboto-slab w-full bg-white p-5 lg:mx-auto lg:w-[70%]">
+        <h1 class="font-roboto-slab text-green-gs font-roboto-slab py-2 text-center text-7xl">{{ $page->title }}</h1>
 
         <!-- Table des matières - Accordéon -->
         <div x-data="{
@@ -98,9 +98,9 @@
         
                     this.sections = tocSections;
                 }, 100);
-                }
-            }" x-init="generateTOC()" class="mb-10">
-            <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 font-roboto-slab">
+            }
+        }" x-init="generateTOC()" class="mb-10">
+            <div class="font-roboto-slab overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
                 <button @click="open = !open"
                     class="text-green-gs flex w-full items-center justify-between px-6 py-4 text-left font-medium transition-colors duration-200 hover:bg-gray-100"
                     :aria-expanded="open">

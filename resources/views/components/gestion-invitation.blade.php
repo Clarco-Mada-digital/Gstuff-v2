@@ -2,32 +2,31 @@
 
 <div class="my-2 w-[90%]">
     <button data-modal-target="gestionInvitation" data-modal-toggle="gestionInvitation"
-        class="text-green-gs hover:bg-green-gs w-full cursor-pointer rounded-lg border border-supaGirlRose p-2 text-sm font-roboto-slab hover:text-white">{{ __('invitations.title') }}</button>
+        class="text-green-gs hover:bg-green-gs border-supaGirlRose font-roboto-slab w-full cursor-pointer rounded-lg border p-2 text-sm hover:text-white">{{ __('invitations.title') }}</button>
 
     <div x-data="" x-init="" id="gestionInvitation" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
         <div class="max-h-[90vh] w-[90vw] overflow-y-auto rounded-lg bg-white p-6 shadow-lg xl:max-w-7xl">
             <div
-                class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 font-roboto-slab">
-                <h3 class="text-xl font-semibold text-green-gs font-roboto-slab">
+                class="font-roboto-slab flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5">
+                <h3 class="text-green-gs font-roboto-slab text-xl font-semibold">
                     {{ __('invitations.title') }}
                 </h3>
             </div>
 
-            <div class="text-center text-sm font-medium text-gray-500 font-roboto-slab">
-                <ul class="flex flex-wrap border-b border-gray-200"
-                    data-tabs-toggle="#tabs-content" role="tablist">
-                  
+            <div class="font-roboto-slab text-center text-sm font-medium text-gray-500">
+                <ul class="flex flex-wrap border-b border-gray-200" data-tabs-toggle="#tabs-content" role="tablist">
+
                     <li class="me-2">
                         <a href="#" data-tabs-target="#enAttente"
-                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-green-gs/50  hover:text-green-gs"
+                            class="hover:border-green-gs/50 hover:text-green-gs group inline-flex rounded-t-lg border-b-2 border-transparent p-4"
                             aria-controls="enAttente" role="tab">
                             {{ __('invitations.tabs.pending') }}
                         </a>
                     </li>
                     <li class="me-2">
                         <a href="#" data-tabs-target="#accepter"
-                            class="group inline-flex rounded-t-lg border-b-2 border-transparent p-4 hover:border-green-gs/50 hover:text-green-gs"
+                            class="hover:border-green-gs/50 hover:text-green-gs group inline-flex rounded-t-lg border-b-2 border-transparent p-4"
                             aria-controls="accepter" role="tab">
                             {{ __('invitations.tabs.accepted') }}
                         </a>
@@ -36,10 +35,10 @@
             </div>
 
             <div id="tabs-content">
-              
+
 
                 <div id="enAttente" class="hidden p-4" role="tabpanel" aria-labelledby="profile-tab">
-                      @if ($user->profile_type === 'escorte')
+                    @if ($user->profile_type === 'escorte')
                         <div class="mx-auto flex items-center">
                             <label for="simple-search-pending-salon"
                                 class="sr-only">{{ __('invitations.search_placeholder') }}</label>
@@ -53,7 +52,7 @@
                                     </svg>
                                 </div>
                                 <input type="text" id="simple-search-pending-salon"
-                                    class="block w-full font-roboto-slab text-green-gs rounded-lg border border-2 border-supaGirlRose bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs"
+                                    class="font-roboto-slab text-green-gs border-supaGirlRose focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900"
                                     placeholder="{{ __('invitations.search_placeholder') }}"
                                     oninput="filterSalons(this.value, 'pending')">
                             </div>
@@ -127,8 +126,7 @@
                                     </svg>
                                 </div>
                                 <input type="text" id="simple-search-pending-salon"
-                                    class="block w-full rounded-lg border border-supaGirlRose border-2 font-roboto-slab text-green-gs bg-gray-50 p-2.5 ps-10 text-sm  focus:border-green-gs focus:ring-green-gs 
-                                    "
+                                    class="border-supaGirlRose font-roboto-slab text-green-gs focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 bg-gray-50 p-2.5 ps-10 text-sm"
                                     placeholder="{{ __('invitations.search_placeholder') }}"
                                     oninput="filterSalons(this.value, 'pending')">
                             </div>
@@ -205,14 +203,13 @@
                                 </svg>
                             </div>
                             <input type="text" id="simple-search-pending-Salon"
-                                class="block w-full rounded-lg border border-supaGirlRose border-2 font-roboto-slab text-green-gs bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-green-gs focus:ring-green-gs 
-                              "
+                                class="border-supaGirlRose font-roboto-slab text-green-gs focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900"
                                 placeholder="{{ __('invitations.search_placeholder') }}"
                                 oninput="filterSalonsAccepter(this.value)">
                         </div>
                     </div>
                     <ul id="salon-list-accepted"
-                        class="h-[30vh] divide-y divide-gray-200 overflow-y-auto p-5 md:h-[35vh] xl:h-[40vh] ">
+                        class="h-[30vh] divide-y divide-gray-200 overflow-y-auto p-5 md:h-[35vh] xl:h-[40vh]">
                         @if ($salonAssociers->isNotEmpty())
                             @foreach ($salonAssociers as $salonAssocier)
                                 @if ($user->profile_type === 'salon')

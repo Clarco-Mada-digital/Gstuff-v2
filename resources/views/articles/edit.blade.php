@@ -5,11 +5,12 @@
 @endsection
 
 @section('admin-content')
-    <div x-data="articleForm()" x-init="init()" class="mx-auto max-w-4xl px-4 py-8 font-roboto-slab" x-cloak>
+    <div x-data="articleForm()" x-init="init()" class="font-roboto-slab mx-auto max-w-4xl px-4 py-8" x-cloak>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('article_edit.edit_article') }} ({{ $article->title }})</h1>
-            <a href="{{ route('articles.admin') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('article_edit.edit_article') }}
+                ({{ $article->title }})</h1>
+            <a href="{{ route('articles.admin') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 <i class="fas fa-arrow-left mr-2"></i> {{ __('article_edit.back') }}
             </a>
         </div>
@@ -20,10 +21,10 @@
             <!-- Titre -->
             <div class="mb-6">
                 <label for="title"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.title') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('article_edit.title') }}*</label>
                 <input type="text" name="title" id="title" x-model="title" x-on:focusout="generateSlug()"
                     value='{{ $article->title }}'
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                 @error('title')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span>
@@ -34,9 +35,9 @@
             <!-- Slug -->
             <div class="mb-6">
                 <label for="slug"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.slug') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('article_edit.slug') }}*</label>
                 <input type="text" name="slug" id="slug" x-model="slug" value="{{ $article->slug }}"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                 <p class="mt-1 text-sm text-gray-500">Version URL-friendly du titre</p>
                 @error('slug')
@@ -48,9 +49,9 @@
             <!-- excerpt -->
             <div class="mb-6">
                 <label for="excerpt"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.excerpt') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('article_edit.excerpt') }}*</label>
                 <textarea name="excerpt" id="excerpt"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>{!! $article->excerpt !!}</textarea>
                 @error('excerpt')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span>
@@ -61,7 +62,7 @@
             <!-- Contenu -->
             <div x-data="app()" x-init="init($refs.wysiwyg)" class="mb-6">
                 <label for="content"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.content') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('article_edit.content') }}*</label>
                 <textarea x-model="content" name="content" id="content" rows="10" class="hidden" required></textarea>
                 <div class="mx-auto w-full max-w-6xl rounded-xl bg-white text-black">
                     <div class="overflow-hidden rounded-md border border-gray-200">
@@ -82,9 +83,9 @@
             <!-- Catégorie -->
             <div class="mb-6">
                 <label for="article_category_id"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.category') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('article_edit.category') }}*</label>
                 <select name="article_category_id" id="article_category_id"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                     <option value="">Sélectionnez une catégorie</option>
                     @foreach ($categories as $category)
@@ -100,13 +101,14 @@
 
             <!-- Tags -->
             <div class="mb-6">
-                <label class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('article_edit.tags') }}</label>
+                <label
+                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('article_edit.tags') }}</label>
 
                 <!-- Champ de recherche et sélection -->
                 <div class="relative mb-3">
                     <input type="text" x-model="tagSearch" x-on:input.debounce.300ms="searchTags()"
                         x-on:keydown.enter.prevent="handleTagEnter" x-ref="tagInput"
-                        class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                        class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                         placeholder="Rechercher ou ajouter des tags">
 
                     <!-- Suggestions de tags -->
@@ -114,7 +116,7 @@
                         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
                         <template x-for="tag in tagSuggestions" :key="tag.id">
                             <div x-on:click="addTag(tag)"
-                                class="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-green-gs/50">
+                                class="hover:bg-green-gs/50 flex cursor-pointer items-center justify-between px-4 py-2">
                                 <span x-text="tag.name"></span>
                                 <span class="text-xs text-gray-500">Existe</span>
                             </div>
@@ -129,7 +131,7 @@
                             Tag "<span x-text="tagSearch" class="font-medium"></span>" n'existe pas.
                         </span>
                         <button type="button" x-on:click="openCreateTagModal()"
-                            class="rounded bg-green-gs px-3 py-1 text-sm text-white hover:bg-green-gs/80">
+                            class="bg-green-gs hover:bg-green-gs/80 rounded px-3 py-1 text-sm text-white">
                             {{ __('article_edit.create_tag') }}
                         </button>
                     </div>
@@ -138,10 +140,11 @@
                 <!-- Tags sélectionnés -->
                 <div class="flex flex-wrap gap-2">
                     <template x-for="tag in selectedTags" :key="tag.id">
-                        <div class="inline-flex items-center rounded-full bg-supaGirlRosePastel px-3 py-1 text-sm text-green-gs font-roboto-slab">
+                        <div
+                            class="bg-supaGirlRosePastel text-green-gs font-roboto-slab inline-flex items-center rounded-full px-3 py-1 text-sm">
                             <span x-text="tag.name"></span>
                             <button type="button" x-on:click="removeTag(tag.id)"
-                                class="ml-2 text-green-gs hover:text-green-gs">
+                                class="text-green-gs hover:text-green-gs ml-2">
                                 &times;
                             </button>
                             <input type="hidden" name="tags[]" x-bind:value="tag.id">
@@ -155,16 +158,16 @@
                 <div class="flex items-center">
                     <input type="checkbox" name="is_published" id="is_published" value="1" x-model="isPublished"
                         checked="{{ $article->is_published }}"
-                        class="h-4 w-4 rounded border-gray-300 text-green-gs focus:ring-green-gs">
+                        class="text-green-gs focus:ring-green-gs h-4 w-4 rounded border-gray-300">
                     <label for="is_published"
-                        class="ml-2 block text-sm text-green-gs font-roboto-slab">{{ __('article_edit.publish_article') }}</label>
+                        class="text-green-gs font-roboto-slab ml-2 block text-sm">{{ __('article_edit.publish_article') }}</label>
                 </div>
             </div>
 
             <!-- Bouton de soumission -->
             <div class="flex justify-end">
-                <button type="submit" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+                <button type="submit"
+                    class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                     {{ __('article_edit.modify_article') }}
                 </button>
             </div>
@@ -180,7 +183,7 @@
                     <label for="newTagName"
                         class="mb-1 block text-sm font-medium text-gray-700">{{ __('article_edit.new_tag_name') }}*</label>
                     <input type="text" id="newTagName" x-model="tagSearch"
-                        class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                        class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                         required>
                 </div>
 
@@ -189,8 +192,8 @@
                         class="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50">
                         {{ __('article_edit.cancel') }}
                     </button>
-                    <button type="button" x-on:click="createNewTag" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+                    <button type="button" x-on:click="createNewTag"
+                        class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                         {{ __('article_edit.create_tag_button') }}
                     </button>
                 </div>
@@ -237,7 +240,7 @@
                         const tag = this.availableTags.find(t => t.id === tagId);
                         if (tag) this.selectedTags.push(tag);
                     });
-               
+
                 },
 
                 generateSlug() {

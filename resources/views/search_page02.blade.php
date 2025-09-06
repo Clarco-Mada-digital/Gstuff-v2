@@ -6,4 +6,3 @@
 
     @livewire('users-search02')
 @endsection
-

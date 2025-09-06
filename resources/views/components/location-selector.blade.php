@@ -1,11 +1,11 @@
 <div x-data="{}" class="relative mb-4">
-    <label class="block text-sm font-roboto-slab text-green-gs">{{ __('common.localization') }}</label>
+    <label class="font-roboto-slab text-green-gs block text-sm">{{ __('common.localization') }}</label>
     <div class="relative">
         <div id="loading-spinner" class="absolute inset-y-0 left-0 flex hidden items-center pl-3">
             <i class="fas fa-spinner fa-spin text-gray-400"></i>
         </div>
         <input x-on:keyup.debounce.500="performSearch()" type="text" id="location-search" name="localisation"
-            class="mt-1 block w-full rounded-md text-textColorParagraph border-supaGirlRosePastel/50 pl-10 pr-10 shadow-sm focus:border-supaGirlRosePastel/50 focus:ring-supaGirlRosePastel/50"
+            class="text-textColorParagraph border-supaGirlRosePastel/50 focus:border-supaGirlRosePastel/50 focus:ring-supaGirlRosePastel/50 mt-1 block w-full rounded-md pl-10 pr-10 shadow-sm"
             placeholder="{{ __('common.search_city') }}" value="{{ $user->localisation ?? '' }}">
         <div class="absolute inset-y-0 right-10 flex cursor-pointer items-center" x-on:click="performSearch()">
             <i class="fas fa-search text-gray-400 hover:text-gray-600"></i>
@@ -93,7 +93,7 @@
                 if (data.length > 0) {
                     // Récupère la bounding box à partir des données de la ville
                     var boundingBox = data[0].boundingbox;
-                  
+
 
                     var viewBox = `${boundingBox[2]},${boundingBox[1]},${boundingBox[3]},${boundingBox[0]}`;
 
@@ -136,7 +136,7 @@
                         });
                 } else {
                     document.getElementById('loading-spinner').classList.add('hidden');
-                
+
                     document.getElementById('suggestions').innerHTML =
                         '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
                         'Ville non trouvée ou erreur dans le nom de la ville.</div>';

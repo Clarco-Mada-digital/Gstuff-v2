@@ -13,33 +13,30 @@
     $selectId = $id . '-select';
 @endphp
 
-<div class="relative {{ $class }}">
-    @if($label)
-        <label for="{{ $selectId }}" class="block text-sm font-medium text-green-gs mb-1">
+<div class="{{ $class }} relative">
+    @if ($label)
+        <label for="{{ $selectId }}" class="text-green-gs mb-1 block text-sm font-medium">
             {{ $label }}
         </label>
     @endif
     <div class="relative">
         <div class="user-ville-select-wrapper">
-            <select 
-                wire:model.live="selectedVille" 
-                id="{{ $selectId }}" 
-                class="hidden"
-                {{ $disabled || !$hasVilles ? 'disabled' : '' }}
-            >
+            <select wire:model.live="selectedVille" id="{{ $selectId }}" class="hidden"
+                {{ $disabled || !$hasVilles ? 'disabled' : '' }}>
                 <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
                     {{ $hasVilles ? __('user-search.cities') : __('user-search.choose_canton') }}
                 </option>
-                @foreach($villes as $ville)
+                @foreach ($villes as $ville)
                     <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
             </select>
-            <div class="user-ville-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border-2 border-supaGirlRose font-roboto-slab">
-                <div class="flex justify-between items-center">
+            <div
+                class="user-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border-2 bg-white px-3 py-2.5">
+                <div class="flex items-center justify-between">
                     <div class="user-selected-ville-option" id="{{ $selectId }}-selected-option">
-                        @if($selectedVille && $hasVilles)
+                        @if ($selectedVille && $hasVilles)
                             @php
                                 $selected = collect($villes)->firstWhere('id', $selectedVille);
                             @endphp
@@ -50,17 +47,20 @@
                     </div>
                     <i class="fas fa-chevron-down user-ville-arrow-icon text-green-gs font-roboto-slab"></i>
                 </div>
-                @if($hasVilles && !$disabled)
-                <div class="user-ville-options">
-                    <div class="user-search-ville-container">
-                        <input type="text" id="{{ $selectId }}-search" class="user-search-ville-input w-full bg-white rounded-lg border-b border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                @if ($hasVilles && !$disabled)
+                    <div class="user-ville-options">
+                        <div class="user-search-ville-container">
+                            <input type="text" id="{{ $selectId }}-search"
+                                class="user-search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg border-b bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                                placeholder="{{ __('user-search.search') }}">
+                        </div>
+                        <div class="user-options-ville-list">
+                            @foreach ($villes as $ville)
+                                <div class="user-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="user-options-ville-list">
-                        @foreach($villes as $ville)
-                            <div class="user-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}</div>
-                        @endforeach
-                    </div>
-                </div>
                 @endif
             </div>
         </div>
@@ -71,13 +71,16 @@
     .user-ville-select-wrapper {
         position: relative;
     }
+
     .user-ville-select {
         position: relative;
         width: 100%;
     }
+
     .user-selected-ville-option {
         color: #7F55B1;
     }
+
     .user-ville-options {
         display: none;
         position: absolute;
@@ -92,9 +95,11 @@
         z-index: 1000;
         margin-top: 0.5rem;
     }
+
     .user-ville-options.show {
         display: block;
     }
+
     .user-search-ville-container {
         position: sticky;
         top: 0;
@@ -102,21 +107,26 @@
         z-index: 1001;
         padding: 0.5rem;
     }
+
     .user-options-ville-list {
         max-height: 250px;
         overflow-y: auto;
     }
+
     .user-ville-option {
         padding: 0.5rem 1rem;
         color: #7F55B1;
         cursor: pointer;
     }
+
     .user-ville-option:hover {
         background-color: #FED5E9;
     }
+
     .user-ville-option.selected {
         background-color: #FED5E9;
     }
+
     .user-search-ville-input {
         width: 100%;
         padding: 0.5rem;
@@ -173,7 +183,9 @@
                         arrowIcon.classList.remove('fa-chevron-up');
                         arrowIcon.classList.add('fa-chevron-down');
                     }
-                    const eventChange = new Event('change', { bubbles: true });
+                    const eventChange = new Event('change', {
+                        bubbles: true
+                    });
                     select.dispatchEvent(eventChange);
                 });
             });
@@ -235,7 +247,7 @@
                     dropdown.classList.remove('show');
                 }
             });
-            
+
             document.querySelectorAll('.user-ville-arrow-icon').forEach(icon => {
                 if (!exceptElement || !icon.closest('.user-ville-select')?.contains(exceptElement)) {
                     icon.classList.remove('fa-chevron-up');
@@ -261,13 +273,13 @@
             if (isVilleSelect && !isSearchInput) {
                 const currentSelect = clickedElement.closest('.user-ville-select');
                 const currentOptions = currentSelect?.querySelector('.user-ville-options');
-                
+
                 // Si le menu est déjà ouvert, on le ferme
                 if (currentOptions?.classList.contains('show')) {
                     closeAllDropdowns();
                     return;
                 }
-                
+
                 // Sinon, on ferme tous les autres menus d'abord
                 closeAllDropdowns(currentSelect);
             }

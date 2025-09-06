@@ -7,19 +7,20 @@
     'maxvalue' => 100,
     'min' => 0,
     'max' => 200,
-    'wireModel' => 'rangeValues'
+    'wireModel' => 'rangeValues',
 ])
 
 <div class="flex items-center justify-center">
-    <div x-data="{{
-        'range' . $id
-    }}()" x-init="mintrigger(); maxtrigger(); initLivewireSync()" class="relative w-full max-w-xl">
+    <div x-data="{{ 'range' . $id }}()" x-init="mintrigger();
+    maxtrigger();
+    initLivewireSync()" class="relative w-full max-w-xl">
 
         @if ($label != '')
-            <span for="{{ $id }}" class="text-center text-xs font-roboto-slab text-green-gs">{{ $label }}</span>
+            <span for="{{ $id }}"
+                class="font-roboto-slab text-green-gs text-center text-xs">{{ $label }}</span>
         @endif
 
-        <div class="my-2 mx-2">
+        <div class="mx-2 my-2">
             <!-- Sliders invisibles -->
             <input type="range" step="{{ $step }}" x-bind:min="min" x-bind:max="max"
                 x-on:input="mintrigger" x-model="minvalue"
@@ -33,27 +34,33 @@
             <div class="relative z-10 h-2">
                 <div class="absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-gray-200"></div>
 
-                <div class="bg-supaGirlRose absolute bottom-0 top-0 z-20 rounded-md" x-bind:style="'right:' + maxthumb + '%; left:' + minthumb + '%'">
-                @if ($type == 'taille')
-                <p x-text="formatTaille(minvalue)" class="text-xs font-roboto-slab text-green-gs mt-4 relative z-40"></p>
-                @else
-                <p x-text="minvalue" class="text-xs font-roboto-slab text-green-gs mt-4 relative z-40"></p>
-                @endif
+                <div class="bg-supaGirlRose absolute bottom-0 top-0 z-20 rounded-md"
+                    x-bind:style="'right:' + maxthumb + '%; left:' + minthumb + '%'">
+                    @if ($type == 'taille')
+                        <p x-text="formatTaille(minvalue)"
+                            class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
+                    @else
+                        <p x-text="minvalue" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
+                    @endif
                 </div>
-                <div class="bg-supaGirlRose absolute left-0 top-0 z-30 -ml-1 h-4 w-4 -translate-y-[30%] rounded-full" x-bind:style="'left: ' + minthumb + '%'">
+                <div class="bg-supaGirlRose absolute left-0 top-0 z-30 -ml-1 h-4 w-4 -translate-y-[30%] rounded-full"
+                    x-bind:style="'left: ' + minthumb + '%'">
 
                 </div>
-                <div class="bg-supaGirlRose absolute right-0 top-0 z-30 -mr-3 h-4 w-4 -translate-y-[30%] rounded-full" x-bind:style="'right: ' + maxthumb + '%'">
-                @if ($type == 'taille')
-                <p x-text="formatTaille(maxvalue)" class="text-xs font-roboto-slab text-green-gs mt-4 relative z-40 right-5"></p>
-                @else
-                <p x-text="maxvalue" class="text-xs font-roboto-slab text-green-gs mt-4 relative z-40 right-2"></p>
-                @endif
+                <div class="bg-supaGirlRose absolute right-0 top-0 z-30 -mr-3 h-4 w-4 -translate-y-[30%] rounded-full"
+                    x-bind:style="'right: ' + maxthumb + '%'">
+                    @if ($type == 'taille')
+                        <p x-text="formatTaille(maxvalue)"
+                            class="font-roboto-slab text-green-gs relative right-5 z-40 mt-4 text-xs"></p>
+                    @else
+                        <p x-text="maxvalue" class="font-roboto-slab text-green-gs relative right-2 z-40 mt-4 text-xs">
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
 
-       
+
     </div>
 
     <!-- Alpine.js script -->
@@ -90,10 +97,16 @@
 
                 initLivewireSync() {
                     this.$watch('minvalue', value => {
-                        this.$wire.set('{{ $wireModel }}', { min: value, max: this.maxvalue });
+                        this.$wire.set('{{ $wireModel }}', {
+                            min: value,
+                            max: this.maxvalue
+                        });
                     });
                     this.$watch('maxvalue', value => {
-                        this.$wire.set('{{ $wireModel }}', { min: this.minvalue, max: value });
+                        this.$wire.set('{{ $wireModel }}', {
+                            min: this.minvalue,
+                            max: value
+                        });
                     });
                 }
             }

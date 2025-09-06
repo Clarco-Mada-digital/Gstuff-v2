@@ -15,7 +15,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         rel="stylesheet">
 
     {{-- js import --}}
@@ -44,7 +45,7 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     {{-- @vite('resources/css/app.css', 'resources/js/app.js') --}}
     {{ Vite::useBuildDirectory('build')->withEntryPoints(['resources/js/app.js', 'resources/css/app.css']) }}
@@ -151,21 +152,24 @@
     </div>
 
     <!-- Vérification d'âge -->
-    <div id="age-verification" class="fixed inset-0 z-[9999] bg-textColor bg-opacity-90 flex items-center justify-center hidden">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
-            <h2 class="font-roboto-slab text-2xl font-bold mb-6 text-textColor">Avez-vous plus de 18 ans ?</h2>
-            <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
-                <button id="confirm-age" class="font-roboto-slab bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet hover:text-white font-bold py-2 px-6 rounded">
+    <div id="age-verification"
+        class="bg-textColor fixed inset-0 z-[9999] flex hidden items-center justify-center bg-opacity-90">
+        <div class="mx-4 w-full max-w-md rounded-lg bg-white p-8 text-center">
+            <h2 class="font-roboto-slab text-textColor mb-6 text-2xl font-bold">Avez-vous plus de 18 ans ?</h2>
+            <div class="flex flex-col justify-center space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
+                <button id="confirm-age"
+                    class="font-roboto-slab bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet rounded px-6 py-2 font-bold hover:text-white">
                     Oui
                 </button>
-                <button id="deny-age" class="font-roboto-slab bg-white border border-green-gs hover:bg-green-gs text-complementaryColorViolet hover:text-white font-bold py-2 px-6 rounded">
+                <button id="deny-age"
+                    class="font-roboto-slab border-green-gs hover:bg-green-gs text-complementaryColorViolet rounded border bg-white px-6 py-2 font-bold hover:text-white">
                     Non
                 </button>
             </div>
-        </div>  
+        </div>
     </div>
-    
-   
+
+
     <div x-data="{ imgModal: false, imgModalSrc: '', imgModalDesc: '' }">
         <template
             @img-modal.window="imgModal = true; imgModalSrc = $event.detail.imgModalSrc; imgModalDesc = $event.detail.imgModalDesc;"
@@ -179,7 +183,8 @@
                 class="fixed inset-0 z-50 flex h-full w-full items-center justify-center overflow-hidden bg-black/90 p-2">
                 <div @click.stop class="flex max-h-[90vh] w-full max-w-[90vw] flex-col overflow-auto">
                     <div class="z-50">
-                        <button @click="imgModal = false" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
+                        <button @click="imgModal = false"
+                            class="bg-supaGirlRose hover:bg-green-gs absolute right-4 top-4 rounded-full p-2 text-white">
                             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18"
                                 height="18" viewBox="0 0 18 18">
                                 <path
@@ -216,10 +221,10 @@
             this.src = src;
             this.type = type;
             this.open = true;
-            
+    
             // Désactiver le défilement de la page
             document.body.style.overflow = 'hidden';
-            
+    
             // Ajouter l'écouteur d'événement avec la référence liée
             window.addEventListener('keydown', this.handleKeyDown);
         },
@@ -229,10 +234,10 @@
             this.type = '';
             this.mediaList = [];
             this.currentIndex = 0;
-            
+    
             // Réactiver le défilement de la page
             document.body.style.overflow = 'auto';
-            
+    
             // Supprimer l'écouteur d'événement
             window.removeEventListener('keydown', this.handleKeyDown);
         },
@@ -261,7 +266,7 @@
             if (media) {
                 this.src = media.src;
                 this.type = media.type;
-                
+    
                 // Mettre en pause la vidéo précédente si nécessaire
                 const prevVideo = document.querySelector('video');
                 if (prevVideo) {
@@ -274,8 +279,8 @@
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
                 return;
             }
-            
-            switch(e.key) {
+    
+            switch (e.key) {
                 case 'ArrowRight':
                 case 'd':
                 case 'D':
@@ -307,48 +312,55 @@
                     break;
             }
         }
-    }" x-ref="lightbox" x-on:media-open.window="show($event.detail.src, $event.detail.type, $event.detail.mediaList, $event.detail.index)"
-    x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-    <button  @click="close" class="absolute right-4 top-4 rounded-full bg-supaGirlRose p-2 text-white hover:bg-green-gs">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-      <div class="relative w-full ">
-      <div class="relative w-auto max-w-full overflow-hidden rounded-xl bg-transparent shadow-xl">
-            <!-- Contenu média -->
-            <div class="relative w-full  flex items-center justify-center">
-                <template x-if="type === 'image'">
-                    <img :src="src" alt="media" class="max-h-[90vh] w-auto max-w-full object-cover">
-                </template>
-                <template x-if="type === 'video'">
-                    <video controls autoplay class="max-h-[90vh] w-auto max-w-full bg-black">
-                        <source :src="src" type="video/mp4">
-                    </video>
-                </template>
+    }" x-ref="lightbox"
+        x-on:media-open.window="show($event.detail.src, $event.detail.type, $event.detail.mediaList, $event.detail.index)"
+        x-show="open" x-transition.opacity x-cloak @keydown.escape.window="close()" @click.self="close()"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+        <button @click="close"
+            class="bg-supaGirlRose hover:bg-green-gs absolute right-4 top-4 rounded-full p-2 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="relative w-full">
+            <div class="relative w-auto max-w-full overflow-hidden rounded-xl bg-transparent shadow-xl">
+                <!-- Contenu média -->
+                <div class="relative flex w-full items-center justify-center">
+                    <template x-if="type === 'image'">
+                        <img :src="src" alt="media"
+                            class="max-h-[90vh] w-auto max-w-full object-cover">
+                    </template>
+                    <template x-if="type === 'video'">
+                        <video controls autoplay class="max-h-[90vh] w-auto max-w-full bg-black">
+                            <source :src="src" type="video/mp4">
+                        </video>
+                    </template>
+                </div>
+
+                <!-- Bouton précédent -->
+                <button x-show="mediaList.length > 1 && currentIndex > 0" @click.stop="prevMedia()"
+                    class="bg-green-gs hover:bg-supaGirlRose absolute left-4 top-1/2 -translate-y-1/2 rounded-full p-2 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <!-- Bouton suivant -->
+                <button x-show="mediaList.length > 1 && currentIndex < mediaList.length - 1" @click.stop="nextMedia()"
+                    class="bg-green-gs hover:bg-supaGirlRose absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-2 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <!-- Bouton de fermeture -->
+
+
+
             </div>
-
-            <!-- Bouton précédent -->
-            <button  x-show="mediaList.length > 1 && currentIndex > 0" @click.stop="prevMedia()"
-            class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-            <!-- Bouton suivant -->
-            <button x-show="mediaList.length > 1 && currentIndex < mediaList.length - 1" @click.stop="nextMedia()" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-
-            <!-- Bouton de fermeture -->
-           
-
-            
         </div>
-      </div>
     </div>
 
 
@@ -363,10 +375,10 @@
       Toggle modal
     </button> --}}
 
-     <!-- Connexion modal -->
-     <div id="authentication-modal" tabindex="-1" aria-hidden="true"
+    <!-- Connexion modal -->
+    <div id="authentication-modal" tabindex="-1" aria-hidden="true"
         class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-        <div class="relative max-h-full w-[95%] sm:w-[70%] md:w-[60%]   p-4 lg:w-[50%] xl:w-[40%] 2xl:w-[30%]">
+        <div class="relative max-h-full w-[95%] p-4 sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 2xl:w-[30%]">
             <!-- Modal content -->
             <div class="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
 
@@ -418,7 +430,7 @@
                             @csrf
                             <div>
                                 <label for="email"
-                                    class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('login_form.email') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.email') }}
                                     *</label>
                                 <input x-model="email" type="email" name="email" id="email"
                                     class="@error('email') border-red-300 @enderror block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
@@ -426,7 +438,7 @@
                             </div>
                             <div class="relative" x-data="{ 'pwdShow': true }">
                                 <label for="conex_pass"
-                                    class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('login_form.password') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.password') }}
                                     *</label>
                                 <input x-model="password" :type="pwdShow ? 'password' : 'text'" name="pass"
                                     id="conex_pass" placeholder="••••••••"
@@ -460,10 +472,10 @@
                                         class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('login_form.remember_me') }}</label>
                                 </div>
                                 <a href="#" x-on:click="showloginForm = false"
-                                    class="text-green-gs dark:text-green-gs text-sm font-roboto-slab hover:text-green-gs/80 hover:underline">{{ __('login_form.forgot_password') }}</a>
+                                    class="text-green-gs dark:text-green-gs font-roboto-slab hover:text-green-gs/80 text-sm hover:underline">{{ __('login_form.forgot_password') }}</a>
                             </div>
                             <button type="submit"
-                                class="bg-green-gs hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white  focus:outline-none">
+                                class="bg-green-gs hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none">
                                 <svg x-show="loadingRequest" aria-hidden="true"
                                     class="inline h-4 w-4 animate-spin fill-green-500 text-gray-200 dark:text-gray-600"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -476,27 +488,28 @@
                                 </svg>
                                 {{ __('login_form.login') }}
                             </button>
-                            <div class="w-full flex justify-center text-center">
-                                <h1 class="text-gray-500 text-sm">
-                                    Vous n'avez pas de compte ? 
-                                    <a href="{{ route('nextStep') }}" class="text-supaGirlRose font-roboto-slab">S'inscrire</a>
+                            <div class="flex w-full justify-center text-center">
+                                <h1 class="text-sm text-gray-500">
+                                    Vous n'avez pas de compte ?
+                                    <a href="{{ route('nextStep') }}"
+                                        class="text-supaGirlRose font-roboto-slab">S'inscrire</a>
                                 </h1>
                             </div>
 
                             <!-- <div class="flex items-center justify-center">
-                                <div class="h-1 flex-1 bg-green-gs"></div>
-                                <span class="font-roboto-slab p-2 text-xl text-green-gs">{{ __('login_form.or') }}</span>
-                                <div class="h-1 flex-1 bg-green-gs"></div>
-                            </div>
-                            <div
-                                class="flex w-full flex-col items-center justify-center gap-2 py-5 text-sm transition-all lg:text-base">
-                                <a href="{{ route('registerForm') }}"
-                                    class="hover:text-green-gs w-full border border-green-gs p-3 font-roboto-slab text-center hover:bg-supaGirlRosePastel hover:text-green-gs">{{ __('login_form.register_free') }}</a>
-                                <a href="{{ route('escort_register') }}"
-                                    class="hover:text-green-gs w-full border border-green-gs p-3 font-roboto-slab text-center hover:bg-supaGirlRosePastel hover:text-green-gs">{{ __('login_form.register_escort') }}</a>
-                                <a href="{{ route('salon_register') }}"
-                                    class="hover:text-green-gs w-full border border-green-gs p-3 font-roboto-slab text-center hover:bg-supaGirlRosePastel hover:text-green-gs">{{ __('login_form.register_professional') }}</a>
-                            </div> -->
+                                    <div class="bg-green-gs h-1 flex-1"></div>
+                                    <span class="font-roboto-slab text-green-gs p-2 text-xl">{{ __('login_form.or') }}</span>
+                                    <div class="bg-green-gs h-1 flex-1"></div>
+                                </div>
+                                <div
+                                    class="flex w-full flex-col items-center justify-center gap-2 py-5 text-sm transition-all lg:text-base">
+                                    <a href="{{ route('registerForm') }}"
+                                        class="hover:text-green-gs border-green-gs font-roboto-slab hover:bg-supaGirlRosePastel hover:text-green-gs w-full border p-3 text-center">{{ __('login_form.register_free') }}</a>
+                                    <a href="{{ route('escort_register') }}"
+                                        class="hover:text-green-gs border-green-gs font-roboto-slab hover:bg-supaGirlRosePastel hover:text-green-gs w-full border p-3 text-center">{{ __('login_form.register_escort') }}</a>
+                                    <a href="{{ route('salon_register') }}"
+                                        class="hover:text-green-gs border-green-gs font-roboto-slab hover:bg-supaGirlRosePastel hover:text-green-gs w-full border p-3 text-center">{{ __('login_form.register_professional') }}</a>
+                                </div> -->
                         </form>
 
 
@@ -506,14 +519,14 @@
                             @csrf
                             <div>
                                 <label for="emailReset"
-                                    class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('login_form.email') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.email') }}
                                     *</label>
                                 <input x-model="emailReset" type="email" name="emailReset" id="emailReset"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
                                     placeholder=" " required autofocus />
                             </div>
                             <a href="#" x-on:click="showloginForm = true"
-                                class="font-roboto-slab text-green-gs text-sm hover:text-supaGirlRosePastel hover:underline">{{ __('login_form.back_to_login') }}</a>
+                                class="font-roboto-slab text-green-gs hover:text-supaGirlRosePastel text-sm hover:underline">{{ __('login_form.back_to_login') }}</a>
                             <button type="submit"
                                 class="bg-green-gs font-roboto-slab hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-amber-300 focus:outline-none">
                                 <svg x-show="loadingRequest" aria-hidden="true"
@@ -552,7 +565,7 @@
 
     {{-- Footer --}}
     <x-footer />
-    
+
     {{-- <div class="relative w-full min-h-[375px] bg-green-gs transition-all mt-10 z-30">
       <div class="flex flex-col items-center lg:flex-row justify-center lg:items-start gap-10 lg:gap-40 container mx-auto py-24 text-white text-sm xl:text-base">
         <div class="flex flex-col items-center justify-center w-full lg:w-auto lg:items-start gap-3">
@@ -585,14 +598,14 @@
     </div> --}}
 
     @auth
-    <div x-data="{
-        async loadChat(userId) {
-            $dispatch('loadForSender', [userId]);
-            await axios.post('/messenger/make-seen', { id: userId });
-        }
+        <div x-data="{
+            async loadChat(userId) {
+                $dispatch('loadForSender', [userId]);
+                await axios.post('/messenger/make-seen', { id: userId });
+            }
         }" id="chatshow" class="hidden">
-        @livewire('chat')
-    </div>
+            @livewire('chat')
+        </div>
     @endauth
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-3"></div>
     <script>
@@ -600,7 +613,7 @@
             // Vérifie si l'utilisateur a déjà confirmé son âge
             const hasConfirmedAge = localStorage.getItem('ageConfirmed');
             const ageVerification = document.getElementById('age-verification');
-            
+
             if (!hasConfirmedAge) {
                 // Affiche la modale après le chargement complet de la page
                 window.addEventListener('load', function() {
@@ -626,7 +639,7 @@
                 window.location.href = 'https://www.youtube.com/watch?v=t0Q2otsqC4I';
             });
         });
-   
+
         const mega_menu_link = document.getElementById('mega-menu-full-dropdown-button');
         const mega_menu_item = document.getElementById('mega-menu-full-dropdown');
         const loader = document.getElementById('loader');
@@ -659,30 +672,36 @@
         // }
 
         function scrollByPercentage(element, ltr = true, percentageX = 0) {
-    const target = element || document.documentElement;
+            const target = element || document.documentElement;
 
-    const maxScrollLeft = 3409 - target.clientWidth;
-    const currentScrollLeft = target.scrollLeft;
-    
+            const maxScrollLeft = 3409 - target.clientWidth;
+            const currentScrollLeft = target.scrollLeft;
 
-    const scrollAmount = maxScrollLeft * (percentageX / 100);
 
-    // Empêche le scroll si on est déjà au bout
-    if (ltr && currentScrollLeft + scrollAmount >= maxScrollLeft) {
-        target.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
-        return;
-    }
+            const scrollAmount = maxScrollLeft * (percentageX / 100);
 
-    if (!ltr && currentScrollLeft - scrollAmount <= 0) {
-        target.scrollTo({ left: 0, behavior: 'smooth' });
-        return;
-    }
+            // Empêche le scroll si on est déjà au bout
+            if (ltr && currentScrollLeft + scrollAmount >= maxScrollLeft) {
+                target.scrollTo({
+                    left: maxScrollLeft,
+                    behavior: 'smooth'
+                });
+                return;
+            }
 
-    target.scrollBy({
-        left: ltr ? scrollAmount : -scrollAmount,
-        behavior: 'smooth'
-    });
-}
+            if (!ltr && currentScrollLeft - scrollAmount <= 0) {
+                target.scrollTo({
+                    left: 0,
+                    behavior: 'smooth'
+                });
+                return;
+            }
+
+            target.scrollBy({
+                left: ltr ? scrollAmount : -scrollAmount,
+                behavior: 'smooth'
+            });
+        }
 
 
 
@@ -697,14 +716,13 @@
                 showloginForm: true,
                 loadingRequest: false,
                 status: true,
-                init() {
-        },
+                init() {},
                 async submitForm(reset = false) {
                     this.loadingRequest = true;
                     this.message = "";
                     if (reset) {
                         Resetform = document.getElementById('resetPwdForm');
-                    
+
                         try {
                             const response = await fetch(Resetform.action, {
                                 method: Resetform.method,
@@ -783,7 +801,7 @@
 
         // Script for multi-object-Select
         function multiObjectSelect(options, value) {
-           
+
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],
@@ -831,7 +849,7 @@
 
         // Script for multi-select
         function multiSelect(options, value) {
-            
+
             return {
                 options: options,
                 selectedOptions: value != "" ? value : [],
@@ -903,8 +921,7 @@
 
                     this.currentMediaIndex = newIndex;
                     this.updateCurrentMedia();
-                }
-                ,
+                },
                 updateCurrentMedia() {
                     let media = this.$wire.gallerieItem[this.currentMediaIndex];
                     this.currentMedia = {
@@ -922,7 +939,8 @@
                             method: 'DELETE',
                             headers: {
                                 'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content')
                             },
                             body: {}
                         });
@@ -936,10 +954,10 @@
                         alert('Une erreur est survenue lors de la suppression du média.');
                     }
 
-                    
+
                 },
 
-                
+
                 // Modifier les clics initiaux pour mettre à jour l'index
                 initGallery() {
                     this.$watch('fullscreen', (value) => {
@@ -1004,25 +1022,27 @@
 
         window.addEventListener('fetch', (event) => {
             if (event.request.method === 'GET' && event.request.url.endsWith('/livewire/update')) {
-                event.respondWith(new Response(null, { status: 204 })); // Répond avec un statut 204 No Content pour bloquer la requête
+                event.respondWith(new Response(null, {
+                    status: 204
+                })); // Répond avec un statut 204 No Content pour bloquer la requête
                 event.preventDefault(); // Empêche la propagation de l'événement
-        
-            }
-            });
 
-            // Pour les formulaires qui pourraient utiliser GET
-            document.addEventListener('submit', (event) => {
+            }
+        });
+
+        // Pour les formulaires qui pourraient utiliser GET
+        document.addEventListener('submit', (event) => {
             if (event.target.method === 'get' && event.target.action.endsWith('/livewire/update')) {
                 event.preventDefault(); // Empêche la soumission du formulaire
-        
-            }
-            });
 
-            // Pour les changements de localisation (liens <a>)
-            document.addEventListener('click', (event) => {
+            }
+        });
+
+        // Pour les changements de localisation (liens <a>)
+        document.addEventListener('click', (event) => {
             if (event.target.tagName === 'A' && event.target.href.endsWith('/livewire/update')) {
                 event.preventDefault(); // Empêche la navigation
-        
+
             }
         });
     </script>

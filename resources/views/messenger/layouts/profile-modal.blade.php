@@ -61,7 +61,7 @@
                         window.location.reload();
                     },
                     error: function(xhr, status, error) {
-                       
+
                         let errors = xhr.responseJSON.errors;
 
                         $.each(errors, function(index, value) {

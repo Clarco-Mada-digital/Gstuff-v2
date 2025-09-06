@@ -16,27 +16,23 @@
 ])
 
 <div class="{{ $containerClass }}">
-    @if($label)
+    @if ($label)
         <label for="{{ $name }}" class="{{ $labelClass }}">
             {{ $label }}
-       
+
         </label>
     @endif
-    
-    <select
-        name="{{ $name }}"
-        id="{{ $name }}"
-        {{ $required ? 'required' : '' }}
-        {{ $attributes->merge(['class' => 'mt-1 block w-full text-textColorParagraph rounded-md border border-supaGirlRosePastel/50 font-roboto-slab shadow-sm focus:border-green-gs focus:ring-green-gs ' . $selectClass]) }}
-    >
+
+    <select name="{{ $name }}" id="{{ $name }}" {{ $required ? 'required' : '' }}
+        {{ $attributes->merge(['class' => 'mt-1 block w-full text-textColorParagraph rounded-md border border-supaGirlRosePastel/50 font-roboto-slab shadow-sm focus:border-green-gs focus:ring-green-gs ' . $selectClass]) }}>
         <option value="" {{ $required ? 'disabled' : '' }} {{ $selected === null ? 'selected' : '' }}>
             {{ $placeholder }}
         </option>
-        
-        @foreach($options as $option)
+
+        @foreach ($options as $option)
             @php
-                $value = is_array($option) ? ($option[$optionValue] ?? $option) : ($option->{$optionValue} ?? $option);
-                
+                $value = is_array($option) ? $option[$optionValue] ?? $option : $option->{$optionValue} ?? $option;
+
                 // Gestion du label avec ou sans traduction
                 if ($translatable) {
                     if (is_object($option) && method_exists($option, 'getTranslation')) {
@@ -48,22 +44,20 @@
                         $label = $option;
                     }
                 } else {
-                    $label = is_array($option) 
-                        ? ($option[$optionLabel] ?? $value) 
-                        : ($option->{$optionLabel} ?? $option);
+                    $label = is_array($option) ? $option[$optionLabel] ?? $value : $option->{$optionLabel} ?? $option;
                 }
-                
-                $isSelected = $selected !== null && (string)$selected === (string)$value;
+
+                $isSelected = $selected !== null && (string) $selected === (string) $value;
             @endphp
-            
+
             <option value="{{ $value }}" {{ $isSelected ? 'selected' : '' }}>
                 {{ $label }}
             </option>
         @endforeach
-        
+
         {{ $slot }}
     </select>
-    
+
     @error($name)
         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
     @enderror

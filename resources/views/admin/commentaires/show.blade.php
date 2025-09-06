@@ -5,13 +5,13 @@
 @endsection
 
 @section('admin-content')
-    <div x-data="{ selectedTab: 'approved' }" class="container mx-auto min-h-[100vh] px-4 py-8 pt-16 font-roboto-slab">
+    <div x-data="{ selectedTab: 'approved' }" class="font-roboto-slab container mx-auto min-h-[100vh] px-4 py-8 pt-16">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">
                 {{ __('comments.view_comment') }}
             </h1>
-            <a href="{{ route('commentaires.index') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <a href="{{ route('commentaires.index') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 <i class="fas fa-arrow-left mr-2"></i> {{ __('comments.back') }}
             </a>
         </div>
@@ -64,11 +64,12 @@
         </dl>
 
         <div class="flex justify-end space-x-3">
-            <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST" class="inline font-roboto-slab">
+            <form action="{{ route('commentaires.destroy', $commentaire->id) }}" method="POST"
+                class="font-roboto-slab inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="rounded-md bg-gray-200 px-4 py-2 text-gray-700 font-roboto-slab shadow-sm hover:bg-supaGirlRose focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2"
+                    class="font-roboto-slab hover:bg-supaGirlRose focus:ring-supaGirlRose rounded-md bg-gray-200 px-4 py-2 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
                     onclick="return confirm('{{ __('comments.confirm_reject') }}')">
                     <i class="fas fa-times-circle mr-2"></i> {{ __('comments.reject') }}
                 </button>
@@ -77,7 +78,7 @@
             @if (!$commentaire->is_approved)
                 <a href="{{ route('commentaires.approve', $commentaire->id) }}">
                     <button type="submit"
-                        class="bg-green-gs rounded-md px-4 py-2 font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 text-white">
+                        class="bg-green-gs focus:ring-green-gs rounded-md px-4 py-2 font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
                         <i class="fas fa-check-circle mr-2"></i> {{ __('comments.approve') }}
                     </button>
                 </a>

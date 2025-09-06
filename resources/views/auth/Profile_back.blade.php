@@ -828,7 +828,8 @@
                                     @foreach ($escortFavorites as $favorie)
                                         <livewire:escort-card name="{{ $favorie->prenom }}"
                                             canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}"
-                                            avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
+                                            avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}"
+                                            isPause="{{ $favorie->is_profil_pause }}" />
                                     @endforeach
                                 </div>
                             @else
@@ -843,7 +844,8 @@
                                     @foreach ($salonFavorites as $favorie)
                                         <livewire:escort-card name="{{ $favorie->prenom }}"
                                             canton="{{ $favorie->canton['nom'] }}" ville="{{ $favorie->ville['nom'] }}"
-                                            avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}" isPause="{{ $favorie->is_profil_pause }}" />
+                                            avatar='{{ $favorie->avatar }}' escortId="{{ $favorie->id }}"
+                                            isPause="{{ $favorie->is_profil_pause }}" />
                                     @endforeach
                                 </div>
                             @else
@@ -876,7 +878,8 @@
                                     @foreach ($escortFavorites as $escort)
                                         <livewire:escort-card name="{{ $escort->prenom }}"
                                             canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}"
-                                            avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' isPause="{{ $escort->is_profil_pause }}" />
+                                            avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}'
+                                            isPause="{{ $escort->is_profil_pause }}" />
                                     @endforeach
                                 </div>
                                 <div id="arrowEscortScrollRight"
@@ -910,7 +913,8 @@
                                     @foreach ($salonFavorites as $escort)
                                         <livewire:escort-card name="{{ $escort->prenom }}"
                                             canton="{{ $escort->canton['nom'] }}" ville="{{ $escort->ville['nom'] }}"
-                                            avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}' isPause="{{ $escort->is_profil_pause }}" />
+                                            avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}'
+                                            isPause="{{ $escort->is_profil_pause }}" />
                                     @endforeach
                                 </div>
                                 <div id="arrowEscortScrollRight"

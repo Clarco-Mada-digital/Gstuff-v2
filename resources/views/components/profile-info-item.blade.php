@@ -10,7 +10,7 @@
 
 @php
     $displayValue = $value;
-    
+
     if ($value && $translationPath) {
         try {
             $displayValue = $value->getTranslation($translationAttribute, app()->getLocale());
@@ -18,17 +18,13 @@
             $displayValue = $value->{$translationAttribute} ?? '-';
         }
     }
-    
+
     $displayValue = $displayValue ?: '-';
     $displayValue = $suffix ? trim("$displayValue $suffix") : $displayValue;
 @endphp
-@if($value)
-    <div class="font-roboto-slab flex w-full items-center gap-3 text-textColor">
-        <img 
-            src="{{ asset('images/icons/' . $icon) }}" 
-            alt="{{ $alt }}" 
-            class="w-8 h-8"
-        />
-        <span class="font-roboto-slab text-sm text-textColor">{{ $label }} : {{ $displayValue }}</span>
+@if ($value)
+    <div class="font-roboto-slab text-textColor flex w-full items-center gap-3">
+        <img src="{{ asset('images/icons/' . $icon) }}" alt="{{ $alt }}" class="h-8 w-8" />
+        <span class="font-roboto-slab text-textColor text-sm">{{ $label }} : {{ $displayValue }}</span>
     </div>
 @endif

@@ -1,12 +1,14 @@
 @extends('layouts.admin')
 
 @section('admin-content')
-    <div class="px-4 py-6 sm:px-6 lg:px-8 font-roboto-slab">
+    <div class="font-roboto-slab px-4 py-6 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
             <div class="rounded-lg bg-white p-6 shadow">
                 <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('static_page-create.create_new_page') }}</h1>
-                    <a href="{{ route('static.index') }}" class="bg-green-gs text-white flex items-center rounded-lg px-4 py-2 font-roboto-slab hover:bg-green-gs/80">
+                    <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">
+                        {{ __('static_page-create.create_new_page') }}</h1>
+                    <a href="{{ route('static.index') }}"
+                        class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 flex items-center rounded-lg px-4 py-2 text-white">
                         <i class="fas fa-arrow-left mr-2"></i> {{ __('static_page-create.back') }}
                     </a>
                 </div>
@@ -17,25 +19,25 @@
                     <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
                             <label for="slug"
-                                class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('static_page-create.slug') }}*</label>
-                                <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
+                                class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('static_page-create.slug') }}*</label>
+                            <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
                             <input type="text" name="slug" id="slug" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"
+                                class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border-gray-300 shadow-sm"
                                 placeholder="{{ __('static_page-create.slug_placeholder') }}">
                             <p class="mt-1 text-sm text-gray-500">{{ __('static_page-create.slug_unique') }}</p>
                         </div>
                         <div>
                             <label for="title"
-                                class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('static_page-create.title') }}*</label>
+                                class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('static_page-create.title') }}*</label>
                             <input type="text" name="title" id="title" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                     </div>
 
                     <!-- Section Contenu avec CKEditor -->
                     <div class="mb-6">
                         <label
-                            class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('static_page-create.content') }}*</label>
+                            class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('static_page-create.content') }}*</label>
                         <textarea id="editor" name="content" class="hidden" required></textarea>
                         <div id="editor-container" class="min-h-[300px] rounded-lg border"></div>
                         @error('content')
@@ -46,23 +48,25 @@
                     <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
                             <label for="meta_title"
-                                class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('static_page-create.meta_title') }}</label>
+                                class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('static_page-create.meta_title') }}</label>
                             <input type="text" name="meta_title" id="meta_title"
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
                             <label for="meta_description"
-                                class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('static_page-create.meta_description') }}</label>
+                                class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('static_page-create.meta_description') }}</label>
                             <textarea name="meta_description" id="meta_description" rows="2"
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"></textarea>
+                                class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                     </div>
 
                     <div class="flex justify-end space-x-3">
-                        <button type="reset" class="bg-white text-green-gs hover:text-white flex items-center rounded-lg px-4 py-2 hover:bg-green-gs/80">
+                        <button type="reset"
+                            class="text-green-gs hover:bg-green-gs/80 flex items-center rounded-lg bg-white px-4 py-2 hover:text-white">
                             {{ __('static_page-create.reset') }}
                         </button>
-                        <button type="submit" class="bg-green-gs text-white flex items-center rounded-lg px-4 py-2 hover:bg-green-gs/80">
+                        <button type="submit"
+                            class="bg-green-gs hover:bg-green-gs/80 flex items-center rounded-lg px-4 py-2 text-white">
                             <i class="fas fa-save mr-2"></i> {{ __('static_page-create.create_page') }}
                         </button>
                     </div>

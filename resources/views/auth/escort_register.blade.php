@@ -16,7 +16,8 @@
 
             {{-- Formulaire --}}
             <div class="xl:px-30 gap-15 mx-auto flex w-full flex-col items-center justify-center px-2 py-3 xl:w-1/2">
-                <h2 class="font-roboto-slab text-center text-2xl font-bold text-green-gs">{{ __('escort_register_form.register_escort') }}
+                <h2 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">
+                    {{ __('escort_register_form.register_escort') }}
                 </h2>
 
                 {{-- Inscription Escort Formulaire --}}
@@ -24,66 +25,27 @@
                     @csrf
                     <input type="hidden" name="profile_type" value="escorte">
 
-                    <x-form.floating-input
-                        name="prenom"
-                        :label="__('escort_register_form.first_name')"
-                        type="text"
-                        :required="true"
-                        autocomplete="given-name"
-                    />
+                    <x-form.floating-input name="prenom" :label="__('escort_register_form.first_name')" type="text" :required="true"
+                        autocomplete="given-name" />
 
-                    <x-form.floating-select
-                        name="genre_id"
-                        :label="__('escort_register_form.genre')"
-                        :options="$genres"
-                        :selected="old('genre_id')"
-                        :required="true"
-                        :translate="true"
-                        option-label="name"
-                    />
+                    <x-form.floating-select name="genre_id" :label="__('escort_register_form.genre')" :options="$genres" :selected="old('genre_id')"
+                        :required="true" :translate="true" option-label="name" />
 
-                    <x-form.floating-input
-                        name="email"
-                        :label="__('escort_register_form.email')"
-                        type="email"
-                        :required="true"
-                        autocomplete="email"
-                    />
+                    <x-form.floating-input name="email" :label="__('escort_register_form.email')" type="email" :required="true"
+                        autocomplete="email" />
 
-                    <x-form.floating-input
-                        name="date_naissance"
-                        :label="__('escort_register_form.birth_date')"
-                        type="date"
-                        :required="true"
-                        autocomplete="date_naissance"
-                    />
+                    <x-form.floating-input name="date_naissance" :label="__('escort_register_form.birth_date')" type="date" :required="true"
+                        autocomplete="date_naissance" />
 
-                    <x-form.floating-input
-                        name="password"
-                        :label="__('escort_register_form.password')"
-                        type="password" 
-                        :required="true"
-                        autocomplete="new-password"
-                    />
+                    <x-form.floating-input name="password" :label="__('escort_register_form.password')" type="password" :required="true"
+                        autocomplete="new-password" />
 
-                    <x-form.floating-input
-                        name="password_confirmation"
-                        :label="__('escort_register_form.confirm_password')"
-                        type="password"
-                        :required="true"
-                        autocomplete="new-password" 
-                    />
+                    <x-form.floating-input name="password_confirmation" :label="__('escort_register_form.confirm_password')" type="password"
+                        :required="true" autocomplete="new-password" />
 
-             
-                    <x-form.terms-checkbox
-                        name="cgu_accepted"
-                        :label="__('escort_register_form.accept_terms')"
-                        :termsText="__('escort_register_form.terms_conditions')"
-                        :termsLinkText="__('escort_register_form.terms_conditions_link')"
-                        :termsLink="route('static.page', 'cgv')"
-                        :checked="old('cgu_accepted', false)"
-                        :required="true"
-                    >
+
+                    <x-form.terms-checkbox name="cgu_accepted" :label="__('escort_register_form.accept_terms')" :termsText="__('escort_register_form.terms_conditions')" :termsLinkText="__('escort_register_form.terms_conditions_link')"
+                        :termsLink="route('static.page', 'cgv')" :checked="old('cgu_accepted', false)" :required="true">
                         {{ __('escort_register_form.see_terms') }}
                     </x-form.terms-checkbox>
 

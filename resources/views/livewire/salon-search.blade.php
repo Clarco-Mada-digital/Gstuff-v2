@@ -1,19 +1,12 @@
 <div>
-    <div class="py-15 flex min-h-72 w-full flex-col items-center justify-center  bg-supaGirlRosePastel px-4">
+    <div class="py-15 bg-supaGirlRosePastel flex min-h-72 w-full flex-col items-center justify-center px-4">
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
             {{ __('salon-search.title') }}</h1>
 
 
-        <div class="w-full @if($showFiltreCanton) block @else hidden @endif">
-            <x-salon-location-filters
-                :cantons="$cantons"
-                :villes="$villes"
-                :selectedCanton="$selectedSalonCanton"
-                :selectedVille="$selectedSalonVille"
-                onCantonChange="chargeVille"
-                cantonModel="selectedSalonCanton"
-                villeModel="selectedSalonVille"
-            />
+        <div class="@if ($showFiltreCanton) block @else hidden @endif w-full">
+            <x-salon-location-filters :cantons="$cantons" :villes="$villes" :selectedCanton="$selectedSalonCanton" :selectedVille="$selectedSalonVille"
+                onCantonChange="chargeVille" cantonModel="selectedSalonCanton" villeModel="selectedSalonVille" />
         </div>
 
 
@@ -25,10 +18,10 @@
                         <div>
                             <div class="font-roboto-slab flex items-center justify-between">
                                 <label
-                                    class="font-roboto-slab block text-sm font-medium text-green-gs">{{ __('escort-search.distance_km') }}
+                                    class="font-roboto-slab text-green-gs block text-sm font-medium">{{ __('escort-search.distance_km') }}
                                     {{ number_format($maxDistanceSelected, 0) }}</label>
                                 <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
-                                    <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-green-gs"
+                                    <svg class="text-green-gs -ml-1 mr-2 h-4 w-4 animate-spin"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10"
                                             stroke="currentColor" stroke-width="4"></circle>
@@ -40,41 +33,33 @@
                             </div>
                             <div class="relative pt-1">
                                 <div class="w-full">
-                                    <div class="font-roboto-slab mb-2 flex items-center justify-between text-xs text-gray-600 sm:hidden">
+                                    <div
+                                        class="font-roboto-slab mb-2 flex items-center justify-between text-xs text-gray-600 sm:hidden">
                                         <span
-                                            class="font-roboto-slab whitespace-nowrap rounded-full text-green-gs text-xs px-2 py-1">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
+                                            class="font-roboto-slab text-green-gs whitespace-nowrap rounded-full px-2 py-1 text-xs">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
                                             km</span>
                                         <span
-                                            class="font-roboto-slab whitespace-nowrap rounded-full text-green-gs text-xs px-2 py-1">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
+                                            class="font-roboto-slab text-green-gs whitespace-nowrap rounded-full px-2 py-1 text-xs">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
                                             km</span>
                                     </div>
-                                    <input 
-                                        type="range" 
-                                        wire:model.live="maxDistanceSelected"
-                                        min="{{ $minDistance }}" 
-                                        max="{{ $maxAvailableDistance }}" 
-                                        step="0.01"
-                                        class="sm:hidden h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 [&::-webkit-slider-thumb]:h-5 
-                                        [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2 [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50"
-                                        style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)"
-                                    >
+                                    <input type="range" wire:model.live="maxDistanceSelected"
+                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="0.01"
+                                        class="[&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 sm:hidden [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2"
+                                        style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)">
                                 </div>
 
-                                <div class="flex hidden w-full items-center justify-between gap-2 text-xs text-gray-600 sm:block sm:flex sm:gap-3 md:gap-4">
-                                    <span class="font-roboto-slab shrink-0 rounded-full px-2 py-1 text-xs text-green-gs">
+                                <div
+                                    class="flex hidden w-full items-center justify-between gap-2 text-xs text-gray-600 sm:block sm:flex sm:gap-3 md:gap-4">
+                                    <span
+                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-2 py-1 text-xs">
                                         {{ str_replace(',', ' ', number_format($minDistance, 0)) }} km
                                     </span>
-                                    <input 
-                                        type="range" 
-                                        wire:model.live="maxDistanceSelected"
-                                        min="{{ $minDistance }}" 
-                                        max="{{ $maxAvailableDistance }}" 
-                                        step="1"
-                                        class="h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 [&::-webkit-slider-thumb]:h-5 
-                                        [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2 [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50"
-                                        style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)"
-                                    >
-                                    <span class="font-roboto-slab shrink-0 rounded-full px-2 py-1 text-xs text-green-gs">
+                                    <input type="range" wire:model.live="maxDistanceSelected"
+                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="1"
+                                        class="[&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2"
+                                        style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)">
+                                    <span
+                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-2 py-1 text-xs">
                                         {{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }} km
                                     </span>
                                 </div>
@@ -87,13 +72,8 @@
 
 
         <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
-         
-            <x-category-checkbox 
-                    :categories="$categories"
-                    :selected-values="$selectedSalonCategories"
-                    model="selectedSalonCategories"
-                    prefixId="salon"
-                />
+
+            <x-category-checkbox :categories="$categories" :selected-values="$selectedSalonCategories" model="selectedSalonCategories" prefixId="salon" />
 
 
 
@@ -107,19 +87,18 @@
 
         </div>
 
-        <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold text-green-gs">
-    @foreach ($nombreFilles as $nombreFille)
-        <div>
-            <input wire:model.live='nbFilles' class="peer hidden" name="nbFilles" type="radio"
-                id="nbfille{{ $nombreFille->id }}" value="{{ $nombreFille->id }}" />
-            <label for="nbfille{{ $nombreFille->id }}"
-                class="hover:bg-green-gs peer-checked:bg-green-gs rounded-lg border border-2 border-supaGirlRose bg-white 
-                py-2 px-3 text-center text-green-gs hover:text-white peer-checked:text-white transition-all duration-200">
-                {{ $nombreFille->getTranslation('name', app()->getLocale()) }}
-            </label>
+        <div class="text-green-gs my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold">
+            @foreach ($nombreFilles as $nombreFille)
+                <div>
+                    <input wire:model.live='nbFilles' class="peer hidden" name="nbFilles" type="radio"
+                        id="nbfille{{ $nombreFille->id }}" value="{{ $nombreFille->id }}" />
+                    <label for="nbfille{{ $nombreFille->id }}"
+                        class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose text-green-gs rounded-lg border border-2 bg-white px-3 py-2 text-center transition-all duration-200 hover:text-white peer-checked:text-white">
+                        {{ $nombreFille->getTranslation('name', app()->getLocale()) }}
+                    </label>
+                </div>
+            @endforeach
         </div>
-    @endforeach
-</div>
 
 
 
@@ -130,45 +109,26 @@
 
 
 
-       <div class="my-2 flex items-center justify-center gap-2 flex-wrap">
-       
-        <x-filters.closest-only-filter-button 
-                wire:model.live="showClosestOnly"
-                :loading-target="'showClosestOnly'"
-                :label="'salon-search.filter_by_closest_only'"
-                :icon="'images/icons/nearHot.png'"
-                class="flex-1"
-            />
-        
-        <x-filters.distance-filter-button 
-                wire:model.live="approximite"
-                :loading-target="'approximite'"
-                :label="'escort-search.filter_by_distance'"
-                :icon="'images/icons/locationByDistance.png'"
-                class="flex-1"
-            />
+        <div class="my-2 flex flex-wrap items-center justify-center gap-2">
 
-       </div>
+            <x-filters.closest-only-filter-button wire:model.live="showClosestOnly" :loading-target="'showClosestOnly'" :label="'salon-search.filter_by_closest_only'"
+                :icon="'images/icons/nearHot.png'" class="flex-1" />
 
-       @if(
-           $showClosestOnly ||
-           $approximite ||
-           !empty($selectedSalonCanton) ||
-           !empty($selectedSalonVille) ||
-           !empty($selectedSalonCategories) ||
-           !empty($selectedServices)||
-           !empty($nbFilles)
-       )
+            <x-filters.distance-filter-button wire:model.live="approximite" :loading-target="'approximite'" :label="'escort-search.filter_by_distance'"
+                :icon="'images/icons/locationByDistance.png'" class="flex-1" />
 
-        
-        <x-buttons.reset-button 
-                wire:click="resetFilter" 
-                class="w-56 m-auto p-2"
-                :loading-target="'resetFilter'"
-                translation="escort-search.reset_filters"
-                loading-translation="escort-search.resetting"
-            />
+        </div>
 
+        @if (
+            $showClosestOnly ||
+                $approximite ||
+                !empty($selectedSalonCanton) ||
+                !empty($selectedSalonVille) ||
+                !empty($selectedSalonCategories) ||
+                !empty($selectedServices) ||
+                !empty($nbFilles))
+            <x-buttons.reset-button wire:click="resetFilter" class="m-auto w-56 p-2" :loading-target="'resetFilter'"
+                translation="escort-search.reset_filters" loading-translation="escort-search.resetting" />
         @endif
 
     </div>
@@ -201,77 +161,79 @@
                 <livewire:salon_card wire:key='{{ $salon->id }}' name="{{ $salon->nom_salon }}"
                     canton="{{ $salon->canton?->nom ?? $salon->cantonget?->nom }}"
                     ville="{{ $salon->ville?->nom ?? $salon->villeget?->nom }}" avatar='{{ $salon->avatar }}'
-                    isPause="{{ $salon->is_profil_pause }}"
-                    salonId="{{ $salon->id }}" />
+                    isPause="{{ $salon->is_profil_pause }}" salonId="{{ $salon->id }}" />
             @endforeach
         </div>
         <div class="mt-10">{{ $salons->links('pagination::simple-tailwind') }}</div>
 
-        @if($salonCount == 0)
-    <div class="flex flex-col items-center justify-center py-10 px-4">
-        <p class="text-xl font-semibold text-gray-800 mb-4">
-            {{ __('escort-search.filtreApply') }}
-        </p>
+        @if ($salonCount == 0)
+            <div class="flex flex-col items-center justify-center px-4 py-10">
+                <p class="mb-4 text-xl font-semibold text-gray-800">
+                    {{ __('escort-search.filtreApply') }}
+                </p>
 
-        <div class="w-full  bg-white shadow-md rounded-lg p-6 space-y-6">
-            {{-- Canton, Ville, Genre en ligne --}}
-            <div class="flex flex-wrap gap-2 items-center justify-center">
-                @if(isset($filterApplay['selectedCanton']) && $filterApplay['selectedCanton'])
-                    <div class="flex flex-wrap gap-2 items-center justify-center">
-                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.canton') }} :</p>
-                    <div class="flex flex-wrap gap-2">
-                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                        {{ $filterApplay['selectedCanton']['nom'] }}
-                    </span>
+                <div class="w-full space-y-6 rounded-lg bg-white p-6 shadow-md">
+                    {{-- Canton, Ville, Genre en ligne --}}
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        @if (isset($filterApplay['selectedCanton']) && $filterApplay['selectedCanton'])
+                            <div class="flex flex-wrap items-center justify-center gap-2">
+                                <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.canton') }} :
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm text-green-800">
+                                        {{ $filterApplay['selectedCanton']['nom'] }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (isset($filterApplay['selectedVille']) && $filterApplay['selectedVille'])
+                            <div class="flex flex-wrap items-center justify-center gap-2">
+                                <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.ville') }} :</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800">
+                                        {{ $filterApplay['selectedVille']['nom'] }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                </div>
-                @endif
 
-                @if(isset($filterApplay['selectedVille']) && $filterApplay['selectedVille'])
-                 
+                    {{-- Catégories --}}
+                    @if (isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.categories') }} :
+                            </p>
+                            <div class="flex flex-wrap gap-2">
 
-                    <div class="flex flex-wrap gap-2 items-center justify-center">
-                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.ville') }} :</p>
-                    <div class="flex flex-wrap gap-2">
-                    <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                        {{ $filterApplay['selectedVille']['nom'] }}
-                    </span>
-                    </div>
+                                <span
+                                    class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{{ $filterApplay['selectedCategories']['nom'] }}</span>
+
+                            </div>
+                        </div>
+                    @endif
+
+
+
+                    {{-- NbFille --}}
+                    @if (isset($filterApplay['nbFilles']) && $filterApplay['nbFilles'])
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.nbFille') }} :</p>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($filterApplay['nbFilles'] as $nbFille)
+                                    <span
+                                        class="rounded-full bg-indigo-100 px-3 py-1 text-sm text-indigo-800">{{ $nbFille['name'] }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+
                 </div>
-                
-                @endif
             </div>
-
-            {{-- Catégories --}}
-            @if(isset($filterApplay['selectedCategories']) && $filterApplay['selectedCategories'])
-                <div class="flex flex-wrap gap-2 items-center justify-center">
-                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.categories') }} :</p>
-                    <div class="flex flex-wrap gap-2">
-                       
-                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">{{ $filterApplay['selectedCategories']['nom'] }}</span>
-                        
-                    </div>
-                </div>
-            @endif
-
-            
-
-            {{-- NbFille --}}
-            @if(isset($filterApplay['nbFilles']) && $filterApplay['nbFilles'])
-                <div class="flex flex-wrap gap-2 items-center justify-center">
-                    <p class="text-sm font-medium text-gray-700 mb-1">{{ __('escort-search.nbFille') }} :</p>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach ($filterApplay['nbFilles'] as $nbFille)
-                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">{{ $nbFille['name']}}</span>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-         
-        </div>
-    </div>
-@endif
+        @endif
 
     </div>
 </div>

@@ -1,40 +1,30 @@
-
-
-    @props([
+@props([
     'phone' => null,
     'noContactText' => 'No SMS contact',
     'class' => '',
-    'isPause' => false
+    'isPause' => false,
 ])
 
-<div class="relative group w-full">
-    <a 
-        @if($phone && !$isPause)
-            href="sms:{{ preg_replace('/[^0-9+]/', '', $phone) }}"
+<div class="group relative w-full">
+    <a @if ($phone && !$isPause) href="sms:{{ preg_replace('/[^0-9+]/', '', $phone) }}"
         @else
             href="#"
-            aria-disabled="true"
-        @endif
-        class="flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300
-            {{ $class }}
-            @if($isPause)
-                cursor-not-allowed pointer-events-none bg-gray-200 text-gray-500 border-gray-300
+            aria-disabled="true" @endif
+        class="{{ $class }} @if ($isPause) cursor-not-allowed pointer-events-none bg-gray-200 text-gray-500 border-gray-300
             @else
-                text-green-gs border-green-gs hover:bg-green-gs hover:text-white
-            @endif"
-    >
+                text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300">
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path fill="currentColor"
                 d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32S0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.6.6-1 1.1-1.3 1.4l-.3.3c-4.6 4.6-5.9 11.4-3.4 17.4s8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zM96 212.8c0-20.3 16.5-36.8 36.8-36.8H152c8.8 0 16 7.2 16 16s-7.2 16-16 16h-19.2c-2.7 0-4.8 2.2-4.8 4.8c0 1.6.8 3.1 2.2 4l29.4 19.6c10.3 6.8 16.4 18.3 16.4 30.7c0 20.3-16.5 36.8-36.8 36.8l-27.2.1c-8.8 0-16-7.2-16-16s7.2-16 16-16h27.2c2.7 0 4.8-2.2 4.8-4.8c0-1.6-.8-3.1-2.2-4l-29.4-19.6c-10.2-6.9-16.4-18.4-16.4-30.8M372.8 176H392c8.8 0 16 7.2 16 16s-7.2 16-16 16h-19.2c-2.7 0-4.8 2.2-4.8 4.8c0 1.6.8 3.1 2.2 4l29.4 19.6c10.2 6.8 16.4 18.3 16.4 30.7c0 20.3-16.5 36.8-36.8 36.8l-27.2.1c-8.8 0-16-7.2-16-16s7.2-16 16-16h27.2c2.7 0 4.8-2.2 4.8-4.8c0-1.6-.8-3.1-2.2-4l-29.4-19.6c-10.2-6.8-16.4-18.3-16.4-30.8c0-20.3 16.5-36.8 36.8-36.8zm-152 6.4l35.2 46.9l35.2-46.9c4.1-5.5 11.3-7.8 17.9-5.6S320 185.1 320 192v96c0 8.8-7.2 16-16 16s-16-7.2-16-16v-48l-19.2 25.6c-3 4-7.8 6.4-12.8 6.4s-9.8-2.4-12.8-6.4L224 240v48c0 8.8-7.2 16-16 16s-16-7.2-16-16v-96c0-6.9 4.4-13 10.9-15.2s13.7.1 17.9 5.6" />
         </svg>
-        @if($phone)
+        @if ($phone)
             {{ __('escort_profile.contact_via_sms') }}
         @else
             {{ $noContactText }}
         @endif
     </a>
 
-    @if($isPause)
-        <x-badgePauseToolTip/>
+    @if ($isPause)
+        <x-badgePauseToolTip />
     @endif
 </div>

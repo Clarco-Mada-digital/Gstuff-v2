@@ -5,26 +5,27 @@
 @section('admin-content')
     <div x-data="userManagement()" class="px-4 sm:px-6 md:py-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('user_management.user_management') }}</h1>
-            <a href="{{ route('users.create') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('user_management.user_management') }}</h1>
+            <a href="{{ route('users.create') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 <i class="fas fa-plus mr-2"></i> {{ __('user_management.new_user') }}
             </a>
         </div>
 
-        <div class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">   
-            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-fieldBg">
+        <div class="font-roboto-slab overflow-hidden rounded-lg bg-white shadow">
+            <div class="bg-fieldBg flex items-center justify-between border-b border-gray-200 px-6 py-4">
                 <div>
-                    <h2 class="text-lg font-bold text-green-gs font-roboto-slab">{{ __('user_management.profile_verification') }}</h2>
+                    <h2 class="text-green-gs font-roboto-slab text-lg font-bold">
+                        {{ __('user_management.profile_verification') }}</h2>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
                         <input x-model="searchNotif" type="text" placeholder="{{ __('user_management.search') }}..."
-                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-green-gs focus:ring-green-gs">
+                            class="focus:border-green-gs focus:ring-green-gs rounded-lg border py-2 pl-10 pr-4 text-sm">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                     <select x-model="statusFilter"
-                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-green-gs focus:ring-green-gs">
+                        class="focus:border-green-gs focus:ring-green-gs w-36 rounded-lg border px-3 py-2 text-sm">
                         <option value="">{{ __('user_management.all_statuses') }}</option>
                         <option value="verifier">{{ __('user_management.verified') }}</option>
                         <option value="en cours">{{ __('user_management.in_progress') }}</option>
@@ -135,21 +136,21 @@
             </div>
         </div>
 
-        <div class="mt-5 overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
+        <div class="font-roboto-slab mt-5 overflow-hidden rounded-lg bg-white shadow">
 
-            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-fieldBg">
+            <div class="bg-fieldBg flex items-center justify-between border-b border-gray-200 px-6 py-4">
                 <div>
-                    <h2 class="text-lg font-bold text-green-gs font-roboto-slab">{{ __('user_management.user_list') }}</h2>
+                    <h2 class="text-green-gs font-roboto-slab text-lg font-bold">{{ __('user_management.user_list') }}</h2>
                 </div>
                 <div class="flex items-center space-x-4">
 
                     <div class="relative">
                         <input x-model="search" type="text" placeholder="{{ __('user_management.search') }}..."
-                            class="rounded-lg border py-2 pl-10 pr-4 text-sm focus:border-green-gs focus:ring-green-gs">
+                            class="focus:border-green-gs focus:ring-green-gs rounded-lg border py-2 pl-10 pr-4 text-sm">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                     <select x-model="roleFilter"
-                        class="w-36 rounded-lg border px-3 py-2 text-sm focus:border-green-gs focus:ring-green-gs">
+                        class="focus:border-green-gs focus:ring-green-gs w-36 rounded-lg border px-3 py-2 text-sm">
                         <option value="">{{ __('user_management.all_roles') }}</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -257,20 +258,21 @@
         function confirmDelete(userId, type) {
             console.log(userId, type);
             Swal.fire({
-                title: type === 'user' ? '{{ __("user_management.confirm_delete_user") }}' : '{{ __("user_management.confirm_delete_notification") }}',
-                text: '{{ __("user_management.irreversible_action") }}',
+                title: type === 'user' ? '{{ __('user_management.confirm_delete_user') }}' :
+                    '{{ __('user_management.confirm_delete_notification') }}',
+                text: '{{ __('user_management.irreversible_action') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: '{{ __("user_management.confirm_delete") }}',
-                cancelButtonText: '{{ __("user_management.cancel") }}'
+                confirmButtonText: '{{ __('user_management.confirm_delete') }}',
+                cancelButtonText: '{{ __('user_management.cancel') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     const form = document.getElementById(`delete-form-${userId}`);
                     form.submit();
-                    console.log('Deleted' , userId);
-                    console.log('Deleted' , form);
+                    console.log('Deleted', userId);
+                    console.log('Deleted', form);
                 }
             });
         }

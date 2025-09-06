@@ -41,7 +41,7 @@
                     fill="#7F55B1"></path>
             </g>
         </svg>
-        <span class=" font-roboto-slab  text-center text-sm  text-textColorParagraph">
+        <span class="font-roboto-slab text-textColorParagraph text-center text-sm">
             {{ $message }}
         </span>
     </div>

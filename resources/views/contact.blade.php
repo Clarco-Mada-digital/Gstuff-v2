@@ -6,8 +6,9 @@
 
     <div class="relative flex h-[45vh] w-full items-center justify-center bg-cover bg-center"
         style="background-image: url('../images/girl_deco_image.jpg')">
-        <div class="absolute inset-0 opacity-50 " style="background: linear-gradient(to right, var(--color-supaGirlRose), var(--color-green-gs));"></div>
-        <h1 class="relative z-10 font-roboto-slab px-4 text-center text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+        <div class="absolute inset-0 opacity-50"
+            style="background: linear-gradient(to right, var(--color-supaGirlRose), var(--color-green-gs));"></div>
+        <h1 class="font-roboto-slab relative z-10 px-4 text-center text-4xl font-bold text-white sm:text-5xl md:text-6xl">
             {{ __('contact.contact_us') }}</h1>
     </div>
 
@@ -66,7 +67,8 @@
                             </svg>
                         </div>
                         <button id="showConseil" class="cursor-pointer">
-                            <h2 class=" font-roboto-slab text-green-gs text-center text-sm">{{ __('contact.need_info') }}</h2>
+                            <h2 class="font-roboto-slab text-green-gs text-center text-sm">{{ __('contact.need_info') }}
+                            </h2>
                         </button>
                     </div>
                     <div id="comment" class="m-auto flex h-full w-[36%] flex-col items-center p-2">
@@ -126,7 +128,8 @@
 
 
                         <button id="showCommentaire" class="cursor-pointer">
-                            <h2 class="font-dm-serif text-green-gs text-center text-sm sm:text-xl">{{ __('contact.make_comment') }}
+                            <h2 class="font-dm-serif text-green-gs text-center text-sm sm:text-xl">
+                                {{ __('contact.make_comment') }}
                             </h2>
                         </button>
                     </div>
@@ -176,9 +179,10 @@
                                     </path>
                                 </g>
                             </svg>
-                            </div>
-                        <button id="showConseil" class="cursor-pointer mx-4 ">
-                            <h2 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl">{{ __('contact.need_info') }}</h2>
+                        </div>
+                        <button id="showConseil" class="mx-4 cursor-pointer">
+                            <h2 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl">
+                                {{ __('contact.need_info') }}</h2>
                         </button>
                     </div>
                 @endif
@@ -187,21 +191,23 @@
             <div class="w-full px-4">
 
                 @if (auth()->user())
-                    <form id="commentaireForm" method="POST" class="flex hidden w-full flex-col gap-3 font-roboto-slab"
+                    <form id="commentaireForm" method="POST" class="font-roboto-slab flex hidden w-full flex-col gap-3"
                         action="{{ route('commentaires.store') }}">
                         @csrf
                         <div class="flex w-full flex-col gap-2">
                             <input type="hidden" name="lang" value="{{ session('locale', 'fr') }}">
-                            <label for="messageCommentaire" class="font-medium text-sm text-green-gs font-roboto-slab font-bold">{{ __('contact.comment') }}</label>
+                            <label for="messageCommentaire"
+                                class="text-green-gs font-roboto-slab text-sm font-bold font-medium">{{ __('contact.comment') }}</label>
                             <textarea name="content" id="messageCommentaire" rows="10"
-                                class="font-roboto-slab text-textColorParagraph     rounded-lg border border-supaGirlRose border-2 ring-0 focus:border-supaGirlRose focus:ring-0 focus:ring-supaGirlRose" placeholder="{{ __('contact.message_placeholder') }}"></textarea>
+                                class="font-roboto-slab text-textColorParagraph border-supaGirlRose focus:border-supaGirlRose focus:ring-supaGirlRose rounded-lg border border-2 ring-0 focus:ring-0"
+                                placeholder="{{ __('contact.message_placeholder') }}"></textarea>
                         </div>
 
 
 
 
 
-                        
+
                         <button type="submit"
                             class="bg-green-gs hover:bg-green-gs/70 w-full cursor-pointer rounded-lg p-3 text-center text-lg text-white">{{ __('contact.send') }}</button>
                     </form>

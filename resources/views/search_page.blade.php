@@ -5,4 +5,3 @@
 @section('content')
     @livewire('users-search')
 @endsection
-

@@ -11,24 +11,24 @@
 @section('admin-content')
     <div x-data="{ selectedTab: 'approved' }" class="container mx-auto min-h-[100vh] px-4 py-8 pt-16">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('comments.comments_management') }}</h1>
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('comments.comments_management') }}</h1>
         </div>
 
-        <nav class="bg-gray-50 dark:bg-gray-700 font-roboto-slab">
+        <nav class="font-roboto-slab bg-gray-50 dark:bg-gray-700">
             <div class="max-w-screen-xl px-4 py-3">
                 <div class="flex items-center">
-                    <ul class="flex flex-row space-x-8 text-sm font-medium font-roboto-slab">
+                    <ul class="font-roboto-slab flex flex-row space-x-8 text-sm font-medium">
                         <li>
                             <a href="#" @click="selectedTab = 'approved'"
                                 :class="{ 'bg-supaGirlRose text-green-gs': selectedTab === 'approved', 'text-gray-900 dark:text-white': selectedTab !== 'approved' }"
-                                class="flex items-center rounded px-4 py-2 hover:bg-supaGirlRose">
+                                class="hover:bg-supaGirlRose flex items-center rounded px-4 py-2">
                                 <i class="fas fa-check-circle mr-2"></i> {{ __('comments.approved') }}
                             </a>
                         </li>
                         <li>
                             <a href="#" @click="selectedTab = 'non-approved'"
                                 :class="{ 'bg-supaGirlRose text-green-gs': selectedTab === 'non-approved', 'text-gray-900 dark:text-white': selectedTab !== 'non-approved' }"
-                                class="flex items-center rounded px-4 py-2 hover:bg-supaGirlRose">
+                                class="hover:bg-supaGirlRose flex items-center rounded px-4 py-2">
                                 <i class="fas fa-times-circle mr-2"></i> {{ __('comments.non_approved') }}
                             </a>
                         </li>
@@ -39,21 +39,27 @@
 
         {{-- Pour les commentaires approuvés --}}
         <div x-show="selectedTab === 'approved'" class="px-4 py-3">
-            <h2 class="mb-5 font-roboto-slab">{{ __('comments.approved_comments_list') }}</h2>
+            <h2 class="font-roboto-slab mb-5">{{ __('comments.approved_comments_list') }}</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.email') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.content') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.date') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.status') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.actions') }}</th>
                     </tr>
                 </thead>
@@ -64,28 +70,29 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-green-gs text-sm font-roboto-slab">
+                                        class="text-green-gs font-roboto-slab flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm">
                                         {{ substr($commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon), 0, 1) }}
                                     </div>
                                     <div class="ml-4">
-                                        <div class="font-medium text-gray-900 font-roboto-slab text-sm">
+                                        <div class="font-roboto-slab text-sm font-medium text-gray-900">
                                             {{ $commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-gray-500 text-sm">{{ $commentaire->user->email }}</td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
+                            <td class="font-roboto-slab whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                {{ $commentaire->user->email }}</td>
+                            <td class="font-roboto-slab whitespace-nowrap px-6 py-4 text-sm">
                                 <div class="flex flex-wrap gap-1 text-sm">
                                     {{ Str::limit($commentaire->content, 80, '...') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
+                            <td class="font-roboto-slab whitespace-nowrap px-6 py-4 text-sm">
                                 <div class="flex flex-wrap gap-1 text-sm">
                                     {{ \Carbon\Carbon::parse($commentaire->created_at)->translatedFormat('d F Y') }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-roboto-slab text-sm">
+                            <td class="font-roboto-slab whitespace-nowrap px-6 py-4 text-sm">
                                 @if ($commentaire->read_at)
                                     <p class="text-xs text-green-500">{{ __('comments.read') }} :
                                         {{ $commentaire->read_at }}</p>
@@ -131,41 +138,48 @@
 
         {{-- Pour les commentaires non approuvés --}}
         <div x-show="selectedTab === 'non-approved'" class="px-4 py-3">
-            <h2 class="mb-5 font-roboto-slab">{{ __('comments.non_approved_comments_list') }}</h2>
+            <h2 class="font-roboto-slab mb-5">{{ __('comments.non_approved_comments_list') }}</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.email') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.content') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.date') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.status') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 font-roboto-slab">
+                        <th
+                            class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                             {{ __('comments.actions') }}</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white font-roboto-slab">
+                <tbody class="font-roboto-slab divide-y divide-gray-200 bg-white">
                     @foreach ($commentairesNotApproved as $commentaire)
                         <tr class="non-approved-item">
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-green-gs text-sm font-roboto-slab">
+                                        class="text-green-gs font-roboto-slab flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm">
                                         {{ substr($commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon), 0, 1) }}
                                     </div>
                                     <div class="ml-4">
-                                        <div class="font-medium text-gray-900 font-roboto-slab text-sm">
+                                        <div class="font-roboto-slab text-sm font-medium text-gray-900">
                                             {{ $commentaire->user->pseudo ?? ($commentaire->user->prenom ?? $commentaire->user->nom_salon) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500 text-sm">{{ $commentaire->user->email }}</td>
+                            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{{ $commentaire->user->email }}
+                            </td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm">
                                 <div class="flex flex-wrap gap-1 text-sm">
                                     {{ Str::limit($commentaire->content, 80, '...') }}
@@ -184,7 +198,7 @@
                                     <p class="text-xs text-red-500">{{ __('comments.not_read') }}</p>
                                 @endif
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-sm">
+                            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
                                 <a href="{{ route('commentaires.show', $commentaire->id) }}"
                                     class="mr-3 text-green-600 hover:text-green-900">
                                     <i class="fas fa-eye"></i>

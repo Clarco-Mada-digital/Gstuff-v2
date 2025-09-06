@@ -1,5 +1,4 @@
-<div class="relative flex items-center p-3 shadow-sm hover:bg-gray-50
-    {{ $user->is_profil_pause ? 'bg-yellow-50 opacity-80 cursor-not-allowed' : 'cursor-pointer' }}"
+<div class="{{ $user->is_profil_pause ? 'bg-yellow-50 opacity-80 cursor-not-allowed' : 'cursor-pointer' }} relative flex items-center p-3 shadow-sm hover:bg-gray-50"
     @if (!$user->is_profil_pause) @click="loadChat({{ $user->id }})" @endif>
 
     <div class="relative">
@@ -16,23 +15,23 @@
         @endif
     </div>
 
-    <div class="ml-3 flex-1 relative">
+    <div class="relative ml-3 flex-1">
         <div class="flex items-center justify-between">
-            <h3 class="font-medium text-green-gs font-roboto-slab">
+            <h3 class="text-green-gs font-roboto-slab font-medium">
                 {{ ucfirst($user->pseudo ?? ($user->prenom ?? $user->nom_salon)) }}
             </h3>
-            <span class="text-xs text-textColorParagraph font-roboto-slab">
+            <span class="text-textColorParagraph font-roboto-slab text-xs">
                 {{ $lastMessage->created_at->diffForHumans() }}
             </span>
         </div>
         <div class="flex items-center">
             @if ($lastMessage->from_id == auth()->user()->id)
-                <span class="text-xs text-textColorParagraph font-roboto-slab">
+                <span class="text-textColorParagraph font-roboto-slab text-xs">
                     {{ __('messenger.you') }} :&nbsp;
                 </span>
             @endif
 
-            <p class="truncate text-sm text-textColorParagraph font-roboto-slab">
+            <p class="text-textColorParagraph font-roboto-slab truncate text-sm">
                 @if ($lastMessage->attachment)
                     {{ __('messenger.image_sent') }}
                 @else
@@ -44,10 +43,11 @@
         {{-- Badge Pause en bas à droite du bloc texte --}}
         @if ($user->is_profil_pause)
             <div class="group absolute bottom-0 right-0 z-10">
-                <span class="bg-orange-400 text-white text-[10px] px-2 py-[2px] rounded-full shadow font-semibold">
+                <span class="rounded-full bg-orange-400 px-2 py-[2px] text-[10px] font-semibold text-white shadow">
                     {{ __('gestionPause.chatPauseBadge') }}
                 </span>
-                <div class="absolute bottom-full right-0 mb-1 w-52 bg-gray-800 text-white text-[10px] p-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div
+                    class="absolute bottom-full right-0 mb-1 w-52 rounded bg-gray-800 p-2 text-[10px] text-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100">
                     {{ __('gestionPause.chatPause') }}
                 </div>
             </div>

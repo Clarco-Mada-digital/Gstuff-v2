@@ -7,15 +7,15 @@
 @section('admin-content')
     <div x-data="roleForm()" class="container mx-auto min-h-[100vh] px-4 py-8 pt-16" x-cloak>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('role_management.role_management') }}</h1>
-            <button @click="openModal = true" class="rounded bg-green-gs px-4 py-2 text-white font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('role_management.role_management') }}</h1>
+            <button @click="openModal = true"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded rounded-md px-4 py-2 text-white shadow-md">
                 {{ __('role_management.create_role') }}
             </button>
         </div>
 
         <!-- Tableau des rôles -->
-        <div class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
+        <div class="font-roboto-slab overflow-hidden rounded-lg bg-white shadow">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -46,9 +46,10 @@
                                 </div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                            <a href="{{ route('roles.edit', $role->id) }}" class="mr-3 text-green-gs hover:text-white hover:bg-green-gs/80">
-                                {{ __('role_management.edit') }}
-                            </a>
+                                <a href="{{ route('roles.edit', $role->id) }}"
+                                    class="text-green-gs hover:bg-green-gs/80 mr-3 hover:text-white">
+                                    {{ __('role_management.edit') }}
+                                </a>
 
                                 @if ($role->name !== 'admin')
                                     <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline">
@@ -69,26 +70,28 @@
         <div x-show="openModal" x-transition
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div @click.away="openModal = false" class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h3 class="mb-4 text-lg font-medium text-green-gs font-roboto-slab">{{ __('role_management.create_new_role') }}</h3>
+                <h3 class="text-green-gs font-roboto-slab mb-4 text-lg font-medium">
+                    {{ __('role_management.create_new_role') }}</h3>
 
                 <form @submit.prevent="submitForm">
                     @csrf()
                     <div class="mb-4">
                         <label for="name"
-                            class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('role_management.role_name') }}*</label>
+                            class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('role_management.role_name') }}*</label>
                         <input type="text" id="name" x-model="form.name" required
-                            class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-green-gs focus:ring-green-gs">
+                            class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2">
                     </div>
 
                     <div class="mb-4">
                         <label
-                            class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('role_management.permissions') }}</label>
+                            class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('role_management.permissions') }}</label>
                         <div class="space-y-2">
                             @foreach ($permissions as $permission)
                                 <label class="flex items-center">
                                     <input type="checkbox" x-model="form.permissions" value="{{ $permission->id }}"
-                                        class="h-4 w-4 rounded border-gray-300 text-green-gs focus:ring-green-gs">
-                                    <span class="ml-2 text-sm text-textColorParagraph font-roboto-slab">{{ $permission->name }}</span>
+                                        class="text-green-gs focus:ring-green-gs h-4 w-4 rounded border-gray-300">
+                                    <span
+                                        class="text-textColorParagraph font-roboto-slab ml-2 text-sm">{{ $permission->name }}</span>
                                 </label>
                             @endforeach
                         </div>
@@ -96,10 +99,10 @@
 
                     <div class="flex justify-end space-x-3">
                         <button type="button" @click="openModal = false"
-                            class="rounded-md border border-gray-300 px-4 py-2 text-green-gs hover:text-white hover:bg-green-gs/80">
+                            class="text-green-gs hover:bg-green-gs/80 rounded-md border border-gray-300 px-4 py-2 hover:text-white">
                             {{ __('role_management.cancel') }}
                         </button>
-                        <button type="submit" class="rounded-md bg-green-gs text-white px-4 py-2 hover:bg-green-gs/80">
+                        <button type="submit" class="bg-green-gs hover:bg-green-gs/80 rounded-md px-4 py-2 text-white">
                             {{ __('role_management.create') }}
                         </button>
                     </div>

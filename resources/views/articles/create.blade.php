@@ -5,11 +5,11 @@
 @endsection
 
 @section('admin-content')
-    <div x-data="articleForm()" x-init="init()" class="mx-auto max-w-4xl px-4 py-8 font-roboto-slab" x-cloak>
+    <div x-data="articleForm()" x-init="init()" class="font-roboto-slab mx-auto max-w-4xl px-4 py-8" x-cloak>
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('create_article.create_new_article') }}</h1>
-            <a href="{{ route('articles.admin') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('create_article.create_new_article') }}</h1>
+            <a href="{{ route('articles.admin') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 <i class="fas fa-arrow-left mr-2"></i> {{ __('create_article.back') }}
             </a>
         </div>
@@ -22,9 +22,9 @@
             <!-- Titre -->
             <div class="mb-6">
                 <label for="title"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.title') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.title') }}*</label>
                 <input type="text" name="title" id="title" x-model="title" x-on:focusout="generateSlug()"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                 @error('title')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -35,9 +35,9 @@
             <!-- Slug -->
             <div class="mb-6">
                 <label for="slug"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.slug') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.slug') }}*</label>
                 <input type="text" name="slug" id="slug" x-model="slug"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                 <p class="mt-1 text-sm text-gray-500">{{ __('create_article.url_friendly_version') }}</p>
                 @error('slug')
@@ -49,9 +49,9 @@
             <!-- Excerpt -->
             <div class="mb-6">
                 <label for="excerpt"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.excerpt') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.excerpt') }}*</label>
                 <textarea name="excerpt" id="excerpt"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs"
+                    class="focus:border-green-gs focus:ring-green-gs w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required></textarea>
                 @error('excerpt')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
@@ -62,11 +62,11 @@
             <!-- Contenu -->
             <div x-data="app()" x-init="init($refs.wysiwyg)" class="mb-6">
                 <label for="content"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.content') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.content') }}*</label>
                 <textarea x-model="content" name="content" id="content" rows="10" class="hidden" required></textarea>
                 <div class="mx-auto w-full max-w-6xl rounded-xl bg-white text-black">
                     <div class="overflow-hidden rounded-md border border-gray-200">
-                        <div class="flex w-full border-b border-gray-200 text-xl text-green-gs font-roboto-slab">
+                        <div class="text-green-gs font-roboto-slab flex w-full border-b border-gray-200 text-xl">
                             <button type="button"
                                 class="h-10 w-10 border-r border-gray-200 outline-none hover:text-indigo-500 focus:outline-none active:bg-gray-50"
                                 @click="format('bold')">
@@ -117,7 +117,8 @@
                             <button type="button"
                                 class="mr-1 h-10 w-10 border-r border-gray-200 outline-none hover:text-indigo-500 focus:outline-none active:bg-gray-50"
                                 @click="format('formatBlock','H3')">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6" viewBox="-4.5 -6.5 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6"
+                                    viewBox="-4.5 -6.5 24 24">
                                     <path fill="currentColor"
                                         d="M2 4h4V1a1 1 0 1 1 2 0v8a1 1 0 1 1-2 0V6H2v3a1 1 0 1 1-2 0V1a1 1 0 1 1 2 0zm12.453 2.513l.043.055c.254.334.38.728.38 1.172c0 .637-.239 1.187-.707 1.628c-.466.439-1.06.658-1.763.658c-.671 0-1.235-.209-1.671-.627s-.673-.983-.713-1.676L10 7.353h1.803l.047.295c.038.238.112.397.215.49c.1.091.23.137.402.137a.57.57 0 0 0 .422-.159a.5.5 0 0 0 .158-.38c0-.163-.067-.295-.224-.419c-.17-.134-.438-.21-.815-.215l-.345-.004v-1.17l.345-.004c.377-.004.646-.08.815-.215c.157-.124.224-.255.224-.418a.5.5 0 0 0-.158-.381a.57.57 0 0 0-.422-.159a.57.57 0 0 0-.402.138c-.103.092-.177.251-.215.489l-.047.295H10l.022-.37c.04-.693.277-1.258.713-1.675c.436-.419 1-.628 1.67-.628c.704 0 1.298.22 1.764.658c.468.441.708.991.708 1.629a1.9 1.9 0 0 1-.424 1.226">
                                 </svg>
@@ -177,9 +178,9 @@
             <!-- Catégorie -->
             <div class="mb-6">
                 <label for="article_category_id"
-                    class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.category') }}*</label>
+                    class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.category') }}*</label>
                 <select name="article_category_id" id="article_category_id"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab"
+                    class="focus:border-green-gs focus:ring-green-gs font-roboto-slab w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                     required>
                     <option value="">{{ __('create_article.select_category') }}</option>
                     @foreach ($categories as $category)
@@ -194,13 +195,14 @@
 
             <!-- Tags - Nouvelle implémentation -->
             <div class="mb-6">
-                <label class="mb-2 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.tags') }}</label>
+                <label
+                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('create_article.tags') }}</label>
 
                 <!-- Champ de recherche et sélection -->
                 <div class="relative mb-3">
                     <input type="text" x-model="tagSearch" x-on:input.debounce.300ms="searchTags()"
                         x-on:keydown.enter.prevent="handleTagEnter" x-ref="tagInput"
-                        class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab"
+                        class="focus:border-green-gs focus:ring-green-gs font-roboto-slab w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2"
                         placeholder="{{ __('create_article.search_or_add_tags') }}">
 
                     <!-- Suggestions de tags -->
@@ -208,7 +210,7 @@
                         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-200 bg-white shadow-lg">
                         <template x-for="tag in tagSuggestions" :key="tag.id">
                             <div x-on:click="addTag(tag)"
-                                class="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-green-gs">
+                                class="hover:bg-green-gs flex cursor-pointer items-center justify-between px-4 py-2">
                                 <span x-text="tag.name"></span>
                                 <span class="text-xs text-gray-500">{{ __('create_article.exists') }}</span>
                             </div>
@@ -224,7 +226,7 @@
                             "<span x-text="tagSearch" class="font-medium"></span>"
                         </span>
                         <button type="button" x-on:click="openCreateTagModal()"
-                            class="rounded bg-green-gs px-3 py-1 text-sm text-white hover:bg-green-gs/80">
+                            class="bg-green-gs hover:bg-green-gs/80 rounded px-3 py-1 text-sm text-white">
                             {{ __('create_article.create_tag') }}
                         </button>
                     </div>
@@ -233,10 +235,11 @@
                 <!-- Tags sélectionnés -->
                 <div class="flex flex-wrap gap-2">
                     <template x-for="tag in selectedTags" :key="tag.id">
-                        <div class="inline-flex items-center rounded-full bg-supaGirlRosePastel px-3 py-1 text-sm text-green-gs font-roboto-slab">
+                        <div
+                            class="bg-supaGirlRosePastel text-green-gs font-roboto-slab inline-flex items-center rounded-full px-3 py-1 text-sm">
                             <span x-text="tag.name"></span>
                             <button type="button" x-on:click="removeTag(tag.id)"
-                                class="ml-2 text-green-gs hover:text-green-gs">
+                                class="text-green-gs hover:text-green-gs ml-2">
                                 &times;
                             </button>
                             <input type="hidden" name="tags[]" x-bind:value="tag.id">
@@ -249,9 +252,9 @@
             <div class="mb-6">
                 <div class="flex items-center">
                     <input type="checkbox" name="is_published" id="is_published" value="1" x-model="isPublished"
-                        class="h-4 w-4 rounded border-gray-300 text-green-gs font-roboto-slab focus:ring-green-gs">
+                        class="text-green-gs font-roboto-slab focus:ring-green-gs h-4 w-4 rounded border-gray-300">
                     <label for="is_published"
-                        class="ml-2 block text-sm text-gray-700 font-roboto-slab">{{ __('create_article.publish_article') }}</label>
+                        class="font-roboto-slab ml-2 block text-sm text-gray-700">{{ __('create_article.publish_article') }}</label>
                 </div>
             </div>
 
@@ -260,7 +263,7 @@
                 <label for="published_at"
                     class="mb-1 block text-sm font-medium text-gray-700">{{ __('create_article.publication_date') }}</label>
                 <input type="datetime-local" name="published_at" id="published_at" x-model="publishedAt"
-                    class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-green-gs focus:ring-2 focus:ring-green-gs font-roboto-slab">
+                    class="focus:border-green-gs focus:ring-green-gs font-roboto-slab w-full rounded-md border border-gray-300 px-4 py-2 transition focus:ring-2">
                 @error('published_at')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span
                             class="font-medium">{{ __('create_article.oops') }}!</span> {{ $message }}</p>
@@ -269,7 +272,8 @@
 
             <!-- Bouton de soumission -->
             <div class="flex justify-end">
-                <button type="submit" class="bg-green-gs text-white px-4 py-2 text-sm font-roboto-slab hover:bg-white hover:text-green-gs transition rounded-lg">
+                <button type="submit"
+                    class="bg-green-gs font-roboto-slab hover:text-green-gs rounded-lg px-4 py-2 text-sm text-white transition hover:bg-white">
                     {{ __('create_article.create_article') }}
                 </button>
             </div>
@@ -281,11 +285,12 @@
         <div x-show="showTagModal" x-transition.opacity
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div x-on:click.away="closeCreateTagModal" class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h3 class="mb-4 text-lg font-medium text-green-gs font-roboto-slab">{{ __('create_article.create_new_tag') }}</h3>
+                <h3 class="text-green-gs font-roboto-slab mb-4 text-lg font-medium">
+                    {{ __('create_article.create_new_tag') }}</h3>
 
                 <div class="mb-4">
                     <label for="newTagName"
-                        class="mb-1 block text-sm font-medium text-green-gs font-roboto-slab">{{ __('create_article.tag_name') }}*</label>
+                        class="text-green-gs font-roboto-slab mb-1 block text-sm font-medium">{{ __('create_article.tag_name') }}*</label>
                     <input type="text" id="newTagName" x-model="tagSearch"
                         class="w-full rounded-md border border-gray-300 px-4 py-2 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                         required>
@@ -296,7 +301,8 @@
                         class="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50">
                         {{ __('create_article.cancel') }}
                     </button>
-                    <button type="button" x-on:click="createNewTag" class="rounded-md bg-green-gs text-white px-4 py-2 text-sm font-roboto-slab hover:bg-white hover:text-green-gs transition">
+                    <button type="button" x-on:click="createNewTag"
+                        class="bg-green-gs font-roboto-slab hover:text-green-gs rounded-md px-4 py-2 text-sm text-white transition hover:bg-white">
                         {{ __('create_article.create_tag') }}
                     </button>
                 </div>
@@ -515,7 +521,7 @@
                         });
 
                         const data = await response.json();
-                        console.log("ici",data);
+                        console.log("ici", data);
 
                         if (!response.ok) {
                             if (response.status === 422 && data.errors) {

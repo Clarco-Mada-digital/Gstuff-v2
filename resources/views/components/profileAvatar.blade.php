@@ -10,152 +10,161 @@
 
 
 <div>
-    @if($type === 'salon')
-<div id="avatar-container" class="relative w-[220px] h-[220px] -mt-26 rounded-full border-4 border-white overflow-hidden shadow-md">
-<div class="relative h-full w-full group">
-    <!-- Image -->
-    <img 
-        src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}"
-        alt="{{ __('salon_profile.profile_image') }}"
-        class="h-full w-full object-cover object-center cursor-pointer"
-    />
+    @if ($type === 'salon')
+        <div id="avatar-container"
+            class="-mt-26 relative h-[220px] w-[220px] overflow-hidden rounded-full border-4 border-white shadow-md">
+            <div class="group relative h-full w-full">
+                <!-- Image -->
+                <img src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}" alt="{{ __('salon_profile.profile_image') }}"
+                    class="h-full w-full cursor-pointer object-cover object-center" />
 
-    @if($isPaused)
-    <!-- Dégradé toujours visible -->
-    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500  mix-blend-multiply pointer-events-none"></div>
+                @if ($isPaused)
+                    <!-- Dégradé toujours visible -->
+                    <div
+                        class="pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent to-pink-500 mix-blend-multiply">
+                    </div>
 
-    <!-- Texte au survol -->
-    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
-            {{ __('gestionPause.badgePause') }}
-        </span>
+                    <!-- Texte au survol -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span class="rounded-full bg-black/40 px-3 py-1 text-sm font-semibold text-white">
+                            {{ __('gestionPause.badgePause') }}
+                        </span>
+                    </div>
+                @endif
+            </div>
+
+
+            <span
+                class="{{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }} absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white"></span>
+        </div>
+    @endif
+    @if ($type === 'escort')
+        <div id="avatar-container"
+            class="border-5 relative mx-auto h-[220px] w-[220px] overflow-hidden rounded-full border-white shadow-sm">
+
+            <div class="group relative h-full w-full">
+                <!-- Image -->
+                <img src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}"
+                    alt="{{ __('salon_profile.profile_image') }}"
+                    class="h-full w-full cursor-pointer object-cover object-center" />
+
+                @if ($isPaused)
+                    <!-- Dégradé toujours visible -->
+                    <div
+                        class="pointer-events-none absolute inset-0 bg-gradient-to-br from-transparent to-pink-500 mix-blend-multiply">
+                    </div>
+
+                    <!-- Texte visible uniquement au survol -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span class="rounded-full bg-black/40 px-3 py-1 text-sm font-semibold text-white">
+                            {{ __('gestionPause.badgePause') }}
+                        </span>
+                    </div>
+                @endif
+            </div>
+
+
+
+            <span
+                class="{{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }} absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white"></span>
+        </div>
+    @endif
+
+    <!-- Modal de galerie -->
+    <div id="gallery-modal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black bg-opacity-70">
+        <!-- Bouton fermer -->
+        <button id="close-modal"
+            class="bg-supaGirlRose text-green-gs hover:bg-green-gs absolute right-4 top-4 z-10 rounded-full p-2 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Image -->
+        <img id="gallery-image" src="" alt="Gallery Image" class="mx-auto mb-4 max-h-[70vh] rounded shadow" />
+
+        <!-- Boutons navigation -->
+        <button id="prev-btn"
+            class="bg-green-gs hover:bg-supaGirlRose absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-2 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+
+        <button id="next-btn"
+            class="bg-green-gs hover:bg-supaGirlRose absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full p-2 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
     </div>
 
-    @endif
 </div>
 
 
-                <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
-            </div>
-            @endif
-            @if($type === 'escort')
-  <div id="avatar-container" class="w-[220px] h-[220px] border-5 relative mx-auto  rounded-full border-white shadow-sm overflow-hidden">
-             
-  <div class="relative h-full w-full group">
-    <!-- Image -->
-    <img 
-        src="{{ $avatarSrc ?? asset('images/icon_logo.png') }}"
-        alt="{{ __('salon_profile.profile_image') }}"
-        class="h-full w-full object-cover object-center cursor-pointer"
-    />
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const galleryData = @json($gallery);
+            let currentIndex = 0;
 
-    @if($isPaused)
+            const avatarContainer = document.getElementById("avatar-container");
+            const modal = document.getElementById("gallery-modal");
+            const closeModal = document.getElementById("close-modal");
+            const galleryImage = document.getElementById("gallery-image");
+            const prevBtn = document.getElementById("prev-btn");
+            const nextBtn = document.getElementById("next-btn");
 
-    <!-- Dégradé toujours visible -->
-    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-pink-500  mix-blend-multiply pointer-events-none"></div>
+            function showImage(index) {
+                const item = galleryData[index];
+                galleryImage.src = item.path;
 
-    <!-- Texte visible uniquement au survol -->
-    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span class="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
-        {{ __('gestionPause.badgePause') }}
-        </span>
-    </div>
-    @endif
-</div>
+                galleryImage.onerror = function() {
+                    this.src = '{{ asset('images/icon_logo.png') }}'; // Image par défaut si erreur
+                };
+            }
 
+            function showModal(index = 0) {
+                currentIndex = index;
+                showImage(currentIndex);
+                modal.classList.remove("hidden");
+            }
 
+            function hideModal() {
+                modal.classList.add("hidden");
+            }
 
-                <span class="absolute bottom-4 right-4 h-4 w-4 rounded-full ring-2 ring-white {{ $status ? 'bg-green-500 animate-pulse' : 'bg-gray-400' }}"></span>
-            </div>
-            @endif            
+            function navigate(direction) {
+                currentIndex = (currentIndex + direction + galleryData.length) % galleryData.length;
+                showImage(currentIndex);
+            }
 
-<!-- Modal de galerie -->
-<div id="gallery-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-   <!-- Bouton fermer -->
-   <button id="close-modal" class="absolute right-4 top-4 z-10 rounded-full bg-supaGirlRose p-2 text-green-gs hover:text-white hover:bg-green-gs">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+            avatarContainer?.addEventListener("click", () => showModal(0));
+            closeModal?.addEventListener("click", hideModal);
+            prevBtn?.addEventListener("click", () => navigate(-1));
+            nextBtn?.addEventListener("click", () => navigate(1));
 
-    <!-- Image -->
-    <img id="gallery-image" src="" alt="Gallery Image" class="max-h-[70vh] mx-auto rounded shadow mb-4" />
+            modal?.addEventListener("click", function(e) {
+                if (e.target === modal) hideModal();
+            });
 
-    <!-- Boutons navigation -->
-    <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-
-    <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-green-gs p-2 text-white hover:bg-supaGirlRose">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-</div>
-
-</div>
-
-            
-    @push('scripts')
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const galleryData = @json($gallery);
-  let currentIndex = 0;
-
-  const avatarContainer = document.getElementById("avatar-container");
-  const modal = document.getElementById("gallery-modal");
-  const closeModal = document.getElementById("close-modal");
-  const galleryImage = document.getElementById("gallery-image");
-  const prevBtn = document.getElementById("prev-btn");
-  const nextBtn = document.getElementById("next-btn");
-
-  function showImage(index) {
-    const item = galleryData[index];
-    galleryImage.src = item.path;
-
-    galleryImage.onerror = function () {
-      this.src = '{{ asset('images/icon_logo.png') }}'; // Image par défaut si erreur
-    };
-  }
-
-  function showModal(index = 0) {
-    currentIndex = index;
-    showImage(currentIndex);
-    modal.classList.remove("hidden");
-  }
-
-  function hideModal() {
-    modal.classList.add("hidden");
-  }
-
-  function navigate(direction) {
-    currentIndex = (currentIndex + direction + galleryData.length) % galleryData.length;
-    showImage(currentIndex);
-  }
-
-  avatarContainer?.addEventListener("click", () => showModal(0));
-  closeModal?.addEventListener("click", hideModal);
-  prevBtn?.addEventListener("click", () => navigate(-1));
-  nextBtn?.addEventListener("click", () => navigate(1));
-
-  modal?.addEventListener("click", function (e) {
-    if (e.target === modal) hideModal();
-  });
-
-  // ✅ Navigation avec les flèches du clavier
-  document.addEventListener("keydown", function (e) {
-    if (!modal.classList.contains("hidden")) {
-      if (e.key === "ArrowLeft") {
-        navigate(-1);
-      } else if (e.key === "ArrowRight") {
-        navigate(1);
-      } else if (e.key === "Escape") {
-        hideModal();
-      }
-    }
-  });
-});
-</script>
+            // ✅ Navigation avec les flèches du clavier
+            document.addEventListener("keydown", function(e) {
+                if (!modal.classList.contains("hidden")) {
+                    if (e.key === "ArrowLeft") {
+                        navigate(-1);
+                    } else if (e.key === "ArrowRight") {
+                        navigate(1);
+                    } else if (e.key === "Escape") {
+                        hideModal();
+                    }
+                }
+            });
+        });
+    </script>
 @endpush

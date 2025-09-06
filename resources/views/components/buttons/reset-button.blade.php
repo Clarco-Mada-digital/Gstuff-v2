@@ -5,7 +5,7 @@
     'size' => 'md',
     'variant' => 'default',
     'translation' => 'escort-search.reset_filters',
-    'loadingTranslation' => 'escort-search.resetting'
+    'loadingTranslation' => 'escort-search.resetting',
 ])
 
 @php
@@ -14,16 +14,17 @@
         'md' => 'text-base px-4 py-2',
         'lg' => 'text-lg px-6 py-3',
     ][$size];
-    
+
     $variants = [
         'default' => 'border-gray-400 bg-white text-gray-600 hover:bg-green-gs hover:text-white',
         'primary' => 'border-transparent bg-blue-600 text-white hover:bg-blue-700',
         'danger' => 'border-transparent bg-red-600 text-white hover:bg-red-700',
     ][$variant];
-    
-    $baseClasses = 'font-roboto-slab group flex items-center justify-center gap-2 rounded-lg text-green-gs border border-2 border-supaGirlRose transition-colors duration-200';
+
+    $baseClasses =
+        'font-roboto-slab group flex items-center justify-center gap-2 rounded-lg text-green-gs border border-2 border-supaGirlRose transition-colors duration-200';
     $buttonClasses = "$baseClasses $sizes $variants $class";
-    
+
     $loadingText = $loadingText ?? __($loadingTranslation);
 @endphp
 
@@ -34,7 +35,7 @@
     <span wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center text-sm">
         {{ $loadingText }}
     </span>
-    
+
     <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-sm">
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
             <path fill="currentColor"
@@ -43,7 +44,8 @@
     </span>
     <span wire:loading wire:target="{{ $loadingTarget }}" class="ml-2 text-sm">
         <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+            </circle>
             <path class="opacity-75" fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>

@@ -23,29 +23,28 @@
         </div>
         <div class="flex flex-col gap-2 text-black transition-all lg:flex-row">
             @foreach ($categories->take(4) as $categorie)
-            @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
-                <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
-                    class="z-10 flex items-center justify-center gap-1 transition-all">
-                    <div
-                        class="hover:bg-complementaryColorViolet hover:border-white hover:text-white flex w-64 items-center justify-center gap-1.5 rounded-md border border-supaGirlRose bg-white p-2.5 transition-all lg:w-56">
-                        <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}" class="w-8 h-8"
-                            alt="icon service {{ $categorie['display_name'] }}" />
-                        <span>
-                            @php
-                                $locale = session('locale', 'fr');
-                                $categoryName =
-                                    $categorie['nom'];
-                            @endphp
+                @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
+                    <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
+                        class="z-10 flex items-center justify-center gap-1 transition-all">
+                        <div
+                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1.5 rounded-md border bg-white p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
+                            <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
+                                class="h-8 w-8" alt="icon service {{ $categorie['display_name'] }}" />
+                            <span>
+                                @php
+                                    $locale = session('locale', 'fr');
+                                    $categoryName = $categorie['nom'];
+                                @endphp
 
-                            {{ $categoryName }}</span>
-                            
-                    </div>
-                </a>
-            @endif
+                                {{ $categoryName }}</span>
+
+                        </div>
+                    </a>
+                @endif
             @endforeach
         </div>
         <div class="z-10">
-            <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}"/>
+            <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}" />
         </div>
     </div>
 
@@ -55,23 +54,26 @@
         <div x-data="{ viewEscorte: true }" x-cloak>
 
             {{-- Switch salon escort Btn --}}
-            <ul class="mx-auto flex w-full rounded-lg text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl cursor-pointer">
+            <ul
+                class="mx-auto flex w-full cursor-pointer rounded-lg text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl">
                 <li class="w-full focus-within:z-10">
-                    <button @click="viewEscorte = true" 
-                        :class="viewEscorte 
-                            ? 'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' 
-                            : 'bg-white text-complementaryColorViolet hover:bg-gray-50'"
-                        class=" cursor-pointer inline-block w-full rounded-s-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                    <button @click="viewEscorte = true"
+                        :class="viewEscorte
+                            ?
+                            'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
+                            'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class="inline-block w-full cursor-pointer rounded-s-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
                         :aria-current="viewEscorte ? 'page' : null">
                         {{ __('home.top_escorts_today') }}
                     </button>
                 </li>
                 <li class="w-full focus-within:z-10">
                     <button @click="viewEscorte = false"
-                        :class="!viewEscorte 
-                            ? 'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' 
-                            : 'bg-white text-complementaryColorViolet hover:bg-gray-50'"
-                        class=" cursor-pointer inline-block w-full rounded-e-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        :class="!viewEscorte
+                            ?
+                            'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
+                            'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class="inline-block w-full cursor-pointer rounded-e-lg border border-gray-200 p-4 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
                         :aria-current="!viewEscorte ? 'page' : null">
                         {{ __('home.the_salons') }}
                     </button>
@@ -84,18 +86,19 @@
                 x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
                 <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
-                <div id="NewEscortContainer" 
-                class="relative mb-4 mt-5 flex w-full h-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden  px-10"
-                style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                <div id="NewEscortContainer"
+                    class="relative mb-4 mt-5 flex h-full w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden px-10"
+                    style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
                     @foreach ($escorts as $escort)
-                        <livewire:escort-card wire:key="escort-{{ $escort->id }}"  name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
-                            ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}' 
-                            isPause="{{ $escort->is_profil_pause }}"
-                            isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
+                        <livewire:escort-card wire:key="escort-{{ $escort->id }}" name="{{ $escort->prenom }}"
+                            canton="{{ $escort->canton['nom'] ?? '' }}" ville="{{ $escort->ville['nom'] ?? '' }}"
+                            avatar='{{ $escort->avatar }}' isPause="{{ $escort->is_profil_pause }}"
+                            isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}'
+                            profileVerifie='{{ $escort->profile_verifie }}' />
                     @endforeach
                 </div>
                 <div id="arrowEscortScrollRight"
-                    class="absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                    class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                     data-carousel-prev>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                         <path fill="white"
@@ -103,7 +106,7 @@
                     </svg>
                 </div>
                 <div id="arrowEscortScrollLeft"
-                    class="absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                    class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                     data-carousel-next>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                         <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
@@ -122,16 +125,17 @@
                     @foreach ($salons as $salon)
                         <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
                             canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
-                            isPause="{{ $salon->is_profil_pause }}"
-                            salonId='{{ $salon->id }}' avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' />
+                            isPause="{{ $salon->is_profil_pause }}" salonId='{{ $salon->id }}'
+                            avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' />
                     @endforeach
                     @if ($salons == '[]')
-                        <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">{{ __('home.no_salon_yet') }}
+                        <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">
+                            {{ __('home.no_salon_yet') }}
                         </h3>
                     @endif
                 </div>
                 <div id="arrowSalonScrollRight"
-                    class="absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                    class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                     data-carousel-prev>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                         <path fill="white"
@@ -139,7 +143,7 @@
                     </svg>
                 </div>
                 <div id="arrowSalonScrollLeft"
-                    class="absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                    class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                     data-carousel-next>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                         <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
@@ -149,7 +153,7 @@
             </div>
         </div>
 
-   
+
 
         {{-- Section listing escort --}}
         <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
@@ -162,13 +166,13 @@
                 @foreach ($escorts as $escort)
                     <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                         ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
-                        isOnline='{{ $escort->isOnline() }}' 
-                        isPause="{{ $escort->is_profil_pause }}" escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
+                        isOnline='{{ $escort->isOnline() }}' isPause="{{ $escort->is_profil_pause }}"
+                        escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' />
                 @endforeach
 
             </div>
             <div id="arrowListScrollRight"
-                class="absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                 data-carousel-prev>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                     <path fill="white"
@@ -176,16 +180,16 @@
                 </svg>
             </div>
             <div id="arrowListScrollLeft"
-                class="absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-green-gs shadow"
+                class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
                 data-carousel-next>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                     <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
                 </svg>
             </div>
             <div class="z-10 mb-6">
-               
 
-            <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}"/>
+
+                <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}" />
 
             </div>
         </div>
@@ -200,18 +204,9 @@
             {{ __('home.find_escorts') }}</h3>
         <div class="z-10 flex w-full flex-col items-center justify-center gap-2 px-4 py-6 md:flex-row">
 
-            <x-stat-card 
-                :count="__('home.partners_count')" 
-                :description="__('home.verified_profiles')" 
-            />
-            <x-stat-card 
-                :count="__('home.amateurs_count')" 
-                :description="__('home.amateur_experiences')" 
-            />
-            <x-stat-card 
-                :count="__('home.professional_salons_count')" 
-                :description="__('home.professional_salons_offer')" 
-            />
+            <x-stat-card :count="__('home.partners_count')" :description="__('home.verified_profiles')" />
+            <x-stat-card :count="__('home.amateurs_count')" :description="__('home.amateur_experiences')" />
+            <x-stat-card :count="__('home.professional_salons_count')" :description="__('home.professional_salons_offer')" />
 
         </div>
     </div>
@@ -219,7 +214,7 @@
 
     <div class="w-full bg-white px-4 py-8 sm:px-6 lg:py-12">
         <div class="mx-auto max-w-4xl">
-            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-2xl lg:text-4xl ">
+            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-2xl lg:text-4xl">
                 {{ __('home.become_escort_title') }}
             </h3>
             <p class="font-roboto-slab mt-2 text-center text-[#4A5565]">{{ __('home.become_escort_steps') }}</p>
@@ -271,10 +266,13 @@
             color: #6A7282;
             transition: all 0.2s ease;
         }
-        .accordion-button:hover, .accordion-button.active {
+
+        .accordion-button:hover,
+        .accordion-button.active {
             background-color: #FDA5D6 !important;
             color: #7F55B1 !important;
         }
+
         .accordion-content {
             background-color: #FFFAFC;
             border-color: #E5E7EB;
@@ -283,7 +281,8 @@
     </style>
     {{-- FAQ --}}
     <div class="container mx-auto flex flex-col items-center justify-center gap-10 p-4">
-        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-3xl lg:text-5xl">{{ __('home.frequent_questions') }}
+        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-3xl lg:text-5xl">
+            {{ __('home.frequent_questions') }}
         </h3>
         <div id="accordion-collapse" class="w-full lg:min-w-[1114px]" data-accordion="collapse">
             <div class="mb-2">
@@ -292,8 +291,8 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 rounded-t-xl border border-b-0 border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
                         aria-controls="accordion-collapse-body-1">
-                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                     clip-rule="evenodd"></path>
@@ -307,7 +306,8 @@
                 </h2>
                 <div id="accordion-collapse-body-1" aria-labelledby="accordion-collapse-heading-1">
                     <div class="accordion-content border border-b-0 p-5">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.unique_platform') }}</p>
+                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">{{ __('home.unique_platform') }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -317,8 +317,8 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 border border-b-0 border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                         aria-controls="accordion-collapse-body-2">
-                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                     clip-rule="evenodd"></path>
@@ -332,7 +332,8 @@
                 </h2>
                 <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
                     <div class="accordion-content border border-b-0 p-5">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.no_apartments_for_escorts') }}</p>
+                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">
+                            {{ __('home.no_apartments_for_escorts') }}</p>
                     </div>
                 </div>
             </div>
@@ -342,8 +343,8 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 border border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
                         aria-controls="accordion-collapse-body-3">
-                        <span class="flex items-center font-roboto-slab"><svg class="me-2 h-5 w-5 shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                                     clip-rule="evenodd"></path>
@@ -357,7 +358,8 @@
                 </h2>
                 <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
                     <div class="accordion-content border border-t-0 p-5">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400 font-roboto-slab">{{ __('home.escort_monthly_income') }}</p>
+                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">
+                            {{ __('home.escort_monthly_income') }}</p>
                     </div>
                 </div>
             </div>
@@ -368,7 +370,8 @@
     @if ($glossaires != '[]')
         <div class="mx-auto my-10 lg:container">
             <div class="my-10 flex flex-wrap items-center justify-between px-5 lg:px-20">
-                <h3 class="font-dm-serif text-green-gs text-2xl font-bold lg:text-4xl font-roboto-slab">{{ __('home.glossary_articles') }}
+                <h3 class="font-dm-serif text-green-gs font-roboto-slab text-2xl font-bold lg:text-4xl">
+                    {{ __('home.glossary_articles') }}
                 </h3>
                 <div class="z-10 my-2 w-auto">
                     <x-btn href="{{ url('glossaires') }}" text="{{ __('home.see_more_articles') }}" />
@@ -386,7 +389,7 @@
         // Script pour l'accordéon FAQ
         document.addEventListener('DOMContentLoaded', function() {
             const accordionButtons = document.querySelectorAll('[data-accordion-target]');
-            
+
             // Fonction pour réinitialiser tous les boutons
             function resetAllButtons() {
                 accordionButtons.forEach(btn => {
@@ -398,7 +401,7 @@
                     if (icon) icon.classList.remove('rotate-180');
                 });
             }
-            
+
             // Initialisation
             const firstButton = accordionButtons[0];
             if (firstButton) {
@@ -411,16 +414,17 @@
                     if (icon) icon.classList.add('rotate-180');
                 }
             }
-            
+
             // Gestion des clics
             accordionButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const target = document.querySelector(this.getAttribute('data-accordion-target'));
+                    const target = document.querySelector(this.getAttribute(
+                        'data-accordion-target'));
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    
+
                     // Fermer tous les autres accordéons
                     resetAllButtons();
-                    
+
                     // Basculer l'état actuel si nécessaire
                     if (isExpanded) {
                         this.classList.remove('active');
@@ -450,36 +454,34 @@
         const Listcontainer = document.getElementById('listingContainer')
 
         EscortrightBtn.addEventListener('click', () => {
-    
 
-    scrollByPercentage(Escortcontainer, false, 10);
-});
 
-EscortleftBtn.addEventListener('click', () => {
-   
-    scrollByPercentage(Escortcontainer, true, 10);
-});
+            scrollByPercentage(Escortcontainer, false, 10);
+        });
 
-SalonrightBtn.addEventListener('click', () => {
-   
-    scrollByPercentage(Saloncontainer, false, 35);
-});
+        EscortleftBtn.addEventListener('click', () => {
 
-SalonleftBtn.addEventListener('click', () => {
-   
-    scrollByPercentage(Saloncontainer, true, 35);
-});
+            scrollByPercentage(Escortcontainer, true, 10);
+        });
+
+        SalonrightBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Saloncontainer, false, 35);
+        });
+
+        SalonleftBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Saloncontainer, true, 35);
+        });
 
         ListrightBtn.addEventListener('click', () => {
-            
+
             scrollByPercentage(Listcontainer, false, 10)
         })
         ListleftBtn.addEventListener('click', () => {
-         
+
             scrollByPercentage(Listcontainer, true, 10)
         })
-
-
     </script>
 @endsection
 

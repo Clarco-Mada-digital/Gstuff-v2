@@ -4,15 +4,16 @@
     <div x-data="articleManager()" x-init="init()" class="px-4 py-6 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('article_management.article_management') }}</h1>
-            <a href="{{ route('articles.create') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('article_management.article_management') }}
+            </h1>
+            <a href="{{ route('articles.create') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 + {{ __('article_management.new_article') }}
             </a>
         </div>
 
         <!-- Filters -->
-        <div class="mb-6 rounded-lg bg-white p-4 shadow font-roboto-slab">
+        <div class="font-roboto-slab mb-6 rounded-lg bg-white p-4 shadow">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
                 <!-- Status Filter -->
                 <div>
@@ -50,7 +51,7 @@
         </div>
 
         <!-- Articles Table -->
-        <div class="overflow-hidden bg-white shadow sm:rounded-lg font-roboto-slab">
+        <div class="font-roboto-slab overflow-hidden bg-white shadow sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -81,7 +82,8 @@
                     <template x-for="article in filteredArticles" :key="article.id">
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-medium text-gray-900" x-text="article.title['{{ app()->getLocale() }}']"></div>
+                                <div class="font-medium text-gray-900" x-text="article.title['{{ app()->getLocale() }}']">
+                                </div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="flex items-center">
@@ -317,7 +319,7 @@
                             const data = await response.json();
 
                             console.log(data);
-                            
+
                             if (data.success) {
                                 article.is_published = data.is_published;
                                 this.showToast('success', data.message);
@@ -327,7 +329,7 @@
                         } catch (error) {
                             console.error('Error toggling article status:', error);
                             this.showToast('error', error.message || 'Une erreur est survenue. Veuillez réessayer.');
-                            
+
                             // Force reload if unauthorized to refresh auth state
                             if (error.message.includes('Unauthenticated') || error.message.includes('401')) {
                                 window.location.reload();

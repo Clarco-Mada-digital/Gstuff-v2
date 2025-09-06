@@ -5,18 +5,14 @@
     'model' => 'selectedSalonCanton',
     'id' => 'salon-canton-select',
     'class' => '',
-    'placeholder' => 'salon-search.cantons'
+    'placeholder' => 'salon-search.cantons',
 ])
 
-<div class="relative {{ $class }}">
+<div class="{{ $class }} relative">
     <div class="relative">
         <div class="custom-select-wrapper">
-            <select
-                wire:model.live="{{ $model }}"
-                wire:change="{{ $onChange }}"
-                id="{{ $id }}"
-                class="hidden"
-            >
+            <select wire:model.live="{{ $model }}" wire:change="{{ $onChange }}" id="{{ $id }}"
+                class="hidden">
                 <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __($placeholder) }}</option>
                 @foreach ($cantons as $canton)
                     <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
@@ -24,8 +20,9 @@
                     </option>
                 @endforeach
             </select>
-            <div class="custom-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border-2 border-supaGirlRose font-roboto-slab">
-                <div class="flex justify-between items-center">
+            <div
+                class="custom-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border-2 bg-white px-3 py-2.5">
+                <div class="flex items-center justify-between">
                     <div class="selected-option" id="{{ $id }}-selected-option">
                         {{ $selectedCanton && $cantons->firstWhere('id', $selectedCanton) ? $cantons->firstWhere('id', $selectedCanton)->nom : __('user-search.cantons') }}
                     </div>
@@ -33,7 +30,9 @@
                 </div>
                 <div class="custom-options">
                     <div class="search-container">
-                        <input type="text" id="{{ $id }}-search" class="w-full bg-white rounded-lg border-b-1 border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                        <input type="text" id="{{ $id }}-search"
+                            class="border-b-1 border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                            placeholder="{{ __('user-search.search') }}">
                     </div>
                     <div class="options-list">
                         @foreach ($cantons as $canton)
@@ -50,13 +49,16 @@
     .custom-select-wrapper {
         position: relative;
     }
+
     .custom-select {
         position: relative;
         width: 100%;
     }
+
     .selected-option {
         color: #7F55B1;
     }
+
     .custom-options {
         display: none;
         position: absolute;
@@ -71,9 +73,11 @@
         z-index: 1000;
         margin-top: 0.5rem;
     }
+
     .custom-options.show {
         display: block;
     }
+
     .search-container {
         position: sticky;
         top: 0;
@@ -81,20 +85,25 @@
         z-index: 1001;
         padding: 0.5rem;
     }
+
     .options-list {
         max-height: 250px;
     }
+
     .custom-option {
         padding: 0.5rem 1rem;
         color: #7F55B1;
         cursor: pointer;
     }
+
     .custom-option:hover {
         background-color: #FED5E9;
     }
+
     .custom-option.selected {
         background-color: #FED5E9;
     }
+
     #{{ $id }}-search {
         width: 100%;
         padding: 0.5rem;
@@ -175,7 +184,7 @@
                     dropdown.classList.remove('show');
                 }
             });
-            
+
             document.querySelectorAll('.arrow-icon').forEach(icon => {
                 if (!exceptElement || !icon.closest('.custom-select')?.contains(exceptElement)) {
                     icon.classList.remove('fa-chevron-up');
@@ -201,13 +210,13 @@
             if (isCantonSelect && !isSearchInput) {
                 const currentSelect = clickedElement.closest('.custom-select');
                 const currentOptions = currentSelect?.querySelector('.custom-options');
-                
+
                 // Si le menu est déjà ouvert, on le ferme
                 if (currentOptions?.classList.contains('show')) {
                     closeAllDropdowns();
                     return;
                 }
-                
+
                 // Sinon, on ferme tous les autres menus d'abord
                 closeAllDropdowns(currentSelect);
             }

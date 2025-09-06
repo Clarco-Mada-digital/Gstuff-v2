@@ -6,9 +6,9 @@
     'label' => null,
 ])
 
-<div class="relative {{ $class }}">
-    @if($label)
-        <label for="{{ $id }}" class="block text-sm font-medium text-green-gs mb-2 font-roboto-slab">
+<div class="{{ $class }} relative">
+    @if ($label)
+        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">
             {{ $label }}
         </label>
     @endif
@@ -16,22 +16,23 @@
         <div class="custom-ville-select-wrapper">
             <select wire:model.live="selectedVille" id="{{ $id }}" class="hidden">
                 <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
-                    @if(count($villes) > 0)
+                    @if (count($villes) > 0)
                         {{ __('salon-search.villes') }}
                     @else
                         {{ __('salon-search.select_canton') }}
                     @endif
                 </option>
-                @foreach($villes as $ville)
+                @foreach ($villes as $ville)
                     <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
             </select>
-            <div class="custom-ville-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border border-2 border-supaGirlRose font-roboto-slab">
-                <div class="flex justify-between items-center">
+            <div
+                class="custom-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border border-2 bg-white px-3 py-2.5">
+                <div class="flex items-center justify-between">
                     <div class="selected-ville-option" id="{{ $id }}-selected-option">
-                        @if($selectedVille)
+                        @if ($selectedVille)
                             {{ collect($villes)->firstWhere('id', $selectedVille)['nom'] ?? __('salon-search.villes') }}
                         @elseif(count($villes) > 0)
                             {{ __('salon-search.villes') }}
@@ -41,17 +42,20 @@
                     </div>
                     <i class="fas fa-chevron-down ville-arrow-icon text-green-gs font-roboto-slab"></i>
                 </div>
-                @if(count($villes) > 0)
-                <div class="custom-ville-options">
-                    <div class="search-ville-container">
-                        <input type="text" id="{{ $id }}-search" class="search-ville-input w-full bg-white rounded-lg border-b border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                @if (count($villes) > 0)
+                    <div class="custom-ville-options">
+                        <div class="search-ville-container">
+                            <input type="text" id="{{ $id }}-search"
+                                class="search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg border-b bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                                placeholder="{{ __('user-search.search') }}">
+                        </div>
+                        <div class="options-ville-list">
+                            @foreach ($villes as $ville)
+                                <div class="custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="options-ville-list">
-                        @foreach($villes as $ville)
-                            <div class="custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}</div>
-                        @endforeach
-                    </div>
-                </div>
                 @endif
             </div>
         </div>
@@ -62,13 +66,16 @@
     .custom-ville-select-wrapper {
         position: relative;
     }
+
     .custom-ville-select {
         position: relative;
         width: 100%;
     }
+
     .selected-ville-option {
         color: #7F55B1;
     }
+
     .custom-ville-options {
         display: none;
         position: absolute;
@@ -83,9 +90,11 @@
         z-index: 1000;
         margin-top: 0.5rem;
     }
+
     .custom-ville-options.show {
         display: block;
     }
+
     .search-ville-container {
         position: sticky;
         top: 0;
@@ -93,20 +102,25 @@
         z-index: 1001;
         padding: 0.5rem;
     }
+
     .options-ville-list {
         max-height: 250px;
     }
+
     .custom-ville-option {
         padding: 0.5rem 1rem;
         color: #7F55B1;
         cursor: pointer;
     }
+
     .custom-ville-option:hover {
         background-color: #FED5E9;
     }
+
     .custom-ville-option.selected {
         background-color: #FED5E9;
     }
+
     .search-ville-input {
         width: 100%;
         padding: 0.5rem;
@@ -116,23 +130,21 @@
 </style>
 
 <script>
-    
-
     let isInitialized = false; // Drapeau pour vérifier si l'initialisation a déjà été effectuée
 
     function initVilleSelect() {
         if (isInitialized) {
-         
+
             return;
         }
 
-      
+
         const select = document.getElementById('ville-search');
         if (!select) {
-       
+
             return;
         }
-       
+
 
         const customSelect = document.querySelector('.custom-ville-select');
         const selectedOption = document.getElementById('ville-search-selected-option');
@@ -140,11 +152,11 @@
         const customOptions = document.querySelector('.custom-ville-options');
         const arrowIcon = document.querySelector('.ville-arrow-icon');
 
-       
-        
+
+
 
         if (!customOptions || !searchInput) {
-        
+
             return;
         }
 
@@ -153,7 +165,7 @@
             options.forEach(option => {
                 option.addEventListener('click', function(event) {
                     event.stopPropagation(); // Empêcher la propagation de l'événement
-                   
+
                     const value = this.getAttribute('data-value');
                     const text = this.textContent;
                     select.value = value;
@@ -164,7 +176,9 @@
                         arrowIcon.classList.remove('fa-chevron-up');
                         arrowIcon.classList.add('fa-chevron-down');
                     }
-                    const eventChange = new Event('change', { bubbles: true });
+                    const eventChange = new Event('change', {
+                        bubbles: true
+                    });
                     select.dispatchEvent(eventChange);
                 });
             });
@@ -181,11 +195,11 @@
 
             isCustomSelectClicked = true;
 
-           
+
             event.stopPropagation(); // Empêcher la propagation de l'événement
 
             const isShowing = customOptions.classList.toggle('show');
-           
+
 
             searchInput.focus();
 
@@ -205,7 +219,7 @@
         });
 
         searchInput.addEventListener('click', function(event) {
-           
+
             event.stopPropagation(); // Empêcher la propagation de l'événement
         });
 
@@ -225,7 +239,7 @@
                     dropdown.classList.remove('show');
                 }
             });
-            
+
             document.querySelectorAll('.ville-arrow-icon').forEach(icon => {
                 if (!exceptElement || !icon.closest('.custom-ville-select')?.contains(exceptElement)) {
                     icon.classList.remove('fa-chevron-up');
@@ -251,13 +265,13 @@
             if (isVilleSelect && !isSearchInput) {
                 const currentSelect = clickedElement.closest('.custom-ville-select');
                 const currentOptions = currentSelect?.querySelector('.custom-ville-options');
-                
+
                 // Si le menu est déjà ouvert, on le ferme
                 if (currentOptions?.classList.contains('show')) {
                     closeAllDropdowns();
                     return;
                 }
-                
+
                 // Sinon, on ferme tous les autres menus d'abord
                 closeAllDropdowns(currentSelect);
             }
@@ -267,7 +281,7 @@
         document.addEventListener('click', handleDocumentClick, true);
 
         isInitialized = true; // Marquer l'initialisation comme effectuée
-        
+
         // Nettoyage lors de la suppression du composant
         document.addEventListener('livewire:before-update', () => {
             if (typeof handleDocumentClick === 'function') {
@@ -283,13 +297,13 @@
 
     // Initialisation au chargement du DOM
     document.addEventListener('DOMContentLoaded', function() {
-   
+
         initVilleSelect();
     });
 
     // Gestion des événements Livewire
     if (window.Livewire) {
-    
+
 
         // Au chargement initial de Livewire
         document.addEventListener('livewire:load', function() {
@@ -303,9 +317,8 @@
 
         // Après chaque message traité par Livewire
         Livewire.hook('message.processed', (message, component) => {
-         
+
             handleLivewireUpdate();
         });
-    } 
+    }
 </script>
-

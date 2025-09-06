@@ -3,11 +3,11 @@
 @section('title', __('profile_verification.page_title'))
 
 @section('admin-content')
-    <div class="px-4 py-6 sm:px-6 lg:px-8 font-roboto-slab">
+    <div class="font-roboto-slab px-4 py-6 sm:px-6 lg:px-8">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('profile_verification.page_title') }}</h1>
-            <a href="{{ route('users.index') }}" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('profile_verification.page_title') }}</h1>
+            <a href="{{ route('users.index') }}"
+                class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                 <i class="fas fa-arrow-left mr-2"></i> {{ __('profile_verification.back') }}
             </a>
         </div>
@@ -59,16 +59,14 @@
             @if ($user->profile_verifie !== 'verifier')
                 <a href="{{ route('users.approvedProfile', $user->id) }}">
                     <button type="submit"
-                        class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+                        class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                         <i class="fas fa-check-circle mr-2"></i> {{ __('profile_verification.actions.approve') }}
                     </button>
                 </a>
             @else
                 <a href="{{ route('users.notApprovedProfile', $user->id) }}">
                     <button type="submit"
-                        class="bg-white border border-green-gs px-4 py-2 text-green-gs font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md"
+                        class="border-green-gs text-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md border bg-white px-4 py-2 shadow-md"
                         onclick="return confirm('{{ __('profile_verification.actions.reject_confirm') }}')">
                         <i class="fas fa-times-circle mr-2"></i> {{ __('profile_verification.actions.reject') }}
                     </button>

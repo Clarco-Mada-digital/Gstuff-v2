@@ -9,18 +9,18 @@
         <!-- Sidebar -->
         <div class="fixed inset-y-0 left-0 z-20 w-64 transform bg-white pt-32 shadow-lg transition-transform duration-300 ease-in-out"
             :class="{ '-translate-x-full': !sidebarOpen }" {{-- @click.away="sidebarOpen = false" --}}>
-            <div class="flex h-16 items-center justify-center bg-supaGirlRose px-4 text-white">
-                <span class="text-xl font-bold font-roboto-slab text-green-gs ">{{ __('admin_panel.admin_panel') }}</span>
+            <div class="bg-supaGirlRose flex h-16 items-center justify-center px-4 text-white">
+                <span class="font-roboto-slab text-green-gs text-xl font-bold">{{ __('admin_panel.admin_panel') }}</span>
             </div>
             <nav class="mt-6">
                 <template x-for="(item, index) in menuItems" :key="index">
                     <a :href="item.route"
-                        class="flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-green-gs/80 font-roboto-slab"
+                        class="hover:text-green-gs/80 font-roboto-slab flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50"
                         :class="{ 'bg-blue-50 text-green-gs/80 border-r-4 border-green-gs/80': isActive(item.route) }">
                         <span x-text="item.icon" class="mr-3"></span>
                         <span x-text="item.label"></span>
                         <template x-if="item.badge">
-                            <span class="ml-auto rounded-full bg-green-gs/20 px-2 py-1 text-xs text-green-gs"
+                            <span class="bg-green-gs/20 text-green-gs ml-auto rounded-full px-2 py-1 text-xs"
                                 x-text="item.badge"></span>
                         </template>
                     </a>
@@ -272,7 +272,7 @@
                     try {
                         const response = await fetch('/admin/unread-comments');
                         const data = await response.json();
-                       
+
 
                         this.updateMenuItemBadge('{{ __('admin_panel.comments') }}', data.count);
                     } catch (error) {

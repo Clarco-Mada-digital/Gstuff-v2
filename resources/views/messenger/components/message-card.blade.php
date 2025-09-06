@@ -5,8 +5,7 @@
 <div class="{{ $isSender ? 'justify-end' : 'justify-start' }} mb-3 flex w-full px-2 sm:px-4" data-id="{{ $message->id }}"
     x-data="{ showMenu: false }">
     <div class="{{ $isSender ? 'justify-end' : 'justify-start' }} flex w-[70%] items-start">
-        <div
-            class="flex max-w-full items-start">
+        <div class="flex max-w-full items-start">
 
             <!-- Sender message -->
             @if ($message->from_id === auth()->user()->id)
@@ -29,7 +28,7 @@
 
             <!-- Receiver message -->
             <div
-                class="{{ $isSender ? 'bg-supaGirlRosePastel text-green-gs ' : 'bg-white' }} font-roboto-slab rounded-lg p-2 shadow-sm sm:p-3 sm:shadow overflow-hidden">
+                class="{{ $isSender ? 'bg-supaGirlRosePastel text-green-gs ' : 'bg-white' }} font-roboto-slab overflow-hidden rounded-lg p-2 shadow-sm sm:p-3 sm:shadow">
                 @if ($attachment)
                     <div class="relative">
                         <img x-on:click="$dispatch('img-modal', {  imgModalSrc: '{{ asset(json_decode($message->attachment)) }}', imgModalDesc: '' })"
@@ -39,7 +38,8 @@
                     </div>
                 @endif
                 @if ($message->body)
-                    <p class="break-words pr-6 text-sm sm:text-base overflow-auto max-w-full whitespace-pre-wrap">{{ $message->body }}</p>
+                    <p class="max-w-full overflow-auto whitespace-pre-wrap break-words pr-6 text-sm sm:text-base">
+                        {{ $message->body }}</p>
                     <p
                         class="{{ $isSender ? 'text-textColor' : 'text-gray-500' }} font-roboto-slab xs:text-xs mt-1 flex items-center text-[10px]">
                         {{ $message->created_at->format('H:i') }}

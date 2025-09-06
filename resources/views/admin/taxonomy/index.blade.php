@@ -3,47 +3,48 @@
 @section('admin-content')
     <div x-data="{ ...taxonomyManager(), showDeleteModal: false, itemToDelete: null, deleteType: null }" x-init="init()" class="container mx-auto px-4 py-8">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-green-gs font-roboto-slab">{{ __('taxonomy.taxonomy_management') }}</h1>
+            <h1 class="text-green-gs font-roboto-slab text-2xl font-bold">{{ __('taxonomy.taxonomy_management') }}</h1>
             <div class="flex space-x-3">
-                <button @click="openModal('category')" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+                <button @click="openModal('category')"
+                    class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                     {{ __('taxonomy.new_category') }}
                 </button>
-                <button @click="openModal('tag')" class="bg-green-gs text-white px-4 py-2 font-roboto-slab hover:bg-green-gs/80 
-            rounded-md  shadow-md">
+                <button @click="openModal('tag')"
+                    class="bg-green-gs font-roboto-slab hover:bg-green-gs/80 rounded-md px-4 py-2 text-white shadow-md">
                     {{ __('taxonomy.new_tag') }}
                 </button>
             </div>
         </div>
 
         <!-- Tabs Navigation -->
-        <div class="mb-6 border-b border-gray-200 font-roboto-slab">
+        <div class="font-roboto-slab mb-6 border-b border-gray-200">
             <nav class="-mb-px flex space-x-8">
                 <button @click="activeTab = 'categories'"
                     :class="activeTab === 'categories' ? 'border-green-gs text-green-gs' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium font-roboto-slab">
+                    class="font-roboto-slab whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
                     {{ __('taxonomy.categories') }}
                 </button>
                 <button @click="activeTab = 'tags'"
                     :class="activeTab === 'tags' ? 'border-green-gs text-green-gs' :
                         'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                    class="whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium font-roboto-slab">
+                    class="font-roboto-slab whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
                     {{ __('taxonomy.tags') }}
                 </button>
             </nav>
         </div>
 
         <!-- Categories Table -->
-        <div x-show="activeTab === 'categories'" x-transition class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
+        <div x-show="activeTab === 'categories'" x-transition
+            class="font-roboto-slab overflow-hidden rounded-lg bg-white shadow">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
+                        <th class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.name') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
+                        <th class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.articles') }}</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
+                        <th class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.actions') }}</th>
                     </tr>
                 </thead>
@@ -51,7 +52,8 @@
                     <template x-for="category in categories" :key="category.id">
                         <tr>
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-medium text-gray-900" x-text="category.name['{{ app()->getLocale() }}']"></div>
+                                <div class="font-medium text-gray-900" x-text="category.name['{{ app()->getLocale() }}']">
+                                </div>
                                 <div class="text-sm text-gray-500" x-text="category.slug"></div>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4">
@@ -75,11 +77,11 @@
         </div>
 
         <!-- Tags Table -->
-        <div x-show="activeTab === 'tags'" x-transition class="overflow-hidden rounded-lg bg-white shadow font-roboto-slab">
+        <div x-show="activeTab === 'tags'" x-transition class="font-roboto-slab overflow-hidden rounded-lg bg-white shadow">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500 font-roboto-slab">
+                        <th class="font-roboto-slab px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.name') }}</th>
                         <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
                             {{ __('taxonomy.articles') }}</th>
@@ -164,24 +166,25 @@
                         'sm:max-w-lg': modalType === 'category'
                     }">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <h3 class="mb-4 text-lg font-roboto-slab leading-6 text-green-gs" x-text="modalTitle"></h3>
+                        <h3 class="font-roboto-slab text-green-gs mb-4 text-lg leading-6" x-text="modalTitle"></h3>
 
                         <!-- Formulaire de création -->
                         <form x-show="!isEditing" @submit.prevent="submitForm">
                             <!-- Category specific fields -->
                             <div x-show="modalType === 'category'">
-                                <input type="hidden" name="lang" x-model="formData.lang = '{{ app()->getLocale() }}'">
+                                <input type="hidden" name="lang"
+                                    x-model="formData.lang = '{{ app()->getLocale() }}'">
                                 <div class="mb-4">
                                     <label for="category_name"
-                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.category_name') }}</label>
+                                        class="font-roboto-slab text-green-gs block text-sm">{{ __('taxonomy.category_name') }}</label>
                                     <input type="text" id="category_name" x-model="formData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                                 </div>
                                 <div class="mb-4">
                                     <label for="category_description"
-                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.category_description') }}</label>
+                                        class="font-roboto-slab text-green-gs block text-sm">{{ __('taxonomy.category_description') }}</label>
                                     <textarea id="category_description" x-model="formData.description" rows="3"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"></textarea>
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                                 </div>
                             </div>
 
@@ -189,9 +192,9 @@
                             <div x-show="modalType === 'tag'">
                                 <div class="mb-4">
                                     <label for="tag_name"
-                                        class="block text-sm font-roboto-slab text-green-gs">{{ __('taxonomy.tag_name') }}</label>
+                                        class="font-roboto-slab text-green-gs block text-sm">{{ __('taxonomy.tag_name') }}</label>
                                     <input type="text" id="tag_name" x-model="formData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                                 </div>
                             </div>
                         </form>
@@ -200,19 +203,21 @@
                         <form x-show="isEditing" @submit.prevent="submitForm">
                             <!-- Category specific fields -->
                             <div x-show="modalType === 'category'">
-                                <input type="hidden" name="lang" x-model="updateFormData.lang = '{{ app()->getLocale() }}'">
+                                <input type="hidden" name="lang"
+                                    x-model="updateFormData.lang = '{{ app()->getLocale() }}'">
                                 <input type="hidden" name="id" x-model="updateFormData.id">
                                 <div class="mb-4">
                                     <label for="update_category_name"
-                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.category_name') }}</label>
-                                    <input type="text" id="update_category_name" x-model="updateFormData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                        class="text-green-gs block text-sm font-medium">{{ __('taxonomy.category_name') }}</label>
+                                    <input type="text" id="update_category_name" x-model="updateFormData.name"
+                                        required
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                                 </div>
                                 <div class="mb-4">
                                     <label for="update_category_description"
-                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.category_description') }}</label>
+                                        class="text-green-gs block text-sm font-medium">{{ __('taxonomy.category_description') }}</label>
                                     <textarea id="update_category_description" x-model="updateFormData.description" rows="3"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs"></textarea>
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                                 </div>
                             </div>
 
@@ -221,20 +226,20 @@
                                 <input type="hidden" name="id" x-model="updateFormData.id">
                                 <div class="mb-4">
                                     <label for="update_tag_name"
-                                        class="block text-sm font-medium text-green-gs">{{ __('taxonomy.tag_name') }}</label>
+                                        class="text-green-gs block text-sm font-medium">{{ __('taxonomy.tag_name') }}</label>
                                     <input type="text" id="update_tag_name" x-model="updateFormData.name" required
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-gs focus:ring-green-gs">
+                                        class="focus:border-green-gs focus:ring-green-gs mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 font-roboto-slab">
+                    <div class="font-roboto-slab bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                         <button type="button" @click="submitForm"
-                            class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-gs px-4 py-2 text-base  text-white shadow-sm hover:bg-green-gs/80 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="bg-green-gs hover:bg-green-gs/80 focus:ring-green-gs inline-flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-base text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                             {{ __('taxonomy.save_button') }}
                         </button>
                         <button type="button" @click="closeModal"
-                            class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-gs focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
+                            class="focus:ring-green-gs mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
                             {{ __('taxonomy.cancel_button') }}
                         </button>
                     </div>
@@ -285,12 +290,14 @@
                         if (this.isEditing) {
                             this.modalTitle =
                                 `${this.modalType === 'category' ? '{{ __('taxonomy.edit_category') }}' : '{{ __('taxonomy.edit_tag') }}'}`;
-                            
+
                             if (type === 'category') {
                                 this.updateFormData = {
                                     id: item.id,
-                                    name: item.name ? (typeof item.name === 'object' ? item.name['{{ app()->getLocale() }}'] : item.name) : '',
-                                    description: item.description ? (typeof item.description === 'object' ? item.description['{{ app()->getLocale() }}'] || '' : item.description) : '',
+                                    name: item.name ? (typeof item.name === 'object' ? item.name[
+                                        '{{ app()->getLocale() }}'] : item.name) : '',
+                                    description: item.description ? (typeof item.description === 'object' ? item
+                                        .description['{{ app()->getLocale() }}'] || '' : item.description) : '',
                                     is_active: item.is_active || true
                                 };
                             } else {
@@ -341,7 +348,7 @@
                                 '/admin/tags');
 
                         const method = this.isEditing ? 'PUT' : 'POST';
-                       
+
 
 
 
@@ -358,10 +365,10 @@
 
                             const data = await response.json();
 
-                            console.log("data all",data);
+                            console.log("data all", data);
                             this.fetchData();
 
-                         
+
 
                             if (response.ok) {
                                 window.dispatchEvent(new CustomEvent('taxonomy-updated'));
@@ -411,7 +418,7 @@
 
                     async fetchData() {
 
-                     
+
                         try {
                             const [categoriesRes, tagsRes] = await Promise.all([
                                 fetch('/admin/fetchCategories'),
@@ -423,8 +430,8 @@
                                 tagsRes.json()
                             ]);
 
-                          
-        
+
+
 
                             this.categories = categoriesData.categories;
                             this.tags = tagsData.tags;
@@ -446,7 +453,7 @@
 
                     editItem(type, item) {
 
-                   
+
                         this.openModal(type, item);
                     },
 

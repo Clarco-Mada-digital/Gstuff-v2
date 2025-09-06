@@ -3,10 +3,10 @@
     <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30%]">
         <!-- Header -->
         <div class="flex items-center justify-between p-4">
-            <h1 class="text-xl font-bold text-green-gs font-roboto-slab">{{ __('messenger.messenger') }}</h1>
+            <h1 class="text-green-gs font-roboto-slab text-xl font-bold">{{ __('messenger.messenger') }}</h1>
 
             <button x-on:click="modalIsOpen = true" type="button"
-                class="cursor-pointer bg-green-gs hover:bg-green-gs-dark focus:ring-green-gs-light dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light block rounded-lg px-3 py-1.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+                class="bg-green-gs hover:bg-green-gs-dark focus:ring-green-gs-light dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light block cursor-pointer rounded-lg px-3 py-1.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -32,7 +32,7 @@
                             <div class="p-4">
 
                                 <div class="relative mt-3">
-                                    
+
                                     <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                                         placeholder="{{ __('messenger.search_placeholder') }}"
                                         class="focus:ring-green-gs w-full rounded-lg border border-gray-300 p-2 pl-10 focus:outline-none focus:ring-2">
@@ -41,7 +41,7 @@
                             </div>
                             <div>
                                 <template x-if="searchResults.length === 0">
-                                    <div class="p-4 text-center text-textColorParagraph font-roboto-slab text-sm">
+                                    <div class="text-textColorParagraph font-roboto-slab p-4 text-center text-sm">
                                         {{ __('messenger.no_results_found') }}
                                     </div>
                                 </template>
@@ -50,17 +50,17 @@
                                         x-for="result in searchResults.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)"
                                         :key="result.id">
                                         <div x-on:click="loadChat(result.id) ; modalIsOpen = false ; "
-                                            class="hover:bg-supaGirlRosePastel/50 font-roboto-slab flex cursor-pointer items-center rounded-sm p-3 hover:text-green-gs">
+                                            class="hover:bg-supaGirlRosePastel/50 font-roboto-slab hover:text-green-gs flex cursor-pointer items-center rounded-sm p-3">
                                             <img :src="result.avatar ? `{{ asset('storage/avatars') }}/` + result.avatar :
                                                 '/logo-icon.webp'"
                                                 :alt="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result
                                                     .nom_salon"
                                                 class="h-10 w-10 rounded-full object-cover">
                                             <div class="ml-3">
-                                                <h3 class="font-bold font-medium text-green-gs hover:text-green-gs font-roboto-slab"
+                                                <h3 class="text-green-gs hover:text-green-gs font-roboto-slab font-bold font-medium"
                                                     x-text="result.pseudo ? result.pseudo : result.prenom ? result.prenom : result.nom_salon">
                                                 </h3>
-                                                <p class="text-xs text-textColorParagraph hover:text-green-gs font-roboto-slab"
+                                                <p class="text-textColorParagraph hover:text-green-gs font-roboto-slab text-xs"
                                                     x-text="result.profile_type"></p>
                                             </div>
                                         </div>
@@ -72,15 +72,15 @@
                                 <!-- Pagination Controls -->
                                 <div class="mt-2 flex justify-center space-x-2" x-show="searchResults.length > 0">
                                     <button @click="currentPage = Math.max(1, currentPage - 1)"
-                                        class="rounded bg-green-gs px-4 py-2 hover:bg-green-gs/80 text-white font-roboto-slab hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded px-4 py-2 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === 1">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
                                     <span x-text="currentPage + ' / ' + Math.ceil(searchResults.length / itemsPerPage)"
-                                        class="rounded bg-green-gs px-4 py-2 text-sm text-white font-roboto-slab"></span>
+                                        class="bg-green-gs font-roboto-slab rounded px-4 py-2 text-sm text-white"></span>
                                     <button
                                         @click="currentPage = Math.min(Math.ceil(searchResults.length / itemsPerPage), currentPage + 1)"
-                                        class="rounded bg-green-gs px-4 py-2 hover:bg-green-gs/80 text-white font-roboto-slab hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded px-4 py-2 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === Math.ceil(searchResults.length / itemsPerPage)">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
@@ -95,22 +95,23 @@
 
         <!-- Favoris -->
         <div class="mb-2">
-            <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 font-roboto-slab px-4 py-2  text-green-gs">
+            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2">
                 {{ __('messenger.favorites') }}</h2>
             <div class="flex space-x-2 overflow-x-auto p-2">
                 <template x-if="favorites.length === 0">
-                    <div class="p-4 flex items-center justify-center text-center  text-sm text-textColorParagraph font-roboto-slab">
+                    <div
+                        class="text-textColorParagraph font-roboto-slab flex items-center justify-center p-4 text-center text-sm">
                         {{ __('messenger.no_favorites') }}
                     </div>
                 </template>
                 <template x-for="favorite in favorites" :key="favorite.id">
                     <div @click="loadChat(favorite.id)"
-                        class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden
-                         ">
+                        class="flex flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden">
                         <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/logo-icon.webp'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="h-12 w-12 rounded-full object-cover">
-                        <span class="font-roboto-slab text-textColorParagraph text-sm" x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon " ></span>
+                        <span class="font-roboto-slab text-textColorParagraph text-sm"
+                            x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon "></span>
                     </div>
                 </template>
             </div>
@@ -118,7 +119,7 @@
 
         <!-- Liste des contacts -->
         <div class="relative mb-2 flex-1">
-            <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 font-roboto-slab px-4 py-2 text-green-gs">
+            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2">
                 {{ __('messenger.contacts') }}</h2>
             <div x-show="!loadingContacts" id="contacts-list" class="h-[15vh] divide-y overflow-y-auto md:h-[30vh]">
 
@@ -133,29 +134,29 @@
     <!-- Zone de chat principale -->
     <div class="relative h-[75vh] w-full md:h-full md:w-[70%]">
 
-        <h2 class="mb-2 rounded-t-sm bg-supaGirlRosePastel/50 px-4 py-2 font-semibold text-green-gs md:hidden">
+        <h2 class="bg-supaGirlRosePastel/50 text-green-gs mb-2 rounded-t-sm px-4 py-2 font-semibold md:hidden">
             {{ __('messenger.messages') }}</h2>
 
-        <div x-show="currentChat" class="flex items-center justify-between rounded-sm bg-supaGirlRosePastel p-4">
+        <div x-show="currentChat" class="bg-supaGirlRosePastel flex items-center justify-between rounded-sm p-4">
             <div class="flex items-center space-x-3">
                 <img :src="currentChatUser.avatar ? `{{ asset('storage/avatars') }}/${currentChatUser.avatar}` : '/logo-icon.webp'"
                     :alt="currentChatUser.pseudo" class="h-10 w-10 rounded-full">
                 <div>
                     <h2 x-text="currentChatUser.pseudo ? currentChatUser.pseudo : currentChatUser.prenom ? currentChatUser.prenom : currentChatUser.nom_salon"
-                        class="font-semibold font-roboto-slab text-green-gs"></h2>
-                    <p x-text="currentChatUser.status" class="text-xs text-textColorParagraph font-roboto-slab"></p>
+                        class="font-roboto-slab text-green-gs font-semibold"></h2>
+                    <p x-text="currentChatUser.status" class="text-textColorParagraph font-roboto-slab text-xs"></p>
                 </div>
             </div>
             <div class="flex items-center space-x-2">
                 <button @click="toggleFavorite(currentChatUser.id)"
-                    class="cursor-pointer p-2 text-supaGirlRose hover:text-green-gs" aria-label="Ajouter aux favoris">
+                    class="text-supaGirlRose hover:text-green-gs cursor-pointer p-2" aria-label="Ajouter aux favoris">
                     <i
                         :class="{
                             'fas fa-star text-supaGirlRose': isFavorite(currentChatUser.id),
                             'far fa-star': !isFavorite(currentChatUser.id)
                         }"></i>
                 </button>
-                <button @click="toggleInfoPanel()" class="cursor-pointer p-2 text-supaGirlRose hover:text-green-gs"
+                <button @click="toggleInfoPanel()" class="text-supaGirlRose hover:text-green-gs cursor-pointer p-2"
                     aria-label="{{ __('messenger.user_info_panel') }}">
                     <i class="fas fa-info-circle"></i>
                 </button>
@@ -252,9 +253,9 @@
         <!-- Messages -->
         <div x-show="currentChat" x-transition:enter="transition ease-out duration-300 "
             x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-            class="flex-1 overflow-y-auto bg-fieldBg p-4" id="messages-coverer">
+            class="bg-fieldBg flex-1 overflow-y-auto p-4" id="messages-coverer">
             <div x-show="loadingMessages"
-                class="flex h-[30vh] items-center justify-center py-4 text-center md:h-[40vh] ">
+                class="flex h-[30vh] items-center justify-center py-4 text-center md:h-[40vh]">
                 <i class="fas fa-spinner fa-spin text-supaGirlRose"></i>
             </div>
             <div x-show="!loadingMessages" id="messages-list" class="h-[30vh] space-y-3 overflow-y-auto md:h-[40vh]">
@@ -275,27 +276,26 @@
 
 
         <!-- Input d'envoi -->
-        <div x-show='currentChat' class="rounded-b-sm border-t-2 border-supaGirlRose   bg-white px-3 pb-3 pt-4 shadow-sm">
+        <div x-show='currentChat'
+            class="border-supaGirlRose rounded-b-sm border-t-2 bg-white px-3 pb-3 pt-4 shadow-sm">
 
             <!-- Formulaire d'envoi -->
             <form @submit.prevent="sendMessage(); clearAttachment();" class="flex items-center gap-2">
                 <!-- Bouton pièce jointe -->
-                <label class="hover:text-green-gs cursor-pointer p-2 text-supaGirlRose">
+                <label class="hover:text-green-gs text-supaGirlRose cursor-pointer p-2">
                     <i class="fas fa-paperclip"></i>
                     <input type="file" @change="handleFileUpload" class="attachment-input hidden"
                         accept="image/*">
                 </label>
 
                 <!-- Message Input Component -->
-                <x-message-input 
-                    :placeholder="__('messenger.type_message')"
-                    :model="'newMessage'"
-                />
+                <x-message-input :placeholder="__('messenger.type_message')" :model="'newMessage'" />
 
                 <!-- Bouton d'envoi -->
                 <button type="submit" :disabled="(newMessage.length === 0 && !fileToUpload) || sendingMessage"
                     :class="{
-                        'bg-green-gs hover:bg-green-gs/80 text-white': (newMessage.length > 0 || fileToUpload) && !sendingMessage,
+                        'bg-green-gs hover:bg-green-gs/80 text-white': (newMessage.length > 0 || fileToUpload) && !
+                            sendingMessage,
                         'bg-gray-300 cursor-not-allowed': (newMessage.length === 0 && !fileToUpload) || sendingMessage
                     }"
                     class="text-back flex h-12 w-12 items-center justify-center rounded-full p-3">
@@ -306,12 +306,13 @@
         </div>
 
         <!-- Vue quand aucun chat n'est sélectionné -->
-        <div x-show="!currentChat" class="flex h-[45vh]  items-center justify-center bg-fieldBg md:h-[60vh] w-full">
+        <div x-show="!currentChat" class="bg-fieldBg flex h-[45vh] w-full items-center justify-center md:h-[60vh]">
             <div class="p-6 text-center">
                 <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
                     <i class="fas fa-comments text-3xl text-gray-400"></i>
                 </div>
-                <h3 class="mb-2 text-xl font-semibold text-textColorParagraph font-roboto-slab">{{ __('messenger.no_conversation') }}</h3>
+                <h3 class="text-textColorParagraph font-roboto-slab mb-2 text-xl font-semibold">
+                    {{ __('messenger.no_conversation') }}</h3>
                 <p class="text-textColorParagraph font-roboto-slab">{{ __('messenger.select_conversation') }}</p>
             </div>
         </div>

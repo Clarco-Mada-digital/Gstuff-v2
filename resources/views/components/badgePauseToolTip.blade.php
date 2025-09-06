@@ -1,5 +1,4 @@
-<div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 
-            bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 
-            group-hover:opacity-100 transition-opacity duration-300 z-10 whitespace-nowrap">
+<div
+    class="absolute bottom-full left-1/2 z-10 mb-2 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-700 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
     {{ __('gestionPause.badgePauseToolTip') }}
 </div>

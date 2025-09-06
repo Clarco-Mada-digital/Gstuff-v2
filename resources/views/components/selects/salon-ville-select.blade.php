@@ -6,12 +6,12 @@
     'class' => '',
     'placeholder' => 'salon-search.villes',
     'disabledPlaceholder' => 'salon-search.select_canton',
-    'label' => null
+    'label' => null,
 ])
 
-<div class="relative {{ $class }}">
-    @if($label)
-        <label for="{{ $id }}" class="block text-sm font-medium text-green-gs mb-2 font-roboto-slab">
+<div class="{{ $class }} relative">
+    @if ($label)
+        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">
             {{ $label }}
         </label>
     @endif
@@ -21,29 +21,26 @@
                 $villes = is_array($villes) || $villes instanceof Countable ? $villes : [];
                 $hasVilles = count($villes) > 0;
             @endphp
-            <select 
-                wire:model.live="{{ $model }}" 
-                id="{{ $id }}" 
-                class="hidden"
-                @if (!$hasVilles) disabled @endif
-            >
+            <select wire:model.live="{{ $model }}" id="{{ $id }}" class="hidden"
+                @if (!$hasVilles) disabled @endif>
                 <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
-                    @if($hasVilles)
+                    @if ($hasVilles)
                         {{ __($placeholder) }}
                     @else
                         {{ __($disabledPlaceholder) }}
                     @endif
                 </option>
-                @foreach($villes as $ville)
+                @foreach ($villes as $ville)
                     <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
             </select>
-            <div class="salon-custom-ville-select rounded-lg cursor-pointer bg-white px-3 py-2.5 border-2 border-supaGirlRose font-roboto-slab">
-                <div class="flex justify-between items-center">
+            <div
+                class="salon-custom-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border-2 bg-white px-3 py-2.5">
+                <div class="flex items-center justify-between">
                     <div class="salon-selected-ville-option" id="{{ $id }}-selected-option">
-                        @if($selectedVille)
+                        @if ($selectedVille)
                             @php
                                 $selected = collect($villes)->firstWhere('id', $selectedVille);
                             @endphp
@@ -56,17 +53,20 @@
                     </div>
                     <i class="fas fa-chevron-down salon-ville-arrow-icon text-green-gs font-roboto-slab"></i>
                 </div>
-                @if($hasVilles)
-                <div class="salon-custom-ville-options">
-                    <div class="salon-search-ville-container">
-                        <input type="text" id="{{ $id }}-search" class="salon-search-ville-input w-full bg-white rounded-lg border-b border-supaGirlRose py-2 px-4 text-sm text-green-gs font-roboto-slab focus:outline-none focus:ring-2 focus:ring-supaGirlRose/50 focus:border-transparent transition-all duration-200" placeholder="{{ __('user-search.search') }}">
+                @if ($hasVilles)
+                    <div class="salon-custom-ville-options">
+                        <div class="salon-search-ville-container">
+                            <input type="text" id="{{ $id }}-search"
+                                class="salon-search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg border-b bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                                placeholder="{{ __('user-search.search') }}">
+                        </div>
+                        <div class="salon-options-ville-list">
+                            @foreach ($villes as $ville)
+                                <div class="salon-custom-ville-option" data-value="{{ $ville->id }}">
+                                    {{ $ville->nom }}</div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="salon-options-ville-list">
-                        @foreach($villes as $ville)
-                            <div class="salon-custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}</div>
-                        @endforeach
-                    </div>
-                </div>
                 @endif
             </div>
         </div>
@@ -77,13 +77,16 @@
     .salon-custom-ville-select-wrapper {
         position: relative;
     }
+
     .salon-custom-ville-select {
         position: relative;
         width: 100%;
     }
+
     .salon-selected-ville-option {
         color: #7F55B1;
     }
+
     .salon-custom-ville-options {
         display: none;
         position: absolute;
@@ -98,9 +101,11 @@
         z-index: 1000;
         margin-top: 0.5rem;
     }
+
     .salon-custom-ville-options.show {
         display: block;
     }
+
     .salon-search-ville-container {
         position: sticky;
         top: 0;
@@ -108,20 +113,25 @@
         z-index: 1001;
         padding: 0.5rem;
     }
+
     .salon-options-ville-list {
         max-height: 250px;
     }
+
     .salon-custom-ville-option {
         padding: 0.5rem 1rem;
         color: #7F55B1;
         cursor: pointer;
     }
+
     .salon-custom-ville-option:hover {
         background-color: #FED5E9;
     }
+
     .salon-custom-ville-option.selected {
         background-color: #FED5E9;
     }
+
     .salon-search-ville-input {
         width: 100%;
         padding: 0.5rem;
@@ -190,7 +200,9 @@
                         arrowIcon.classList.remove('fa-chevron-up');
                         arrowIcon.classList.add('fa-chevron-down');
                     }
-                    const eventChange = new Event('change', { bubbles: true });
+                    const eventChange = new Event('change', {
+                        bubbles: true
+                    });
                     select.dispatchEvent(eventChange);
                 });
             });
@@ -256,7 +268,7 @@
                     dropdown.classList.remove('show');
                 }
             });
-            
+
             document.querySelectorAll('.salon-ville-arrow-icon').forEach(icon => {
                 if (!exceptElement || !icon.closest('.salon-custom-ville-select')?.contains(exceptElement)) {
                     icon.classList.remove('fa-chevron-up');
@@ -282,13 +294,13 @@
             if (isVilleSelect && !isSearchInput) {
                 const currentSelect = clickedElement.closest('.salon-custom-ville-select');
                 const currentOptions = currentSelect?.querySelector('.salon-custom-ville-options');
-                
+
                 // Si le menu est déjà ouvert, on le ferme
                 if (currentOptions?.classList.contains('show')) {
                     closeAllDropdowns();
                     return;
                 }
-                
+
                 // Sinon, on ferme tous les autres menus d'abord
                 closeAllDropdowns(currentSelect);
             }
@@ -298,7 +310,7 @@
         document.addEventListener('click', handleDocumentClick, true);
 
         isInitialized = true;
-        
+
         // Nettoyage lors de la suppression du composant
         document.addEventListener('livewire:before-update', () => {
             if (typeof handleDocumentClick === 'function') {
