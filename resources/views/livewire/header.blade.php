@@ -392,19 +392,24 @@
         
                     <div class="flex w-full flex-wrap justify-around text-black lg:grid lg:grid-cols-4">
                         @foreach ($categories as $categorie)
-<a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
-                                class="z-10 flex items-center justify-center">
-                                <div
-                                    class="border-1 border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center justify-center gap-1.5 rounded-md border p-2.5 text-[#101828] shadow transition-all hover:text-white md:w-[150px] lg:w-80 lg:w-[160px] xl:w-[200px]">
-                                    <img src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}" class="h-6 w-6 sm:h-6 sm:w-6 md:h-5 md:w-5 lg:h-6 lg:w-6"
-                                        alt="icon {{ $categorie['display_name'] }}" />
-                                        <span class="font-roboto-slab overflow-hidden truncate whitespace-nowrap align-middle text-sm text-xs font-normal leading-6 hover:text-white">
-                                            {{ $categorie['nom'] }}
-                                        </span>
-
-                                </div>
+                           <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]" class="z-10 flex items-center justify-center">
+                            <div
+                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center gap-2 rounded-md p-2.5 text-[#101828] shadow transition-all hover:text-white w-[100px]  max-w-full"
+                            >
+                                <img
+                                src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
+                                class="h-5 w-5 sm:h-6 sm:w-6"
+                                alt="icon {{ $categorie['display_name'] }}"
+                                />
+                                <span
+                                class="font-roboto-slab text-sm font-normal leading-6 truncate overflow-hidden whitespace-nowrap"
+                                title="{{ $categorie['nom'] }}"
+                                >
+                                {{ $categorie['nom'] }}
+                                </span>
+                            </div>
                             </a>
-@endforeach
+                        @endforeach
                     </div>
                 </div>
                 <div class="flex flex-col gap-4">
@@ -553,7 +558,7 @@
             </ul>
         </div>
 
-
+        <!-- second header desktop md-->
         <div class="bg-supaGirlRose w-full hidden md:block">
                 <div class="mx-auto flex w-full flex-wrap items-center justify-around xl:w-[80%]">
                 <li id="escorts-link" class="header-link flex items-center justify-between xl:p-4">
@@ -616,7 +621,7 @@
                         </a>
                     </li>
                 </div>
-            </div>
+        </div>
     </nav>
 
     <!-- Recherche modal -->
