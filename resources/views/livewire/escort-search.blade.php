@@ -176,11 +176,11 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 @php
                     $escort = is_array($escortData) ? (object) $escortData['escort'] : $escortData;
                 @endphp
-                <livewire:escort_card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
+                <livewire:escort_card  name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
                     ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                     escortId="{{ $escort->id }}" isOnline='{{ $escort->isOnline() }}'
                     profileVerifie="{{ $escort->profile_verifie }}" isPause="{{ $escort->is_profil_pause }}"
-                    wire:key='{{ $escort->id }}' />
+                    wire:key='{{ $escort->id }}' size="small" />
             @endforeach
         </div>
 
@@ -486,6 +486,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        console.log("Escortes data", @json($escorts));
 
         navigator.geolocation.getCurrentPosition(function(position) {
             @this.set('latitudeUser', position.coords.latitude, true);
@@ -515,8 +516,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         });
     });
 </script>
-<script>
+<!-- <script>
     window.addEventListener('reload-page', () => {
         location.reload();
     });
-</script>
+</script> -->
