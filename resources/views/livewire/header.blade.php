@@ -387,10 +387,10 @@
             class="shadow-xs absolute absolute top-16 hidden w-full px-4 lg:top-7">
             <div id="subDiv2"
                 class="bg-supaGirlRose gap-30 container mx-auto max-w-screen-xl items-start justify-start p-20 px-4 py-2 text-white md:px-6 xl:flex">
-                <div class="flex flex-col px-4">
+                <div class="flex flex-col px-0 md:px-4">
                     <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.services') }}</h2>
         
-                    <div class="flex w-full flex-wrap justify-around text-black lg:grid lg:grid-cols-4">
+                    <div class="grid grid-cols-2 gap-1 text-black lg:grid lg:grid-cols-4">
                         @foreach ($categories as $categorie)
                            <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]" class="z-10 flex items-center justify-center">
                             <div
