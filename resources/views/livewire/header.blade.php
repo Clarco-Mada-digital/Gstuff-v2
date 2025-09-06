@@ -258,6 +258,7 @@
         </div>
 
         {{-- Mega menu items --}}
+        <!-- Mega menu desktop XL -->
         <div id="dropdownMegaMenu" aria-labelledby="dropdownHoverMenu"
             class="shadow-xs bg-supaGirlRose top-15 absolute absolute hidden w-full p-0">
             <div
@@ -296,14 +297,14 @@
                                 >
                                     {{ $genre->name }}
                                 </x-animated-button>
-@endforeach
+                            @endforeach
                         </div>
                     </div>
                     <div class="mb-2 px-4">
                         <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.localization') }}</h2>
                         <div class="flex flex-wrap gap-2">
                             @foreach ($cantons->slice(0, 10) as $canton)
-<x-animated-button 
+                                <x-animated-button 
                                     :href="route('escortes') . '?selectedCanton=' . $canton->id"
                                     color="complementaryColorViolet"
                                     borderColor="supaGirlRose"
@@ -314,7 +315,7 @@
                                 >
                                     {{ $canton->nom }}
                                 </x-animated-button>
-@endforeach
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -330,7 +331,7 @@
         
                     <div class="grid w-full grid-cols-2 gap-3 text-black">
                         @foreach ($categories as $categorie)
-<a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
+                            <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                                 class="z-10 flex items-center justify-center gap-1">
                                 <div
                                     class="border-1 border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex w-[200px] items-center justify-center gap-1.5 rounded-md border p-2.5 text-[#101828] shadow transition-all hover:text-white lg:w-80">
@@ -339,7 +340,7 @@
                                     <span class="font-roboto-slab align-middle text-sm font-normal leading-6 hover:text-white">{{ $categorie['nom'] }}</span>
                                 </div>
                             </a>
-@endforeach
+                            @endforeach
                     </div>
                 </div>
                 <div class="flex flex-col gap-4">
@@ -348,7 +349,7 @@
                         
                         <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
                             @foreach ($genres as $genre)
-<x-animated-button 
+                                <x-animated-button 
                                     :href="route('escortes') . '?selectedGenre=' . $genre->id"
                                     color="complementaryColorViolet"
                                     borderColor="supaGirlRose"
@@ -359,14 +360,14 @@
                                 >
                                     {{ $genre->name }}
                                 </x-animated-button>
-@endforeach
+                            @endforeach
                         </div>
                     </div>
                     <div class="mb-2 px-4">
                         <h2 class="font-roboto-slab my-6 text-2xl font-bold">{{ __('header.localization') }}</h2>
                         <div class="flex flex-wrap gap-2">
                             @foreach ($cantons->slice(0, 10) as $canton)
-<x-animated-button 
+                                <x-animated-button 
                                     :href="route('escortes') . '?selectedCanton=' . $canton->id"
                                     color="complementaryColorViolet"
                                     borderColor="supaGirlRose"
@@ -377,24 +378,25 @@
                                 >
                                     {{ $canton->nom }}
                                 </x-animated-button>
-@endforeach
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div id="dropdownMegaMenuMobile2"  
-            class="shadow-xs absolute absolute top-16 hidden w-full px-4 lg:top-7">
+            class="shadow-sm absolute absolute top-4 hidden w-full px-4 lg:top-7">
             <div id="subDiv2"
                 class="bg-supaGirlRose gap-30 container mx-auto max-w-screen-xl items-start justify-start p-20 px-4 py-2 text-white md:px-6 xl:flex">
                 <div class="flex flex-col px-0 md:px-4">
                     <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.services') }}</h2>
         
-                    <div class="grid grid-cols-2 gap-1 text-black lg:grid lg:grid-cols-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 text-black lg:grid lg:grid-cols-4">
                         @foreach ($categories as $categorie)
                            <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]" class="z-10 flex items-center justify-center">
                             <div
-                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center gap-2 rounded-md p-1 md:p-2 text-[#101828] shadow transition-all hover:text-white w-full sm:w-[150px]   md:w-[160px]  max-w-full"
+                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center justify-center  gap-2 rounded-md p-1 md:p-2 text-[#101828] shadow transition-all hover:text-white w-full sm:w-[150px]   md:w-[160px]  max-w-full"
                             >
                                 <img
                                 src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
@@ -413,43 +415,116 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <div class="border-fieldBg border-l px-4">
+                    <div class="border-fieldBg ">
                         <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.orientation') }}</h2>
                         
                         <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
                             @foreach ($genres as $genre)
-@if ($genre->id != 3)
-<x-animated-button 
+                                @if ($genre->id != 3)
+                                <x-animated-button 
                                     :href="route('escortes') . '?selectedGenre=' . $genre->id"
                                     color="complementaryColorViolet"
                                     borderColor="supaGirlRose"
                                     bgColor="fieldBg"
                                     hoverBgColor="complementaryColorViolet"
                                     hoverTextColor="white"
-                                    size="md"
+                                    size="sm"
                                 >
                                     {{ $genre->name }}
                                 </x-animated-button>
-@endif
-@endforeach
+                                @endif
+                            @endforeach
                         </div>
                     </div>
-                    <div class="mb-2 px-4">
+                    <div class="mb-2 ">
                         <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.localization') }}</h2>
                         <div class="flex flex-wrap gap-2">
                             @foreach ($cantons->slice(0, 10) as $canton)
-<x-animated-button 
+                                <x-animated-button 
                                     :href="route('escortes') . '?selectedCanton=' . $canton->id"
                                     color="complementaryColorViolet"
                                     borderColor="supaGirlRose"
                                     bgColor="fieldBg"
                                     hoverBgColor="complementaryColorViolet"
                                     hoverTextColor="white"
-                                    size="md"
+                                    size="sm"
                                 >
                                     {{ $canton->nom }}
                                 </x-animated-button>
-@endforeach
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dropdownMegaMenuDesk2"  
+            class="shadow-sm absolute absolute top-4 hidden w-full px-4 lg:top-7">
+            <div id="subDivDesk2"
+                class="bg-supaGirlRose container mx-auto max-w-screen-xl items-start justify-between p-20 px-4 py-2 text-white flex">
+                <div class="flex flex-col px-0 w-[40%]">
+                    <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.services') }}</h2>
+        
+                    <div class="grid grid-cols-2 gap-2 text-black  ">
+                        @foreach ($categories as $categorie)
+                           <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]" class="z-10 flex items-center justify-center">
+                            <div
+                                class="border border-supaGirlRose bg-fieldBg hover:bg-supaGirlRose hover:border-complementaryColorViolet flex items-center justify-center  gap-2 rounded-md p-1 md:p-2 text-[#101828] shadow transition-all hover:text-white w-full sm:w-[150px]   md:w-[160px]  max-w-full"
+                            >
+                                <img
+                                src="{{ url('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
+                                class="h-5 w-5 sm:h-6 sm:w-6"
+                                alt="icon {{ $categorie['display_name'] }}"
+                                />
+                                <span
+                                class="font-roboto-slab text-xs font-normal leading-6 truncate overflow-hidden whitespace-nowrap"
+                                title="{{ $categorie['nom'] }}"
+                                >
+                                {{ $categorie['nom'] }}
+                                </span>
+                            </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 w-[55%]">
+                    <div class="border-fieldBg ">
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.orientation') }}</h2>
+                        
+                        <div class="flex w-full flex-wrap gap-2 xl:w-[350px]">
+                            @foreach ($genres as $genre)
+                                @if ($genre->id != 3)
+                                <x-animated-button 
+                                    :href="route('escortes') . '?selectedGenre=' . $genre->id"
+                                    color="complementaryColorViolet"
+                                    borderColor="supaGirlRose"
+                                    bgColor="fieldBg"
+                                    hoverBgColor="complementaryColorViolet"
+                                    hoverTextColor="white"
+                                    size="sm"
+                                >
+                                    {{ $genre->name }}
+                                </x-animated-button>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="mb-2 ">
+                        <h2 class="font-roboto-slab my-2 text-xl font-bold">{{ __('header.localization') }}</h2>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($cantons->slice(0, 10) as $canton)
+                                <x-animated-button 
+                                    :href="route('escortes') . '?selectedCanton=' . $canton->id"
+                                    color="complementaryColorViolet"
+                                    borderColor="supaGirlRose"
+                                    bgColor="fieldBg"
+                                    hoverBgColor="complementaryColorViolet"
+                                    hoverTextColor="white"
+                                    size="sm"
+                                >
+                                    {{ $canton->nom }}
+                                </x-animated-button>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -582,7 +657,7 @@
                         class="font-roboto-slab text-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs ria-current= flex w-full items-center justify-between rounded-sm px-3 text-xs text-gray-900 md:text-sm xl:hidden xl:p-0 xl:py-2 xl:hover:bg-transparent"page">
                         {{ __('header.escorts') }}
                     </a>
-                    <div class="hover:bg-supaGirlRose flex cursor-pointer items-center justify-center rounded-sm p-4 hover:text-white xl:hidden" id="dropbtn2">
+                    <div class="hover:bg-supaGirlRose flex cursor-pointer items-center justify-center rounded-sm p-4 hover:text-white xl:hidden" id="dropbtnDesk2">
                             <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -624,36 +699,7 @@
         </div>
     </nav>
 
-    <!-- Recherche modal -->
-    {{-- <div wire:ignore.self id="search-modal" tabindex="-1" aria-hidden="true"
-        class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-        <div class="relative max-h-full w-[95%] p-4 lg:w-[60%]">
-            <!-- Modal content -->
-            <div class="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
-
-                <!-- Modal header -->
-                <div
-                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
-                    <div class="w-[70%] sm:flex sm:items-center">
-                        <h1 class="font-dm-serif text-green-gs flex-1 text-center text-2xl font-bold">
-                            {{ __('search_modal.search_title') }}</h1>
-                    </div>
-                    <button type="button"
-                        class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="search-modal">
-                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">{{ __('search_modal.close') }}</span>
-                    </button>
-                </div>
-                <livewire:users-search />
-                <iframe src="{{route('search')}}" width="100%" height="800px" frameborder="0" wire:ignore.self></iframe>
-            </div>
-        </div>
-    </div> --}}
+   
 
     
 <style>
@@ -726,12 +772,17 @@
 
             const dropdownToggle = document.getElementById('dropbtn');
             const dropdownToggle2 = document.getElementById('dropbtn2');
+            const dropdownToggleDesk2 = document.getElementById('dropbtnDesk2');
+
 
             const dropdownMenu = document.getElementById('dropdownMegaMenuMobile');
             const subDiv = document.getElementById('subDiv');
 
             const dropdownMenu2 = document.getElementById('dropdownMegaMenuMobile2');
             const subDiv2 = document.getElementById('subDiv2');
+
+            const dropdownMenuDesk2 = document.getElementById('dropdownMegaMenuDesk2');
+            const subDivDesk2 = document.getElementById('subDivDesk2');
 
             dropdownToggle.addEventListener('click', function(event) {
                 console.log('click');
@@ -749,16 +800,27 @@
                 dropdownMenu2.style.transform = 'translate(0px, 100px)';
             });
 
+            dropdownToggleDesk2.addEventListener('click', function(event) {
+                console.log('click2 remove');
+                event.preventDefault();
+                dropdownMenuDesk2.classList.toggle('hidden');
+                subDivDesk2.classList.remove('hidden');
+                dropdownMenuDesk2.style.transform = 'translate(0px, 100px)';
+            });
+
             // Fermer le menu déroulant lorsqu'on clique en dehors
             document.addEventListener('click', function(event) {
                 const isClickInsideDropdown = dropdownMenu.contains(event.target);
                 const isClickOnToggle = dropdownToggle.contains(event.target);
                 const isClickOnToggle2 = dropdownToggle2.contains(event.target);
-                if (!isClickInsideDropdown && !isClickOnToggle && !isClickOnToggle2) {
+                const isClickOnToggleDesk2 = dropdownToggleDesk2.contains(event.target);
+                if (!isClickInsideDropdown && !isClickOnToggle && !isClickOnToggle2 && !isClickOnToggleDesk2) {
                     dropdownMenu.classList.add('hidden');
                     subDiv.classList.add('hidden');
                     dropdownMenu2.classList.add('hidden');
                     subDiv2.classList.add('hidden');
+                    dropdownMenuDesk2.classList.add('hidden');
+                    subDivDesk2.classList.add('hidden');
                 }
             });
         });

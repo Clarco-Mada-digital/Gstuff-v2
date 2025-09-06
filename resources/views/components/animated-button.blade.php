@@ -10,9 +10,9 @@
 
 @php
     $sizes = [
-        'sm' => 'text-xs px-2 py-1',
-        'md' => 'text-sm px-3 py-2',
-        'lg' => 'text-base px-4 py-3',
+        'sm' => 'text-xs px-2 py-1 rounded-sm',
+        'md' => 'text-sm px-3 py-2 rounded-lg',
+        'lg' => 'text-base px-4 py-3 rounded-lg',
     ];
     $sizeClass = $sizes[$size] ?? $sizes['md'];
 
@@ -27,7 +27,7 @@
     $shadow =
         $color === 'complementaryColorViolet' ? 'hover:shadow-complementaryColorViolet/20' : "hover:shadow-{$color}/20";
 
-    $classes = "relative overflow-hidden rounded-lg border {$border} bg-{$bgColor} font-roboto-slab {$textColor} transition-all duration-300 hover:scale-105 {$hoverBorder} {$hoverBg} {$hoverText} hover:shadow-lg {$shadow} {$sizeClass}";
+    $classes = "relative overflow-hidden  border {$border} bg-{$bgColor} font-roboto-slab {$textColor} transition-all duration-300 hover:scale-105 {$hoverBorder} {$hoverBg} {$hoverText} hover:shadow-lg {$shadow} {$sizeClass}";
 @endphp
 
 <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
