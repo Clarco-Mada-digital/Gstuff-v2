@@ -459,7 +459,7 @@
         </div>
 
         <div id="dropdownMegaMenuDesk2"  
-            class="shadow-sm absolute absolute top-4 hidden w-full px-4 lg:top-7">
+            class="shadow-sm absolute absolute top-2 hidden w-full px-4 ">
             <div id="subDivDesk2"
                 class="bg-supaGirlRose container mx-auto max-w-screen-xl items-start justify-between p-20 px-4 py-2 text-white flex">
                 <div class="flex flex-col px-0 w-[40%]">
