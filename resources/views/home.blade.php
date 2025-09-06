@@ -17,20 +17,20 @@
         <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
         <div class="z-10 flex flex-col items-center justify-center">
             <h2
-                class="font-roboto-slab text-fieldBg text-center text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
+                class="font-roboto-slab text-fieldBg text-center text-md  xl:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
                 {{ __('home.meetings') }} <span class="text-supaGirlRose">{{ __('home.elegant_discreet') }}</span>
                 {{ __('home.in_switzerland') }}</h2>
         </div>
-        <div class="flex flex-col gap-2 text-black transition-all lg:flex-row">
+        <div class="grid grid-cols-2 gap-2 text-black transition-all lg:flex-row">
             @foreach ($categories->take(4) as $categorie)
                 @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
                     <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                         class="z-10 flex items-center justify-center gap-1 transition-all">
                         <div
-                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1.5 rounded-md border bg-white p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
+                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 xl:gap-1.5 rounded-md border bg-white p-1 xl:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
                             <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
-                                class="h-8 w-8" alt="icon service {{ $categorie['display_name'] }}" />
-                            <span>
+                                class="h-4 w-4 xl:h-8 xl:w-8" alt="icon service {{ $categorie['display_name'] }}" />
+                            <span class="whitespace-nowrap text-xs">
                                 @php
                                     $locale = session('locale', 'fr');
                                     $categoryName = $categorie['nom'];
