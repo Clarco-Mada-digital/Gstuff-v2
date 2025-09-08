@@ -15,7 +15,7 @@
 
 <div class="{{ $class }} relative">
     @if ($label)
-        <label for="{{ $selectId }}" class="text-green-gs mb-1 block text-sm font-medium">
+        <label for="{{ $selectId }}" class="text-green-gs mb-1 block text-xs md:text-sm font-medium">
             {{ $label }}
         </label>
     @endif
@@ -33,9 +33,9 @@
                 @endforeach
             </select>
             <div
-                class="user-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border-2 bg-white px-3 py-2.5">
+                class="user-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-sm md:rounded-lg border-2 bg-white md:px-3 md:py-2.5 px-2 py-1">
                 <div class="flex items-center justify-between">
-                    <div class="user-selected-ville-option" id="{{ $selectId }}-selected-option">
+                    <div class="user-selected-ville-option text-xs md:text-sm" id="{{ $selectId }}-selected-option">
                         @if ($selectedVille && $hasVilles)
                             @php
                                 $selected = collect($villes)->firstWhere('id', $selectedVille);
@@ -45,18 +45,18 @@
                             {{ $hasVilles ? __('user-search.cities') : __('user-search.choose_canton') }}
                         @endif
                     </div>
-                    <i class="fas fa-chevron-down user-ville-arrow-icon text-green-gs font-roboto-slab"></i>
+                    <i class="fas fa-chevron-down user-ville-arrow-icon text-green-gs font-roboto-slab text-xs md:text-sm"></i>
                 </div>
                 @if ($hasVilles && !$disabled)
                     <div class="user-ville-options">
                         <div class="user-search-ville-container">
                             <input type="text" id="{{ $selectId }}-search"
-                                class="user-search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg border-b bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                                class="user-search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-sm md:rounded-lg border-b bg-white px-4 py-2 text-xs md:text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
                                 placeholder="{{ __('user-search.search') }}">
                         </div>
                         <div class="user-options-ville-list">
                             @foreach ($villes as $ville)
-                                <div class="user-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}
+                                <div class="user-ville-option text-xs md:text-sm" data-value="{{ $ville->id }}">{{ $ville->nom }}
                                 </div>
                             @endforeach
                         </div>

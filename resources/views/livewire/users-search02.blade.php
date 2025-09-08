@@ -19,53 +19,74 @@
 
 
 
-    <div class="py-15 bg-supaGirlRosePastel flex min-h-72 w-full flex-col items-center justify-center px-10">
-        <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
+    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-10">
+        <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('user-search.title') }}
         </h1>
 
-        <form wire:submit.prevent="search" class="container flex w-full flex-col gap-5 sm:w-2/3 xl:w-1/2 2xl:w-1/2">
-            {{-- Filtre par nom --}}
+        <form wire:submit.prevent="search" class="container flex w-full flex-col items-center justify-center 
+        
+        gap-2
+        
+        sm:w-[90%] 
+        md:w-full
+        lg:w-[90%] 
+        xl:w-[90%] 
+        2xl:w-[90%] 
+
+
+        
+        
+        ">
+           <div class="flex flex-col sm:flex-row w-full md:w-[90%] lg:w-[70%] xl:w-[60%] gap-2 items-center justify-around">
+           {{-- Filtre par nom --}}
             <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search"
                 id="userName-search"
-                class="text-green-gs font-roboto-slab border-supaGirlRose focus:border-supaGirlRose/50 focus:ring-supaGirlRose/50 block w-full rounded-lg border border-2 bg-gray-50 p-2 px-3 py-2 ps-10 focus:border-transparent"
+                class="text-green-gs font-roboto-slab border-supaGirlRose focus:border-supaGirlRose/50 focus:ring-supaGirlRose/50 block w-full  rounded-lg border
+                 border-2 bg-gray-50 p-2 sm:p-2 sm:px-3 text-xs md:text-sm  sm:py-2 
+                  focus:border-transparent "
                 placeholder="{{ __('user-search.search_placeholder') }}" />
 
             {{-- Sélecteur Escort/Salon --}}
-            <div class="mb-4 grid w-full grid-cols-2 gap-4">
+            <div class="grid w-full sm:w-[300px] grid-cols-2 gap-2 ">
                 {{-- Bouton Escort --}}
                 <button type="button" wire:click.prevent="setUserType('escort')" wire:loading.attr="disabled"
-                    class="{{ $userType === 'escort' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }} flex cursor-pointer flex-col items-center rounded-lg p-3 transition-all duration-200">
+                    class="{{ $userType === 'escort' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }} flex cursor-pointer  items-center rounded-lg p-2 transition-all duration-200  justify-center text-center">
                     {{-- Icône normale --}}
-                    <i class="fas fa-female {{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-400' }} mb-1 text-2xl"
-                        wire:loading.remove wire:target="setUserType('escort')"></i>
+                  
+
+                        <img src="{{ url('images/icons/escort_icon.png') }}"
+                        class="h-6 w-6 " alt="escort" wire:loading.remove wire:target="setUserType('escort')" />
 
                     {{-- Icône de chargement --}}
-                    <i class="fas fa-spinner fa-spin text-supaGirlRose mb-1 text-2xl" wire:loading
+                    <i class="fas fa-spinner fa-spin text-supaGirlRose mb-1 text-xs md:text-sm " wire:loading
                         wire:target="setUserType('escort')"></i>
 
                     <span
-                        class="{{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-500' }} text-sm font-medium">
+                        class="{{ $userType === 'escort' ? 'text-supaGirlRose' : 'text-gray-500' }} text-xs ml-2 md:text-sm font-medium">
                         {{ __('user-search.escort') }}
                     </span>
                 </button>
 
                 {{-- Bouton Salon --}}
                 <button type="button" wire:click.prevent="setUserType('salon')" wire:loading.attr="disabled"
-                    class="{{ $userType === 'salon' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }} flex cursor-pointer flex-col items-center rounded-lg p-3 transition-all duration-200">
+                    class="{{ $userType === 'salon' ? 'bg-pink-50 ring-2 ring-supaGirlRose' : 'bg-gray-50 hover:bg-pink-50' }} flex cursor-pointer  items-center rounded-lg p-2 transition-all duration-200 justify-center text-center">
                     {{-- Icône normale --}}
-                    <i class="fas fa-store {{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-400' }} mb-1 text-2xl"
-                        wire:loading.remove wire:target="setUserType('salon')"></i>
+                  
+
+                        <img src="{{ url('images/icons/salon.png') }}"
+                        class="h-6 w-6" alt="salon"  wire:loading.remove wire:target="setUserType('salon')" />
 
                     {{-- Icône de chargement --}}
-                    <i class="fas fa-spinner fa-spin text-green-gs mb-1 text-2xl" wire:loading
+                    <i class="fas fa-spinner fa-spin text-green-gs mb-1 text-xs md:text-sm" wire:loading
                         wire:target="setUserType('salon')"></i>
 
-                    <span class="{{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-500' }} text-sm font-medium">
+                    <span class="{{ $userType === 'salon' ? 'text-green-gs' : 'text-gray-500' }} text-xs ml-2 md:text-sm font-medium">
                         {{ __('user-search.salon') }}
                     </span>
                 </button>
             </div>
+           </div>
 
 
 
@@ -73,9 +94,9 @@
             {{-- Filtres dynamiques --}}
             <div class="flex w-full flex-col gap-4">
                 {{-- Filtres pour Escort --}}
-                <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <div class="flex flex-col items-center justify-center gap-4 sm:flex-row md:w-[70%] lg:w-[60%] xl:w-[60%] m-auto">
                     <div class="@if ($userType === 'salon' || $userType === 'escort') block @else hidden @endif w-full sm:w-1/3">
-                        <x-selects.canton-select :cantons="$cantons" :selectedCanton="$selectedCanton" class="w-full" />
+                        <x-selects.canton-select :cantons="$cantons" :selectedCanton="$selectedCanton" class="w-full " />
                     </div>
                     <div class="@if ($userType === 'salon' || $userType === 'escort') block @else hidden @endif w-full sm:w-1/3">
                         <x-selects.ville-select :villes="$villes" :selectedVille="$selectedVille" class="w-full" :disabled="!$selectedCanton" />
@@ -85,7 +106,7 @@
                     </div>
                 </div>
                 <div
-                    class="@if ($userType === 'escort') block @else hidden @endif flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
+                    class="@if ($userType === 'escort') block @else hidden @endif flex flex-wrap items-center justify-center gap-2 ">
                     <x-category-checkbox :categories="$escortCategories" :selected-values="$selectedEscortCategories" model="selectedEscortCategories"
                         prefixId="escort" />
                 </div>
@@ -119,9 +140,17 @@
     </div>
 
     {{-- Listing des utilisateurs --}}
-    <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-        <div id="ESContainer"
-            class="mb-4 mt-5 grid grid-cols-1 gap-2 px-10 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4"
+    <div class="mt-4 flex flex-col items-center justify-center">
+        <div 
+            class="grid grid-cols-2 gap-2
+        sm:grid-cols-3
+        md:grid-cols-4
+        lg:grid-cols-5
+        xl:grid-cols-5
+        2xl:grid-cols-6 
+       
+        
+        "
             style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent"
             wire:key="users-list">
             @foreach ($users as $user)

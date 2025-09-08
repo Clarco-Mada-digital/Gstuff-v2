@@ -12,14 +12,14 @@
 
 
         @if ($approximite || $showClosestOnly)
-            <div class="mx-auto mb-4 mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
+            <div class="mx-auto  mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
                 <div class="">
                     <div class="space-y-2">
                         <div>
                             <div class="font-roboto-slab flex items-center justify-between">
-                                <label
+                                {{-- <label
                                     class="font-roboto-slab text-green-gs block text-sm font-medium">{{ __('escort-search.distance_km') }}
-                                    {{ number_format($maxDistanceSelected, 0) }}</label>
+                                    {{ number_format($maxDistanceSelected, 0) }}</label> --}}
                                 <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
                                     <svg class="text-green-gs -ml-1 mr-2 h-4 w-4 animate-spin"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
