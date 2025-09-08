@@ -140,7 +140,7 @@
     </div>
 
     {{-- Listing des utilisateurs --}}
-    <div class="mt-4 flex flex-col items-center justify-center">
+    <div class="mt-4 flex flex-col items-center justify-center md:w-[95%]  mx-auto px-1 sm:px-4 py-2 lg:py-5 ">
         <div 
             class="grid grid-cols-2 gap-2
         sm:grid-cols-3
