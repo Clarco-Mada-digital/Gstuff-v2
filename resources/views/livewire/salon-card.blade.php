@@ -1,5 +1,13 @@
-<div class="relative mx-auto mb-4 flex h-full min-h-[405px] w-full min-w-[300px] max-w-[330px] flex-col rounded-xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900"
-    style="scroll-snap-align: center">
+<div class="relative mx-auto mb-4 flex 
+    min-h-[200px] min-w-[80%]  aspect-[2/3]
+   
+    
+    
+    
+    
+    flex-col rounded-xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:shadow-lg 
+    dark:border-gray-700 dark:bg-gray-900"
+        style="scroll-snap-align: center">
 
     {{-- Bouton favori stylisé --}}
     <div class="absolute right-3 top-3 z-10">
@@ -41,7 +49,7 @@
         {{-- Nom + badges --}}
         <div class="flex items-center gap-2">
             <a class="flex items-center gap-2" href="{{ route('show_salon', $salonId) }}">
-                <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
+                <h5 class="text-xs sm:text-sm  font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
                 </h5>
             </a>
 
@@ -68,7 +76,7 @@
 
         {{-- Localisation --}}
         @if (!empty($canton) || !empty($ville))
-            <p class="text-sm text-gray-700 dark:text-gray-400">
+        <p class="text-xs text-gray-700 whitespace-nowrap truncate">
                 @if (!empty($canton))
                     {{ $canton }}
                 @endif
@@ -80,7 +88,7 @@
                 @endif
             </p>
         @else
-            <p class="text-sm text-gray-700 dark:text-gray-400">&nbsp;</p>
+            <p class="text-xs text-gray-700 dark:text-gray-400">&nbsp;</p>
         @endif
 
 

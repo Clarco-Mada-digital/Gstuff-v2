@@ -87,7 +87,7 @@
         $hoverColor .
         ' peer-checked:bg-' .
         $hoverColor .
-        ' block w-full cursor-pointer rounded-lg border-supaGirlRose bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:text-white hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white peer-checked:animate-bounce sm:text-sm md:text-base text-green-gs font-roboto-slab';
+        ' block w-full cursor-pointer sm:rounded-lg rounded-sm border-supaGirlRose bg-white sm:p-2 p-1 text-center text-xs font-bold transition-all duration-200 hover:text-white hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-supaGirlRose focus:ring-offset-2 peer-checked:text-white peer-checked:animate-bounce text-xs sm:text-xs md:text-base text-green-gs font-roboto-slab';
 @endphp
 
 <div class="mx-4 my-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
@@ -110,7 +110,7 @@
                 wire:model.live="{{ $model }}" wire:loading.attr="disabled" wire:target="{{ $model }}"
                 onclick="toggleCategory(this)" data-color="{{ $color }}" data-hover-color="{{ $hoverColor }}"
                 {{ $isChecked ? 'checked' : '' }}>
-            <label for="{{ $categoryId }}" class="{{ $baseClasses }}">
+            <label for="{{ $categoryId }}" class="{{ $baseClasses }} truncate">
                 {{ $categoryLabel }}
             </label>
         </div>

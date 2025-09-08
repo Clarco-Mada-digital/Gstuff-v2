@@ -31,7 +31,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 }" x-init="fetchDropdownData()">
 
 
-    <div class="xl:py-15 py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center">
+    <div class="xl:py-10 py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center">
         <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('escort-search.discover_escorts') }}
         </h1>
@@ -43,14 +43,15 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
 
         @if ($approximite || $showClosestOnly)
-            <div class="mx-auto mb-4 mt-1 w-full max-w-2xl rounded-lg bg-white p-4 shadow">
+           <div class="flex flex-col items-center justify-between w-full  sm:flex-row md:w-[90%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] ">
+           <div class="mx-auto mb-2 mt-1 w-[80%] max-w-2xl rounded-lg bg-white p-4 shadow">
                 <div class="">
                     <div class="space-y-2">
                         <div>
                             <div class="font-roboto-slab flex items-center justify-between">
-                                <label
+                               {{--  <label
                                     class="font-roboto-slab text-green-gs block text-sm font-medium">{{ __('escort-search.distance_km') }}
-                                    {{ number_format($maxDistanceSelected, 0) }}</label>
+                                    {{ number_format($maxDistanceSelected, 0) }}</label> --}}
                                 <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
                                     <svg class="text-green-gs -ml-1 mr-2 h-4 w-4 animate-spin"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -102,9 +103,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 </div>
             </div>
 
-            <div class="w-full min-w-[200px] max-w-xs">
+            <div class="min-w-[100px] md:w-[100px] max-w-xs">
                 <x-selects.genre-select :genres="$genres" :selectedGenre="$selectedGenre" class="w-full" />
             </div>
+           </div>
         @endif
 
         <x-category-select-escort :categories="$categories" :selectedCategories="$selectedCategories ?? []" class="mx-2 my-2 sm:my-3 md:my-4 
@@ -157,8 +159,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
 
     {{-- Resultats --}}
-    <div class="container mx-auto px-4 py-10 xl:py-20">
-        <div class="font-roboto-slab text-green-gs mb-3 text-2xl font-bold lg:text-3xl">
+    <div class=" md:w-[95%]  mx-auto px-1 sm:px-4 py-2 lg:py-5">
+        <div class="font-roboto-slab text-green-gs mb-3 text-xs sm:text-sm md:text-base lg:text-xl font-bold xl:text-2xl">
             {{ $escortCount }}
             @if (!$showFiltreCanton)
                 @if ($escorts->count() > 1)
@@ -174,7 +176,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 {{ __('escort-search.result') }}
             @endif
         </div>
-        <div class="grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
+        <div class="grid grid-cols-2 gap-2
+        sm:grid-cols-3
+        md:grid-cols-4
+        lg:grid-cols-5
+        xl:grid-cols-5
+        2xl:grid-cols-6
+        
+        ">
             @foreach ($escorts as $escortData)
                 @php
                     $escort = is_array($escortData) ? (object) $escortData['escort'] : $escortData;

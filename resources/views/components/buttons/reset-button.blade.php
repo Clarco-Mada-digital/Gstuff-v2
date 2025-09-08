@@ -29,20 +29,20 @@
 @endphp
 
 <button {{ $attributes->merge(['class' => $buttonClasses]) }} wire:loading.attr="disabled">
-    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs sm:text-sm">
+    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs md:text-sm">
         {{ __($translation) }}
     </span>
-    <span wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center text-xs sm:text-sm">
+    <span wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center text-xs md:text-sm">
         {{ $loadingText }}
     </span>
 
-    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs sm:text-sm">
+    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs md:text-sm">
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
             <path fill="currentColor"
                 d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z" />
         </svg>
     </span>
-    <span wire:loading wire:target="{{ $loadingTarget }}" class="ml-2 text-xs sm:text-sm">
+    <span wire:loading wire:target="{{ $loadingTarget }}" class="ml-2 text-xs md:text-sm">
         <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
             </circle>

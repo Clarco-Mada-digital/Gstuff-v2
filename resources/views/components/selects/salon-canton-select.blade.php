@@ -13,30 +13,30 @@
         <div class="custom-select-wrapper">
             <select wire:model.live="{{ $model }}" wire:change="{{ $onChange }}" id="{{ $id }}"
                 class="hidden">
-                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __($placeholder) }}</option>
+                <option value="" class="text-green-gs text-xs md:text-sm hover:bg-supaGirlRose/10">{{ __($placeholder) }}</option>
                 @foreach ($cantons as $canton)
-                    <option value="{{ $canton->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                    <option value="{{ $canton->id }}" class="text-green-gs text-xs md:text-sm hover:bg-supaGirlRose/10">
                         {{ $canton->nom }}
                     </option>
                 @endforeach
             </select>
             <div
-                class="custom-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border-2 bg-white px-3 py-2.5">
+                class="custom-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-sm md:rounded-lg border-2 bg-white px-2 py-1 md:px-4 md:py-2">
                 <div class="flex items-center justify-between">
-                    <div class="selected-option" id="{{ $id }}-selected-option">
+                    <div class="selected-option text-xs md:text-sm" id="{{ $id }}-selected-option">
                         {{ $selectedCanton && $cantons->firstWhere('id', $selectedCanton) ? $cantons->firstWhere('id', $selectedCanton)->nom : __('user-search.cantons') }}
                     </div>
-                    <i class="fas fa-chevron-down arrow-icon text-green-gs font-roboto-slab"></i>
+                    <i class="fas fa-chevron-down arrow-icon text-green-gs font-roboto-slab text-xs md:text-sm"></i>
                 </div>
                 <div class="custom-options">
                     <div class="search-container">
                         <input type="text" id="{{ $id }}-search"
-                            class="border-b-1 border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                            class="border-b-1 border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-sm md:rounded-lg bg-white px-2 py-1 md:px-4 md:py-2 text-xs md:text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
                             placeholder="{{ __('user-search.search') }}">
                     </div>
                     <div class="options-list">
                         @foreach ($cantons as $canton)
-                            <div class="custom-option" data-value="{{ $canton->id }}">{{ $canton->nom }}</div>
+                            <div class="custom-option text-xs md:text-sm" data-value="{{ $canton->id }}">{{ $canton->nom }}</div>
                         @endforeach
                     </div>
                 </div>

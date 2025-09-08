@@ -1,6 +1,6 @@
 <div>
-    <div class="py-15 bg-supaGirlRosePastel flex min-h-72 w-full flex-col items-center justify-center px-4">
-        <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-xl font-bold xl:text-4xl">
+    <div class="xl:py-10 py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center">
+    <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('salon-search.title') }}</h1>
 
 
@@ -71,20 +71,9 @@
         @endif
 
 
-        <div class="my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold xl:text-base">
+        <div class="md:my-2 my-0 flex flex-wrap   items-center justify-center gap-2 text-sm font-bold xl:text-base">
 
             <x-category-checkbox :categories="$categories" :selected-values="$selectedSalonCategories" model="selectedSalonCategories" prefixId="salon" />
-
-
-
-
-
-
-
-
-
-
-
         </div>
 
         <div class="text-green-gs my-2 flex flex-wrap items-center justify-center gap-2 text-sm font-bold">
@@ -93,7 +82,7 @@
                     <input wire:model.live='nbFilles' class="peer hidden" name="nbFilles" type="radio"
                         id="nbfille{{ $nombreFille->id }}" value="{{ $nombreFille->id }}" />
                     <label for="nbfille{{ $nombreFille->id }}"
-                        class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose text-green-gs rounded-lg border border-2 bg-white px-3 py-2 text-center transition-all duration-200 hover:text-white peer-checked:text-white">
+                        class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose text-green-gs text-xs md:text-sm rounded-sm md:rounded-lg border border-2 bg-white md:px-3 md:py-2 px-2 py-1 text-center transition-all duration-200 hover:text-white peer-checked:text-white">
                         {{ $nombreFille->getTranslation('name', app()->getLocale()) }}
                     </label>
                 </div>
@@ -109,7 +98,7 @@
 
 
 
-        <div class="my-2 flex flex-wrap items-center justify-center gap-2">
+        <div class="my-2 flex flex-wrap items-center justify-center gap-2 w-[90%] m-auto ">
 
             <x-filters.closest-only-filter-button wire:model.live="showClosestOnly" :loading-target="'showClosestOnly'" :label="'salon-search.filter_by_closest_only'"
                 :icon="'images/icons/nearHot.png'" class="flex-1" />
@@ -133,8 +122,8 @@
 
     </div>
 
-    <div class="container mx-auto px-4 py-10 sm:py-20">
-        <div class="font-roboto-slab text-green-gs mb-3 text-2xl font-bold sm:text-3xl">
+    <div class=" md:w-[95%]  mx-auto px-1 sm:px-4 py-2 lg:py-5">
+    <div class="font-roboto-slab text-green-gs mb-3 text-xs sm:text-sm md:text-base lg:text-xl font-bold xl:text-2xl">
             {{ $salonCount }}
 
             @if (!$showFiltreCanton)
@@ -152,7 +141,14 @@
                 {{ __('salon-search.result') }}
             @endif
         </div>
-        <div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
+        <div class="grid grid-cols-2 gap-2
+        sm:grid-cols-3
+        md:grid-cols-4
+        lg:grid-cols-5
+        xl:grid-cols-5
+        2xl:grid-cols-6
+        
+        ">
             @foreach ($salons as $salonData)
                 @php
                     $salon = is_array($salonData) ? (object) $salonData['salon'] : $salonData;

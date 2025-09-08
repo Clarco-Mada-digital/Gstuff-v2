@@ -2,8 +2,9 @@
         $user = App\Models\User::find($escortId);
     @endphp
     <div class="relative mx-auto mb-4 flex 
-    min-h-[200px] min-w-[130px] w-[130px] h-[200px] 
-    md:min-h-[405px] md:w-full md:min-w-[270px] md:max-w-[330px]
+    min-h-[200px] min-w-[80%]  aspect-[2/3]
+   
+    
     
     
     
@@ -53,7 +54,7 @@
             <div class="flex items-center gap-1">
                 <a class="flex items-center "
                     @if ($user->profile_type == 'escorte') href="{{ route('show_escort', $escortId) }}" @else href="{{ route('show_salon', $escortId) }}" @endif>
-                    <h5 class="text-xs font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
+                    <h5 class="text-xs sm:text-sm  font-semibold text-gray-900 dark:text-white">{{ ucfirst(html_entity_decode($name)) }}
                     </h5>
                 </a>
 
