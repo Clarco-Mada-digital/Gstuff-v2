@@ -17,11 +17,11 @@
         <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
         <div class="z-10 flex flex-col items-center justify-center mt-5">
             <h2
-                class="font-roboto-slab text-fieldBg text-center text-md  md:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
+                class="font-roboto-slab text-fieldBg text-center text-md sm:text-xl md:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
                 {{ __('home.meetings') }} <span class="text-supaGirlRose">{{ __('home.elegant_discreet') }}</span>
                 {{ __('home.in_switzerland') }}</h2>
         </div>
-        <div class="grid grid-cols-2 gap-2 text-black transition-all lg:flex-row">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-black transition-all lg:flex-row">
             @foreach ($categories->take(4) as $categorie)
                 @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
                     <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"

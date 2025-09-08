@@ -2,7 +2,7 @@
         $user = App\Models\User::find($escortId);
     @endphp
     <div class="relative mb-4 flex 
-    min-h-[200px]  aspect-[2/3]
+    min-h-[200px] min-w-[30%] sm:min-w-[40%] md:min-w-[30%] lg:min-w-[25%] xl:min-w-[20%]  aspect-[2/3]
    
     
     
