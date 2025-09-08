@@ -9,24 +9,23 @@
 
 <div class="{{ $class }} relative">
     @if ($label)
-        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">
+        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-xs md:text-sm font-medium">
             {{ $label }}
         </label>
     @endif
     <div class="relative">
         <select wire:model.live="selectedGenre" id="{{ $id }}"
-            class="border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full cursor-pointer appearance-none rounded-lg border-2 bg-white px-4 py-2.5 pr-10 transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2">
+            class="border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full cursor-pointer appearance-none rounded-sm md:rounded-lg border-2 bg-white px-2 py-1 md:px-4 md:py-2 transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2 text-xs md:text-sm">
             @if ($optional)
-                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">{{ __('user-search.gender') }}
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10 text-xs md:text-sm">{{ __('user-search.gender') }}
                 </option>
             @endif
             @foreach ($genres as $genre)
-                <option value="{{ $genre->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                <option value="{{ $genre->id }}" class="text-green-gs hover:bg-supaGirlRose/10 text-xs md:text-sm">
                     {{ $genre->getTranslation('name', app()->getLocale()) }}
                 </option>
             @endforeach
         </select>
-
     </div>
 </div>
 

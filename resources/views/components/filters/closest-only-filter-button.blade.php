@@ -6,11 +6,11 @@
     'class' => '',
 ])
 
-<div class="{{ $class }} min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none">
+<div class="{{ $class }} min-w-[100px] flex-1 sm:min-w-[140px] sm:flex-none">
     <input wire:model.live="{{ $model }}" class="peer hidden" type="checkbox" id="filterByClosestOnly"
         name="filter_by_closest_only">
     <label for="filterByClosestOnly"
-        class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose focus:ring-green-gs text-green-gs font-roboto-slab group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 bg-white px-3 py-2 text-center text-xs transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 peer-checked:text-white sm:text-sm">
+        class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose focus:ring-green-gs text-green-gs font-roboto-slab group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 bg-white sm:px-3 px-0 sm:py-2 py-1 text-center text-xs transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 peer-checked:text-white sm:text-xs md:text-sm">
         <div wire:loading.remove wire:target="{{ $loadingTarget }}" class="flex-shrink-0">
             <img src="{{ url($icon) }}" class="h-6 w-6" alt="icon {{ __($label) }}" />
         </div>

@@ -8,14 +8,14 @@
 
 <div class="{{ $class }} relative">
     @if ($label)
-        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">
+        <label for="{{ $id }}" class="text-green-gs font-roboto-slab mb-2 block text-xs md:text-sm font-medium">
             {{ $label }}
         </label>
     @endif
     <div class="relative">
         <div class="custom-ville-select-wrapper">
             <select wire:model.live="selectedVille" id="{{ $id }}" class="hidden">
-                <option value="" class="text-green-gs hover:bg-supaGirlRose/10">
+                <option value="" class="text-green-gs hover:bg-supaGirlRose/10 text-xs md:text-sm">
                     @if (count($villes) > 0)
                         {{ __('salon-search.villes') }}
                     @else
@@ -23,15 +23,15 @@
                     @endif
                 </option>
                 @foreach ($villes as $ville)
-                    <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10">
+                    <option value="{{ $ville->id }}" class="text-green-gs hover:bg-supaGirlRose/10 text-xs md:text-sm">
                         {{ $ville->nom }}
                     </option>
                 @endforeach
             </select>
             <div
-                class="custom-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-lg border border-2 bg-white px-3 py-2.5">
+                class="custom-ville-select border-supaGirlRose font-roboto-slab cursor-pointer rounded-sm md:rounded-lg border border-2 bg-white px-2 py-1 md:px-4 md:py-2">
                 <div class="flex items-center justify-between">
-                    <div class="selected-ville-option" id="{{ $id }}-selected-option">
+                    <div class="selected-ville-option text-xs md:text-sm" id="{{ $id }}-selected-option">
                         @if ($selectedVille)
                             {{ collect($villes)->firstWhere('id', $selectedVille)['nom'] ?? __('salon-search.villes') }}
                         @elseif(count($villes) > 0)
@@ -40,18 +40,18 @@
                             {{ __('salon-search.select_canton') }}
                         @endif
                     </div>
-                    <i class="fas fa-chevron-down ville-arrow-icon text-green-gs font-roboto-slab"></i>
+                    <i class="fas fa-chevron-down ville-arrow-icon text-green-gs font-roboto-slab text-xs md:text-sm"></i>
                 </div>
                 @if (count($villes) > 0)
                     <div class="custom-ville-options">
                         <div class="search-ville-container">
                             <input type="text" id="{{ $id }}-search"
-                                class="search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-lg border-b bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
+                                class="search-ville-input border-supaGirlRose text-green-gs font-roboto-slab focus:ring-supaGirlRose/50 w-full rounded-sm md:rounded-lg border-b bg-white px-2 py-1 md:px-4 md:py-2 text-xs md:text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2"
                                 placeholder="{{ __('user-search.search') }}">
                         </div>
                         <div class="options-ville-list">
                             @foreach ($villes as $ville)
-                                <div class="custom-ville-option" data-value="{{ $ville->id }}">{{ $ville->nom }}
+                                <div class="custom-ville-option text-xs md:text-sm" data-value="{{ $ville->id }}">{{ $ville->nom }}
                                 </div>
                             @endforeach
                         </div>

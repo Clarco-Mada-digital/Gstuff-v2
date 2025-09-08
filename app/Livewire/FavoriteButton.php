@@ -48,7 +48,7 @@ class FavoriteButton extends Component
     public function render()
     {
         return view('livewire.favorite-button', [
-            'placement' => $this->placement,
+            'placement' => $this->placement
         ]);
     }
 }

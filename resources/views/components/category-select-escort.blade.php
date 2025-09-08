@@ -61,7 +61,14 @@
     }
 </style>
 
-<div class="{{ $class }} mx-4 my-3 flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:my-4">
+<div class="{{ $class }} 
+
+mx-2 my-2 
+sm:mx-4 sm:my-3 
+md:mx-4 md:my-3 
+
+
+flex flex-wrap items-center justify-center gap-2 sm:gap-3 ">
     @if ($label)
         <div class="mb-2 w-full">
             <label class="text-green-gs font-roboto-slab block text-sm font-medium">
@@ -71,12 +78,19 @@
     @endif
 
     @foreach ($categories as $index => $categorie)
-        <div class="category-item min-w-[120px] flex-1 sm:min-w-[140px] sm:flex-none"
+        <div class="category-item 
+
+        min-w-[120px] sm:min-w-[120px] md:min-w-[140px] 
+        
+        
+        flex-1sm:flex-none"
             style="animation-delay: {{ min($index * 0.05, 0.3) }}s">
             <input wire:model.live="selectedCategories" class="peer hidden" type="checkbox"
                 id="{{ $id }}-{{ $categorie->id }}" name="{{ $categorie->nom }}" value="{{ $categorie->id }}">
             <label for="{{ $id }}-{{ $categorie->id }}"
-                class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose focus:ring-supaGirlRose text-green-gs font-roboto-slab block w-full cursor-pointer rounded-lg border-2 bg-white p-2 text-center text-xs font-bold transition-all duration-200 hover:scale-[1.02] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 peer-checked:animate-bounce peer-checked:text-white sm:text-sm md:text-base">
+                class="hover:bg-green-gs peer-checked:bg-green-gs border-supaGirlRose focus:ring-supaGirlRose text-green-gs font-roboto-slab block w-full cursor-pointer rounded-sm sm:rounded-lg border-2 bg-white p-1 sm:p-2 text-center text-xs font-bold transition-all duration-200 hover:scale-[1.02] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 peer-checked:animate-bounce peer-checked:text-white 
+                text-xs sm:text-xs lg:text-sm xl:text-base
+                ">
                 {{ $categorie->nom }}
             </label>
         </div>

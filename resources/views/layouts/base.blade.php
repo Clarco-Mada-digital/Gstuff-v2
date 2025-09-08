@@ -139,8 +139,8 @@
     {{-- Loader section --}}
     <div id="loader" class="absolute left-0 top-0 z-50 h-full w-full bg-white">
         <div
-            class="fixed left-[50%] top-[50%] flex h-screen w-full -translate-x-[50%] -translate-y-[50%] items-center justify-center gap-4 text-5xl xl:text-6xl">
-            <span class="font-roboto-slab text-green-gs lettre">S</span>
+            class="fixed left-[50%] top-[50%] flex h-screen w-full -translate-x-[50%] -translate-y-[50%] items-center justify-center gap-4 text-xl sm:text-2xl md:text-5xl xl:text-6xl">
+            <span class=" font-roboto-slab text-green-gs lettre">S</span>
             <span class="font-roboto-slab lettre text-[#484848]">U</span>
             <span class="font-roboto-slab lettre text-[#484848]">P</span>
             <span class="font-roboto-slab lettre text-[#484848]">A</span>

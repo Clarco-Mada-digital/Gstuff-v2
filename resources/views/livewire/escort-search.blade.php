@@ -31,8 +31,8 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 }" x-init="fetchDropdownData()">
 
 
-    <div class="py-15 bg-supaGirlRosePastel flex min-h-72 w-full flex-col items-center justify-center">
-        <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-3xl font-bold">
+    <div class="xl:py-15 py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center">
+        <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('escort-search.discover_escorts') }}
         </h1>
         <div class="@if ($showFiltreCanton) block @else hidden @endif w-full">
@@ -107,9 +107,10 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             </div>
         @endif
 
-        <x-category-select-escort :categories="$categories" :selectedCategories="$selectedCategories ?? []" class="mx-4 my-3 md:my-4" />
+        <x-category-select-escort :categories="$categories" :selectedCategories="$selectedCategories ?? []" class="mx-2 my-2 sm:my-3 md:my-4 
+        " />
 
-        <div class="mt-5 flex flex-wrap items-center justify-center gap-3 px-4 sm:gap-4">
+        <div class="flex flex-wrap items-center justify-center gap-2 px-2 sm:px-4 sm:gap-3 md:gap-4">
 
 
             <x-filters.closest-only-filter-button wire:model.live="showClosestOnly" :loading-target="'showClosestOnly'"
@@ -120,9 +121,11 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 :icon="'images/icons/locationByDistance.png'" class="flex-1" />
 
             <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal"
-                class="font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:w-auto sm:px-4">
+                class="font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 
+                w-[100px] sm:w-auto sm:px-4
+                text-xs sm:text-xs md:text-sm">
 
-                <img src="{{ url('images/icons/moreFilter.png') }}" class="h-6 w-6"
+                <img src="{{ url('images/icons/moreFilter.png') }}" class="sm:h-6 sm:w-6 h-4 w-4"
                     alt="icon {{ __('escort-search.more_filters') }}" />
                 {{ __('escort-search.more_filters') }}
 
@@ -141,7 +144,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 !empty($selectedCategories) ||
                 !empty($selectedServices) ||
                 !empty($autreFiltres))
-            <div class="mt-5 flex justify-center">
+            <div class=" mt-2 sm:mt-3 md:mt-4 lg:mt-5 xl:mt-5 flex justify-center">
                 <x-buttons.reset-button wire:click="resetFilter" class="m-auto w-56 p-2" :loading-target="'resetFilter'"
                     translation="escort-search.reset_filters" loading-translation="escort-search.resetting" />
             </div>
@@ -171,7 +174,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 {{ __('escort-search.result') }}
             @endif
         </div>
-        <div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
+        <div class="grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
             @foreach ($escorts as $escortData)
                 @php
                     $escort = is_array($escortData) ? (object) $escortData['escort'] : $escortData;
@@ -180,7 +183,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                     ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
                     escortId="{{ $escort->id }}" isOnline='{{ $escort->isOnline() }}'
                     profileVerifie="{{ $escort->profile_verifie }}" isPause="{{ $escort->is_profil_pause }}"
-                    wire:key='{{ $escort->id }}' size="small" />
+                    wire:key='{{ $escort->id }}' />
             @endforeach
         </div>
 
