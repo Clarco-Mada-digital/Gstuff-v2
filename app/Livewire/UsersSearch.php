@@ -99,6 +99,7 @@ class UsersSearch extends Component
     public function handleModalClosed()
     {
         logger()->info('Modal closed pour reloder la page ');
+        $this->setUserType('escort');
     }
 
   
