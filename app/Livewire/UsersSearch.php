@@ -139,6 +139,26 @@ class UsersSearch extends Component
         $this->villes = collect([]);
     }
 
+    public function resetFilterModal()
+    {
+        $this->reset([
+            'search',
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
+            'page',
+            'approximite',
+            'showClosestOnly',
+            'maxDistanceSelected',
+            'autreFiltres',
+            
+        ]);
+        $this->villes = collect([]);
+        return redirect('search');
+    }
+
     private function getVisibleUsers($users)
     {
         $position = Location::get(request()->ip());
