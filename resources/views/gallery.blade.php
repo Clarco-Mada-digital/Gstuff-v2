@@ -3,75 +3,92 @@
 @section('pageTitle', __('gallery.gallery'))
 
 @section('content')
-    <section class="bg-supaGirlRosePastel font-roboto-slab text-green-gs relative mb-10 overflow-hidden shadow-xl">
+
+
+@php
+    $grid = 0;
+    if(count($usersWithStories) > 0){
+        $grid ++;
+    }
+    if(count($publicGallery) > 0){
+        $grid ++;
+    }
+    if(count($privateGallery) > 0){
+        $grid ++;
+    }
+@endphp
+    <section class="bg-supaGirlRosePastel font-roboto-slab text-green-gs relative mb-2 sm:mb-4 md:mb-6 lg:mb-8 xl:mb-10 overflow-hidden shadow-xl">
         <!-- Votre en-tête existant reste inchangé -->
-        <div class="mx-auto max-w-7xl px-6 py-20 text-center sm:py-24 lg:px-8">
-            <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl">{{ __('gallery.explore_share_feel') }}</h1>
+        <div class="mx-auto max-w-7xl px-6 py-10 md:py-10 xl:py-15 text-center sm:py-24 lg:px-8">
+            <h1 class="mb-4 font-extrabold  
+            
+            text-sm sm:text-md md:text-lg lg:text-xl xl:text-3xl 2xl:text-4xl">{{ __('gallery.explore_share_feel') }}</h1>
             <p class="mx-auto max-w-2xl text-lg font-light sm:text-xl"
                 x-html="{{ json_encode(__('gallery.header_subtitle')) }}"></p>
         </div>
-
-        <!-- Illustration décorative -->
-        {{-- <div class="pointer-events-none absolute bottom-0 right-0 opacity-20">
-            <svg viewBox="0 0 200 200" class="h-64 w-64 translate-x-12 translate-y-12 transform">
-                <path fill="white"
-                    d="M40.6,-71.1C51.1,-66.2,58.8,-51.5,64.3,-37.1C69.7,-22.6,73,-8.3,73.5,6.2C73.9,20.7,71.4,35.3,63.8,47.8C56.2,60.3,43.5,70.7,29.3,73.6C15.2,76.5,-0.5,71.8,-16.4,66.6C-32.3,61.3,-48.5,55.4,-59.6,44.1C-70.7,32.8,-76.8,16.4,-76.3,0.3C-75.8,-15.9,-68.6,-31.8,-58.3,-44.3C-48.1,-56.8,-34.8,-65.9,-20.2,-69.8C-5.6,-73.7,10.2,-72.3,24.6,-71.2C39,-70.1,52.1,-69.9,40.6,-71.1Z"
-                    transform="translate(100 100)" />
-            </svg>
-        </div> --}}
     </section>
 
     <div x-data="galleryApp()" x-init="haveStories = @json(count($usersWithStories) > 0);
     havePublicGallery = @json(count($publicGallery) > 0);
     havePrivateGallery = @json(count($privateGallery) > 0);"
-        class="font-roboto-slab mx-auto min-h-[50vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        class="font-roboto-slab mx-auto min-h-[50vh] max-w-7xl px-2 md:px-4  py-4 ">
         <div x-data="{
             selectedTab: $persist(
                 haveStories ? 'stories' : havePublicGallery ? 'public' : havePrivateGallery ? 'private' : 'stories'
             )
-        }" class="font-roboto-slab flex flex-col gap-8">
+        }" class="font-roboto-slab flex flex-col gap-4">
             <!-- MENU LATERAL -->
-            <aside class="flex w-full items-center justify-center space-y-2">
-                <!-- MOBILE TOGGLE -->
-                <!-- <div class="mb-4 md:hidden">
-                        <button @click="openMenu = !openMenu"
-                            class="bg-fieldBg text-green-gs flex w-full items-center justify-between rounded-lg px-4 py-2">
-                            <span>📁 {{ __('gallery.sections') }}</span>
-                            <svg :class="{ 'rotate-180': openMenu }" class="h-4 w-4 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                    </div> -->
+            <aside class="flex w-full  items-center justify-center space-y-2">
+               
 
-                <div class="flex w-full flex-col items-center justify-center gap-0 sm:flex-row">
+                <div class="grid grid-cols-{{ $grid }} w-full items-center justify-center gap-0  2xl:w-[40%]  xl:w-[40%] lg:w-[40%] md:w-[50%] sm:w-[70%]">
                     <!-- Tab Stories -->
                     @if (count($usersWithStories) > 0)
-                        <button @click="selectedTab = 'stories'; openMenu = false"
+                    <button @click="selectedTab = 'stories'; openMenu = false"
                             :class="selectedTab === 'stories' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                            class="text-green-gs 3xl:w-[20%] 4xl:w-[20%] border-supaGirlRose hover:bg-supaGirlRose flex h-[40px] w-[60%] items-center justify-between border-b-2 px-4 py-2 text-left font-medium transition sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%]">
+                            class="text-green-gs 
+                            
+                            
+                            
+                             h-[40px] w-full
+
+                         
+                            px-2 py-1 sm:px-4 sm:py-2
+
+                            border-supaGirlRose hover:bg-supaGirlRose flex
+                            items-center justify-between border-b-2  text-left font-medium transition 
+                            
+                            ">
                             <span class="flex items-center">
-                                <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
+                                <svg width="19" height="20" viewBox="0 0 19 20" fill="none" class="hidden sm:block"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="19" height="20" rx="9.5" fill="#FED5E9" />
                                     <path
                                         d="M6.52099 15V5H12.479V15H6.52099ZM4 13.5714V6.42857H4.74475V13.5714H4ZM14.2552 13.5714V6.42857H15V13.5714H14.2552ZM7.26574 14.2857H11.7343V5.71429H7.26574V14.2857Z"
                                         fill="black" />
                                 </svg>
-                                <span class="ml-2">{{ __('gallery.stories') }}</span>
+                                <span class="ml-2 text-xs md:text-sm">{{ __('gallery.stories') }}</span>
                             </span>
                             <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                                 x-text="{{ count($usersWithStories) }}"></span>
                         </button>
+                   
                     @endif
+                   
 
                     <!-- Tab Galerie publique -->
                     @if (count($publicGallery) > 0)
                         <button @click="selectedTab = 'public'; openMenu = false"
                             :class="selectedTab === 'public' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                            class="text-green-gs 3xl:w-[20%] 4xl:w-[20%] border-supaGirlRose hover:bg-supaGirlRose flex h-[40px] w-[60%] items-center justify-between border-b-2 px-4 py-2 text-left font-medium transition sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%]">
+                            class="text-green-gs 
+                            h-[40px] w-full
+                            md:px-4 md:py-2 px-2 py-2
+
+                           
+
+                            border-supaGirlRose hover:bg-supaGirlRose flex  items-center justify-between border-b-2  text-left font-medium transition ">
                             <span class="flex items-center">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="hidden sm:block"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="#FED5E9" />
                                     <path
@@ -90,7 +107,7 @@
                                         d="M8.91885 12.6823C8.91885 12.6823 9.52768 11.3312 10 11.3312C10.4723 11.3312 11.0812 12.6823 11.0812 12.6823M7.83791 12.6823C7.63512 13.0335 8.31094 13.7358 8.91885 12.6823ZM12.1621 12.6823C12.3649 13.0335 11.6891 13.7358 11.0812 12.6823Z"
                                         stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <span class="ml-2">{{ __('gallery.public_gallery') }}</span>
+                                <span class="ml-2 text-xs md:text-sm">{{ __('gallery.public_gallery') }}</span>
                             </span>
                             <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                                 x-text="{{ count($publicGallery) }}"></span>
@@ -101,7 +118,16 @@
                     @if (count($privateGallery) > 0)
                         <button @click="selectedTab = 'private'; openMenu = false"
                             :class="selectedTab === 'private' ? 'bg-supaGirlRose' : 'bg-fieldBg'"
-                            class="text-green-gs 3xl:w-[20%] 4xl:w-[20%] border-supaGirlRose hover:bg-supaGirlRose flex h-[40px] w-[60%] items-center justify-between border-b-2 px-4 py-2 text-left font-medium transition sm:w-1/3 md:w-[20%] lg:w-[20%] xl:w-[20%] 2xl:w-[20%]">
+                            class="text-green-gs 
+                           
+                            
+                            border-supaGirlRose hover:bg-supaGirlRose flex
+                            
+                            h-[40px] w-full
+                            
+                            items-center justify-between border-b-2 md:px-4 md:py-2 px-2 py-1 text-left font-medium transition 
+                            
+                          ">
                             <span class="flex items-center">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +136,7 @@
                                         d="M6.53886 15C6.25086 15 6.00571 14.9126 5.80343 14.7378C5.60114 14.563 5.5 14.3513 5.5 14.1028V9.23056C5.5 8.98241 5.60114 8.77074 5.80343 8.59556C6.00571 8.42074 6.25086 8.33333 6.53886 8.33333H7.42857V7.22222C7.42857 6.60333 7.67821 6.07833 8.1775 5.64722C8.67636 5.21574 9.28386 5 10 5C10.7161 5 11.3239 5.21574 11.8231 5.64722C12.3224 6.0787 12.5719 6.6037 12.5714 7.22222V8.33333H13.4618C13.7489 8.33333 13.9939 8.42074 14.1966 8.59556C14.3989 8.77037 14.5 8.98222 14.5 9.23111V14.1028C14.5 14.3509 14.3989 14.5626 14.1966 14.7378C13.9943 14.9126 13.7494 15 13.4618 15H6.53886ZM6.53886 14.4444H13.4618C13.5771 14.4444 13.6718 14.4124 13.7459 14.3483C13.8201 14.2843 13.8571 14.2024 13.8571 14.1028V9.23056C13.8571 9.13093 13.8201 9.04907 13.7459 8.985C13.6718 8.92093 13.5771 8.88889 13.4618 8.88889H6.53821C6.42293 8.88889 6.32821 8.92093 6.25407 8.985C6.17993 9.04907 6.14286 9.13111 6.14286 9.23111V14.1028C6.14286 14.2024 6.17993 14.2843 6.25407 14.3483C6.32821 14.4124 6.42314 14.4444 6.53886 14.4444ZM10 12.5C10.2713 12.5 10.4997 12.4196 10.6853 12.2589C10.8713 12.0985 10.9643 11.9011 10.9643 11.6667C10.9643 11.4322 10.8713 11.2348 10.6853 11.0744C10.4993 10.9141 10.2709 10.8337 10 10.8333C9.72914 10.833 9.50071 10.9133 9.31471 11.0744C9.12871 11.2348 9.03571 11.4322 9.03571 11.6667C9.03571 11.9011 9.12871 12.0985 9.31471 12.2589C9.50029 12.4196 9.72871 12.5 10 12.5ZM8.07143 8.33333H11.9286V7.22222C11.9286 6.75926 11.7411 6.36574 11.3661 6.04167C10.9911 5.71759 10.5357 5.55556 10 5.55556C9.46429 5.55556 9.00893 5.71759 8.63393 6.04167C8.25893 6.36574 8.07143 6.75926 8.07143 7.22222V8.33333Z"
                                         fill="black" />
                                 </svg>
-                                <span class="ml-2">{{ __('gallery.private_gallery') }}</span>
+                                <span class="ml-2 text-xs md:text-sm">{{ __('gallery.private_gallery') }}</span>
                             </span>
                             <span class="rounded-full bg-white/30 px-2 py-1 text-xs"
                                 x-text="{{ count($privateGallery) }}"></span>
@@ -183,7 +209,7 @@
                     }
                 })" x-transition
                     x-cloak>
-                    <h2 class="text-green-gs mb-6 flex items-center justify-center text-xl font-semibold sm:text-3xl">
+                    <h2 class="text-green-gs mb-6 flex items-center justify-center text-xs font-semibold sm:text-md md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
                         {{ __('gallery.user_stories') }}</h2>
                     @if (count($usersWithStories) > 0)
                         <div class="flex space-x-6 overflow-x-auto px-2 pb-4">
@@ -214,8 +240,8 @@
                                                     {{ count($user['stories']) }}
                                                 </span>
                                             </div>
-                                            <span class="ml-2 max-w-[8rem] truncate text-sm font-medium text-white">
-                                                {{ $user['name'] }}
+                                            <span class="ml-2 max-w-[8rem] truncate text-xs md:text-sm font-medium text-white">
+                                                {{ ucfirst(strtolower($user['name'])) }}
                                             </span>
                                         </a>
                                     </div>
@@ -291,14 +317,7 @@
                                     </template>
                                 </div>
 
-                                <!-- User info -->
-                                <!-- <div class="absolute bottom-2 z-10 mx-auto text-left text-white">
-                                        <div class="flex items-center space-x-2">
-                                            <img :src="currentUser.avatar"
-                                                 class="h-10 w-10 rounded-full border-2 border-white">
-                                            <span x-text="currentUser.name" class="font-semibold"></span>
-                                        </div>
-                                    </div> -->
+                               
                             </div>
                         </div>
                     @else
@@ -314,78 +333,13 @@
                 <section x-show="selectedTab === 'public'" x-transition>
                     <div
                         class="mb-4 flex flex-row items-center justify-between gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-green-gs flex items-center text-xl font-semibold sm:text-3xl">
+                        <h2 class="text-green-gs flex items-center text-sm font-semibold sm:text-md md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
                             {{ __('gallery.public_gallery_title') }}</h2>
 
                         <div class="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-4">
-                            <!-- Filtre utilisateur amélioré -->
-                            <!-- <div class="relative w-full md:w-64">
-                                    <div class="relative">
-                                        <div @click="userFilter.open = !userFilter.open"
-                                             class="flex cursor-pointer items-center justify-between rounded-md border border-gray-300 bg-white p-2">
-                                            <div class="flex flex-wrap items-center gap-1">
-                                                <template x-if="userFilter.selectedUsers.length === 0">
-                                                    <span class="text-gray-400">{{ __('gallery.all_users') }}</span>
-                                                </template>
-                                                <template x-for="userId in userFilter.selectedUsers" :key="userId">
-                                                    <span class="flex items-center rounded bg-blue-100 px-2 py-1 text-xs text-blue-800">
-                                                        <span x-text="userFilter.getUserName(userId)"></span>
-                                                        <button @click.stop="userFilter.removeUser(userId)"
-                                                                class="ml-1 text-blue-500 hover:text-blue-700">
-                                                            ×
-                                                        </button>
-                                                    </span>
-                                                </template>
-                                            </div>
-                                            <svg class="h-5 w-5 text-gray-400 transition-transform duration-200"
-                                                 :class="{ 'rotate-180': userFilter.open }"
-                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                            </svg>
-                                        </div>
-
-                                        <div x-show="userFilter.open" @click.away="userFilter.open = false"
-                                             class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-white py-1 shadow-lg">
-                                            <div class="sticky top-0 border-b bg-white p-2">
-                                                <input x-model="userFilter.search" @input="userFilter.filterUsers()"
-                                                       @click.stop placeholder="{{ __('gallery.search') }}"
-                                                       class="w-full rounded border p-1 text-sm">
-                                            </div>
-                                            <div @click="userFilter.toggleAllUsers()"
-                                                 class="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-100"
-                                                 :class="{ 'bg-blue-50 font-medium': userFilter.selectedUsers.length === 0 }">
-                                                <input type="checkbox" class="mr-2"
-                                                       :checked="userFilter.selectedUsers.length === 0" readonly>
-                                                <span>{{ __('gallery.all_users') }}</span>
-                                            </div>
-                                            <template x-for="user in userFilter.filteredUsers" :key="user.id">
-                                                <div @click="userFilter.toggleUser(user.id)"
-                                                     class="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-100"
-                                                     :class="{ 'bg-blue-50 font-medium': userFilter.selectedUsers.includes(user
-                                                             .id) }">
-                                                    <input type="checkbox" class="mr-2"
-                                                           :checked="userFilter.selectedUsers.includes(user.id)" readonly>
-                                                    <span x-text="user.prenom"></span>
-                                                </div>
-                                            </template>
-                                            <div x-show="userFilter.search && userFilter.filteredUsers.length === 0"
-                                                 class="px-3 py-2 text-sm text-gray-500">
-                                                {{ __('gallery.no_users_found') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
-                            <!-- Filtre par type de média -->
-                            {{-- <select x-model="mediaTypeFilter" class="rounded-md border border-gray-300 p-2 w-full md:w-64">
-                                <option value="">{{ __('gallery.all_types') }}</option>
-                                <option value="image">{{ __('gallery.images') }}</option>
-                                <option value="video">{{ __('gallery.videos') }}</option>
-                            </select> --}}
-
                             <!-- Filtre par genre -->
                             <select x-model="genreTypeFilter"
-                                class="border-supaGirlRose text-green-gs w-full rounded-md border p-2 md:w-64">
+                                class="border-supaGirlRose text-green-gs w-full rounded-md border p-2 md:w-64 text-xs sm:text-md ">
                                 <option value="">{{ __('gallery.all') }}</option>
                                 @foreach ($genres as $genre)
                                     <option value="{{ $genre->name['fr'] ?? $genre->slug }}">
@@ -397,18 +351,18 @@
                     </div>
 
                     <div class="flex w-full items-center justify-center">
-                        <div class="grid grid-cols-1 items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        <div class="grid grid-cols-2 items-center gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 ">
                             @foreach ($publicGallery as $media)
                                 @php
                                     $userGenre = $media->user->genre->name['fr'] ?? null;
                                 @endphp
                                 <div x-show="shouldShowMedia('{{ $media->user_id }}', '{{ $media->type }}', '{{ $userGenre }}')"
-                                    class="relative flex min-h-[348px] min-w-[200px] max-w-[280px] cursor-pointer flex-col overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                    class="relative flex aspect-[2/3] cursor-pointer flex-col overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                     @if ($media->type === 'image')
-                                        <div class="h-[348px] min-h-[348px] flex-1 overflow-hidden">
+                                        <div class=" flex-1 overflow-hidden h-full">
                                             <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')"
                                                 src="{{ asset('storage/' . $media->path) }}"
-                                                class="h-[348px] min-h-[348px] w-full object-cover object-center"
+                                                class=" w-full h-full object-cover object-center"
                                                 alt="media">
                                         </div>
                                     @elseif($media->type === 'video')
@@ -416,7 +370,7 @@
                                             <video
                                                 @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')"
                                                 muted autoplay loop
-                                                class="h-[348px] w-full object-cover object-center brightness-75">
+                                                class="h-full w-full object-cover object-center brightness-75">
                                                 <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                             </video>
                                             <div
@@ -427,7 +381,10 @@
                                     @endif
                                     <div
                                         class="font-roboto-slab absolute bottom-0 left-0 right-0 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent px-3 py-2 font-bold text-white">
-                                        <span class="truncate">{{ $media->user->prenom }}</span>
+                                        <span class="truncate text-xs md:text-sm">
+                                            {{ ucfirst(strtolower($media->user->prenom)) }}
+                                        </span>
+
                                         <a href="{{ route('show_escort', $media->user->id) }}" class="ml-2 flex-shrink-0"
                                             title="{{ __('gallery.view_profile') }}">
                                             <img src="{{ asset('images/icons/galery_show_icon.svg') }}"
@@ -446,26 +403,26 @@
 
                 <!-- Galerie Privée -->
                 <section x-show="selectedTab === 'private'" x-transition>
-                    <h2 class="text-green-gs mb-4 flex items-center justify-center text-xl font-semibold sm:text-3xl">
+                    <h2 class="text-green-gs mb-4 flex items-center justify-center text-xs font-semibold sm:text-md md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
                         {{ __('gallery.private_gallery_title') }}</h2>
                     <div class="flex w-full items-center justify-center">
-                        <div class="grid grid-cols-1 items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <div class="grid grid-cols-2 items-center gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                             @foreach ($privateGallery as $media)
                                 @auth
                                     <div
-                                        class="relative min-h-[348px] min-w-[200px] max-w-[280px] cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
+                                        class="relative flex aspect-[2/3] cursor-pointer overflow-hidden rounded-xl shadow transition duration-300 hover:shadow-xl">
                                         @if ($media->type === 'image')
-                                            <div class="h-[348px] flex-1 overflow-hidden">
+                                            <div class=" flex-1 overflow-hidden h-full">
                                                 <img @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'image')"
                                                     src="{{ asset('storage/' . $media->path) }}"
-                                                    class="h-[348px] w-full object-cover object-center" alt="media">
+                                                    class="w-full h-full object-cover object-center" alt="media">
                                             </div>
                                         @elseif($media->type === 'video')
                                             <div class="relative">
                                                 <video
                                                     @click.stop="openMedia('{{ asset('storage/' . $media->path) }}', 'video')"
                                                     muted
-                                                    class="pointer-events-none h-[348px] w-full object-cover brightness-75">
+                                                    class="pointer-events-none h-full w-full object-cover brightness-75">
                                                     <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                                 </video>
                                                 <div
@@ -475,7 +432,7 @@
                                             </div>
                                         @endif
                                         <div
-                                            class="font-roboto-slab absolute bottom-0 left-0 flex items-center justify-between px-3 font-bold text-white">
+                                            class="font-roboto-slab absolute bottom-0  left-0 flex items-center justify-between px-3 font-bold text-white">
                                             <span class="my-2">{{ $media->user->prenom }}</span>
                                             <a href="{{ route('show_escort', $media->user->id) }}" class="my-2 ms-3"
                                                 title="{{ __('gallery.view_profile') }}">
@@ -487,15 +444,15 @@
                                 @endauth
                                 @guest
                                     <div
-                                        class="relative min-h-[348px] min-w-[200px] max-w-[280px] overflow-hidden rounded-xl shadow transition hover:shadow-lg">
+                                        class="relative aspect-[2/3] overflow-hidden rounded-xl shadow transition hover:shadow-lg">
                                         @if ($media->type === 'image')
-                                            <div class="h-[348px] flex-1 overflow-hidden">
-                                                <img class="h-[348px] w-full object-cover blur-md brightness-75 grayscale transition duration-300"
+                                            <div class=" flex-1 overflow-hidden h-full">
+                                                <img class="h-full w-full object-cover blur-md brightness-75 grayscale transition duration-300"
                                                     src="{{ asset('storage/' . $media->path) }}" alt="Privé">
                                             </div>
                                         @elseif ($media->type === 'video')
                                             <div class="blur-md brightness-75 grayscale">
-                                                <video class="h-[348px] w-full object-cover transition duration-300">
+                                                <video class="h-full w-full object-cover transition duration-300">
                                                     <source src="{{ asset('storage/' . $media->path) }}" type="video/mp4">
                                                     Votre navigateur ne supporte pas la vidéo.
                                                 </video>
@@ -504,7 +461,7 @@
 
                                         <button data-modal-target="authentication-modal"
                                             data-modal-toggle="authentication-modal" type="button"
-                                            class="absolute inset-0 flex items-center justify-center bg-black/50 px-2 text-center text-sm font-semibold text-white">
+                                            class="absolute inset-0 flex w-full h-full items-center justify-center bg-black/50 px-2 text-center text-xs md:text-sm font-semibold text-white">
                                             {{ __('gallery.login_to_view') }}
                                         </button>
                                     </div>
