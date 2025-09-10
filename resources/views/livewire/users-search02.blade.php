@@ -27,7 +27,7 @@ x-data="{
             // You might want to show an error message to the user here
         }
     }
-}" x-init="isModalOpenSide = false; fetchDropdownData() ;  "
+}" x-init=" setTimeout(() => { isModalOpenSide = @entangle('isModalOpenSide'); }, 50); fetchDropdownData() ;  "
 
 
 
@@ -426,7 +426,7 @@ x-data="{
     @endif
 
 
-@if ($isModalOpenSide)
+
     {{-- Recherche modal --}}
     <div
     x-show="isModalOpenSide"
@@ -437,7 +437,7 @@ x-data="{
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     class="fixed left-0 right-0 top-0 z-50 m-auto h-[calc(100%-1rem)] w-full max-w-lg items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
-    wire:ignore.self>
+    wire:ignore.self >
         <div class="relative max-h-full w-full">
             {{-- Modal content --}}
             <div class="relative m-2 rounded-lg bg-white shadow-sm">
@@ -610,7 +610,7 @@ x-data="{
         </div>
     
     </div>
-    @endif
+
     <style>
         @keyframes progress {
     0% { width: 0%; }
