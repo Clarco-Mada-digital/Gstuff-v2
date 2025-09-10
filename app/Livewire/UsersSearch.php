@@ -384,15 +384,15 @@ class UsersSearch extends Component
         if ($this->isFirstLoadTaille) {
             $this->isFirstLoadTaille = false;
         
-            // $validTailleUsers = $filteredUsers->filter(function ($user) {
-            //     return isset($user->tailles) && $user->tailles > 0;
-            // });
+            $validTailleUsers = $filteredUsers->filter(function ($user) {
+                return isset($user->tailles) && $user->tailles > 0;
+            });
         
-            // $this->tailleMin = $validTailleUsers->min('tailles');
-            // $this->tailleMax = $validTailleUsers->max('tailles');
+            $this->tailleMin = $validTailleUsers->min('tailles');
+            $this->tailleMax = $validTailleUsers->max('tailles');
 
-            $this->tailleMin = $filteredUsers->min('tailles');
-            $this->tailleMax = $filteredUsers->max('tailles');
+            // $this->tailleMin = $filteredUsers->min('tailles');
+            // $this->tailleMax = $filteredUsers->max('tailles');
         }
         
         if($this->isFirstLoadTarif){
