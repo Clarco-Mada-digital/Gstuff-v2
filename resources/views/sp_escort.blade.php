@@ -83,7 +83,7 @@
                 $isPaused = $escort->is_profil_pause;
             @endphp
 
-            <div class='grid grid-cols-2 md:grid-cols-1 gap-2' >
+            <div class='grid grid-cols-2 xl:grid-cols-1 gap-2' >
             <div class="group relative w-full">
                 <button id="chatButtonProfile" data-user-id="{{ $escort->id }}"
                     @if ($isPaused) disabled @endif
