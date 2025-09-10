@@ -2,7 +2,6 @@
 x-data="{
     'dropdownData': '',
     'currentLocale': '{{ app()->getLocale() }}',
-    isModalOpenSide: @entangle('isModalOpenSide'),
     approximite: false,
     getTranslatedName(nameObj) {
         if (!nameObj) return '';
@@ -27,8 +26,7 @@ x-data="{
             // You might want to show an error message to the user here
         }
     }
-}" x-init="isModalOpenSide = false; fetchDropdownData()"
-  
+}" x-init="fetchDropdownData()"
 
 
 
@@ -208,8 +206,7 @@ x-data="{
                     <x-filters.distance-filter-button wire:model.live="approximite" :loading-target="'approximite'" :label="'escort-search.filter_by_distance'"
                         :icon="'images/icons/locationByDistance.png'" class="flex-1"/>
 
-                    <button  wire:click="openModalside"
-                    
+                    <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal"
                     class="@if ($userType === 'escort') block @else hidden @endif font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 
                     w-[100px] sm:w-auto sm:px-4
                     text-xs sm:text-xs lg:text-sm">
@@ -427,18 +424,11 @@ x-data="{
     @endif
 
 
- 
+
     {{-- Recherche modal --}}
-    <div
-    x-show="isModalOpenSide"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed left-0 right-0 top-0 z-50 m-auto h-[calc(100%-1rem)] w-full max-w-lg items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
-    wire:ignore.self >
+    <div id="search-escorte-modal" tabindex="-1" aria-hidden="true"
+        class="fixed left-0 right-0 top-0 z-50 m-auto hidden h-[calc(100%-1rem)] w-full max-w-lg items-center justify-center md:inset-0"
+        wire:ignore.self>
         <div class="relative max-h-full w-full">
             {{-- Modal content --}}
             <div class="relative m-2 rounded-lg bg-white shadow-sm">
@@ -450,15 +440,16 @@ x-data="{
                             class="font-roboto-slab text-green-gs text-md flex w-full items-center justify-center font-bold md:text-3xl">
                             {{ __('escort-search.more_filters') }}</h3>
                     </div>
-                    <button
-                    type="button"
-                     @click="$wire.closeModalside(); isModalOpenSide = false;"
-                    class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                    <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
-                    <span class="sr-only">{{ __('escort-search.close') }}</span>
-                </button>
+                    <button type="button" wire:click="handleModalClosed"
+                        class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="search-escorte-modal">
+                        <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">{{ __('escort-search.close') }}</span>
+                    </button>
                 </div>
 
                 {{-- Modal body --}}
@@ -599,7 +590,7 @@ x-data="{
                         </span>
                         <span class="ml-2">Réinitialiser</span>
                     </button>
-                    <button
+                    <button  wire:click="handleModalClosed"
                         class="font-roboto-slab text-green-gs hover:text-supaGirlRosePastel bg-supaGirlRosePastel hover:bg-green-gs flex items-center justify-center rounded-sm p-2 text-sm"
                         data-modal-hide="search-escorte-modal">
 
@@ -609,9 +600,7 @@ x-data="{
 
             </div>
         </div>
-    
     </div>
-
     <style>
         @keyframes progress {
     0% { width: 0%; }

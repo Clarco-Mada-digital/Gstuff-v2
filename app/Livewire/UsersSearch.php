@@ -81,6 +81,7 @@ class UsersSearch extends Component
         $this->escortCategories = Categorie::where('type', 'escort')->get();
         $this->page = request()->get('page', 1);
         $this->genres = Genre::all()->take(3);
+        
     }
 
     public function updatingSearch()
@@ -94,6 +95,13 @@ class UsersSearch extends Component
             $this->resetPage();
         }
     }
+
+    public function handleModalClosed()
+    {
+        logger()->info('Modal closed pour reloder la page ');
+    }
+
+  
 
     public function updatedApproximite($value)
     {
@@ -113,12 +121,6 @@ class UsersSearch extends Component
     {
         $this->villes = $value ? Ville::where('canton_id', $value)->get() : collect([]);
         $this->selectedVille = '';
-    }
-
-    public function handleModalClosed()
-    {
-        $this->resetExcept(['cantons', 'villes', 'escortCategories', 'salonCategories']);
-        $this->resetPage();
     }
 
     public function resetFilters()

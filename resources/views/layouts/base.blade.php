@@ -108,7 +108,7 @@
 
 </head>
 
-<body
+<body 
     class="font-roboto-slab relative min-h-[100vh] w-full overflow-x-hidden text-sm font-normal antialiased transition-all md:text-base">
     @if (session('success'))
         <div id="sessionAlert"

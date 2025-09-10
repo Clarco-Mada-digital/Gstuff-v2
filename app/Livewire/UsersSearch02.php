@@ -83,6 +83,8 @@ class UsersSearch02 extends Component
         $this->escortCategories = Categorie::where('type', 'escort')->get();
         $this->page = request()->get('page', 1);
         $this->genres = Genre::all()->take(3);
+
+        
     }
 
     public function updatingSearch()
