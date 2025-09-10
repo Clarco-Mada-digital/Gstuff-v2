@@ -28,10 +28,10 @@
         @endif
         <!-- Boutons de test pour le debug -->
         <div class="flex space-x-2 my-2">
-            <button @click="decrementMin" class="bg-blue-500 text-white p-1 rounded text-xs">- Min</button>
-            <button @click="incrementMin" class="bg-blue-500 text-white p-1 rounded text-xs">+ Min</button>
-            <button @click="decrementMax" class="bg-red-500 text-white p-1 rounded text-xs">- Max</button>
-            <button @click="incrementMax" class="bg-red-500 text-white p-1 rounded text-xs">+ Max</button>
+            <button @click="decrementMin" class="bg-blue-500 text-white p-1 rounded text-xs hidden">- Min</button>
+            <button @click="incrementMin" class="bg-blue-500 text-white p-1 rounded text-xs hidden">+ Min</button>
+            <button @click="decrementMax" class="bg-red-500 text-white p-1 rounded text-xs hidden">- Max</button>
+            <button @click="incrementMax" class="bg-red-500 text-white p-1 rounded text-xs hidden">+ Max</button>
         </div>
         <div class="mx-2 my-2">
             <!-- Sliders invisibles -->
@@ -67,11 +67,7 @@
                     class="bg-supaGirlRose absolute bottom-0 top-0 z-20 rounded-md"
                     x-bind:style="'right:' + maxthumb + '%; left:' + minthumb + '%'"
                 >
-                    @if ($type == 'taille')
-                        <p x-text="formatTaille(minvalue)" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
-                    @else
-                        <p x-text="minvalue" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
-                    @endif
+                   
                 </div>
                 <!-- Curseurs (seuls éléments interactifs) -->
                 <div
@@ -82,7 +78,18 @@
                     @mouseup="minThumbActive = false"
                     @touchstart="minThumbActive = true"
                     @touchend="minThumbActive = false"
-                ></div>
+
+                     @mouseenter="$el.classList.add('thumb-hover-min')"
+    @mouseleave="$el.classList.remove('thumb-hover-min')"
+                >
+                @if ($type == 'taille')
+                        <p x-text="formatTaille(minvalue)" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
+                    @else
+                        <p x-text="minvalue" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
+                    @endif
+            
+            
+            </div>
                 <div
                     id="max-thumb-{{ $id }}"
                     class="bg-supaGirlRose absolute right-0 top-0 z-35 -mr-3 h-4 w-4 -translate-y-[30%] rounded-full cursor-pointer"
@@ -91,6 +98,9 @@
                     @mouseup="maxThumbActive = false"
                     @touchstart="maxThumbActive = true"
                     @touchend="maxThumbActive = false"
+
+                        @mouseenter="$el.classList.add('thumb-hover-max')"
+    @mouseleave="$el.classList.remove('thumb-hover-max')"
                 >
                     @if ($type == 'taille')
                         <p x-text="formatTaille(maxvalue)" class="font-roboto-slab text-green-gs relative right-5 z-40 mt-4 text-xs"></p>
@@ -101,6 +111,16 @@
             </div>
         </div>
     </div>
+
+    <style>
+    .thumb-hover-min {
+        background-color:#7F55B1; /* Rouge pour le min */
+    }
+    .thumb-hover-max {
+        background-color:#7F55B1; /* Vert pour le max */
+    }
+</style>
+
 </div>
 
 <script>
