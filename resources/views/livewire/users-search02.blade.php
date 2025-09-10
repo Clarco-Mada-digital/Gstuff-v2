@@ -224,11 +224,14 @@ x-data="{
                             !empty($search) ||
                             !empty($approximite) ||
                             !empty($showClosestOnly) ||
-                                !empty($selectedCanton) ||
-                                !empty($selectedVille) ||
-                                !empty($selectedGenre) ||
-                                !empty($selectedEscortCategories) ||
-                                !empty($selectedSalonCategories))
+                            !empty($ageInterval) ||
+                            !empty($tarifInterval) ||
+                            !empty($tailleInterval) ||
+                            !empty($selectedCanton) ||
+                            !empty($selectedVille) ||
+                            !empty($selectedGenre) ||
+                            !empty($selectedEscortCategories) ||
+                            !empty($selectedSalonCategories))
                             <x-buttons.reset-button wire:click="resetFilters" class=" p-2" :loading-target="'resetFilters'"
                                 translation="escort-search.reset_filters" loading-translation="escort-search.resetting" />
                         @endif

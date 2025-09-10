@@ -21,8 +21,6 @@ x-data="{
             const data = await response.json();
             this.dropdownData = data;
 
-            console.log('dropdownData',this.dropdownData) 
-
         } catch (error) {
             console.error('Error loading dropdown data:', error);
             // You might want to show an error message to the user here
@@ -62,7 +60,7 @@ x-data="{
                                             </div>
                                         </div>
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
-            {{ __('user-search.title') }}
+            {{ __('user-search.title') }}aaaaaaaaaaaaaaaaaaaa
         </h1>
 
         <form wire:submit.prevent="search" class="container flex w-full flex-col items-center justify-center 
@@ -208,13 +206,7 @@ x-data="{
                     <x-filters.distance-filter-button wire:model.live="approximite" :loading-target="'approximite'" :label="'escort-search.filter_by_distance'"
                         :icon="'images/icons/locationByDistance.png'" class="flex-1"/>
 
-                        <button
-                            class="@if ($userType === 'escort') block @else hidden @endif font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 w-[100px] sm:w-auto sm:px-4 text-xs sm:text-xs lg:text-sm"
-                            id="openModalButton">
-                            <img src="{{ url('images/icons/moreFilter.png') }}" class="sm:h-6 sm:w-6 h-4 w-4" alt="icon {{ __('escort-search.more_filters') }}" />
-                            {{ __('escort-search.more_filters') }}
-                        </button>
-
+                  
 
                         {{-- Bouton de réinitialisation --}}
                     @if ($userType !== 'all')
@@ -235,7 +227,17 @@ x-data="{
             </div>
 
            
+            <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal"
+                    class="font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 
+                    w-[100px] sm:w-auto sm:px-4
+                    text-xs sm:text-xs lg:text-sm">
 
+                    <img src="{{ url('images/icons/moreFilter.png') }}" class="sm:h-6 sm:w-6 h-4 w-4"
+                        alt="icon {{ __('escort-search.more_filters') }}" />
+                    {{ __('escort-search.more_filters') }}
+
+
+            </button>
         </form>
     </div>
 
@@ -421,13 +423,9 @@ x-data="{
 
 
     {{-- Recherche modal --}}
-    <div id="search-escorte-modal"
-     tabindex="-1"
-     aria-hidden="true"
-     class="fixed left-0 right-0 top-0 z-50 m-auto h-[calc(100%-1rem)] w-full max-w-lg items-center justify-center md:inset-0 hidden"
-     wire:ignore.self
-     x-on:click.outside="document.getElementById('search-escorte-modal').setAttribute('aria-hidden', 'true'); document.activeElement.blur()">
-
+    <div id="search-escorte-modal" tabindex="-1" aria-hidden="true"
+        class="fixed left-0 right-0 top-0 z-50 m-auto hidden h-[calc(100%-1rem)] w-full max-w-lg items-center justify-center md:inset-0"
+        wire:ignore.self>
         <div class="relative max-h-full w-full">
             {{-- Modal content --}}
             <div class="relative m-2 rounded-lg bg-white shadow-sm">
@@ -440,14 +438,15 @@ x-data="{
                             {{ __('escort-search.more_filters') }}</h3>
                     </div>
                     <button type="button"
-    class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
-    id="closeModalButton">
-    <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-    </svg>
-    <span class="sr-only">{{ __('escort-search.close') }}</span>
-</button>
-
+                        class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="search-escorte-modal">
+                        <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">{{ __('escort-search.close') }}</span>
+                    </button>
                 </div>
 
                 {{-- Modal body --}}
@@ -614,72 +613,3 @@ x-data="{
 
     </style>
 </div>
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            console.log('DOMContentLoaded modal');
-    // Récupération des éléments
-    const modal = document.getElementById('search-escorte-modal');
-    const openModalButton = document.querySelector('[data-modal-target="search-escorte-modal"]');
-    const closeModalButton = modal.querySelector('[data-modal-hide="search-escorte-modal"]');
-    const closeModalButtons = modal.querySelectorAll('[data-modal-hide]');
-
-    // Fonction pour ouvrir la modale
-    function openModal() {
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière-plan
-        fetchDropdownData(); // Recharge les données si nécessaire
-    }
-
-    // Fonction pour fermer la modale
-    function closeModal() {
-        modal.classList.add('hidden');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = ''; // Rétablit le scroll
-        window.location.reload(); // Recharge la page après la fermeture
-    }
-
-    // Écouteur pour le bouton d'ouverture
-    if (openModalButton) {
-        openModalButton.addEventListener('click', openModal);
-    }
-
-    // Écouteur pour le bouton de fermeture
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
-
-    // Écouteur pour les clics en dehors de la modale
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Écouteur pour la touche Échap
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
-        }
-    });
-
-    // Fonction pour recharger les données (si nécessaire)
-    async function fetchDropdownData() {
-        try {
-            const response = await fetch('{{ route('dropdown.data') }}');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log('Données rechargées :', data);
-        } catch (error) {
-            console.error('Erreur lors du rechargement des données :', error);
-        }
-    }
-});
-
-    </script>
-@endpush

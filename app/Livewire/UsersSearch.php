@@ -134,9 +134,13 @@ class UsersSearch extends Component
             'approximite',
             'showClosestOnly',
             'maxDistanceSelected',
-            'autreFiltres'
+            'autreFiltres',
+            'ageInterval',
+            'tailleInterval',
+            'tarifInterval',
         ]);
         $this->villes = collect([]);
+        return redirect('search');
     }
 
     public function resetFilterModal()
