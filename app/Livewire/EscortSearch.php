@@ -1465,6 +1465,9 @@ class EscortSearch extends Component
         if($this->selectedServices){
             $selecterServicesInfo = Service::whereIn('id', $this->selectedServices)->get();
         }
+        $ageInterval = $this->ageInterval;
+        $tailleInterval = $this->tailleInterval;
+        $tarifInterval = $this->tarifInterval;
 
         foreach ($this->autreFiltres as $key => $value) {
             if (!empty($value)) {
@@ -1542,6 +1545,9 @@ class EscortSearch extends Component
             'autreFiltres' => $selecterAutreFiltresInfo,
             'approximite' => $this->approximite,
             'showClosestOnly' => $this->showClosestOnly,
+            'ageInterval' => $ageInterval,
+            'tailleInterval' => $tailleInterval,
+            'tarifInterval' => $tarifInterval,
         ];
 
         return view('livewire.escort-search', [

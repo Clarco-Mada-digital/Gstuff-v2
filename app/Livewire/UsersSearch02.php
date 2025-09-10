@@ -9,7 +9,7 @@ use App\Models\Ville;
 use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
-
+use Illuminate\Database\Eloquent\Collection;
 class UsersSearch02 extends Component
 {
     use WithPagination;
@@ -40,6 +40,9 @@ class UsersSearch02 extends Component
     public $isFirstLoad = true;
     public $isFirstLoadClosestOnly = true;
     public $isFirstLoadApproximite = true;
+    public $isFirstLoadAge = true;
+    public $isFirstLoadTaille = true;
+    public $isFirstLoadTarif = true;
 
     public array $autreFiltres = [];
     public $autre = false;
@@ -175,6 +178,30 @@ class UsersSearch02 extends Component
         return round($angle * $earthRadius, 0);
     }
 
+    protected function filterByInterval(Collection $users, array $interval, string $attribute): Collection
+    {
+        logger()->info("Filtering by {$attribute} interval: " . json_encode($interval));
+        logger()->info("User count before {$attribute} filter", ['count' => $users->count()]);
+
+        $min = isset($interval['min']) ? (int) $interval['min'] : null;
+        $max = isset($interval['max']) ? (int) $interval['max'] : null;
+
+        logger()->info("{$attribute} min: " . $min);
+        logger()->info("{$attribute} max: " . $max);
+
+        if ($min !== null && $max !== null && $min <= $max) {
+            $users = $users->filter(function ($user) use ($min, $max, $attribute) {
+                return isset($user->$attribute) && $user->$attribute >= $min && $user->$attribute <= $max;
+            });
+        }
+
+        $users = $users->values(); // réindexe proprement
+        logger()->info("User count after {$attribute} filter", ['count' => $users->count()]);
+
+        return $users;
+    }
+
+
     public function render()
     {
         $cacheKey = md5(serialize([
@@ -287,6 +314,7 @@ class UsersSearch02 extends Component
         });
 
         $filteredUsers = $query->get();
+        $baseUsers = $filteredUsers;
        
 
         if($this->approximite || $this->showClosestOnly){
@@ -328,23 +356,31 @@ class UsersSearch02 extends Component
                 });
             }
         }
+        if($this->isFirstLoadAge){
+            $this->isFirstLoadAge = false;
+            $this->ageMin = $filteredUsers->min('age');
+            $this->ageMax = $filteredUsers->max('age');
+        }
+        if ($this->isFirstLoadTaille) {
+            $this->isFirstLoadTaille = false;
+        
+            $validTailleUsers = $filteredUsers->filter(function ($user) {
+                return isset($user->tailles) && $user->tailles > 0;
+            });
+        
+            $this->tailleMin = $validTailleUsers->min('tailles');
+            $this->tailleMax = $validTailleUsers->max('tailles');
+        }
+        
+        if($this->isFirstLoadTarif){
+            $this->isFirstLoadTarif = false;
+            $this->tarifMin = $filteredUsers->min('tarif');
+            $this->tarifMax = $filteredUsers->max('tarif');
+        }
 
-        // $this->ageMin = $filteredUsers->min('age');
-        // $this->ageMax = $filteredUsers->max('age');
-        // $this->tailleMin = $filteredUsers->min('tailles');
-        // $this->tailleMax = $filteredUsers->max('tailles');
-        // $this->tarifMin = $filteredUsers->min('tarif');
-        // $this->tarifMax = $filteredUsers->max('tarif');
-
-        // $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
-        // $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
-        // if ($minAge !== null && $maxAge !== null && $minAge <= $maxAge) {
-        //     $filteredUsers = $filteredUsers->merge(
-        //         $baseUsers->filter(function ($user) use ($minAge, $maxAge) {
-        //             return $user->age >= $minAge && $user->age <= $maxAge;
-        //         })
-        //     );
-        // }
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->ageInterval, 'age');
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->tailleInterval, 'tailles');
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->tarifInterval, 'tarif');
 
 
 
@@ -383,6 +419,9 @@ class UsersSearch02 extends Component
         $selecterEscortCategoriesInfo = !empty($this->selectedEscortCategories) ? Categorie::whereIn('id', $this->selectedEscortCategories)->get() : null;
         $selecterSalonCategoriesInfo = !empty($this->selectedSalonCategories) ? Categorie::where('id', $this->selectedSalonCategories)->get() : null;
         $searchInfo = $this->search ?: null;
+        $ageInterval = $this->ageInterval;
+        $tailleInterval = $this->tailleInterval;
+        $tarifInterval = $this->tarifInterval;
 
         $filterApplay = [
             'selectedCanton' => $selecterCantonInfo,
@@ -391,7 +430,12 @@ class UsersSearch02 extends Component
             'selectedEscortCategories' => $selecterEscortCategoriesInfo,
             'selectedSalonCategories' => $selecterSalonCategoriesInfo,
             'search' => $searchInfo,
+            'ageInterval' => $ageInterval,
+            'tailleInterval' => $tailleInterval,
+            'tarifInterval' => $tarifInterval,
         ];
+
+        $this->escortCount = $visibleUsers->count();
 
         return view('livewire.users-search02', [
             'users' => $paginatedUsers,

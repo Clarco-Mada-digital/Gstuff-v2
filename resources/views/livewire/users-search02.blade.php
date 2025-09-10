@@ -313,7 +313,7 @@ x-data="{
             <p class="mb-4 text-xl font-semibold text-gray-800">
                 {{ __('escort-search.filtreApply') }}
             </p>
-            <div class="w-full space-y-6 rounded-lg bg-white p-6 shadow-md">
+            <div class="w-full space-y-6  bg-white p-6 ">
                 @if (isset($filterApplay['search']) && $filterApplay['search'])
                     <div class="flex flex-wrap items-center justify-center gap-2">
                         <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.search') }} :</p>
@@ -380,6 +380,42 @@ x-data="{
                         </div>
                     </div>
                 @endif
+                @if (isset($filterApplay['ageInterval']) && $filterApplay['ageInterval'])
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.age') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">
+                                {{ $filterApplay['ageInterval']['min'] ?? '—' }} ans - {{ $filterApplay['ageInterval']['max'] ?? '—' }} ans
+                            </span>
+                        </div>
+                    </div>
+                @endif
+                @if (isset($filterApplay['tarifInterval']) && $filterApplay['tarifInterval'])
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.tarif') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">
+                                {{ $filterApplay['tarifInterval']['min'] ?? '—' }} CHF - {{ $filterApplay['tarifInterval']['max'] ?? '—' }} CHF
+                            </span>
+                        </div>
+                    </div>
+                @endif
+                @if (isset($filterApplay['tailleInterval']) && is_array($filterApplay['tailleInterval']))
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.height') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">
+                                {{ number_format(($filterApplay['tailleInterval']['min'] ?? 0) / 100, 2) }}m -
+                                {{ number_format(($filterApplay['tailleInterval']['max'] ?? 0) / 100, 2) }}m
+                            </span>
+                        </div>
+                    </div>
+                @endif
+
+
+                
             </div>
         </div>
     @endif
