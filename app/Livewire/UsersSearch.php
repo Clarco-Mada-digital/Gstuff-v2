@@ -58,7 +58,7 @@ class UsersSearch extends Component
     public $tarifInterval = [];
     public $escortCount = 0;
 
-    
+    public $isModalOpenSide = false;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -142,6 +142,18 @@ class UsersSearch extends Component
         $this->villes = collect([]);
         return redirect('search');
     }
+
+    public function openModalside()
+{
+    logger()->info('Modal opened');
+    $this->isModalOpenSide = true;
+}
+
+public function closeModalside()
+{
+    logger()->info('Modal closed');
+    $this->isModalOpenSide = false;
+}
 
     public function resetFilterModal()
     {

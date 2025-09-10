@@ -58,6 +58,8 @@ class UsersSearch02 extends Component
     public $tarifInterval = [];
     public $escortCount = 0;
 
+    public $isModalOpenSide = false;
+
     
 
     protected $queryString = [
@@ -137,6 +139,38 @@ class UsersSearch02 extends Component
             'autreFiltres'
         ]);
         $this->villes = collect([]);
+        return redirect('search');
+    }
+
+    public function resetFilterModal()
+    {
+        $this->reset([
+            'search',
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
+            'page',
+            'approximite',
+            'showClosestOnly',
+            'maxDistanceSelected',
+            'autreFiltres',
+            
+        ]);
+        $this->villes = collect([]);
+        return redirect('search');
+    }
+
+    public function openModalside()
+    {
+        logger()->info('Modal opened');
+        $this->isModalOpenSide = true;
+    }
+    
+    public function closeModalside()
+    {
+        $this->isModalOpenSide = false;
     }
 
     private function getVisibleUsers($users)
