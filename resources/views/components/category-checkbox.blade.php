@@ -94,7 +94,7 @@
         peer-checked:text-white peer-checked:animate-bounce text-xs sm:text-xs md:text-xs lg:text-sm xl:text-base text-green-gs font-roboto-slab';
 @endphp
 
-<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 w-full">
     @foreach ($categories as $index => $category)
         @php
             $categoryId = $prefixId . '-' . $category->{$valueField};

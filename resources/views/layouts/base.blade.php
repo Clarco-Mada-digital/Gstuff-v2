@@ -135,6 +135,42 @@
             </button>
         </div>
     @endif
+    
+    @if(app()->environment('local'))
+    <!-- Indicateur de taille d'écran (sans JavaScript) -->
+    <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+        <!-- Inferieur sm (mobile) -->
+        <div class="block sm:hidden bg-blue-500 text-white p-2 rounded-lg text-xs font-bold">
+            Inferieur sm (< 640px)
+        </div>
+
+        <!-- sm -->
+        <div class="hidden sm:block md:hidden bg-red-500 text-white p-2 rounded-lg text-xs font-bold">
+            sm (640px - 767px)
+        </div>
+
+        <!-- md -->
+        <div class="hidden md:block lg:hidden bg-yellow-500 text-black p-2 rounded-lg text-xs font-bold">
+            md (768px - 1023px)
+        </div>
+
+        <!-- lg -->
+        <div class="hidden lg:block xl:hidden bg-green-500 text-white p-2 rounded-lg text-xs font-bold">
+            lg (1024px - 1279px)
+        </div>
+
+        <!-- xl -->
+        <div class="hidden xl:block 2xl:hidden bg-purple-500 text-white p-2 rounded-lg text-xs font-bold">
+            xl (1280px - 1535px)
+        </div>
+
+        <!-- 2xl ou plus -->
+        <div class="hidden 2xl:block bg-pink-500 text-white p-2 rounded-lg text-xs font-bold">
+            2xl ou plus (≥ 1536px)
+        </div>
+    </div>
+    @endif
+
 
     {{-- Loader section --}}
     <div id="loader" class="absolute left-0 top-0 z-50 h-full w-full bg-white">

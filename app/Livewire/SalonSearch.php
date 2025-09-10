@@ -132,7 +132,7 @@ class SalonSearch extends Component
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
-        return $angle * $earthRadius;
+        return round($angle * $earthRadius, 0);
     }
 
 
