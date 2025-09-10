@@ -57,4 +57,5 @@ return [
     'nbFille' => 'Number of girls',
     'result0' => '0 Result',
     'autre_filtres' => 'Other filters',
+    '' => ''
 ];

@@ -276,12 +276,8 @@ class EscortSearch extends Component
         });
         $serviceQuery = Service::query();
 
-
-        // $listeGenresExist = User::where('profile_type', 'escorte')->pluck('genre_id')->unique();
-        // $this->genres = Genre::whereIn('id', $listeGenresExist)->get();
         $this->genres = Genre::all()->take(3);
 
-        // Détection du pays via IP
         $position = Location::get(request()->ip());
         $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
         $viewerLatitude = $position?->latitude ?? 0;
@@ -324,35 +320,18 @@ class EscortSearch extends Component
                 $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('canton', $this->selectedCanton));
             }
 
-            // if ($this->selectedCanton) {
-            //     $query->where('canton', $this->selectedCanton);
-            // }
-
+      
             if ($this->selectedVille) {
-                // $query->where('ville', $this->selectedVille);
+    
                 $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('ville', $this->selectedVille));
             }
 
             if ($this->selectedGenre) {
-                // $query->where('genre_id', $this->selectedGenre);
+        
                 $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
             }
 
-            // if ($this->selectedCategories) {
-            //     $query->where(function ($q) {
-            //         foreach ($this->selectedCategories as $categorie) {
-            //             $q->where('categorie', 'LIKE', '%' . $categorie . '%');
-            //         }
-            //     });
-            // }
-
-            // if ($this->selectedServices) {
-            //     $query->where(function ($q) {
-            //         foreach ($this->selectedServices as $service) {
-            //             $q->where('service', 'LIKE', '%' . $service . '%');
-            //         }
-            //     });
-            // }
+          
 
             if (!empty($this->selectedCategories)) {
                 foreach ($this->selectedCategories as $categorie) {
@@ -374,73 +353,7 @@ class EscortSearch extends Component
                 }
             }
 
-            // if ($this->autreFiltres) {
-            //     $query->where(function ($q) {
-            //         foreach ($this->autreFiltres as $key => $value) {
-            //             if (!empty($value)) {
-            //                 switch ($key) {
-            //                     case 'mensuration':
-            //                         $q->where('mensuration_id', $value);
-            //                         break;
-            //                     case 'orientation':
-            //                         $q->where('orientation_sexuelle_id', (int) $value);
-            //                         break;
-            //                     case 'couleur_yeux':
-            //                         $q->where('couleur_yeux_id', (int) $value);
-            //                         break;
-            //                     case 'couleur_cheveux':
-            //                         $q->where('couleur_cheveux_id', (int) $value);
-            //                         break;
-            //                     case 'poitrine':
-            //                         $q->where('poitrine_id', (int) $value);
-            //                         break;
-            //                     case 'langues':
-            //                         $q->whereJsonContains('langues', $value);
-            //                         break;
-            //                     case 'pubis':
-            //                         $q->where('pubis_type_id', (int) $value);
-            //                         break;
-            //                     case 'tatouages':
-            //                         $q->where('tatoo_id', (int) $value);
-            //                         break;
-            //                     case 'taille_poitrine':
-            //                         $poitrineValues = [
-            //                             'petite' => ['A', 'B', 'C'],
-            //                             'moyenne' => ['D', 'E', 'F'],
-            //                             'grosse' => ['G', 'H'],
-            //                         ];
-
-            //                         if ($value == 'autre') {
-            //                             $this->autre = true;
-            //                         } else {
-            //                             $this->autre = false;
-            //                         }
-                                    
-            //                         // Vérifier si la valeur recherchée existe comme clé dans $poitrineValues
-            //                         if (array_key_exists($value, $poitrineValues)) {
-            //                             $taillesCorrespondantes = $poitrineValues[$value];
-                                        
-            //                             $q->where(function ($q) use ($taillesCorrespondantes) {
-            //                                 foreach ($taillesCorrespondantes as $taille) {
-            //                                     $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
-            //                                 }
-            //                             });
-            //                         }
-            //                         break;
-            //                     case 'taille_poitrine_detail':
-            //                         $q->where('taille_poitrine', 'LIKE', "%{$value}%");
-            //                         break;
-            //                     case 'mobilite':
-            //                         $q->where('mobilite_id', (int) $value);
-            //                         break;
-            //                     default:
-            //                         $q->where($key, 'LIKE', '%' . $value . '%');
-            //                         break;
-            //                 }
-            //             }
-            //         }
-            //     });
-            // }
+            
 
             if ($this->autreFiltres) {
                 foreach ($this->autreFiltres as $key => $value) {
@@ -520,10 +433,6 @@ class EscortSearch extends Component
             $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
             $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
 
-            logger()->info('Age interval: ' . json_encode($this->ageInterval));
-            logger()->info('Min age: ' . $minAge);
-            logger()->info('Max age: ' . $maxAge);
-            logger()->info('Filtred count before : ' . $filteredEscorts->count());
 
             if ($minAge !== null && $maxAge !== null && $minAge <= $maxAge) {
                 $filteredEscorts = $filteredEscorts->merge(
@@ -533,16 +442,10 @@ class EscortSearch extends Component
                 );
             }
 
-            logger()->info('Filtred count after : ' . $filteredEscorts->count());
 
 
             $minTaille = isset($this->tailleInterval['min']) ? (int) $this->tailleInterval['min'] : null;
             $maxTaille = isset($this->tailleInterval['max']) ? (int) $this->tailleInterval['max'] : null;
-
-            logger()->info('Taille interval: ' . json_encode($this->tailleInterval));
-            logger()->info('Min Taille: ' . $minTaille);
-            logger()->info('Max Taille: ' . $maxTaille);
-            logger()->info('Filtred count before : ' . $filteredEscorts->count());
 
             if ($minTaille !== null && $maxTaille !== null && $minTaille <= $maxTaille) {
                 $filteredEscorts = $filteredEscorts->merge(
@@ -552,15 +455,9 @@ class EscortSearch extends Component
                 );
             }
 
-            logger()->info('Filtred count after : ' . $filteredEscorts->count());
 
             $minTarif = isset($this->tarifInterval['min']) ? (int) $this->tarifInterval['min'] : null;
             $maxTarif = isset($this->tarifInterval['max']) ? (int) $this->tarifInterval['max'] : null;
-
-            logger()->info('Tarif interval: ' . json_encode($this->tarifInterval));
-            logger()->info('Min tarif: ' . $minTarif);
-            logger()->info('Max tarif: ' . $maxTarif);
-            logger()->info('Filtred count before : ' . $filteredEscorts->count());
 
             if ($minTarif !== null && $maxTarif !== null && $minTarif <= $maxTarif) {
                 $filteredEscorts = $filteredEscorts->merge(
@@ -570,20 +467,9 @@ class EscortSearch extends Component
                 );
             }
 
-            logger()->info('Filtred count after : ' . $filteredEscorts->count());
-
-            
-
-             // 4. Supprimer les doublons
+                 // 4. Supprimer les doublons
             $filteredEscorts = $filteredEscorts->unique('id');
-            logger()->info('Filtred count after unique : ' . $filteredEscorts->count());
-
-
-            // $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-            //     return $escort->isProfileVisibleTo($viewerCountry);
-            // });
-
-            // 5. Si aucun filtre n'est sélectionné, utiliser tous les profils
+      
             if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
                 $filteredEscorts = $baseEscorts;
             }
@@ -613,21 +499,7 @@ class EscortSearch extends Component
                         $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
                     }
 
-                    // if ($this->selectedCategories) {
-                    //     $query->where(function ($q) {
-                    //         foreach ($this->selectedCategories as $categorie) {
-                    //             $q->where('categorie', 'LIKE', '%' . $categorie . '%');
-                    //         }
-                    //     });
-                    // }
-
-                    // if ($this->selectedServices) {
-                    //     $query->where(function ($q) {
-                    //         foreach ($this->selectedServices as $service) {
-                    //             $q->where('service', 'LIKE', '%' . $service . '%');
-                    //         }
-                    //     });
-                    // }
+                   
 
                     if ($this->selectedCategories) {
                         foreach ($this->selectedCategories as $categorie) {
@@ -649,64 +521,7 @@ class EscortSearch extends Component
                         }
                     }
 
-                    // if ($this->autreFiltres) {
-                    //     $query->where(function ($q) {
-                    //         foreach ($this->autreFiltres as $key => $value) {
-                    //             if (!empty($value)) {
-                    //                 switch ($key) {
-                    //                     case 'mensuration':
-                    //                         $q->where('mensuration_id', $value);
-                    //                         break;
-                    //                     case 'orientation':
-                    //                         $q->where('orientation_sexuelle_id', (int) $value);
-                    //                         break;
-                    //                     case 'couleur_yeux':
-                    //                         $q->where('couleur_yeux_id', (int) $value);
-                    //                         break;
-                    //                     case 'couleur_cheveux':
-                    //                         $q->where('couleur_cheveux_id', (int) $value);
-                    //                         break;
-                    //                     case 'poitrine':
-                    //                         $q->where('poitrine_id', (int) $value);
-                    //                         break;
-                    //                     case 'langues':
-                    //                         $q->whereJsonContains('langues', $value);
-                    //                         break;
-                    //                     case 'pubis':
-                    //                         $q->where('pubis_type_id', (int) $value);
-                    //                         break;
-                    //                     case 'tatouages':
-                    //                         $q->where('tatoo_id', (int) $value);
-                    //                         break;
-                    //                     case 'taille_poitrine':
-                    //                         $poitrineValues = [
-                    //                             'petite' => ['A', 'B', 'C'],
-                    //                             'moyenne' => ['D', 'E', 'F'],
-                    //                             'grosse' => ['G', 'H'],
-                    //                         ];
-                                            
-                    //                         // Vérifier si la valeur recherchée existe comme clé dans $poitrineValues
-                    //                         if (array_key_exists($value, $poitrineValues)) {
-                    //                             $taillesCorrespondantes = $poitrineValues[$value];
-                                                
-                    //                             $q->where(function ($q) use ($taillesCorrespondantes) {
-                    //                                 foreach ($taillesCorrespondantes as $taille) {
-                    //                                     $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
-                    //                                 }
-                    //                             });
-                    //                         }
-                    //                         break;
-                    //                     case 'mobilite':
-                    //                         $q->where('mobilite_id', (int) $value);
-                    //                         break;
-                    //                     default:
-                    //                         $q->where($key, 'LIKE', '%' . $value . '%');
-                    //                         break;
-                    //                 }
-                    //             }
-                    //         }
-                    //     });
-                    // }
+                    
 
                     if ($this->autreFiltres) {
                         foreach ($this->autreFiltres as $key => $value) {
@@ -781,10 +596,7 @@ class EscortSearch extends Component
                             }
                         }
                     }
-                    // $escorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-                    //     return $escort->isProfileVisibleTo($viewerCountry);
-                    // });
-
+   
                     // 4. Supprimer les doublons
                     $filteredEscorts = $filteredEscorts->unique('id');
 
@@ -794,9 +606,6 @@ class EscortSearch extends Component
                     }
                 }
             }
-
-            // Compter le nombre d'escorts trouvés
-            // $this->escortCount = $escorts->count();
 
             // Calculer la distance maximale
             $this->maxDistance = 0;
@@ -837,64 +646,6 @@ class EscortSearch extends Component
                 $userLatitude = $viewerLatitude;
                 $userLongitude = $viewerLongitude;
             }
-
-            // Initialiser les variables
-            // $minDistance = PHP_FLOAT_MAX;
-            // $maxAvailableDistance = 0;
-            // $escortCount = 0;
-
-            // if(Auth::user()){
-            // $escorts = User::where('profile_type', 'escorte')
-            //     ->where('id', '!=', Auth::user()->id)
-            //     ->whereNotNull('lat')
-            //     ->whereNotNull('lon')
-            //     ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-            //     ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-            //     ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-            //     ->get()
-            //     ->filter(function ($escort) use ($viewerCountry) {
-            //         return $escort->isProfileVisibleTo($viewerCountry);
-            //     })
-            //     ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-            //         $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-
-            //         // Mettre à jour les distances min et max
-            //         $minDistance = min($minDistance, $distance);
-            //         $maxAvailableDistance = max($maxAvailableDistance, $distance);
-
-            //         $escortCount++;
-
-            //         return [
-            //             'escort' => $escort,
-            //             'distance' => $distance,
-            //         ];
-            //     });
-            // }else{
-            //     $escorts = User::where('profile_type', 'escorte')
-            //     ->whereNotNull('lat')
-            //     ->whereNotNull('lon')
-            //     ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-            //     ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-            //     ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-            //     ->get()
-            //     ->filter(function ($escort) use ($viewerCountry) {
-            //         return $escort->isProfileVisibleTo($viewerCountry);
-            //     })
-            //     ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-            //         $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-
-            //         // Mettre à jour les distances min et max
-            //         $minDistance = min($minDistance, $distance);
-            //         $maxAvailableDistance = max($maxAvailableDistance, $distance);
-
-            //         $escortCount++;
-
-            //         return [
-            //             'escort' => $escort,
-            //             'distance' => $distance,
-            //         ];
-            //     });
-            // }
 
             // 1. Récupérer tous les profils de base avec leurs distances
                 $query = User::where('profile_type', 'escorte')
@@ -1096,122 +847,7 @@ class EscortSearch extends Component
                 $this->maxDistanceSelected = $this->maxAvailableDistance;
             }
 
-            // Filtrer par plage de distance, catégories et genre si sélectionnés
-            // if ($escortCount > 0) {
-            //     $escorts = $escorts->filter(function ($item) {
-            //         // Vérifier la distance
-            //         $distanceMatch = $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
-
-            //         if (!$distanceMatch) {
-            //             return false;
-            //         }
-
-            //         // Vérifier le genre si sélectionné
-            //         if ($this->selectedGenre && $item['escort']->genre_id != $this->selectedGenre) {
-            //             return false;
-            //         }
-
-            //         // Vérifier les catégories si sélectionnées
-            //         if (!empty($this->selectedCategories)) {
-            //             // Convertir la catégorie de l'escort en tableau si ce n'est pas déjà le cas
-            //             $escortCategory = $item['escort']->categorie;
-            //             $escortCategories = is_array($escortCategory) ? $escortCategory : [(string) $escortCategory];
-
-            //             // Convertir les IDs en chaînes pour la comparaison
-            //             $escortCategories = array_map('strval', $escortCategories);
-            //             $selectedCategories = array_map('strval', $this->selectedCategories);
-
-            //             // Vérifier s'il y a une correspondance
-            //             $hasMatchingCategory = count(array_intersect($selectedCategories, $escortCategories)) > 0;
-            //             if (!$hasMatchingCategory) {
-            //                 return false;
-            //             }
-            //         }
-
-            //         // Vérifier les services si sélectionnés
-            //         if (!empty($this->selectedServices)) {
-            //             $escortServices = $item['escort']->service;
-            //             $escortServicesArray = is_array($escortServices) ? $escortServices : explode(',', (string) $escortServices);
-
-            //             $escortServicesArray = array_map('strval', $escortServicesArray);
-            //             $selectedServices = array_map('strval', $this->selectedServices);
-
-            //             $hasMatchingService = count(array_intersect($selectedServices, $escortServicesArray)) > 0;
-            //             if (!$hasMatchingService) {
-            //                 return false;
-            //             }
-            //         }
-
-            //         // Vérifier les autres filtres
-            //         if (!empty($this->autreFiltres)) {
-            //             foreach ($this->autreFiltres as $key => $value) {
-            //                 if (!empty($value)) {
-            //                     $escortValue = $item['escort']->$key;
-
-            //                     // Si c'est une relation, on prend l'ID
-            //                     if (is_object($escortValue) && method_exists($escortValue, 'getKey')) {
-            //                         $escortValue = $escortValue->getKey();
-            //                     }
-
-            //                     // Si la valeur est numérique, on la convertit en entier pour la comparaison
-            //                     if (is_numeric($escortValue)) {
-            //                         $escortValue = (int) $escortValue;
-            //                         $value = (int) $value;
-            //                     }
-
-            //                     // Vérifier la correspondance en fonction du type de filtre
-            //                     switch ($key) {
-            //                         case 'mensuration':
-            //                             if ($escortValue != $value) {
-            //                                 return false;
-            //                             }
-            //                             break;
-            //                         case 'orientation':
-            //                         case 'couleur_yeux':
-            //                         case 'couleur_cheveux':
-            //                         case 'poitrine':
-            //                         case 'pubis':
-            //                         case 'tatouages':
-            //                         case 'mobilite':
-            //                             if ($escortValue != $value) {
-            //                                 return false;
-            //                             }
-            //                             break;
-            //                         case 'taille_poitrine':
-            //                             $poitrineValues = [
-            //                                 'petite' => ['A', 'B', 'C'],
-            //                                 'moyenne' => ['D', 'E', 'F'],
-            //                                 'grosse' => ['G', 'H'],
-            //                             ];
-
-            //                             if (array_key_exists($value, $poitrineValues)) {
-            //                                 $taillesCorrespondantes = $poitrineValues[$value];
-
-            //                                 $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
-            //                                     foreach ($taillesCorrespondantes as $taille) {
-            //                                         $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
-            //                                     }
-            //                                 });
-            //                             }
-            //                             break;
-            //                         default:
-            //                             // Pour les autres champs, on fait une recherche partielle
-            //                             if (is_string($escortValue) && stripos($escortValue, $value) === false) {
-            //                                 return false;
-            //                             }
-            //                             break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-
-            //         return true;
-            //     });
-            // }
-
-            // Trier par distance
-            // $escorts = $escorts->sortBy('distance');
-            // $this->escortCount = $escorts->count();
+         
 
             // 7. Mettre à jour $escorts pour la suite
             $escorts = $filteredEscorts;

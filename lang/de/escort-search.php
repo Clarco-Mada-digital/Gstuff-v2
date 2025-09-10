@@ -19,7 +19,6 @@ return [
     'result' => 'Ergebnis',
     'results_around' => 'Ergebnisse im Umkreis von :distance km',
     'results_no_aroud' => 'Ergebnisse',
-
     'service_categories' => 'Dienstleistungskategorien',
     'other_filters' => 'Weitere Filter',
     'origin' => 'Herkunft',
@@ -58,4 +57,5 @@ return [
     'nbFille' => 'Anzahl der Mädchen',
     'result0' => '0 Ergebnis',
     'autre_filtres' => 'Weitere Filter',
+    '' => ''
 ];

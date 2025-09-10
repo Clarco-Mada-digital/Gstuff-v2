@@ -14,7 +14,7 @@ return [
     'lesbian' => 'Lesbienne',
     'bisexual' => 'Bisexuelle',
     'queer' => 'Queer',
-    'more_filters' => 'Filtres +',
+    'more_filters' => 'Plus de filtres',
     'reset_filters' => 'Réinitialiser les filtres',
     'result' => 'Résultat(s)',
     'results_around' => 'Résultat(s) autour de :distance km',
@@ -60,5 +60,7 @@ return [
     'nbFille' => 'Nombre de filles',
     'result0' => '0 Résultat',
     'autre_filtres' => 'Autres filtres',
+
+    ''
 
 ];
