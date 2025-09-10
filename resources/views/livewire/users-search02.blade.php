@@ -608,8 +608,9 @@ x-data="{
 
             </div>
         </div>
-    @endif
+    
     </div>
+    @endif
     <style>
         @keyframes progress {
     0% { width: 0%; }
