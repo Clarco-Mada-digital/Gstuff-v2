@@ -18,7 +18,7 @@
     <button @click="openModal = {{ $phone && !$isPause ? 'true' : 'false' }}"
         class="{{ $class }} @if ($isPause) cursor-not-allowed pointer-events-none bg-gray-200 text-gray-500 border-gray-300
             @else
-                text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300"
+                text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-xs md:text-sm transition-all duration-300"
         @if ($isPause) disabled @endif>
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g fill="none" fill-rule="evenodd">

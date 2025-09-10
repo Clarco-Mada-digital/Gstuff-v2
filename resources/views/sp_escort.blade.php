@@ -67,9 +67,11 @@
             @endif
 
 
-            <x-contact.phone-link :phone="$escort->telephone ?? null" :noPhoneText="__('escort_profile.no_phone')" :isPause="$escort->is_profil_pause" />
+            <div class='grid grid-cols-2 gap-2'>
+                <x-contact.phone-link :phone="$escort->telephone ?? null" :noPhoneText="__('escort_profile.no_phone')" :isPause="$escort->is_profil_pause" />
 
-            <x-location.escort-location :cantonId="$escort->canton->id ?? null" :cantonName="$escort->canton['nom'] ?? null" :cityName="$escort->ville['nom'] ?? null" />
+                <x-location.escort-location :cantonId="$escort->canton->id ?? null" :cantonName="$escort->canton['nom'] ?? null" :cityName="$escort->ville['nom'] ?? null" />
+            </div>
             <hr class="text-green-gs h-2 w-full">
 
 
@@ -81,11 +83,12 @@
                 $isPaused = $escort->is_profil_pause;
             @endphp
 
+            <div class='grid grid-cols-2 md:grid-cols-1 gap-2' >
             <div class="group relative w-full">
                 <button id="chatButtonProfile" data-user-id="{{ $escort->id }}"
                     @if ($isPaused) disabled @endif
                     @auth
-@unless ($isPaused)
+                    @unless ($isPaused)
                             x-on:click="$dispatch('loadForSender', [{{ $escort->id }}])"
                         @endunless
                     @else
@@ -93,7 +96,7 @@
                         data-modal-toggle="authentication-modal" @endauth
                     class="@if ($isPaused) cursor-not-allowed bg-gray-200 text-gray-500 border-gray-300
                         @else
-                            text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300">
+                            text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center  md:gap-2 gap-1 rounded-lg border p-2 text-xs md:text-sm transition-all duration-300 trucate">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
@@ -106,13 +109,16 @@
                 @endif
             </div>
 
+            <x-contact.whatsapp-button :phone="$escort->code_phone . $escort->telephone ?? null" :noContactText="__('escort_profile.no_whatsapp_contact')" :isPause="$escort->is_profil_pause" :name="$escort->prenom ?? $escort->pseudo"
+                :price="$escort->tarif ?? null" :profileVerifier="$escort->profile_verifie === 'verifier' ? true : false" />
+            </div>
+
             <!-- <x-contact.sms-button
                     :phone="$escort->telephone ?? null"
                     :noContactText="__('escort_profile.no_sms_contact')"
                     :isPause="$escort->is_profil_pause"
                 /> -->
-            <x-contact.whatsapp-button :phone="$escort->code_phone . $escort->telephone ?? null" :noContactText="__('escort_profile.no_whatsapp_contact')" :isPause="$escort->is_profil_pause" :name="$escort->prenom ?? $escort->pseudo"
-                :price="$escort->tarif ?? null" :profileVerifier="$escort->profile_verifie === 'verifier' ? true : false" />
+            
             <!-- <x-contact.email-button
                     :email="$escort->email"
                     :noEmailText="__('escort_profile.no_email')"
