@@ -613,21 +613,4 @@ x-data="{
 
     </style>
 </div>
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('Livewire loaded users-search02');
 
-        console.log("Users ", @json($users));
-        console.log("Users nombre", @json($users->count()));
-        console.log("minDistance", @json($minDistance));
-        console.log("maxDistanceSelected", @json($maxDistanceSelected));
-        console.log("maxAvailableDistance", @json($maxAvailableDistance));
-        
-    });
-
-    document.addEventListener('livewire:load', function () {
-        console.log("Users ", @json($users));
-    });
-</script>
-@endpush
