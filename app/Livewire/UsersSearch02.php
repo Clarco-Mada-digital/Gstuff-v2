@@ -121,8 +121,7 @@ class UsersSearch02 extends Component
 
     public function handleModalClosed()
     {
-        $this->resetExcept(['cantons', 'villes', 'escortCategories', 'salonCategories']);
-        $this->resetPage();
+        logger()->info('Modal closed pour reloder la page ');
     }
 
     public function resetFilters()
