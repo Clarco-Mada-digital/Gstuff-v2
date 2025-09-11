@@ -13,7 +13,7 @@
         <!-- Si le gallery est public -->
         @if ($isPublic)
             @if ($isConnected)
-                <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
+                <div class="text-green-gs mb-4 flex items-center justify-between gap-3">
                     <h2 class="font-roboto-slab text-green-gs base-text font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
@@ -260,7 +260,7 @@
             @elseif ($galleries->isNotEmpty())
 
             <!-- profile non connecter -->
-                <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
+                <div class="text-green-gs mb-4 flex items-center justify-between gap-3">
                     <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl  font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
@@ -426,7 +426,7 @@
         @else
             <!-- Si le gallery est privé et que l'utilisateur est connecté -->
             @if ($isConnected)
-                <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
+                <div class="text-green-gs mb-4 flex items-center justify-between gap-3">
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
@@ -614,7 +614,7 @@
             @else
                 <!-- Si le gallery est privé et que l'utilisateur connecte-->
                 @if ($galleries->count() > 1)
-                    <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
+                    <div class="text-green-gs 4 flex items-center justify-between gap-3">
                         <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">
                             {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                                 {{ __('gallery_manage.private') }}

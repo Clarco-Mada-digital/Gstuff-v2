@@ -25,7 +25,7 @@
             $isPaused = $salon->is_profil_pause ?? false;
         @endphp
 
-        <div x-data="{}" class="mx-auto flex w-full max-w-sm flex-col items-center gap-4 p-4">
+        <div x-data="{}" class="mx-auto flex w-full max-w-sm flex-col items-center gap-2 sm:gap-4 p-4">
 
             <x-profileAvatar :isPaused="$isPaused" :avatarSrc="$avatarSrc" :gallery="$gallery" :status="$salon->isOnline()" />
 
@@ -46,7 +46,7 @@
                     $categoryName =
                         $categorie['nom'][$locale] ?? ($categorie['nom']['fr'] ?? ($categorie['nom'] ?? '-'));
                 @endphp
-                <span class="font-roboto-slab text-textColorParagraph text-sm">
+                <span class="font-roboto-slab text-textColorParagraph text-xs sm:text-sm">
                     {{ Str::ucfirst($categoryName) }}
                 </span>
             @endforeach
@@ -59,10 +59,10 @@
 
             <!-- Recrutement -->
             <div class="text-green-gs font-roboto-slab flex items-center justify-center gap-2">
-                <span class="bg-fieldBg flex items-center gap-1 px-2 py-1">
+                <span class="bg-fieldBg flex items-center gap-1 px-2 py-1 text-xs sm:text-sm">
                     {{ __('salon_profile.recruitment') }} :
                 </span>
-                <span class="text-green-gs font-bold">
+                <span class="text-green-gs font-bold text-xs sm:text-sm">
                     {{ $salon->recrutement === 'Ouvert' ? __('salon_profile.open') : __('salon_profile.closed') }}
                 </span>
             </div>
@@ -74,12 +74,13 @@
                 <livewire:favorite-button :userId='$salon->id' wire:key='{{ $salon->id }}' placement="profile" />
             @endauth
 
-            <!-- Bouton message -->
+            <div class='grid grid-cols-2 xl:grid-cols-1 gap-2 w-full' >
+                <!-- Bouton message -->
             <div class="group relative w-full">
                 <button id="chatButtonProfile" data-user-id="{{ $salon->id }}"
                     @if ($isPaused) disabled aria-disabled="true" @endif
                     @auth
-@unless ($isPaused)
+                    @unless ($isPaused)
                             x-on:click="$dispatch('loadForSender', [{{ $salon->id }}])"
                         @endunless
                     @else
@@ -87,8 +88,9 @@
                         data-modal-toggle="authentication-modal" @endauth
                     class="@if ($isPaused) cursor-not-allowed bg-gray-200 text-gray-500 border-gray-300
                         @else
-                            text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center gap-2 rounded-lg border p-2 text-sm transition-all duration-300">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                             text-green-gs border-green-gs hover:bg-green-gs hover:text-white @endif flex w-full items-center justify-center  md:gap-2 gap-1 rounded-lg border 
+                            py-2 px-1 sm:p-2 text-xs md:text-sm transition-all duration-300 trucate">
+                    <svg class="sm:h-5 sm:w-5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M12 3c5.5 0 10 3.58 10 8s-4.5 8-10 8c-1.24 0-2.43-.18-3.53-.5C5.55 21 2 21 2 21c2.33-2.33 2.7-3.9 2.75-4.5C3.05 15.07 2 13.13 2 11c0-4.42 4.5-8 10-8m5 9v-2h-2v2zm-4 0v-2h-2v2zm-4 0v-2H7v2z" />
                     </svg>
@@ -100,14 +102,17 @@
                 @endif
             </div>
 
+            <x-contact.whatsapp-button :phone="$salon->code_phone . $salon->telephone ?? null" :noContactText="__('salon_profile.no_whatsapp_contact')" :isPause="$isPaused" :name="$salon->nom_salon"
+                :price="$salon->tarif ?? null" :profileVerifier="$profileVerifier" />
+            </div>
+
             <!-- Contacts -->
             <!-- <x-contact.sms-button
                     :phone="$salon->telephone ?? null"
                     :noContactText="__('salon_profile.no_sms_contact')"
                     :isPause="$isPaused"
                 /> -->
-            <x-contact.whatsapp-button :phone="$salon->code_phone . $salon->telephone ?? null" :noContactText="__('salon_profile.no_whatsapp_contact')" :isPause="$isPaused" :name="$salon->nom_salon"
-                :price="$salon->tarif ?? null" :profileVerifier="$profileVerifier" />
+            
             <!-- <x-contact.email-button
                     :email="$salon->email"
                     :noEmailText="__('salon_profile.no_email')"
@@ -123,11 +128,11 @@
 
                 <section>
 
-                    <div class="min-w-3/4 py-5">
-                        <div class="text-green-gs font-roboto-slab w-full text-right font-bold">
+                    <div class="min-w-3/4">
+                        <div class="text-green-gs font-roboto-slab w-full text-right font-bold text-xs sm:text-sm">
                             @foreach ($salon->categorie as $categorie)
                                 <a href="{{ route('salons') . '?selectedSalonCategories=' . ($categorie['id'] ?? '') }}"
-                                    class="hover:text-green-gs">
+                                    class="hover:text-green-gs text-xs sm:text-sm">
 
                                     @php
                                         $locale = session('locale', 'fr');
@@ -140,7 +145,8 @@
                             @endforeach
                             /
                             <a href="{{ route('salons') . '?selectedSalonCanton=' . ($salon->canton['id'] ?? '') }}"
-                                class="hover:text-green-gs">
+                                class="hover:text-green-gs text-xs sm:text-sm">
+
                                 {{ Str::ucfirst($salon->canton['nom'] ?? '') }}
                             </a>
                             /
@@ -157,15 +163,15 @@
 
                             {{-- A propos de moi --}}
                             @if ($salon->nombre_filles || $salon->tarif || $salon->autre_contact || $salon->paiement || $salon->langues)
-                                <div class="flex items-center justify-between gap-5 py-5">
+                                <div class="flex items-center justify-between sm:gap-4 sm:py-4 py-2">
 
-                                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                                    <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">
                                         {{ __('salon_profile.about_me') }}</h2>
                                     <div class="bg-green-gs h-0.5 flex-1"></div>
 
                                 </div>
-                                <div class="flex flex-wrap items-center gap-10">
-                                    <div class="grid w-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                                <div class="flex flex-wrap items-center">
+                                    <div class="grid w-full grid-cols-1 gap-2 sm:gap-4 md:grid-cols-3 xl:grid-cols-3">
 
 
                                         <x-profile-info-item icon="escort_icon.png" :alt="__('salon_profile.girls_icon')" :label="__('salon_profile.number_of_girls')"
