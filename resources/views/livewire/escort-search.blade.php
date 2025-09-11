@@ -32,7 +32,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
 
     <div class="xl:py-10 py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center">
-        <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-sm sm:text-lg md:text-3xl font-bold">
+    <div wire:loading wire:target="maxDistanceSelected" class="w-full z-50 absolute top-0 left-0">
+                                            <div class="w-full bg-gray-200  h-1">
+                                                <div class="bg-green-gs h-1 animate-progress"></div>
+                                            </div>
+                                        </div>   
+    
+    
+    <h1 class="font-roboto-slab text-green-gs mb-4 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('escort-search.discover_escorts') }}
         </h1>
         <div class="@if ($showFiltreCanton) block @else hidden @endif w-full">
@@ -44,48 +51,19 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
         @if ($approximite || $showClosestOnly)
            <div class="flex flex-col items-center justify-between w-full  sm:flex-row md:w-[90%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] ">
-           <div class="mx-auto mb-2 mt-1 w-[80%] max-w-2xl rounded-lg bg-white p-4 shadow">
+           <div class="mx-auto mb-2 mt-1 w-full  max-w-2xl rounded-lg bg-white p-2 sm:p-4 shadow">
                 <div class="">
                     <div class="space-y-2">
-                        <div>
-                            <div class="font-roboto-slab flex items-center justify-between">
-                               {{--  <label
-                                    class="font-roboto-slab text-green-gs block text-sm font-medium">{{ __('escort-search.distance_km') }}
-                                    {{ number_format($maxDistanceSelected, 0) }}</label> --}}
-                                <div wire:loading wire:target="maxDistanceSelected" class="flex items-center">
-                                    <svg class="text-green-gs -ml-1 mr-2 h-4 w-4 animate-spin"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10"
-                                            stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                        </path>
-                                    </svg>
-                                </div>
-                            </div>
+                      
+                           
                             <div class="relative pt-1">
 
-                                <div class="w-full">
-                                    <div
-                                        class="font-roboto-slab mb-2 flex items-center justify-between text-xs text-gray-600 sm:hidden">
-                                        <span
-                                            class="font-roboto-slab text-green-gs whitespace-nowrap rounded-full px-2 py-1 text-xs">{{ str_replace(',', ' ', number_format($minDistance, 0)) }}
-                                            km</span>
-                                        <span
-                                            class="font-roboto-slab text-green-gs whitespace-nowrap rounded-full px-2 py-1 text-xs">{{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }}
-                                            km</span>
-                                    </div>
-                                    <input type="range" wire:model.live="maxDistanceSelected"
-                                        min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}" step="0.01"
-                                        class="[&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 sm:hidden [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2"
-                                        style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)">
-
-                                </div>
+                                
 
                                 <div
-                                    class="flex hidden w-full items-center justify-between gap-2 text-xs text-gray-600 sm:block sm:flex sm:gap-3 md:gap-4">
+                                    class="flex w-full items-center justify-between gap-2 text-xs text-gray-600  sm:flex sm:gap-3 md:gap-4">
                                     <span
-                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-2 py-1 text-xs">
+                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-1 py-1 text-xs">
                                         {{ str_replace(',', ' ', number_format($minDistance, 0)) }} km
                                     </span>
                                     <input type="range" wire:model.live="maxDistanceSelected"
@@ -93,12 +71,12 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                                         class="[&::-webkit-slider-thumb]:bg-supaGirlRose [&::-webkit-slider-thumb]:focus:ring-supaGirlRose/50 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-200 outline-none transition-all duration-200 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:hover:scale-110 [&::-webkit-slider-thumb]:focus:ring-2"
                                         style="background: linear-gradient(to right, #FDA5D6 0%, #FED5E9 {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB {{ ($maxDistanceSelected / $maxAvailableDistance) * 100 }}%, #E5E7EB 100%)">
                                     <span
-                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-2 py-1 text-xs">
+                                        class="font-roboto-slab text-green-gs shrink-0 rounded-full px-1 py-1 text-xs">
                                         {{ str_replace(',', ' ', number_format($maxAvailableDistance, 0)) }} km
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
