@@ -3,8 +3,8 @@
     'buttonText' => '',
     'class' => '',
 ])
-<div class="flex w-full flex-col items-center justify-center gap-5">
-    <div class="flex w-full items-center justify-between gap-5 py-5">
+<div class="flex w-full flex-col items-center justify-center ">
+    <div class="flex w-full items-center justify-between gap-x-5">
 
         <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">{{ __('auth.contenuPrivate') }}
         </h2>
