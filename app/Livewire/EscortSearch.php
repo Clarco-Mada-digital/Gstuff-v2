@@ -63,9 +63,13 @@ class EscortSearch extends Component
     public $tarifMin = 100;
     public $tarifMax = 1000;
 
-    public $ageInterval = [];
+    // public $ageInterval = [];
     public $tailleInterval = [];
     public $tarifInterval = [];
+
+    public $ageInterval = ['min' => 18, 'max' => 100];
+    // public $tailleInterval = ['min' => 90, 'max' => 200];
+    // public $tarifInterval = ['min' => 100, 'max' => 1000];
 
     public $approximite = false;
     public $latitudeUser;
@@ -77,7 +81,45 @@ class EscortSearch extends Component
     public $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
 
     public $showFiltreCanton = true;
+    public function mount()
+{
+    $this->ageInterval = ['min' => 18, 'max' => 100];
+ 
+}
+
+protected $listeners = ['updateInterval' => 'handleUpdateInterval'];
+
+public function handleUpdateInterval($data)
+{
+    $model = $data['model'];
+    $min = $data['min'];
+    $max = $data['max'];
+
+    if ($model === 'ageInterval') {
+        $this->ageInterval = [
+            'min' => (int)$min,
+            'max' => (int)$max
+        ];
+        $this->ageMin = (int)$min;
+        $this->ageMax = (int)$max;
+    } elseif ($model === 'tailleInterval') {
+        $this->tailleInterval = [
+            'min' => (int)$min,
+            'max' => (int)$max
+        ];
+        $this->tailleMin = (int)$min;
+        $this->tailleMax = (int)$max;
+    } elseif ($model === 'tarifInterval') {
+        $this->tarifInterval = [
+            'min' => (int)$min,
+            'max' => (int)$max
+        ];
+        $this->tarifMin = (int)$min;
+        $this->tarifMax = (int)$max;
+    }
     
+    $this->resetPage();
+}
 
     private function getEscorts($escorts)
     {

@@ -1,42 +1,19 @@
-<div class="middle" x-data="{ minValue: {{ $leftValue ?? 25 }}, maxValue: {{ $rightValue ?? 75 }} }"
-     x-init="
-         document.getElementById('min-value').textContent = 'Min: ' + minValue;
-         document.getElementById('max-value').textContent = 'Max: ' + maxValue;
-         $watch('minValue', value => document.getElementById('min-value').textContent = 'Min: ' + value);
-         $watch('maxValue', value => document.getElementById('max-value').textContent = 'Max: ' + value);
-     ">
-    <div class="multi-range-slider">
-        <input type="range" id="input-left" min="{{ $min ?? 0 }}" max="{{ $max ?? 100 }}" x-model="minValue"
-               @input="
-                   if (parseInt($event.target.value) >= parseInt(document.getElementById('input-right').value)) {
-                       minValue = parseInt(document.getElementById('input-right').value) - 1;
-                   }
-                   $dispatch('range-update', { min: minValue, max: maxValue });
-               ">
-        <input type="range" id="input-right" min="{{ $min ?? 0 }}" max="{{ $max ?? 100 }}" x-model="maxValue"
-               @input="
-                   if (parseInt($event.target.value) <= parseInt(document.getElementById('input-left').value)) {
-                       maxValue = parseInt(document.getElementById('input-left').value) + 1;
-                   }
-                   $dispatch('range-update', { min: minValue, max: maxValue });
-               ">
-        <div class="slider">
-            <div class="track"></div>
-            <div class="range" x-bind:style="`left: ${(minValue - {{ $min ?? 0 }}) / ({{ $max ?? 100 }} - {{ $min ?? 0 }}) * 100}%; right: ${100 - (maxValue - {{ $min ?? 0 }}) / ({{ $max ?? 100 }} - {{ $min ?? 0 }}) * 100}%`"></div>
-            <div class="thumb left" x-bind:style="`left: ${(minValue - {{ $min ?? 0 }}) / ({{ $max ?? 100 }} - {{ $min ?? 0 }}) * 100}%`"></div>
-            <div class="thumb right" x-bind:style="`left: ${(maxValue - {{ $min ?? 0 }}) / ({{ $max ?? 100 }} - {{ $min ?? 0 }}) * 100}%`"></div>
-        </div>
-    </div>
-    <div class="values-display">
-        <span id="min-value">Min: {{ $leftValue ?? 25 }}</span>
-        <span id="max-value">Max: {{ $rightValue ?? 75 }}</span>
-    </div>
+@php
+    $modelName = $attributes->wire('model')->value();
+    $minValue = $attributes->get('min', 0);
+    $maxValue = $attributes->get('max', 100);
+@endphp
+
+<div class="middle"
+    >
+    
 </div>
 
 <style>
+    /* (Même CSS que précédemment) */
     .middle {
         position: relative;
-        width: 50%;
+        width: 100%;
         max-width: 500px;
     }
     .multi-range-slider {
@@ -112,20 +89,5 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputLeft = document.getElementById("input-left");
-        const inputRight = document.getElementById("input-right");
-        const thumbLeft = document.querySelector(".slider > .thumb.left");
-        const thumbRight = document.querySelector(".slider > .thumb.right");
-
-        inputLeft.addEventListener("mouseover", () => thumbLeft.classList.add("hover"));
-        inputLeft.addEventListener("mouseout", () => thumbLeft.classList.remove("hover"));
-        inputLeft.addEventListener("mousedown", () => thumbLeft.classList.add("active"));
-        inputLeft.addEventListener("mouseup", () => thumbLeft.classList.remove("active"));
-
-        inputRight.addEventListener("mouseover", () => thumbRight.classList.add("hover"));
-        inputRight.addEventListener("mouseout", () => thumbRight.classList.remove("hover"));
-        inputRight.addEventListener("mousedown", () => thumbRight.classList.add("active"));
-        inputRight.addEventListener("mouseup", () => thumbRight.classList.remove("active"));
-    });
+   
 </script>
