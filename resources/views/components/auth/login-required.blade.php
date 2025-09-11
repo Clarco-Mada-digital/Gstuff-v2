@@ -6,7 +6,7 @@
 <div class="flex w-full flex-col items-center justify-center ">
     <div class="flex w-full items-center justify-between gap-x-5">
 
-        <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">{{ __('auth.contenuPrivate') }}
+        <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold mr-2">{{ __('auth.contenuPrivate') }}
         </h2>
         <div class="bg-green-gs h-0.5 flex-1"></div>
 
