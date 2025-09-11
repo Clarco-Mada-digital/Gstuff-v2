@@ -14,7 +14,7 @@ return [
     'login_register' => 'Connexion/Inscription',
 
 
-    'masseuse' => 'Masseuse éronotique',
+    'masseuse' => 'Masseuse érotique',
     'dominatrice' => 'Dominatrice BDSM',
     'trans' => 'Trans Ladyboy',
     'telephoneRose' => 'Téléphone Rose & Vidéo Chat',

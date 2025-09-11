@@ -7,7 +7,7 @@ return [
     'add_to_favorites' => 'Ajouter au favoris',
     'send_message' => 'Écrire un message',
     'no_sms_contact' => 'Pas de contact sms',
-    'no_whatsapp_contact' => 'Pas de contact whatsapp',
+    'no_whatsapp_contact' => 'Pas de whatsapp',
     'about_me' => 'À propos de moi',
     'girls_icon' => 'Icône de filles',
     'number_of_girls' => 'Nombre de filles',

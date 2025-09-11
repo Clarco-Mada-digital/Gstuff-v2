@@ -13,6 +13,10 @@
     $avatar = $escort->avatar;
     $avatarSrc = $avatar ? asset('storage/avatars/' . $avatar) : asset('images/icon_logo.png');
     $isPaused = $escort->is_profil_pause ?? false;
+
+    $gridContact = 0;
+    if($escort->genre) $gridContact++;
+    if($escort->telephone) $gridContact++;
 @endphp
 @section('content')
     <div x-data="{}"
@@ -62,16 +66,20 @@
                     ({{ $escort->last_seen_for_humans }})
                 </p>
             </div>
+
+           
+            
+
+
+            <div class='grid grid-cols-{{ $gridContact }} gap-2'>
             @if ($escort->genre && $escort->genre->getTranslation('name', app()->getLocale(), 'fr'))
                 <x-profile.gender-badge :genderName="Str::ucfirst($escort->genre->getTranslation('name', app()->getLocale(), 'fr'))" />
             @endif
-
-
-            <div class='grid grid-cols-2 gap-2'>
                 <x-contact.phone-link :phone="$escort->telephone ?? null" :noPhoneText="__('escort_profile.no_phone')" :isPause="$escort->is_profil_pause" />
 
-                <x-location.escort-location :cantonId="$escort->canton->id ?? null" :cantonName="$escort->canton['nom'] ?? null" :cityName="$escort->ville['nom'] ?? null" />
+               
             </div>
+            <x-location.escort-location :cantonId="$escort->canton->id ?? null" :cantonName="$escort->canton['nom'] ?? null" :cityName="$escort->ville['nom'] ?? null" />
             <hr class="text-green-gs h-2 w-full">
 
 
@@ -239,7 +247,7 @@
 
                 @if ($escort->galleryCount > 0)
                     @guest
-                        <div class="my-10 flex items-center justify-center">
+                        <div class=" flex items-center justify-center">
                             <x-auth.login-required :title="__('escort_profile.connect_to_view_private_content')" :buttonText="__('escort_profile.connect_signup')" />
                         </div>
                     @endguest

@@ -208,7 +208,7 @@
                 @if ($feedback->userFromId?->profile_type == 'salon') href="{{ route('show_salon', $feedback->userFromId->id) }}"
     @else
     href="{{ route('show_escort', $feedback->userFromId->id) }}" @endif>
-                <img class="w-15 h-15 rounded-full object-cover object-center"
+                <img class="w-10 h-10 sm:w-15 sm:h-15 rounded-full object-cover object-center"
                     @if ($avatar = $feedback->userFromId->avatar) src="{{ asset('storage/avatars/' . $avatar) }}"
       @else
       src="{{ asset('images/icon_logo.png') }}" @endif
@@ -216,7 +216,7 @@
             </a>
             <div class="flex flex-col justify-center gap-2">
                 <div
-                    class="text-green-gs flex flex-col justify-center gap-2 font-bold md:flex-row md:items-center md:justify-start">
+                    class="text-green-gs flex flex-col justify-center gap-2 text-xs sm:text-sm font-bold md:flex-row md:items-center md:justify-start">
                     <a
                         @if ($feedback->userFromId->profile_type == 'salon') href="{{ route('show_salon', $feedback->userFromId->id) }}"
           @else
@@ -225,10 +225,10 @@
                     </a>
                     <span class="flex items-center">
                         @for ($i = 1; $i <= 5; $i++)
-                            <button type="button" class="text-xl">
+                            <button type="button" class="text-xs sm:text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     fill="{{ $i <= $feedback->rating ? '#FDA5D6' : 'none' }}" stroke="#FDA5D6"
-                                    class="text-supaGirlRose h-5 w-5" viewBox="0 0 24 24">
+                                    class="text-supaGirlRose w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
@@ -258,7 +258,7 @@
                             aria-label="{{ __('feedback.rate_star', ['rating' => $i]) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="{{ $i <= $rating ? 'currentColor' : 'none' }}"
                                 stroke="{{ $i <= $rating ? 'currentColor' : '#FDA5D6' }}"
-                                class="{{ $i <= $rating ? 'text-supaGirlRose' : 'text-gray-300' }} h-8 w-8"
+                                class="{{ $i <= $rating ? 'text-supaGirlRose' : 'text-gray-300' }} h-4 w-4 sm:h-6 sm:w-6"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="{{ $i <= $rating ? '0' : '2' }}"
