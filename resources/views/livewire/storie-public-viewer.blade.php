@@ -3,13 +3,13 @@
 
 
 
-        <div class="flex items-center justify-between gap-5 py-5">
+        <div class="flex items-center justify-between gap-2 sm:gap-5 py-2 sm:py-5">
 
-            <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">{{ __('escort_profile.stories') }}</h2>
+            <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">{{ __('escort_profile.stories') }}</h2>
             <div class="bg-green-gs h-0.5 flex-1"></div>
 
         </div>
-        <div class="mb-5 flex flex-wrap items-center gap-4">
+        <div class="mb-2 sm:mb-5 flex flex-wrap items-center gap-2 sm:gap-4">
             @if (count($storiesData) > 0)
                 @foreach ($storiesData as $index => $story)
                     <div class="relative h-24 w-24">
@@ -27,7 +27,7 @@
                     </div>
                 @endforeach
             @else
-                <div class="py-4 text-center text-gray-500">
+                <div class="py-2 sm:py-4 text-center text-gray-500 text-xs sm:text-sm">
                     {{ __('Aucune story disponible pour le moment') }}
                 </div>
             @endif

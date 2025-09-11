@@ -87,7 +87,7 @@
             }
         }, 5000);
     }
-}" class="bg-fieldBg relative mt-5 flex w-full flex-col gap-10 rounded-lg p-1 sm:p-4">
+}" class="bg-fieldBg relative mt-5 flex w-full flex-col md:gap-10 gap-2 rounded-lg p-1 sm:p-4">
     <!-- Notifications flottantes -->
     @if ($isToast)
         <div x-show="showSuccess && successMessage && successMessage.trim() !== ''"
@@ -236,14 +236,14 @@
                         @endfor
                     </span>
                 </div>
-                <p class="font-roboto-slab text-textColorParagraph text-sm">{{ $feedback->comment }}</p>
+                <p class="font-roboto-slab text-textColorParagraph text-xs sm:text-sm">{{ $feedback->comment }}</p>
             </div>
         </div>
     @endforeach
     @auth
-        <div class="flex flex-col justify-center gap-4 rounded-lg bg-white p-2 shadow-md dark:bg-gray-800">
-            <h2 class="text-green-gs mb-2 px-2 text-xl font-bold sm:px-0">{{ __('feedback.rating_given') }}</h2>
-            <p class="text-textColorParagraph mb-4 px-2 text-sm sm:px-0">
+        <div class="flex flex-col justify-center sm:gap-4 rounded-lg bg-white p-2 shadow-md dark:bg-gray-800">
+            <h2 class="text-green-gs mb-2 px-2 text-sm sm:text-xl font-bold sm:px-0">{{ __('feedback.rating_given') }}</h2>
+            <p class="text-textColorParagraph mb-4 px-2 text-xs sm:text-sm sm:px-0 hidden sm:block">
                 {{ __('feedback.rating_help') }}
             </p>
 
@@ -258,7 +258,7 @@
                             aria-label="{{ __('feedback.rate_star', ['rating' => $i]) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="{{ $i <= $rating ? 'currentColor' : 'none' }}"
                                 stroke="{{ $i <= $rating ? 'currentColor' : '#FDA5D6' }}"
-                                class="{{ $i <= $rating ? 'text-supaGirlRose' : 'text-gray-300' }} h-4 w-4 sm:h-6 sm:w-6"
+                                class="{{ $i <= $rating ? 'text-supaGirlRose' : 'text-gray-300' }} h-5 w-5 sm:h-6 sm:w-6"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="{{ $i <= $rating ? '0' : '2' }}"
@@ -271,7 +271,7 @@
             </div>
 
             <!-- Champ de commentaire avec sélecteur d'émojis -->
-            <div class="mb-4 w-full rounded-sm p-2 transition-all duration-200 ease-in-out hover:shadow-lg"
+            <div class=" w-full rounded-sm p-2 transition-all duration-200 ease-in-out hover:shadow-lg"
                 x-data="{
                     showEmojiPicker: false,
                     activeCategory: 'smileys_emotion',
@@ -339,12 +339,12 @@
                     }
                 }">
                 <div class="relative">
-                    <label for="comment" class="text-green-gs/80 font-roboto-slab mb-1 block text-sm font-medium">
+                    <label for="comment" class="text-green-gs/80 font-roboto-slab mb-1 block text-xs sm:text-sm font-medium">
                         {{ __('feedback.your_comment') }}
                     </label>
                     <div class="relative">
                         <textarea wire:model.debounce.500ms="comment" x-ref="commentTextarea" id="comment" rows="4"
-                            class="font-roboto-slab text-textColorParagraph border-supaGirlRose focus:ring-supaGirlRose focus:border-supaGirlRose w-full rounded-lg border bg-white px-4 py-3 pr-10 transition duration-200 focus:ring-2"
+                            class="font-roboto-slab text-textColorParagraph border-supaGirlRose focus:ring-supaGirlRose focus:border-supaGirlRose w-full rounded-lg border bg-white px-4 py-3 pr-10 transition duration-200 focus:ring-2 text-xs sm:text-sm"
                             placeholder="{{ __('feedback.write_your_comment_placeholder') }}" aria-describedby="comment-help"></textarea>
 
                         <!-- Bouton du sélecteur d'émojis -->
@@ -356,13 +356,13 @@
 
                         <!-- Sélecteur d'émojis -->
                         <div x-show="showEmojiPicker" @click.away="showEmojiPicker = false"
-                            class="border-supaGirlRose absolute bottom-full right-0 z-10 mb-2 w-80 rounded-lg border bg-white shadow-lg"
+                            class="border-supaGirlRose absolute bottom-full right-0 z-10 mb-2 w-full sm:w-80 rounded-lg border bg-white shadow-lg"
                             style="display: none;" x-cloak>
                             <!-- Barre de recherche -->
                             <div class="border-supaGirlRosePastel border-b p-2">
                                 <input type="text" x-model="searchQuery" @input="search()"
                                     placeholder="{{ __('Search emojis...') }}"
-                                    class="border-supaGirlRosePastel focus:border-green-gs focus:ring-green-gs w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none focus:ring-1">
+                                    class="border-supaGirlRosePastel focus:border-green-gs focus:ring-green-gs w-full rounded-md border px-3 py-1.5 text-xs sm:text-sm focus:outline-none focus:ring-1">
                             </div>
 
                             <!-- Catégories -->
@@ -436,19 +436,19 @@
             </div>
 
             <!-- Bouton de soumission -->
-            <div class="flex justify-center sm:justify-end">
+            <div class="flex justify-center items-center sm:justify-end w-full">
                 @php
                     $commentLength = strlen($comment ?? '');
                     $isDisabled = !$rating || $commentLength > 500;
                 @endphp
                 <button wire:click="submit" wire:loading.attr="disabled"
                     wire:loading.class="opacity-70 cursor-not-allowed" type="button"
-                    class="font-roboto-slab from-green-gs to-green-gs hover:from-green-gs hover:to-green-gs focus:ring-green-gs focus:border-green-gs disabled:from-green-gs disabled:to-green-gs inline-flex items-center rounded-lg bg-gradient-to-r px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
+                    class="w-full font-roboto-slab justify-center items-center from-green-gs to-green-gs hover:from-green-gs hover:to-green-gs focus:ring-green-gs focus:border-green-gs disabled:from-green-gs disabled:to-green-gs inline-flex items-center rounded-lg bg-gradient-to-r px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
                     @if ($isDisabled) disabled @endif>
-                    <span wire:loading.remove wire:target="submit">
+                    <span wire:loading.remove wire:target="submit" class=" text-xs sm:text-sm flex justify-center items-center" >
                         {{ __('feedback.send_comment') }}
                     </span>
-                    <span wire:loading wire:target="submit" class="flex items-center">
+                    <span wire:loading wire:target="submit" class="flex justify-center  items-center text-xs sm:text-sm">
                         <svg class="-ml-1 mr-2 h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#FDA5D6"

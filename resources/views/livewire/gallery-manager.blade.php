@@ -17,7 +17,7 @@
                     <h2 class="font-roboto-slab text-green-gs base-text font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
-                        @endif aaaaaaaa
+                        @endif 
                     </h2>
                     @if ($isCertified && $isGallery)
                         <x-badgeCertifie />
@@ -86,10 +86,10 @@
                                         <div
                                             class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                             <div class="text-white">
-                                                <h3 class="truncate font-medium">
+                                                <h3 class="truncate font-medium text-sm sm:text-md">
                                                     {{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}
                                                 </h3>
-                                                <p class="truncate text-xs text-gray-300">
+                                                <p class="truncate text-xs sm:text-sm text-gray-300">
                                                     {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}
                                                 </p>
                                             </div>
@@ -145,10 +145,10 @@
                                         <div
                                             class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                             <div class="text-white">
-                                                <h3 class="truncate font-medium">
+                                                <h3 class="truncate font-medium text-sm sm:text-md">
                                                     {{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}
                                                 </h3>
-                                                <p class="truncate text-xs text-gray-300">
+                                                <p class="truncate text-xs sm:text-sm text-gray-300">
                                                     {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}
                                                 </p>
                                             </div>
@@ -327,10 +327,10 @@
                                 <div
                                     class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                     <div class="text-white">
-                                        <h3 class="truncate font-medium">
+                                        <h3 class="truncate font-medium text-sm sm:text-md">
                                             {{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}
                                         </h3>
-                                        <p class="truncate text-xs text-gray-300">
+                                        <p class="truncate text-xs sm:text-sm text-gray-300">
                                             {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}
                                         </p>
                                     </div>
@@ -430,7 +430,7 @@
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
-                        @endif ccccccccccc
+                        @endif 
                     </h2>
                     @if ($isCertified && $isGallery)
                         <x-badgeCertifie />
@@ -497,10 +497,10 @@
                                     <div
                                         class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                         <div class="text-white">
-                                            <h3 class="truncate font-medium">
+                                            <h3 class="truncate font-medium text-sm sm:text-md">
                                                 {{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}
                                             </h3>
-                                            <p class="truncate text-xs text-gray-300">
+                                            <p class="truncate text-xs sm:text-sm text-gray-300">
                                                 {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}
                                             </p>
                                         </div>
@@ -612,19 +612,19 @@
                     </div>
                 </template>
             @else
-                <!-- Si le gallery est privé et que l'utilisateur n'est pas connecté et que le gallery n'est pas vide -->
+                <!-- Si le gallery est privé et que l'utilisateur connecte-->
                 @if ($galleries->count() > 1)
                     <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-                        <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                        <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">
                             {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                                 {{ __('gallery_manage.private') }}
-                            @endif
+                            @endif 
                         </h2>
                         @if ($isCertified && $isGallery)
                             <x-badgeCertifie />
                         @endif
                         <div class="bg-green-gs h-0.5 flex-1"></div>
-                        <div class="flex space-x-3">
+                        <div class="flex space-x-3 hidden sm:flex">
                             <!-- Boutons de vue -->
                             <button @click="viewMode = 'grid'"
                                 :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs bg-green-gs/50': viewMode !== 'grid' }"
@@ -636,11 +636,6 @@
                                 class="rounded-lg p-2 transition-colors hover:bg-gray-100">
                                 <i class="fas fa-list"></i>
                             </button>
-
-                            <!-- Bouton ajout (seulement pour le propriétaire) -->
-                            @if (auth()->id() === $user->id && $isPublic)
-                                <x-modal-gallery />
-                            @endif
                         </div>
                     </div>
 
@@ -685,10 +680,10 @@
                                         <div
                                             class="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                             <div class="text-white">
-                                                <h3 class="truncate font-medium">
+                                                <h3 class="truncate font-medium text-sm sm:text-md">
                                                     {{ $media->title == 'pdp' ? __('gallery_manage.profile_photo') : $media->title }}
                                                 </h3>
-                                                <p class="truncate text-xs text-gray-300">
+                                                <p class="truncate text-xs sm:text-sm text-gray-300">
                                                     {{ $media->description == 'pdp' ? __('gallery_manage.profile_photo_description') : $media->description }}
                                                 </p>
                                             </div>

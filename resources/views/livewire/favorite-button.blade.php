@@ -7,9 +7,9 @@
         data-modal-target="authentication-modal"
         data-modal-toggle="authentication-modal" @endguest
         data-tooltip-target="favorite-tooltip" data-tooltip-placement="top" type="button"
-        @if ($placement === 'profile') class="relative cursor-pointer text-green-gs hover:bg-green-gs flex w-full items-center justify-center gap-1 rounded-lg border border-green-gs p-1 text-sm hover:text-white"
+        @if ($placement === 'profile') class="relative cursor-pointer text-green-gs hover:bg-green-gs flex w-full items-center justify-center gap-1 rounded-lg border border-green-gs p-1 text-xs sm:text-sm hover:text-white"
     @else
-        class="relative cursor-pointer text-green-gs flex w-full items-center justify-center gap-1 rounded-lg p-1 text-sm hover:text-supaGirlRose" @endif>
+        class="relative cursor-pointer text-green-gs flex w-full items-center justify-center gap-1 rounded-lg p-2  text-xs sm:text-sm hover:text-supaGirlRose" @endif>
         <span>
             @if (Auth::user() && $userId == Auth::user()->id)
                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
