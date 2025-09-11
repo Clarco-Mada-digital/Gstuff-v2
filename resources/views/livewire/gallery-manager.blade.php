@@ -1,4 +1,4 @@
-<div class="my-10 w-full" x-data="gallery()" x-init="initGallery()" x-cloak
+<div class="my-4 md:my-10 w-full" x-data="gallery()" x-init="initGallery()" x-cloak
     @keydown.left="if(fullscreen) navigateMedia(-1)" @keydown.right="if(fullscreen) navigateMedia(1)">
     <!-- Header -->
 
@@ -14,10 +14,10 @@
         @if ($isPublic)
             @if ($isConnected)
                 <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                    <h2 class="font-roboto-slab text-green-gs base-text font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
-                        @endif
+                        @endif aaaaaaaa
                     </h2>
                     @if ($isCertified && $isGallery)
                         <x-badgeCertifie />
@@ -258,8 +258,10 @@
                     </div>
                 </template>
             @elseif ($galleries->isNotEmpty())
+
+            <!-- profile non connecter -->
                 <div class="text-green-gs mb-6 flex items-center justify-between gap-3">
-                    <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                    <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl  font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
                         @endif
@@ -267,24 +269,22 @@
                     @if ($isCertified && $isGallery)
                         <x-badgeCertifie />
                     @endif
-                    <div class="bg-green-gs h-0.5 flex-1"></div>
-                    <div class="flex space-x-3">
+                    <div class="bg-green-gs h-0.5 flex-1 hidden sm:block"></div>
+                    <div class="flex space-x-3 hidden sm:flex ">
                         <!-- Boutons de vue -->
                         <button @click="viewMode = 'grid'"
                             :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs bg-green-gs/50': viewMode !== 'grid' }"
-                            class="rounded-lg p-2 transition-colors hover:bg-gray-100">
+                            class="rounded-lg p-2 transition-colors hover:bg-gray-100 hidden sm:block">
                             <i class="fas fa-th-large"></i>
                         </button>
                         <button @click="viewMode = 'list'"
                             :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'list', 'text-green-gs bg-green-gs/50': viewMode !== 'list' }"
-                            class="rounded-lg p-2 transition-colors hover:bg-gray-100">
+                            class="rounded-lg p-2 transition-colors hover:bg-gray-100 hidden sm:block">
                             <i class="fas fa-list"></i>
                         </button>
 
                         <!-- Bouton ajout (seulement pour le propriétaire) -->
-                        @if (auth()->id() === $user->id && $isPublic)
-                            <x-modal-gallery />
-                        @endif
+                         
                     </div>
                 </div>
 
@@ -430,7 +430,7 @@
                     <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                         {{ __('gallery_manage.gallery_title') }} @if ($isPublic == false)
                             {{ __('gallery_manage.private') }}
-                        @endif
+                        @endif ccccccccccc
                     </h2>
                     @if ($isCertified && $isGallery)
                         <x-badgeCertifie />

@@ -157,16 +157,25 @@
     <div class="font-roboto-slab bg-fieldBg flex flex-col items-center justify-between gap-2 md:flex-row">
 
         <!-- Titre -->
-        <span class="font-roboto-slab text-green-gs text-center text-xl font-bold md:text-start">
+        <span class="font-roboto-slab text-green-gs text-center text-sm md:text-xl font-bold md:text-start">
             {{ __('feedback.recommendations_likes_rating') }}
         </span>
 
         <!-- Section actions -->
-        <div class="flex items-center justify-center gap-3 md:justify-end">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:justify-end">
             <!-- Bouton pour les invités -->
+            <div class="flex flex-row items-center gap-2  sm:hidden">
+                <!-- Étoiles -->
+                @for ($i = 0; $i < 5; $i++)
+                    <svg class="text-supaGirlRose h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                @endfor
+            </div>
             @guest
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
-                    class="bg-green-gs hover:bg-green-gs/80 flex items-center gap-2 rounded-md px-4 py-2 text-white shadow-sm transition duration-200">
+                    class="bg-green-gs hover:bg-green-gs/80 flex items-center gap-2 rounded-md px-2 sm:px-4 sm:py-2 py-1 text-xs sm:text-sm text-white shadow-sm transition duration-200">
                     <!-- Icône commentaire -->
                     <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
@@ -174,18 +183,20 @@
                             d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.84L3 20l1.84-4.6A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
 
-                    {{ __('feedback.comment') }}
+                    <span class="text-xs sm:text-sm">{{ __('feedback.comment') }}</span>
                 </button>
             @endguest
 
 
-            <!-- Étoiles -->
-            @for ($i = 0; $i < 5; $i++)
-                <svg class="text-supaGirlRose h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+           <div class="flex flex-row items-center gap-2 hidden sm:flex">
+             <!-- Étoiles -->
+             @for ($i = 0; $i < 5; $i++)
+                <svg class="text-supaGirlRose h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor"
                         d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21z" />
                 </svg>
             @endfor
+           </div>
         </div>
 
     </div>

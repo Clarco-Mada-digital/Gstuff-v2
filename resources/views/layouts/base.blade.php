@@ -191,14 +191,14 @@
     <div id="age-verification"
         class="bg-textColor fixed inset-0 z-[9999] flex hidden items-center justify-center bg-opacity-90">
         <div class="mx-4 w-full max-w-md rounded-lg bg-white p-8 text-center">
-            <h2 class="font-roboto-slab text-textColor mb-6 text-2xl font-bold">Avez-vous plus de 18 ans ?</h2>
-            <div class="flex flex-col justify-center space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
+            <h2 class="font-roboto-slab text-textColor mb-6 text-sm md:text-xl font-bold">Avez-vous plus de 18 ans ?</h2>
+            <div class="grid grid-cols-2  gap-2 justify-center ">
                 <button id="confirm-age"
-                    class="font-roboto-slab bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet rounded px-6 py-2 font-bold hover:text-white">
+                    class="text-xs sm:text-sm font-roboto-slab bg-supaGirlRose hover:bg-supaGirlRose/80 text-complementaryColorViolet rounded px-6 py-2 font-bold hover:text-white">
                     Oui
                 </button>
                 <button id="deny-age"
-                    class="font-roboto-slab border-green-gs hover:bg-green-gs text-complementaryColorViolet rounded border bg-white px-6 py-2 font-bold hover:text-white">
+                    class="text-xs sm:text-sm font-roboto-slab border-green-gs hover:bg-green-gs text-complementaryColorViolet rounded border bg-white px-6 py-2 font-bold hover:text-white">
                     Non
                 </button>
             </div>
