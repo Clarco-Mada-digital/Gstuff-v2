@@ -113,12 +113,13 @@
                     </svg>
                 </div>
             </div>
+            
 
             {{-- Section listing Salon --}}
             <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100" x-show="!viewEscorte"
                 class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
-                <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">{{ __('home.our_salons') }}</h3>
+                <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold">{{ __('home.our_salons') }}</h3>
                 <div id="OurSalonContainer"
                     class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
                     style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
@@ -212,12 +213,12 @@
     </div>
     <x-FeedbackSection />
 
-    <div class="w-full bg-white px-4 py-8 sm:px-6 lg:py-12">
+    <div class="w-full bg-white px-4 py-2 sm:py-8 sm:px-6 lg:py-12">
         <div class="mx-auto max-w-4xl">
-            <h3 class="font-roboto-slab text-green-gs text-center text-2xl font-bold md:text-2xl lg:text-4xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl text-2xl font-bold md:text-2xl lg:text-4xl">
                 {{ __('home.become_escort_title') }}
             </h3>
-            <p class="font-roboto-slab mt-2 text-center text-[#4A5565]">{{ __('home.become_escort_steps') }}</p>
+            <p class="font-roboto-slab mt-2 text-center text-[#4A5565] text-xs sm:text-sm">{{ __('home.become_escort_steps') }}</p>
 
             <div class="relative mt-10">
                 <!-- Ligne de connexion (visible uniquement sur desktop) -->
@@ -225,14 +226,14 @@
                     class="left-1/5 bg-supaGirlRose absolute right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform md:block">
                 </div>
 
-                <div class="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
+                <div class="relative z-10 grid grid-cols-1 gap-2 md:gap-8 md:grid-cols-3 md:gap-4 text-xs sm:text-sm">
                     @php
                         $steps = [
                             [
                                 'icon' => asset('images/icons/icon_coeur.png'),
                                 'text' =>
                                     __('home.send_selfies') .
-                                    '<br> <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline">escrot-supagir@supagirl.ch</a>',
+                                    '<br> <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline text-xs sm:text-sm">escrot-supagir@supagirl.ch</a>',
                             ],
                             [
                                 'icon' => asset('images/icons/icon_coeur.png'),
@@ -245,8 +246,8 @@
                     @foreach ($steps as $step)
                         <div class="flex flex-col items-center">
                             <img src="{{ $step['icon'] }}" alt=""
-                                class="z-10 mx-auto h-16 w-16 md:h-20 md:w-20">
-                            <div class="font-roboto-slab mt-4 text-center text-sm text-gray-700 md:text-base">
+                                class="z-10 mx-auto h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 text-xs sm:text-sm">
+                            <div class="font-roboto-slab mt-4 text-center text-xs sm:text-sm text-gray-700 md:text-base">
                                 {!! $step['text'] !!}
                             </div>
                         </div>
@@ -280,8 +281,8 @@
         }
     </style>
     {{-- FAQ --}}
-    <div class="container mx-auto flex flex-col items-center justify-center gap-10 p-4">
-        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-3xl lg:text-5xl">
+    <div class="container mx-auto flex flex-col items-center justify-center gap-2 md:gap-10 p-4">
+        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-lg sm:text-3xl lg:text-5xl">
             {{ __('home.frequent_questions') }}
         </h3>
         <div id="accordion-collapse" class="w-full lg:min-w-[1114px]" data-accordion="collapse">
@@ -291,7 +292,7 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 rounded-t-xl border border-b-0 border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
                         aria-controls="accordion-collapse-body-1">
-                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -305,8 +306,8 @@
                     </button>
                 </h2>
                 <div id="accordion-collapse-body-1" aria-labelledby="accordion-collapse-heading-1">
-                    <div class="accordion-content border border-b-0 p-5">
-                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">{{ __('home.unique_platform') }}
+                    <div class="accordion-content border border-b-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{{ __('home.unique_platform') }}
                         </p>
                     </div>
                 </div>
@@ -317,7 +318,7 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 border border-b-0 border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                         aria-controls="accordion-collapse-body-2">
-                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -331,8 +332,8 @@
                     </button>
                 </h2>
                 <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-                    <div class="accordion-content border border-b-0 p-5">
-                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">
+                    <div class="accordion-content border border-b-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                             {{ __('home.no_apartments_for_escorts') }}</p>
                     </div>
                 </div>
@@ -343,7 +344,7 @@
                         class="accordion-button flex w-full items-center justify-between gap-3 border border-white p-5 font-medium rtl:text-right"
                         data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
                         aria-controls="accordion-collapse-body-3">
-                        <span class="font-roboto-slab flex items-center"><svg class="me-2 h-5 w-5 shrink-0"
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -357,8 +358,8 @@
                     </button>
                 </h2>
                 <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
-                    <div class="accordion-content border border-t-0 p-5">
-                        <p class="font-roboto-slab mb-2 text-gray-500 dark:text-gray-400">
+                    <div class="accordion-content border border-t-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
                             {{ __('home.escort_monthly_income') }}</p>
                     </div>
                 </div>
@@ -368,9 +369,9 @@
 
     {{-- Glossaire --}}
     @if ($glossaires != '[]')
-        <div class="mx-auto my-10 lg:container">
-            <div class="my-10 flex flex-wrap items-center justify-between px-5 lg:px-20">
-                <h3 class="font-dm-serif text-green-gs font-roboto-slab text-2xl font-bold lg:text-4xl">
+        <div class="mx-auto xl:my-10 lg:container">
+            <div class="my-2 flex flex-wrap items-center justify-between px-5 lg:px-20">
+                <h3 class="font-dm-serif text-green-gs font-roboto-slab text-sm sm:text-xl text-2xl font-bold lg:text-4xl">
                     {{ __('home.glossary_articles') }}
                 </h3>
                 <div class="z-10 my-2 w-auto">
