@@ -482,6 +482,23 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                         <div></div>
 
                     </div>
+                    <div x-data="{ min: 25, max: 75 }"
+                        @range-update.window="
+                            min = $event.detail.min;
+                            max = $event.detail.max;
+                            console.log('Min:', min, 'Max:', max);
+                        ">
+                        <x-double-range-slider
+                            min="0"
+                            max="100"
+                            left-value="25"
+                            right-value="75"
+                        />
+                        <p>Valeurs sélectionnées : <span x-text="min"></span> - <span x-text="max"></span></p>
+                    </div>
+
+                
+
                     <x-multi-range wireModel="ageInterval" :value="[$ageMin, $ageMax]" :min="$ageMin" :max="$ageMax"
                         :minvalue="$ageMin" :maxvalue="$ageMax" step="1" name='ageInterval'
                         label="{{ __('escort-search.age') }}" id="ageInterval" />
@@ -548,8 +565,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         console.log("maxAge", @json($ageMax));
         console.log("minTaille", @json($tailleMin));
         console.log("maxTaille", @json($tailleMax));
-        console.log("minTarif", @json($tarifMin));
-        console.log("maxTarif", @json($tarifMax));
+        
 
 
 
