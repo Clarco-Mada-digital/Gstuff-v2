@@ -533,12 +533,12 @@
 
         <!-- second header mobile sm-->
         <div class="bg-supaGirlRose w-full md:hidden">
-            <ul class="flex w-full items-center justify-between  mx-auto px-2">
+            <ul class="flex w-full  justify-around  mx-auto px-2">
                 <!-- Liens toujours visibles -->
                 
                 <li id="escorts-link" class="header-link flex items-center justify-between xl:p-4">
                         <div id="dropdownHoverMenu" data-dropdown-toggle="dropdownMegaMenu"
-                        data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center justify-between">
+                        data-dropdown-trigger="hover" data-dropdown-offset-distance="25" class="flex items-center justify-around">
                         <a href="{{ route('escortes') }}" 
                             class="font-roboto-slab text-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs ria-current= flex hidden w-full items-center justify-between rounded-sm px-3 py-4 text-xs text-gray-900 md:text-sm xl:block xl:p-0 xl:hover:bg-transparent"page">
                            {{ __('header.escorts') }}
@@ -554,11 +554,11 @@
                         </div>
                       
                         <a href="{{ route('escortes') }}" 
-                            class="font-roboto-slab text-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs ria-current= flex w-full items-center justify-between rounded-sm px-3 text-xs text-gray-900 md:text-sm xl:hidden xl:p-0 xl:py-2 xl:hover:bg-transparent"page">
+                            class="font-roboto-slab text-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs ria-current= flex w-full items-center justify-between rounded-sm text-xs text-gray-900 md:text-sm xl:hidden p-2 xl:p-0 xl:py-2 xl:hover:bg-transparent"page">
                             {{ __('header.escorts') }}
     
                         </a>
-                        <div class="hover:bg-supaGirlRose flex cursor-pointer items-center justify-center rounded-sm p-4 hover:text-white xl:hidden" id="dropbtn2">
+                        <div class="hover:bg-supaGirlRose flex cursor-pointer items-center justify-center rounded-sm p-2 hover:text-white xl:hidden" id="dropbtn2">
                               <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -655,7 +655,7 @@
                 
                     <a href="{{ route('escortes') }}" 
                         class="font-roboto-slab text-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs ria-current= flex w-full items-center justify-between rounded-sm px-3 text-xs text-gray-900 md:text-sm xl:hidden xl:p-0 xl:py-2 xl:hover:bg-transparent"page">
-                        {{ __('header.escorts') }}
+                        {{ __('header.escorts') }} 
                     </a>
                     <div class="hover:bg-supaGirlRose flex cursor-pointer items-center justify-center rounded-sm p-4 hover:text-white xl:hidden" id="dropbtnDesk2">
                             <svg class="ms-2.5 h-2.5 w-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -667,14 +667,14 @@
                 </li>
                     <li id="salons-link" class="header-link flex items-center justify-between xl:p-4">
                         <a href="{{ route('salons') }}"
-                            class="font-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs text-gray-900 md:text-sm xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent">
-                            {{ __('header.salons') }}
+                            class="font-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs text-gray-900 md:text-sm lg:w-auto lg:border-0 lg:p-0 lg:hover:bg-transparent">
+                            {{ __('header.salons') }} 
                         </a>
                     </li>
                     <li id="masseuse-link" class="header-link flex items-center justify-between xl:p-4">
                         <a href="{{ route('escortes') }}?selectedCategories=[2]"
                             class="font-roboto-slab hover:text-green-gs hover:bg-supaGirlRose xl:hover:text-green-gs flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs text-gray-900 md:text-sm xl:w-auto xl:border-0 xl:p-0 xl:hover:bg-transparent">
-                           {{ __('header.masseuse') }}
+                           {{ __('header.masseuse') }} 
                         </a>
                     </li>
                     <li id="dominatrice-link" class="header-link flex items-center justify-between xl:p-4">
@@ -706,7 +706,7 @@
     .active-header {
     background-color:rgba(254, 231, 241, 0.91); /* Remplacez par la couleur souhaitée */
     color: #7F55B1 !important; /* Remplacez par la couleur de texte souhaitée */
-    border-bottom: 2px solid #FDA5D6;
+    /* border-bottom: 2px solid #FDA5D6; */
     /* Ajoutez d'autres propriétés CSS selon vos besoins */
 }
 </style>

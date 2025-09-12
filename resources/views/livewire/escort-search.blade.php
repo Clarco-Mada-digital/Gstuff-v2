@@ -47,8 +47,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
                 :selectedGenre="$selectedGenre" class="mb-3" />
         </div>
 
-
-
+       
         @if ($approximite || $showClosestOnly)
            <div class="flex flex-col items-center justify-between w-full  sm:flex-row md:w-[90%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] ">
            <div class="mx-auto mb-2 mt-1 w-full  max-w-2xl rounded-lg bg-white p-2 sm:p-4 shadow">
@@ -90,6 +89,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
         <x-category-select-escort :categories="$categories" :selectedCategories="$selectedCategories ?? []" class="mx-2 my-2 sm:my-3 md:my-4 
         " />
 
+     
         <div class="flex flex-wrap items-center justify-center gap-2 px-2 sm:px-4 sm:gap-3 md:gap-4">
 
 
