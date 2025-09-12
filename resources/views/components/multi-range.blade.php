@@ -9,7 +9,7 @@
     'max' => 200,
     'wireModel' => 'rangeValues',
 ])
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center my-2">
     <div
         x-data="rangeController(
             {{ (int) $minvalue }},
@@ -27,7 +27,7 @@
             <span class="font-roboto-slab text-green-gs text-center text-xs">{{ $label }}</span>
         @endif
         <!-- Boutons de test pour le debug -->
-        <div class="flex space-x-2 my-2">
+        <div class="flex">
             <button @click="decrementMin" class="bg-blue-500 text-white p-1 rounded text-xs hidden">- Min</button>
             <button @click="incrementMin" class="bg-blue-500 text-white p-1 rounded text-xs hidden">+ Min</button>
             <button @click="decrementMax" class="bg-red-500 text-white p-1 rounded text-xs hidden">- Max</button>
@@ -52,8 +52,9 @@
                 x-bind:max="max"
                 x-on:input="updateMax"
                 x-model="maxvalue"
-                class="absolute z-20 h-2 w-full  appearance-none opacity-10"
+                class="absolute z-20 h-2 w-full  appearance-none opacity-0"
                 style="pointer-events: none;" 
+                
             >
             <!-- Barre visuelle (non cliquable) -->
             <div
@@ -81,7 +82,7 @@
                     
 
                      @mouseenter="$el.classList.add('thumb-hover-min')"
-    @mouseleave="$el.classList.remove('thumb-hover-min')"
+                     @mouseleave="$el.classList.remove('thumb-hover-min')"
                 >
                 @if ($type == 'taille')
                         <p x-text="formatTaille(minvalue)" class="font-roboto-slab text-green-gs relative z-40 mt-4 text-xs"></p>
@@ -101,7 +102,7 @@
                     @touchend="maxThumbActive = false"
 
                         @mouseenter="$el.classList.add('thumb-hover-max')"
-    @mouseleave="$el.classList.remove('thumb-hover-max')"
+                        @mouseleave="$el.classList.remove('thumb-hover-max')"
                 >
                     @if ($type == 'taille')
                         <p x-text="formatTaille(maxvalue)" class="font-roboto-slab text-green-gs relative right-5 z-40 mt-4 text-xs"></p>
@@ -116,11 +117,11 @@
     <style>
    
     .thumb-hover-min {
-        background-color:#7F55B1; /* Rouge pour le min */
+        background-color:#7F55B1; 
         
     }
     .thumb-hover-max {
-        background-color:#7F55B1; /* Vert pour le max */
+        background-color:#7F55B1;
     }
 </style>
 

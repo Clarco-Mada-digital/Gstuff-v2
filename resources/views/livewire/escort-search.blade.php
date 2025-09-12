@@ -359,50 +359,57 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                 {{-- Modal body --}}
                 <div class="relative flex flex-col gap-3 p-2 md:p-5">
+
+                    <x-origine-select-escort :origineData="$origineData" />
+                    <x-langue-select-escort :langueData="$langueData" />
+                
+
+
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">
-                        <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
+                        <!-- <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
                             <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
                                 class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900">
-                                <option selected value="">{{ __('escort-search.origin') }}</option>
+                                <option selected value="" class="hidden">{{ __('escort-search.origin') }}</option>
                                 <template x-for="origine in dropdownData['origines']">
                                     <option :value="origine" x-text="origine"></option>
                                 </template>
                             </select>
-                        </template>
+                        </template> -->
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900">
-                            <option selected value=""> {{ __('escort-search.Silhouette') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.Silhouette') }} </option>
                             <template x-for="mensuration in dropdownData['mensurations']">
                                 <option :value="mensuration.id" x-text="mensuration.name[currentLocale]"></option>
                             </template>
                         </select>
 
 
-                        <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
+                        <!-- <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.language') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.language') }} </option>
                             <template x-for="langue in dropdownData['langues']">
                                 <option :value="langue" x-text="langue"></option>
                             </template>
-                        </select>
+                        </select> -->
+                        
                         <select wire:model.live="autreFiltres.couleur_cheveux" id="cheveux" name="cheveux"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.hair') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.hair') }} </option>
                             <template x-for="cheveux in dropdownData['couleursCheveux']">
                                 <option :value="cheveux.id" x-text="cheveux.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.couleur_yeux" id="yeux" name="yeux"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.eyes') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.eyes') }} </option>
                             <template x-for="yeux in dropdownData['couleursYeux']">
                                 <option :value="yeux.id" x-text="yeux.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.poitrine" id="poitrine" name="poitrine"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.breast_state') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.breast_state') }} </option>
                             <template x-for="poitrine in dropdownData['poitrines']">
                                 <option :value="poitrine.id" x-text="poitrine.name[currentLocale]"></option>
                             </template>
@@ -413,14 +420,14 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                         <select wire:model.live="autreFiltres.pubis" id="pubis" name="pubus"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.pubic_hair') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.pubic_hair') }} </option>
                             <template x-for="pubis in dropdownData['pubis']">
                                 <option :value="pubis.id" x-text="pubis.name[currentLocale]"></option>
                             </template>
                         </select>
                         <select wire:model.live="autreFiltres.tatouages" id="tatouages" name="tatouages"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.tattoo') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.tattoo') }} </option>
                             <template x-for="tatous in dropdownData['tatouages']">
                                 <option :value="tatous.id" x-text="tatous.name[currentLocale]"></option>
                             </template>
@@ -429,7 +436,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                         <select wire:model.live="autreFiltres.taille_poitrine" id="poitrine" name="poitrine"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.breast_size') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.breast_size') }} </option>
                             <option value="petite">{{ __('escort-search.petite') }}</option>
                             <option value="moyenne">{{ __('escort-search.moyenne') }}</option>
                             <option value="grosse">{{ __('escort-search.grosse') }}</option>
@@ -452,7 +459,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
 
                         <select wire:model.live="autreFiltres.mobilite" id="mobilite" name="mobilite"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                            <option selected value=""> {{ __('escort-search.escort_mobility') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.escort_mobility') }} </option>
                             <template x-for="mobilite in dropdownData['mobilites']">
                                 <option :value="mobilite.id" x-text="mobilite.name[currentLocale]"></option>
                             </template>

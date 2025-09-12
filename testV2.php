@@ -494,9 +494,6 @@ public function handleUpdateInterval($data)
                     }
                 }
             }
-            logger()->info("value selectedOrigine", ["selectedOrigine" => $this->selectedOrigine]);
-
-           
 
             $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
             $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
@@ -538,73 +535,9 @@ public function handleUpdateInterval($data)
                  // 4. Supprimer les doublons
             $filteredEscorts = $filteredEscorts->unique('id');
       
-            if ($filteredEscorts->isEmpty() && empty($this->selectedOrigine) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
+            if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
                 $filteredEscorts = $baseEscorts;
             }
-
-            if (!empty($this->selectedOrigine)) {
-
-                
-                if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                    $filteredEscorts = $baseEscorts;
-                }
-
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-                $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-                    logger()->info("value origine escort", ["escort" => $escort->origine]);
-            
-                    $origine= $escort->origine;
-            
-                    if (is_string($origine)) {
-                        $origine = array_map('trim', explode(',', $origine));
-                    } elseif (!is_array($origine)) {
-                        $origine = [];
-                    }
-            
-                    // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                    return count(array_intersect($origine, $this->selectedOrigine)) > 0;
-                });
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-            }
-            logger()->info("value en dehors de selectedOrigine", ["filteredEscorts" => $filteredEscorts->count()]);
-
-
-            if (!empty($this->selectedLangue)) {
-
-                
-                if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                    $filteredEscorts = $baseEscorts;
-                }
-
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-                logger()->info("value languselected", ["languselected" => $this->selectedLangue]);
-                $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-                    logger()->info("value langue escort", ["escort" => $escort->langues]);
-            
-                    $langue= $escort->langues;
-            
-                    if (is_string($langue)) {
-                        $langue = array_map('trim', explode(',', $langue));
-                    } elseif (!is_array($langue)) {
-                        $langue = [];
-                    }
-            
-                    // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                    return count(array_intersect($langue, $this->selectedLangue)) > 0;
-                });
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-            }
-            logger()->info("value en dehors de selectedOrigine", ["filteredEscorts" => $filteredEscorts->count()]);
-
-
-
-
-
-
-
-
-
-
 
             $escorts = $filteredEscorts;
 
