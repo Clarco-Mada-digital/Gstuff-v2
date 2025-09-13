@@ -89,6 +89,61 @@ class EscortSearch extends Component
     public $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
 
     public $showFiltreCanton = true;
+
+    public $showMore = false;
+
+    public function openModalMore()
+    {
+        logger()->info("openModalMore");
+        $this->showMore = true;
+    }
+    public function closeModalMore()
+    {
+        logger()->info("closeModalMore");
+        $this->showMore = false;
+    }
+
+
+    public function filtreIsActif()
+    {
+        if (
+            empty($this->selectedCanton) 
+            && empty($this->selectedVille) 
+            && empty($this->selectedGenre) 
+            && empty($this->selectedCategories) 
+            && empty($this->selectedServices) 
+            && empty($this->autreFiltres)
+            && empty($this->selectedOrigine)
+            && empty($this->selectedLangue)
+            && !$this->showClosestOnly
+            && !$this->approximite
+            ) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getPaginatedHydratedEscorts($filteredEscorts)
+    {
+       
+        $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
+        $perPage = 12;
+        $currentItems = $filteredEscorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $filteredEscorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
+
+        // Hydrate relations
+        foreach ($paginatedEscorts as $escort) {
+            $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
+            $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+            $escort['canton'] = Canton::find($escort->canton);
+            $escort['ville'] = Ville::find($escort->ville);
+        }
+
+        return $paginatedEscorts;
+    }
+
+
+
     public function mount()
 {
     $this->ageInterval = ['min' => 18, 'max' => 100];
@@ -238,6 +293,59 @@ public function handleUpdateInterval($data)
         }
         $this->resetPage();
     }
+
+
+    public function filtreOrigineAndLangue( $baseEscorts, $filteredEscorts)
+    {
+        if (!empty($this->selectedOrigine)) {
+
+                
+            if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
+                $filteredEscorts = $baseEscorts;
+            }
+
+            $filteredEscorts = $filteredEscorts->filter(function ($escort) {
+              
+        
+                $origine = is_array($escort) ? ($escort['origine'] ?? null) : $escort->origine;
+        
+                if (is_string($origine)) {
+                    $origine = array_map('trim', explode(',', $origine));
+                } elseif (!is_array($origine)) {
+                    $origine = [];
+                
+                }
+        
+                // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
+                return count(array_intersect($origine, $this->selectedOrigine)) > 0;
+            });
+        }
+
+
+        if (!empty($this->selectedLangue)) {
+
+            
+            if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
+                $filteredEscorts = $baseEscorts;
+            }
+
+            $filteredEscorts = $filteredEscorts->filter(function ($escort) {
+                $langue= $escort->langues;
+        
+                if (is_string($langue)) {
+                    $langue = array_map('trim', explode(',', $langue));
+                } elseif (!is_array($langue)) {
+                    $langue = [];
+                }
+        
+                // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
+                return count(array_intersect($langue, $this->selectedLangue)) > 0;
+            });
+        }
+
+        return $filteredEscorts;
+
+    }
     
     public function updated($propertyName)
     {
@@ -335,6 +443,13 @@ public function handleUpdateInterval($data)
 
         $this->getValueRange();
 
+        if($this->filtreIsActif()) {
+            logger()->info("filtreIsActif 👍 ✅");
+        }else{
+            logger()->info("filtreIsNotActif 👎 ❌");
+            $this->getPaginatedHydratedEscorts($this->filteredEscorts);
+        }
+
         if (!$this->approximite) {
              // 1. Récupérer tous les profils de base
                 $query = User::query()
@@ -425,12 +540,9 @@ public function handleUpdateInterval($data)
                                 $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('poitrine_id', (int) $value));
                                 break;
                                 case 'langues':
-                                    logger()->info("value langue", ["value" => $value]);
                                 
                                     $filteredEscorts = $filteredEscorts->merge(
                                         $baseEscorts->filter(function ($escort) use ($value) {
-                                            // Log brut
-                                            logger()->info("value langue escort", ["escort" => $escort->langues]);
                                 
                                             // Normalisation en tableau
                                             $langues = $escort->langues;
@@ -494,9 +606,6 @@ public function handleUpdateInterval($data)
                     }
                 }
             }
-            logger()->info("value selectedOrigine", ["selectedOrigine" => $this->selectedOrigine]);
-
-           
 
             $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
             $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
@@ -542,68 +651,7 @@ public function handleUpdateInterval($data)
                 $filteredEscorts = $baseEscorts;
             }
 
-            if (!empty($this->selectedOrigine)) {
-
-                
-                if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                    $filteredEscorts = $baseEscorts;
-                }
-
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-                $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-                    logger()->info("value origine escort", ["escort" => $escort->origine]);
-            
-                    $origine= $escort->origine;
-            
-                    if (is_string($origine)) {
-                        $origine = array_map('trim', explode(',', $origine));
-                    } elseif (!is_array($origine)) {
-                        $origine = [];
-                    }
-            
-                    // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                    return count(array_intersect($origine, $this->selectedOrigine)) > 0;
-                });
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-            }
-            logger()->info("value en dehors de selectedOrigine", ["filteredEscorts" => $filteredEscorts->count()]);
-
-
-            if (!empty($this->selectedLangue)) {
-
-                
-                if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                    $filteredEscorts = $baseEscorts;
-                }
-
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-                logger()->info("value languselected", ["languselected" => $this->selectedLangue]);
-                $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-                    logger()->info("value langue escort", ["escort" => $escort->langues]);
-            
-                    $langue= $escort->langues;
-            
-                    if (is_string($langue)) {
-                        $langue = array_map('trim', explode(',', $langue));
-                    } elseif (!is_array($langue)) {
-                        $langue = [];
-                    }
-            
-                    // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                    return count(array_intersect($langue, $this->selectedLangue)) > 0;
-                });
-                logger()->info("value filteredEscorts", ["filteredEscorts" => $filteredEscorts->count()]);
-            }
-            logger()->info("value en dehors de selectedOrigine", ["filteredEscorts" => $filteredEscorts->count()]);
-
-
-
-
-
-
-
-
-
+          
 
 
             $escorts = $filteredEscorts;
@@ -738,6 +786,8 @@ public function handleUpdateInterval($data)
                     }
                 }
             }
+
+            $escorts = $this->filtreOrigineAndLangue($baseEscorts, $escorts);
 
             // Calculer la distance maximale
             $this->maxDistance = 0;
@@ -979,7 +1029,7 @@ public function handleUpdateInterval($data)
                 $this->maxDistanceSelected = $this->maxAvailableDistance;
             }
 
-         
+            $filteredEscorts = $this->filtreOrigineAndLangue($baseEscorts, $filteredEscorts);
 
             // 7. Mettre à jour $escorts pour la suite
             $escorts = $filteredEscorts;

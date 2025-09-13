@@ -100,7 +100,7 @@ $nb_escorts = is_array($escorts) ? count($escorts) : $escorts->count();
             <x-filters.distance-filter-button wire:model.live="approximite" :loading-target="'approximite'" :label="'escort-search.filter_by_distance'"
                 :icon="'images/icons/locationByDistance.png'" class="flex-1" />
 
-            <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal"
+            <button wire:click="openModalMore" data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal" 
                 class="font-roboto-slab hover:bg-green-gs border-supaGirlRose text-green-gs focus:ring-green-gs group flex w-full items-center justify-center gap-2 rounded-lg border border-2 bg-white px-2.5 py-2 text-sm transition-all duration-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 
                 w-[100px] sm:w-auto sm:px-4
                 text-xs sm:text-xs md:text-sm">
