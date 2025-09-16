@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Livewire;
-
-use Livewire\Attributes\Url;
-use App\Models\Canton;
-use App\Models\Categorie;
-use App\Models\Genre;
-use App\Models\Service;
-use App\Models\User;
-use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\User;
+use App\Models\Canton;
+use App\Models\Categorie;
+use App\Models\Ville;
+use App\Models\Genre;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
+
 use App\Models\CouleurCheveux;
 use App\Models\CouleurYeux;
 use App\Models\Mensuration;
@@ -24,44 +21,55 @@ use App\Models\Tattoo;
 use App\Models\Mobilite;
 use App\Models\NombreFille;
 use App\Models\OrientationSexuelle;
-
 class EscortSearch extends Component
 {
     use WithPagination;
 
-    #[Url]
+    public string $search = '';
     public string $selectedCanton = '';
-    #[Url]
     public string $selectedVille = '';
-    #[Url]
     public string $selectedGenre = '';
+    public string $selectedSalonCategories = '';
+    public array $selectedEscortCategories = [];
+    public $escortCategories;
+    public $salonCategories;
+    public $cantons = '';
+    public $villes = '';
+    public $perPage = 8;
+    public $page = 1;
+    public $genres;
+    public $userType = 'escort';
+    public $approximite = false;
+    public $showClosestOnly = false;
     #[Url]
-    public array $selectedCategories = [];
+    public $minDistance = 0;
     #[Url]
-    public array $selectedServices = [];
-    #[Url]
-    public $minDistance = 0; // Distance minimale
-
-    #[Url]
-    public $maxDistanceSelected = 0; // Distance maximale sélectionnée
-
-    public $maxAvailableDistance = 0; // Distance maximale disponible
+    public $maxDistanceSelected = 0;
+    public $maxAvailableDistance = 0;
+    public $latitudeUser;
+    public $longitudeUser;
+    public $isFirstLoad = true;
+    public $isFirstLoadClosestOnly = true;
+    public $isFirstLoadApproximite = true;
+    public $isFirstLoadAge = true;
+    public $isFirstLoadTaille = true;
+    public $isFirstLoadTarif = true;
 
     public array $autreFiltres = [];
-    public $categories;
-    public $cantons;
-    public $availableVilles;
-    public $villes = [];
-    public $maxDistance = 0;
-    public $escortCount = 0;
-    public $genres;
-
+    public $autre = false;
     public $ageMin = 18;
     public $ageMax = 100;
     public $tailleMin = 90;
     public $tailleMax = 200;
     public $tarifMin = 100;
     public $tarifMax = 1000;
+
+    public $ageInterval = [];
+    public $tailleInterval = [];
+    public $tarifInterval = [];
+    public $escortCount = 0;
+
+    public $isModalOpenSide = false;
 
     public $origineData = ['Italienne','Allemande', 'Française', 'Espagnole', 'Suissesse', 'Européene (Autres)', 'Asiatique', 'Africaine', 'Orientale', 'Brésilienne', 'Métissée', 'Autre'];
     #[Url]
@@ -71,819 +79,563 @@ class EscortSearch extends Component
     #[Url]
     public array $selectedLangue = [];
 
-    // public $ageInterval = [];
-    public $tailleInterval = [];
-    public $tarifInterval = [];
-
-    public $ageInterval = ['min' => 18, 'max' => 100];
-    // public $tailleInterval = ['min' => 90, 'max' => 200];
-    // public $tarifInterval = ['min' => 100, 'max' => 1000];
-
-    public $approximite = false;
-    public $latitudeUser;
-    public $longitudeUser;
-
-    public $autre = false;
-
-    #[Url]
-    public bool $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
-
-    public $showFiltreCanton = true;
-
-    public $showMore = false;
-
-    public $firstLoadShowClosestOnly = true;
-
-    public function openModalMore()
-    {
-        logger()->info("openModalMore");
-        $this->showMore = true;
-    }
-    public function closeModalMore()
-    {
-        logger()->info("closeModalMore");
-        $this->showMore = false;
-    }
-
-
-    public function filtreIsActif()
-    {
-        if (
-            empty($this->selectedCanton) 
-            && empty($this->selectedVille) 
-            && empty($this->selectedGenre) 
-            && empty($this->selectedCategories) 
-            && empty($this->selectedServices) 
-            && empty($this->autreFiltres)
-            && empty($this->selectedOrigine)
-            && empty($this->selectedLangue)
-            && !$this->showClosestOnly
-            && !$this->approximite
-            ) {
-            return false;
-        }
-        return true;
-    }
-
-    public function getPaginatedHydratedEscorts($filteredEscorts)
-    {
-       
-        $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
-        $perPage = 12;
-        $currentItems = $filteredEscorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $filteredEscorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
-
-        // Hydrate relations
-        foreach ($paginatedEscorts as &$escort) {
-            // 🔍 Accès à la propriété 'categorie'
-            $rawCategorie = is_array($escort) ? ($escort['categorie'] ?? null) : ($escort->categorie ?? null);
-        
-            $categoriesIds = [];
-        
-            if (!empty($rawCategorie)) {
-                if (is_string($rawCategorie)) {
-                    $categoriesIds = explode(',', $rawCategorie);
-                } elseif (is_array($rawCategorie)) {
-                    $categoriesIds = collect($rawCategorie)
-                        ->pluck('id')
-                        ->filter()
-                        ->values()
-                        ->toArray();
-                }
-            }
-        
-            // 🧬 Hydratation des relations
-            $categorie = Categorie::whereIn('id', $categoriesIds)->get();
-            $canton    = Canton::find(is_array($escort) ? ($escort['canton'] ?? null) : ($escort->canton ?? null));
-            $ville     = Ville::find(is_array($escort) ? ($escort['ville'] ?? null) : ($escort->ville ?? null));
-        
-            // 🧩 Mise à jour des données
-            if (is_array($escort)) {
-                $escort['categorie'] = $categorie;
-                $escort['canton']    = $canton;
-                $escort['ville']     = $ville;
-            } elseif (is_object($escort)) {
-                $escort->categorie = $categorie;
-                $escort->canton    = $canton;
-                $escort->ville     = $ville;
-            }
-        }
-        
-
-        return $paginatedEscorts;
-    }
-
-    public function getBaseEscorts()
-    {
-        logger()->info("getBaseEscorts 👍 ✅ /////////////////////////////////////////");
-        $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? 'FR';
-        $viewerLatitude = $position?->latitude ?? 0;
-        $viewerLongitude = $position?->longitude ?? 0;
-
-        if(!$this->showClosestOnly && !$this->approximite){
-            $query = User::query()
-                    ->where('profile_type', 'escorte')
-                    ->orderBy('is_profil_pause')
-                    ->orderByDesc('rate_activity')
-                    ->orderByDesc('last_activity');
-            if (Auth::user()) {
-                $query->where('id', '!=', Auth::user()->id);
-            }
-            $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-                return $escort->isProfileVisibleTo($viewerCountry);
-            }); 
-
-        }else {
-            
-            $userLatitude = $this->latitudeUser;
-            $userLongitude = $this->longitudeUser;
-
-            
-            if (!$userLatitude || !$userLongitude) {
-                $userLatitude = $viewerLatitude;
-                $userLongitude = $viewerLongitude;
-            }
-
-            $minDistance = PHP_FLOAT_MAX;
-            $maxAvailableDistance = 0;
-            $escortCount = 0;
-     
-            if(Auth::user()){
-                $baseEscorts = User::where('profile_type', 'escorte')
-                    ->where('id', '!=', Auth::user()->id)
-                    ->whereNotNull('lat')
-                    ->whereNotNull('lon')
-                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                    ->get()
-                    ->filter(function ($escort) use ($viewerCountry) {
-                        return $escort->isProfileVisibleTo($viewerCountry);
-                    })
-                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-
-                        // Mettre à jour les distances min et max
-                        $minDistance = min($minDistance, $distance);
-                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
-
-                        $escortCount++;
-
-                        return [
-                            'escort' => $escort,
-                            'distance' => $distance,
-                        ];
-                    });
-                }else{
-                    $baseEscorts = User::where('profile_type', 'escorte')
-                    ->whereNotNull('lat')
-                    ->whereNotNull('lon')
-                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                    ->get()
-                    ->filter(function ($escort) use ($viewerCountry) {
-                        return $escort->isProfileVisibleTo($viewerCountry);
-                    })
-                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-
-                        // Mettre à jour les distances min et max
-                        $minDistance = min($minDistance, $distance);
-                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
-
-                        $escortCount++;
-
-                        return [
-                            'escort' => $escort,
-                            'distance' => $distance,
-                        ];
-                    });
-            } 
-            if($this->showClosestOnly){
-                $baseEscorts = $baseEscorts->sortBy('distance');
-                $baseEscorts = $baseEscorts->take(4);
-                $this->minDistance = $minDistance;
-                $this->maxAvailableDistance = $maxAvailableDistance;
-                
-            }
-        }
-
-       // Initialisation sécurisée des bornes
-        $this->ageMin    = $baseEscorts->whereNotNull('age')->min('age') ?? 0;
-        $this->ageMax    = $baseEscorts->whereNotNull('age')->max('age') ?? 0;
-
-        $this->tailleMin = $baseEscorts->whereNotNull('tailles')->filter(function ($escort) {
-            return is_numeric($escort->tailles) && $escort->tailles > 0;
-        })->min('tailles') ?? 0;
-
-        $this->tailleMax = $baseEscorts->whereNotNull('tailles')->filter(function ($escort) {
-            return is_numeric($escort->tailles);
-        })->max('tailles') ?? 0;
-
-        $this->tarifMin  = $baseEscorts->whereNotNull('tarif')->filter(function ($escort) {
-            return is_numeric($escort->tarif) && $escort->tarif > 0;
-        })->min('tarif') ?? 0;
-
-        $this->tarifMax  = $baseEscorts->whereNotNull('tarif')->filter(function ($escort) {
-            return is_numeric($escort->tarif);
-        })->max('tarif') ?? 0;
-
-        return $baseEscorts;
-    }
-
-    private function updateDistanceBounds($escortsCollection)
-{
-    if ($escortsCollection->isEmpty()) {
-        $this->minDistance = 0;
-        $this->maxAvailableDistance = 0;
-        return;
-    }
-
-    $this->minDistance = $escortsCollection->min('distance');
-    $this->maxAvailableDistance = $escortsCollection->max('distance');
-}
-
-
-    public function getDataEscortsClosestOnlyTest()
-{
-    logger('getDataEscortsClosestOnlyTest *************************************************');
-    $position = Location::get(request()->ip());
-    $viewerCountry = $position?->countryCode ?? 'FR';
-    $viewerLatitude = $position?->latitude ?? 0;
-    $viewerLongitude = $position?->longitude ?? 0;
-
-    $userLatitude = $this->latitudeUser ?? $viewerLatitude;
-    $userLongitude = $this->longitudeUser ?? $viewerLongitude;
-
-    $baseEscorts = User::where('profile_type', 'escorte')
-        ->whereNotNull('lat')
-        ->whereNotNull('lon')
-        ->orderBy('is_profil_pause')
-        ->orderByDesc('rate_activity')
-        ->orderByDesc('last_activity');
-
-    if (Auth::user()) {
-        $baseEscorts->where('id', '!=', Auth::user()->id);
-    }
-
-    $baseEscorts = $baseEscorts->get()
-        ->filter(fn($escort) => $escort->isProfileVisibleTo($viewerCountry))
-        ->map(function ($escort) use ($userLatitude, $userLongitude) {
-            $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-            return [
-                'escort' => $escort,
-                'distance' => $distance,
-            ];
-        });
-
-    // Mise à jour des bornes de distance
-    $this->updateDistanceBounds($baseEscorts);
-
-    // Initialisation sécurisée des bornes
-    $this->ageMin = $baseEscorts->whereNotNull('escort.age')->min('escort.age') ?? 0;
-    $this->ageMax = $baseEscorts->whereNotNull('escort.age')->max('escort.age') ?? 0;
-    $this->tailleMin = $baseEscorts->whereNotNull('escort.tailles')->filter(fn($e) => is_numeric($e['escort']->tailles) && $e['escort']->tailles > 0)->min('escort.tailles') ?? 0;
-    $this->tailleMax = $baseEscorts->whereNotNull('escort.tailles')->filter(fn($e) => is_numeric($e['escort']->tailles))->max('escort.tailles') ?? 0;
-    $this->tarifMin = $baseEscorts->whereNotNull('escort.tarif')->filter(fn($e) => is_numeric($e['escort']->tarif) && $e['escort']->tarif > 0)->min('escort.tarif') ?? 0;
-    $this->tarifMax = $baseEscorts->whereNotNull('escort.tarif')->filter(fn($e) => is_numeric($e['escort']->tarif))->max('escort.tarif') ?? 0;
-
-    return $baseEscorts;
-}
-
-
-    public function filtreEscortsByCantonVilleGenreService($baseEscorts)
-    {
-        $filteredEscorts = collect();
-
-       if ($this->selectedCanton) {
-           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('canton', $this->selectedCanton));
-       }
-
- 
-       if ($this->selectedVille) {
-
-           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('ville', $this->selectedVille));
-       }
-
-       if ($this->selectedGenre) {
-   
-           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
-       }
-
-
-    //    probleme sur le filtre de categorie ???? ici valeur toujour null alors quil exist dans la base de donnes
-
-    if (!empty($this->selectedCategories)) {
-        logger()->info('Filtre categories', ['categories' => $this->selectedCategories]);
-    
-        $filteredEscorts = $baseEscorts->filter(function ($escort) {
-            $raw = $escort->categorie ?? null;
-            logger()->info('categories', ['categories' => $raw]);
-    
-            if (is_string($raw)) {
-                $categories = explode(',', $raw);
-            } elseif (is_array($raw)) {
-                $categories = $raw;
-            } else {
-                $categories = [];
-            }
-    
-            $categories = array_map('strval', $categories);
-            logger()->info('categories', ['categories' => $categories]);
-    
-            return count(array_intersect($categories, array_map('strval', $this->selectedCategories))) > 0;
-        });
-    }
-    
-    
-   
-       if (!empty($this->selectedServices)) {
-           foreach ($this->selectedServices as $service) {
-               $filteredEscorts = $filteredEscorts->merge(
-                   $baseEscorts->filter(function ($escort) use ($service) {
-                       return str_contains($escort->service, (string) $service);
-                   })
-               );
-           }
-       }
-       return $filteredEscorts;
-    }
-    public function updatedShowClosestOnly($value)
-    {
-        $this->showClosestOnly = $value;
-
-        $this->firstLoadShowClosestOnly = true;
-    
-        logger()->info('Filtre proximité modifié', ['valeur' => $this->showClosestOnly]);
-    }
-    
-    public function getBaseEscortsClosestOnly($baseEscorts)
-    {
-     
-        $this->selectedCanton = '';
-        $this->selectedVille = '';
-
-        $escortCount = $baseEscorts->count();
-        if ($escortCount > 4) {
-            $baseEscorts = $baseEscorts->take(4);
-            $maxAvailableDistance = $baseEscorts->last()['distance'];
-        }
-        // Mettre à jour les propriétés de la classe
-        $this->escortCount = $escortCount;
-
-        // Si c'est le premier chargement, initialiser maxDistanceSelected
-        if ($this->firstLoadShowClosestOnly) {
-            $this->maxDistanceSelected = $this->maxAvailableDistance;
-            $this->firstLoadShowClosestOnly = false;
-        }
-        if($this->maxDistanceSelected > $this->maxAvailableDistance || $this->maxDistanceSelected < $this->minDistance){
-            $this->maxDistanceSelected = $this->maxAvailableDistance;
-        }
-        logger()->info("getBaseEscortsClosestOnly 👍 ✅", ["count" => $baseEscorts->count(), 
-            "maxDistanceSelected" => $this->maxDistanceSelected, 
-            "minDistance" => $this->minDistance,
-            "maxAvailableDistance" => $this->maxAvailableDistance,
-            "firstLoadShowClosestOnly" => $this->firstLoadShowClosestOnly ,
-        ]);
-        logger()->info("escortes 👍 ✅", ["escortes" => $baseEscorts]);
-        logger()->info("minDistance 👍 ✅", ["minDistance" => $minDistance]);
-
-        logger()->info("maxAvailableDistance 👍 ✅", ["maxAvailableDistance" => $maxAvailableDistance]);
-
-        return $baseEscorts;
-    }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'selectedCanton' => ['except' => ''],
+        'selectedVille' => ['except' => ''],
+        'selectedGenre' => ['except' => ''],
+        'selectedCategories' => ['except' => ''],
+        'page' => ['except' => 1],
+        'minDistance' => ['except' => 0],
+        'maxDistanceSelected' => ['except' => 0],
+        'maxAvailableDistance' => ['except' => 0],
+    ];
 
     public function mount()
     {
-        $this->ageInterval = ['min' => 18, 'max' => 100];
-    
+        $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
+        $this->cantons = Canton::all();
+        $this->villes = collect([]);
+        $this->salonCategories = Categorie::where('type', 'salon')->get();
+        $this->escortCategories = Categorie::where('type', 'escort')->get();
+        $this->page = request()->get('page', 1);
+        $this->genres = Genre::all()->take(3);
+        
     }
 
-protected $listeners = ['updateInterval' => 'handleUpdateInterval'];
-
-public function handleUpdateInterval($data)
-{
-    $model = $data['model'];
-    $min = $data['min'];
-    $max = $data['max'];
-
-    if ($model === 'ageInterval') {
-        $this->ageInterval = [
-            'min' => (int)$min,
-            'max' => (int)$max
-        ];
-        $this->ageMin = (int)$min;
-        $this->ageMax = (int)$max;
-    } elseif ($model === 'tailleInterval') {
-        $this->tailleInterval = [
-            'min' => (int)$min,
-            'max' => (int)$max
-        ];
-        $this->tailleMin = (int)$min;
-        $this->tailleMax = (int)$max;
-    } elseif ($model === 'tarifInterval') {
-        $this->tarifInterval = [
-            'min' => (int)$min,
-            'max' => (int)$max
-        ];
-        $this->tarifMin = (int)$min;
-        $this->tarifMax = (int)$max;
-    }
-    
-    $this->resetPage();
-}
-
-    private function getEscorts($escorts)
+    /**
+     * Détermine si au moins un filtre est appliqué.
+     *
+     * @return bool
+     */
+    public function isAnyFilterApplied(): bool
     {
-        // Détection du pays via IP
-        $position = \Stevebauman\Location\Facades\Location::get(request()->ip());
-
-        $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
-
-        $esc = [];
-        foreach ($escorts as $escort) {
-            if ($escort->isProfileVisibleTo($viewerCountry)) {
-                $esc[] = $escort;
-            }
-        }
-        return $esc;
+        return !empty($this->search)
+            || !empty($this->selectedCanton)
+            || !empty($this->selectedVille)
+            || !empty($this->selectedGenre)
+            || !empty($this->selectedSalonCategories)
+            || !empty($this->selectedEscortCategories)
+            || $this->approximite
+            || $this->showClosestOnly
+         
+            || !empty($this->ageInterval)
+            || !empty($this->tailleInterval)
+            || !empty($this->tarifInterval)
+            || !empty($this->selectedOrigine)
+            || !empty($this->selectedLangue)
+            || !empty($this->autreFiltres);
     }
 
-    public function approximiteFunc()
+
+    public function updatingSearch()
     {
-        $this->approximite = !$this->approximite;
-        if ($this->approximite) {
-            $this->showClosestOnly = false;
-            $this->reset('maxDistanceSelected');
-        }
         $this->resetPage();
     }
 
-    public function updateUserLatitude($latitude)
+    public function updated($property)
     {
-        $this->latitudeUser = $latitude;
-    }
-
-    public function updateUserLongitude($longitude)
-    {
-        $this->longitudeUser = $longitude;
-    }
-
-    public function resetFilter()
-    {
-        $this->selectedCanton = '';
-        $this->selectedVille = '';
-        $this->selectedGenre = '';
-        $this->selectedCategories = [];
-        $this->selectedServices = [];
-        $this->autreFiltres = [];
-        $this->approximite = false;
-        $this->showClosestOnly = false;
-        $this->villes = [];
-        $this->ageInterval = [];
-        $this->tailleInterval = [];
-        $this->tarifInterval = [];
-        $this->getValueRange();
-        $this->resetPage();
-        $this->render();
-    }
-
-    public function resetFilterModal()
-    {
-        $this->selectedCanton = '';
-        $this->selectedVille = '';
-        $this->selectedGenre = '';
-        $this->selectedCategories = [];
-        $this->selectedServices = [];
-        $this->autreFiltres = [];
-        $this->approximite = false;
-        $this->showClosestOnly = false;
-        $this->villes = [];
-        $this->ageInterval = [];
-        $this->tailleInterval = [];
-        $this->tarifInterval = [];
-        $this->getValueRange();
-        $this->resetPage();
-        return redirect('escortes');
-    }
-
-    public function chargeVille()
-    {
-        if (!empty($this->selectedCanton)) {
-            $this->villes = Ville::where('canton_id', $this->selectedCanton)->get();
-        } else {
-            $this->villes = collect();
-        }
-    }
-
-
-    public function updatedMinDistance($value)
-    {
-        // S'assurer que la distance minimale ne dépasse pas la distance maximale
-        if ($value > $this->maxDistanceSelected) {
-            $this->maxDistanceSelected = $value;
-        }
-        $this->resetPage();
-    }
-
-    public function updatedMaxDistanceSelected($value)
-    {
-        // S'assurer que la distance maximale n'est pas inférieure à la distance minimale
-        if ($value < $this->minDistance) {
-            $this->minDistance = $value;
-        }
-        $this->resetPage();
-    }
-
-
-    public function filtreOrigineAndLangue( $baseEscorts, $filteredEscorts)
-    {
-        if (!empty($this->selectedOrigine)) {
-
-                
-            if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                $filteredEscorts = $baseEscorts;
-            }
-
-            $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-              
-        
-                $origine = is_array($escort) ? ($escort['origine'] ?? null) : $escort->origine;
-        
-                if (is_string($origine)) {
-                    $origine = array_map('trim', explode(',', $origine));
-                } elseif (!is_array($origine)) {
-                    $origine = [];
-                
-                }
-        
-                // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                return count(array_intersect($origine, $this->selectedOrigine)) > 0;
-            });
-        }
-
-
-        if (!empty($this->selectedLangue)) {
-
-            
-            if ($filteredEscorts->isEmpty() && empty($this->selectedCanton) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                $filteredEscorts = $baseEscorts;
-            }
-
-            $filteredEscorts = $filteredEscorts->filter(function ($escort) {
-                $langue= $escort->langues;
-        
-                if (is_string($langue)) {
-                    $langue = array_map('trim', explode(',', $langue));
-                } elseif (!is_array($langue)) {
-                    $langue = [];
-                }
-        
-                // Vérifie s’il y a une correspondance avec au moins une langue sélectionnée
-                return count(array_intersect($langue, $this->selectedLangue)) > 0;
-            });
-        }
-
-        return $filteredEscorts;
-
-    }
-    
-    public function updated($propertyName)
-    {
-        // Réinitialiser la pagination à 1 lors de la modification des filtres principaux
-        $filterProperties = [
-            'selectedCanton',
-            'selectedVille',
-            'selectedGenre',
-            'selectedCategories',
-            'selectedServices',
-            'autreFiltres',
-            'approximite',
-            'showClosestOnly',
-            'minDistance',
-            'maxDistanceSelected'
-        ];
-        
-        if (in_array($propertyName, $filterProperties)) {
+        if (in_array($property, ['search', 'selectedCanton', 'selectedVille', 'selectedGenre', 'selectedSalonCategories', 'selectedEscortCategories' ,'autreFiltres'])) {
             $this->resetPage();
         }
     }
 
+    public function handleModalClosed()
+    {
+        logger()->info('Modal closed pour reloder la page ');
+        $this->userType = 'escort';
+    }
+
+  
+
+    public function updatedApproximite($value)
+    {
+        $this->isFirstLoadApproximite = true;
+        $this->maxDistanceSelected = 0;
+        $this->showClosestOnly = false;
+    }
+
+    public function updatedShowClosestOnly($value)
+    {
+        $this->isFirstLoadClosestOnly = true;
+        $this->maxDistanceSelected = 0;
+        $this->approximite = false;
+    }
+
+    public function updatedSelectedCanton($value)
+    {
+        $this->villes = $value ? Ville::where('canton_id', $value)->get() : collect([]);
+        $this->selectedVille = '';
+    }
+
+    public function resetFilters()
+    {
+        $this->reset([
+            'search',
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
+            'page',
+            'approximite',
+            'showClosestOnly',
+            'maxDistanceSelected',
+            'autreFiltres',
+            'ageInterval',
+            'tailleInterval',
+            'tarifInterval',
+            'selectedOrigine',
+            'selectedLangue',
+        ]);
+        $this->villes = collect([]);
+        return redirect('escortes');
+    }
+
+    public function openModalside()
+{
+    logger()->info('Modal opened');
+    $this->isModalOpenSide = true;
+}
+
+public function closeModalside()
+{
+    logger()->info('Modal closed');
+    $this->isModalOpenSide = false;
+}
+
+    public function resetFilterModal()
+    {
+        $this->reset([
+            'search',
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
+            'page',
+            'approximite',
+            'showClosestOnly',
+            'maxDistanceSelected',
+            'autreFiltres',
+            'selectedOrigine',
+            'selectedLangue',
+            
+        ]);
+        $this->villes = collect([]);
+        return redirect('escortes');
+    }
+
+    private function getVisibleUsers($users)
+    {
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? null;
+        return $users->filter(function ($user) use ($viewerCountry) {
+            return $user->isProfileVisibleTo($viewerCountry);
+        });
+    }
+
+    public function setUserType($type)
+    {
+        $this->userType = $type;
+        $this->reset([
+            'selectedCanton',
+            'selectedVille',
+            'selectedGenre',
+            'selectedSalonCategories',
+            'selectedEscortCategories',
+            'page',
+            'approximite',
+            'showClosestOnly',
+            'maxDistanceSelected',
+            'autreFiltres'
+        ]);
+        $this->villes = collect([]);
+    }
+
     private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
-        // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
         $lonFrom = deg2rad($longitudeFrom);
         $latTo = deg2rad($latitudeTo);
         $lonTo = deg2rad($longitudeTo);
-
         $latDelta = $latTo - $latFrom;
         $lonDelta = $lonTo - $lonFrom;
-
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return round($angle * $earthRadius, 0);
     }
 
-    private function getValueRange(){
+    protected function filterByInterval(Collection $users, array $interval, string $attribute): Collection
+    {
+     
 
-        $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? 'FR';
-            $query = User::query()
-            ->where('profile_type', 'escorte')
-            ->orderBy('is_profil_pause')
-            ->orderByDesc('rate_activity')
-            ->orderByDesc('last_activity');
-        if (Auth::user()) {
-            $query->where('id', '!=', Auth::user()->id);
+        $min = isset($interval['min']) ? (int) $interval['min'] : null;
+        $max = isset($interval['max']) ? (int) $interval['max'] : null;
+
+        logger()->info("{$attribute} min: " . $min);
+        logger()->info("{$attribute} max: " . $max);
+
+        if ($min !== null && $max !== null && $min <= $max) {
+            $users = $users->filter(function ($user) use ($min, $max, $attribute) {
+                return isset($user->$attribute) && $user->$attribute >= $min && $user->$attribute <= $max;
+            });
         }
-        $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-            return $escort->isProfileVisibleTo($viewerCountry);
-        });
-        $this->ageMin = $baseEscorts->min('age');
-        $this->ageMax = $baseEscorts->max('age');
-        foreach ($baseEscorts as $escort) {
-            $min = $escort->tailles; // Assure-toi que le nom de la méthode est correct
-        
-            if ($min > 0 && $min < $this->tailleMin) {
-                $this->tailleMin = $min;
-            }
-        }
-        
-        $this->tailleMax = $baseEscorts->max('tailles');
-        $this->tarifMin = $baseEscorts->min('tarif');
-        $this->tarifMax = $baseEscorts->max('tarif');
+
+        $users = $users->values(); // réindexe proprement
+
+        return $users;
     }
+
+    public function formatTaille($taille){
+        if ($taille) {
+            $min = $taille['min'];
+            $max = $taille['max'];
+        
+            $minFormatted = floor($min / 100) . 'm' . str_pad($min % 100, 2, '0', STR_PAD_LEFT);
+            $maxFormatted = floor($max / 100) . 'm' . str_pad($max % 100, 2, '0', STR_PAD_LEFT);
+        
+            return __('escort-search.taille_interval', [
+                'min' => $minFormatted,
+                'max' => $maxFormatted
+            ]);
+        }
+        return "";
+    }
+
 
     public function render()
     {
-
-        // Gestion des états mutuellement exclusifs
-        if ($this->approximite && $this->showClosestOnly) {
-            $this->showClosestOnly = false;
-        }
-
-        // Déterminer si le filtre canton doit être affiché
-        $this->showFiltreCanton = !($this->approximite || $this->showClosestOnly);
-
-        $currentLocale = app()->getLocale();
-        $this->cantons = Cache::remember('all_cantons', 3600, function () {
-            return Canton::all();
-        });
-        $this->availableVilles = Ville::all();
-        $this->categories = Cache::remember('all_categories', 3600, function () {
-            return Categorie::where('type', 'escort')->get();
-        });
-        $serviceQuery = Service::query();
-
-        $this->genres = Genre::all()->take(3);
+        $cacheKey = md5(serialize([
+            $this->search,
+            $this->selectedCanton,
+            $this->selectedVille,
+            $this->selectedGenre,
+            $this->selectedSalonCategories,
+            $this->selectedEscortCategories,
+            $this->approximite,
+            $this->showClosestOnly,
+            $this->minDistance,
+            $this->maxDistanceSelected,
+            $this->maxAvailableDistance,
+            request()->ip()
+        ]));
 
         $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
+        $viewerCountry = $position?->countryCode ?? 'FR';
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
-        $paginatedEscorts = [];
 
-        $this->getValueRange();
-
-        if($this->filtreIsActif()) {
-            logger()->info("filtreIsActif 👍 ✅");
-            $filteredEscorts = collect();
-            if(!$this->showClosestOnly && !$this->approximite){
-                $baseEscorts = $this->getBaseEscorts();
-                $filteredEscorts = $this->filtreEscortsByCantonVilleGenreService($baseEscorts);
+        $query = User::query()->where(function ($q) {
+            if($this->userType === 'escort'){
+                $q->where('profile_type', 'escorte');
+            }elseif($this->userType === 'salon'){
+                $q->where('profile_type', 'salon');
+            }elseif($this->userType === 'all'){
+                $q->where('profile_type', 'escorte')
+                  ->orWhere('profile_type', 'salon');
             }
+        })
+        ->orderByDesc('rate_activity')
+        ->orderByDesc('last_activity')
+        ->orderBy('is_profil_pause');
 
-            if ($this->showClosestOnly) {
-                $baseEscortsSorted = $this->getDataEscortsClosestOnlyTest();
-                $baseEscortsSorted = $baseEscortsSorted->sortBy('distance');
-                $baseEscortsClosestOnly = $baseEscortsSorted->take(4);
-            
-                // Mise à jour des bornes de distance pour les 4 plus proches
-                $this->updateDistanceBounds($baseEscortsClosestOnly);
-            
-                logger()->info("minDistance 👍 ✅", ["minDistance" => $this->minDistance]);
-                logger()->info("maxAvailableDistance 👍 ✅", ["maxAvailableDistance" => $this->maxAvailableDistance]);
-            
-                // Filtrer par distance
-                $baseEscortsClosestOnly = $baseEscortsClosestOnly->filter(function ($item) {
-                    return $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
-                });
-            
-                // Filtrer par service et genre
-                if ($this->selectedGenre || $this->selectedCategories || $this->selectedServices) {
-                    $filteredEscorts = $this->filtreEscortsByCantonVilleGenreService($baseEscortsClosestOnly);
-                } else {
-                    $filteredEscorts = $baseEscortsClosestOnly;
+        $query->where(function($q) {
+            if ($this->search) {
+                $q->orWhere('pseudo', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('prenom', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('nom_salon', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('apropos', 'LIKE', '%' . $this->search . '%');
+            }
+            if ($this->selectedCanton) {
+                $q->orWhere('canton', $this->selectedCanton);
+            }
+            if ($this->selectedVille) {
+                $q->orWhere('ville', $this->selectedVille);
+            }
+            if ($this->selectedGenre) {
+                $q->orWhere('genre_id', $this->selectedGenre);
+            }
+            if($this->userType === 'escort' && !empty($this->selectedEscortCategories)) {
+                foreach ($this->selectedEscortCategories as $category) {
+                    $q->orWhere('categorie', 'LIKE', '%' . $category . '%');
                 }
-            
-                $paginatedEscorts = $this->getPaginatedHydratedEscorts($filteredEscorts);
-                $this->escortCount = $filteredEscorts->count();
+            }elseif($this->userType === 'salon' && !empty($this->selectedSalonCategories)) {
+                $q->orWhere('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
             }
-            
 
+            if($this->userType === 'escort' && !empty($this->selectedOrigine)) {
+                logger()->info('selectedOrigine', ['selectedOrigine' => $this->selectedOrigine]);
+                foreach ($this->selectedOrigine as $origine) {
+                    $q->orWhere('origine', 'LIKE', '%' . $origine . '%');
+                }
+            }
 
+            if($this->userType === 'escort' && !empty($this->selectedLangue)) {
+                logger()->info('selectedLangue', ['selectedLangue' => $this->selectedLangue]);
+                foreach ($this->selectedLangue as $langue) {
+                    $q->orWhere('langues', 'LIKE', '%' . $langue . '%');
+                }
+            }
 
-            $paginatedEscorts = $this->getPaginatedHydratedEscorts($filteredEscorts);
-            $this->escortCount = $filteredEscorts->count();
-        }else{
-            logger()->info("filtreIsNotActif 👎 ❌");
-            $paginatedEscorts = $this->getPaginatedHydratedEscorts($this->getBaseEscorts());
-            $this->escortCount = $this->getBaseEscorts()->count();
-        }
+            if($this->userType === 'escort' && !empty($this->autreFiltres)) {
+                foreach ($this->autreFiltres as $key => $value) {
+                    if (!empty($value)) {
+                        switch ($key) {
+                            case 'mensuration':
+                                $q->orWhere('mensuration_id', $value);
+                                break;
+                            case 'orientation':
+                                $q->orWhere('orientation_sexuelle_id', (int) $value);
+                                break;
+                            case 'couleur_yeux':
+                                $q->orWhere('couleur_yeux_id', (int) $value);
+                                break;
+                            case 'couleur_cheveux':
+                                $q->orWhere('couleur_cheveux_id', (int) $value);
+                                break;
+                            case 'pubis':
+                                $q->orWhere('pubis_type_id', (int) $value);
+                                break;
+                            case 'tatouages':
+                                $q->orWhere('tatoo_id', (int) $value);
+                                break;
+                            case 'poitrine':
+                                $q->orWhere('poitrine_id', (int) $value);
+                                break;
+                            case 'taille_poitrine':
+                                $poitrineValues = [
+                                    'petite' => ['A', 'B', 'C'],
+                                    'moyenne' => ['D', 'E', 'F'],
+                                    'grosse' => ['G', 'H'],
+                                ];
+                                    if (array_key_exists($value, $poitrineValues)) {
+                                        $taillesCorrespondantes = $poitrineValues[$value];
+                                        $q->orWhereIn('taille_poitrine', $taillesCorrespondantes);
+                                    }
+                                break;
+                            case 'silhouette':
+                                $q->orWhere('silhouette_id', (int) $value);
+                                break;
+                            case 'taille_poitrine_detail':
+                                $q->orWhere('taille_poitrine', 'LIKE', "%{$value}%");
+                                break;
+                            case 'mobilite':
+                                $q->orWhere('mobilite_id', (int) $value);
+                                break;
+                            default:
+                                $q->orWhere($key, 'LIKE', '%' . $value . '%');
+                                break;
+                        }
+                    }
+                }
+            }
+        });
 
+        $filteredUsers = $query->get();
+        $baseUsers = $filteredUsers;
        
-        $selecterCantonInfo = null;
-        $selecterVilleInfo = null;
-        $selecterGenreInfo = null;
-        $selecterCategoriesInfo = null;
-        $selecterServicesInfo = null;
-        $selecterAutreFiltresInfo = null;
-        if($this->selectedCanton){
-            $selecterCantonInfo = Canton::find($this->selectedCanton);
+
+        if($this->approximite || $this->showClosestOnly){
+            $filteredUsers = $filteredUsers->filter(function ($user) {
+                return $user->lat && $user->lon;
+            })->transform(function ($user) use ($viewerLatitude, $viewerLongitude) {
+                $user->distance = $this->haversineGreatCircleDistance($viewerLatitude, $viewerLongitude, $user->lat, $user->lon);
+                return $user;
+            });
+
+            $this->minDistance = $filteredUsers->min('distance');
+            $this->maxAvailableDistance = $filteredUsers->max('distance');
+
+            if($this->isFirstLoad && $this->maxDistanceSelected == 0 ){
+                $this->maxDistanceSelected = $this->maxAvailableDistance;
+            }
+
+            if($this->showClosestOnly){
+                $filteredUsers = $filteredUsers->sortBy('distance')->take(4);
+                $this->maxAvailableDistance = $filteredUsers->max('distance');
+                if($this->isFirstLoadClosestOnly){
+                    $this->isFirstLoadClosestOnly = false;
+                    $this->maxDistanceSelected = $filteredUsers->max('distance');
+                }
+                $filteredUsers = $filteredUsers->filter(function ($user) {
+                    return $user->distance <= $this->maxDistanceSelected;
+                });
+            }
+
+            if($this->approximite){
+                $filteredUsers = $filteredUsers->sortBy('distance');
+                $this->maxAvailableDistance = $filteredUsers->max('distance');
+                if($this->isFirstLoadApproximite){
+                    $this->isFirstLoadApproximite = false;
+                    $this->maxDistanceSelected = $filteredUsers->max('distance');
+                }
+                $filteredUsers = $filteredUsers->filter(function ($user) {
+                    return $user->distance <= $this->maxDistanceSelected;
+                });
+            }
         }
-        if($this->selectedVille){
-            $selecterVilleInfo = Ville::find($this->selectedVille);
+        if($this->isFirstLoadAge){
+            $this->isFirstLoadAge = false;
+            $this->ageMin = $filteredUsers->min('age');
+            $this->ageMax = $filteredUsers->max('age');
         }
-        if($this->selectedGenre){
-            $selecterGenreInfo = Genre::find($this->selectedGenre);
+        if ($this->isFirstLoadTaille) {
+            $this->isFirstLoadTaille = false;
+        
+            $validTailleUsers = $filteredUsers->filter(function ($user) {
+                return isset($user->tailles) && $user->tailles > 0;
+            });
+        
+            $this->tailleMin = $validTailleUsers->min('tailles');
+            $this->tailleMax = $validTailleUsers->max('tailles');
+
+            // $this->tailleMin = $filteredUsers->min('tailles');
+            // $this->tailleMax = $filteredUsers->max('tailles');
         }
-        if($this->selectedCategories){
-            $selecterCategoriesInfo = Categorie::whereIn('id', $this->selectedCategories)->get();
+        
+        if($this->isFirstLoadTarif){
+            $this->isFirstLoadTarif = false;
+            $this->tarifMin = $filteredUsers->min('tarif');
+            $this->tarifMax = $filteredUsers->max('tarif');
         }
-        if($this->selectedServices){
-            $selecterServicesInfo = Service::whereIn('id', $this->selectedServices)->get();
-        }
+
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->ageInterval, 'age');
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->tailleInterval, 'tailles');
+        $filteredUsers = $this->filterByInterval($filteredUsers, $this->tarifInterval, 'tarif');
+
+
+
+
+
+        $filteredUsers->transform(function ($user) {
+            $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
+            $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
+            $user->canton = Canton::find($user->canton);
+            $user->ville = Ville::find($user->ville);
+            return $user;
+        });
+
+        $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
+            return $user->isProfileVisibleTo($viewerCountry);
+        });
+
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = $this->perPage;
+        $results = $visibleUsers->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $paginatedUsers = new LengthAwarePaginator(
+            $results,
+            $visibleUsers->count(),
+            $perPage,
+            $page,
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $this->queryString
+            ]
+        );
+
+        $selecterCantonInfo = $this->selectedCanton ? Canton::find($this->selectedCanton) : null;
+        $selecterVilleInfo = $this->selectedVille ? Ville::find($this->selectedVille) : null;
+        $selecterGenreInfo = $this->selectedGenre ? Genre::find($this->selectedGenre) : null;
+        $selecterEscortCategoriesInfo = !empty($this->selectedEscortCategories) ? Categorie::whereIn('id', $this->selectedEscortCategories)->get() : null;
+        $selecterSalonCategoriesInfo = !empty($this->selectedSalonCategories) ? Categorie::where('id', $this->selectedSalonCategories)->get() : null;
+        $searchInfo = $this->search ?: null;
         $ageInterval = $this->ageInterval;
         $tailleInterval = $this->tailleInterval;
         $tarifInterval = $this->tarifInterval;
-
+        $selectedOrigine = $this->selectedOrigine;
+        $selectedLangue = $this->selectedLangue;
+        $selecterAutreFiltresInfo = [];
+        $countSelectedAutreFiltres = 0;
+        if($ageInterval){
+        $selecterAutreFiltresInfo['ageInterval'] = __('escort-search.age_interval', [
+            'min' => $ageInterval['min'],
+            'max' => $ageInterval['max']
+        ]);
+        $countSelectedAutreFiltres++;
+        }
+        if($tailleInterval){
+        $selecterAutreFiltresInfo['tailleInterval'] = $this->formatTaille($tailleInterval);
+        $countSelectedAutreFiltres++;
+        }
+        if($tarifInterval){
+        $selecterAutreFiltresInfo['tarifInterval'] = __('escort-search.tarif_interval', [
+            'min' => $tarifInterval['min'],
+            'max' => $tarifInterval['max']
+        ]);
+        $countSelectedAutreFiltres++;
+        }
+        if($selectedOrigine){
+            $countSelectedAutreFiltres =count($selectedOrigine) + $countSelectedAutreFiltres;
+            $normalize = null;
+            foreach ($selectedOrigine as $key => $value) 
+                {
+                    $normalize .= $value . ', ';
+                }
+            $selecterAutreFiltresInfo['origine'] = $normalize;
+        }
+        if($selectedLangue){
+            $countSelectedAutreFiltres = count($selectedLangue) + $countSelectedAutreFiltres;
+            $normalize = null;
+            foreach ($selectedLangue as $key => $value) 
+                {
+                    $normalize .= $value . ', ';
+                }
+            $selecterAutreFiltresInfo['langue'] = __('escort-search.speak', [
+                'langue' => $normalize
+            ]);
+        }
         foreach ($this->autreFiltres as $key => $value) {
             if (!empty($value)) {
                 switch ($key) {
                     case 'origine':
                         $origine = $value;
                         $selecterAutreFiltresInfo['origine'] = $origine;
+                        $countSelectedAutreFiltres++;
                         break;
                     case 'mensuration':
-
+                        $countSelectedAutreFiltres++;
                         $mensuration = Mensuration::find($value);
-                        $selecterAutreFiltresInfo['mensuration'] = $mensuration;
+                        $selecterAutreFiltresInfo['mensuration'] = $mensuration->name;
                       
                         break;
                     case 'orientation':
+                        $countSelectedAutreFiltres++;
                         $orientation = OrientationSexuelle::find($value);
-                        $selecterAutreFiltresInfo['orientation'] = $orientation;
+                        $selecterAutreFiltresInfo['orientation'] = $orientation->name;
                         break;
                     case 'couleur_yeux':
+                        $countSelectedAutreFiltres++;
                         $couleur_yeux = CouleurYeux::find($value);
-                        $selecterAutreFiltresInfo['couleur_yeux'] = $couleur_yeux;
+                        $selecterAutreFiltresInfo['couleur_yeux'] = $couleur_yeux->name;
                         break;
                     case 'couleur_cheveux':
+                        $countSelectedAutreFiltres++;
                         $couleur_cheveux = CouleurCheveux::find($value);
-                        $selecterAutreFiltresInfo['couleur_cheveux'] = $couleur_cheveux;
+                        $selecterAutreFiltresInfo['couleur_cheveux'] = $couleur_cheveux->name;
                         break;
                     case 'poitrine':
+                        $countSelectedAutreFiltres++;
                         $poitrine = Poitrine::find($value);
-                        $selecterAutreFiltresInfo['poitrine'] = $poitrine;
+                        $selecterAutreFiltresInfo['poitrine'] = $poitrine->name;
                         break;
                     case 'langues':
+                        $countSelectedAutreFiltres++;
                         $langue = $value;
                         $selecterAutreFiltresInfo['langue'] = $langue;
                         break;
                     case 'pubis':
+                        $countSelectedAutreFiltres++;
                         $pubis = PubisType::find($value);
-                        $selecterAutreFiltresInfo['pubis'] = $pubis;
+                        $selecterAutreFiltresInfo['pubis'] = $pubis->name;
                         break;
                     case 'tatouages':
+                        $countSelectedAutreFiltres++;
                         $tatouages = Tattoo::find($value);
-                        $selecterAutreFiltresInfo['tatouages'] = $tatouages;
+                        $selecterAutreFiltresInfo['tatouages'] = $tatouages->name;
                         break;
                     case 'taille_poitrine':
+                        $countSelectedAutreFiltres++;
                         if($value == 'petite'){
                         $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.petite');
                         }
@@ -895,12 +647,14 @@ public function handleUpdateInterval($data)
                         }
                         break;
                     case 'taille_poitrine_detail':
+                        $countSelectedAutreFiltres++;
                         $taille_poitrine_detail = $value;
-                        $selecterAutreFiltresInfo['taille_poitrine_detail'] = $taille_poitrine_detail;
+                        $selecterAutreFiltresInfo['taille_poitrine_detail'] = $taille_poitrine_detail->name;
                         break;
                     case 'mobilite':
+                        $countSelectedAutreFiltres++;
                         $mobilite = Mobilite::find($value);
-                        $selecterAutreFiltresInfo['mobilite'] = $mobilite;
+                        $selecterAutreFiltresInfo['mobilite'] = $mobilite->name;
                         break;
 
                     default:
@@ -908,28 +662,33 @@ public function handleUpdateInterval($data)
                 }
             }
         }
+        logger()->info('autreFiltres', $selecterAutreFiltresInfo);
+        logger()->info('autreFiltres count: ' . $countSelectedAutreFiltres);
+
+
 
         $filterApplay = [
             'selectedCanton' => $selecterCantonInfo,
             'selectedVille' => $selecterVilleInfo,
             'selectedGenre' => $selecterGenreInfo,
-            'selectedCategories' => $selecterCategoriesInfo,
-            'selectedServices' => $selecterServicesInfo,
-            'autreFiltres' => $selecterAutreFiltresInfo,
-            'approximite' => $this->approximite,
-            'showClosestOnly' => $this->showClosestOnly,
+            'selectedEscortCategories' => $selecterEscortCategoriesInfo,
+            'selectedSalonCategories' => $selecterSalonCategoriesInfo,
+            'search' => $searchInfo,
             'ageInterval' => $ageInterval,
             'tailleInterval' => $tailleInterval,
             'tarifInterval' => $tarifInterval,
+            'selectedOrigine' => $selectedOrigine,
+            'selectedLangue' => $selectedLangue,
+            // 'autreFiltres' => $autreFiltres,
         ];
 
+        $this->escortCount = $visibleUsers->count();
+
         return view('livewire.escort-search', [
-            'escorts' => $paginatedEscorts,
-           'services' => $serviceQuery->simplePaginate(20, ['*'], 'servicesPage'),
-            'maxDistance' => $this->maxDistance,
-            'escortCount' => $this->escortCount,
-            'currentLocale' => $currentLocale,
+            'users' => $paginatedUsers,
             'filterApplay' => $filterApplay,
+            'countSelectedAutreFiltres' => $countSelectedAutreFiltres,
+            'selecterAutreFiltresInfo' => $selecterAutreFiltresInfo,
         ]);
     }
 }

@@ -29,10 +29,10 @@
 @endphp
 
 <button {{ $attributes->merge(['class' => $buttonClasses]) }} wire:loading.attr="disabled">
-    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs md:text-sm">
+    <span wire:loading.remove wire:target="{{ $loadingTarget }}" class="text-xs lg:text-sm">
         {{ __($translation) }}
     </span>
-    <span wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center text-xs md:text-sm">
+    <span wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center text-xs lg:text-sm">
         {{ $loadingText }}
     </span>
 

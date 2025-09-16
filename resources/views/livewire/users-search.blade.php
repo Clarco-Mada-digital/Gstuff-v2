@@ -60,7 +60,7 @@ x-data="{
                                             </div>
                                         </div>
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
-            {{ __('user-search.title') }}aaaaaaaaaaaaaaaaaaaa
+            {{ __('user-search.title') }}
         </h1>
 
         <form wire:submit.prevent="search" class="container flex w-full flex-col items-center justify-center 
@@ -210,15 +210,7 @@ x-data="{
 
                         {{-- Bouton de réinitialisation --}}
                     @if ($userType !== 'all')
-                        @if (
-                            !empty($search) ||
-                            !empty($approximite) ||
-                            !empty($showClosestOnly) ||
-                                !empty($selectedCanton) ||
-                                !empty($selectedVille) ||
-                                !empty($selectedGenre) ||
-                                !empty($selectedEscortCategories) ||
-                                !empty($selectedSalonCategories))
+                    @if($this->isAnyFilterApplied())
                             <x-buttons.reset-button wire:click="resetFilters" class=" p-2" :loading-target="'resetFilters'"
                                 translation="escort-search.reset_filters" loading-translation="escort-search.resetting" />
                         @endif
@@ -402,7 +394,11 @@ x-data="{
                         </div>
                     </div>
                 @endif
-                @if (isset($filterApplay['tailleInterval']) && is_array($filterApplay['tailleInterval']))
+                @if (
+                    isset($filterApplay['tailleInterval']) &&
+                    is_array($filterApplay['tailleInterval']) &&
+                    (($filterApplay['tailleInterval']['min'] ?? 0) > 0 || ($filterApplay['tailleInterval']['max'] ?? 0) > 0)
+                )
                     <div class="flex flex-wrap items-center justify-center gap-2">
                         <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.height') }} :</p>
                         <div class="flex flex-wrap gap-2">
@@ -410,6 +406,29 @@ x-data="{
                                 {{ number_format(($filterApplay['tailleInterval']['min'] ?? 0) / 100, 2) }}m -
                                 {{ number_format(($filterApplay['tailleInterval']['max'] ?? 0) / 100, 2) }}m
                             </span>
+                        </div>
+                    </div>
+                @endif
+                @if (isset($filterApplay['selectedOrigine']) && is_array($filterApplay['selectedOrigine']) && count($filterApplay['selectedOrigine']) > 0)
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.origin') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($filterApplay['selectedOrigine'] as $origine)
+                                <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{{ $origine }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
+                @if (isset($filterApplay['selectedLangue']) && $filterApplay['selectedLangue'])
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700"> {{ __('escort-search.language') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($filterApplay['selectedLangue'] as $langue)
+                                <span
+                                    class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{{ $langue }}</span>
+                            @endforeach
                         </div>
                     </div>
                 @endif
@@ -435,7 +454,7 @@ x-data="{
                     <div>
                         <h3
                             class="font-roboto-slab text-green-gs text-md flex w-full items-center justify-center font-bold md:text-3xl">
-                            {{ __('escort-search.more_filters') }}</h3>
+                            {{ __('escort-search.more_filters') }}aaaaaaaaa</h3>
                     </div>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -451,6 +470,8 @@ x-data="{
 
                 {{-- Modal body --}}
                 <div class="relative flex flex-col gap-3 p-2 md:p-5">
+                    <x-origine-select-escort :origineData="$origineData" />
+                    <x-langue-select-escort :langueData="$langueData" />
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">
                         <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
                             <select wire:model.live="autreFiltres.origine" id="origine" name="origine"

@@ -35,30 +35,21 @@ x-data="{
 
     {{-- Loader --}}
     {{-- Loader amélioré --}}
-    <div wire:loading.flex
-        wire:target="search,selectedCanton,selectedVille,selectedGenre,selectedCategories,gotoPage,previousPage,nextPage,resetFilters"
+    <div wire:loading
+        wire:target="maxDistanceSelected,search,selectedCanton,selectedEscortCategories,
+        selectedVille,selectedGenre,selectedCategories,gotoPage,previousPage,nextPage,resetFilters
+        ,selectedSalonCategories,approximite,showClosestOnly,selectedOrigine,selectedLangue,ageInterval,tarifInterval,tailleInterval, autreFiltres"
         id="loader"
-        class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-
-        <div class="flex flex-col items-center space-y-4">
-            {{-- Animation spinner --}}
-            <div class="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
-
-            {{-- Texte de chargement --}}
-            <div class="animate-pulse text-lg font-medium tracking-wide text-white">
-                {{ __('user-search.loading') }}
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-10 relative">
-    <div wire:loading wire:target="maxDistanceSelected" class="w-full z-50 absolute top-0 left-0">
+        class="w-full z-50 absolute top-0 left-0">
                                             <div class="w-full bg-gray-200  h-1">
                                                 <div class="bg-green-gs h-1 animate-progress"></div>
                                             </div>
                                         </div>
+
+
+
+    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-10 relative">
+ 
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('user-search.title') }}
         </h1>
@@ -220,18 +211,7 @@ x-data="{
 
                         {{-- Bouton de réinitialisation --}}
                     @if ($userType !== 'all')
-                        @if (
-                            !empty($search) ||
-                            !empty($approximite) ||
-                            !empty($showClosestOnly) ||
-                            !empty($ageInterval) ||
-                            !empty($tarifInterval) ||
-                            !empty($tailleInterval) ||
-                            !empty($selectedCanton) ||
-                            !empty($selectedVille) ||
-                            !empty($selectedGenre) ||
-                            !empty($selectedEscortCategories) ||
-                            !empty($selectedSalonCategories))
+                    @if($this->isAnyFilterApplied())
                             <x-buttons.reset-button wire:click="resetFilters" class=" p-2" :loading-target="'resetFilters'"
                                 translation="escort-search.reset_filters" loading-translation="escort-search.resetting" />
                         @endif
@@ -245,8 +225,40 @@ x-data="{
     </div>
 
     {{-- Listing des utilisateurs --}}
-    <div class="mt-4 flex flex-col items-center justify-center md:w-[95%]  mx-auto px-1 sm:px-4 py-2 lg:py-5 ">
-        <div 
+    <div class="flex flex-col items-center justify-center md:w-[95%]  mx-auto px-1 sm:px-4 py-1 lg:py-5 ">
+    @if ($escortCount > 0 && ($countSelectedAutreFiltres > 0 && $countSelectedAutreFiltres <= 5))
+            <div class="w-full text-left">
+                <div class="flex flex-wrap items-center gap-2">
+                    <h4 class="text-xs font-bold text-gray-800">{{ __('escort-search.filtreActifOne') }} :</h4>
+                    <span class="font-roboto-slab text-green-gs text-xs lg:text-sm font-bold xl:text-base rounded-full bg-gray-100 px-3 py-1">
+                        @foreach ($selecterAutreFiltresInfo as $key => $value)
+                            {{ $value }}
+                        @endforeach
+                    </span>
+                </div>
+            </div>
+            @endif
+
+            @if ($escortCount > 0 && ($countSelectedAutreFiltres > 5))
+                <div class="w-full text-left">
+                    <h4 class="text-base font-semibold text-gray-800">{{ $countSelectedAutreFiltres }} {{ __('escort-search.filtreActifMany') }}</h4>
+                </div>
+            @endif
+    <div class="font-roboto-slab text-green-gs mb-3 text-xs  lg:text-xl font-bold xl:text-2xl w-full text-start">
+            {{ $escortCount }}
+                @if ($users->count() > 1)
+                    @if ($maxDistanceSelected > 0)
+                        {{ __('escort-search.results_around', ['distance' => str_replace(',', ' ', number_format($maxDistanceSelected, 0))]) }}
+                    @else
+                        {{ __('escort-search.results_no_aroud') }}
+                    @endif
+                @else
+                    {{ __('escort-search.result') }}
+                @endif
+           
+        </div>    
+    
+    <div 
             class="grid grid-cols-2 gap-2
         sm:grid-cols-3
         md:grid-cols-4
@@ -405,7 +417,11 @@ x-data="{
                         </div>
                     </div>
                 @endif
-                @if (isset($filterApplay['tailleInterval']) && is_array($filterApplay['tailleInterval']))
+                @if (
+                    isset($filterApplay['tailleInterval']) &&
+                    is_array($filterApplay['tailleInterval']) &&
+                    (($filterApplay['tailleInterval']['min'] ?? 0) > 0 || ($filterApplay['tailleInterval']['max'] ?? 0) > 0)
+                )
                     <div class="flex flex-wrap items-center justify-center gap-2">
                         <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.height') }} :</p>
                         <div class="flex flex-wrap gap-2">
@@ -413,6 +429,30 @@ x-data="{
                                 {{ number_format(($filterApplay['tailleInterval']['min'] ?? 0) / 100, 2) }}m -
                                 {{ number_format(($filterApplay['tailleInterval']['max'] ?? 0) / 100, 2) }}m
                             </span>
+                        </div>
+                    </div>
+                @endif
+
+                @if (isset($filterApplay['selectedOrigine']) && is_array($filterApplay['selectedOrigine']) && count($filterApplay['selectedOrigine']) > 0)
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700">{{ __('escort-search.origin') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($filterApplay['selectedOrigine'] as $origine)
+                                <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{{ $origine }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
+                @if (isset($filterApplay['selectedLangue']) && $filterApplay['selectedLangue'])
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <p class="mb-1 text-sm font-medium text-gray-700"> {{ __('escort-search.language') }} :</p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($filterApplay['selectedLangue'] as $langue)
+                                <span
+                                    class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">{{ $langue }}</span>
+                            @endforeach
                         </div>
                     </div>
                 @endif
@@ -454,8 +494,12 @@ x-data="{
 
                 {{-- Modal body --}}
                 <div class="relative flex flex-col gap-3 p-2 md:p-5">
+
+
+                <x-origine-select-escort :origineData="$origineData" />
+                <x-langue-select-escort :langueData="$langueData" />
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">
-                        <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
+                        <!-- <template x-if="dropdownData['origines'] && dropdownData['origines'].length > 0">
                             <select wire:model.live="autreFiltres.origine" id="origine" name="origine"
                                 class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900">
                                 <option selected value="">{{ __('escort-search.origin') }}</option>
@@ -463,7 +507,7 @@ x-data="{
                                     <option :value="origine" x-text="origine"></option>
                                 </template>
                             </select>
-                        </template>
+                        </template> -->
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900">
@@ -474,13 +518,13 @@ x-data="{
                         </select>
 
 
-                        <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
+                        <!-- <select wire:model.live="autreFiltres.langues" id="langue" name="langues"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                             <option selected value=""> {{ __('escort-search.language') }} </option>
                             <template x-for="langue in dropdownData['langues']">
                                 <option :value="langue" x-text="langue"></option>
                             </template>
-                        </select>
+                        </select> -->
                         <select wire:model.live="autreFiltres.couleur_cheveux" id="cheveux" name="cheveux"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs dark:focus:border-green-gs dark:focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                             <option selected value=""> {{ __('escort-search.hair') }} </option>

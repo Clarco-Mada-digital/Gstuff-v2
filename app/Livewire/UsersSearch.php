@@ -10,6 +10,19 @@ use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Database\Eloquent\Collection;
+
+
+use App\Models\CouleurCheveux;
+use App\Models\CouleurYeux;
+use App\Models\Mensuration;
+use App\Models\Poitrine;
+use App\Models\PubisType;
+use App\Models\Silhouette;
+use App\Models\Tattoo;
+use App\Models\Mobilite;
+use App\Models\NombreFille;
+use App\Models\OrientationSexuelle;
+
 class UsersSearch extends Component
 {
     use WithPagination;
@@ -60,6 +73,16 @@ class UsersSearch extends Component
 
     public $isModalOpenSide = false;
 
+
+    public $origineData = ['Italienne','Allemande', 'Française', 'Espagnole', 'Suissesse', 'Européene (Autres)', 'Asiatique', 'Africaine', 'Orientale', 'Brésilienne', 'Métissée', 'Autre'];
+    #[Url]
+    public array $selectedOrigine = [];
+
+    public $langueData = ['Allemand', 'Anglais', 'Arabe', 'Espagnol', 'Français', 'Italien', 'Portugais', 'Russe', 'Autre'];
+    #[Url]
+    public array $selectedLangue = [];
+
+
     protected $queryString = [
         'search' => ['except' => ''],
         'selectedCanton' => ['except' => ''],
@@ -82,6 +105,30 @@ class UsersSearch extends Component
         $this->page = request()->get('page', 1);
         $this->genres = Genre::all()->take(3);
         
+    }
+
+      /**
+     * Détermine si au moins un filtre est appliqué.
+     *
+     * @return bool
+     */
+    public function isAnyFilterApplied(): bool
+    {
+        return !empty($this->search)
+            || !empty($this->selectedCanton)
+            || !empty($this->selectedVille)
+            || !empty($this->selectedGenre)
+            || !empty($this->selectedSalonCategories)
+            || !empty($this->selectedEscortCategories)
+            || $this->approximite
+            || $this->showClosestOnly
+         
+            || !empty($this->ageInterval)
+            || !empty($this->tailleInterval)
+            || !empty($this->tarifInterval)
+            || !empty($this->selectedOrigine)
+            || !empty($this->selectedLangue)
+            || !empty($this->autreFiltres);
     }
 
     public function updatingSearch()
@@ -141,6 +188,8 @@ class UsersSearch extends Component
             'ageInterval',
             'tailleInterval',
             'tarifInterval',
+            'selectedOrigine',
+            'selectedLangue',
         ]);
         $this->villes = collect([]);
         return redirect('search');
@@ -172,6 +221,8 @@ public function closeModalside()
             'showClosestOnly',
             'maxDistanceSelected',
             'autreFiltres',
+            'selectedOrigine',
+            'selectedLangue',
             
         ]);
         $this->villes = collect([]);
@@ -240,6 +291,23 @@ public function closeModalside()
         return $users;
     }
 
+    
+    public function formatTaille($taille){
+        if ($taille) {
+            $min = $taille['min'];
+            $max = $taille['max'];
+        
+            $minFormatted = floor($min / 100) . 'm' . str_pad($min % 100, 2, '0', STR_PAD_LEFT);
+            $maxFormatted = floor($max / 100) . 'm' . str_pad($max % 100, 2, '0', STR_PAD_LEFT);
+        
+            return __('escort-search.taille_interval', [
+                'min' => $minFormatted,
+                'max' => $maxFormatted
+            ]);
+        }
+        return "";
+    }
+
 
     public function render()
     {
@@ -301,6 +369,21 @@ public function closeModalside()
                 $q->orWhere('categorie', 'LIKE', '%' . $this->selectedSalonCategories . '%');
             }
 
+            if($this->userType === 'escort' && !empty($this->selectedOrigine)) {
+                logger()->info('selectedOrigine', ['selectedOrigine' => $this->selectedOrigine]);
+                foreach ($this->selectedOrigine as $origine) {
+                    $q->orWhere('origine', 'LIKE', '%' . $origine . '%');
+                }
+            }
+
+            if($this->userType === 'escort' && !empty($this->selectedLangue)) {
+                logger()->info('selectedLangue', ['selectedLangue' => $this->selectedLangue]);
+                foreach ($this->selectedLangue as $langue) {
+                    $q->orWhere('langues', 'LIKE', '%' . $langue . '%');
+                }
+            }
+
+
             if($this->userType === 'escort' && !empty($this->autreFiltres)) {
                 foreach ($this->autreFiltres as $key => $value) {
                     if (!empty($value)) {
@@ -321,7 +404,10 @@ public function closeModalside()
                                 $q->orWhere('pubis_type_id', (int) $value);
                                 break;
                             case 'tatouages':
-                                $q->orWhere('tattoo_id', (int) $value);
+                                $q->orWhere('tatoo_id', (int) $value);
+                                break;
+                            case 'poitrine':
+                                $q->orWhere('poitrine_id', (int) $value);
                                 break;
                             case 'taille_poitrine':
                                 $poitrineValues = [
@@ -420,9 +506,11 @@ public function closeModalside()
             $this->tarifMax = $filteredUsers->max('tarif');
         }
 
+        if($this->userType === 'escort'){
         $filteredUsers = $this->filterByInterval($filteredUsers, $this->ageInterval, 'age');
         $filteredUsers = $this->filterByInterval($filteredUsers, $this->tailleInterval, 'tailles');
         $filteredUsers = $this->filterByInterval($filteredUsers, $this->tarifInterval, 'tarif');
+        }
 
 
 
@@ -464,7 +552,126 @@ public function closeModalside()
         $ageInterval = $this->ageInterval;
         $tailleInterval = $this->tailleInterval;
         $tarifInterval = $this->tarifInterval;
+        $selectedOrigine = $this->selectedOrigine;
+        $selectedLangue = $this->selectedLangue;
+        $selecterAutreFiltresInfo = [];
 
+        $countSelectedAutreFiltres = 0;
+        if($ageInterval){
+            $selecterAutreFiltresInfo['ageInterval'] = __('escort-search.age_interval', [
+                'min' => $ageInterval['min'],
+                'max' => $ageInterval['max']
+            ]);
+            $countSelectedAutreFiltres++;
+        }
+        if($tailleInterval){
+        $selecterAutreFiltresInfo['tailleInterval'] = $this->formatTaille($tailleInterval);
+        $countSelectedAutreFiltres++;
+        }
+        if($tarifInterval){
+            $selecterAutreFiltresInfo['tarifInterval'] = __('escort-search.tarif_interval', [
+                'min' => $tarifInterval['min'],
+                'max' => $tarifInterval['max']
+            ]);
+        $countSelectedAutreFiltres++;
+        }
+        if($selectedOrigine){
+            $countSelectedAutreFiltres =count($selectedOrigine) + $countSelectedAutreFiltres;
+            $normalize = null;
+            foreach ($selectedOrigine as $key => $value) 
+                {
+                    $normalize .= $value . ', ';
+                }
+            $selecterAutreFiltresInfo['origine'] = $normalize;
+        }
+        if($selectedLangue){
+            $countSelectedAutreFiltres = count($selectedLangue) + $countSelectedAutreFiltres;
+            $normalize = null;
+            foreach ($selectedLangue as $key => $value) 
+                {
+                    $normalize .= $value . ', ';
+                }
+                $selecterAutreFiltresInfo['langue'] = __('escort-search.speak', [
+                    'langue' => $normalize
+                ]);
+        }
+        foreach ($this->autreFiltres as $key => $value) {
+            if (!empty($value)) {
+                switch ($key) {
+                    case 'origine':
+                        $origine = $value;
+                        $selecterAutreFiltresInfo['origine'] = $origine;
+                        $countSelectedAutreFiltres++;
+                        break;
+                    case 'mensuration':
+                        $countSelectedAutreFiltres++;
+                        $mensuration = Mensuration::find($value);
+                        $selecterAutreFiltresInfo['mensuration'] = $mensuration->name;
+                      
+                        break;
+                    case 'orientation':
+                        $countSelectedAutreFiltres++;
+                        $orientation = OrientationSexuelle::find($value);
+                        $selecterAutreFiltresInfo['orientation'] = $orientation->name;
+                        break;
+                    case 'couleur_yeux':
+                        $countSelectedAutreFiltres++;
+                        $couleur_yeux = CouleurYeux::find($value);
+                        $selecterAutreFiltresInfo['couleur_yeux'] = $couleur_yeux->name;
+                        break;
+                    case 'couleur_cheveux':
+                        $countSelectedAutreFiltres++;
+                        $couleur_cheveux = CouleurCheveux::find($value);
+                        $selecterAutreFiltresInfo['couleur_cheveux'] = $couleur_cheveux->name;
+                        break;
+                    case 'poitrine':
+                        $countSelectedAutreFiltres++;
+                        $poitrine = Poitrine::find($value);
+                        $selecterAutreFiltresInfo['poitrine'] = $poitrine->name;
+                        break;
+                    case 'langues':
+                        $countSelectedAutreFiltres++;
+                        $langue = $value;
+                        $selecterAutreFiltresInfo['langue'] = $langue;
+                        break;
+                    case 'pubis':
+                        $countSelectedAutreFiltres++;
+                        $pubis = PubisType::find($value);
+                        $selecterAutreFiltresInfo['pubis'] = $pubis->name;
+                        break;
+                    case 'tatouages':
+                        $countSelectedAutreFiltres++;
+                        $tatouages = Tattoo::find($value);
+                        $selecterAutreFiltresInfo['tatouages'] = $tatouages->name;
+                        break;
+                    case 'taille_poitrine':
+                        $countSelectedAutreFiltres++;
+                        if($value == 'petite'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.petite');
+                        }
+                        if($value == 'moyenne'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.moyenne');
+                        }
+                        if($value == 'grosse'){
+                        $selecterAutreFiltresInfo['taille_poitrine'] = __('escort-search.grosse');
+                        }
+                        break;
+                    case 'taille_poitrine_detail':
+                        $countSelectedAutreFiltres++;
+                        $taille_poitrine_detail = $value;
+                        $selecterAutreFiltresInfo['taille_poitrine_detail'] = $taille_poitrine_detail->name;
+                        break;
+                    case 'mobilite':
+                        $countSelectedAutreFiltres++;
+                        $mobilite = Mobilite::find($value);
+                        $selecterAutreFiltresInfo['mobilite'] = $mobilite->name;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
         $filterApplay = [
             'selectedCanton' => $selecterCantonInfo,
             'selectedVille' => $selecterVilleInfo,
@@ -475,13 +682,17 @@ public function closeModalside()
             'ageInterval' => $ageInterval,
             'tailleInterval' => $tailleInterval,
             'tarifInterval' => $tarifInterval,
+            'selectedOrigine' => $selectedOrigine,
+            'selectedLangue' => $selectedLangue,
         ];
 
         $this->escortCount = $visibleUsers->count();
 
         return view('livewire.users-search02', [
             'users' => $paginatedUsers,
-            'filterApplay' => $filterApplay
+            'filterApplay' => $filterApplay,
+            'countSelectedAutreFiltres' => $countSelectedAutreFiltres,
+            'selecterAutreFiltresInfo' => $selecterAutreFiltresInfo,
         ]);
     }
 }

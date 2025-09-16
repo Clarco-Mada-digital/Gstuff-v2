@@ -16,6 +16,14 @@ return [
     'queer' => 'Queer',
     'more_filters' => 'Plus de filtres',
     'reset_filters' => 'Réinitialiser les filtres',
+
+    'age_interval' => 'Âge entre :min ans et :max ans',
+    'taille_interval' => 'Taille entre :min cm et :max cm',
+    'tarif_interval' => 'Tarif entre :min CHF et :max CHF',
+    'speak' => 'Parle :langue',
+    'filtreActifOne' => 'Filtre actif',
+    'filtreActifMany' => 'filtres actifs',
+
     'result' => 'Résultat(s)',
     'results_around' => 'Résultat(s) autour de :distance km',
     'results_no_aroud' => 'Résultat(s)',
