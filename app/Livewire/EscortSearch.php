@@ -86,11 +86,13 @@ class EscortSearch extends Component
     public $autre = false;
 
     #[Url]
-    public $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
+    public bool $showClosestOnly = false; // Nouvelle propriété pour le filtre des plus proches
 
     public $showFiltreCanton = true;
 
     public $showMore = false;
+
+    public $firstLoadShowClosestOnly = true;
 
     public function openModalMore()
     {
@@ -132,23 +134,355 @@ class EscortSearch extends Component
         $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $filteredEscorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
 
         // Hydrate relations
-        foreach ($paginatedEscorts as $escort) {
-            $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
-            $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
-            $escort['canton'] = Canton::find($escort->canton);
-            $escort['ville'] = Ville::find($escort->ville);
+        foreach ($paginatedEscorts as &$escort) {
+            // 🔍 Accès à la propriété 'categorie'
+            $rawCategorie = is_array($escort) ? ($escort['categorie'] ?? null) : ($escort->categorie ?? null);
+        
+            $categoriesIds = [];
+        
+            if (!empty($rawCategorie)) {
+                if (is_string($rawCategorie)) {
+                    $categoriesIds = explode(',', $rawCategorie);
+                } elseif (is_array($rawCategorie)) {
+                    $categoriesIds = collect($rawCategorie)
+                        ->pluck('id')
+                        ->filter()
+                        ->values()
+                        ->toArray();
+                }
+            }
+        
+            // 🧬 Hydratation des relations
+            $categorie = Categorie::whereIn('id', $categoriesIds)->get();
+            $canton    = Canton::find(is_array($escort) ? ($escort['canton'] ?? null) : ($escort->canton ?? null));
+            $ville     = Ville::find(is_array($escort) ? ($escort['ville'] ?? null) : ($escort->ville ?? null));
+        
+            // 🧩 Mise à jour des données
+            if (is_array($escort)) {
+                $escort['categorie'] = $categorie;
+                $escort['canton']    = $canton;
+                $escort['ville']     = $ville;
+            } elseif (is_object($escort)) {
+                $escort->categorie = $categorie;
+                $escort->canton    = $canton;
+                $escort->ville     = $ville;
+            }
         }
+        
 
         return $paginatedEscorts;
     }
 
+    public function getBaseEscorts()
+    {
+        logger()->info("getBaseEscorts 👍 ✅ /////////////////////////////////////////");
+        $position = Location::get(request()->ip());
+        $viewerCountry = $position?->countryCode ?? 'FR';
+        $viewerLatitude = $position?->latitude ?? 0;
+        $viewerLongitude = $position?->longitude ?? 0;
+
+        if(!$this->showClosestOnly && !$this->approximite){
+            $query = User::query()
+                    ->where('profile_type', 'escorte')
+                    ->orderBy('is_profil_pause')
+                    ->orderByDesc('rate_activity')
+                    ->orderByDesc('last_activity');
+            if (Auth::user()) {
+                $query->where('id', '!=', Auth::user()->id);
+            }
+            $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
+                return $escort->isProfileVisibleTo($viewerCountry);
+            }); 
+
+        }else {
+            
+            $userLatitude = $this->latitudeUser;
+            $userLongitude = $this->longitudeUser;
+
+            
+            if (!$userLatitude || !$userLongitude) {
+                $userLatitude = $viewerLatitude;
+                $userLongitude = $viewerLongitude;
+            }
+
+            $minDistance = PHP_FLOAT_MAX;
+            $maxAvailableDistance = 0;
+            $escortCount = 0;
+     
+            if(Auth::user()){
+                $baseEscorts = User::where('profile_type', 'escorte')
+                    ->where('id', '!=', Auth::user()->id)
+                    ->whereNotNull('lat')
+                    ->whereNotNull('lon')
+                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
+                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
+                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
+                    ->get()
+                    ->filter(function ($escort) use ($viewerCountry) {
+                        return $escort->isProfileVisibleTo($viewerCountry);
+                    })
+                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
+                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
+
+                        // Mettre à jour les distances min et max
+                        $minDistance = min($minDistance, $distance);
+                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                        $escortCount++;
+
+                        return [
+                            'escort' => $escort,
+                            'distance' => $distance,
+                        ];
+                    });
+                }else{
+                    $baseEscorts = User::where('profile_type', 'escorte')
+                    ->whereNotNull('lat')
+                    ->whereNotNull('lon')
+                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
+                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
+                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
+                    ->get()
+                    ->filter(function ($escort) use ($viewerCountry) {
+                        return $escort->isProfileVisibleTo($viewerCountry);
+                    })
+                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
+                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
+
+                        // Mettre à jour les distances min et max
+                        $minDistance = min($minDistance, $distance);
+                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
+
+                        $escortCount++;
+
+                        return [
+                            'escort' => $escort,
+                            'distance' => $distance,
+                        ];
+                    });
+            } 
+            if($this->showClosestOnly){
+                $baseEscorts = $baseEscorts->sortBy('distance');
+                $baseEscorts = $baseEscorts->take(4);
+                $this->minDistance = $minDistance;
+                $this->maxAvailableDistance = $maxAvailableDistance;
+                
+            }
+        }
+
+       // Initialisation sécurisée des bornes
+        $this->ageMin    = $baseEscorts->whereNotNull('age')->min('age') ?? 0;
+        $this->ageMax    = $baseEscorts->whereNotNull('age')->max('age') ?? 0;
+
+        $this->tailleMin = $baseEscorts->whereNotNull('tailles')->filter(function ($escort) {
+            return is_numeric($escort->tailles) && $escort->tailles > 0;
+        })->min('tailles') ?? 0;
+
+        $this->tailleMax = $baseEscorts->whereNotNull('tailles')->filter(function ($escort) {
+            return is_numeric($escort->tailles);
+        })->max('tailles') ?? 0;
+
+        $this->tarifMin  = $baseEscorts->whereNotNull('tarif')->filter(function ($escort) {
+            return is_numeric($escort->tarif) && $escort->tarif > 0;
+        })->min('tarif') ?? 0;
+
+        $this->tarifMax  = $baseEscorts->whereNotNull('tarif')->filter(function ($escort) {
+            return is_numeric($escort->tarif);
+        })->max('tarif') ?? 0;
+
+        return $baseEscorts;
+    }
+
+    private function updateDistanceBounds($escortsCollection)
+{
+    if ($escortsCollection->isEmpty()) {
+        $this->minDistance = 0;
+        $this->maxAvailableDistance = 0;
+        return;
+    }
+
+    $this->minDistance = $escortsCollection->min('distance');
+    $this->maxAvailableDistance = $escortsCollection->max('distance');
+}
+
+
+    public function getDataEscortsClosestOnlyTest()
+{
+    logger('getDataEscortsClosestOnlyTest *************************************************');
+    $position = Location::get(request()->ip());
+    $viewerCountry = $position?->countryCode ?? 'FR';
+    $viewerLatitude = $position?->latitude ?? 0;
+    $viewerLongitude = $position?->longitude ?? 0;
+
+    $userLatitude = $this->latitudeUser ?? $viewerLatitude;
+    $userLongitude = $this->longitudeUser ?? $viewerLongitude;
+
+    $baseEscorts = User::where('profile_type', 'escorte')
+        ->whereNotNull('lat')
+        ->whereNotNull('lon')
+        ->orderBy('is_profil_pause')
+        ->orderByDesc('rate_activity')
+        ->orderByDesc('last_activity');
+
+    if (Auth::user()) {
+        $baseEscorts->where('id', '!=', Auth::user()->id);
+    }
+
+    $baseEscorts = $baseEscorts->get()
+        ->filter(fn($escort) => $escort->isProfileVisibleTo($viewerCountry))
+        ->map(function ($escort) use ($userLatitude, $userLongitude) {
+            $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
+            return [
+                'escort' => $escort,
+                'distance' => $distance,
+            ];
+        });
+
+    // Mise à jour des bornes de distance
+    $this->updateDistanceBounds($baseEscorts);
+
+    // Initialisation sécurisée des bornes
+    $this->ageMin = $baseEscorts->whereNotNull('escort.age')->min('escort.age') ?? 0;
+    $this->ageMax = $baseEscorts->whereNotNull('escort.age')->max('escort.age') ?? 0;
+    $this->tailleMin = $baseEscorts->whereNotNull('escort.tailles')->filter(fn($e) => is_numeric($e['escort']->tailles) && $e['escort']->tailles > 0)->min('escort.tailles') ?? 0;
+    $this->tailleMax = $baseEscorts->whereNotNull('escort.tailles')->filter(fn($e) => is_numeric($e['escort']->tailles))->max('escort.tailles') ?? 0;
+    $this->tarifMin = $baseEscorts->whereNotNull('escort.tarif')->filter(fn($e) => is_numeric($e['escort']->tarif) && $e['escort']->tarif > 0)->min('escort.tarif') ?? 0;
+    $this->tarifMax = $baseEscorts->whereNotNull('escort.tarif')->filter(fn($e) => is_numeric($e['escort']->tarif))->max('escort.tarif') ?? 0;
+
+    return $baseEscorts;
+}
+
+
+    public function filtreEscortsByCantonVilleGenreService($baseEscorts)
+    {
+        $filteredEscorts = collect();
+
+       if ($this->selectedCanton) {
+           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('canton', $this->selectedCanton));
+       }
+
+ 
+       if ($this->selectedVille) {
+
+           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('ville', $this->selectedVille));
+       }
+
+       if ($this->selectedGenre) {
+   
+           $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
+       }
+
+
+    //    probleme sur le filtre de categorie ???? ici valeur toujour null alors quil exist dans la base de donnes
+
+    if (!empty($this->selectedCategories)) {
+        logger()->info('Filtre categories', ['categories' => $this->selectedCategories]);
+    
+        $filteredEscorts = $baseEscorts->filter(function ($escort) {
+            $raw = $escort->categorie ?? null;
+            logger()->info('categories', ['categories' => $raw]);
+    
+            if (is_string($raw)) {
+                $categories = explode(',', $raw);
+            } elseif (is_array($raw)) {
+                $categories = $raw;
+            } else {
+                $categories = [];
+            }
+    
+            $categories = array_map('strval', $categories);
+            logger()->info('categories', ['categories' => $categories]);
+    
+            return count(array_intersect($categories, array_map('strval', $this->selectedCategories))) > 0;
+        });
+    }
+    
+    
+   
+       if (!empty($this->selectedServices)) {
+           foreach ($this->selectedServices as $service) {
+               $filteredEscorts = $filteredEscorts->merge(
+                   $baseEscorts->filter(function ($escort) use ($service) {
+                       return str_contains($escort->service, (string) $service);
+                   })
+               );
+           }
+       }
+       return $filteredEscorts;
+    }
+    public function updatedShowClosestOnly($value)
+    {
+        $this->showClosestOnly = $value;
+
+        $this->firstLoadShowClosestOnly = true;
+    
+        logger()->info('Filtre proximité modifié', ['valeur' => $this->showClosestOnly]);
+    }
+    
+    public function getBaseEscortsClosestOnly($baseEscorts)
+    {
+     
+        $this->selectedCanton = '';
+        $this->selectedVille = '';
+
+        $escortCount = $baseEscorts->count();
+        if ($escortCount > 4) {
+            $baseEscorts = $baseEscorts->take(4);
+            $maxAvailableDistance = $baseEscorts->last()['distance'];
+        }
+        // Mettre à jour les propriétés de la classe
+        $this->escortCount = $escortCount;
+
+        // Si c'est le premier chargement, initialiser maxDistanceSelected
+        if ($this->firstLoadShowClosestOnly) {
+            $this->maxDistanceSelected = $this->maxAvailableDistance;
+            $this->firstLoadShowClosestOnly = false;
+        }
+        if($this->maxDistanceSelected > $this->maxAvailableDistance || $this->maxDistanceSelected < $this->minDistance){
+            $this->maxDistanceSelected = $this->maxAvailableDistance;
+        }
+        logger()->info("getBaseEscortsClosestOnly 👍 ✅", ["count" => $baseEscorts->count(), 
+            "maxDistanceSelected" => $this->maxDistanceSelected, 
+            "minDistance" => $this->minDistance,
+            "maxAvailableDistance" => $this->maxAvailableDistance,
+            "firstLoadShowClosestOnly" => $this->firstLoadShowClosestOnly ,
+        ]);
+        logger()->info("escortes 👍 ✅", ["escortes" => $baseEscorts]);
+        logger()->info("minDistance 👍 ✅", ["minDistance" => $minDistance]);
+
+        logger()->info("maxAvailableDistance 👍 ✅", ["maxAvailableDistance" => $maxAvailableDistance]);
+
+        return $baseEscorts;
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function mount()
-{
-    $this->ageInterval = ['min' => 18, 'max' => 100];
- 
-}
+    {
+        $this->ageInterval = ['min' => 18, 'max' => 100];
+    
+    }
 
 protected $listeners = ['updateInterval' => 'handleUpdateInterval'];
 
@@ -267,14 +601,6 @@ public function handleUpdateInterval($data)
         }
     }
 
-    public function updatedShowClosestOnly($value)
-    {
-        if ($value) {
-            $this->approximite = false;
-            $this->reset('maxDistanceSelected');
-        }
-        $this->resetPage();
-    }
 
     public function updatedMinDistance($value)
     {
@@ -440,828 +766,57 @@ public function handleUpdateInterval($data)
         $viewerCountry = $position?->countryCode ?? 'FR'; // fallback pour dev
         $viewerLatitude = $position?->latitude ?? 0;
         $viewerLongitude = $position?->longitude ?? 0;
+        $paginatedEscorts = [];
 
         $this->getValueRange();
 
         if($this->filtreIsActif()) {
             logger()->info("filtreIsActif 👍 ✅");
+            $filteredEscorts = collect();
+            if(!$this->showClosestOnly && !$this->approximite){
+                $baseEscorts = $this->getBaseEscorts();
+                $filteredEscorts = $this->filtreEscortsByCantonVilleGenreService($baseEscorts);
+            }
+
+            if ($this->showClosestOnly) {
+                $baseEscortsSorted = $this->getDataEscortsClosestOnlyTest();
+                $baseEscortsSorted = $baseEscortsSorted->sortBy('distance');
+                $baseEscortsClosestOnly = $baseEscortsSorted->take(4);
+            
+                // Mise à jour des bornes de distance pour les 4 plus proches
+                $this->updateDistanceBounds($baseEscortsClosestOnly);
+            
+                logger()->info("minDistance 👍 ✅", ["minDistance" => $this->minDistance]);
+                logger()->info("maxAvailableDistance 👍 ✅", ["maxAvailableDistance" => $this->maxAvailableDistance]);
+            
+                // Filtrer par distance
+                $baseEscortsClosestOnly = $baseEscortsClosestOnly->filter(function ($item) {
+                    return $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
+                });
+            
+                // Filtrer par service et genre
+                if ($this->selectedGenre || $this->selectedCategories || $this->selectedServices) {
+                    $filteredEscorts = $this->filtreEscortsByCantonVilleGenreService($baseEscortsClosestOnly);
+                } else {
+                    $filteredEscorts = $baseEscortsClosestOnly;
+                }
+            
+                $paginatedEscorts = $this->getPaginatedHydratedEscorts($filteredEscorts);
+                $this->escortCount = $filteredEscorts->count();
+            }
+            
+
+
+
+            $paginatedEscorts = $this->getPaginatedHydratedEscorts($filteredEscorts);
+            $this->escortCount = $filteredEscorts->count();
         }else{
             logger()->info("filtreIsNotActif 👎 ❌");
-            $this->getPaginatedHydratedEscorts($this->filteredEscorts);
+            $paginatedEscorts = $this->getPaginatedHydratedEscorts($this->getBaseEscorts());
+            $this->escortCount = $this->getBaseEscorts()->count();
         }
 
-        if (!$this->approximite) {
-             // 1. Récupérer tous les profils de base
-                $query = User::query()
-                ->where('profile_type', 'escorte')
-                ->orderBy('is_profil_pause')
-                ->orderByDesc('rate_activity')
-                ->orderByDesc('last_activity');
-            if (Auth::user()) {
-                $query->where('id', '!=', Auth::user()->id);
-            }
-            $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-                return $escort->isProfileVisibleTo($viewerCountry);
-            });
-            $this->ageMin = $baseEscorts->min('age');
-            $this->ageMax = $baseEscorts->max('age');
-            foreach ($baseEscorts as $escort) {
-                $min = $escort->tailles; // Assure-toi que le nom de la méthode est correct
-            
-                if ($min > 0 && $min < $this->tailleMin) {
-                    $this->tailleMin = $min;
-                }
-            }
-            
-            $this->tailleMax = $baseEscorts->max('tailles');
-            $this->tarifMin = $baseEscorts->min('tarif');
-            $this->tarifMax = $baseEscorts->max('tarif');
-
-            // 2. Initialiser une collection vide pour les résultats finaux
-            $filteredEscorts = collect();
-
-             // 3. Appliquer chaque filtre de manière additive
-            if ($this->selectedCanton) {
-                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('canton', $this->selectedCanton));
-            }
-
-      
-            if ($this->selectedVille) {
-    
-                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('ville', $this->selectedVille));
-            }
-
-            if ($this->selectedGenre) {
-        
-                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
-            }
-
-          
-
-            if (!empty($this->selectedCategories)) {
-                foreach ($this->selectedCategories as $categorie) {
-                    $filteredEscorts = $filteredEscorts->merge(
-                        $baseEscorts->filter(function ($escort) use ($categorie) {
-                            return str_contains($escort->categorie, (string) $categorie);
-                        })
-                    );
-                }
-            }
-        
-            if (!empty($this->selectedServices)) {
-                foreach ($this->selectedServices as $service) {
-                    $filteredEscorts = $filteredEscorts->merge(
-                        $baseEscorts->filter(function ($escort) use ($service) {
-                            return str_contains($escort->service, (string) $service);
-                        })
-                    );
-                }
-            }
-
-            
-
-            if ($this->autreFiltres) {
-                foreach ($this->autreFiltres as $key => $value) {
-                    if (!empty($value)) {
-                        switch ($key) {
-                            case 'mensuration':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('mensuration_id', $value));
-                                break;
-                            case 'orientation':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('orientation_sexuelle_id', (int) $value));
-                                break;
-                            case 'couleur_yeux':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('couleur_yeux_id', (int) $value));
-                                break;
-                            case 'couleur_cheveux':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('couleur_cheveux_id', (int) $value));
-                                break;
-                            case 'poitrine':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('poitrine_id', (int) $value));
-                                break;
-                                case 'langues':
-                                
-                                    $filteredEscorts = $filteredEscorts->merge(
-                                        $baseEscorts->filter(function ($escort) use ($value) {
-                                
-                                            // Normalisation en tableau
-                                            $langues = $escort->langues;
-                                
-                                            if (is_string($langues)) {
-                                                $langues = array_map('trim', explode(',', $langues));
-                                            } elseif (!is_array($langues)) {
-                                                $langues = [];
-                                            }
-                                
-                                            return in_array($value, $langues);
-                                        })
-                                    );
-                                    break;
-                                
-                            case 'pubis':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('pubis_type_id', (int) $value));
-                                break;
-                            case 'tatouages':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('tatoo_id', (int) $value));
-                                break;
-                            case 'taille_poitrine':
-                                $poitrineValues = [
-                                    'petite' => ['A', 'B', 'C'],
-                                    'moyenne' => ['D', 'E', 'F'],
-                                    'grosse' => ['G', 'H'],
-                                ];
-                                if (array_key_exists($value, $poitrineValues)) {
-                                    $taillesCorrespondantes = $poitrineValues[$value];
-                                    $filteredEscorts = $filteredEscorts->merge(
-                                        $baseEscorts->filter(function ($escort) use ($taillesCorrespondantes) {
-                                            foreach ($taillesCorrespondantes as $taille) {
-                                                if (str_contains($escort->taille_poitrine, $taille)) {
-                                                    return true;
-                                                }
-                                            }
-                                            return false;
-                                        })
-                                    );
-                                }
-                                break;
-                            case 'taille_poitrine_detail':
-                                $filteredEscorts = $filteredEscorts->merge(
-                                    $baseEscorts->filter(function ($escort) use ($value) {
-                                        return str_contains($escort->taille_poitrine, $value);
-                                    })
-                                );
-                                break;
-                            case 'mobilite':
-                                $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('mobilite_id', (int) $value));
-                                break;
-                        
-                            default:
-                                $filteredEscorts = $filteredEscorts->merge(
-                                    $baseEscorts->filter(function ($escort) use ($key, $value) {
-                                        return str_contains(strtolower($escort->$key ?? ''), strtolower($value));
-                                    })
-                                );
-                                break;
-                        }
-                    }
-                }
-            }
-
-            $minAge = isset($this->ageInterval['min']) ? (int) $this->ageInterval['min'] : null;
-            $maxAge = isset($this->ageInterval['max']) ? (int) $this->ageInterval['max'] : null;
-
-
-            if ($minAge !== null && $maxAge !== null && $minAge <= $maxAge) {
-                $filteredEscorts = $filteredEscorts->merge(
-                    $baseEscorts->filter(function ($escort) use ($minAge, $maxAge) {
-                        return $escort->age >= $minAge && $escort->age <= $maxAge;
-                    })
-                );
-            }
-
-
-
-            $minTaille = isset($this->tailleInterval['min']) ? (int) $this->tailleInterval['min'] : null;
-            $maxTaille = isset($this->tailleInterval['max']) ? (int) $this->tailleInterval['max'] : null;
-
-            if ($minTaille !== null && $maxTaille !== null && $minTaille <= $maxTaille) {
-                $filteredEscorts = $filteredEscorts->merge(
-                    $baseEscorts->filter(function ($escort) use ($minTaille, $maxTaille) {
-                        return $escort->tailles >= $minTaille && $escort->tailles <= $maxTaille;
-                    })
-                );
-            }
-
-
-            $minTarif = isset($this->tarifInterval['min']) ? (int) $this->tarifInterval['min'] : null;
-            $maxTarif = isset($this->tarifInterval['max']) ? (int) $this->tarifInterval['max'] : null;
-
-            if ($minTarif !== null && $maxTarif !== null && $minTarif <= $maxTarif) {
-                $filteredEscorts = $filteredEscorts->merge(
-                    $baseEscorts->filter(function ($escort) use ($minTarif, $maxTarif) {
-                        return $escort->tarif >= $minTarif && $escort->tarif <= $maxTarif;
-                    })
-                );
-            }
-
-                 // 4. Supprimer les doublons
-            $filteredEscorts = $filteredEscorts->unique('id');
-      
-            if ($filteredEscorts->isEmpty() && empty($this->selectedOrigine) && empty($this->selectedVille) && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-                $filteredEscorts = $baseEscorts;
-            }
-
-          
-
-
-            $escorts = $filteredEscorts;
-
-            // Si aucun résultat, chercher dans les villes proches
-            if ($escorts->isEmpty() && !empty($this->selectedVille)) {
-                $nearbyVilles = Ville::where('canton_id', $this->selectedCanton)->where('id', '!=', $this->selectedVille)->get();
-
-                foreach ($nearbyVilles as $ville) {
-                    $query = User::query()->where('profile_type', 'escorte')->where('ville', $ville->id)
-                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                    ;
-
-                    if (Auth::user()) {
-                        $query->where('id', '!=', Auth::user()->id);
-                    }
-                    $baseEscorts = $query->get()->filter(function ($escort) use ($viewerCountry) {
-                        return $escort->isProfileVisibleTo($viewerCountry);
-                    });
-
-                    if ($this->selectedGenre) {
-                        // $query->where('genre_id', $this->selectedGenre);
-                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('genre_id', $this->selectedGenre));
-                    }
-
-                   
-
-                    if ($this->selectedCategories) {
-                        foreach ($this->selectedCategories as $categorie) {
-                            $filteredEscorts = $filteredEscorts->merge(
-                                $baseEscorts->filter(function ($escort) use ($categorie) {
-                                    return str_contains($escort->categorie, (string) $categorie);
-                                })
-                            );
-                        }
-                    }
-                
-                    if ($this->selectedServices) {
-                        foreach ($this->selectedServices as $service) {
-                            $filteredEscorts = $filteredEscorts->merge(
-                                $baseEscorts->filter(function ($escort) use ($service) {
-                                    return str_contains($escort->service, (string) $service);
-                                })
-                            );
-                        }
-                    }
-
-                    
-
-                    if ($this->autreFiltres) {
-                        foreach ($this->autreFiltres as $key => $value) {
-                            if (!empty($value)) {
-                                switch ($key) {
-                                    case 'mensuration':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('mensuration_id', $value));
-                                        break;
-                                    case 'orientation':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('orientation_sexuelle_id', (int) $value));
-                                        break;
-                                    case 'couleur_yeux':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('couleur_yeux_id', (int) $value));
-                                        break;
-                                    case 'couleur_cheveux':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('couleur_cheveux_id', (int) $value));
-                                        break;
-                                    case 'poitrine':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('poitrine_id', (int) $value));
-                                        break;
-                                    case 'langues':
-                                        $filteredEscorts = $filteredEscorts->merge(
-                                            $baseEscorts->filter(function ($escort) use ($value) {
-                                                return in_array($value, $escort->langues ?? []);
-                                            })
-                                        );
-                                        break;
-                                    case 'pubis':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('pubis_type_id', (int) $value));
-                                        break;
-                                    case 'tatouages':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('tatoo_id', (int) $value));
-                                        break;
-                                    case 'taille_poitrine':
-                                        $poitrineValues = [
-                                            'petite' => ['A', 'B', 'C'],
-                                            'moyenne' => ['D', 'E', 'F'],
-                                            'grosse' => ['G', 'H'],
-                                        ];
-                                        if (array_key_exists($value, $poitrineValues)) {
-                                            $taillesCorrespondantes = $poitrineValues[$value];
-                                            $filteredEscorts = $filteredEscorts->merge(
-                                                $baseEscorts->filter(function ($escort) use ($taillesCorrespondantes) {
-                                                    foreach ($taillesCorrespondantes as $taille) {
-                                                        if (str_contains($escort->taille_poitrine, $taille)) {
-                                                            return true;
-                                                        }
-                                                    }
-                                                    return false;
-                                                })
-                                            );
-                                        }
-                                        break;
-                                    case 'taille_poitrine_detail':
-                                        $filteredEscorts = $filteredEscorts->merge(
-                                            $baseEscorts->filter(function ($escort) use ($value) {
-                                                return str_contains($escort->taille_poitrine, $value);
-                                            })
-                                        );
-                                        break;
-                                    case 'mobilite':
-                                        $filteredEscorts = $filteredEscorts->merge($baseEscorts->where('mobilite_id', (int) $value));
-                                        break;
-                                    default:
-                                        $filteredEscorts = $filteredEscorts->merge(
-                                            $baseEscorts->filter(function ($escort) use ($key, $value) {
-                                                return str_contains(strtolower($escort->$key ?? ''), strtolower($value));
-                                            })
-                                        );
-                                        break;
-                                }
-                            }
-                        }
-                    }
-   
-                    // 4. Supprimer les doublons
-                    $filteredEscorts = $filteredEscorts->unique('id');
-
-                    if (!$filteredEscorts->isEmpty()) {
-                        $escorts = $filteredEscorts;
-                        break;
-                    }
-                }
-            }
-
-            $escorts = $this->filtreOrigineAndLangue($baseEscorts, $escorts);
-
-            // Calculer la distance maximale
-            $this->maxDistance = 0;
-            foreach ($escorts as $escort) {
-                if ($escort->lat && $escort->lon) {
-                    $distance = $this->haversineGreatCircleDistance($viewerLatitude, $viewerLongitude, $escort->lat, $escort->lon);
-                    if ($distance > $this->maxDistance) {
-                        $this->maxDistance = $distance;
-                    }
-                }
-            }
-
-            $this->maxDistance = round($this->maxDistance);
-
-            // Convertir en pagination manuelle après filtrage
-            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
-            $perPage = 12;
-            $currentItems = $escorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
-            $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $escorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
-
-            // Hydrate relations
-            foreach ($paginatedEscorts as $escort) {
-                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
-                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
-            }
-
-             // 8. Mettre à jour le nombre d'escorts
-            $this->escortCount = $filteredEscorts->count();
-        }
-
-        if ($this->approximite) {
-            $userLatitude = $this->latitudeUser;
-            $userLongitude = $this->longitudeUser;
-
-            if (!$userLatitude || !$userLongitude) {
-                $userLatitude = $viewerLatitude;
-                $userLongitude = $viewerLongitude;
-            }
-
-            // 1. Récupérer tous les profils de base avec leurs distances
-                $query = User::where('profile_type', 'escorte')
-                ->whereNotNull('lat')
-                ->whereNotNull('lon')
-                ->orderBy('is_profil_pause')
-                ->orderByDesc('rate_activity')
-                ->orderByDesc('last_activity');
-            if (Auth::user()) {
-                $query->where('id', '!=', Auth::user()->id);
-            }
-            $baseEscorts = $query->get()
-                ->filter(function ($escort) use ($viewerCountry) {
-                    return $escort->isProfileVisibleTo($viewerCountry);
-                })
-                ->map(function ($escort) use ($userLatitude, $userLongitude) {
-                    $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-                    return [
-                        'escort' => $escort,
-                        'distance' => $distance,
-                    ];
-                });
-
-            // 2. Initialiser une collection vide pour les résultats finaux
-            $filteredEscorts = collect();
-            $minDistance = PHP_FLOAT_MAX;
-            $maxAvailableDistance = 0;
-            $escortCount = 0;
-
-            // 3. Appliquer chaque filtre de manière additive
-    if ($this->selectedGenre) {
-        $filteredEscorts = $filteredEscorts->merge(
-            $baseEscorts->filter(function ($item) {
-                return $item['escort']->genre_id == $this->selectedGenre;
-            })
-        );
-    }
-
-    if ($this->selectedCategories) {
-        foreach ($this->selectedCategories as $categorie) {
-            $filteredEscorts = $filteredEscorts->merge(
-                $baseEscorts->filter(function ($item) use ($categorie) {
-                    return str_contains($item['escort']->categorie, (string) $categorie);
-                })
-            );
-        }
-    }
-
-    if ($this->selectedServices) {
-        foreach ($this->selectedServices as $service) {
-            $filteredEscorts = $filteredEscorts->merge(
-                $baseEscorts->filter(function ($item) use ($service) {
-                    return str_contains($item['escort']->service, (string) $service);
-                })
-            );
-        }
-    }
-
-    if ($this->autreFiltres) {
-        foreach ($this->autreFiltres as $key => $value) {
-            if (!empty($value)) {
-                switch ($key) {
-                    case 'mensuration':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->mensuration_id == $value;
-                            })
-                        );
-                        break;
-                    case 'orientation':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->orientation_sexuelle_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'couleur_yeux':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->couleur_yeux_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'couleur_cheveux':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->couleur_cheveux_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'poitrine':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->poitrine_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'langues':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return in_array($value, $item['escort']->langues ?? []);
-                            })
-                        );
-                        break;
-                    case 'pubis':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->pubis_type_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'tatouages':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->tatoo_id == (int) $value;
-                            })
-                        );
-                        break;
-                    case 'taille_poitrine':
-                        $poitrineValues = [
-                            'petite' => ['A', 'B', 'C'],
-                            'moyenne' => ['D', 'E', 'F'],
-                            'grosse' => ['G', 'H'],
-                        ];
-                        if (array_key_exists($value, $poitrineValues)) {
-                            $taillesCorrespondantes = $poitrineValues[$value];
-                            $filteredEscorts = $filteredEscorts->merge(
-                                $baseEscorts->filter(function ($item) use ($taillesCorrespondantes) {
-                                    foreach ($taillesCorrespondantes as $taille) {
-                                        if (str_contains($item['escort']->taille_poitrine, $taille)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                })
-                            );
-                        }
-                        break;
-                    case 'taille_poitrine_detail':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return str_contains($item['escort']->taille_poitrine, $value);
-                            })
-                        );
-                        break;
-                    case 'mobilite':
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($value) {
-                                return $item['escort']->mobilite_id == (int) $value;
-                            })
-                        );
-                        break;
-                    default:
-                        $filteredEscorts = $filteredEscorts->merge(
-                            $baseEscorts->filter(function ($item) use ($key, $value) {
-                                return str_contains(strtolower($item['escort']->$key ?? ''), strtolower($value));
-                            })
-                        );
-                        break;
-                }
-            }
-        }
-    }
-
-    // 4. Si aucun filtre n'est sélectionné, utiliser tous les profils
-    if ($filteredEscorts->isEmpty() && empty($this->selectedGenre) && empty($this->selectedCategories) && empty($this->selectedServices) && empty($this->autreFiltres)) {
-        $filteredEscorts = $baseEscorts;
-    }
-
-    // 5. Supprimer les doublons
-    $filteredEscorts = $filteredEscorts->unique('escort.id');
-
-    // 6. Mettre à jour les distances min/max et le nombre d'escorts
-    if ($filteredEscorts->isNotEmpty()) {
-        $minDistance = $filteredEscorts->min('distance');
-        $maxAvailableDistance = $filteredEscorts->max('distance');
-        $escortCount = $filteredEscorts->count();
-    }
-
-    // 7. Filtrer par plage de distance
-    if ($escortCount > 0) {
-        $filteredEscorts = $filteredEscorts->filter(function ($item) {
-            return $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
-        });
-    }
-
-    // 8. Trier par distance
-    $filteredEscorts = $filteredEscorts->sortBy('distance');
-
-
-            // Mettre à jour les propriétés de la classe
-            $this->minDistance = $escortCount > 0 ? $minDistance : 0;
-            $this->maxAvailableDistance = $escortCount > 0 ? ceil($maxAvailableDistance) : 0;
-            // $this->escortCount = $escortCount;
-            $this->escortCount = $filteredEscorts->count();
-
-            // Si c'est le premier chargement, initialiser maxDistanceSelected
-            if (!$this->maxDistanceSelected && $escortCount > 0) {
-                $this->maxDistanceSelected = $this->maxAvailableDistance;
-            }
-
-            $filteredEscorts = $this->filtreOrigineAndLangue($baseEscorts, $filteredEscorts);
-
-            // 7. Mettre à jour $escorts pour la suite
-            $escorts = $filteredEscorts;
-
-            // Convertir en pagination
-            $perPage = 12;
-            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
-            $currentItems = $escorts->slice(($currentPage - 1) * $perPage, $perPage)->values();
-            $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $escorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
-
-            // Hydrater les relations
-            foreach ($paginatedEscorts as $escortData) {
-                $escort = $escortData['escort'];
-                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
-                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
-            }
-        }
-
-    
-            if ($this->showClosestOnly) {
-                $userLatitude = $this->latitudeUser;
-                $userLongitude = $this->longitudeUser;
-    
-                
-                if (!$userLatitude || !$userLongitude) {
-                    $userLatitude = $viewerLatitude;
-                    $userLongitude = $viewerLongitude;
-                }
-    
-                // Initialiser les variables
-                $minDistance = PHP_FLOAT_MAX;
-                $maxAvailableDistance = 0;
-                $escortCount = 0;
-    
-                // Récupérer toutes les escortes avec leurs coordonnées
-                if(Auth::user()){
-                $escorts = User::where('profile_type', 'escorte')
-                    ->where('id', '!=', Auth::user()->id)
-                    ->whereNotNull('lat')
-                    ->whereNotNull('lon')
-                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                    ->get()
-                    ->filter(function ($escort) use ($viewerCountry) {
-                        return $escort->isProfileVisibleTo($viewerCountry);
-                    })
-                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-    
-                        // Mettre à jour les distances min et max
-                        $minDistance = min($minDistance, $distance);
-                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
-    
-                        $escortCount++;
-    
-                        return [
-                            'escort' => $escort,
-                            'distance' => $distance,
-                        ];
-                    });
-                }else{
-                    $escorts = User::where('profile_type', 'escorte')
-                    ->whereNotNull('lat')
-                    ->whereNotNull('lon')
-                    ->orderBy('is_profil_pause')            // 1️⃣ Profil actif (0) avant pause (1)
-                    ->orderByDesc('rate_activity')          // 2️⃣ Taux d'activité élevé en premier
-                    ->orderByDesc('last_activity')          // 3️⃣ Activité récente ensuite
-                    ->get()
-                    ->filter(function ($escort) use ($viewerCountry) {
-                        return $escort->isProfileVisibleTo($viewerCountry);
-                    })
-                    ->map(function ($escort) use ($userLatitude, $userLongitude, &$minDistance, &$maxAvailableDistance, &$escortCount) {
-                        $distance = $this->haversineGreatCircleDistance($userLatitude, $userLongitude, $escort->lat, $escort->lon);
-    
-                        // Mettre à jour les distances min et max
-                        $minDistance = min($minDistance, $distance);
-                        $maxAvailableDistance = max($maxAvailableDistance, $distance);
-    
-                        $escortCount++;
-    
-                        return [
-                            'escort' => $escort,
-                            'distance' => $distance,
-                        ];
-                    });
-                }
-                if ($escortCount > 4) {
-                    $escorts = $escorts->sortBy('distance')->take(4);
-                    $maxAvailableDistance = $escorts->last()['distance'];
-                }
-    
-                // Mettre à jour les propriétés de la classe
-                $this->minDistance = $escortCount > 0 ? $minDistance : 0;
-                $this->maxAvailableDistance = $escortCount > 0 ? ceil($maxAvailableDistance) : 0;
-                $this->escortCount = $escortCount;
-    
-                // Si c'est le premier chargement, initialiser maxDistanceSelected
-                if (!$this->maxDistanceSelected && $escortCount > 0) {
-                    $this->maxDistanceSelected = $this->maxAvailableDistance;
-                }
-    
-                // Filtrer par plage de distance, catégories et genre si sélectionnés
-                if ($escortCount > 0) {
-                    $escorts = $escorts->filter(function ($item) {
-                        // Vérifier la distance
-                        $distanceMatch = $item['distance'] >= $this->minDistance && $item['distance'] <= $this->maxDistanceSelected;
-    
-                        if (!$distanceMatch) {
-                            return false;
-                        }
-    
-                        // Vérifier le genre si sélectionné
-                        if ($this->selectedGenre && $item['escort']->genre_id != $this->selectedGenre) {
-                            return false;
-                        }
-    
-                        // Vérifier les catégories si sélectionnées
-                        if (!empty($this->selectedCategories)) {
-                            $escortCategory = $item['escort']->categorie;
-                            $escortCategories = is_array($escortCategory) ? $escortCategory : [(string) $escortCategory];
-    
-                            $escortCategories = array_map('strval', $escortCategories);
-                            $selectedCategories = array_map('strval', $this->selectedCategories);
-    
-                            $hasMatchingCategory = count(array_intersect($selectedCategories, $escortCategories)) > 0;
-                            if (!$hasMatchingCategory) {
-                                return false;
-                            }
-                        }
-    
-                        // Vérifier les services si sélectionnés
-                        if (!empty($this->selectedServices)) {
-                            $escortServices = $item['escort']->service;
-                            $escortServicesArray = is_array($escortServices) ? $escortServices : explode(',', (string) $escortServices);
-    
-                            $escortServicesArray = array_map('strval', $escortServicesArray);
-                            $selectedServices = array_map('strval', $this->selectedServices);
-    
-                            $hasMatchingService = count(array_intersect($selectedServices, $escortServicesArray)) > 0;
-                            if (!$hasMatchingService) {
-                                return false;
-                            }
-                        }
-    
-                        // Vérifier les autres filtres
-                        if (!empty($this->autreFiltres)) {
-                            foreach ($this->autreFiltres as $key => $value) {
-                                if (!empty($value)) {
-                                    $escortValue = $item['escort']->$key;
-    
-                                    if (is_object($escortValue) && method_exists($escortValue, 'getKey')) {
-                                        $escortValue = $escortValue->getKey();
-                                    }
-    
-                                    if (is_numeric($escortValue)) {
-                                        $escortValue = (int) $escortValue;
-                                        $value = (int) $value;
-                                    }
-    
-                                    switch ($key) {
-                                        case 'mensuration':
-                                            if ($escortValue != $value) {
-                                                return false;
-                                            }
-                                            break;
-                                        case 'orientation':
-                                        case 'couleur_yeux':
-                                        case 'couleur_cheveux':
-                                        case 'poitrine':
-                                        case 'pubis':
-                                        case 'tatouages':
-                                        case 'mobilite':
-                                            if ($escortValue != $value) {
-                                                return false;
-                                            }
-                                            break;
-                                        case 'taille_poitrine':
-                                            $poitrineValues = [
-                                                'petite' => ['A', 'B', 'C'],
-                                                'moyenne' => ['D', 'E', 'F'],
-                                                'grosse' => ['G', 'H'],
-                                            ];
-    
-                                            if (array_key_exists($value, $poitrineValues)) {
-                                                $taillesCorrespondantes = $poitrineValues[$value];
-    
-                                                $escorts = $escorts->where(function ($q) use ($taillesCorrespondantes) {
-                                                    foreach ($taillesCorrespondantes as $taille) {
-                                                        $q->orWhere('taille_poitrine', 'LIKE', "%{$taille}%");
-                                                    }
-                                                });
-                                            }
-                                            break;
-                                        default:
-                                            if (is_string($escortValue) && stripos($escortValue, $value) === false) {
-                                                return false;
-                                            }
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-    
-                        return true;
-                    });
-                }
-    
-                // Trier par distance et prendre les 4 plus proches
-                $escorts = $escorts->sortBy('distance')->take(4);
-                $this->escortCount = $escorts->count();
-    
-    
-
-            // Convertir en collection paginée
-            $perPage = 12;
-            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage();
-            $currentItems = $escorts->slice(0, $perPage)->values();
-
-            $paginatedEscorts = new \Illuminate\Pagination\LengthAwarePaginator($currentItems, $escorts->count(), $perPage, $currentPage, ['path' => request()->url(), 'query' => request()->query()]);
-
-            // Hydrater les relations
-            foreach ($paginatedEscorts as $escortData) {
-                $escort = $escortData['escort'];
-                $categoriesIds = !empty($escort->categorie) ? explode(',', $escort->categorie) : [];
-                $escort['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
-                $escort['canton'] = Canton::find($escort->canton);
-                $escort['ville'] = Ville::find($escort->ville);
-            }
-        }
+       
         $selecterCantonInfo = null;
         $selecterVilleInfo = null;
         $selecterGenreInfo = null;
