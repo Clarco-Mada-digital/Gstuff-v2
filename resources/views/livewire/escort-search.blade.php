@@ -48,7 +48,7 @@ x-data="{
 
 
 
-    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-10 relative">
+    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-2 md:px-5 relative">
     
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
         {{ __('escort-search.discover_escorts') }}
@@ -143,7 +143,7 @@ x-data="{
                         prefixId="salon" />
                 </div>
 
-                <div class="@if ($userType === 'salon' || $userType === 'escort') block @else hidden @endif my-2 flex flex-wrap items-center justify-center gap-2 w-[90%] m-auto ">
+                <div class="@if ($userType === 'salon' || $userType === 'escort') block @else hidden @endif my-2 flex flex-wrap items-center justify-center gap-2 w-full md:w-[90%] m-auto ">
                     <x-filters.closest-only-filter-button wire:model.live="showClosestOnly" :loading-target="'showClosestOnly'" :label="'salon-search.filter_by_closest_only'"
                         :icon="'images/icons/nearHot.png'" class="flex-1"/>
                     <x-filters.distance-filter-button wire:model.live="approximite" :loading-target="'approximite'" :label="'escort-search.filter_by_distance'"

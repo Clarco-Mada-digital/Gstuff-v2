@@ -48,7 +48,7 @@ x-data="{
 
 
 
-    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-10 relative">
+    <div class="py-5 bg-supaGirlRosePastel flex min-h-64 w-full flex-col items-center justify-center px-2 md:px-5 relative">
  
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
             {{ __('user-search.title') }}
@@ -68,7 +68,7 @@ x-data="{
         
         
         ">
-           <div class="flex flex-col sm:flex-row w-full md:w-[90%] lg:w-[70%] xl:w-[60%] gap-2 items-center justify-around">
+           <div class="flex flex-col sm:flex-row w-full w-full sm:w-[90%] md:w-[90%] lg:w-[70%] xl:w-[60%] gap-2 items-center justify-around">
            {{-- Filtre par nom --}}
             <input wire:model.live.debounce.500ms="search" wire:keydown.enter.prevent="search" type="search"
                 id="userName-search"
