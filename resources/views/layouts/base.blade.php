@@ -420,7 +420,7 @@
 
                 <!-- Modal header -->
                 <div
-                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5 dark:border-gray-600">
+                    class="flex items-center justify-between rounded-t border-b border-gray-200 p-1 md:p4 md:p-5 dark:border-gray-600">
                     <h3 class="flex w-full items-center justify-center">
                         <img class="" src="{{ asset('images/logoSupa.png') }}" alt="Logo SupaGirl" />
                     </h3>
@@ -466,19 +466,19 @@
                             @csrf
                             <div>
                                 <label for="email"
-                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.email') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-xs md:text-sm font-medium">{{ __('login_form.email') }}
                                     *</label>
                                 <input x-model="email" type="email" name="email" id="email"
-                                    class="@error('email') border-red-300 @enderror block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="@error('email') border-red-300 @enderror block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-xs md:text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
                                     placeholder="name@company.com" required autocomplete="email" autofocus />
                             </div>
                             <div class="relative" x-data="{ 'pwdShow': true }">
                                 <label for="conex_pass"
-                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.password') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-xs md:text-sm font-medium">{{ __('login_form.password') }}
                                     *</label>
                                 <input x-model="password" :type="pwdShow ? 'password' : 'text'" name="pass"
                                     id="conex_pass" placeholder="••••••••"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-xs md:text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
                                     required />
                                 <div class="absolute bottom-3 right-0 flex items-center pr-3 text-sm leading-5">
                                     <svg class="h-4 text-gray-700" fill="none" @click="pwdShow = !pwdShow"
@@ -505,13 +505,13 @@
                                             {{ old('remember') ? 'checked' : '' }} />
                                     </div>
                                     <label for="remember"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('login_form.remember_me') }}</label>
+                                        class="ms-2 text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300">{{ __('login_form.remember_me') }}</label>
                                 </div>
                                 <a href="#" x-on:click="showloginForm = false"
-                                    class="text-green-gs dark:text-green-gs font-roboto-slab hover:text-green-gs/80 text-sm hover:underline">{{ __('login_form.forgot_password') }}</a>
+                                    class="text-green-gs dark:text-green-gs font-roboto-slab hover:text-green-gs/80 text-xs md:text-sm hover:underline">{{ __('login_form.forgot_password') }}</a>
                             </div>
                             <button type="submit"
-                                class="bg-green-gs hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none">
+                                class="bg-green-gs hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-xs md:text-sm font-medium text-white focus:outline-none">
                                 <svg x-show="loadingRequest" aria-hidden="true"
                                     class="inline h-4 w-4 animate-spin fill-green-500 text-gray-200 dark:text-gray-600"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -525,10 +525,10 @@
                                 {{ __('login_form.login') }}
                             </button>
                             <div class="flex w-full justify-center text-center">
-                                <h1 class="text-sm text-gray-500">
+                                <h1 class="text-xs md:text-sm text-gray-500">
                                     Vous n'avez pas de compte ?
                                     <a href="{{ route('nextStep') }}"
-                                        class="text-supaGirlRose font-roboto-slab">S'inscrire</a>
+                                        class="text-supaGirlRose text-xs md:text-sm font-roboto-slab">S'inscrire</a>
                                 </h1>
                             </div>
 
@@ -555,16 +555,16 @@
                             @csrf
                             <div>
                                 <label for="emailReset"
-                                    class="text-green-gs font-roboto-slab mb-2 block text-sm font-medium">{{ __('login_form.email') }}
+                                    class="text-green-gs font-roboto-slab mb-2 block text-xs md:text-sm font-medium">{{ __('login_form.email') }}
                                     *</label>
                                 <input x-model="emailReset" type="email" name="emailReset" id="emailReset"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-xs md:text-sm text-gray-900 focus:border-amber-300 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
                                     placeholder=" " required autofocus />
                             </div>
                             <a href="#" x-on:click="showloginForm = true"
-                                class="font-roboto-slab text-green-gs hover:text-supaGirlRosePastel text-sm hover:underline">{{ __('login_form.back_to_login') }}</a>
+                                class="font-roboto-slab text-green-gs hover:text-supaGirlRosePastel text-xs md:text-sm hover:underline">{{ __('login_form.back_to_login') }}</a>
                             <button type="submit"
-                                class="bg-green-gs font-roboto-slab hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-amber-300 focus:outline-none">
+                                class="bg-green-gs font-roboto-slab hover:text-green-gs hover:bg-green-gs/30 w-full rounded-lg px-5 py-2.5 text-center text-xs md:text-sm font-medium text-white hover:bg-amber-300 focus:outline-none">
                                 <svg x-show="loadingRequest" aria-hidden="true"
                                     class="inline h-4 w-4 animate-spin fill-green-500 text-gray-200 dark:text-gray-600"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
