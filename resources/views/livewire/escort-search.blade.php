@@ -196,8 +196,8 @@ x-data="{
                     <h4 class="text-base font-semibold text-gray-800">{{ $countSelectedAutreFiltres }} {{ __('escort-search.filtreActifMany') }}</h4>
                 </div>
             @endif
-
-    <div class="font-roboto-slab text-green-gs mb-3 text-xs  lg:text-xl font-bold xl:text-2xl w-full text-start">
+            @if ($escortCount > 0)
+            <div class="font-roboto-slab text-green-gs mb-3 text-xs  lg:text-xl font-bold xl:text-2xl w-full text-start">
             {{ $escortCount }}
                 @if ($users->count() > 1)
                     @if ($maxDistanceSelected > 0)
@@ -210,6 +210,9 @@ x-data="{
                 @endif
            
         </div>    
+            @endif
+
+    
     <div 
             class="grid grid-cols-2 gap-2
         sm:grid-cols-3
