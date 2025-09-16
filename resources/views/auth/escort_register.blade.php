@@ -15,13 +15,13 @@
                 style="background: url(images/girl_deco_escort.jpg) center center /cover"></div>
 
             {{-- Formulaire --}}
-            <div class="xl:px-30 gap-15 mx-auto flex w-full flex-col items-center justify-center px-2 py-3 xl:w-1/2">
-                <h2 class="font-roboto-slab text-green-gs text-center text-2xl font-bold">
+            <div class="xl:px-30 gap-5 md:gap-15 mx-auto flex w-full flex-col items-center justify-center px-2 py-3 xl:w-1/2">
+                <h2 class="font-roboto-slab text-green-gs text-center text-xl md:text-2xl font-bold py-5 md:py-0">
                     {{ __('escort_register_form.register_escort') }}
                 </h2>
 
                 {{-- Inscription Escort Formulaire --}}
-                <form class="mx-auto flex w-full flex-col gap-5" action="{{ route('register') }}" method="POST">
+                <form class="mx-auto flex w-full flex-col gap-2 md:gap-5" action="{{ route('register') }}" method="POST">
                     @csrf
                     <input type="hidden" name="profile_type" value="escorte">
 
