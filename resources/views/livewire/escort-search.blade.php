@@ -182,7 +182,7 @@ x-data="{
             <div class="w-full text-left">
                 <div class="flex flex-wrap items-center gap-2">
                     <h4 class="text-xs font-bold text-gray-800">{{ __('escort-search.filtreActifOne') }} :</h4>
-                    <span class="font-roboto-slab text-green-gs text-xs lg:text-sm font-bold xl:text-base rounded-full bg-gray-100 px-3 py-1">
+                    <span class="font-roboto-slab text-green-gs text-xs  font-bold  rounded-full bg-gray-100 px-3 py-1">
                         @foreach ($selecterAutreFiltresInfo as $key => $value)
                             {{ $value }} ,
                         @endforeach
@@ -193,7 +193,7 @@ x-data="{
 
             @if ($escortCount > 0 && ($countSelectedAutreFiltres > 5))
                 <div class="w-full text-left">
-                    <h4 class="text-base font-semibold text-gray-800">{{ $countSelectedAutreFiltres }} {{ __('escort-search.filtreActifMany') }}</h4>
+                    <h4 class="text-xs font-semibold text-gray-800">{{ $countSelectedAutreFiltres }} {{ __('escort-search.filtreActifMany') }}</h4>
                 </div>
             @endif
             @if ($escortCount > 0)
