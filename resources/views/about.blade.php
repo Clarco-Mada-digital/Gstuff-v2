@@ -45,7 +45,7 @@
     <div class="mx-auto my-5 flex flex-col-reverse items-center justify-center gap-10 px-5 lg:container lg:flex-row xl:gap-20"
         x-data="{ loading: false }">
         <div class="flex w-full flex-col gap-10">
-            <h3 class="font-roboto-slab text-green-gs text-center text-5xl font-bold">
+            <h3 class="font-roboto-slab text-green-gs text-center text-xl md:text-5xl font-bold">
                 {{ __('about.register_in_a_minute') }}
             </h3>
             <form action="{{ route('register') }}" method="POST" class="flex flex-col gap-4 text-sm xl:text-base">
@@ -68,9 +68,9 @@
                 <x-form.input-field name="password_confirmation" type="password" :label="__('about.confirm_password')"
                     autocomplete="new-password" required />
 
-                <div class="font-roboto-slab text-textColorParagraph flex flex-col gap-2 text-sm">
+                <div class="font-roboto-slab text-textColorParagraph flex flex-col gap-2 text-xs md:text-sm">
                     <span class="text-wrap">{{ __('about.terms_conditions') }}
-                        <a href="#" class="text-green-gs hover:underline">
+                        <a href="#" class="text-green-gs hover:underline text-xs md:text-sm">
                             {{ __('about.terms_conditions_link') }} *
                         </a>
                     </span>

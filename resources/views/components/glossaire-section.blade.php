@@ -12,14 +12,14 @@
                     <div
                         class="bg-green-gs h-full transform overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                         <div class="flex h-full flex-col p-6">
-                            <h4 class="font-roboto-slab mb-3 line-clamp-2 text-xl font-bold text-white sm:text-2xl">
+                            <h4 class="font-roboto-slab mb-3 line-clamp-2 text-sm md:text-xl font-bold text-white sm:text-2xl">
                                 {{ $item->title }}
                             </h4>
-                            <p class="font-dm mb-4 line-clamp-3 flex-1 text-sm text-gray-200 sm:text-base">
+                            <p class="font-dm md:mb-4 line-clamp-3 flex-1 text-xs md:text-sm text-gray-200">
                                 {!! strip_tags(Str::limit($item->excerpt, 120, '...')) !!}
                             </p>
                             <div class="mt-auto flex items-center justify-between border-t border-gray-200 pt-3">
-                                <span class="font-dm text-supaGirlRosePastel text-sm font-medium">
+                                <span class="font-dm text-supaGirlRosePastel text-xs md:text-sm font-medium">
                                     {{ __('home.read_more') }}
                                 </span>
                                 <svg class="text-supaGirlRosePastel h-5 w-5 transform transition-transform group-hover:translate-x-1"
