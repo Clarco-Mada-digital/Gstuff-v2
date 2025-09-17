@@ -23,7 +23,7 @@
             @endif
         </div>
         <!-- Texte -->
-        <span>
+        <span class="font-roboto-slab text-xs sm:text-sm">
             {{ $user->is_profil_pause ? __('gestionPause.active') : __('gestionPause.pause') }}
         </span>
     </button>
@@ -36,7 +36,7 @@
             <!-- Header -->
             <div
                 class="font-roboto-slab flex items-center justify-between rounded-t border-b border-gray-200 px-6 py-4">
-                <h3 class="text-green-gs text-xl font-semibold">
+                <h3 class="text-green-gs text-sm sm:text-xl font-semibold">
                     {{ $user->is_profil_pause ? __('gestionPause.active') : __('gestionPause.pause') }}
                 </h3>
                 <button type="button" data-modal-hide="pauseProfile"
@@ -52,17 +52,17 @@
             <form class="space-y-4 px-6 py-4" action="{{ route('profile.pause') }}" method="POST">
                 @csrf
                 <!-- Ajoute ici tes champs -->
-                <p class="font-roboto-slab text-sm text-gray-600">
+                <p class="font-roboto-slab text-xs sm:text-sm text-gray-600">
                     {{ $user->is_profil_pause ? __('gestionPause.contentmodalactive') : __('gestionPause.contentmodalpause') }}
                 </p>
 
                 <div class="flex justify-end gap-2">
                     <button type="button" data-modal-hide="pauseProfile"
-                        class="rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 transition hover:bg-gray-100">
+                        class="rounded-md border border-gray-300 px-4 py-2 text-xs sm:text-sm text-gray-700 transition hover:bg-gray-100">
                         {{ __('gestionPause.cancel') }}
                     </button>
                     <button type="submit"
-                        class="bg-green-gs hover:bg-supaGirlRose rounded-md px-4 py-2 text-sm text-white transition">
+                        class="bg-green-gs hover:bg-supaGirlRose rounded-md px-4 py-2 text-xs sm:text-sm text-white transition">
                         {{ __('gestionPause.confirm') }}
                     </button>
                 </div>
@@ -72,7 +72,7 @@
 
     <!-- Bannière de réactivation -->
     <div id="reactivationBanner"
-        class="bg-green-gs font-roboto-slab fixed left-0 right-0 top-0 z-50 flex hidden items-center justify-between px-6 py-4 text-sm text-white shadow-md">
+        class="bg-green-gs font-roboto-slab fixed left-0 right-0 top-0 z-50 flex hidden items-center justify-between px-6 py-4 text-xs sm:text-sm text-white shadow-md">
         <div class="flex items-center gap-4">
             <span>
                 {{ __('gestionPause.reactivationBanner') }}
