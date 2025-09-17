@@ -1,7 +1,7 @@
 <div x-data="{ storyForm: false }">
 
     <div class="font-roboto-slab flex items-center justify-between gap-5 py-5">
-        <h2 class="font-roboto-slab text-green-gs text-xs sm:text-xl md:text-2xl font-bold">{{ __('profile.stories') }}</h2>
+        <h2 class="font-roboto-slab text-green-gs text-sm sm:text-xl md:text-2xl font-bold">{{ __('profile.stories') }}</h2>
         <div class="bg-green-gs h-0.5 flex-1"></div>
         <button x-on:click="storyForm = true"
             class="text-green-gs hover:text-green-gs hover:bg-fieldBg bg-supaGirlRose flex cursor-pointer items-center gap-2 rounded-md px-5 py-2 text-xs sm:text-sm ">
