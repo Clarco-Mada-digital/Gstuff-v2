@@ -1,4 +1,4 @@
-<p align="center"><a href="https://gstuff.ch" target="_blank"><img src="https://gstuff.ch/wp-content/uploads/2023/08/cropped-logo.png" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://supagirl.gstuff.ch/images/logoSupa.png" target="_blank"><img src="https://supagirl.gstuff.ch/images/logoSupa.png" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
 
