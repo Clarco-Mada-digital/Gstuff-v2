@@ -1212,85 +1212,13 @@
                                     {{ __('profile.my_favorites') }}</h2>
                                 <div class="bg-green-gs h-1 w-full flex-1"></div>
                             </div>
-                            <x-favoris-swiper :data="$escortFavorites" type="escort" profil="user" />
-                            <x-favoris-swiper :data="$salonFavorites" type="salon" profil="user" />
+                            
                             <div class="grid w-full grid-cols-1">
                                 <div class="relative flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                    <h3 class="font-roboto-slab text-green-gs text-xs md:text-xl">
-                                        {{ __('profile.favorite_escorts') }}</h3>
-                                    @if ($escortFavorites != '[]')
-                                        <div id="NewEscortContainer"
-                                            class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-5"
-                                            style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                                            @foreach ($escortFavorites as $escort)
-                                                <livewire:escort-card name="{{ $escort->prenom }}"
-                                                    canton="{{ $escort->canton['nom'] ?? '' }}"
-                                                    ville="{{ $escort->ville['nom'] ?? '' }}"
-                                                    avatar='{{ $escort->avatar }}'
-                                                    isOnline='{{ $escort->isOnline() }}'
-                                                    escortId='{{ $escort->id }}'
-                                                    isPause="{{ $escort->is_profil_pause }}" />
-                                            @endforeach
-                                        </div>
-                                        <div id="arrowEscortScrollRight"
-                                            class="absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow 2xl:hidden"
-                                            data-carousel-prev>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" />
-                                            </svg>
-                                        </div>
-                                        <div id="arrowEscortScrollLeft"
-                                            class="absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow 2xl:hidden"
-                                            data-carousel-next>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
-                                            </svg>
-                                        </div>
-                                    @else
-                                        <div>{{ __('profile.no_favorite_escorts') }}</div>
-                                    @endif
+                                <x-favoris-swiper :data="$escortFavorites" type="escort" profil="user" />
                                 </div>
                                 <div class="flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                    <h3 class="font-roboto-slab text-green-gs text-xl">
-                                        {{ __('profile.favorite_salons') }}</h3>
-                                    @if ($salonFavorites != '[]')
-                                        <div id="NewEscortContainer"
-                                            class="mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-5"
-                                            style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-                                            @foreach ($salonFavorites as $escort)
-                                                <livewire:escort-card name="{{ $escort->prenom }}"
-                                                    canton="{{ $escort->canton['nom'] ?? '' }}"
-                                                    ville="{{ $escort->ville['nom'] ?? '' }}"
-                                                    avatar='{{ $escort->avatar }}' escortId='{{ $escort->id }}'
-                                                    isOnline='{{ $escort->isOnline() }}'
-                                                    isPause="{{ $escort->is_profil_pause }}" />
-                                            @endforeach
-                                        </div>
-                                        <div id="arrowEscortScrollRight"
-                                            class="absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow 2xl:hidden"
-                                            data-carousel-prev>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" />
-                                            </svg>
-                                        </div>
-                                        <div id="arrowEscortScrollLeft"
-                                            class="absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-amber-300/60 shadow 2xl:hidden"
-                                            data-carousel-next>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                    d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
-                                            </svg>
-                                        </div>
-                                    @else
-                                        <div>{{ __('profile.no_favorite_salons') }}</div>
-                                    @endif
+                                <x-favoris-swiper :data="$salonFavorites" type="salon" profil="user" />
                                 </div>
                             </div>
                         </section>
