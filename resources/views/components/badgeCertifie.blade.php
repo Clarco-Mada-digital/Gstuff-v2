@@ -1,7 +1,7 @@
 <div
     class="bg-supaGirlRosePastel border-supaGirlRose group relative flex items-center gap-2 rounded-lg border md:px-3 px-2 md:py-2 py-1 shadow-sm">
     <!-- Certified text -->
-    <span class="text-green-gs font-roboto-slab text-xs md:text-sm font-bold tracking-wide">
+    <span class="text-green-gs font-roboto-slab hidden sm:block text-xs md:text-sm font-bold tracking-wide">
         {{ __('common.certified') }}
     </span>
 
