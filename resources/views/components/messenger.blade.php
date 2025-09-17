@@ -277,13 +277,13 @@
 
         <!-- Input d'envoi -->
         <div x-show='currentChat'
-            class="border-supaGirlRose rounded-b-sm border-t-2 bg-white px-3 pb-3 pt-4 shadow-sm">
+            class="border-supaGirlRose rounded-b-sm border-t-2 bg-white md:px-3 md:pb-3 md:pt-4 p-1  shadow-sm">
 
             <!-- Formulaire d'envoi -->
             <form @submit.prevent="sendMessage(); clearAttachment();" class="flex items-center gap-2">
                 <!-- Bouton pièce jointe -->
                 <label class="hover:text-green-gs text-supaGirlRose cursor-pointer p-2">
-                    <i class="fas fa-paperclip"></i>
+                    <i class="fas fa-paperclip w-4 h-4"></i>
                     <input type="file" @change="handleFileUpload" class="attachment-input hidden"
                         accept="image/*">
                 </label>
