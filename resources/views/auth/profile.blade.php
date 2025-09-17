@@ -1214,11 +1214,11 @@
                             </div>
                             
                             <div class="grid w-full grid-cols-1">
-                                <div class="relative flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
+                            <div class="flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
                                 <x-favoris-swiper :data="$escortFavorites" type="escort" profil="user" />
                                 </div>
                                 <div class="flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                <x-favoris-swiper :data="$salonFavorites" type="salon" profil="user" />
+                                <x-favoris-swiper :data="$escortFavorites" type="escort" profil="user" />
                                 </div>
                             </div>
                         </section>
