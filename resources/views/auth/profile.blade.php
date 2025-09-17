@@ -1192,9 +1192,9 @@
                                 <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
                                     {{ __('profile.my_favorites') }}</h2>
                             </div>
-                            <div class="grid w-full grid-cols-1 gap-10 xl:grid-cols-2 xl:gap-10">
-                                <x-associated-swiper-card :data="$escortFavorites" type="escort" profil="user" />
-                                <x-associated-swiper-card :data="$salonFavorites" type="salon" profil="user" />
+                            <div class="grid w-full grid-cols-1 ">
+                                <x-favoris-swiper :data="$escortFavorites" type="escort" profil="user" />
+                                <x-favoris-swiper :data="$salonFavorites" type="salon" profil="user" />
                             </div>
                             @if ($user && $user->id)
                                 <div>
@@ -1209,7 +1209,7 @@
                         <section x-show="pageSection=='favoris'">
                             <div class="flex items-center gap-5 py-5">
                                 <h2 class="font-roboto-slab text-green-gs text-sm md:text-2xl font-bold">
-                                    {{ __('profile.my_favorites') }}</h2>
+                                    {{ __('profile.my_favorites') }} zzzzz</h2>
                                 <div class="bg-green-gs h-1 w-full flex-1"></div>
                             </div>
                             
