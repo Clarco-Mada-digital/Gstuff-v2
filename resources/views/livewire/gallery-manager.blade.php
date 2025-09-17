@@ -24,16 +24,16 @@
                     @endif
 
                     <div class="bg-green-gs h-0.5 flex-1"></div>
-                    <div class="flex space-x-3 hidden sm:flex">
+                    <div class="flex space-x-3 ">
                         <!-- Boutons de vue -->
                         <button @click="viewMode = 'grid'"
                             :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs ': viewMode !== 'grid' }"
-                            class="rounded-lg p-2 transition-colors hover:bg-gray-100">
+                            class="rounded-lg p-2 transition-colors hover:bg-gray-100 hidden sm:flex">
                             <i class="fas fa-th-large"></i>
                         </button>
                         <button @click="viewMode = 'list'"
                             :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'list', 'text-green-gs ': viewMode !== 'list' }"
-                            class="rounded-lg p-2 transition-colors hover:bg-gray-100">
+                            class="rounded-lg p-2 transition-colors hover:bg-gray-100 hidden sm:flex">
                             <i class="fas fa-list"></i>
                         </button>
 
