@@ -28,14 +28,14 @@
                     <!-- Dialog Header -->
                     <div class="relative max-h-full w-full p-4">
                         <!-- Modal content -->
-                        <div class="relative h-[50vh] rounded-lg bg-white shadow-sm dark:bg-gray-700">
+                        <div class="relative  rounded-lg bg-white shadow-sm dark:bg-gray-700 gap-2">
                             <div class="p-4">
 
                                 <div class="relative mt-3">
 
                                     <input type="text" x-model="searchQuery" @input.debounce.500ms="searchUsers()"
                                         placeholder="{{ __('messenger.search_placeholder') }}"
-                                        class="focus:ring-green-gs w-full rounded-lg border border-gray-300 p-2 pl-10 focus:outline-none focus:ring-2">
+                                        class="focus:ring-green-gs w-full rounded-lg border border-gray-300 text-xs sm:text-sm p-2 pl-10 focus:outline-none focus:ring-2">
                                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     </template>
                                 </div>
                                 <!-- Pagination Controls -->
-                                <div class="mt-2 flex justify-center space-x-2" x-show="searchResults.length > 0">
+                                <div class="m-2 flex justify-center space-x-2" x-show="searchResults.length > 0">
                                     <button @click="currentPage = Math.max(1, currentPage - 1)"
                                         class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded px-4 py-2 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === 1">
