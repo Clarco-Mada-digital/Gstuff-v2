@@ -13,7 +13,9 @@
             style="background: url({{ $user->couverture_image ? asset('storage/couvertures/' . $user->couverture_image) : asset('images/Logo_lg.png') }}) center center /cover;">
             <div x-on:click.stop="$dispatch('img-modal', {  imgModalSrc: '{{ $couverture_image = $user->couverture_image }}' ? '{{ asset('storage/couvertures/' . $couverture_image) }}' : '{{ asset('images/Logo_lg.png') }}', imgModalDesc: '' })"
                 class="absolute inset-0"></div>
-            <div class="absolute bottom-2 right-4">
+            <div class="absolute top-2 right-4 sm:bottom-4">
+
+
                 <button x-on:click.stop="couvertureForm = !couvertureForm"
                     class="hover:text-green-gs z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-amber-500 shadow-md transition-colors hover:bg-gray-100"
                     data-tooltip-target="tooltip-cover-photo" data-tooltip-placement="top">
@@ -1095,7 +1097,7 @@
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                             </svg>
-                            <span class="font-bold">{{ __('profile.profile_completion') }} <span
+                            <span class="font-bold text-xs sm:text-sm">{{ __('profile.profile_completion') }} <span class="text-xs sm:text-sm"
                                     x-text="`${completionPercentage}%`"></span></span>
                         </div>
                         <svg x-show="!isOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
