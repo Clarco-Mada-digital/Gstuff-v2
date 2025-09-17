@@ -17,7 +17,7 @@ return [
     'more_filters' => 'Mehr Filter',
     'reset_filters' => 'Filter zurücksetzen',
     'age_interval' => 'Alter zwischen :min und :max Jahren',
-    'taille_interval' => 'Größe zwischen :min cm und :max cm',
+    'taille_interval' => 'Größe zwischen :min und :max ',
     'tarif_interval' => 'Preis zwischen :min CHF und :max CHF',
     'speak' => 'Spricht :langue',
     'filtreActifOne' => 'Aktiver Filter',

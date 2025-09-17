@@ -17,7 +17,7 @@ return [
     'more_filters' => 'More filters',
     'reset_filters' => 'Reset filters',
     'age_interval' => 'Age between :min and :max years',
-    'taille_interval' => 'Height between :min cm and :max cm',
+    'taille_interval' => 'Height between :min  and :max ',
     'tarif_interval' => 'Price between :min CHF and :max CHF',
     'speak' => 'Speaks :langue',
     'filtreActifOne' => 'Active filter',
