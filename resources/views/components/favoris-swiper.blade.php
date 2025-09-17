@@ -5,19 +5,24 @@
 ])
 
 @php
+    $componentId = 'swiper-' . uniqid();
+@endphp
+
+
+@php
     $noSpecial = __('profile.no_specified');
 @endphp
 
 <div>
     @if ($data->isNotEmpty())
         <div class="flex items-center justify-between gap-2 md:gap-5 py-2 md:py-5">
-            <h2 class="font-roboto-slab text-green-gs text-sm sm:text-2xl font-bold">
+            <h2 class="font-roboto-slab text-green-gs text-xs sm:text-xl font-bold ">
                 {{ $type === 'escort' ? __('profile.favorite_escorts') : __('profile.favorite_salons') }}
             </h2>
         </div>
 
         <div class="relative w-full overflow-hidden">
-            <div class="professionals-swiper">
+            <div id="{{ $componentId }}" class="professionals-swiper">
                 <div class="swiper-wrapper">
                         @foreach ($data as $escort)
                             <div class="swiper-slide">
@@ -32,8 +37,8 @@
                 </div>
 
                 <!-- Navigation buttons -->
-                <button type="button" class="swiper-button-prev" aria-label="Previous slide"></button>
-                <button type="button" class="swiper-button-next" aria-label="Next slide"></button>
+                <button type="button" class="swiper-button-prev" id="{{ $componentId }}-prev" aria-label="Previous slide"></button>
+                <button type="button" class="swiper-button-next" id="{{ $componentId }}-next" aria-label="Next slide"></button>
             </div>
         </div>
     @else
@@ -60,7 +65,7 @@
             display: flex !important;
             justify-content: center !important;
             align-items: flex-start;
-            width: 280px;
+            width: 260px;
             height: auto;
             flex-shrink: 0;
         }
@@ -171,7 +176,7 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const swiper = new Swiper('.professionals-swiper', {
+            const swiper = new Swiper('#{{ $componentId }}', {
                 slidesPerView: 'auto',
                 spaceBetween: 20,
                 centeredSlides: true, // Centre les slides sur mobile
@@ -184,8 +189,8 @@
                     pauseOnMouseEnter: true,
                 },
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: '#{{ $componentId }}-next',
+                    prevEl: '#{{ $componentId }}-prev',
                 },
                 breakpoints: {
                     320: {
@@ -194,22 +199,22 @@
                         centeredSlides: true,
                     },
                     480: {
-                        slidesPerView: 1,
+                        slidesPerView: 2,
                         spaceBetween: 15,
                         centeredSlides: true,
                     },
                     640: {
-                        slidesPerView: 2,
+                        slidesPerView: 3,
                         spaceBetween: 20,
                         centeredSlides: false,
                     },
                     768: {
-                        slidesPerView: 2,
+                        slidesPerView: 3,
                         spaceBetween: 25,
                         centeredSlides: false,
                     },
                     1024: {
-                        slidesPerView: 3,
+                        slidesPerView: 4,
                         spaceBetween: 30,
                         centeredSlides: false,
                     },
@@ -232,8 +237,8 @@
 
             // Fonction pour gérer l'affichage des boutons de navigation
             swiper.updateNavigationButtons = function() {
-                const prevButton = document.querySelector('.swiper-button-prev');
-                const nextButton = document.querySelector('.swiper-button-next');
+                const prevButton = document.querySelector('#{{ $componentId }}-prev');
+                const nextButton = document.querySelector('#{{ $componentId }}-next');
                 
                 if (this.slides.length <= this.params.slidesPerView) {
                     if (prevButton) prevButton.style.display = 'none';

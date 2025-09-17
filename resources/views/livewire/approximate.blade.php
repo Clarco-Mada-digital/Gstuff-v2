@@ -124,7 +124,7 @@
         <div class="flex items-center justify-center">
 
 
-            <h2 class="font-roboto-slab text-green-gs text-center text-xl font-bold sm:text-left sm:text-2xl">
+            <h2 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl font-bold sm:text-left sm:text-2xl">
                 {{ __('proximity.nearby_girls') }}</h2>
         </div>
 
@@ -219,7 +219,7 @@
                 <input type="range" id="distance" min="{{ $minDistance }}" max="{{ $maxAvailableDistance }}"
                     step="0.01" wire:model.live="selectedDistance"
                     wire:change="updateDistance(parseFloat($event.target.value))"
-                    class="bg-textColorParagraph accent-green-gs-500 h-2 w-full cursor-pointer appearance-none rounded-lg" />
+                    class="bg-supaGirlRose accent-green-gs-500 h-2 w-full cursor-pointer appearance-none rounded-lg" />
                 <div
                     class="text-textColor font-roboto-slab absolute -bottom-5 left-0 right-0 flex justify-between text-xs">
                     <span>{{ number_format($minDistance, 1) }} km</span>
@@ -235,7 +235,7 @@
 
         @if ($escorts && $escorts->count() > 0)
 
-            <div class="mb-4 grid w-full grid-cols-1 items-center gap-4 md:grid-cols-2 2xl:grid-cols-3">
+            <div class="mb-4 grid w-full grid-cols-1 items-center gap-4 sm:grid-cols-3 md:grid-cols-2 2xl:grid-cols-4">
                 @foreach ($escorts as $escort)
                     <div class="escort-card" data-distance="{{ $escort['distance'] ?? '' }}">
                         <livewire:escort-card wire:key="escort-{{ $escort['escort']['id'] }}"
