@@ -72,9 +72,9 @@
                                 <!-- Pagination Controls -->
                                 <div class="m-2 flex justify-center space-x-2" x-show="searchResults.length > 0">
                                     <button @click="currentPage = Math.max(1, currentPage - 1)"
-                                        class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded sm:px-4 sm:py-2 px-2 py-1 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded text-xs sm:text-sm sm:px-4 sm:py-2 px-2 py-1 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === 1">
-                                        <i class="fas fa-chevron-left"></i>
+                                        <i class="fas fa-chevron-left text-xs sm:text-sm"></i>
                                     </button>
                                     <span x-text="currentPage + ' / ' + Math.ceil(searchResults.length / itemsPerPage)"
                                         class="bg-green-gs font-roboto-slab rounded text-xs sm:text-sm sm:px-4 sm:py-2 px-2 py-1 text-white"></span>
@@ -82,7 +82,7 @@
                                         @click="currentPage = Math.min(Math.ceil(searchResults.length / itemsPerPage), currentPage + 1)"
                                         class="bg-green-gs hover:bg-green-gs/80 font-roboto-slab rounded sm:px-4 sm:py-2 px-2 py-1 text-white hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="currentPage === Math.ceil(searchResults.length / itemsPerPage)">
-                                        <i class="fas fa-chevron-right"></i>
+                                        <i class="fas fa-chevron-right text-xs sm:text-sm"></i>
                                     </button>
                                 </div>
                             </div>

@@ -104,7 +104,7 @@
 </style>
 
 @if ($user)
-    <div id="chatContainer" class="fixed bottom-6 right-6 z-50">
+    <div id="chatContainer" class="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-50">
         <!-- Bouton de chat flottant -->
         <button id="chatButton" type="button"
             class="bg-green-gs hover:bg-green-gs/80 relative inline-flex cursor-pointer items-center justify-center rounded-full p-3 text-white shadow-lg transition-all duration-200 focus:outline-none"
