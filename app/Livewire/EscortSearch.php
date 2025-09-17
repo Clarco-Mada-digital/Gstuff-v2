@@ -476,8 +476,8 @@ public function closeModalside()
         }
         if($this->isFirstLoadAge){
             $this->isFirstLoadAge = false;
-            $this->ageMin = $filteredUsers->min('age');
-            $this->ageMax = $filteredUsers->max('age');
+            // $this->ageMin = $filteredUsers->min('age');
+            // $this->ageMax = $filteredUsers->max('age');
         }
         if ($this->isFirstLoadTaille) {
             $this->isFirstLoadTaille = false;
@@ -495,8 +495,8 @@ public function closeModalside()
         
         if($this->isFirstLoadTarif){
             $this->isFirstLoadTarif = false;
-            $this->tarifMin = $filteredUsers->min('tarif');
-            $this->tarifMax = $filteredUsers->max('tarif');
+            // $this->tarifMin = $filteredUsers->min('tarif');
+            // $this->tarifMax = $filteredUsers->max('tarif');
         }
 
         $filteredUsers = $this->filterByInterval($filteredUsers, $this->ageInterval, 'age');

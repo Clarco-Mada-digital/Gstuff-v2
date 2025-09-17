@@ -109,6 +109,7 @@
                     @else
                         <p x-text="maxvalue" class="font-roboto-slab text-green-gs relative right-2 z-40 mt-4 text-xs"></p>
                     @endif
+                    <p>+</p>
                 </div>
             </div>
         </div>
