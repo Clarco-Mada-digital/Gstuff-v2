@@ -560,7 +560,7 @@ x-data="{
                         :minvalue="$ageMin" :maxvalue="$ageMax" step="1" name='ageInterval'
                         label="{{ __('escort-search.age') }}" id="ageInterval" />
                     <x-multi-range wireModel="tarifInterval" :value="[$tarifMin, $tarifMax]" :min="$tarifMin" :max="$tarifMax"
-                        :minvalue="$tarifMin" :maxvalue="$tarifMax" step="50" name='tarifInterval'
+                        :minvalue="$tarifMin" :maxvalue="$tarifMax" step="1" name='tarifInterval'
                         label="{{ __('escort-search.tarif') }} (CHF)" id="tarifInterval" />
                     <x-multi-range wireModel="tailleInterval" :value="[$tailleMin, $tailleMax]" :min="$tailleMin" :max="$tailleMax"
                         :minvalue="$tailleMin" :maxvalue="$tailleMax" step="0.1" name='tailleInterval'

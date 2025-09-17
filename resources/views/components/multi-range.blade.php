@@ -105,7 +105,7 @@
                         @mouseleave="$el.classList.remove('thumb-hover-max')"
                 >
                     @if ($type == 'taille')
-                        <p x-text="formatTaille(maxvalue)" class="font-roboto-slab text-green-gs relative right-5 z-40 mt-4 text-xs"></p>
+                        <p x-text="max == maxvalue ? formatTaille(maxvalue) + '+' : formatTaille(maxvalue)" class="font-roboto-slab text-green-gs relative right-5 z-40 mt-4 text-xs"></p>
                     @else
                         <p x-text="max == maxvalue ? maxvalue + '+' : maxvalue" class="font-roboto-slab text-green-gs relative right-2 z-40 mt-4 text-xs"></p>
                     @endif
