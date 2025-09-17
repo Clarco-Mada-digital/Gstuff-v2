@@ -1436,7 +1436,7 @@
 
                             {{-- A propos de moi --}}
                             <div class="flex items-center justify-between gap-5 py-5">
-                                <h2 class="font-roboto-slab text-green-gs text-xl sm:text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs text-sm sm:text-xl md:text-2xl  font-bold">
                                     {{ __('profile.about_me') }}</h2>
                                 <div class="bg-green-gs h-0.5 flex-1"></div>
                             </div>
@@ -1506,13 +1506,13 @@
 
                             {{-- Description --}}
                             <div class="flex items-center justify-between gap-5 py-5">
-                                <h2 class="font-roboto-slab text-green-gs text-xl sm:text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs text-sm sm:text-xl md:text-2xl font-bold">
                                     {{ __('profile.description') }}
                                 </h2>
                                 <div class="bg-green-gs h-0.5 flex-1"></div>
                             </div>
                             <div class="flex flex-wrap items-center gap-10">
-                                <p class="font-roboto-slab text-textColor text-justify text-sm">
+                                <p class="font-roboto-slab text-textColor text-justify text-xs sm:text-sm">
                                     {{ $user->apropos ?? '-' }}</p>
                             </div>
 
