@@ -7,7 +7,7 @@
 
     <!-- Icon -->
     <img src="{{ asset('images/icons/certifier.png') }}"
-        alt="{{ __('common.certified') }}" class="h-4 w-4 sm:h-5 sm:w-5">
+        alt="{{ __('common.certified') }}" class="h-4 w-4 sm:h-5 sm:w-5 block ">
 
     <!-- Tooltip -->
     <div
