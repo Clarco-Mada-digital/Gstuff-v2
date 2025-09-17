@@ -1,7 +1,9 @@
     <div>
         <button id="openModalBtn"
             class="text-green-gs hover:text-green-gs hover:bg-fieldBg bg-supaGirlRose font-roboto-slab flex cursor-pointer items-center gap-2 rounded-md px-5 py-2">
-            <i class="fas fa-plus mr-2"></i>{{ __('gallery_manage.add') }}
+            <i class="fas fa-plus mr-2"></i> <span class="hidden sm:block">
+            {{ __('gallery_manage.add') }}
+            </span>
         </button>
 
         <div id="galleryModal" class="modal z-50">

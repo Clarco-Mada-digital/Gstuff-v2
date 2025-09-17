@@ -1,13 +1,13 @@
 <div
     class="bg-supaGirlRosePastel border-supaGirlRose group relative flex items-center gap-2 rounded-lg border md:px-3 px-2 md:py-2 py-1 shadow-sm">
     <!-- Certified text -->
-    <span class="text-green-gs font-roboto-slab hidden sm:block text-xs md:text-sm font-bold tracking-wide">
+    <span class="text-green-gs font-roboto-slab text-xs md:text-sm font-bold tracking-wide">
         {{ __('common.certified') }}
     </span>
 
     <!-- Icon -->
     <img src="{{ asset('images/icons/certifier.png') }}"
-        alt="{{ __('common.certified') }}" class="h-4 w-4 sm:h-5 sm:w-5 block ">
+        alt="{{ __('common.certified') }}" class="h-4 w-4 sm:h-5 sm:w-5">
 
     <!-- Tooltip -->
     <div
