@@ -146,6 +146,8 @@
         .swiper-navigation-icon {
             font-size: 10px;
             color: white;
+            width: 10px !important;
+            height: 10px !important;
         }
 
         .swiper-button-next:after,
