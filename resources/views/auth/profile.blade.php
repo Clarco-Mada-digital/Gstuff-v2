@@ -1204,15 +1204,19 @@
 
                         </section>
 
+
+                        {{-- Favoris --}}
                         <section x-show="pageSection=='favoris'">
                             <div class="flex items-center gap-5 py-5">
-                                <h2 class="font-roboto-slab text-green-gs text-2xl font-bold">
+                                <h2 class="font-roboto-slab text-green-gs text-sm md:text-2xl font-bold">
                                     {{ __('profile.my_favorites') }}</h2>
                                 <div class="bg-green-gs h-1 w-full flex-1"></div>
                             </div>
+                            
+                            <x-associated-swiper :data="$escortFavorites" type="escort" profil="user" />
                             <div class="grid w-full grid-cols-1">
                                 <div class="relative flex min-w-full flex-col items-center justify-center gap-5 xl:w-1/2">
-                                    <h3 class="font-roboto-slab text-green-gs text-xl">
+                                    <h3 class="font-roboto-slab text-green-gs text-xs md:text-xl">
                                         {{ __('profile.favorite_escorts') }}</h3>
                                     @if ($escortFavorites != '[]')
                                         <div id="NewEscortContainer"
