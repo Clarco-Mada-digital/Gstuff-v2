@@ -468,7 +468,7 @@ x-data="{
 
                         <select wire:model.live="autreFiltres.mensuration" id="mensuration" name="mensuration"
                             class="border-supaGirlRose bg-fieldBg text-green-gs font-roboto-slab focus:border-green-gs focus:ring-green-gs block w-full rounded-lg border border-2 p-2 text-xs text-gray-900">
-                            <option selected value=""> {{ __('escort-search.Silhouette') }} </option>
+                            <option selected value="" class="hidden"> {{ __('escort-search.Silhouette') }} </option>
                             <template x-for="mensuration in dropdownData['mensurations']">
                                 <option :value="mensuration.id" x-text="mensuration.name[currentLocale]"></option>
                             </template>
