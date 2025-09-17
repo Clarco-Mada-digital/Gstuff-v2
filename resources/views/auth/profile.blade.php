@@ -1209,7 +1209,7 @@
                         <section x-show="pageSection=='favoris'">
                             <div class="flex items-center gap-5 py-5">
                                 <h2 class="font-roboto-slab text-green-gs text-sm md:text-2xl font-bold">
-                                    {{ __('profile.my_favorites') }} zzzzz</h2>
+                                    {{ __('profile.my_favorites') }}</h2>
                                 <div class="bg-green-gs h-1 w-full flex-1"></div>
                             </div>
                             
