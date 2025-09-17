@@ -298,7 +298,7 @@
                             sendingMessage,
                         'bg-gray-300 cursor-not-allowed': (newMessage.length === 0 && !fileToUpload) || sendingMessage
                     }"
-                    class="text-back flex h-12 w-12 items-center justify-center rounded-full p-3">
+                    class="text-back flex md:h-12 md:w-12 h-8 w-8 items-center justify-center rounded-full md:p-3 p-2 ">
                     <i x-show="!sendingMessage" class="fas fa-paper-plane"></i>
                     <i x-show="sendingMessage" class="fas fa-spinner fa-spin"></i>
                 </button>
