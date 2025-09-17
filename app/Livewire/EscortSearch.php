@@ -58,11 +58,11 @@ class EscortSearch extends Component
     public array $autreFiltres = [];
     public $autre = false;
     public $ageMin = 18;
-    public $ageMax = 100;
-    public $tailleMin = 90;
-    public $tailleMax = 200;
-    public $tarifMin = 100;
-    public $tarifMax = 1000;
+    public $ageMax = 58;
+    public $tailleMin = 140;
+    public $tailleMax = 180;
+    public $tarifMin = 80;
+    public $tarifMax = 800;
 
     public $ageInterval = [];
     public $tailleInterval = [];
@@ -486,8 +486,8 @@ public function closeModalside()
                 return isset($user->tailles) && $user->tailles > 0;
             });
         
-            $this->tailleMin = $validTailleUsers->min('tailles');
-            $this->tailleMax = $validTailleUsers->max('tailles');
+            // $this->tailleMin = $validTailleUsers->min('tailles');
+            // $this->tailleMax = $validTailleUsers->max('tailles');
 
             // $this->tailleMin = $filteredUsers->min('tailles');
             // $this->tailleMax = $filteredUsers->max('tailles');
