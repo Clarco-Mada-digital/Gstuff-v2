@@ -24,7 +24,7 @@
                     @endif
 
                     <div class="bg-green-gs h-0.5 flex-1"></div>
-                    <div class="flex space-x-3">
+                    <div class="flex space-x-3 hidden sm:flex">
                         <!-- Boutons de vue -->
                         <button @click="viewMode = 'grid'"
                             :class="{ 'text-green-gs bg-supaGirlRose': viewMode === 'grid', 'text-green-gs ': viewMode !== 'grid' }"
