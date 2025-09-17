@@ -459,7 +459,7 @@
 
                 @if (!$isPublic && $user->id == auth()->user()->id)
                     <span
-                        class="text-green-gs font-roboto-slab w-full text-center font-bold">{{ __('gallery_manage.video_limit_warning') }}</span>
+                        class="text-green-gs font-roboto-slab w-full text-center font-bold text-xs">{{ __('gallery_manage.video_limit_warning') }}</span>
                 @endif
 
                 <!-- Gallery Content -->

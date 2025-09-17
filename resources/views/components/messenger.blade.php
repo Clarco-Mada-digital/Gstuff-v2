@@ -3,7 +3,7 @@
     <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30%]">
         <!-- Header -->
         <div class="flex items-center justify-between p-4">
-            <h1 class="text-green-gs font-roboto-slab text-xl font-bold">{{ __('messenger.messenger') }}</h1>
+            <h1 class="text-green-gs font-roboto-slab text-sm md:text-xl font-bold">{{ __('messenger.messenger') }}</h1>
 
             <button x-on:click="modalIsOpen = true" type="button"
                 class="bg-green-gs hover:bg-green-gs-dark focus:ring-green-gs-light dark:bg-green-gs-dark dark:hover:bg-green-gs-darker dark:focus:ring-green-gs-light block cursor-pointer rounded-lg px-3 py-1.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
@@ -41,7 +41,7 @@
                             </div>
                             <div>
                                 <template x-if="searchResults.length === 0">
-                                    <div class="text-textColorParagraph font-roboto-slab p-4 text-center text-sm">
+                                    <div class="text-textColorParagraph font-roboto-slab p-4 text-center text-xs sm:text-sm">
                                         {{ __('messenger.no_results_found') }}
                                     </div>
                                 </template>
@@ -95,12 +95,12 @@
 
         <!-- Favoris -->
         <div class="mb-2">
-            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2">
+            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2 text-xs sm:text-sm">
                 {{ __('messenger.favorites') }}</h2>
             <div class="flex space-x-2 overflow-x-auto p-2">
                 <template x-if="favorites.length === 0">
                     <div
-                        class="text-textColorParagraph font-roboto-slab flex items-center justify-center p-4 text-center text-sm">
+                        class="text-textColorParagraph font-roboto-slab flex items-center justify-center p-4 text-center text-xs sm:text-sm">
                         {{ __('messenger.no_favorites') }}
                     </div>
                 </template>
@@ -110,7 +110,7 @@
                         <img :src="favorite.avatar ? `{{ asset('storage/avatars') }}/${favorite.avatar}` : '/logo-icon.webp'"
                             :alt="favorite.pseudo ? favorite.pseudo : favorite.prenom ? favorite.prenom : favorite.nom_salon"
                             class="h-12 w-12 rounded-full object-cover">
-                        <span class="font-roboto-slab text-textColorParagraph text-sm"
+                        <span class="font-roboto-slab text-textColorParagraph text-xs sm:text-sm"
                             x-text="favorite.pseudo || favorite.prenom || favorite.nom_salon "></span>
                     </div>
                 </template>
@@ -119,7 +119,7 @@
 
         <!-- Liste des contacts -->
         <div class="relative mb-2 flex-1">
-            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2">
+            <h2 class="bg-supaGirlRosePastel/50 font-roboto-slab text-green-gs mb-2 rounded-t-sm px-4 py-2 text-xs sm:text-sm">
                 {{ __('messenger.contacts') }}</h2>
             <div x-show="!loadingContacts" id="contacts-list" class="h-[15vh] divide-y overflow-y-auto md:h-[30vh]">
 
