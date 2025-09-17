@@ -1431,7 +1431,6 @@
 
                             {{-- Galerie --}}
                             <div class="flex w-full flex-wrap items-center gap-10">
-                                {{-- <span class="w-full text-center text-green-gs font-bold font-roboto-slab">Aucun stories trovée !</span> --}}
                                 @livewire('gallery-manager', ['user' => $user], key($user->id))
                             </div>
 

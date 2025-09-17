@@ -1,6 +1,6 @@
 <div x-data="{ storyForm: false }">
 
-    <div class="font-roboto-slab flex items-center justify-between gap-5 py-5">
+    <div class="font-roboto-slab flex items-center justify-between gap-2 sm:gap-5 sm:py-5">
         <h2 class="font-roboto-slab text-green-gs text-sm sm:text-xl md:text-2xl font-bold">{{ __('profile.stories') }}</h2>
         <div class="bg-green-gs h-0.5 flex-1"></div>
         <button x-on:click="storyForm = true"
@@ -14,7 +14,7 @@
     </div>
 
 
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto sm:p-4 p-2">
         <div class="flex items-center gap-10">
 
             @php $user = Auth()->user(); @endphp
