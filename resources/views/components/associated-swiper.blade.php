@@ -143,6 +143,11 @@
             left: 10px;
         }
 
+        .swiper-navigation-icon {
+            font-size: 10px;
+            color: white;
+        }
+
         .swiper-button-next:after,
         .swiper-button-prev:after {
             font-size: 16px;
