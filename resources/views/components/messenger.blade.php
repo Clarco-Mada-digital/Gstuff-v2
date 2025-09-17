@@ -1,4 +1,4 @@
-<div class="h-[90vh] md:flex md:h-[60vh] md:justify-between" x-data="messenger()" x-init="init()">
+<div class="h-full md:h-[90vh] md:flex md:h-[60vh] md:justify-between" x-data="messenger()" x-init="init()">
     <!-- Sidebar -->
     <div class="flex flex-col rounded-sm bg-white shadow-sm md:mr-2 md:h-full md:w-[30%]">
         <!-- Header -->
