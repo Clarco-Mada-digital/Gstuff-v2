@@ -454,7 +454,7 @@ x-data="{
                     <div>
                         <h3
                             class="font-roboto-slab text-green-gs text-md flex w-full items-center justify-center font-bold md:text-3xl">
-                            {{ __('escort-search.more_filters') }}aaaaaaaaa</h3>
+                            {{ __('escort-search.more_filters') }}</h3>
                     </div>
                     <button type="button"
                         class="text-green-gs end-2.5 ms-auto inline-flex h-4 w-4 items-center justify-center rounded-lg bg-transparent text-sm hover:bg-gray-200 hover:text-amber-400 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -469,7 +469,7 @@ x-data="{
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col gap-3 p-2 md:p-5">
+                <div class="relative flex flex-col gap-3 p-2 md:p-5 overflow-y-scroll h-[70vh]">
                     <x-origine-select-escort :origineData="$origineData" />
                     <x-langue-select-escort :langueData="$langueData" />
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">

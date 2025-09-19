@@ -22,6 +22,8 @@ return [
     'speak' => 'Habla :langue',
     'filtreActifOne' => 'Filtro activo',
     'filtreActifMany' => 'filtros activos',
+    'showMore' => 'Mostrar más',
+    'showLess' => 'Mostrar menos',
     'result' => 'Resultado(s)',
     'results_around' => 'Resultados alrededor de :distance km',
     'results_no_aroud' => 'Resultados',

@@ -496,7 +496,7 @@ x-data="{
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col gap-3 p-2 md:p-5">
+                <div class="relative flex flex-col gap-3 p-2 md:p-5 overflow-y-scroll h-[70vh]">
 
 
                 <x-origine-select-escort :origineData="$origineData" />
