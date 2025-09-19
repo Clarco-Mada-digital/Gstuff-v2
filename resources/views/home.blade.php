@@ -23,9 +23,9 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-black transition-all lg:flex-row">
             @php
-                $categories = $categories->where('type', 'escort')->where('display_name', '!=', 'telephone-rose-video-chat');
+                $categorieshome = $categories->where('type', 'escort')->where('display_name', '!=', 'telephone-rose-video-chat');
             @endphp
-            @foreach ($categories as $categorie)
+            @foreach ($categorieshome as $categorie)
                 <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
                     class="z-10 flex items-center justify-center gap-1 md:gap-1 transition-all">
                     <div
