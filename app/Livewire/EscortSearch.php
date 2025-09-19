@@ -10,7 +10,7 @@ use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Database\Eloquent\Collection;
-
+use App\Services\UserVisibilityService;
 use App\Models\CouleurCheveux;
 use App\Models\CouleurYeux;
 use App\Models\Mensuration;
@@ -551,60 +551,10 @@ public function closeModalside()
         // })
         // ->values(); // Réindexer proprement
 
-        $tabNoAvatar = collect();
-        $tabPause = collect();
-        $tabBest = collect();
+       
 
-        $filteredUsers
-            ->filter(function ($user) use ($viewerCountry) {
-                return $user->isProfileVisibleTo($viewerCountry);
-            })
-            ->each(function ($user) use (&$tabNoAvatar, &$tabPause, &$tabBest) {
-                // Enrichir les données
-                $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
-                $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
-                $user->canton = Canton::find($user->canton);
-                $user->ville = Ville::find($user->ville);
-
-                Log::info("User ID {$user->id} - Rate Activity: {$user->rate_activity}");
-
-                // Organisation par catégorie
-                if (empty($user->avatar)) {
-                    $tabNoAvatar->push($user);
-                } elseif ($user->is_profil_pause) {
-                    $tabPause->push($user);
-                } else {
-                    $tabBest->push($user);
-                }
-            });
-
-        // 🔢 Tri des tableaux
-
-        $tabBest = $tabBest->sortByDesc('rate_activity')
-                        ->sortByDesc(function ($user) {
-                            return strtotime($user->last_activity);
-                        })
-                        ->values();
-
-        $tabPause = $tabPause->sortByDesc('rate_activity')
-                            ->sortByDesc(function ($user) {
-                                return strtotime($user->last_activity);
-                            })
-                            ->values();
-
-        $tabNoAvatar = $tabNoAvatar->sortBy(function ($user) {
-                                return $user->is_profil_pause ? 0 : 1; // pause en premier
-                            })
-                            ->sortByDesc('rate_activity')
-                            ->sortByDesc(function ($user) {
-                                return strtotime($user->last_activity);
-                            })
-                            ->values();
-
-        // 🧩 Fusion finale
-        $visibleUsers = $tabBest->concat($tabNoAvatar)->concat($tabPause);
-
-
+        $service = new UserVisibilityService();
+        $visibleUsers = $service->getVisibleUsers($filteredUsers, $viewerCountry);
 
 
 
