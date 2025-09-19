@@ -529,10 +529,15 @@ public function closeModalside()
             $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
             $user->canton = Canton::find($user->canton);
             $user->ville = Ville::find($user->ville);
+
             Log::info("User ID {$user->id} - Rate Activity: {$user->rate_activity}");
+
             return $user;
         })
         ->sortBy(function ($user) {
+            // Priorité 0 : avatar présent (0 = a un avatar, 1 = pas d'avatar)
+            $hasNoAvatar = empty($user->avatar) ? 1 : 0;
+
             // Priorité 1 : profil en pause (0 = actif, 1 = en pause)
             $pauseScore = $user->is_profil_pause ? 1 : 0;
 
@@ -542,9 +547,10 @@ public function closeModalside()
             // Priorité 3 : last_activity inversé (plus récent = mieux)
             $lastActivityScore = strtotime($user->last_activity) * -1;
 
-            return [$pauseScore, $rateScore, $lastActivityScore];
+            return [$hasNoAvatar, $pauseScore, $rateScore, $lastActivityScore];
         })
         ->values(); // Réindexer proprement
+
 
 
 
