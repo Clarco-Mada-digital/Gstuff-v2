@@ -115,9 +115,9 @@ class HomeController extends Controller
     $viewerCountry = $position?->countryCode ?? null;
     $service = new UserVisibilityService();
     $escorts = $service->getVisibleUsers($escorts, $viewerCountry);
-    $escorts = $escorts->map(function ($escort) {
-        return $this->loadAssociatedData($escort);
-    });
+    // $escorts = $escorts->map(function ($escort) {
+    //     return $this->loadAssociatedData($escort);
+    // });
 
     // Salons
     $salons = Cache::remember('salons', 15 * 60, function () {
@@ -132,9 +132,9 @@ class HomeController extends Controller
     
     $service = new UserVisibilityService();
     $salons = $service->getVisibleUsers($salons, $viewerCountry);
-    $salons = $salons->map(function ($salon) {
-        return $this->loadAssociatedData($salon);
-    });
+    // $salons = $salons->map(function ($salon) {
+    //     return $this->loadAssociatedData($salon);
+    // });
 
     return view('home', [
         'cantons' => $cantons,
