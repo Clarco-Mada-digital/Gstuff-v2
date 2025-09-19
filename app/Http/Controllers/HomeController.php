@@ -111,6 +111,8 @@ class HomeController extends Controller
 
 
     // $escorts = $this->getVisibleEscorts($escorts);
+    $position = Location::get(request()->ip());
+    $viewerCountry = $position?->countryCode ?? null;
     $service = new UserVisibilityService();
     $escorts = $service->getVisibleUsers($escorts, $viewerCountry);
     $escorts = $escorts->map(function ($escort) {
@@ -127,6 +129,7 @@ class HomeController extends Controller
     });
 
     // $salons = $this->getVisibleEscorts($salons);
+    
     $service = new UserVisibilityService();
     $salons = $service->getVisibleUsers($salons, $viewerCountry);
     $salons = $salons->map(function ($salon) {
