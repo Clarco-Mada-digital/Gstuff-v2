@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Ville;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Cache;
+use App\Services\UserVisibilityService;
 
 class HomeController extends Controller
 {
@@ -109,7 +110,9 @@ class HomeController extends Controller
 
 
 
-    $escorts = $this->getVisibleEscorts($escorts);
+    // $escorts = $this->getVisibleEscorts($escorts);
+    $service = new UserVisibilityService();
+    $escorts = $service->getVisibleUsers($escorts, $viewerCountry);
     $escorts = $escorts->map(function ($escort) {
         return $this->loadAssociatedData($escort);
     });
@@ -123,7 +126,9 @@ class HomeController extends Controller
             ->get();
     });
 
-    $salons = $this->getVisibleEscorts($salons);
+    // $salons = $this->getVisibleEscorts($salons);
+    $service = new UserVisibilityService();
+    $salons = $service->getVisibleUsers($salons, $viewerCountry);
     $salons = $salons->map(function ($salon) {
         return $this->loadAssociatedData($salon);
     });
