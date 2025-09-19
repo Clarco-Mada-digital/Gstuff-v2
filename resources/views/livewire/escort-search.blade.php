@@ -449,7 +449,7 @@ x-data="{
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col gap-3 p-2 md:p-5 overflow-y-scroll h-[90vh]">
+                <div class="relative flex flex-col gap-3 p-2 md:p-5 overflow-y-scroll h-[50vh]">
                     <x-origine-select-escort :origineData="$origineData" />
                     <x-langue-select-escort :langueData="$langueData" />
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">
