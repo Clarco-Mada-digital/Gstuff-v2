@@ -22,25 +22,26 @@
                 {{ __('home.in_switzerland') }}</h2>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-black transition-all lg:flex-row">
-            @foreach ($categories->take(4) as $categorie)
-                @if ($categorie->type == 'escort' || $categorie->display_name != 'telephone-rose-&-video-chat')
-                    <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
-                        class="z-10 flex items-center justify-center gap-1 md:gap-1 transition-all">
-                        <div
-                            class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 md:gap-1.5 rounded-md border bg-white p-1 md:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
-                            <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
-                                class="h-4 w-4 xl:h-8 xl:w-8" alt="icon service {{ $categorie['display_name'] }}" />
-                            <span class="whitespace-nowrap text-xs md:text-sm">
-                                @php
-                                    $locale = session('locale', 'fr');
-                                    $categoryName = $categorie['nom'];
-                                @endphp
+            @php
+                $categories = $categories->where('type', 'escort')->where('display_name', '!=', 'telephone-rose-&-video-chat')->take(4);
+            @endphp
+            @foreach ($categories as $categorie)
+                <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
+                    class="z-10 flex items-center justify-center gap-1 md:gap-1 transition-all">
+                    <div
+                        class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 md:gap-1.5 rounded-md border bg-white p-1 md:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
+                        <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
+                            class="h-4 w-4 xl:h-8 xl:w-8" alt="icon service {{ $categorie['display_name'] }}" />
+                        <span class="whitespace-nowrap text-xs md:text-sm">
+                            @php
+                                $locale = session('locale', 'fr');
+                                $categoryName = $categorie['nom'];
+                            @endphp
 
-                                {{ $categoryName }}</span>
+                            {{ $categoryName }}</span>
 
                         </div>
                     </a>
-                @endif
             @endforeach
         </div>
         <div class="z-10">
