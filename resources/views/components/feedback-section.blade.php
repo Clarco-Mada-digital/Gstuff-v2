@@ -1,7 +1,7 @@
 <!-- resources/views/components/feedback-section.blade.php -->
-<div class="min-h-90 relative flex w-full items-center justify-center overflow-hidden py-10 bg-red-500">
+<div class="min-h-90 relative flex w-[90%] mx-auto items-center justify-center overflow-hidden py-10">
     <div class="absolute right-0 top-0 z-0 h-full w-full bg-[#FFFAFC]"></div>
-    <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden bg-red-500">
+    <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden">
         @foreach ($listcommentApprouved as $index => $item)
             <div
                 class="transition-feed {{ $currentIndex === $index ? 'scale-75 translate-x-[-100%] z-10' : '' }} {{ $currentIndex === $index - 1 ? 'scale-100 translate-x-0 z-20' : '' }} {{ $currentIndex === $index - 2 ? 'scale-75 translate-x-[100%] z-10' : '' }} {{ $currentIndex !== $index && $currentIndex !== $index - 1 && $currentIndex !== $index - 2 ? 'translate-x-0 opacity-0 scale-50' : '' }} absolute flex h-[250px] w-full min-w-[400px] flex-shrink-0 flex-col items-center justify-center gap-7 rounded-lg bg-white p-5 text-xl shadow-sm duration-500 md:w-1/3 lg:w-[625px] lg:text-3xl">
@@ -9,7 +9,7 @@
                     $content = $item->getTranslation('content', session('locale', 'fr')) ?: $item->content;
                     $truncated = strlen($content) > 110 ? substr($content, 0, 110) . '...' : $content;
                 @endphp
-                <p class="mx-auto w-[80%] text-center" title="{{ $content }}">
+                <p class="mx-auto w-[80%] text-center text-sm" title="{{ $content }}">
                     {{ $truncated }}
                 </p>
                 <div class="flex w-full flex-col items-center justify-center gap-4 xl:flex-row">
@@ -17,9 +17,9 @@
                     <img class="h-12 w-12 rounded-full" src="{{ get_gravatar($item->user->email) }}" alt="Avatar" />
                     <div class="flex flex-col font-bold">
                         <span
-                            class="font-roboto-slab text-green-gs text-base lg:text-2xl">{{ $item->user->pseudo ?? ($item->user->prenom ?? $item->user->nom_salon) }}</span>
+                            class="font-roboto-slab text-green-gs text-sm ">{{ $item->user->pseudo ?? ($item->user->prenom ?? $item->user->nom_salon) }}</span>
                         <span
-                            class="font-roboto-slab text-textColorParagraph text-center text-sm lg:text-base xl:text-start">
+                            class="font-roboto-slab text-textColorParagraph text-center text-xs">
                             @if ($item->user->profile_type == 'escorte')
                                 {{ __('profile.escort') }}
                             @elseif ($item->user->profile_type == 'salon')
