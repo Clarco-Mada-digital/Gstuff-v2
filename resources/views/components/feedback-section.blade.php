@@ -1,5 +1,5 @@
 <!-- resources/views/components/feedback-section.blade.php -->
-<div class="min-h-90 relative flex w-full items-center justify-center overflow-hidden py-10">
+<div class="min-h-90 relative flex w-full items-center justify-center overflow-hidden py-10 bg-red-500">
     <div class="absolute right-0 top-0 z-0 h-full w-full bg-[#FFFAFC]"></div>
     <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden bg-red-500">
         @foreach ($listcommentApprouved as $index => $item)
