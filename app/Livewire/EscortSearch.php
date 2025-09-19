@@ -507,17 +507,49 @@ public function closeModalside()
 
 
 
-        $filteredUsers->transform(function ($user) {
+        // $filteredUsers->transform(function ($user) {
+        //     $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
+        //     $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
+        //     $user->canton = Canton::find($user->canton);
+        //     $user->ville = Ville::find($user->ville);
+        //     return $user;
+        // });
+
+        // $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
+        //     return $user->isProfileVisibleTo($viewerCountry);
+        // });
+
+        $visibleUsers = $filteredUsers
+        // Filtrer les profils visibles
+        ->filter(function ($user) use ($viewerCountry) {
+            return $user->isProfileVisibleTo($viewerCountry);
+        })
+
+        // Transformer les données utilisateur
+        ->transform(function ($user) {
             $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
             $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
             $user->canton = Canton::find($user->canton);
             $user->ville = Ville::find($user->ville);
             return $user;
-        });
+        })
 
-        $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
-            return $user->isProfileVisibleTo($viewerCountry);
-        });
+        // Appliquer le tri
+        ->sortBy(function ($user) {
+            return $user->is_profil_pause;
+        })
+        ->sortByDesc(function ($user) {
+            return $user->last_activity;
+        })
+        ->sortByDesc(function ($user) {
+            return $user->rate_activity;
+        })
+        ->values(); // Réindexer proprement
+
+
+
+
+
 
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = $this->perPage;
