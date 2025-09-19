@@ -1,7 +1,7 @@
 <!-- resources/views/components/feedback-section.blade.php -->
 <div class="min-h-90 relative flex w-full items-center justify-center overflow-hidden py-10">
     <div class="absolute right-0 top-0 z-0 h-full w-full bg-[#FFFAFC]"></div>
-    <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden">
+    <div class="flex w-full flex-nowrap items-center justify-center gap-5 overflow-hidden bg-red-500">
         @foreach ($listcommentApprouved as $index => $item)
             <div
                 class="transition-feed {{ $currentIndex === $index ? 'scale-75 translate-x-[-100%] z-10' : '' }} {{ $currentIndex === $index - 1 ? 'scale-100 translate-x-0 z-20' : '' }} {{ $currentIndex === $index - 2 ? 'scale-75 translate-x-[100%] z-10' : '' }} {{ $currentIndex !== $index && $currentIndex !== $index - 1 && $currentIndex !== $index - 2 ? 'translate-x-0 opacity-0 scale-50' : '' }} absolute flex h-[250px] w-full min-w-[400px] flex-shrink-0 flex-col items-center justify-center gap-7 rounded-lg bg-white p-5 text-xl shadow-sm duration-500 md:w-1/3 lg:w-[625px] lg:text-3xl">
