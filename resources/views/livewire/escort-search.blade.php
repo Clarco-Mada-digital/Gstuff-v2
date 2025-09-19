@@ -616,5 +616,11 @@ x-data="{
 }
 
     </style>
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('debug');
+            const users = @json($users);
+            console.log(users);
+        });
+    </script>
 </div>
