@@ -21,6 +21,7 @@ use App\Models\Tattoo;
 use App\Models\Mobilite;
 use App\Models\NombreFille;
 use App\Models\OrientationSexuelle;
+use Illuminate\Support\Facades\Log;
 class EscortSearch extends Component
 {
     use WithPagination;
@@ -528,6 +529,7 @@ public function closeModalside()
             $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
             $user->canton = Canton::find($user->canton);
             $user->ville = Ville::find($user->ville);
+            Log::info("User ID {$user->id} - Rate Activity: {$user->rate_activity}");
             return $user;
         })
         ->sortBy(function ($user) {
