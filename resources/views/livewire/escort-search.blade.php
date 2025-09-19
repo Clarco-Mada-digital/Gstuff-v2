@@ -618,13 +618,10 @@ x-data="{
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            console.log('debug');
             const users = @json($users);
 
             users.data.map(user => {
-                console.log(user.prenom);
-                console.log(user.rate_activity);
-                console.log(user.is_profil_pause ? 'Pause' : 'En ligne');
+                console.log(user.prenom + 'avatar : '+ (  user.avatar ? 'oui': 'non') + 'rate : ' +user.rate_activity + 'pause : ' + (user.is_profil_pause ? 'Pause' : 'En ligne'));
             });
         });
     </script>
