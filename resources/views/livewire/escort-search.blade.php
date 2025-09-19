@@ -630,6 +630,8 @@ x-data="{
     }
 
     const size = getScreenSizeCategory();
+    console.log('getScreenSizeCategory', size);
+
 
     // Envoie la taille à Livewire
     window.livewire.emit('setScreenSize', size);

@@ -104,6 +104,7 @@ class EscortSearch extends Component
             '2xl'  => 16,
             default => 8,
         };
+        logger()->info('Screen size set to: ' . $size);
     }
     public function mount()
     {
