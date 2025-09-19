@@ -520,12 +520,9 @@ public function closeModalside()
         // });
 
         $visibleUsers = $filteredUsers
-        // Filtrer les profils visibles
         ->filter(function ($user) use ($viewerCountry) {
             return $user->isProfileVisibleTo($viewerCountry);
         })
-
-        // Transformer les données utilisateur
         ->transform(function ($user) {
             $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
             $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
@@ -533,18 +530,20 @@ public function closeModalside()
             $user->ville = Ville::find($user->ville);
             return $user;
         })
-
-        // Appliquer le tri
         ->sortBy(function ($user) {
-            return $user->is_profil_pause;
-        })
-        ->sortByDesc(function ($user) {
-            return $user->last_activity;
-        })
-        ->sortByDesc(function ($user) {
-            return $user->rate_activity;
+            // Priorité 1 : profil en pause (0 = actif, 1 = en pause)
+            $pauseScore = $user->is_profil_pause ? 1 : 0;
+
+            // Priorité 2 : rate_activity inversé (plus haut = mieux)
+            $rateScore = $user->rate_activity * -1;
+
+            // Priorité 3 : last_activity inversé (plus récent = mieux)
+            $lastActivityScore = strtotime($user->last_activity) * -1;
+
+            return [$pauseScore, $rateScore, $lastActivityScore];
         })
         ->values(); // Réindexer proprement
+
 
 
 
