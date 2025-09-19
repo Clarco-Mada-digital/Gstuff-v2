@@ -23,6 +23,8 @@ return [
     'speak' => 'Parle :langue',
     'filtreActifOne' => 'Filtre actif',
     'filtreActifMany' => 'filtres actifs',
+    'showMore' => 'Afficher plus',
+    'showLess' => 'Afficher moins',
 
     'result' => 'Résultat(s)',
     'results_around' => 'Résultat(s) autour de :distance km',
