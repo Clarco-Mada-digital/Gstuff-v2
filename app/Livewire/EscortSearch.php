@@ -92,6 +92,19 @@ class EscortSearch extends Component
         'maxAvailableDistance' => ['except' => 0],
     ];
 
+    protected $listeners = ['setScreenSize'];
+    public function setScreenSize($size)
+    {
+        $this->perPage = match ($size) {
+            'xs'   => 4,
+            'sm'   => 6,
+            'md'   => 8,
+            'lg'   => 10,
+            'xl'   => 12,
+            '2xl'  => 16,
+            default => 8,
+        };
+    }
     public function mount()
     {
         $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
