@@ -602,7 +602,7 @@ public function closeModalside()
                             ->values();
 
         // 🧩 Fusion finale
-        $visibleUsers = $tabBest->concat($tabPause)->concat($tabNoAvatar);
+        $visibleUsers = $tabBest->concat($tabNoAvatar)->concat($tabPause);
 
 
 
