@@ -107,16 +107,19 @@ class EscortSearch extends Component
         logger()->info('Screen size set to: ' . $size);
     }
     public function mount()
-    {
-        $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
-        $this->cantons = Canton::all();
-        $this->villes = collect([]);
-        $this->salonCategories = Categorie::where('type', 'salon')->get();
-        $this->escortCategories = Categorie::where('type', 'escort')->get();
-        $this->page = request()->get('page', 1);
-        $this->genres = Genre::all()->take(3);
-        
-    }
+{
+    $this->listeners = array_merge($this->listeners ?? [], [
+        'modalUserClosed' => 'handleModalClosed',
+    ]);
+
+    $this->cantons = Canton::all();
+    $this->villes = collect([]);
+    $this->salonCategories = Categorie::where('type', 'salon')->get();
+    $this->escortCategories = Categorie::where('type', 'escort')->get();
+    $this->page = request()->get('page', 1);
+    $this->genres = Genre::all()->take(3);
+}
+
 
     /**
      * Détermine si au moins un filtre est appliqué.
