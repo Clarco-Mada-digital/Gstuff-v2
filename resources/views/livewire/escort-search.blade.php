@@ -618,11 +618,18 @@ x-data="{
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const users = @json($users);
+    const users = @json($users);
 
-            users.data.map(user => {
-                console.log(user.prenom + 'avatar : '+ (  user.avatar ? 'oui': 'non') + 'rate : ' +user.rate_activity + 'pause : ' + (user.is_profil_pause ? 'Pause' : 'En ligne'));
-            });
-        });
+    users.data.map(user => {
+        const avatarEmoji = user.avatar ? '🖼️' : '🚫';
+        const rateEmoji = '🔥'; // tu peux varier selon le score si tu veux
+        const pauseEmoji = user.is_profil_pause ? '⏸️' : '✅';
+
+        console.log(
+            `${user.prenom} ${avatarEmoji} Avatar | ${rateEmoji} Rate: ${user.rate_activity} | ${pauseEmoji} ${user.is_profil_pause ? 'Pause' : 'En ligne'}`
+        );
+    });
+});
+
     </script>
 </div>
