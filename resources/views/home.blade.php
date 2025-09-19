@@ -387,6 +387,7 @@
     <script>
         console.log("escorts", @json($escorts));
         console.log("salons", @json($salons));
+        console.log("categories", @json($categories));
         // Script pour l'accordéon FAQ
         document.addEventListener('DOMContentLoaded', function() {
             const accordionButtons = document.querySelectorAll('[data-accordion-target]');
