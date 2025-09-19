@@ -36,7 +36,7 @@ class EscortSearch extends Component
     public $salonCategories;
     public $cantons = '';
     public $villes = '';
-    public $perPage = 8;
+    public $perPage = 12;
     public $page = 1;
     public $genres;
     public $userType = 'escort';
@@ -92,34 +92,17 @@ class EscortSearch extends Component
         'maxAvailableDistance' => ['except' => 0],
     ];
 
-    protected $listeners = ['setScreenSize'];
-    public function setScreenSize($size)
-    {
-        $this->perPage = match ($size) {
-            'xs'   => 4,
-            'sm'   => 6,
-            'md'   => 8,
-            'lg'   => 10,
-            'xl'   => 12,
-            '2xl'  => 16,
-            default => 8,
-        };
-        logger()->info('Screen size set to: ' . $size);
-    }
     public function mount()
-{
-    $this->listeners = array_merge($this->listeners ?? [], [
-        'modalUserClosed' => 'handleModalClosed',
-    ]);
-
-    $this->cantons = Canton::all();
-    $this->villes = collect([]);
-    $this->salonCategories = Categorie::where('type', 'salon')->get();
-    $this->escortCategories = Categorie::where('type', 'escort')->get();
-    $this->page = request()->get('page', 1);
-    $this->genres = Genre::all()->take(3);
-}
-
+    {
+        $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
+        $this->cantons = Canton::all();
+        $this->villes = collect([]);
+        $this->salonCategories = Categorie::where('type', 'salon')->get();
+        $this->escortCategories = Categorie::where('type', 'escort')->get();
+        $this->page = request()->get('page', 1);
+        $this->genres = Genre::all()->take(3);
+        
+    }
 
     /**
      * Détermine si au moins un filtre est appliqué.

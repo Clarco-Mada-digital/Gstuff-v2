@@ -616,25 +616,5 @@ x-data="{
 }
 
     </style>
-
-<script>
-    function getScreenSizeCategory() {
-        const width = window.innerWidth;
-
-        if (width < 640) return 'xs';       // < sm
-        if (width < 768) return 'sm';
-        if (width < 1024) return 'md';
-        if (width < 1280) return 'lg';
-        if (width < 1536) return 'xl';
-        return '2xl';
-    }
-
-    const size = getScreenSizeCategory();
-    console.log('getScreenSizeCategory', size);
-
-
-    // Envoie la taille à Livewire
-    window.livewire.emit('setScreenSize', size);
-</script>
-
+    
 </div>
