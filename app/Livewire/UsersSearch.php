@@ -10,7 +10,7 @@ use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Database\Eloquent\Collection;
-
+use App\Services\UserVisibilityService;
 
 use App\Models\CouleurCheveux;
 use App\Models\CouleurYeux;
@@ -515,18 +515,8 @@ public function closeModalside()
 
 
 
-
-        $filteredUsers->transform(function ($user) {
-            $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
-            $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
-            $user->canton = Canton::find($user->canton);
-            $user->ville = Ville::find($user->ville);
-            return $user;
-        });
-
-        $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
-            return $user->isProfileVisibleTo($viewerCountry);
-        });
+        $service = new UserVisibilityService();
+        $visibleUsers = $service->getVisibleUsers($filteredUsers, $viewerCountry);
 
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = $this->perPage;

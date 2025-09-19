@@ -506,59 +506,8 @@ public function closeModalside()
 
 
 
-
-
-        // $filteredUsers->transform(function ($user) {
-        //     $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
-        //     $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
-        //     $user->canton = Canton::find($user->canton);
-        //     $user->ville = Ville::find($user->ville);
-        //     return $user;
-        // });
-
-        // $visibleUsers = $filteredUsers->filter(function ($user) use ($viewerCountry) {
-        //     return $user->isProfileVisibleTo($viewerCountry);
-        // });
-
-        // $visibleUsers = $filteredUsers
-        // ->filter(function ($user) use ($viewerCountry) {
-        //     return $user->isProfileVisibleTo($viewerCountry);
-        // })
-        // ->transform(function ($user) {
-        //     $categoriesIds = !empty($user->categorie) ? explode(',', $user->categorie) : [];
-        //     $user->categorie = Categorie::whereIn('id', $categoriesIds)->get();
-        //     $user->canton = Canton::find($user->canton);
-        //     $user->ville = Ville::find($user->ville);
-
-        //     Log::info("User ID {$user->id} - Rate Activity: {$user->rate_activity}");
-
-        //     return $user;
-        // })
-        // ->sortBy(function ($user) {
-        //     // Priorité 0 : avatar présent (0 = a un avatar, 1 = pas d'avatar)
-        //     $hasNoAvatar = empty($user->avatar) ? 1 : 0;
-
-        //     // Priorité 1 : profil en pause (0 = actif, 1 = en pause)
-        //     $pauseScore = $user->is_profil_pause ? 1 : 0;
-
-        //     // Priorité 2 : rate_activity inversé (plus haut = mieux)
-        //     $rateScore = $user->rate_activity * -1;
-
-        //     // Priorité 3 : last_activity inversé (plus récent = mieux)
-        //     $lastActivityScore = strtotime($user->last_activity) * -1;
-
-        //     return [$hasNoAvatar, $pauseScore, $rateScore, $lastActivityScore];
-        // })
-        // ->values(); // Réindexer proprement
-
-       
-
         $service = new UserVisibilityService();
         $visibleUsers = $service->getVisibleUsers($filteredUsers, $viewerCountry);
-
-
-
-
 
 
         $page = LengthAwarePaginator::resolveCurrentPage();
