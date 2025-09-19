@@ -9,7 +9,7 @@
                     $content = $item->getTranslation('content', session('locale', 'fr')) ?: $item->content;
                     $truncated = strlen($content) > 110 ? substr($content, 0, 110) . '...' : $content;
                 @endphp
-                <p class="mx-auto w-[80%] text-center text-sm" title="{{ $content }}">
+                <p class="mx-auto w-[80%] text-center text-xl" title="{{ $content }}">
                     {{ $truncated }}
                 </p>
                 <div class="flex w-full flex-col items-center justify-center gap-4 xl:flex-row">
