@@ -37,7 +37,7 @@ class UsersSearch extends Component
     public $salonCategories;
     public $cantons = '';
     public $villes = '';
-    public $perPage = 8;
+    public $perPage = 12;
     public $page = 1;
     public $genres;
     public $userType = 'all';
