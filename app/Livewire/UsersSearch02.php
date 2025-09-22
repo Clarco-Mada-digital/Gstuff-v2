@@ -10,6 +10,7 @@ use App\Models\Genre;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Persistent;
 class UsersSearch02 extends Component
 {
     use WithPagination;
@@ -27,7 +28,7 @@ class UsersSearch02 extends Component
     public $perPage = 8;
     public $page = 1;
     public $genres;
-    public $userType = 'all';
+    public string $userType;
     public $approximite = false;
     public $showClosestOnly = false;
     #[Url]
@@ -76,6 +77,7 @@ class UsersSearch02 extends Component
 
     public function mount()
     {
+        $this->userType = session('userType', 'all');
         $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
         $this->cantons = Canton::all();
         $this->villes = collect([]);
@@ -186,6 +188,7 @@ class UsersSearch02 extends Component
     public function setUserType($type)
     {
         $this->userType = $type;
+        session(['userType' => $type]);
         $this->reset([
             'selectedCanton',
             'selectedVille',

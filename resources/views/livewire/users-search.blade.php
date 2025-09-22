@@ -60,7 +60,7 @@ x-data="{
                                             </div>
                                         </div>
         <h1 class="font-roboto-slab text-green-gs mb-5 text-center text-sm sm:text-lg md:text-3xl font-bold">
-            {{ __('user-search.title') }}
+            {{ __('user-search.title') }} aaaaaaaaaaaaaaa
         </h1>
 
         <form wire:submit.prevent="search" class="container flex w-full flex-col items-center justify-center 

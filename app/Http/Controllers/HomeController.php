@@ -43,7 +43,7 @@ class HomeController extends Controller
     private function getVisibleEscorts($escorts): \Illuminate\Support\Collection
     {
         $position = Location::get(request()->ip());
-        $viewerCountry = $position?->countryCode ?? null;
+        $viewerCountry = $position?->countryCode ?? 'FR';
 
         return $escorts->filter(function ($escort) use ($viewerCountry) {
             return $this->isProfileVisibleTo($escort, $viewerCountry);
@@ -112,7 +112,7 @@ class HomeController extends Controller
 
     // $escorts = $this->getVisibleEscorts($escorts);
     $position = Location::get(request()->ip());
-    $viewerCountry = $position?->countryCode ?? null;
+    $viewerCountry = $position?->countryCode ?? 'FR';
     $service = new UserVisibilityService();
     $escorts = $service->getVisibleUsers($escorts, $viewerCountry);
     // $escorts = $escorts->map(function ($escort) {

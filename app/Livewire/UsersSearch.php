@@ -22,6 +22,7 @@ use App\Models\Tattoo;
 use App\Models\Mobilite;
 use App\Models\NombreFille;
 use App\Models\OrientationSexuelle;
+use Livewire\Attributes\Persistent;
 
 class UsersSearch extends Component
 {
@@ -40,7 +41,7 @@ class UsersSearch extends Component
     public $perPage = 12;
     public $page = 1;
     public $genres;
-    public $userType = 'all';
+    public string $userType;
     public $approximite = false;
     public $showClosestOnly = false;
     #[Url]
@@ -97,6 +98,7 @@ class UsersSearch extends Component
 
     public function mount()
     {
+        $this->userType = session('userType', 'all');
         $this->listeners = ['modalUserClosed' => 'handleModalClosed'];
         $this->cantons = Canton::all();
         $this->villes = collect([]);
@@ -241,6 +243,7 @@ public function closeModalside()
     public function setUserType($type)
     {
         $this->userType = $type;
+        session(['userType' => $type]);
         $this->reset([
             'selectedCanton',
             'selectedVille',
