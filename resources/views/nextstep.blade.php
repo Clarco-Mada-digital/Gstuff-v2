@@ -40,34 +40,34 @@
             </ul>
             <div class="flex flex-wrap items-center justify-around">
     <a href="{{ route('escort_register') }}"
-        class="group text-green-gs hover:text-green-gs text-sm border-green-gs font-roboto-slab hover:bg-supaGirlRosePastel my-2 block w-full transform rounded border md:p-3 p-2 text-center transition duration-300 hover:scale-105 sm:w-[45%] relative overflow-hidden">
-        <span class="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
+        class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 md:p-3 p-2 text-center text-sm font-roboto-slab font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 my-2 block w-full sm:w-[45%]">
+        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
             <span class="relative">
                 {{ __('login_form.register_escort') }}
-                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-green-gs transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
             </span>
         </span>
         <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
             <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
         </span>
         <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span class="absolute inset-0 rounded-lg border-2 border-green-gs/80 transition-all duration-300"></span>
+            <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
         </span>
     </a>
 
     <a href="{{ route('salon_register') }}"
-        class="group text-green-gs hover:text-green-gs text-sm border-green-gs font-roboto-slab hover:bg-supaGirlRosePastel my-2 block w-full transform rounded border md:p-3 p-2 text-center transition duration-300 hover:scale-105 sm:w-[45%] relative overflow-hidden">
-        <span class="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
+        class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 md:p-3 p-2 text-center text-sm font-roboto-slab font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 my-2 block w-full sm:w-[45%]">
+        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
             <span class="relative">
                 {{ __('login_form.register_professional') }}
-                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-green-gs transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
             </span>
         </span>
         <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
             <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
         </span>
         <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span class="absolute inset-0 rounded-lg border-2 border-green-gs/80 transition-all duration-300"></span>
+            <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
         </span>
     </a>
 </div>
