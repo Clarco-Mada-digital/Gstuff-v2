@@ -17,9 +17,9 @@
         </svg>
     </span>
 
-    <span class="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-lg">
+    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span
-            class="absolute aspect-square w-0 rounded-full bg-white opacity-0 transition-all duration-700 ease-out group-hover:w-[300%] group-hover:opacity-10"></span>
+            class="absolute h-8 w-8 rounded-full bg-white opacity-0 transition-all duration-700 ease-out group-hover:h-full group-hover:w-full group-hover:opacity-10"></span>
     </span>
 
     <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
