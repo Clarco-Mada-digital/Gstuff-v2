@@ -60,39 +60,73 @@
         const rightBtn = document.getElementById('arrowScrollRight');
         const leftBtn = document.getElementById('arrowScrollLeft');
         const container = document.getElementById('glossaire-container');
-        const items = container.querySelectorAll('[data-carousel-item]');
-        let currentIndex = 0;
-        const itemWidth = items[0]?.offsetWidth + 24; // Largeur d'un élément + gap
+        const originalItems = Array.from(container.querySelectorAll('[data-carousel-item]'));
+        
+        if (originalItems.length === 0) return;
 
-        // Fonction pour mettre à jour la visibilité des flèches
-        function updateArrows() {
-            const containerWidth = container.offsetWidth;
-            const scrollWidth = container.scrollWidth;
-            const scrollLeft = container.scrollLeft;
-
-            // Afficher/masquer les flèches en fonction de la position de défilement
-            rightBtn.style.display = scrollLeft > 0 ? 'flex' : 'none';
-            leftBtn.style.display = scrollLeft < (scrollWidth - containerWidth - 10) ? 'flex' : 'none';
+        // Cloner les éléments pour créer un effet infini
+        const cloneCount = 2; // Nombre de fois qu'on clone la liste
+        for (let i = 0; i < cloneCount; i++) {
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                container.appendChild(clone);
+            });
         }
 
-        // Écouteurs d'événements pour les boutons
-        rightBtn.addEventListener('click', () => {
+        // Ajouter aussi des clones au début
+        for (let i = 0; i < cloneCount; i++) {
+            originalItems.slice().reverse().forEach(item => {
+                const clone = item.cloneNode(true);
+                container.insertBefore(clone, container.firstChild);
+            });
+        }
+
+        const allItems = container.querySelectorAll('[data-carousel-item]');
+        const itemWidth = originalItems[0].offsetWidth + 24; // Largeur + gap
+        const totalOriginalWidth = itemWidth * originalItems.length;
+
+        // Positionner au début de la section originale (après les clones du début)
+        container.scrollLeft = totalOriginalWidth * cloneCount;
+
+        let isScrolling = false;
+
+        // Fonction pour gérer le défilement infini
+        function handleInfiniteScroll() {
+            if (isScrolling) return;
+
+            const scrollLeft = container.scrollLeft;
+            const maxScroll = container.scrollWidth - container.offsetWidth;
+
+            // Si on atteint la fin, revenir au début de la section originale
+            if (scrollLeft >= maxScroll - 10) {
+                isScrolling = true;
+                container.scrollLeft = totalOriginalWidth * cloneCount;
+                setTimeout(() => isScrolling = false, 50);
+            }
+            // Si on atteint le début, aller à la fin de la section originale
+            else if (scrollLeft <= 10) {
+                isScrolling = true;
+                container.scrollLeft = totalOriginalWidth * cloneCount;
+                setTimeout(() => isScrolling = false, 50);
+            }
+        }
+
+        // Fonction de défilement
+        function scrollCarousel(direction) {
             container.scrollBy({
-                left: -itemWidth,
+                left: direction * itemWidth,
                 behavior: 'smooth'
             });
-        });
+        }
 
-        leftBtn.addEventListener('click', () => {
-            container.scrollBy({
-                left: itemWidth,
-                behavior: 'smooth'
-            });
-        });
+        // Écouteurs d'événements
+        rightBtn.addEventListener('click', () => scrollCarousel(-1));
+        leftBtn.addEventListener('click', () => scrollCarousel(1));
 
-        // Mettre à jour les flèches au chargement et au redimensionnement
-        window.addEventListener('resize', updateArrows);
-        container.addEventListener('scroll', updateArrows);
-        updateArrows(); // Initial call
+        container.addEventListener('scroll', handleInfiniteScroll);
+
+        // Les flèches sont toujours visibles pour un carrousel infini
+        rightBtn.style.display = 'flex';
+        leftBtn.style.display = 'flex';
     });
 </script>
