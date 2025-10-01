@@ -19,7 +19,7 @@
 
     <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span
-            class="absolute h-8 w-8 rounded-full bg-white opacity-0 transition-all duration-700 ease-out group-hover:h-[500px] group-hover:w-[500px] group-hover:opacity-10"></span>
+            class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-700 ease-out group-hover:h-[500px] group-hover:w-[500px] group-hover:opacity-10"></span>
     </span>
 
     <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
