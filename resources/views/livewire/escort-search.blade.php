@@ -427,7 +427,7 @@ x-data="{
         wire:ignore.self>
         <div class="relative max-h-full w-full">
             {{-- Modal content --}}
-            <div class="relative m-2 rounded-lg bg-white shadow-sm h-[80vh] ">
+            <div class="relative m-2 rounded-lg bg-white shadow-sm h-[80vh] overflow-y-scroll ">
 
                 {{-- Modal header --}}
                 <div class="flex justify-between rounded-t border-b border-gray-200 p-4 md:p-5">
@@ -449,7 +449,7 @@ x-data="{
                 </div>
 
                 {{-- Modal body --}}
-                <div class="relative flex flex-col gap-3 p-2 md:p-5 overflow-y-scroll">
+                <div class="relative flex flex-col gap-3 p-2 md:p-5 ">
                     <x-origine-select-escort :origineData="$origineData" />
                     <x-langue-select-escort :langueData="$langueData" />
                     <div class="grid w-full grid-cols-2 items-center justify-between gap-3">
