@@ -143,24 +143,24 @@
             @guest
                 {{-- Btn de connexion --}}
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
-    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg px-4 py-2 xl:px-5 xl:py-2.5 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 lg:order-1 xl:block">
-    
-    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
-        <span class="relative text-xs xl:text-sm">
-            {{ __('header.login_register') }}
-            <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
-        </span>
-       
-    </span>
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg px-4 py-2 xl:px-5 xl:py-2.5 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 lg:order-1 xl:block">
+                    
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                        <span class="relative text-xs xl:text-sm">
+                            {{ __('header.login_register') }}
+                            <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                    
+                    </span>
 
-    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
-    </span>
+                    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                        <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
+                    </span>
 
-    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
-    </span>
-</button>
+                    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
+                    </span>
+                </button>
 
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
                     class="text-complementaryColorViolet hover:bg-complementaryColorViolet inline-flex cursor-pointer items-center rounded-full p-2 text-center text-sm font-medium focus:outline-none xl:order-1 xl:hidden">
