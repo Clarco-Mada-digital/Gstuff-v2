@@ -527,7 +527,7 @@
 
         <span class="relative">
             {{ __('login_form.login') }}
-            <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+            <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
         </span>
     </span>
 
