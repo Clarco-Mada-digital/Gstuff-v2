@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,10 +165,13 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        //App\Providers\BroadcastServiceProvider::class, // a ete decomenter
+        App\Providers\BroadcastServiceProvider::class, // a ete decomenter
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ApiDataServiceProvider::class,
+        App\Providers\ComponentServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,6 +187,39 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Modal' => App\View\Components\Modal::class,
+        // 'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Locales Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This array defines the locales supported by the application. Locales
+    | are used for internationalization (i18n) and localization (l10n) to
+    | provide a multilingual user experience. Each locale corresponds to a
+    | language and possibly a region, allowing the application to display
+    | content and interface elements in different languages.
+    |
+    | Add or remove locales as needed to match the languages your application
+    | supports. The locale codes should follow the ISO 639-1 standard for
+    | language codes and ISO 3166-1 alpha-2 standard for country codes.
+    |
+    | Example:
+    |   - 'en' for English
+    |   - 'fr' for French
+    |   - 'es' for Spanish
+    |   - 'it' for Italian
+    |   - 'de' for German
+    |
+    | Note: Ensure that translation files are available for each locale
+    | you add to this array. Translation files are typically stored in the
+    | 'resources/lang' directory.
+    |
+    */
+    
+    'locales' => ['en-US', 'fr', 'es' , 'it' , 'de'], 
 
 ];

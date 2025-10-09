@@ -1,28 +1,210 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 @import "tailwindcss";
 @source "../views";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-dm: "DM+Sans", sans-serif;
-  --font-dm-serif: "DM+Sans display", serif;
-  --font-cormorant: "Cormorant Garamond", serif;
-  --color-green-gs: #05595B;
+    --font-dm: "DM+Sans", sans-serif;
+    --font-dm-serif: "DM+Sans display", serif;
+    --font-cormorant: "Cormorant Garamond", serif;
+    --font-roboto-slab: "Roboto Slab",  sans-serif;
+    --color-green-gs: #7F55B1;
+    /* --color-green-gs: #05595B; */
+     /* Palette principale */
+     --color-textColor: #101828;    /* Noir profond pour les titres */
+     --color-textColorParagraph: #848484;  /* Gris moyen pour les paragraphes */
+     --color-complementaryColorViolet: #7F55B1;   /* Violet vif */
+     --color-supaGirlRose: #FDA5D6; /* Rose vif */
+     --color-supaGirlRosePastel: #FED5E9;    /* Rose pâle */
+     --color-fieldBg: #FFF8FB;     /* Fond blanc rosé */
+     --color-bgFooter: #454E63;     /* Fond footer */
+     --color-bgCopyRight: #FFFAFC;     /* Fond footer */
 }
+
 @layer components {
-  [x-cloak] {
-    display: none !important;
-  }
-  .btn-gs-gradient {
-    background: linear-gradient(244deg, #D0AC2B 0.54%, #F5DC82 30.58%, #FFEDAD 48.71%, #F5DC82 66.85%, #D0AC2B 100%);
-    padding: 10px;
-    /* border-radius: 20px; */
-    transition: all .25s ease-in-out;
-  }
-  .btn-gs-gradient:hover {
-    background: linear-gradient(244deg, #FFEDAD 0.54%, #F5DC82 30.58%, #D0AC2B 48.71%, #F5DC82 66.85%, #FFEDAD 100%);
-  }
-  a:hover{
-    color: #D0AC2B;
-  }
+    [x-cloak] {
+        display: none !important;
+    }
+
+    
+      
+
+    .btn-gs-gradient {
+        background: linear-gradient(244deg, #D0AC2B 0.54%, #F5DC82 30.58%, #FFEDAD 48.71%, #F5DC82 66.85%, #D0AC2B 100%);
+        padding: 10px;
+        /* border-radius: 20px; */
+        transition: all .25s ease-in-out;
+    }
+
+    .btn-gs-gradient:hover {
+        background: linear-gradient(244deg, #FFEDAD 0.54%, #F5DC82 30.58%, #D0AC2B 48.71%, #F5DC82 66.85%, #FFEDAD 100%);
+    }
+
+    a:hover {
+        color: #D0AC2B;
+    }
+
+    @keyframes progress {
+        0% {
+            width: 0%;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    .animation-progress {
+        animation: progress 24s linear forwards;
+    }
+
+    /* Animation pour le drag and drop */
+    .drag-active {
+        transform: scale(1.02);
+        transition: all 0.2s ease;
+    }
+
+    /* Style pour les prévisualisations */
+    .file-preview {
+        transition: opacity 0.3s ease;
+    }
+
+    .file-preview-enter {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .file-preview-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a1a1a1;
+    }
+
+    .ck-editor__editable {
+        min-height: 300px;
+        padding: 1rem;
+    }
+
+    .ck-content h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 1em 0;
+    }
+
+    .ck-content ul,
+    .ck-content ol {
+        padding-left: 2em;
+        margin: 1em 0;
+    }
+
+    /* Validation */
+    input:invalid,
+    textarea:invalid {
+        border-color: #f87171;
+    }
+
+    .prose {
+        color: #374151;
+        max-width: 65ch;
+    }
+
+    .prose h1,
+    .prose h2,
+    .prose h3 {
+        color: #111827;
+        font-weight: 600;
+    }
+
+    .prose h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .prose p {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .prose ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .prose a {
+        color: #4f46e5;
+        text-decoration: underline;
+    }
+
+    /* Transition plus douce pour les switches */
+    .switch-transition {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Effet de profondeur sur les boutons */
+    .btn-depth {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-depth:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    
+    .animate-progress {
+        animation: progress 24s linear forwards;
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.3s ease-out;
+    }
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-in;
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+    @keyframes progress {
+        from { width: 0%; }
+        to { width: 100%; }
+    }
+
+
+
+    :root {
+        --colorPrimary: #2180f3;
+        --paraColor: #787882;
+        --colorBlack: #121212;
+        --colorWhite: #ffffff;
+        --colorLightBg: #ecf5ff;
+        --bodyFont: "Lato", sans-serif;
+    }
+
+   
+
 }

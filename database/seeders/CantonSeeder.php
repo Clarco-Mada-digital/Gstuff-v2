@@ -17,7 +17,7 @@ class CantonSeeder extends Seeder
             ['nom' => 'Suisse Alémanique'],
             [ 'nom' => 'Zurich' ],
             [ 'nom' => 'Berne' ],
-            [ 'nom' => 'Friboug' ],
+            [ 'nom' => 'Fribourg' ],
             [ 'nom' => 'Jura' ],
             [ 'nom' => 'Neuchâtel' ],
             [ 'nom' => 'Genève' ],

@@ -8,6 +8,7 @@ use Livewire\Component;
 class Notification extends Component
 {
     public $unreadCount;
+    public $unreadNotifications;
     public $notifications;
     
     protected $listeners = ['refreshNotifications' => 'refresh'];
@@ -20,13 +21,25 @@ class Notification extends Component
     public function refresh()
     {
         $this->unreadCount = Auth::user()->unreadNotifications->count();
+        $this->unreadNotifications = Auth::user()->unreadNotifications->take(5);
         $this->notifications = Auth::user()->notifications->take(5);
     }
 
     public function markAsRead($id)
     {
-        Auth::user()->notifications->where('id', $id)->markAsRead();
+        $notification = Auth::user()->notifications()->find($id);
+        if ($notification) {
+            $notification->markAsRead();
+            $this->refresh();
+            return redirect(request()->header('Referer'));
+        }
+    }
+
+    public function markAsReadAll()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
         $this->refresh();
+        return redirect(request()->header('Referer'));
     }
 
     // Dans NotificationBell.php

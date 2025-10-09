@@ -50,12 +50,12 @@ class VilleSeeder extends Seeder
             [ 'nom' => 'Thoune', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
             [ 'nom' => 'Zollikofen', 'canton_id' => $cantons['Berne'] ?? null ], // Utilisez l'ID du canton de Berne
 
-            [ 'nom' => 'Bulle', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Châtel-Saint-Denis', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Düdingen', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Fribourg', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Marly', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
-            [ 'nom' => 'Romont', 'canton_id' => $cantons['Friboug'] ?? null ], // Utilisez l'ID du canton de Friboug
+            [ 'nom' => 'Bulle', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
+            [ 'nom' => 'Châtel-Saint-Denis', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
+            [ 'nom' => 'Düdingen', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
+            [ 'nom' => 'Fribourg', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
+            [ 'nom' => 'Marly', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
+            [ 'nom' => 'Romont', 'canton_id' => $cantons['Fribourg'] ?? null ], // Utilisez l'ID du canton de Fribourg
 
             [ 'nom' => 'Bassecour', 'canton_id' => $cantons['Jura'] ?? null ], // Utilisez l'ID du canton de Jura
             [ 'nom' => 'Boncourt', 'canton_id' => $cantons['Jura'] ?? null ], // Utilisez l'ID du canton de Jura

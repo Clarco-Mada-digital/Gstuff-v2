@@ -1,215 +1,449 @@
+@php
+    $limitedEscorts = array_slice($escorts->toArray(), 0, 10); // Convertit en tableau et coupe
+@endphp
+
 @extends('layouts.base')
 
-  @section('pageTitle')
-      Home
-  @endsection
+@section('pageTitle')
+    {{ __('home.page_title') }}
+@endsection
 
-  @section('content')
+@section('content')
+
 
     {{-- Hero content --}}
-    <div class="relative flex items-center justify-center flex-col gap-8 w-full px-3 py-20 lg:h-[418px] bg-no-repeat" style="background: url('images/Hero image.jpeg') center center /cover;">
-      <div class="w-full h-full z-0 absolute inset-0 to-0% right-0% bg-green-gs/65"></div>
-      <div class="flex items-center justify-center flex-col z-10">
-        <h2 class="[text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] lg:text-6xl md:text-5xl text-4xl text-center font-semibold text-white font-cormorant">Rencontres <span class="text-amber-400">élégantes et discrètes</span>  en Suisse</h2>
-      </div>
-      <div class="flex flex-col lg:flex-row gap-2 text-black transition-all">
-        @foreach ($categories as $categorie)
-        <a href="{{route('escortes')}}" class="flex items-center justify-center gap-1 z-10 transition-all">
-          <div class="w-64 lg:w-56 flex items-center justify-center gap-1.5 p-2.5 bg-white border border-amber-400 rounded-md hover:bg-green-gs hover:text-white transition-all">
-            <img src="{{ asset('images/icons/'. $categorie['display_name'] .'_icon.svg') }}" alt="icon service {{ $categorie['display_name'] }}" />
-            <span>{{ $categorie['nom'] }}</span>
-          </div>
-        </a>
-        @endforeach
-      </div>
-      <div class="z-10">
-        <a href="{{ route('escortes') }}" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-blue-800">Tout voir <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
-        </a>
-      </div>
+    <div class="relative flex h-[200px] w-full flex-col items-center justify-center gap-4 md:gap-8 bg-no-repeat px-3 py-20 lg:h-[418px]"
+        style="background: url('images/Hero image.jpeg') center center /cover;">
+        <div class="right-0% bg-green-gs/65 absolute inset-0 z-0 h-full w-full to-0%"></div>
+        <div class="z-10 flex flex-col items-center justify-center mt-5">
+            <h2
+                class="font-roboto-slab text-fieldBg text-center text-md sm:text-xl md:text-4xl font-semibold [text-shadow:_2px_6px_9px_rgb(0_0_0_/_0.8)] md:text-5xl lg:text-6xl">
+                {{ __('home.meetings') }} <span class="text-supaGirlRose">{{ __('home.elegant_discreet') }}</span>
+                {{ __('home.in_switzerland') }}</h2>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-black transition-all lg:flex-row">
+            @php
+                $categorieshome = $categories->where('type', 'escort')->where('display_name', '!=', 'telephone-rose-video-chat');
+            @endphp
+            @foreach ($categorieshome as $categorie)
+                <a href="{{ route('escortes') }}?selectedCategories=[{{ $categorie->id }}]"
+                    class="z-10 flex items-center justify-center gap-1 md:gap-1 transition-all">
+                    <div
+                        class="hover:bg-complementaryColorViolet border-supaGirlRose flex w-64 items-center justify-center gap-1 md:gap-1.5 rounded-md border bg-white p-1 md:p-2.5 transition-all hover:border-white hover:text-white lg:w-56">
+                        <img src="{{ asset('images/icons/' . $categorie['display_name'] . '_icon.png') }}"
+                            class="h-4 w-4 xl:h-8 xl:w-8" alt="icon service {{ $categorie['display_name'] }}" />
+                        <span class="whitespace-nowrap text-xs md:text-sm">
+                            @php
+                                $locale = session('locale', 'fr');
+                                $categoryName = $categorie['nom'];
+                            @endphp
+
+                            {{ $categoryName }}</span>
+
+                        </div>
+                    </a>
+            @endforeach
+        </div>
+        <div class="z-10">
+            <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}" />
+        </div>
     </div>
 
     {{-- Main content --}}
-    <div class="mt-10 container m-auto px-5 overflow-hidden">
+    <div class="container m-auto mt-4 xl:mt-10 overflow-hidden xl:px-5 px-1">
 
-      <div x-data="{ viewEscorte: true }" x-cloak>
+        <div x-data="{ viewEscorte: true }" x-cloak>
 
-        {{-- Switch salon escort Btn --}}
-        <ul class="w-full lg:w-[50%] text-xs lg:text-xl font-medium text-center text-gray-500 rounded-lg shadow-sm flex mx-auto dark:divide-gray-700 dark:text-gray-400">
-          <li class="w-full focus-within:z-10">
-              <button  @click="viewEscorte = true" :class="viewEscorte ? 'btn-gs-gradient' : ''" class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-s-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-current="page">Top escortes du jour</button>
-          </li>
-          <li class="w-full focus-within:z-10">
-              <button @click="viewEscorte = false" :class="viewEscorte ? '' : 'btn-gs-gradient' " class="inline-block w-full p-4 text-xs md:text-sm lg:text-base bg-white border-r font-bold border-gray-200 dark:border-gray-700 hover:text-gray-700 hover:bg-gray-50  rounded-e-lg focus:outline-none dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">Les salons</button>
-          </li>
-        </ul>
+            {{-- Switch salon escort Btn --}}
+            <ul
+                class="mx-auto flex w-full cursor-pointer rounded-lg mx-2 text-center text-xs font-medium shadow-sm lg:w-[50%] lg:text-xl">
+                <li class="w-full focus-within:z-10">
+                    <button @click="viewEscorte = true"
+                        :class="viewEscorte
+                            ?
+                            'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
+                            'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class="inline-block w-full cursor-pointer rounded-s-lg border border-gray-200 xl:p-4 p-2 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        :aria-current="viewEscorte ? 'page' : null">
+                        {{ __('home.top_escorts_today') }}
+                    </button>
+                </li>
+                <li class="w-full focus-within:z-10">
+                    <button @click="viewEscorte = false"
+                        :class="!viewEscorte
+                            ?
+                            'bg-supaGirlRose text-white hover:bg-supaGirlRose/90' :
+                            'bg-white text-complementaryColorViolet hover:bg-gray-50'"
+                        class="inline-block w-full cursor-pointer rounded-e-lg border border-gray-200 xl:p-4 p-2 text-xs font-bold transition-colors duration-200 focus:outline-none md:text-sm lg:text-base"
+                        :aria-current="!viewEscorte ? 'page' : null">
+                        {{ __('home.the_salons') }}
+                    </button>
+                </li>
+            </ul>
 
-        {{-- Section listing Escort --}}
-        <div x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-show="viewEscorte"
-            class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
-          <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos nouvelles escortes</h3>
-          <div id="NewEscortContainer" class="w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($escorts->slice(0,5) as $escort)
-            <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
-            @endforeach
-          </div>
-          <div id="arrowEscortScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
-          </div>
-          <div id="arrowEscortScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-          </div>
+            {{-- Section listing Escort --}}
+
+            <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
+                x-transition:enter-end="opacity-100 scale-100" x-show="viewEscorte"
+                class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
+                <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold">{{ __('home.new_escorts') }}</h3>
+                <div id="NewEscortContainer"
+                    class="relative mb-4 mt-5 flex h-full w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto overflow-y-hidden px-1 md:px-10"
+                    style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                    @foreach ($escorts as $escort)
+                        <livewire:escort-card wire:key="escort-{{ $escort->id }}" name="{{ $escort->prenom }}"
+                            canton="{{ $escort->canton['nom'] ?? '' }}" ville="{{ $escort->ville['nom'] ?? '' }}"
+                            avatar='{{ $escort->avatar }}' isPause="{{ $escort->is_profil_pause }}"
+                            isOnline='{{ $escort->isOnline() }}' escortId='{{ $escort->id }}'
+                            profileVerifie='{{ $escort->profile_verifie }}' size="small" />
+                    @endforeach
+                </div>
+                <div id="arrowEscortScrollRight"
+                    class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                    data-carousel-prev>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="white"
+                            d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" />
+                    </svg>
+                </div>
+                <div id="arrowEscortScrollLeft"
+                    class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                    data-carousel-next>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
+                    </svg>
+                </div>
+            </div>
+            
+
+            {{-- Section listing Salon --}}
+            <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90"
+                x-transition:enter-end="opacity-100 scale-100" x-show="!viewEscorte"
+                class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
+                <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold">{{ __('home.our_salons') }}</h3>
+                <div id="OurSalonContainer"
+                    class="min-h-30 mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
+                    style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+                    @foreach ($salons as $salon)
+                        <livewire:salon-card name="{{ $salon->nom_salon ?? '' }}"
+                            canton="{{ $salon->canton['nom'] ?? '' }}" ville="{{ $salon->ville['nom'] ?? '' }}"
+                            isPause="{{ $salon->is_profil_pause }}" salonId='{{ $salon->id }}'
+                            avatar='{{ $salon->avatar }}' profileVerifie='{{ $salon->profile_verifie }}' size="small" />
+                    @endforeach
+                    @if ($salons == '[]')
+                        <h3 class="font-roboto-slab text-green-gs w-full text-center text-3xl">
+                            {{ __('home.no_salon_yet') }}
+                        </h3>
+                    @endif
+                </div>
+                <div id="arrowSalonScrollRight"
+                    class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                    data-carousel-prev>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="white"
+                            d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" />
+                    </svg>
+                </div>
+                <div id="arrowSalonScrollLeft"
+                    class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                    data-carousel-next>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
+                    </svg>
+                </div>
+
+            </div>
         </div>
 
-        {{-- Section listing Salon --}}
-        <div x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-show="!viewEscorte"
-            class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
-          <h3 class="font-dm-serif text-green-gs font-bold text-4xl text-center">Nos salons</h3>
-          <div id="OurSalonContainer" class="w-full min-h-30 flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-            @foreach ($salons->slice(0,5) as $salon)
-            <x-salon_card name="{{ $salon->nom_salon ?? '' }}" canton="{{$salon->canton['nom']}}" ville="{{$salon->ville['nom']}}" salonId='{{$salon->id}}' avatar='{{$salon->avatar}}' />
-            @endforeach
-            @if($salons == '[]')
-              <h3 class="w-full font-dm-serif text-3xl text-center text-green-gs">Aucun salon pour l'instant !</h3>
-            @endif
-          </div>
-          <div id="arrowSalonScrollRight" class="absolute 2xl:hidden top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
-          </div>
-          <div id="arrowSalonScrollLeft" class="absolute 2xl:hidden top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-          </div>
-        </div>
-      </div>
 
-      {{-- Section listing escort --}}
-      <div class="relative w-full mx-auto flex flex-col items-center justify-center mt-4">
-        <h3 class="font-dm-serif text-green-gs font-bold text-3xl lg:text-4xl text-center">A la recherche d'un plaisir coquin ?</h3>
-        <div id="listingContainer" class="relative w-full flex items-center justify-start overflow-x-auto flex-nowrap mt-5 mb-4 px-10 gap-4" style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
-          @foreach ($escorts->slice(0,8) as $escort)
-          <x-escort_card name="{{ $escort->prenom }}" canton="{{$escort->canton['nom']}}" ville="{{$escort->ville['nom']}}" avatar='{{$escort->avatar}}' escortId='{{$escort->id}}' />
-          @endforeach
+
+        {{-- Section listing escort --}}
+        <div class="relative mx-auto mt-4 flex w-full flex-col items-center justify-center">
+            <h3 class="font-roboto-slab text-green-gs text-center text-lg md:text-2xl font-bold lg:text-4xl">
+                {{ __('home.looking_for_fun') }}</h3>
+            <div id="listingContainer"
+                class="relative mb-4 mt-5 flex w-full flex-nowrap items-center justify-start gap-4 overflow-x-auto px-1 md:px-10"
+                style="scroll-snap-type: x proximity; scrollbar-size: none; scrollbar-color: transparent transparent">
+
+                @foreach ($escorts as $escort)
+                    <livewire:escort-card name="{{ $escort->prenom }}" canton="{{ $escort->canton['nom'] ?? '' }}"
+                        ville="{{ $escort->ville['nom'] ?? '' }}" avatar='{{ $escort->avatar }}'
+                        isOnline='{{ $escort->isOnline() }}' isPause="{{ $escort->is_profil_pause }}"
+                        escortId='{{ $escort->id }}' profileVerifie='{{ $escort->profile_verifie }}' size="small" />
+                @endforeach
+
+            </div>
+            <div id="arrowListScrollRight"
+                class="bg-green-gs absolute left-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                data-carousel-prev>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="white"
+                        d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z" />
+                </svg>
+            </div>
+            <div id="arrowListScrollLeft"
+                class="bg-green-gs absolute right-1 top-[40%] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow"
+                data-carousel-next>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="white" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z" />
+                </svg>
+            </div>
+            <div class="z-10 mb-6">
+
+
+                <x-btn href="{{ route('escortes') }}" text="{{ __('home.see_all') }}" />
+
+            </div>
         </div>
-        <div id="arrowListScrollRight" class="absolute top-[40%] left-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-prev>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.85 13l2.85 2.85q.3.3.288.7t-.288.7q-.3.3-.712.313t-.713-.288L4.7 12.7q-.3-.3-.3-.7t.3-.7l4.575-4.575q.3-.3.713-.287t.712.312q.275.3.288.7t-.288.7L7.85 11H19q.425 0 .713.288T20 12t-.288.713T19 13z"/></svg>
-        </div>
-        <div id="arrowListScrollLeft" class="absolute top-[40%] right-1 w-10 h-10 rounded-full shadow bg-amber-300/60 flex items-center justify-center cursor-pointer" data-carousel-next>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m14 18l-1.4-1.45L16.15 13H4v-2h12.15L12.6 7.45L14 6l6 6z"/></svg>
-        </div>
-        <div class="z-10 mb-6">
-          <a href="{{ route('escortes') }}" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 text-center dark:focus:ring-blue-800">Tout voir <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
-          </a>
-        </div>
-      </div>
 
     </div>
 
-    <div class="relative flex flex-col items-center justify-center py-10 w-full" style="background: url('images/girl_deco_image.jpg') center center /cover">
-      <div class="bg-white/70 absolute top-0 right-0 w-full h-full z-0"></div>
-        <h3 class="font-dm-serif text-green-gs text-2xl md:text-3xl lg:text-4xl xl:text-5xl my-4 mx-2 text-center font-bold z-10">Trouver des escortes, masseuses et plus encore sur Gstuff !</h3>
-        <div class="flex flex-col w-full px-4 md:flex-row items-center justify-center gap-2 py-6 z-10">
+    <div class="relative flex w-full flex-col items-center justify-center py-10"
+        style="background: url('images/girl_deco_image.jpg') center center /cover">
+        <div class="absolute right-0 top-0 z-0 h-full w-full bg-white/70"></div>
+        <h3
+            class="font-roboto-slab text-green-gs z-10 mx-2 my-4 text-center text-2xl font-bold md:text-3xl lg:text-4xl xl:text-5xl">
+            {{ __('home.find_escorts') }}</h3>
+        <div class="z-10 flex w-full flex-col items-center justify-center gap-2 px-4 py-6 md:flex-row">
 
-        <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
-          <span class="text-center font-dm-serif w-[70%]">+ de 500 partenaires</span>
-          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Profils vérifiés pour des rencontres authentiques.</span>
-        </div>
-        <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
-          <span class="text-center font-dm-serif w-[70%]">+ de 300 amateurs</span>
-          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Expériences coquines avec des amateurs dédiés.</span>
-        </div>
-        <div class="w-full lg:w-[367px] lg:h-[263px] bg-[#618E8D] p-3 flex flex-col text-white text-2xl lg:text-4xl font-bold items-center justify-center gap-3">
-          <span class="text-center font-dm-serif w-[70%]">+ de 200 salons professionnels</span>
-          <span class="text-center text-sm lg:text-base font-normal w-[75%] mx-auto">Offres variées dans des cadres professionnels sécurisés.</span>
-        </div>
+            <x-stat-card :count="__('home.partners_count')" :description="__('home.verified_profiles')" />
+            <x-stat-card :count="__('home.amateurs_count')" :description="__('home.amateur_experiences')" />
+            <x-stat-card :count="__('home.professional_salons_count')" :description="__('home.professional_salons_offer')" />
 
-      </div>
+        </div>
     </div>
     <x-FeedbackSection />
 
-    <div class="bg-white py-10 w-full overflow-x-hidden flex items-center justify-center flex-col gap-10">
-      <h3 class="text-xl md:text-4xl lg:text-5xl font-dm-serif text-green-gs font-bold">Comment devenir escorte sur Gstuff ?</h3>
-      <p>Devenez escorte indépendante en 3 étapes !</p>
-      <div class="relative grid grid-cols-3 gap-5 text-green-gs  text-xs lg:text-lg text-wrap italic font-normal mt-20 mx-0 px-2">
-        <div class="absolute mx-20 top-[20%] col-span-3 w-[70%] h-1 bg-green-gs z-0"></div>
-        @foreach ([1, 2, 3] as $items)
-          <img class="w-20 h-20 mx-auto z-10" src="{{ asset('images/icons/icon_coeur.svg') }}" alt="coeur image" />
-        @endforeach
-        <div class="lg:w-52 w-30 text-wrap text-center">Envoyer 5 selfies a <a href="http://escort-gstuff@gstuff.ch" class="text-amber-500">escort-gstuff@gstuff.ch</a></div>
-        <div class="lg:w-52 w-30 text-wrap text-center"> Prenez rendez-vous pour le shooting photo</div>
-        <div class="lg:w-52 w-30 text-wrap text-center">Publiez votre profil</div>
-      </div>
+    <div class="w-full bg-white px-4 py-2 sm:py-8 sm:px-6 lg:py-12">
+        <div class="mx-auto max-w-4xl">
+            <h3 class="font-roboto-slab text-green-gs text-center text-sm sm:text-xl text-2xl font-bold md:text-2xl lg:text-4xl">
+                {{ __('home.become_escort_title') }}
+            </h3>
+            <p class="font-roboto-slab mt-2 text-center text-[#4A5565] text-xs sm:text-sm">{{ __('home.become_escort_steps') }}</p>
+
+            <div class="relative mt-10">
+                <!-- Ligne de connexion (visible uniquement sur desktop) -->
+                <div
+                    class="left-1/5 bg-supaGirlRose absolute right-1/4 top-10 z-0 hidden h-1 w-[68%] -translate-y-1/2 transform md:block">
+                </div>
+
+                <div class="relative z-10 grid grid-cols-1 gap-2 md:gap-8 md:grid-cols-3 md:gap-4 text-xs sm:text-sm">
+                    @php
+                        $steps = [
+                            [
+                                'icon' => asset('images/icons/icon_coeur.png'),
+                                'text' =>
+                                    __('home.send_selfies') .
+                                    '<br> <a href="mailto:escort-gstuff@gstuff.ch" class="text-supaGirlRose hover:underline text-xs sm:text-sm">escrot-supagir@supagirl.ch</a>',
+                            ],
+                            [
+                                'icon' => asset('images/icons/icon_coeur.png'),
+                                'text' => __('home.photo_shoot_appointment'),
+                            ],
+                            ['icon' => asset('images/icons/icon_coeur.png'), 'text' => __('home.publish_profile')],
+                        ];
+                    @endphp
+
+                    @foreach ($steps as $step)
+                        <div class="flex flex-col items-center">
+                            <img src="{{ $step['icon'] }}" alt=""
+                                class="z-10 mx-auto h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 text-xs sm:text-sm">
+                            <div class="font-roboto-slab mt-4 text-center text-xs sm:text-sm text-gray-700 md:text-base">
+                                {!! $step['text'] !!}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
 
     <x-CallToActionInscription />
 
     <x-CallToActionContact />
 
+    <style>
+        .accordion-button {
+            background-color: #FED5E9;
+            color: #6A7282;
+            transition: all 0.2s ease;
+        }
+
+        .accordion-button:hover,
+        .accordion-button.active {
+            background-color: #FDA5D6 !important;
+            color: #7F55B1 !important;
+        }
+
+        .accordion-content {
+            background-color: #FFFAFC;
+            border-color: #E5E7EB;
+            color: #6A7282;
+        }
+    </style>
     {{-- FAQ --}}
-    <div class="container mx-auto flex flex-col items-center justify-center gap-10">
-      <h3 id="FAQ" class="text-3xl lg:text-5xl font-dm-serif text-green-gs">Questions fréquentes</h3>
-      <div id="accordion-collapse text-wrap w-full lg:min-w-[1114px]" data-accordion="collapse">
-        <h2 id="accordion-collapse-heading-1" class="w-full lg:min-w-[1114px]">
-          <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
-            <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Est-ce que le shooting photo est obligatoire?</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-            </svg>
-          </button>
-        </h2>
-        <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
-          <div class="p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
-            <p class="mb-2 text-gray-500 dark:text-gray-400">Oui, c’est ce qui rend la plateforme si unique. Toutes les photos publiées sur GStuff ont été réalisées par notre équipe.</p>
-          </div>
+    <div class="container mx-auto flex flex-col items-center justify-center gap-2 md:gap-10 p-4">
+        <h3 id="FAQ" class="font-roboto-slab text-green-gs text-lg sm:text-3xl lg:text-5xl">
+            {{ __('home.frequent_questions') }}
+        </h3>
+        <div id="accordion-collapse" class="w-full lg:min-w-[1114px]" data-accordion="collapse">
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-1">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 rounded-t-xl border border-b-0 border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
+                        aria-controls="accordion-collapse-body-1">
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.photo_shoot_mandatory') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-1" aria-labelledby="accordion-collapse-heading-1">
+                    <div class="accordion-content border border-b-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{{ __('home.unique_platform') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-2">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 border border-b-0 border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
+                        aria-controls="accordion-collapse-body-2">
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.apartments_rent') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
+                    <div class="accordion-content border border-b-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+                            {{ __('home.no_apartments_for_escorts') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <h2 id="accordion-collapse-heading-3">
+                    <button type="button"
+                        class="accordion-button flex w-full items-center justify-between gap-3 border border-white p-5 font-medium rtl:text-right"
+                        data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
+                        aria-controls="accordion-collapse-body-3">
+                        <span class="font-roboto-slab flex items-center text-xs sm:text-sm"><svg class="me-2 h-5 w-5 shrink-0"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd"></path>
+                            </svg>{{ __('home.how_much_can_i_earn') }}</span>
+                        <svg data-accordion-icon class="h-3 w-3 shrink-0 rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5 5 1 1 5" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
+                    <div class="accordion-content border border-t-0 p-2 md:p-5">
+                        <p class="font-roboto-slab text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+                            {{ __('home.escort_monthly_income') }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h2 id="accordion-collapse-heading-2" class="w-full lg:min-w-[1114px]">
-          <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
-            <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Avez-vous des appartements à louer?</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-            </svg>
-          </button>
-        </h2>
-        <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-          <div class="p-5 border border-b-0 border-gray-200 bg-white dark:border-gray-700">
-            <p class="mb-2 text-gray-500 dark:text-gray-400">Nous ne louons pas d’appartements pour les escorts.</p>
-          </div>
-        </div>
-        <h2 id="accordion-collapse-heading-3" class="w-full lg:min-w-[1114px]">
-          <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
-            <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Combien puis-je gagner?</span>
-            <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-            </svg>
-          </button>
-        </h2>
-        <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
-          <div class="p-5 border border-t-0 border-gray-200 bg-white dark:border-gray-700">
-            <p class="mb-2 text-gray-500 dark:text-gray-400">Le revenu mensuel des escortes sur Gstuff dépend de nombreux critères mais il peut atteindre plusieurs dizaines de milliers de francs suisses par mois</p>
-          </div>
-        </div>
-      </div>
     </div>
 
     {{-- Glossaire --}}
-    <div class="lg:container mx-auto my-10" >
-      <div class="flex items-center justify-between my-10 px-5 lg:px-20">
-        <h3 class="font-dm-serif text-2xl lg:text-4xl text-green-800 font-bold">Articles du glossaire</h3>
-        <div class="z-10 w-auto">
-          <a href="#" type="button" class="flex items-center justify-center gap-2 btn-gs-gradient text-black font-bold focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-4 py-2 text-center text-sm lg:text-base dark:focus:ring-blue-800">voir plus d'articles <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.006 21.308l-1.064-1.064L15.187 12L6.942 3.756l1.064-1.064L17.314 12z"/></svg>
-          </a>
+    @if ($glossaires != '[]')
+        <div class="mx-auto xl:my-10 lg:container">
+            <div class="my-2 flex flex-wrap items-center justify-between px-5 lg:px-20">
+                <h3 class="font-dm-serif text-green-gs font-roboto-slab text-sm sm:text-xl text-2xl font-bold lg:text-4xl">
+                    {{ __('home.glossary_articles') }}
+                </h3>
+                <div class="z-10 my-2 w-auto">
+                    <x-btn href="{{ url('glossaires') }}" text="{{ __('home.see_more_articles') }}" />
+                </div>
+            </div>
+            <x-GlossaireSection />
         </div>
-      </div>
-      <x-GlossaireSection />
+    @endif
 
-    </div>
 
-    @section('extraScripts')
-      <script>
+@section('extraScripts')
+    <script>
+      
+        // Script pour l'accordéon FAQ
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionButtons = document.querySelectorAll('[data-accordion-target]');
+
+            // Fonction pour réinitialiser tous les boutons
+            function resetAllButtons() {
+                accordionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    const target = document.querySelector(btn.getAttribute('data-accordion-target'));
+                    if (target) target.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                    const icon = btn.querySelector('[data-accordion-icon]');
+                    if (icon) icon.classList.remove('rotate-180');
+                });
+            }
+
+            // Initialisation
+            const firstButton = accordionButtons[0];
+            if (firstButton) {
+                const firstTarget = document.querySelector(firstButton.getAttribute('data-accordion-target'));
+                if (firstTarget) {
+                    firstTarget.classList.remove('hidden');
+                    firstButton.classList.add('active');
+                    firstButton.setAttribute('aria-expanded', 'true');
+                    const icon = firstButton.querySelector('[data-accordion-icon]');
+                    if (icon) icon.classList.add('rotate-180');
+                }
+            }
+
+            // Gestion des clics
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = document.querySelector(this.getAttribute(
+                        'data-accordion-target'));
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    // Fermer tous les autres accordéons
+                    resetAllButtons();
+
+                    // Basculer l'état actuel si nécessaire
+                    if (isExpanded) {
+                        this.classList.remove('active');
+                        this.setAttribute('aria-expanded', 'false');
+                        if (target) target.classList.add('hidden');
+                        const icon = this.querySelector('[data-accordion-icon]');
+                        if (icon) icon.classList.remove('rotate-180');
+                    } else {
+                        this.classList.add('active');
+                        this.setAttribute('aria-expanded', 'true');
+                        if (target) target.classList.remove('hidden');
+                        const icon = this.querySelector('[data-accordion-icon]');
+                        if (icon) icon.classList.add('rotate-180');
+                    }
+                });
+            });
+        });
+
         const EscortrightBtn = document.getElementById('arrowEscortScrollRight')
         const EscortleftBtn = document.getElementById('arrowEscortScrollLeft')
         const Escortcontainer = document.getElementById('NewEscortContainer')
@@ -220,13 +454,36 @@
         const ListleftBtn = document.getElementById('arrowListScrollLeft')
         const Listcontainer = document.getElementById('listingContainer')
 
-        EscortrightBtn.addEventListener('click', ()=>{scrollByPercentage(Escortcontainer, false, 35)})
-        EscortleftBtn.addEventListener('click', ()=>{scrollByPercentage(Escortcontainer, true, 35)})
-        SalonrightBtn.addEventListener('click', ()=>{scrollByPercentage(Saloncontainer, false, 35)})
-        SalonleftBtn.addEventListener('click', ()=>{scrollByPercentage(Saloncontainer, true, 35)})
-        ListrightBtn.addEventListener('click', ()=>{scrollByPercentage(Listcontainer, false)})
-        ListleftBtn.addEventListener('click', ()=>{scrollByPercentage(Listcontainer)})
-      </script>
-    @endsection
+        EscortrightBtn.addEventListener('click', () => {
 
-  @stop
+
+            scrollByPercentage(Escortcontainer, false, 10);
+        });
+
+        EscortleftBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Escortcontainer, true, 10);
+        });
+
+        SalonrightBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Saloncontainer, false, 35);
+        });
+
+        SalonleftBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Saloncontainer, true, 35);
+        });
+
+        ListrightBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Listcontainer, false, 10)
+        })
+        ListleftBtn.addEventListener('click', () => {
+
+            scrollByPercentage(Listcontainer, true, 10)
+        })
+    </script>
+@endsection
+
+@stop

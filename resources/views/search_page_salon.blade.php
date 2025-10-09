@@ -1,73 +1,156 @@
 @extends('layouts.base')
 
-  @section('pageTitle')
-    Escort
-  @endsection
+@section('extraStyle')
+    <style>
+        .range-slider,
+        .multi-range-slider {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            margin-top: 2.5rem;
+            margin-bottom: 2rem;
+        }
 
-  @section('content')
+        .multi-range-slider .range-slider {
+            margin: 0;
+        }
 
-    <div class="w-full min-h-72 py-10 flex flex-col items-center justify-center gap-5 bg-[#E4F1F1]">
-      <h1 class="font-dm-serif font-bold text-green-gs text-xl xl:text-4xl text-center" >Découvrez les salons de votre région</h1>
-      <div class="w-full px-4 flex flex-col md:flex-row items-center justify-center text-sm xl:text-base gap-2 mb-3">
-        <select id="small" class="block w-full xl:w-55 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
-          <option selected hidden>Cantons</option>
-        </select>
-        <select id="small" class="block w-full xl:w-55 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500">
-          <option selected hidden>Villes</option>
-        </select>
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-        <div>
-          <input type="checkbox" name="escorte" id="agenceEscorte" value="escorte" class="hidden peer">
-          <label for="agenceEscorte" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Agence d'escort</label>
-        </div>
-        <div>
-          <input type="checkbox" name="erotique" id="erotique" value="erotique" class="hidden peer">
-          <label for="erotique" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Salon erotique</label>
-        </div>
-        <div>
-          <input type="checkbox" name="massage" id="massage" value="massage" class="hidden peer">
-          <label for="massage" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Institut de massage</label>
-        </div>
-        <div>
-          <input type="checkbox" name="sauna" id="sauna" value="sauna" class="hidden peer">
-          <label for="sauna" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Sauna</label>
-        </div>
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-2 font-bold text-sm xl:text-base">
-        <div>
-          <input type="checkbox" name="5fille" id="5fille" value="5fille" class="hidden peer">
-          <label for="5fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">1 à 5 filles</label>
-        </div>
-        <div>
-          <input type="checkbox" name="15fille" id="15fille" value="15fille" class="hidden peer">
-          <label for="15fille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">5 à 15 filles</label>
-        </div>
-        <div>
-          <input type="checkbox" name="plusFille" id="plusFille" value="plusFille" class="hidden peer">
-          <label for="plusFille" class="p-2 text-center border border-amber-400 bg-white rounded-lg hover:bg-green-gs hover:text-amber-400 peer-checked:bg-green-gs peer-checked:text-amber-400">Plus de 15 filles</label>
-        </div>
-      </div>
-      <button data-modal-target="search-escorte-modal" data-modal-toggle="search-escorte-modal" class="font-dm-serif text-gray-600 flex items-center gap-2 p-2 bg-white border border-gray-400 rounded-lg my-2 hover:bg-green-gs hover:text-white group">
-        Réinitialiser les filtres
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M22.448 21A10.86 10.86 0 0 0 25 14A10.99 10.99 0 0 0 6 6.466V2H4v8h8V8H7.332a8.977 8.977 0 1 1-2.1 8h-2.04A11.01 11.01 0 0 0 14 25a10.86 10.86 0 0 0 7-2.552L28.586 30L30 28.586Z"/></svg>
-      </button>
-    </div>
+        .range {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+        }
 
-    <div class="container mx-auto py-20 px-2">
-      <div class="font-dm-serif text-green-gs font-bold text-3xl mb-3">16 Résultats</div>
-      <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
-        @foreach ($salons->slice(0,8) as $salon)
-          <x-salon_card name="{{ $salon->prenom }}" canton="{{$salon->canton['nom']}}" ville="{{$salon->ville['nom']}}" salonId="{{$salon->id}}" avatar="{{$salon->avatar}}" />
-        @endforeach
-      </div>
-    </div>
+        .range:focus {
+            outline: 0;
+        }
+
+        .range-slider::before,
+        .range-slider::after,
+        .multi-range-slider::before,
+        .multi-range-slider::after {
+            position: absolute;
+            font-size: 0.875rem;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            background-color: #d2d6dc;
+            color: #4b5563;
+            top: -2rem;
+            z-index: 5;
+        }
+
+        .multi-range-slider .range-slider::before,
+        .multi-range-slider .range-slider::after {
+            content: none !important;
+        }
+
+        .range-slider::before,
+        .multi-range-slider::before {
+            left: 0;
+            content: attr(data-min);
+        }
+
+        .range-slider::after,
+        .multi-range-slider::after {
+            right: 0;
+            content: attr(data-max);
+        }
+
+        .range::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 1rem;
+            cursor: pointer;
+            border-radius: 9999px;
+            background-color: #cfd8e3;
+            animate: 0.2s;
+        }
+
+        .range::-webkit-slider-thumb {
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            border-radius: 9999px;
+            background-color: #ffffff;
+            height: 1rem;
+            width: 1rem;
+            border-width: 1px;
+            border-style: solid;
+            border-color: green;
+            transform: translateY(calc(-50% + 0.5rem));
+        }
+
+        .tooltip {
+            position: absolute;
+            display: block;
+            text-align: center;
+            color: #ffffff;
+            line-height: 1;
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            padding-top: 0.125rem;
+            padding-bottom: 0.125rem;
+            border-radius: 0.125rem;
+            font-size: 1rem;
+            --transform-translate-x: 0;
+            --transform-translate-y: 0;
+            --transform-rotate: 0;
+            --transform-skew-x: 0;
+            --transform-skew-y: 0;
+            --transform-scale-x: 1;
+            --transform-scale-y: 1;
+            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+            --transform-translate-x: -50%;
+            left: 50%;
+            top: -2rem;
+            background: green;
+            z-index: 12;
+        }
+
+        .tooltip:before {
+            position: absolute;
+            --transform-translate-x: 0;
+            --transform-translate-y: 0;
+            --transform-rotate: 0;
+            --transform-skew-x: 0;
+            --transform-skew-y: 0;
+            --transform-scale-x: 1;
+            --transform-scale-y: 1;
+            transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
+            --transform-translate-x: -50%;
+            left: 50%;
+            bottom: -0.5rem;
+            width: 0;
+            height: 0;
+            border-width: 4px;
+            border-style: solid;
+            border-color: transparent;
+            content: "";
+            border-top-color: green;
+        }
+
+        .multi-range-slider .range-slider {
+            position: absolute;
+        }
+    </style>
+@endsection
+
+@section('pageTitle')
+    Salon
+@endsection
+
+@section('content')
+    @livewire('salon-search')
 
     <x-feedback-section />
 
     <x-call-to-action-inscription />
-  @endsection
+@endsection
 
-  @section('extraScripts')
-
-  @endsection
+@section('extraScripts')
+@endsection

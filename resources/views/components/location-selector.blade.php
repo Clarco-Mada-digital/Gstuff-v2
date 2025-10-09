@@ -1,41 +1,43 @@
-<div x-data="{}" class="mb-4 relative">
-    <label class="block text-sm font-medium text-gray-700">Localisation</label>
+<div x-data="{}" class="relative mb-4">
+    <label class="font-roboto-slab text-green-gs block text-sm">{{ __('common.localization') }}</label>
     <div class="relative">
-        <div id="loading-spinner" class="absolute inset-y-0 left-0 pl-3 flex items-center hidden">
+        <div id="loading-spinner" class="absolute inset-y-0 left-0 flex hidden items-center pl-3">
             <i class="fas fa-spinner fa-spin text-gray-400"></i>
         </div>
         <input x-on:keyup.debounce.500="performSearch()" type="text" id="location-search" name="localisation"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 pl-10 pr-10"
-            placeholder="Rechercher une ville..." value="{{ $user->localisation ?? '' }}">
-        <div class="absolute inset-y-0 right-10 flex items-center cursor-pointer" x-on:click="performSearch()">
+            class="text-textColorParagraph border-supaGirlRosePastel/50 focus:border-supaGirlRosePastel/50 focus:ring-supaGirlRosePastel/50 mt-1 block w-full rounded-md pl-10 pr-10 shadow-sm"
+            placeholder="{{ __('common.search_city') }}" value="{{ $user->localisation ?? '' }}">
+        <div class="absolute inset-y-0 right-10 flex cursor-pointer items-center" x-on:click="performSearch()">
             <i class="fas fa-search text-gray-400 hover:text-gray-600"></i>
         </div>
     </div>
     <input type="hidden" name="lat" id="latitude" value="{{ $user->lat ?? '' }}">
     <input type="hidden" name="lon" id="longitude" value="{{ $user->lon ?? '' }}">
-    <div id="suggestions" class="mt-2 absolute z-50 bg-white w-full rounded-lg shadow-lg max-h-[200px] overflow-y-scroll"></div>
+    <div id="suggestions"
+        class="absolute z-50 mt-2 max-h-[200px] w-full overflow-y-scroll rounded-lg bg-white shadow-lg"></div>
 </div>
 
 <div class="relative">
-    <div class="absolute right-0 bg-gray-200 flex items-center justify-center w-10 h-10 z-2 rounded-full m-2 hover:bg-gray-300 cursor-pointer"
+    <div class="z-2 absolute right-0 m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
         onclick="openMapModal()">
         <i class="fas fa-expand text-gray-600 hover:text-gray-800"></i>
     </div>
-    <div class="h-[300px] z-1" id="map">
-        @if(!$user->lat)
-            <img src="{{ asset('images/map_placeholder.png') }}" alt="map image" class="w-full h-full object-cover object-center">
+    <div class="z-1 h-[300px]" id="map">
+        @if (!$user->lat)
+            <img src="{{ asset('images/map_placeholder.png') }}" alt="map image"
+                class="h-full w-full object-cover object-center">
         @endif
     </div>
 </div>
 
 <!-- Modal Structure -->
-<div id="mapModal" class="fixed inset-0 hidden flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-white p-4 rounded-lg relative w-full h-full max-w-[95%] max-h-[95%] m-2.5">
-        <div class="absolute right-0 mr-5 bg-gray-200 flex items-center justify-center w-10 h-10 z-10 rounded-full m-2 hover:bg-gray-300 cursor-pointer"
+<div id="mapModal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black bg-opacity-50">
+    <div class="relative m-2.5 h-full max-h-[95%] w-full max-w-[95%] rounded-lg bg-white p-4">
+        <div class="absolute right-0 z-10 m-2 mr-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
             onclick="closeMapModal(event)">
             <i class="fas fa-times text-gray-600 hover:text-gray-800"></i>
         </div>
-        <div id="modalMap" class="h-full z-1"></div>
+        <div id="modalMap" class="z-1 h-full"></div>
     </div>
 </div>
 
@@ -53,7 +55,7 @@
         marker = L.marker([lat, lon]).addTo(map).bindPopup(cityName).openPopup();
     }
 
-    window.onload = function () {
+    window.onload = function() {
         var lat = document.getElementById('latitude').value;
         var lon = document.getElementById('longitude').value;
         var name = document.getElementById('location-search').value;
@@ -75,42 +77,77 @@
 
     document.getElementById('mapModal').addEventListener('mouseenter', reloadActionMapModal);
 
-    function performSearch() {
-        var query = document.getElementById('location-search').value;
-        if (query.length < 3) return;
 
+    function performSearch() {
+        var query = document.getElementById('location-search').value.trim();
+
+        var cityName = localStorage.getItem("villeNom"); // Nom de la ville à limiter
+
+        // Affiche le spinner de chargement
         document.getElementById('loading-spinner').classList.remove('hidden');
 
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        // Étape 1 : Récupérer la bounding box de la ville
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&city=${cityName}`)
             .then(response => response.json())
             .then(data => {
-                var suggestions = document.getElementById('suggestions');
-                suggestions.innerHTML = '';
-                document.getElementById('loading-spinner').classList.add('hidden');
+                if (data.length > 0) {
+                    // Récupère la bounding box à partir des données de la ville
+                    var boundingBox = data[0].boundingbox;
 
-                if (data.length === 0) {
-                    suggestions.innerHTML = '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">Aucun résultat trouvé. Veuillez vérifier votre adresse.</div>';
-                } else {
-                    data.forEach(place => {
-                        var option = document.createElement('div');
-                        option.className = 'suggestion-item my-1 text-gray-900 bg-white border-b border-gray-200 rounded-lg hover:bg-gray-200 cursor-pointer';
-                        option.innerHTML = `<button type="button" class="relative inline-flex items-center w-full px-4 py-2 text-sm">${place.display_name}</button>`;
-                        option.addEventListener('click', function () {
-                            document.getElementById('location-search').value = place.display_name;
-                            document.getElementById('longitude').value = place.lon;
-                            document.getElementById('latitude').value = place.lat;
+
+                    var viewBox = `${boundingBox[2]},${boundingBox[1]},${boundingBox[3]},${boundingBox[0]}`;
+
+                    // Étape 2 : Effectuer la recherche avec la bounding box
+                    fetch(
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${query}&bounded=1&viewbox=${viewBox}`
+                        )
+                        .then(response => response.json())
+                        .then(results => {
+                            var suggestions = document.getElementById('suggestions');
                             suggestions.innerHTML = '';
-                            initializeMap(place.lat, place.lon, place.display_name);
+                            document.getElementById('loading-spinner').classList.add('hidden');
+
+                            if (results.length === 0) {
+                                suggestions.innerHTML =
+                                    '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
+                                    `Aucun résultat trouvé dans la zone définie pour ${ cityName}.</div>`;
+                            } else {
+                                results.forEach(place => {
+                                    var option = document.createElement('div');
+                                    option.className =
+                                        'suggestion-item my-1 text-gray-900 bg-white border-b border-gray-200 rounded-lg hover:bg-gray-200 cursor-pointer';
+                                    option.innerHTML =
+                                        `<button type="button" class="relative inline-flex items-center w-full px-4 py-2 text-sm">${place.display_name}</button>`;
+                                    option.addEventListener('click', function() {
+                                        document.getElementById('location-search').value = place
+                                            .display_name;
+                                        document.getElementById('longitude').value = place.lon;
+                                        document.getElementById('latitude').value = place.lat;
+                                        suggestions.innerHTML = '';
+                                        initializeMap(place.lat, place.lon, place.display_name);
+                                    });
+                                    suggestions.appendChild(option);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById('loading-spinner').classList.add('hidden');
+                            console.error('Erreur lors de la recherche :', error);
                         });
-                        suggestions.appendChild(option);
-                    });
+                } else {
+                    document.getElementById('loading-spinner').classList.add('hidden');
+
+                    document.getElementById('suggestions').innerHTML =
+                        '<div class="text-red-500 my-1 text-sm p-2 flex items-center justify-center">' +
+                        'Ville non trouvée ou erreur dans le nom de la ville.</div>';
                 }
             })
             .catch(error => {
                 document.getElementById('loading-spinner').classList.add('hidden');
-                console.error('Error fetching data:', error);
+                console.error("Erreur lors de la récupération des coordonnées de la ville :", error);
             });
     }
+
 
     function openMapModal() {
         var lat = document.getElementById('latitude').value;

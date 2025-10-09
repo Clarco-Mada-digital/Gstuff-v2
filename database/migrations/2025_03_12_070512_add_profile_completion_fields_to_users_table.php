@@ -14,19 +14,19 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             // $table->string('intitule')->nullable();
             // $table->string('nom_proprietaire')->nullable();
-            // $table->string('pseudo')->nullable();
+            // $table->string('user_name')->nullable();
             $table->string('telephone')->nullable();
             $table->string('adresse')->nullable();
             $table->string('npa')->nullable();
-            $table->string('canton')->nullable();
-            $table->string('ville')->nullable();
-            // $table->foreignId('canton_id')->constrained('cantons')->nullable();
-            // $table->foreignId('ville_id')->constrained('villes')->nullable();
+            // $table->string('canton')->nullable();
+            // $table->string('ville')->nullable();
+            $table->foreignId('canton')->constrained('cantons')->nullable();
+            $table->foreignId('ville')->constrained('villes')->nullable();
             $table->json('categorie')->nullable();
             $table->json('service')->nullable();
             $table->string('recrutement')->nullable()->default('Ouvert');
-            $table->integer('nombre_filles')->nullable();
             $table->string('pratique_sexuelles')->nullable();
+            $table->string('oriantation_sexuelles')->nullable();
             $table->string('tailles')->nullable();
             $table->string('origine')->nullable();
             $table->string('couleur_yeux')->nullable();
@@ -34,9 +34,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->string('mensuration')->nullable();
             $table->string('poitrine')->nullable();
             $table->string('taille_poitrine')->nullable();
-            $table->string('pubis')->nullable();
-            $table->string('tatouages')->nullable();
-            $table->string('mobilite')->nullable();
             $table->string('tarif')->nullable();
             $table->json('paiement')->nullable();
             $table->json('langues')->nullable();
@@ -58,7 +55,7 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
             $table->dropColumn([
                 'intitule',
                 'nom_proprietaire',
-                'pseudo',
+                'user_name',
                 'telephone',
                 'adresse',
                 'npa',
@@ -66,7 +63,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
                 'ville',
                 'categorie',
                 'recrutement',
-                'nombre_filles',
                 'pratique_sexuelles',
                 'tailles',
                 'origine',
@@ -75,9 +71,6 @@ class AddProfileCompletionFieldsToUsersTable extends Migration
                 'mensuration',
                 'poitrine',
                 'taille_poitrine',
-                'pubis',
-                'tatouages',
-                'mobilite',
                 'tarif',
                 'paiement',
                 'apropos',

@@ -25,7 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('profile_type', ['invite', 'escorte', 'salon'])->default('invite'); // Type de profil
+            $table->string('avatar')->nullable();
+            $table->enum('profile_type', ['invite', 'escorte', 'salon', 'admin'])->default('invite'); // Type de profil
             $table->rememberToken();
             $table->timestamps();
         });
