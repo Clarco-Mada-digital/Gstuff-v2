@@ -1,6 +1,6 @@
 /.phpunit.cache
 /node_modules
-/public/build
+# /public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -17,3 +17,20 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+modalCode.txt
+brouillon.txt
+translate.txt
+brouillon-salon-searche.txt
+/resources/views/test/
+key
+key.txt
+/public/uploads
+/storage/app
+/storage/app/backups
+/comande-artisan.txt
+test.html
+test.html
+test.php
+testfiltre2.php
+testV2.php
+testView.php

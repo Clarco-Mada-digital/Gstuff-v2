@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'admin_dashboard' => 'Admin - Tableau de bord',
+    'all_statuses' => 'Tous les statuts',
+    'published' => 'Publié',
+    'draft' => 'Brouillon',
+    'archived' => 'Archivé',
+    'search_articles' => 'Rechercher des articles...',
+    'reset' => 'Réinitialiser',
+    'articles' => 'Articles',
+    'users' => 'Utilisateurs',
+    'approved_escorts' => 'Escorts Approuvés',
+    'escorts_around' => 'Escorts autour',
+    'view_all' => 'Voir tout',
+    'recent_articles' => 'Derniers articles',
+    'new_article' => 'Nouvel article',
+    'no_articles_found' => 'Aucun article ne correspond à vos critères de recherche.',
+    'all_activities' => 'Toutes les activités',
+    'system' => 'Système',
+    'recent_activity' => 'Activité récente',
+    'no_recent_activity' => 'Aucune activité récente à afficher',
+    'statistics' => 'Statistiques',
+    'edit' => 'Modifier',
+    'cancel' => 'Annuler',
+    'update' => 'Mettre à jour',
+];

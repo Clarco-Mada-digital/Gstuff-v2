@@ -27,4 +27,9 @@ class Canton extends Model
     {
         return $this->hasMany(Ville::class);
     }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'canton', 'id');
+    }
 }

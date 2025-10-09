@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'gallery_title' => 'Gallery',
+    'private' => 'Private',
+    'add' => 'Add',
+    'video_limit_warning' => 'Warning: You have reached the video limit for your private gallery.',
+    'confirm_delete' => 'Are you sure you want to delete this media?',
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
+    'no_media' => 'No media found.',
+    'add_first_media' => 'Add the first media',
+    'edit_media' => 'Edit Media',
+    'add_media' => 'Add Media',
+    'title' => 'Title',
+    'description' => 'Description',
+    'media' => 'Media',
+    'drag_drop' => 'Drag and drop your files here or click to browse',
+    'supported_formats' => 'Supported formats: JPEG, PNG, GIF, MP4',
+    'uploading' => 'Uploading',
+    'no_description' => 'No description',
+    'image' => 'Image',
+    'video' => 'Video',
+    'make_public' => 'Make Public',
+    'update' => 'Update',
+    'save' => 'Save',
+    'video_not_supported' => 'Your browser does not support the video.',
+];

@@ -43,6 +43,7 @@ class ChatController extends Controller
 
     public function showChatForm(User $receiver)
     {
+        
         return view('chat.form', ['receiver' => $receiver]);
     }
 }

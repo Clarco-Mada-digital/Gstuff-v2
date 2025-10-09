@@ -54,8 +54,17 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'thumbnails'],
             'ignore_exceptions' => false,
+        ],
+        
+        'thumbnails' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/thumbnails.log'),
+            'level' => 'debug',
+            'days' => 14,
+            'permission' => 0777,
+            'replace_placeholders' => true,
         ],
 
         'single' => [

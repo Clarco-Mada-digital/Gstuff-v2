@@ -7,6 +7,9 @@ use App\Models\Ville;
 use App\Models\Categorie;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Invitation;
+use App\Models\Gallery;
+use App\Models\Feedback as ModelsFeedback;
 
 class SalonController extends Controller
 {
@@ -18,11 +21,69 @@ class SalonController extends Controller
       return redirect()->route('home');
     }
 
+    $galleryAll = Gallery::where('user_id', $salon->id)
+    ->where('is_public', true)
+    ->get();
+
+    $gallery = collect();
+
+    if (!empty($salon->avatar)) {
+        $profilePhoto = new \App\Models\Gallery([
+            'user_id' => $salon->id,
+            'title' => 'pdp',
+            'description' => 'pdp',
+            'type' => 'image',
+            'path' => 'avatars/' . $salon->avatar,
+            'thumbnail_path' => 'avatars/' . $salon->avatar,
+            'is_public' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $gallery->push($profilePhoto);
+    }
+
+    $gallery = $gallery->merge($galleryAll);
+    $gallery = $gallery->map(function ($media) {
+      $media['path'] = asset('storage/' . $media['path']);
+    return $media;
+    });
+
+
+
+    logger()->info('Gallerie profile : ' . $gallery);
+
     $salon['canton'] = Canton::find($salon->canton);
     $salon['ville'] = Ville::find($salon->ville);
+    $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
+    $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+    $serviceIds = !empty($salon->service) ? explode(',', $salon->service) : [];
+    $salon['service'] = Service::whereIn('id', $serviceIds)->get();
 
-    $salon['categorie'] = Categorie::find($salon->categorie);
-    $salon['service'] = Service::find($salon->service);
+    $salon['havePrivateGallery'] = Gallery::where('user_id', $salon->id)
+    ->where('is_public', false)
+    ->exists();
+
+    $salon['haveFeedback'] = ModelsFeedback::where('userToid', $salon->id)
+    ->exists();
+
+
+    $acceptedInvitations = Invitation::where(function ($query) use ($salon) {
+      $query->where('inviter_id', $salon->id)
+            ->orWhere('invited_id', $salon->id); // Condition "OU" sur inviter_id et invited_id
+    })
+    ->whereIn('type', ['associe au salon', 'invite par salon', 'creer par salon']) // Types d'invitation
+    ->where('accepted', true) // Invitations acceptées
+    ->get()
+    ->map(function ($invitation) {
+        if ($invitation->type === 'associe au salon' || $invitation->type === 'creer par salon') {
+            $invitation->load('inviter.cantonget', 'inviter.villeget'); // Chargement des relations pour "associe au salon"
+        } elseif ($invitation->type === 'invite par salon') {
+            $invitation->load('invited.cantonget', 'invited.villeget'); // Chargement des relations pour "invite par salon"
+        }
+        return $invitation;
+    });
+  
 
     if (Auth::check()) {
       // $user = Auth::user()->load('canton');
@@ -33,6 +94,8 @@ class SalonController extends Controller
       }else{
         return view('sp_salon', [
           'salon' => $salon,
+          'acceptedInvitations' => $acceptedInvitations,
+          'gallery' => $gallery,
       ]);
       }
     }
@@ -40,6 +103,8 @@ class SalonController extends Controller
     {
       return view('sp_salon', [
           'salon' => $salon,
+          'acceptedInvitations' => $acceptedInvitations,
+          'gallery' => $gallery,
       ]);
     }
 
@@ -56,10 +121,16 @@ class SalonController extends Controller
     foreach ($salons as $salon) {
       $salon['canton'] = Canton::find($salon->canton);
       $salon['ville'] = Ville::find($salon->ville);
-      $salon['categorie'] = Categorie::find($salon->categorie);
-      $salon['service'] = Service::find($salon->service);
+      $categoriesIds = !empty($salon->categorie) ? explode(',', $salon->categorie) : [];
+      $salon['categorie'] = Categorie::whereIn('id', $categoriesIds)->get();
+      $serviceIds = !empty($salon->service) ? explode(',', $salon->service) : [];
+      $salon['service'] = Service::whereIn('id', $serviceIds)->get();
     }
 
     return view('search_page_salon', ['cantons'=> $cantons, 'categories'=> $categories, 'salons' => $salons]);
   }
+
+
+
+  
 }

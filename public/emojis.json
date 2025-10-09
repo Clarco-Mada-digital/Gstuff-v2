@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Smileys & Emotion",
+    "slug": "smileys_emotion",
+    "emojis": [
+      {"emoji": "😀", "name": "grinning face"},
+      {"emoji": "😃", "name": "grinning face with big eyes"},
+      {"emoji": "😄", "name": "grinning face with smiling eyes"},
+      {"emoji": "😁", "name": "beaming face with smiling eyes"},
+      {"emoji": "😆", "name": "grinning squinting face"},
+      {"emoji": "😅", "name": "grinning face with sweat"},
+      {"emoji": "🤣", "name": "rolling on the floor laughing"},
+      {"emoji": "😂", "name": "face with tears of joy"},
+      {"emoji": "🙂", "name": "slightly smiling face"},
+      {"emoji": "🙃", "name": "upside-down face"}
+    ]
+  },
+  {
+    "name": "Gestures & Body Parts",
+    "slug": "gestures_body_parts",
+    "emojis": [
+      {"emoji": "👋", "name": "waving hand"},
+      {"emoji": "🤚", "name": "raised back of hand"},
+      {"emoji": "🖐️", "name": "hand with fingers splayed"},
+      {"emoji": "✋", "name": "raised hand"},
+      {"emoji": "🖖", "name": "vulcan salute"},
+      {"emoji": "👌", "name": "OK hand"},
+      {"emoji": "🤏", "name": "pinching hand"},
+      {"emoji": "✌️", "name": "victory hand"},
+      {"emoji": "🤞", "name": "crossed fingers"},
+      {"emoji": "🤟", "name": "love-you gesture"}
+    ]
+  },
+  {
+    "name": "People & Fantasy",
+    "slug": "people_fantasy",
+    "emojis": [
+      {"emoji": "👶", "name": "baby"},
+      {"emoji": "🧒", "name": "child"},
+      {"emoji": "👦", "name": "boy"},
+      {"emoji": "👧", "name": "girl"},
+      {"emoji": "🧑", "name": "person"},
+      {"emoji": "👨", "name": "man"},
+      {"emoji": "👩", "name": "woman"},
+      {"emoji": "🧓", "name": "older person"},
+      {"emoji": "👴", "name": "old man"},
+      {"emoji": "👵", "name": "old woman"}
+    ]
+  },
+  {
+    "name": "Animals & Nature",
+    "slug": "animals_nature",
+    "emojis": [
+      {"emoji": "🐵", "name": "monkey face"},
+      {"emoji": "🐒", "name": "monkey"},
+      {"emoji": "🦍", "name": "gorilla"},
+      {"emoji": "🦧", "name": "orangutan"},
+      {"emoji": "🐶", "name": "dog face"},
+      {"emoji": "🐕", "name": "dog"},
+      {"emoji": "🦮", "name": "guide dog"},
+      {"emoji": "🐕‍🦺", "name": "service dog"},
+      {"emoji": "🐩", "name": "poodle"},
+      {"emoji": "🐺", "name": "wolf"}
+    ]
+  },
+  {
+    "name": "Food & Drink",
+    "slug": "food_drink",
+    "emojis": [
+      {"emoji": "🍇", "name": "grapes"},
+      {"emoji": "🍈", "name": "melon"},
+      {"emoji": "🍉", "name": "watermelon"},
+      {"emoji": "🍊", "name": "tangerine"},
+      {"emoji": "🍋", "name": "lemon"},
+      {"emoji": "🍌", "name": "banana"},
+      {"emoji": "🍍", "name": "pineapple"},
+      {"emoji": "🥭", "name": "mango"},
+      {"emoji": "🍎", "name": "red apple"},
+      {"emoji": "🍏", "name": "green apple"}
+    ]
+  }
+]
