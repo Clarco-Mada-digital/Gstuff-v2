@@ -1122,6 +1122,8 @@
     @yield('specialScripts')
     @stack('scripts')
 
+    <script src="{{ asset('js/countdown.js') }}"></script>
+
 </body>
 
 </html>

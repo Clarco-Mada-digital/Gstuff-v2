@@ -36,6 +36,9 @@ use App\Http\Controllers\OtherController;
 use App\Models\Genre;
 use Livewire\Livewire;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -318,9 +321,24 @@ Route::get('/salon/{id}', [SalonController::class, 'show'])->name('show_salon');
 Route::match(['get', 'post'], '/escortes', [EscortController::class, 'search_escort'])->name('escortes');
 Route::get('/salons', [SalonController::class, 'search_salon'])->name('salons');
 
+Route::get('/get-remaining-days', function() {
+    $startDate = Carbon::parse(config('countdown.start_date'));
+    $endDate = $startDate->copy()->addDays(config('countdown.duration_days'));
+    $today = Carbon::today();
+    
+    $daysLeft = max(0, $today->diffInDays($endDate, false));
+    
+    return response()->json([
+        'daysLeft' => $daysLeft,
+        'startDate' => $startDate->toDateString(),
+        'endDate' => $endDate->toDateString()
+    ]);
+})->name('get.remaining.days');
+
 // Statiques
 Route::get('/{slug}', function ($slug) {
     $page = \App\Models\StaticPage::findBySlug($slug);
     return view('statique_page', compact('page'));
 })->name('static.page');
+
 
