@@ -6,15 +6,15 @@
             style="background-image: url('../images/girl_deco_image.jpg'); opacity: 1;"></div>
         <div class="from-supaGirlRose to-green-gs absolute inset-0 bg-gradient-to-r opacity-60"></div>
         <h1
-            class="font-roboto-slab animate-fade-in-down relative z-10 px-4 text-center text-xl md:text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+            class="font-roboto-slab animate-fade-in-down relative z-10 px-4 text-center text-xl font-bold text-white sm:text-5xl md:text-4xl md:text-6xl">
             {{ __('nextStep.title') }}
         </h1>
     </div>
-    <div class="container relative -top-40 md:-top-60 mx-auto mt-10 flex flex-wrap justify-around px-5 xl:-top-32">
+    <div class="container relative -top-40 mx-auto mt-10 flex flex-wrap justify-around px-5 md:-top-60 xl:-top-32">
         <!-- Card for Professionals -->
         <div
-            class="animate-slide-in-left my-10 w-[95%] md:w-[80%] transform rounded-lg bg-white p-6 shadow-lg transition duration-500 hover:scale-105 lg:w-[46%]">
-            <h1 class="text-green-gs animate-fade-in mb-4 text-xl md:text-2xl font-bold">{{ __('nextStep.title_2') }}</h1>
+            class="animate-slide-in-left my-10 w-[95%] transform rounded-lg bg-white p-6 shadow-lg transition duration-500 hover:scale-105 md:w-[80%] lg:w-[46%]">
+            <h1 class="text-green-gs animate-fade-in mb-4 text-xl font-bold md:text-2xl">{{ __('nextStep.title_2') }}</h1>
             <ul class="mb-6 space-y-3">
                 <li class="animate-fade-in flex transform items-center transition duration-300 hover:translate-x-2">
                     <div
@@ -39,44 +39,50 @@
                 </li>
             </ul>
             <div class="flex flex-wrap items-center justify-around">
-    <a href="{{ route('escort_register') }}"
-        class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 md:p-3 p-2 text-center text-sm font-roboto-slab font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 my-2 block w-full sm:w-[45%]">
-        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
-            <span class="relative">
-                {{ __('login_form.register_escort') }}
-                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
-            </span>
-        </span>
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
-        </span>
-        <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
-        </span>
-    </a>
+                <a href="{{ route('escort_register') }}"
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 font-roboto-slab group relative my-2 block flex w-full transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 p-2 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 sm:w-[45%] md:p-3">
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                        <span class="relative">
+                            {{ __('login_form.register_escort') }}
+                            <span
+                                class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                    </span>
+                    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                        <span
+                            class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
+                    </span>
+                    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span
+                            class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
+                    </span>
+                </a>
 
-    <a href="{{ route('salon_register') }}"
-        class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 md:p-3 p-2 text-center text-sm font-roboto-slab font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 my-2 block w-full sm:w-[45%]">
-        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
-            <span class="relative">
-                {{ __('login_form.register_professional') }}
-                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
-            </span>
-        </span>
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
-        </span>
-        <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
-        </span>
-    </a>
-</div>
+                <a href="{{ route('salon_register') }}"
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 font-roboto-slab group relative my-2 block flex w-full transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 p-2 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 sm:w-[45%] md:p-3">
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                        <span class="relative">
+                            {{ __('login_form.register_professional') }}
+                            <span
+                                class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                    </span>
+                    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                        <span
+                            class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
+                    </span>
+                    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span
+                            class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
+                    </span>
+                </a>
+            </div>
 
         </div>
         <!-- Card for Men -->
         <div
-            class="animate-slide-in-right my-10 w-[95%] md:w-[80%] transform rounded-lg bg-white p-6 shadow-lg transition duration-500 hover:scale-105 lg:w-[45%]">
-            <h1 class="text-green-gs animate-fade-in mb-4 text-xl md:text-2xl font-bold">{{ __('nextStep.title_7') }}</h1>
+            class="animate-slide-in-right my-10 w-[95%] transform rounded-lg bg-white p-6 shadow-lg transition duration-500 hover:scale-105 md:w-[80%] lg:w-[45%]">
+            <h1 class="text-green-gs animate-fade-in mb-4 text-xl font-bold md:text-2xl">{{ __('nextStep.title_7') }}</h1>
             <ul class="mb-6 space-y-3">
                 <li class="animate-fade-in flex transform items-center transition duration-300 hover:translate-x-2">
                     <div
@@ -102,20 +108,23 @@
             </ul>
             <div class="flex flex-wrap items-center justify-around">
                 <a href="{{ route('registerForm') }}"
-        class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 md:p-3 p-2 text-center text-sm font-roboto-slab font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 my-2 block w-full sm:w-[45%]">
-        <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
-            <span class="relative">
-            {{ __('login_form.register_free') }}
-                <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
-            </span>
-        </span>
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
-        </span>
-        <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
-        </span>
-    </a>
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 font-roboto-slab group relative my-2 block flex w-full transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-0 p-2 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 sm:w-[45%] md:p-3">
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                        <span class="relative">
+                            {{ __('login_form.register_free') }}
+                            <span
+                                class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                    </span>
+                    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                        <span
+                            class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
+                    </span>
+                    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span
+                            class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
+                    </span>
+                </a>
             </div>
         </div>
     </div>

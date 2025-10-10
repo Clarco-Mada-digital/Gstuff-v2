@@ -55,6 +55,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     </svg>
                     <span>Début de l'offre: ${new Date(startDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                 </div>
+
+                  <div class="w-full">
+                    <a href="/escort-register"
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 font-roboto-slab group relative my-2 block 
+                    flex w-full transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg 
+                    border-0 p-2 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-105 
+                    hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 md:p-3">
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                        <span class="relative">
+                            S'inscrire en tant qu'escorte
+                            <span
+                                class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                    </span>
+                    <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                        <span
+                            class="absolute h-0 w-0 rounded-full bg-white opacity-0 transition-all duration-1000 group-hover:h-32 group-hover:w-full group-hover:opacity-10"></span>
+                    </span>
+                    <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span
+                            class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
+                    </span>
+                </a>
+                </div>
+
+                
                 
                 <div class="popup-actions">
                     <button id="dont-show-again" class="secondary-btn">
@@ -191,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .offer-description {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 color: #2d3748;
                 margin: 1.5rem 0;
                 line-height: 1.6;
