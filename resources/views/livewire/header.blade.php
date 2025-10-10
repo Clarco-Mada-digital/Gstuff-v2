@@ -143,11 +143,15 @@
             @guest
                 {{-- Btn de connexion --}}
                 <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
-                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg px-4 py-2 xl:px-5 xl:py-2.5 text-center text-sm font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 lg:order-1 xl:block">
+                    class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 
+                    overflow-hidden rounded-lg px-4 py-2 xl:px-5 xl:py-2.5 text-center text-sm font-bold text-white
+                     transition-all duration-300 hover:scale-[1.02] hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4 lg:order-1 xl:block
+                     
+                     hidden xl:block ">
                     
-                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                    <span class="relative z-10 flex items-center gap-2 whitespace-nowrap ">
                         <span class="relative text-xs xl:text-sm">
-                            {{ __('header.login_register') }}
+                             {{ __('header.login_register') }}
                             <span class="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
                         </span>
                     

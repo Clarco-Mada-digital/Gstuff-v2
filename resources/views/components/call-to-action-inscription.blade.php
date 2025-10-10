@@ -5,7 +5,7 @@
             {{ __('call-to-action-inscription.register_today') }}</h3>
         <span class="font-roboto-slab text-xs sm:text-sm">{{ __('call-to-action-inscription.register_today2') }}</span>
         <div class="w-45 z-10">
-            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+            <a href="{{ route('nextStep') }}" type="button"
                 class="bg-complementaryColorViolet focus:ring-supaGirlRose/50 group relative flex transform cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg px-4 py-2 text-center text-xs sm:text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-90 hover:shadow-lg focus:outline-none focus:ring-4">
                 <span class="relative z-10 flex items-center gap-2 whitespace-nowrap">
                     <span class="relative text-xs xl:text-sm">
@@ -22,7 +22,7 @@
                 <span class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span class="absolute inset-0 rounded-lg border-2 border-white/80 transition-all duration-300"></span>
                 </span>
-            </button>
+            </a>
         </div>
     </div>
 </div>
