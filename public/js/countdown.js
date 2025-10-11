@@ -29,11 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="countdown-content">
                 <span class="close-btn">&times;</span>
                 <div class="popup-header">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
+                    
                     <h2>🎉 Offre Spéciale Limitée !</h2>
                 </div>
                 
@@ -143,13 +139,10 @@ document.addEventListener('DOMContentLoaded', function () {
             border-radius: 20px;
             text-align: center;
             width: min(450px, 90vw);
-            height: 90vh;
-            max-height: 650px;
             max-width: 95%;
             position: relative;
             animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow-y: scroll;
         }
 
         .countdown-content {
@@ -401,6 +394,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
                 .catch(error => console.error('Erreur:', error));
-        }, 0);
+        }, 3000);
     }
 });
